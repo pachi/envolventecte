@@ -1,4 +1,4 @@
-import { observable, action, computed } from 'mobx';
+import { extendObservable, action } from 'mobx';
 
 const zoneslist = ['A1c', 'A2c', 'A3c', 'A4c',
                    'Alfa1c', 'Alfa2c', 'Alfa3c', 'Alfa4c',
@@ -8,22 +8,20 @@ const zoneslist = ['A1c', 'A2c', 'A3c', 'A4c',
                    'D1', 'D2', 'D3', 'E1'];
 
 export default class AppState {
-  @observable climate = 'D3'
-  @observable orientation = 0
-  @observable tilt = 90
-
-  @action setClimate(climate) {
-    this.climate = climate;
+  constructor() {
+    extendObservable(
+      this,
+      {
+        climate: 'D3',
+        orientation: 0,
+        tilt: 90,
+        get tiltplusone() {
+          return this.tilt + 1;
+        },
+        setClimate: action((climate) => {
+          this.climate = climate;
+        })
+      }
+    );
   }
-
-  @computed get tiltplusone() {
-    return this.tilt + 1;
-  }
-  // increment() {
-  //   this.count++;
-  // }
-
-  // decrement() {
-  //   this.count--;
-  // }
 }

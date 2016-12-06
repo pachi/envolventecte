@@ -1,22 +1,28 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Router, Route, hashHistory } from 'react-router';
+import { Provider, observer } from 'mobx-react';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
-import './App.css';
+
+import AppState from '../stores/AppState';
+import Home from './Home';
+
+const appState = new AppState;
+
+const stores = {
+  appstate: appState,
+  // ...other stores
+};
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <Provider {... stores}>
+        <Router history={hashHistory}>
+          <Route path="/" component={ Home } />
+        </Router>
+      </Provider>
     );
   }
 }
