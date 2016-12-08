@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap-theme.css';
 import AppState from '../stores/AppState';
 import Home from './Home';
 
-const appState = new AppState;
+const appState = new AppState();
 
 const stores = {
   appstate: appState,
