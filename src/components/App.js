@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Router, Route, hashHistory } from 'react-router';
-import { Provider, observer } from 'mobx-react';
+import { Provider } from 'mobx-react';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
