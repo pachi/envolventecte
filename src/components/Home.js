@@ -3,7 +3,9 @@ import { Link } from 'react-router';
 import { observer, inject } from 'mobx-react';
 import DevTools from 'mobx-react-devtools';
 
-import { Grid, Navbar, Jumbotron, Button } from 'react-bootstrap';
+import { Button, ControlLabel,
+         Form, FormControl, FormGroup,
+         Grid, Navbar } from 'react-bootstrap';
 
 import 'soljs';
 
@@ -57,26 +59,74 @@ const Home = inject("appstate")(
               </Navbar.Header>
             </Grid>
           </Navbar>
-          <Jumbotron>
-            <Grid>
-              <h1>Welcome to React + MobX</h1>
-              <p>
-                <Button
-                    bsStyle="success"
-                    bsSize="large"
-                    href="http://react-bootstrap.github.io/components.html"
-                    target="_blank">
-                  View React Bootstrap Docs
-                </Button>
-              </p>
-            </Grid>
-          </Jumbotron>
+          <Grid>
+            <h1>Radiación solar en superficies orientadas</h1>
+            <p>
+              <Button
+                  bsStyle="success"
+                  bsSize="small"
+                  href="http://www.codigotecnico.org/images/stories/pdf/ahorroEnergia/CTEdatosMET_20140418.zip"
+                  target="_blank">
+                Descargar climas de referencia de codigotecnico.org
+              </Button>
+            </p>
+          </Grid>
+          <Grid>
+            <Form inline>
+              <FormGroup controlId="formControlsClimateZone">
+                <ControlLabel>Zona Climática</ControlLabel>{' '}
+                <FormControl componentClass="select" placeholder="select">
+        { ZONESLIST.map(z => <option value={ z } key={ 'zone_' + z }>{ z }</option>) }
+                </FormControl>
+              </FormGroup>
+              <FormGroup controlId="formControlsOrientation">
+                <ControlLabel>Orientación</ControlLabel>{' '}
+                <FormControl componentClass="select" placeholder="select">
+                  { ORIENTACIONES.map((vv, idx) => <option value={ vv.name } key={ vv.name }>{ vv.name }</option>) }
+                </FormControl>
+              </FormGroup>
+            </Form>
+            <table id="components" className="table table-striped table-bordered table-condensed">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Tipo</th>
+                  <th className="col-md-1">Origen/Uso</th>
+                  <th className="col-md-3">Vector energético</th>
+                  <th className="col-md-1">kWh/año</th>
+                  <th className="col-md-1">kWh/año·m²</th>
+                  <th className="col-md-1">Valores</th>
+                  <th className="col-md-4">Comentario</th>
+                </tr>
+              </thead>
+              <tbody>
+                {components.map(
+                   (component, i) => {
+                     const { active, ctype, originoruse, carrier, values, comment } = component;
+                     const sumvalues = values.reduce((a, b)=> a + b, 0);
+                     return (
+                       <tr key={i}
+                           onClick={ e => this.handleClick(i) }>
+                         <td><input type="checkbox" defaultChecked={active}
+                                    onClick={ e => this.handleChange(i) } /></td>
+                         <td>{ ctype }</td>
+                         <td>{ originoruse }</td><td>{ carrier }</td>
+                         <td>{ sumvalues.toFixed(2) }</td>
+                         <td>{ (sumvalues).toFixed(2) }</td>
+                         <td>-</td>
+                         <td>{ comment }</td>
+                       </tr>
+                     );
+                   }
+                 )
+                }
+              </tbody>
+            </table>
+
+          </Grid>
           <DevTools position={{ bottom: 0, right: 20 }} />
         </div>
       );
-      // return (
-      //     <div>Cabecera</div>
-      // );
     }
   })
 );
