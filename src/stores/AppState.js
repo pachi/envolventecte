@@ -8,13 +8,11 @@ export default class AppState {
     extendObservable(
       this,
       {
-        climate: 'D3',
+        climate: null,
         metdata: null,
-        orientation: 0,
-        tilt: 90,
-        get tiltplusone() {
-          return this.tilt + 1;
-        },
+        /* get tiltplusone() {
+         *   return this.tilt + 1;
+         * },*/
         setClimate: action((climate) => {
           fetch(`/climas/zona${ climate }.met`)
             .then(response => response.text())

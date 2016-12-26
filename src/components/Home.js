@@ -45,6 +45,10 @@ const components = [
 
 const Home = inject("appstate")(
   observer(class Home extends Component {
+    componentDidMount() {
+      this.props.appstate.setClimate('D3');
+    }
+
     render() {
       const metdata = this.props.appstate.metdata;
       let currentZc = null;
@@ -79,7 +83,7 @@ const Home = inject("appstate")(
             <Form inline>
               <FormGroup controlId="formControlsClimateZone">
                 <ControlLabel>Zona Climática</ControlLabel>{' '}
-                <FormControl value={ this.props.appstate.climate }
+                <FormControl value={ this.props.appstate.climate || '' }
                              onChange={ e => this.handleClimateChange(e) }
                              componentClass="select"
                              placeholder="select">
