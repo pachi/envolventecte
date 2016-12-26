@@ -50,11 +50,8 @@ const Home = inject("appstate")(
     }
 
     render() {
-      const metdata = this.props.appstate.metdata;
-      let currentZc = null;
-      if (metdata !== null) { currentZc = metdata.meta.zc };
+      const { climate, metdata } = this.props.appstate;
 
-      /*       console.log(this.props.appstate);*/
       return (
         <div>
           <Navbar inverse fixedTop>
@@ -83,7 +80,7 @@ const Home = inject("appstate")(
             <Form inline>
               <FormGroup controlId="formControlsClimateZone">
                 <ControlLabel>Zona Climática</ControlLabel>{' '}
-                <FormControl value={ this.props.appstate.climate || '' }
+                <FormControl value={ climate || '' }
                              onChange={ e => this.handleClimateChange(e) }
                              componentClass="select"
                              placeholder="select">
@@ -134,7 +131,7 @@ const Home = inject("appstate")(
                 }
               </tbody>
             </table>
-          <p>Metdata: { currentZc || 'nada' }</p>
+          <p>Metdata: { climate || 'nada' }</p>
           </Grid>
           <DevTools position={{ bottom: 0, right: 20 }} />
         </div>
