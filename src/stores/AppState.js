@@ -1,4 +1,7 @@
 import { extendObservable, action } from 'mobx';
+import 'whatwg-fetch';
+
+import { met, soljs } from 'soljs';
 
 export default class AppState {
   constructor() {
@@ -13,7 +16,13 @@ export default class AppState {
           return this.tilt + 1;
         },
         setClimate: action((climate) => {
-          this.climate = climate;
+          fetch(`/climas/zona${ climate }.met`)
+            .then(response => response.text())
+            .then(text => met.parsemet(text))
+            .then(metdata => {
+              this.metdata = metdata;
+              this.climate = climate;
+            });
         })
       }
     );

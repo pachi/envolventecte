@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { observer, inject } from 'mobx-react';
 import DevTools from 'mobx-react-devtools';
-import 'whatwg-fetch';
 
 import { Button, ControlLabel,
          Form, FormControl, FormGroup,
@@ -140,28 +139,9 @@ const Home = inject("appstate")(
 
     handleClimateChange(event) {
       const climate = event.target.value;
-      this.loadMet(climate)
-        .then( metdata => {
-          this.props.appstate.metdata = metdata;
-          this.props.appstate.climate = metdata.meta.zc;
-        });
+      this.props.appstate.setClimate(climate);
     }
 
-    loadMet(climate) {
-      return fetch(`/climas/zona${ climate }.met`)
-        .then(response => response.text())
-        .then(text => met.parsemet(text));
-    }
-    /* handleClimateChange(event) {
-     *   const climate = event.target.value;
-     *   fetch(`/climas/zona${ climate }.met`)
-     *     .then(response => response.text())
-     *     .then(text =>  {
-     *       const metdata = met.parsemet(text);
-     *       this.props.appstate.metdata = metdata;
-     *       this.props.appstate.climate = metdata.meta.zc;
-     *     });
-     * }*/
   })
 );
 
