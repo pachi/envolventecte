@@ -6,6 +6,7 @@ export default class AppState {
       this,
       {
         climate: 'D3',
+        metdata: null,
         orientation: 0,
         tilt: 90,
         get tiltplusone() {

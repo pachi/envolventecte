@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { observer, inject } from 'mobx-react';
 import DevTools from 'mobx-react-devtools';
+import 'whatwg-fetch';
 
 import { Button, ControlLabel,
          Form, FormControl, FormGroup,
          Grid, Navbar } from 'react-bootstrap';
 
-import 'soljs';
+import { met, soljs } from 'soljs';
 
 const ZONESLIST = ['A1c', 'A2c', 'A3c', 'A4c',
                    'Alfa1c', 'Alfa2c', 'Alfa3c', 'Alfa4c',
@@ -46,7 +47,11 @@ const components = [
 const Home = inject("appstate")(
   observer(class Home extends Component {
     render() {
-      console.log(this.props.appstate);
+      const metdata = this.props.appstate.metdata;
+      let currentZc = null;
+      if (metdata !== null) { currentZc = metdata.meta.zc };
+
+      /*       console.log(this.props.appstate);*/
       return (
         <div>
           <Navbar inverse fixedTop>
@@ -75,21 +80,25 @@ const Home = inject("appstate")(
             <Form inline>
               <FormGroup controlId="formControlsClimateZone">
                 <ControlLabel>Zona Climática</ControlLabel>{' '}
-                <FormControl componentClass="select" placeholder="select">
-        { ZONESLIST.map(z => <option value={ z } key={ 'zone_' + z }>{ z }</option>) }
+                <FormControl value={ this.props.appstate.climate }
+                             onChange={ e => this.handleClimateChange(e) }
+                             componentClass="select"
+                             placeholder="select">
+                  { ZONESLIST.map(z => <option value={ z }
+                                               key={ 'zone_' + z }>{ z }</option>) }
                 </FormControl>
               </FormGroup>
               <FormGroup controlId="formControlsOrientation">
                 <ControlLabel>Orientación</ControlLabel>{' '}
                 <FormControl componentClass="select" placeholder="select">
-                  { ORIENTACIONES.map((vv, idx) => <option value={ vv.name } key={ vv.name }>{ vv.name }</option>) }
+                  { ORIENTACIONES.map(vv => <option value={ vv.name } key={ vv.name }>{ vv.name }</option>) }
                 </FormControl>
               </FormGroup>
             </Form>
             <table id="components" className="table table-striped table-bordered table-condensed">
               <thead>
                 <tr>
-                  <th></th>
+                  <th />
                   <th>Tipo</th>
                   <th className="col-md-1">Origen/Uso</th>
                   <th className="col-md-3">Vector energético</th>
@@ -106,9 +115,9 @@ const Home = inject("appstate")(
                      const sumvalues = values.reduce((a, b)=> a + b, 0);
                      return (
                        <tr key={i}
-                           onClick={ e => this.handleClick(i) }>
+                           onClick={ _e => this.handleClick(i) }>
                          <td><input type="checkbox" defaultChecked={active}
-                                    onClick={ e => this.handleChange(i) } /></td>
+                                    onClick={ _e => this.handleChange(i) } /></td>
                          <td>{ ctype }</td>
                          <td>{ originoruse }</td><td>{ carrier }</td>
                          <td>{ sumvalues.toFixed(2) }</td>
@@ -122,12 +131,37 @@ const Home = inject("appstate")(
                 }
               </tbody>
             </table>
-
+          <p>Metdata: { currentZc || 'nada' }</p>
           </Grid>
           <DevTools position={{ bottom: 0, right: 20 }} />
         </div>
       );
     }
+
+    handleClimateChange(event) {
+      const climate = event.target.value;
+      this.loadMet(climate)
+        .then( metdata => {
+          this.props.appstate.metdata = metdata;
+          this.props.appstate.climate = metdata.meta.zc;
+        });
+    }
+
+    loadMet(climate) {
+      return fetch(`/climas/zona${ climate }.met`)
+        .then(response => response.text())
+        .then(text => met.parsemet(text));
+    }
+    /* handleClimateChange(event) {
+     *   const climate = event.target.value;
+     *   fetch(`/climas/zona${ climate }.met`)
+     *     .then(response => response.text())
+     *     .then(text =>  {
+     *       const metdata = met.parsemet(text);
+     *       this.props.appstate.metdata = metdata;
+     *       this.props.appstate.climate = metdata.meta.zc;
+     *     });
+     * }*/
   })
 );
 

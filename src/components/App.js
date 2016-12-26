@@ -11,7 +11,7 @@ import Home from './Home';
 const appState = new AppState();
 
 const stores = {
-  appstate: appState,
+  appstate: appState
   // ...other stores
 };
 
