@@ -1,7 +1,28 @@
 {
   "name": "envolventecte",
   "version": "0.1.0",
+  "description": "Radiation on oriented surfaces for use in building science and CTE DB-HE (spanish building regulations",
+  "author": "Rafael Villar Burke <pachi@rvburke.com> (http://www.rvburke.com)",
+  "license": "MIT",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pachi/envolventecte.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pachi/envolventecte/issues"
+  },
+  "keywords": [
+    "energy",
+    "buildings",
+    "CTE",
+    "DB-HE",
+    "NZEB",
+    "energía",
+    "edificios",
+    "solar",
+    "sun"
+  ],
   "devDependencies": {
     "react-scripts": "0.8.1"
   },
@@ -14,7 +35,7 @@
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.1",
     "react-router": "^3.0.0",
-    "soljs": "^4.0.0",
+    "soljs": "latest",
     "whatwg-fetch": "^2.0.1"
   },
   "scripts": {
