@@ -23,8 +23,6 @@ SOFTWARE.
 
 import { soljs, met } from 'soljs';
 
-//import mobx from 'mobx';
-
 export const ZONESLIST = met.CLIMATEZONES;
 
 // Orientaciones

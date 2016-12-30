@@ -38,7 +38,7 @@ export default class AppState {
          *   return this.tilt + 1;
          * },*/
         setClimate: action((climate) => {
-          fetch(`/climas/zona${ climate }.met`)
+          return fetch(`/climas/zona${ climate }.met`)
             .then(response => response.text())
             .then(text => met.parsemet(text))
             .then(metdata => {

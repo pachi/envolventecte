@@ -26,7 +26,7 @@ import { Link } from 'react-router';
 import { observer, inject } from 'mobx-react';
 
 import DevTools from 'mobx-react-devtools';
-import mobx from 'mobx';
+// import mobx from 'mobx';
 
 import { Button, ControlLabel,
          Form, FormControl, FormGroup,
@@ -35,29 +35,44 @@ import { Button, ControlLabel,
 import { ZONESLIST, ORIENTACIONES,
          monthlyRadiationForSurface } from '../aux.js';
 
-const RESULTS = [
-  { imes: 1, dir: 7.0, dif: 2.9 },
-  { imes: 2, dir: 8.2, dif: 3.1 },
-  { imes: 3, dir: 9.3, dif: 3.3 }
-];
-
 const Home = inject("appstate")(
   observer(class Home extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        results: [],
+        isLoading: true
+      };
+    }
+
     componentDidMount() {
-      this.props.appstate.setClimate('D3');
+      const appstate = this.props.appstate;
+      appstate.surf = ORIENTACIONES[0];
+      appstate.setClimate('D3')
+              .then(() => this.updateResults());
     }
 
     render() {
-      const { climate, metdata } = this.props.appstate;
-      let results = RESULTS;
-      let surf = ORIENTACIONES[0];
-      if (surf !== null && metdata !== null) {
-        console.log('Hay datos');
-        results = monthlyRadiationForSurface(metdata, surf);
-        /*         console.log('Resultados:', mobx.toJS(results));*/
-        /*         console.log(mobx.toJS(metdata.meta));*/
-      }
+      const { climate, surf, metdata } = this.props.appstate;
 
+      let rows;
+      if (this.state.isLoading) {
+        rows = <tr><td>-</td><td>-</td><td>-</td><td>-</td></tr>;
+      } else {
+        rows = this.state.results.map(
+          (result, i) => {
+            const { imes, dir, dif } = result;
+            return (
+              <tr key={i}>
+                <td>{ imes }</td>
+                <td>{ dir.toFixed(2) }</td>
+                <td>{ dif.toFixed(2) }</td>
+                <td>{ (dir + dif).toFixed(2) }</td>
+              </tr>
+            );
+          }
+        );
+      }
       return (
         <div>
           <Navbar inverse fixedTop>
@@ -96,7 +111,10 @@ const Home = inject("appstate")(
               </FormGroup>
               <FormGroup controlId="formControlsOrientation">
                 <ControlLabel>Orientación</ControlLabel>{' '}
-                <FormControl componentClass="select" placeholder="select">
+                <FormControl value={ surf ? surf.name: '' }
+                             onChange={ e => this.handleSurfaceChange(e) }
+                             componentClass="select"
+                             placeholder="select">
                   { ORIENTACIONES.map(vv => <option value={ vv.name } key={ vv.name }>{ vv.name }</option>) }
                 </FormControl>
               </FormGroup>
@@ -111,20 +129,7 @@ const Home = inject("appstate")(
                 </tr>
               </thead>
               <tbody>
-                { results.map(
-                    (result, i) => {
-                      const { imes, dir, dif } = result;
-                      return (
-                        <tr key={i}>
-                          <td>{ imes }</td>
-                          <td>{ dir.toFixed(2) }</td>
-                          <td>{ dif.toFixed(2) }</td>
-                         <td>{ (dir + dif).toFixed(2) }</td>
-                        </tr>
-                      );
-                    }
-                  )
-                }
+                { rows }
               </tbody>
             </table>
             <p>Valores de irradiación mensual en kWh/m²/mes.</p>
@@ -138,6 +143,21 @@ const Home = inject("appstate")(
     handleClimateChange(event) {
       const climate = event.target.value;
       this.props.appstate.setClimate(climate);
+      this.updateResults();
+    }
+
+    handleSurfaceChange(event) {
+      const surfname = event.target.value;
+      this.props.appstate.surf = ORIENTACIONES.find(s => s.name === surfname);
+      this.updateResults();
+    }
+
+    updateResults() {
+      const { metdata, surf } = this.props.appstate;
+      this.setState({
+        isLoading: false,
+        results: monthlyRadiationForSurface(metdata, surf)
+      });
     }
 
   })
