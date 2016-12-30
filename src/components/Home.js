@@ -1,46 +1,44 @@
+/* -*- coding: utf-8 -*-
+
+Copyright (c) 2016-2017 Rafael Villar Burke <pachi@rvburke.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { observer, inject } from 'mobx-react';
+
 import DevTools from 'mobx-react-devtools';
+import mobx from 'mobx';
 
 import { Button, ControlLabel,
          Form, FormControl, FormGroup,
          Grid, Navbar } from 'react-bootstrap';
 
-import { met, soljs } from 'soljs';
+import { ZONESLIST, ORIENTACIONES,
+         monthlyRadiationForSurface } from '../aux.js';
 
-const ZONESLIST = ['A1c', 'A2c', 'A3c', 'A4c',
-                   'Alfa1c', 'Alfa2c', 'Alfa3c', 'Alfa4c',
-                   'B1c', 'B2c', 'B3c', 'B4c', 'C1c', 'C2c', 'C3c', 'C4c',
-                   'D1c', 'D2c', 'D3c', 'E1c',
-                   'A3', 'A4', 'B3', 'B4', 'C1', 'C2', 'C3', 'C4',
-                   'D1', 'D2', 'D3', 'E1'];
-
-// Orientaciones
-const ORIENTACIONES = [
-  // Area, slope, azimuth, name
-  { beta: 0, gamma: 0, name: 'Horiz.' },
-  { beta: 90, gamma: -135, name: 'NE' },
-  { beta: 90, gamma: -90, name: 'E' },
-  { beta: 90, gamma: -45, name: 'SE' },
-  { beta: 90, gamma: 0, name: 'S' },
-  { beta: 90, gamma: 45, name: 'SW' },
-  { beta: 90, gamma: 90, name: 'W' },
-  { beta: 90, gamma: 135, name: 'NW' },
-  { beta: 90, gamma: 180, name: 'N' }
-];
-
-const MESES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-const components = [
-  {
-    active: true,
-    carrier: 'ELECTRICIDAD',
-    ctype: 'CONSUMO',
-    originoruse: 'EPB',
-    values: [9.67, 7.74, 4.84, 4.35, 2.42, 2.90, 3.87, 3.39, 2.42, 3.87, 5.80, 7.74],
-    comment: 'Linea 1 de ejemplo3PVBdC.csv'
-  }
+const RESULTS = [
+  { imes: 1, dir: 7.0, dif: 2.9 },
+  { imes: 2, dir: 8.2, dif: 3.1 },
+  { imes: 3, dir: 9.3, dif: 3.3 }
 ];
 
 const Home = inject("appstate")(
@@ -51,6 +49,14 @@ const Home = inject("appstate")(
 
     render() {
       const { climate, metdata } = this.props.appstate;
+      let results = RESULTS;
+      let surf = ORIENTACIONES[0];
+      if (surf !== null && metdata !== null) {
+        console.log('Hay datos');
+        results = monthlyRadiationForSurface(metdata, surf);
+        /*         console.log('Resultados:', mobx.toJS(results));*/
+        /*         console.log(mobx.toJS(metdata.meta));*/
+      }
 
       return (
         <div>
@@ -98,40 +104,31 @@ const Home = inject("appstate")(
             <table id="components" className="table table-striped table-bordered table-condensed">
               <thead>
                 <tr>
-                  <th />
-                  <th>Tipo</th>
-                  <th className="col-md-1">Origen/Uso</th>
-                  <th className="col-md-3">Vector energético</th>
-                  <th className="col-md-1">kWh/año</th>
-                  <th className="col-md-1">kWh/año·m²</th>
-                  <th className="col-md-1">Valores</th>
-                  <th className="col-md-4">Comentario</th>
+                  <th className="col-md-3">Mes</th>
+                  <th className="col-md-3">I.Dir</th>
+                  <th className="col-md-3">I.Dif</th>
+                  <th className="col-md-3">I.Tot</th>
                 </tr>
               </thead>
               <tbody>
-                {components.map(
-                   (component, i) => {
-                     const { active, ctype, originoruse, carrier, values, comment } = component;
-                     const sumvalues = values.reduce((a, b)=> a + b, 0);
-                     return (
-                       <tr key={i}
-                           onClick={ _e => this.handleClick(i) }>
-                         <td><input type="checkbox" defaultChecked={active}
-                                    onClick={ _e => this.handleChange(i) } /></td>
-                         <td>{ ctype }</td>
-                         <td>{ originoruse }</td><td>{ carrier }</td>
-                         <td>{ sumvalues.toFixed(2) }</td>
-                         <td>{ (sumvalues).toFixed(2) }</td>
-                         <td>-</td>
-                         <td>{ comment }</td>
-                       </tr>
-                     );
-                   }
-                 )
+                { results.map(
+                    (result, i) => {
+                      const { imes, dir, dif } = result;
+                      return (
+                        <tr key={i}>
+                          <td>{ imes }</td>
+                          <td>{ dir.toFixed(2) }</td>
+                          <td>{ dif.toFixed(2) }</td>
+                         <td>{ (dir + dif).toFixed(2) }</td>
+                        </tr>
+                      );
+                    }
+                  )
                 }
               </tbody>
             </table>
-          <p>Metdata: { climate || 'nada' }</p>
+            <p>Valores de irradiación mensual en kWh/m²/mes.</p>
+            <p>Metdata: { climate || 'nada' }</p>
           </Grid>
           <DevTools position={{ bottom: 0, right: 20 }} />
         </div>
