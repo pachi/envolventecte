@@ -55,23 +55,27 @@ const Home = inject("appstate")(
     render() {
       const { climate, surf, metdata } = this.props.appstate;
 
-      let rows;
+      let tbody;
       if (this.state.isLoading) {
-        rows = <tr><td>-</td><td>-</td><td>-</td><td>-</td></tr>;
+        tbody = <tbody><tr>{ [...Array(14).keys()].map(v => <td>-</td>) }</tr></tbody>;
       } else {
         const surfvalues = this.state.results[surf.name];
-        rows = surfvalues.map(
-          (result, i) => {
-            const { imes, dir, dif } = result;
-            return (
-              <tr key={i}>
-                <td>{ imes }</td>
-                <td>{ dir.toFixed(2) }</td>
-                <td>{ dif.toFixed(2) }</td>
-                <td>{ (dir + dif).toFixed(2) }</td>
-              </tr>
-            );
-          }
+        const dirvalues = surfvalues.map(v => v.dir.toFixed(2));
+        const difvalues = surfvalues.map(v => v.dif.toFixed(2));
+        const totvalues = surfvalues.map(v => (v.dir + v.dif).toFixed(2));
+
+        tbody = (
+          <tbody>
+            <tr key={ 'dir_' + surf.name }><td rowSpan="3">{ surf.name }</td><td>I.dir</td>
+              { dirvalues.map((v, i) => <td key={ 'dir_' + i }>{ v }</td>) }
+            </tr>
+            <tr key={ 'dif_' + surf.name }><td>I.dif</td>
+              { difvalues.map((v, i) => <td key={ 'dif_' + i }>{ v }</td>) }
+            </tr>
+            <tr key={ 'tot_' + surf.name }><td>I.tot</td>
+              { totvalues.map((v, i) => <td key={ 'tot_' + i }>{ v }</td>) }
+            </tr>
+          </tbody>
         );
       }
       return (
@@ -123,15 +127,12 @@ const Home = inject("appstate")(
             <table id="components" className="table table-striped table-bordered table-condensed">
               <thead>
                 <tr>
-                  <th className="col-md-3">Mes</th>
-                  <th className="col-md-3">I.Dir</th>
-                  <th className="col-md-3">I.Dif</th>
-                  <th className="col-md-3">I.Tot</th>
+                  <th className="col-md-1">Superficie</th>
+                  <th className="col-md-1">Irradiación</th>
+                  <th>ENE</th><th>FEB</th><th>MAR</th><th>ABR</th><th>MAY</th><th>JUN</th><th>JUL</th><th>AGO</th><th>SET</th><th>OCT</th><th>NOV</th><th>DIC</th>
                 </tr>
               </thead>
-              <tbody>
-                { rows }
-              </tbody>
+              { tbody }
             </table>
             <p>Valores de irradiación mensual en kWh/m²/mes.</p>
             <p>Metdata: { climate || 'nada' }</p>
