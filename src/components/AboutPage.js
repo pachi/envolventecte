@@ -22,34 +22,37 @@ SOFTWARE.
 */
 
 import React, { Component } from 'react';
-import { Router, Route, hashHistory } from 'react-router';
-import { Provider } from 'mobx-react';
+import { Button, Grid } from 'react-bootstrap';
 
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
+import NavBar from './Nav';
 
-import AppState from '../stores/AppState';
-import Home from './Home';
-import AboutPage from './AboutPage';
-
-const appState = new AppState();
-
-const stores = {
-  appstate: appState
-  // ...other stores
-};
-
-class App extends Component {
+export default class AboutPage extends Component {
   render() {
     return (
-      <Provider {... stores}>
-        <Router history={hashHistory}>
-          <Route path="/" component={ Home } />
-          <Route path="/about" component={ AboutPage }/>
-        </Router>
-      </Provider>
+      <div>
+        <NavBar route={ this.props.route } />
+        <Grid>
+          <h1>Radiación solar en superficies orientadas</h1>
+          <p className="lead">Cálculos de radiación solar para la aplicación del CTE DB-HE</p>
+          <p>
+            <Button
+                bsStyle="success"
+                bsSize="small"
+                href="http://www.codigotecnico.org/images/stories/pdf/ahorroEnergia/CTEdatosMET_20140418.zip"
+                target="_blank">
+              Descargar climas de referencia de codigotecnico.org
+            </Button>
+          </p>
+        </Grid>
+        <Grid>
+          <h3>Equipo de desarrollo:</h3>
+          <ul>
+            <li>Rafael Villar Burke, <i>pachi@ietcc.csic.es</i></li>
+            <li>Daniel Jiménez González, <i>danielj@ietcc.csic.es</i></li>
+            <li>Marta Sorribes Gil, <i>msorribes@ietcc.csic.es</i></li>
+          </ul>
+        </Grid>
+      </div>
     );
   }
-}
-
-export default App;
+};
