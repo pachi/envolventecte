@@ -1,5 +1,5 @@
 {
-  "name": "envolventecte",
+  "name": "solarcte",
   "version": "0.1.0",
   "description": "Radiation on oriented surfaces for use in building science and CTE DB-HE (spanish building regulations",
   "author": "Rafael Villar Burke <pachi@rvburke.com> (http://www.rvburke.com)",
@@ -12,6 +12,7 @@
   "bugs": {
     "url": "https://github.com/pachi/envolventecte/issues"
   },
+  "homepage": "https://pachi.github.io/solarcte",
   "keywords": [
     "energy",
     "buildings",
@@ -24,6 +25,7 @@
     "sun"
   ],
   "devDependencies": {
+    "gh-pages": "^0.12.0",
     "react-scripts": "0.8.1"
   },
   "dependencies": {
@@ -42,6 +44,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "npm run build && gh-pages -d build"
   }
 }
