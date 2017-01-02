@@ -44,7 +44,7 @@ const OrientaTable = ({ surf, metdata }) => {
     const dif = vals.map(v => v.dif.toFixed(2));
     const tot = vals.map(v => (v.dir + v.dif).toFixed(2));
     return (
-      <tbody>
+      <tbody style={{ textAlign:'right' }}>
         <tr key={ 'dir_' + surf.name }>
           <td rowSpan="3"><b>{ surf.name }</b></td><td>Dir.</td>
           { dir.map((v, i) => <td key={ 'dir_' + i }>{ v }</td>) }
