@@ -22,15 +22,16 @@ SOFTWARE.
 */
 
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import { observer, inject } from 'mobx-react';
 
-import DevTools from 'mobx-react-devtools';
 // import mobx from 'mobx';
+// import DevTools from 'mobx-react-devtools';
 
-import { Button, ControlLabel,
+import { ControlLabel,
          Form, FormControl, FormGroup,
-         Grid, Navbar } from 'react-bootstrap';
+         Grid, Well } from 'react-bootstrap';
+
+import NavBar from './Nav';
 
 import { ZONESLIST, ORIENTACIONES,
          monthlyRadiationForSurface } from '../aux.js';
@@ -81,29 +82,12 @@ const Home = inject("appstate")(
 
       return (
         <div>
-          <Navbar inverse fixedTop>
-            <Grid>
-              <Navbar.Header>
-                <Navbar.Brand>
-                  <Link to="/">Solar-CTE</Link>
-                </Navbar.Brand>
-                <Navbar.Toggle />
-              </Navbar.Header>
-            </Grid>
-          </Navbar>
+          <NavBar route={ this.props.route } />
           <Grid>
             <h1>Radiación solar en superficies orientadas</h1>
-            <p>
-              <Button
-                  bsStyle="success"
-                  bsSize="small"
-                  href="http://www.codigotecnico.org/images/stories/pdf/ahorroEnergia/CTEdatosMET_20140418.zip"
-                  target="_blank">
-                Descargar climas de referencia de codigotecnico.org
-              </Button>
-            </p>
           </Grid>
           <Grid>
+            <Well>
             <Form inline>
               <FormGroup controlId="formControlsClimateZone">
                 <ControlLabel>Zona Climática</ControlLabel>{' '}
@@ -116,6 +100,9 @@ const Home = inject("appstate")(
                 </FormControl>
               </FormGroup>
             </Form>
+            </Well>
+          </Grid>
+          <Grid>
             <table id="components" className="table table-striped table-bordered table-condensed">
               <thead>
                 <tr>
@@ -135,7 +122,7 @@ const Home = inject("appstate")(
             </table>
             <p>Valores de irradiación mensual en kWh/m²/mes.</p>
           </Grid>
-          <DevTools position={{ bottom: 0, right: 20 }} />
+          {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
         </div>
       );
     }
