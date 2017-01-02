@@ -32,7 +32,6 @@ export default class AppState {
       this,
       {
         climate: null,
-        surf: null,
         metdata: null,
         /* get tiltplusone() {
          *   return this.tilt + 1;

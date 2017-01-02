@@ -58,26 +58,16 @@ const OrientaTable = ({ orientacion }) => {
 
 const Home = inject("appstate")(
   observer(class Home extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        results: [],
-        isLoading: true
-      };
-    }
 
     componentDidMount() {
-      const appstate = this.props.appstate;
-      appstate.surf = ORIENTACIONES[0];
-      appstate.setClimate('D3')
-              .then(() => this.updateResults());
+      this.props.appstate.setClimate('D3');
     }
 
     render() {
-      const { climate, surf, metdata } = this.props.appstate;
+      const { climate, metdata } = this.props.appstate;
 
       let values;
-      if (this.state.isLoading) {
+      if (metdata == null) {
         values = [{ name: null }];
       } else {
         values = ORIENTACIONES.map(
@@ -129,15 +119,6 @@ const Home = inject("appstate")(
                                                key={ 'zone_' + z }>{ z }</option>) }
                 </FormControl>
               </FormGroup>
-              <FormGroup controlId="formControlsOrientation">
-                <ControlLabel>Orientación</ControlLabel>{' '}
-                <FormControl value={ surf ? surf.name: '' }
-                             onChange={ e => this.handleSurfaceChange(e) }
-                             componentClass="select"
-                             placeholder="select">
-                  { ORIENTACIONES.map(vv => <option value={ vv.name } key={ vv.name }>{ vv.name }</option>) }
-                </FormControl>
-              </FormGroup>
             </Form>
             <table id="components" className="table table-striped table-bordered table-condensed">
               <thead>
@@ -162,21 +143,6 @@ const Home = inject("appstate")(
     handleClimateChange(event) {
       const climate = event.target.value;
       this.props.appstate.setClimate(climate);
-      this.updateResults();
-    }
-
-    handleSurfaceChange(event) {
-      const surfname = event.target.value;
-      this.props.appstate.surf = ORIENTACIONES.find(s => s.name === surfname);
-      this.updateResults();
-    }
-
-    updateResults() {
-      const { metdata, surf } = this.props.appstate;
-      this.setState({
-        isLoading: false,
-        results: { [surf.name]: monthlyRadiationForSurface(metdata, surf) }
-      });
     }
 
   })
