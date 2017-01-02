@@ -59,7 +59,8 @@ const Home = inject("appstate")(
       if (this.state.isLoading) {
         rows = <tr><td>-</td><td>-</td><td>-</td><td>-</td></tr>;
       } else {
-        rows = this.state.results.map(
+        const surfvalues = this.state.results[surf.name];
+        rows = surfvalues.map(
           (result, i) => {
             const { imes, dir, dif } = result;
             return (
@@ -156,7 +157,7 @@ const Home = inject("appstate")(
       const { metdata, surf } = this.props.appstate;
       this.setState({
         isLoading: false,
-        results: monthlyRadiationForSurface(metdata, surf)
+        results: { [surf.name]: monthlyRadiationForSurface(metdata, surf) }
       });
     }
 
