@@ -35,6 +35,27 @@ import { Button, ControlLabel,
 import { ZONESLIST, ORIENTACIONES,
          monthlyRadiationForSurface } from '../aux.js';
 
+const OrientaTable = ({ orientacion }) => {
+  const oo = orientacion;
+  if (oo.name === null) {
+    return <tbody><tr><td colSpan="14">Cargando datos...</td></tr></tbody>;
+  } else {
+    return (
+      <tbody>
+        <tr key={ 'dir_' + oo.name }><td rowSpan="3">{ oo.name }</td><td>Dir.</td>
+          { oo.dir.map((v, i) => <td key={ 'dir_' + i }>{ v }</td>) }
+        </tr>
+        <tr key={ 'dif_' + oo.name }><td>Dif.</td>
+          { oo.dif.map((v, i) => <td key={ 'dif_' + i }>{ v }</td>) }
+        </tr>
+        <tr key={ 'tot_' + oo.name }><td>Tot.</td>
+          { oo.tot.map((v, i) => <td key={ 'tot_' + i }>{ v }</td>) }
+        </tr>
+      </tbody>);
+  }
+};
+
+
 const Home = inject("appstate")(
   observer(class Home extends Component {
     constructor(props) {
@@ -55,29 +76,23 @@ const Home = inject("appstate")(
     render() {
       const { climate, surf, metdata } = this.props.appstate;
 
-      let tbody;
+      let values;
       if (this.state.isLoading) {
-        tbody = <tbody><tr>{ [...Array(14).keys()].map(v => <td>-</td>) }</tr></tbody>;
+        values = [{ name: null }];
       } else {
-        const surfvalues = this.state.results[surf.name];
-        const dirvalues = surfvalues.map(v => v.dir.toFixed(2));
-        const difvalues = surfvalues.map(v => v.dif.toFixed(2));
-        const totvalues = surfvalues.map(v => (v.dir + v.dif).toFixed(2));
-
-        tbody = (
-          <tbody>
-            <tr key={ 'dir_' + surf.name }><td rowSpan="3">{ surf.name }</td><td>I.dir</td>
-              { dirvalues.map((v, i) => <td key={ 'dir_' + i }>{ v }</td>) }
-            </tr>
-            <tr key={ 'dif_' + surf.name }><td>I.dif</td>
-              { difvalues.map((v, i) => <td key={ 'dif_' + i }>{ v }</td>) }
-            </tr>
-            <tr key={ 'tot_' + surf.name }><td>I.tot</td>
-              { totvalues.map((v, i) => <td key={ 'tot_' + i }>{ v }</td>) }
-            </tr>
-          </tbody>
+        values = ORIENTACIONES.map(
+          srf => {
+            const vals = monthlyRadiationForSurface(metdata, srf);
+            return {
+              name: srf.name,
+              dir: vals.map(v => v.dir.toFixed(2)),
+              dif: vals.map(v => v.dif.toFixed(2)),
+              tot: vals.map(v => (v.dir + v.dif).toFixed(2))
+            }
+          }
         );
       }
+
       return (
         <div>
           <Navbar inverse fixedTop>
@@ -129,10 +144,12 @@ const Home = inject("appstate")(
                 <tr>
                   <th className="col-md-1">Superficie</th>
                   <th className="col-md-1">Irradiación</th>
-                  <th>ENE</th><th>FEB</th><th>MAR</th><th>ABR</th><th>MAY</th><th>JUN</th><th>JUL</th><th>AGO</th><th>SET</th><th>OCT</th><th>NOV</th><th>DIC</th>
+                  <th>ENE</th><th>FEB</th><th>MAR</th><th>ABR</th>
+                  <th>MAY</th><th>JUN</th><th>JUL</th><th>AGO</th>
+                  <th>SET</th><th>OCT</th><th>NOV</th><th>DIC</th>
                 </tr>
               </thead>
-              { tbody }
+              { values.map((vv, i) => <OrientaTable orientacion={ vv } key={ i } />) }
             </table>
             <p>Valores de irradiación mensual en kWh/m²/mes.</p>
             <p>Metdata: { climate || 'nada' }</p>
