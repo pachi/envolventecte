@@ -1,0 +1,44 @@
+Archivos climáticos CTE DB-HE
+=============================
+
+Datos en hora solar.
+
+Climas correspondientes a las Islas Canarias
+--------------------------------------------
+
+zonaA1c.met - Clima A1
+zonaA2c.met - Clima A2
+zonaA3c.met - Clima A3
+zonaA4c.met - Clima A4
+zonaAlfa1c.met - Clima alfa1
+zonaAlfa2c.met - Clima alfa2
+zonaAlfa3c.met - Clima alfa3
+zonaAlfa4c.met - Clima alfa4
+zonaB1c.met - Clima B1
+zonaB2c.met - Clima B2
+zonaB3c.met - Clima B3
+zonaB4c.met - Clima B4
+zonaC1c.met - Clima C1
+zonaC2c.met - Clima C2
+zonaC3c.met - Clima C3
+zonaC4c.met - Clima C4
+zonaD1c.met - Clima D1
+zonaD2c.met - Clima D2
+zonaD3c.met - Clima D3
+zonaE1c.met - Clima E1
+
+Climas correspondientes a otras zonas (Península, Baleares, Ceuta y Melilla)
+----------------------------------------------------------------------------
+
+zonaA3.met - Clima A3
+zonaA4.met - Clima A4
+zonaB3.met - Clima B3
+zonaB4.met - Clima B4
+zonaC1.met - Clima C1
+zonaC2.met - Clima C2
+zonaC3.met - Clima C3
+zonaC4.met - Clima C4
+zonaD1.met - Clima D1
+zonaD2.met - Clima D2
+zonaD3.met - Clima D3
+zonaE1.met - Clima E1
