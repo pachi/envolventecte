@@ -35,21 +35,27 @@ import { Button, ControlLabel,
 import { ZONESLIST, ORIENTACIONES,
          monthlyRadiationForSurface } from '../aux.js';
 
-const OrientaTable = ({ orientacion }) => {
-  const oo = orientacion;
-  if (oo.name === null) {
+const OrientaTable = ({ surf, metdata }) => {
+  if (surf.name === null) {
     return <tbody><tr><td colSpan="14">Cargando datos...</td></tr></tbody>;
   } else {
+    const vals = monthlyRadiationForSurface(metdata, surf);
+    const dir = vals.map(v => v.dir.toFixed(2));
+    const dif = vals.map(v => v.dif.toFixed(2));
+    const tot = vals.map(v => (v.dir + v.dif).toFixed(2));
     return (
       <tbody>
-        <tr key={ 'dir_' + oo.name }><td rowSpan="3">{ oo.name }</td><td>Dir.</td>
-          { oo.dir.map((v, i) => <td key={ 'dir_' + i }>{ v }</td>) }
+        <tr key={ 'dir_' + surf.name }>
+          <td rowSpan="3">{ surf.name }</td><td>Dir.</td>
+          { dir.map((v, i) => <td key={ 'dir_' + i }>{ v }</td>) }
         </tr>
-        <tr key={ 'dif_' + oo.name }><td>Dif.</td>
-          { oo.dif.map((v, i) => <td key={ 'dif_' + i }>{ v }</td>) }
+        <tr key={ 'dif_' + surf.name }>
+          <td>Dif.</td>
+          { dif.map((v, i) => <td key={ 'dif_' + i }>{ v }</td>) }
         </tr>
-        <tr key={ 'tot_' + oo.name }><td>Tot.</td>
-          { oo.tot.map((v, i) => <td key={ 'tot_' + i }>{ v }</td>) }
+        <tr key={ 'tot_' + surf.name }>
+          <td>Tot.</td>
+          { tot.map((v, i) => <td key={ 'tot_' + i }>{ v }</td>) }
         </tr>
       </tbody>);
   }
@@ -66,21 +72,11 @@ const Home = inject("appstate")(
     render() {
       const { climate, metdata } = this.props.appstate;
 
-      let values;
+      let orientaciones;
       if (metdata == null) {
-        values = [{ name: null }];
+        orientaciones = [{ name: null }];
       } else {
-        values = ORIENTACIONES.map(
-          srf => {
-            const vals = monthlyRadiationForSurface(metdata, srf);
-            return {
-              name: srf.name,
-              dir: vals.map(v => v.dir.toFixed(2)),
-              dif: vals.map(v => v.dif.toFixed(2)),
-              tot: vals.map(v => (v.dir + v.dif).toFixed(2))
-            }
-          }
-        );
+        orientaciones = ORIENTACIONES;
       }
 
       return (
@@ -130,10 +126,14 @@ const Home = inject("appstate")(
                   <th>SET</th><th>OCT</th><th>NOV</th><th>DIC</th>
                 </tr>
               </thead>
-              { values.map((vv, i) => <OrientaTable orientacion={ vv } key={ i } />) }
+              { orientaciones.map(
+                  (surf, i) => <OrientaTable
+                                   surf={ surf }
+                                   metdata={ metdata }
+                                   key={ i } />
+                ) }
             </table>
             <p>Valores de irradiación mensual en kWh/m²/mes.</p>
-            <p>Metdata: { climate || 'nada' }</p>
           </Grid>
           <DevTools position={{ bottom: 0, right: 20 }} />
         </div>
