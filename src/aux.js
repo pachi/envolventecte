@@ -80,3 +80,15 @@ export function monthlyRadiationForSurface(metdata, surf) {
              dif: monthRadiation.map(v => v.dif).reduce((a, b) => a + b) / 1000 };
   });
 }
+
+// Wrapper de fetch para adaptarse a rutas que no sean root, como en gh-pages
+// Aportado por brigand en #reactjs
+let prefix = '';
+if (/\.github.io$/g.test(window.location.hostname)) {
+  prefix = '/' + location.pathname.split('/')[1];
+}
+
+export function myFetch(relativeUrl, opts) {
+  const url = prefix + relativeUrl;
+  return fetch(url, opts);
+}
