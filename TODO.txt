@@ -1,0 +1,3 @@
+- Permitir cambiar parámetros de superficie con orientación definida por el usuario (ahora horizontal)
+- Gráfica / roseta por orientaciones
+- Cálculo de A_sol,jul/A_util;
