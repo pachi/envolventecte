@@ -36,9 +36,11 @@ import NavBar from './Nav';
 import { ZONESLIST, ORIENTACIONES,
          monthlyRadiationForSurface } from '../aux.js';
 
+const LoadingTable = props => <tbody><tr><td colSpan="14">Cargando datos...</td></tr></tbody>;
+
 const OrientaTable = ({ surf, metdata }) => {
   if (surf.name === null) {
-    return <tbody><tr><td colSpan="14">Cargando datos...</td></tr></tbody>;
+    return <LoadingTable />;
   } else {
     const vals = monthlyRadiationForSurface(metdata, surf);
     const dir = vals.map(v => v.dir.toFixed(2));
