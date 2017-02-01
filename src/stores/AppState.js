@@ -38,13 +38,15 @@ export default class AppState {
          *   return this.tilt + 1;
          * },*/
         setClimate: action((climate) => {
-          return myFetch(`/climas/zona${ climate }.met`)
-            .then(response => response.text())
-            .then(text => met.parsemet(text))
-            .then(metdata => {
-              this.metdata = metdata;
-              this.climate = climate;
-            });
+          if (this.climate !== climate || !this.metdata) {
+            return myFetch(`/climas/zona${ climate }.met`)
+              .then(response => response.text())
+              .then(text => met.parsemet(text))
+              .then(metdata => {
+                this.metdata = metdata;
+                this.climate = climate;
+              });
+          }
         })
       }
     );
