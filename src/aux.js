@@ -66,12 +66,12 @@ export function radiationForSurface(latitude, surf, albedo, hourlydata) {
 }
 
 // Acumulados mensuales para el clima y la superficie dados
-export function monthlyRadiationForSurface(metdata, surf) {
+export function monthlyRadiationForSurface(metdata, surf, meses=MESES) {
   const albedo = 0.2;
   const latitud = metdata.meta.latitud;
   const data = metdata.data;
   const surfRadiation = radiationForSurface(latitud, surf, albedo, data);
-  return MESES.map(imes => {
+  return meses.map(imes => {
     let monthRadiation = surfRadiation.filter(d => d.mes === imes);
     // dir, dif, en kWh/m2/mes
     return { imes,

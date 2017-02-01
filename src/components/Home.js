@@ -33,7 +33,7 @@ import { ControlLabel,
 
 import NavBar from './Nav';
 
-import { ZONESLIST, ORIENTACIONES,
+import { ZONESLIST, ORIENTACIONES, MESES,
          monthlyRadiationForSurface } from '../aux.js';
 
 const LoadingTable = props => <tbody><tr><td colSpan="14">Cargando datos...</td></tr></tbody>;
@@ -42,7 +42,7 @@ const OrientaTable = ({ surf, metdata }) => {
   if (surf.name === null) {
     return <LoadingTable />;
   } else {
-    const vals = monthlyRadiationForSurface(metdata, surf);
+    const vals = monthlyRadiationForSurface(metdata, surf, MESES);
     const dir = vals.map(v => v.dir.toFixed(2));
     const dif = vals.map(v => v.dif.toFixed(2));
     const tot = vals.map(v => (v.dir + v.dif).toFixed(2));
