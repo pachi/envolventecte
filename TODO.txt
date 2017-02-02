@@ -1,3 +1,7 @@
 - Permitir cambiar parámetros de superficie con orientación definida por el usuario (ahora horizontal)
 - Gráfica / roseta por orientaciones
 - Cálculo de A_sol,jul/A_util;
+- Evitar precargar un clima al arrancar
+- Mover cálculo de radiación a un campo calculado, evitando cálculo manual
+- Mostrar indicación de que se está en proceso de cálculo o carga de datos
+- Separar el componente de selección de clima a la barra superior (ver componente en Indicators).
