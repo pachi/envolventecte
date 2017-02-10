@@ -33,55 +33,6 @@ import { Grid, Well } from 'react-bootstrap';
 import NavBar from './Nav';
 import ClimateSelector from './ClimateSelector';
 
-import { ORIENTACIONES, MESES, monthlyRadiationForSurface } from '../aux.js';
-
-const LoadingTable = props => <tbody><tr><td colSpan="14">Cargando datos...</td></tr></tbody>;
-
-const OrientaSubTable = ({ surf, metdata }) => {
-  if (surf.name === null) {
-    return <LoadingTable />;
-  } else {
-    const vals = monthlyRadiationForSurface(metdata, surf, MESES);
-    const dir = vals.map(v => v.dir.toFixed(2));
-    const dif = vals.map(v => v.dif.toFixed(2));
-    const tot = vals.map(v => (v.dir + v.dif).toFixed(2));
-    return (
-      <tbody style={{ textAlign:'right' }}>
-        <tr key={ 'dir_' + surf.name }>
-          <td rowSpan="3"><b>{ surf.name }</b></td><td>Dir.</td>
-          { dir.map((v, i) => <td key={ 'dir_' + i }>{ v }</td>) }
-        </tr>
-        <tr key={ 'dif_' + surf.name }>
-          <td>Dif.</td>
-          { dif.map((v, i) => <td key={ 'dif_' + i }>{ v }</td>) }
-        </tr>
-        <tr key={ 'tot_' + surf.name } style={ { fontWeight: 'bold' } }>
-          <td>Tot.</td>
-          { tot.map((v, i) => <td key={ 'tot_' + i }>{ v }</td>) }
-        </tr>
-      </tbody>);
-  }
-};
-
-
-const OrientaSubTable2 = ({ orientadata }) => {
-      return (
-        <tbody style={{ textAlign:'right' }}>
-          <tr key={ 'dir_' + orientadata.surfname }>
-            <td rowSpan="3"><b>{ orientadata.surfname }</b></td><td>Dir.</td>
-            { orientadata.dir.map((v, i) => <td key={ 'dir_' + i }>{ v }</td>) }
-          </tr>
-          <tr key={ 'dif_' + orientadata.surfname }>
-            <td>Dif.</td>
-            { orientadata.dif.map((v, i) => <td key={ 'dif_' + i }>{ v }</td>) }
-          </tr>
-          <tr key={ 'tot_' + orientadata.surfname } style={ { fontWeight: 'bold' } }>
-            <td>Tot.</td>
-            { orientadata.tot.map((v, i) => <td key={ 'tot_' + i }>{ v }</td>) }
-          </tr>
-        </tbody>);
-    };
-
 const Radiation = inject("appstate")(
   observer(class Radiation extends Component {
 
@@ -90,14 +41,8 @@ const Radiation = inject("appstate")(
     }
 
     render() {
-      const { metdata, climate } = this.props.appstate;
-
-      let orientaciones;
-      if (metdata == null) {
-        orientaciones = [{ name: null }];
-      } else {
-        orientaciones = ORIENTACIONES;
-      }
+      const { climate } = this.props.appstate;
+      const monthdata = zcdata.filter(d => d.zc === climate);
 
       return (
         <div>
@@ -111,7 +56,8 @@ const Radiation = inject("appstate")(
             </Well>
           </Grid>
           <Grid>
-            <table id="components" className="table table-striped table-bordered table-condensed">
+            <table id="components"
+                   className="table table-striped table-bordered table-condensed">
               <thead>
                 <tr>
                   <th className="col-md-1">Superficie</th>
@@ -121,15 +67,37 @@ const Radiation = inject("appstate")(
                   <th>SET</th><th>OCT</th><th>NOV</th><th>DIC</th>
                 </tr>
               </thead>
-              { orientaciones.map(
-                  (surf, i) => <OrientaSubTable
-                                   surf={ surf }
-                                   metdata={ metdata }
-                                   key={ i } />
-                ) }
-              { zcdata
-                .filter(d => d.zc === climate)
-                .map(d => <OrientaSubTable2 orientadata={ d } />)
+              { monthdata
+                .map((orientadata, idx) => {
+                  return (
+                    <tbody style={{ textAlign:'right' }} key={ 'table' + idx }>
+                      <tr key={ 'dir_' + orientadata.surfname }>
+                        <td rowSpan="3">
+                          <b>{ orientadata.surfname }</b>
+                        </td>
+                        <td>Dir.</td>
+                        {
+                          orientadata.dir.map((v, i) =>
+                            <td key={ 'dir_' + i }>{ v }</td>)
+                        }
+                      </tr>
+                      <tr key={ 'dif_' + orientadata.surfname }>
+                        <td>Dif.</td>
+                        {
+                          orientadata.dif.map((v, i) =>
+                          <td key={ 'dif_' + i }>{ v }</td>)
+                        }
+                      </tr>
+                      <tr key={ 'tot_' + orientadata.surfname }
+                          style={ { fontWeight: 'bold' } }>
+                        <td>Tot.</td>
+                        {
+                          orientadata.tot.map((v, i) =>
+                            <td key={ 'tot_' + i }>{ v }</td>)
+                        }
+                      </tr>
+                    </tbody>);
+                })
               }
             </table>
             <p>Valores de irradiación mensual en kWh/m²/mes.</p>
