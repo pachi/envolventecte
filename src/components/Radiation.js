@@ -31,6 +31,40 @@ import { observer, inject } from 'mobx-react';
 import NavBar from './Nav';
 import ClimateSelector from './ClimateSelector';
 
+const RadiationTable = ({ data }) =>
+  <table id="components"
+         className="table table-striped table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th className="col-md-1">Superficie</th>
+        <th className="col-md-1">Irradiación</th>
+        <th>ENE</th><th>FEB</th><th>MAR</th><th>ABR</th>
+        <th>MAY</th><th>JUN</th><th>JUL</th><th>AGO</th>
+        <th>SET</th><th>OCT</th><th>NOV</th><th>DIC</th>
+      </tr>
+    </thead>
+    { data.map((d, idx) => {
+        return (
+          <tbody style={{ textAlign:'right' }} key={ 'table' + idx }>
+            <tr key={ 'dir_' + d.surfname }>
+              <td rowSpan="3"><b>{ d.surfname }</b></td>
+              <td>Dir.</td>
+              { d.dir.map((v, i) => <td key={ 'dir_' + i }>{ v }</td>) }
+            </tr>
+            <tr key={ 'dif_' + d.surfname }>
+              <td>Dif.</td>
+              { d.dif.map((v, i) => <td key={ 'dif_' + i }>{ v }</td>) }
+            </tr>
+            <tr key={ 'tot_' + d.surfname }
+                style={ { fontWeight: 'bold' } }>
+              <td>Tot.</td>
+              { d.tot.map((v, i) => <td key={ 'tot_' + i }>{ v }</td>) }
+            </tr>
+          </tbody>);
+      })
+    }
+  </table>;
+
 const Radiation = inject("appstate")(
   observer(class Radiation extends Component {
 
@@ -42,58 +76,14 @@ const Radiation = inject("appstate")(
         <div>
           <NavBar route={ this.props.route } />
           <Grid>
-            <h1>Irradiación solar en superficies orientadas (kWh/m²/mes)</h1>
-          </Grid>
-          <Grid>
             <Well>
               <ClimateSelector />
             </Well>
           </Grid>
           <Grid>
-            <table id="components"
-                   className="table table-striped table-bordered table-condensed">
-              <thead>
-                <tr>
-                  <th className="col-md-1">Superficie</th>
-                  <th className="col-md-1">Irradiación</th>
-                  <th>ENE</th><th>FEB</th><th>MAR</th><th>ABR</th>
-                  <th>MAY</th><th>JUN</th><th>JUL</th><th>AGO</th>
-                  <th>SET</th><th>OCT</th><th>NOV</th><th>DIC</th>
-                </tr>
-              </thead>
-              { monthdata
-                .map((orientadata, idx) => {
-                  return (
-                    <tbody style={{ textAlign:'right' }} key={ 'table' + idx }>
-                      <tr key={ 'dir_' + orientadata.surfname }>
-                        <td rowSpan="3">
-                          <b>{ orientadata.surfname }</b>
-                        </td>
-                        <td>Dir.</td>
-                        {
-                          orientadata.dir.map((v, i) =>
-                            <td key={ 'dir_' + i }>{ v }</td>)
-                        }
-                      </tr>
-                      <tr key={ 'dif_' + orientadata.surfname }>
-                        <td>Dif.</td>
-                        {
-                          orientadata.dif.map((v, i) =>
-                          <td key={ 'dif_' + i }>{ v }</td>)
-                        }
-                      </tr>
-                      <tr key={ 'tot_' + orientadata.surfname }
-                          style={ { fontWeight: 'bold' } }>
-                        <td>Tot.</td>
-                        {
-                          orientadata.tot.map((v, i) =>
-                            <td key={ 'tot_' + i }>{ v }</td>)
-                        }
-                      </tr>
-                    </tbody>);
-                })
-              }
-            </table>
+            <h2>Irradiación solar en superficies orientadas e inclinadas (kWh/m²/mes)</h2>
+            <RadiationTable data={ monthdata } />
+            <p>La tabla anterior recoge la radiación mensual acumulada para una superficie horizontal y superficies verticales con la orientación indicada.</p>
           </Grid>
           {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
         </div>
