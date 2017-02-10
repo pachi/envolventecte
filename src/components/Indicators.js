@@ -22,83 +22,50 @@ SOFTWARE.
 */
 
 import React, { Component } from 'react';
+import { Grid, Well } from 'react-bootstrap';
 import { observer, inject } from 'mobx-react';
-
 // import mobx from 'mobx';
 // import DevTools from 'mobx-react-devtools';
-
-import { Grid, Well } from 'react-bootstrap';
 
 import NavBar from './Nav';
 import ClimateSelector from './ClimateSelector';
 
-import { ORIENTACIONES,
-         monthlyRadiationForSurface } from '../aux.js';
-
-
-const OrientaTable = ({ metdata, orientaciones }) => {
-  let values;
-  if (metdata === null) {
-    values = <tr><td colSpan="2">Cargando datos...</td></tr>
-  }
-  else {
-    values = orientaciones
-      .map((surf, i) => monthlyRadiationForSurface(metdata, surf, [7])[0])
-      .map(v => (v.dir + v.dif).toFixed(2));
-    values = <tr>
-      <td>{ metdata.meta.zc }</td>
-      { values.map((val, i) =><td key={ 'tot_' + i }>{ val }</td>) }
-    </tr>;
-  }
-
-  return (
+const OrientaTable = ({ data }) =>
     <table id="components" className="table table-striped table-bordered table-condensed">
-    <thead>
+      <thead>
         <tr>
           <th className="col-md-1">Clima</th>
-          { orientaciones.map( (surf, i) => <th key={ 'hr' + i }>{ surf.name }</th>) }
+          { data.map((d, i) => <th key={ 'hr' + i }>{ d.surfname }</th>) }
         </tr>
       </thead>
       <tbody>
-        { values }
+        <tr>
+          <td>{ data[0].zc }</td>
+          {
+            data.map((d, i) =>
+              <td key={ 'tot_' + i }>{ d.tot[6].toFixed(2) }</td>)
+          }
+        </tr>
       </tbody>
     </table>
-  );
-};
+;
 
 const Indicators = inject("appstate")(
   observer(class Indicators extends Component {
-
-    componentDidMount() {
-      this.props.appstate.setClimate('D3');
-    }
-
     render() {
-      const { metdata } = this.props.appstate;
-
-      let orientaciones;
-      if (metdata == null) {
-        orientaciones = [{ name: null }];
-      } else {
-        orientaciones = ORIENTACIONES;
-      }
-
+      const { climate, zcdata } = this.props.appstate;
+      const climatedata = zcdata.filter(v => v.zc === climate);
       return (
         <div>
           <NavBar route={ this.props.route } />
-          <Grid>
-            <h1>Radiación solar en superficies orientadas</h1>
-          </Grid>
           <Grid>
             <Well>
               <ClimateSelector />
             </Well>
           </Grid>
           <Grid>
-            <h2>Radiación total (kWh/m²/mes)</h2>
-            <OrientaTable
-                metdata={ metdata }
-                orientaciones={ orientaciones } />
+            <h2>Radiación acumulada en el mes de julio por orientación (kWh/m²/mes)</h2>
+            <OrientaTable data={ climatedata } />
           </Grid>
           {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
         </div>
