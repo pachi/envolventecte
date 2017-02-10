@@ -47,8 +47,7 @@ const OrientaTable = ({ data }) =>
           }
         </tr>
       </tbody>
-    </table>
-;
+    </table>;
 
 const Indicators = inject("appstate")(
   observer(class Indicators extends Component {
