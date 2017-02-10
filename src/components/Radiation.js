@@ -22,13 +22,11 @@ SOFTWARE.
 */
 
 import React, { Component } from 'react';
-import { observer, inject } from 'mobx-react';
-import zcdata from '../zcraddata.json';
+import { Grid, Well } from 'react-bootstrap';
 
+import { observer, inject } from 'mobx-react';
 // import mobx from 'mobx';
 // import DevTools from 'mobx-react-devtools';
-
-import { Grid, Well } from 'react-bootstrap';
 
 import NavBar from './Nav';
 import ClimateSelector from './ClimateSelector';
@@ -36,19 +34,15 @@ import ClimateSelector from './ClimateSelector';
 const Radiation = inject("appstate")(
   observer(class Radiation extends Component {
 
-    componentDidMount() {
-      this.props.appstate.setClimate('D3');
-    }
-
     render() {
-      const { climate } = this.props.appstate;
+      const { climate, zcdata } = this.props.appstate;
       const monthdata = zcdata.filter(d => d.zc === climate);
 
       return (
         <div>
           <NavBar route={ this.props.route } />
           <Grid>
-            <h1>Radiación solar en superficies orientadas</h1>
+            <h1>Irradiación solar en superficies orientadas (kWh/m²/mes)</h1>
           </Grid>
           <Grid>
             <Well>
@@ -100,18 +94,11 @@ const Radiation = inject("appstate")(
                 })
               }
             </table>
-            <p>Valores de irradiación mensual en kWh/m²/mes.</p>
           </Grid>
           {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
         </div>
       );
     }
-
-    handleClimateChange(event) {
-      const climate = event.target.value;
-      this.props.appstate.setClimate(climate);
-    }
-
   })
 );
 

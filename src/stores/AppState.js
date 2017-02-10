@@ -21,33 +21,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { extendObservable, action } from 'mobx';
-import 'whatwg-fetch';
-
-import { met } from 'soljs';
-import { myFetch } from '../aux';
+import { extendObservable } from 'mobx';
+import zcdata from '../zcraddata.json';
 
 export default class AppState {
   constructor() {
     extendObservable(
       this,
       {
-        climate: null,
-        metdata: null,
-        /* get tiltplusone() {
-         *   return this.tilt + 1;
-         * },*/
-        setClimate: action((climate) => {
-          if (this.climate !== climate || !this.metdata) {
-            return myFetch(`/climas/zona${ climate }.met`)
-              .then(response => response.text())
-              .then(text => met.parsemet(text))
-              .then(metdata => {
-                this.metdata = metdata;
-                this.climate = climate;
-              });
-          }
-        })
+        climate: 'D3',
+        zoneslist: [...new Set(zcdata.map(v => v.zc))],
+        orientations: [...new Set(zcdata.map(v => v.surfname))],
+        zcdata
       }
     );
   }

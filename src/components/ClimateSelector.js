@@ -25,8 +25,6 @@ import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import { ControlLabel, Form, FormControl, FormGroup } from 'react-bootstrap';
 
-import { ZONESLIST } from '../aux.js';
-
 const ClimateSelector = inject("appstate")(
   observer(class ClimateSelector extends Component {
     render() {
@@ -37,11 +35,11 @@ const ClimateSelector = inject("appstate")(
             <ControlLabel>Zona Climática</ControlLabel>{' '}
             <FormControl
                 value={ appstate.climate || '' }
-                onChange={ e => { appstate.setClimate(e.target.value) } }
+                onChange={ e => { appstate.climate = e.target.value } }
                 componentClass="select"
                 placeholder="select">
-              { ZONESLIST
-                .map(z =>
+              { appstate
+                .zoneslist.map(z =>
                   <option value={ z } key={ 'zone_' + z }>{ z }</option>
                 )
               }
