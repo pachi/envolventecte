@@ -22,36 +22,35 @@ SOFTWARE.
 */
 
 import React, { Component } from 'react';
-import { Router, Route, hashHistory } from 'react-router';
-import { Provider } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
+import { ControlLabel, Form, FormControl, FormGroup } from 'react-bootstrap';
 
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
+import { ZONESLIST } from '../aux.js';
 
-import AppState from '../stores/AppState';
-import Radiation from './Radiation';
-import Indicators from './Indicators';
-import AboutPage from './AboutPage';
+const ClimateSelector = inject("appstate")(
+  observer(class ClimateSelector extends Component {
+    render() {
+      const appstate = this.props.appstate;
+      return (
+        <Form inline>
+          <FormGroup controlId="formControlsClimateZone">
+            <ControlLabel>Zona Climática</ControlLabel>{' '}
+            <FormControl
+                value={ appstate.climate || '' }
+                onChange={ e => { appstate.setClimate(e.target.value) } }
+                componentClass="select"
+                placeholder="select">
+              { ZONESLIST
+                .map(z =>
+                  <option value={ z } key={ 'zone_' + z }>{ z }</option>
+                )
+              }
+            </FormControl>
+          </FormGroup>
+        </Form>
+      );
+    }
+  })
+);
 
-const appState = new AppState();
-
-const stores = {
-  appstate: appState
-  // ...other stores
-};
-
-class App extends Component {
-  render() {
-    return (
-      <Provider {... stores}>
-        <Router history={hashHistory}>
-          <Route path="/" component={ Indicators } />
-          <Route path="/rad" component={ Radiation } />
-          <Route path="/about" component={ AboutPage }/>
-        </Router>
-      </Provider>
-    );
-  }
-}
-
-export default App;
+export default ClimateSelector;

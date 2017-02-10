@@ -23,22 +23,21 @@ SOFTWARE.
 
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
+import zcdata from '../zcraddata.json';
 
 // import mobx from 'mobx';
 // import DevTools from 'mobx-react-devtools';
 
-import { ControlLabel,
-         Form, FormControl, FormGroup,
-         Grid, Well } from 'react-bootstrap';
+import { Grid, Well } from 'react-bootstrap';
 
 import NavBar from './Nav';
+import ClimateSelector from './ClimateSelector';
 
-import { ZONESLIST, ORIENTACIONES, MESES,
-         monthlyRadiationForSurface } from '../aux.js';
+import { ORIENTACIONES, MESES, monthlyRadiationForSurface } from '../aux.js';
 
 const LoadingTable = props => <tbody><tr><td colSpan="14">Cargando datos...</td></tr></tbody>;
 
-const OrientaTable = ({ surf, metdata }) => {
+const OrientaSubTable = ({ surf, metdata }) => {
   if (surf.name === null) {
     return <LoadingTable />;
   } else {
@@ -65,15 +64,33 @@ const OrientaTable = ({ surf, metdata }) => {
 };
 
 
-const Home = inject("appstate")(
-  observer(class Home extends Component {
+const OrientaSubTable2 = ({ orientadata }) => {
+      return (
+        <tbody style={{ textAlign:'right' }}>
+          <tr key={ 'dir_' + orientadata.surfname }>
+            <td rowSpan="3"><b>{ orientadata.surfname }</b></td><td>Dir.</td>
+            { orientadata.dir.map((v, i) => <td key={ 'dir_' + i }>{ v }</td>) }
+          </tr>
+          <tr key={ 'dif_' + orientadata.surfname }>
+            <td>Dif.</td>
+            { orientadata.dif.map((v, i) => <td key={ 'dif_' + i }>{ v }</td>) }
+          </tr>
+          <tr key={ 'tot_' + orientadata.surfname } style={ { fontWeight: 'bold' } }>
+            <td>Tot.</td>
+            { orientadata.tot.map((v, i) => <td key={ 'tot_' + i }>{ v }</td>) }
+          </tr>
+        </tbody>);
+    };
+
+const Radiation = inject("appstate")(
+  observer(class Radiation extends Component {
 
     componentDidMount() {
       this.props.appstate.setClimate('D3');
     }
 
     render() {
-      const { climate, metdata } = this.props.appstate;
+      const { metdata, climate } = this.props.appstate;
 
       let orientaciones;
       if (metdata == null) {
@@ -90,18 +107,7 @@ const Home = inject("appstate")(
           </Grid>
           <Grid>
             <Well>
-            <Form inline>
-              <FormGroup controlId="formControlsClimateZone">
-                <ControlLabel>Zona Climática</ControlLabel>{' '}
-                <FormControl value={ climate || '' }
-                             onChange={ e => this.handleClimateChange(e) }
-                             componentClass="select"
-                             placeholder="select">
-                  { ZONESLIST.map(z => <option value={ z }
-                                               key={ 'zone_' + z }>{ z }</option>) }
-                </FormControl>
-              </FormGroup>
-            </Form>
+              <ClimateSelector />
             </Well>
           </Grid>
           <Grid>
@@ -116,11 +122,15 @@ const Home = inject("appstate")(
                 </tr>
               </thead>
               { orientaciones.map(
-                  (surf, i) => <OrientaTable
+                  (surf, i) => <OrientaSubTable
                                    surf={ surf }
                                    metdata={ metdata }
                                    key={ i } />
                 ) }
+              { zcdata
+                .filter(d => d.zc === climate)
+                .map(d => <OrientaSubTable2 orientadata={ d } />)
+              }
             </table>
             <p>Valores de irradiación mensual en kWh/m²/mes.</p>
           </Grid>
@@ -137,4 +147,4 @@ const Home = inject("appstate")(
   })
 );
 
-export default Home;
+export default Radiation;

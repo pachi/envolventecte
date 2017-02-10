@@ -39,7 +39,9 @@ export default class NavBar extends React.Component {
         <Grid>
           <Navbar.Header>
             <Navbar.Brand>
-              <Link className="navbar-brand" to='/'>{ this.props.projectName }</Link>
+              <Link className="navbar-brand" to='/'>
+                <span className="glyphicon glyphicon-home" aria-hidden="true"></span> { this.props.projectName }
+              </Link>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
@@ -48,16 +50,22 @@ export default class NavBar extends React.Component {
               <LinkContainer to='/'>
                 <NavItem className={ activeIfCurrent('/') }
                          eventKey={1}
-                         role="presentation">
-                  <span className="glyphicon glyphicon-home"
-                        aria-hidden="true"></span> Inicio
+                         role="presentation">Indicadores
+                </NavItem>
+              </LinkContainer>
+            </Nav>
+            <Nav>
+              <LinkContainer to='/rad'>
+                <NavItem className={ activeIfCurrent('/rad') }
+                         eventKey={2}
+                         role="presentation">Radiación
                 </NavItem>
               </LinkContainer>
             </Nav>
             <Nav pullRight>
               <LinkContainer to='/about'>
                 <NavItem className={ activeIfCurrent('/about') }
-                         eventKey={2}
+                         eventKey={3}
                          role="presentation">
                   <span className="glyphicon glyphicon-question-sign"
                         aria-hidden="true"></span> Créditos
