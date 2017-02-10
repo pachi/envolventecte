@@ -25,7 +25,7 @@ SOFTWARE.
 
 Genera el archivo de radiación zcraddata.json al ejecutar:
 
-   $ node computezcdata.js
+   $ node computezcdata.js climasdir=../../climascte
 
  ****/
 
@@ -34,6 +34,19 @@ const path = require('path');
 const soljsm = require('soljs');
 const soljs = soljsm.soljs;
 const met = soljsm.met;
+
+const args = process.argv.slice(2);
+let CLIMASDIR = args.find(v => v.startsWith('climasdir='));
+if (CLIMASDIR) {
+  CLIMASDIR = path.resolve(__dirname, CLIMASDIR.split('climasdir=')[1]);
+  const stats = fs.statSync(CLIMASDIR);
+  if (!stats.isDirectory()) {
+    console.log(`No se encuentra el directorio ${ CLIMASDIR }.`);
+    process.exit();
+  }
+} else {
+  process.exit();
+}
 
 // Orientaciones
 const ORIENTACIONES = [
@@ -100,8 +113,7 @@ function monthlyRadiationForSurface(metdata, surf) {
 let datalist = [];
 met.CLIMATEZONES.map( zona =>
   {
-    const metpath = path.resolve(__dirname,
-                                 `../public/climas/zona${ zona }.met`);
+    const metpath = `${ CLIMASDIR }/zona${ zona }.met`;
     const datalines = fs.readFileSync(metpath, 'utf-8');
     const metdata = met.parsemet(datalines);
     const zonevalues = ORIENTACIONES
