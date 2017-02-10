@@ -36,8 +36,7 @@ export const ORIENTACIONES = [
   { beta: 90, gamma: 45, name: 'SW' },
   { beta: 90, gamma: 90, name: 'W' },
   { beta: 90, gamma: 135, name: 'NW' },
-  { beta: 90, gamma: 180, name: 'N' },
-  { beta: 0, gamma: 0, name: 'USUARIO' }
+  { beta: 90, gamma: 180, name: 'N' }
 ];
 
 export const MESES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
