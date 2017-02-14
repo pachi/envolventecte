@@ -30,17 +30,17 @@ import { observer, inject } from 'mobx-react';
 import NavBar from './Nav';
 import ClimateSelector from './ClimateSelector';
 
-const OrientaTable = ({ data }) =>
+const JulyRadiationTable = ({ data }) =>
     <table id="components" className="table table-striped table-bordered table-condensed">
       <thead>
         <tr>
-          <th className="col-md-1">Clima</th>
+          <th className="col-md-1">kWh/m²/mes</th>
           { data.map((d, i) => <th key={ 'hr' + i }>{ d.surfname }</th>) }
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>{ data[0].zc }</td>
+          <td><b>{ data[0].zc }</b></td>
           {
             data.map((d, i) =>
               <td key={ 'tot_' + i }>{ d.tot[6].toFixed(2) }</td>)
@@ -63,8 +63,8 @@ const Indicators = inject("appstate")(
             </Well>
           </Grid>
           <Grid>
-            <h2>Radiación acumulada en el mes de julio por orientación (kWh/m²/mes)</h2>
-            <OrientaTable data={ climatedata } />
+            <h2>Radiación acumulada en el mes de julio (kWh/m²/mes)</h2>
+            <JulyRadiationTable data={ climatedata } />
           </Grid>
           {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
         </div>
