@@ -22,17 +22,43 @@ SOFTWARE.
 */
 
 import { extendObservable } from 'mobx';
-import zcdata from '../zcraddata.json';
+import radiationdata from '../zcraddata.json';
 
 export default class AppState {
   constructor() {
     extendObservable(
       this,
       {
+        radiationdata,
         climate: 'D3',
-        zoneslist: [...new Set(zcdata.map(v => v.zc))],
-        orientations: [...new Set(zcdata.map(v => v.surfname))],
-        zcdata
+        zoneslist: [...new Set(radiationdata.map(v => v.zc))],
+        orientations: [...new Set(radiationdata.map(v => v.surfname))],
+        get climatedata() {
+          return radiationdata.filter(v => v.zc === this.climate);
+        },
+        envolvente: {
+          huecos: [
+            { nombre: 'Huecos norte', orientacion: 'N',
+              A: 42.38, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 1.00, Fshgl: 0.4 },
+            { nombre: 'Huecos este', orientacion: 'E',
+              A: 17.11, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.82, Fshgl: 0.4 },
+            { nombre: 'Huecos sur', orientacion: 'S',
+              A: 46.83, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.67, Fshgl: 0.4 },
+            { nombre: 'Huecos oeste', orientacion: 'O',
+              A: 17.64, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.82, Fshgl: 0.4 }
+          ],
+          opacos: [
+            { A: 418.00, U: 0.211, nombre: 'Cubierta' },
+            { A: 534.41, U: 0.271, nombre: 'Fachada' },
+            { A: 418.00, U: 0.246, nombre: 'Solera' }
+          ],
+          pts: [
+            { L: 487.9, psi: 0.10, nombre: 'PT forjado-fachada' },
+            { L: 181.7, psi: 0.28, nombre: 'PT solera-fachada' },
+            { L: 124.5, psi: 0.24, nombre: 'PT cubierta-fachada' },
+            { L: 468.8, psi: 0.05, nombre: 'PT contorno huecos' }
+          ]
+        }
       }
     );
   }

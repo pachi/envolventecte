@@ -65,12 +65,32 @@ const RadiationTable = ({ data }) =>
     }
   </table>;
 
+
+const JulyRadiationTable = ({ data }) =>
+  <table id="components" className="table table-striped table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th className="col-md-1">kWh/m²/mes</th>
+        { data.map((d, i) => <th key={ 'hr' + i }>{ d.surfname }</th>) }
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>{ data[0].zc }</b></td>
+        {
+          data.map((d, i) =>
+            <td key={ 'tot_' + i }>{ d.tot[6].toFixed(2) }</td>)
+        }
+      </tr>
+    </tbody>
+  </table>;
+
+
 const Radiation = inject("appstate")(
   observer(class Radiation extends Component {
 
     render() {
-      const { climate, zcdata } = this.props.appstate;
-      const monthdata = zcdata.filter(d => d.zc === climate);
+      const { climatedata } = this.props.appstate;
 
       return (
         <div>
@@ -81,8 +101,11 @@ const Radiation = inject("appstate")(
             </Well>
           </Grid>
           <Grid>
+            <h2>Radiación acumulada en el mes de julio (kWh/m²/mes)</h2>
+            <JulyRadiationTable data={ climatedata } />
+
             <h2>Irradiación solar en superficies orientadas e inclinadas (kWh/m²/mes)</h2>
-            <RadiationTable data={ monthdata } />
+            <RadiationTable data={ climatedata } />
             <p>La tabla anterior recoge la radiación mensual acumulada para una superficie horizontal y superficies verticales con la orientación indicada.</p>
           </Grid>
           {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
