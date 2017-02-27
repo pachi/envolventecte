@@ -37,47 +37,177 @@ const Float2DigitsFormatter = props =>
 const Float3DigitsFormatter = props =>
   <span>{ Number(props.value).toFixed(3) }</span>;
 
+class HuecosTable extends Component {
+  constructor(props) {
+    super(props);
+    // this.huecosorientaciones = this.props.appstate.orientations;
+    this.columns = [
+      { key: 'A', name: 'Area(m2)', editable: true,
+        formatter: Float2DigitsFormatter },
+      { key: 'U', name: 'U(W/m2K)', editable: true,
+        formatter: Float3DigitsFormatter },
+      { key: 'orientacion', name: 'orientacion', editable: true },
+      { key: 'Ff', name: 'F_f', editable: true,
+        formatter: Float1DigitsFormatter },
+      { key: 'ggl', name: 'g_gl', editable: true,
+        formatter: Float2DigitsFormatter },
+      { key: 'Fshobst', name: 'F_sh,obst', editable: true,
+        formatter: Float1DigitsFormatter },
+      { key: 'Fshgl', name: 'F_sh,gl', editable: true,
+        formatter: Float1DigitsFormatter },
+      { key: 'nombre', name: 'Elemento', editable: true }
+    ];
+  }
+
+  render() {
+    const huecos = this.props.huecos;
+    return (
+      <Grid>
+        <h2>Huecos de la envolvente térmica</h2>
+        <ReactDataGrid
+            enableCellSelect={ true }
+            columns={ this.columns }
+            rowGetter={ i => huecos[i] }
+            rowsCount={ huecos.length }
+            onRowUpdated={ v => this.handleRowUpdated(v) }
+            minHeight={ 300 } />
+        <p>&sum;A = { huecos.map(h => h.A)
+                            .reduce((a, b) => a + b)
+                            .toFixed(2) } m²</p>
+        <p>&sum;A·U = { huecos.map(h => h.A * h.U)
+                              .reduce((a, b) => a + b)
+                              .toFixed(2) } W/K</p>
+      </Grid>
+    );
+  }
+
+  handleRowUpdated({ rowIdx, updated }) {
+    // merge updated row with current row and rerender by setting state
+    let value = Number(updated);
+    value = Number.isNaN(value)? updated: value;
+    Object.assign(this.props.huecos[rowIdx], value);
+  }
+
+}
+
+
+class OpacosTable extends Component {
+  constructor(props) {
+    super(props);
+    this.columns = [
+      { key: 'A', name: 'Area(m2)', editable: true,
+        formatter: Float2DigitsFormatter },
+      { key: 'U', name: 'U(W/m2K)', editable: true,
+        formatter: Float3DigitsFormatter },
+      { key: 'nombre', name: 'Elemento', editable: true }
+    ];
+  }
+
+  render() {
+    const opacos = this.props.opacos;
+    return (
+      <Grid>
+        <h2>Elementos opacos de la envolvente térmica</h2>
+        <ReactDataGrid
+            columns={ this.columns }
+            rowGetter={ i => opacos[i] }
+            rowsCount={ opacos.length }
+            minHeight={ 300 } />
+        <p>&sum;A = { opacos.map(h => h.A)
+                            .reduce((a, b) => a + b)
+                            .toFixed(2) } m²</p>
+        <p>&sum;A·U = { opacos.map(h => h.A * h.U)
+                              .reduce((a, b) => a + b)
+                              .toFixed(2) } W/K</p>
+      </Grid>
+    );
+  }
+
+  handleRowUpdated({ rowIdx, updated }) {
+    // merge updated row with current row and rerender by setting state
+    let value = Number(updated);
+    value = Number.isNaN(value)? updated: value;
+    Object.assign(this.props.opacos[rowIdx], value);
+  }
+
+}
+
+
+class PTsTable extends Component {
+  constructor(props) {
+    super(props);
+    this.columns = [
+      { key: 'L', name: 'Longitud(m)', editable: true,
+        formatter: Float2DigitsFormatter },
+      { key: 'psi', name: 'Psi(W/mK)', editable: true,
+        formatter: Float2DigitsFormatter },
+      { key: 'nombre', name: 'Encuentro', editable: true }
+    ];
+  }
+
+  render() {
+    const pts = this.props.pts;
+    return (
+      <Grid>
+        <h2>Puentes térmicos de la envolvente térmica</h2>
+        <ReactDataGrid
+            columns={ this.columns }
+            rowGetter={ i => pts[i] }
+            rowsCount={ pts.length }
+            minHeight={ 300 } />
+        <p>&sum;L = { pts.map(h => h.L)
+                         .reduce((a, b) => a + b)
+                         .toFixed(2) } m</p>
+        <p>&sum;L·&psi; = { pts.map(h => h.L * h.psi)
+                           .reduce((a, b) => a + b)
+                           .toFixed(2) } W/K</p>
+      </Grid>
+    );
+  }
+
+  handleRowUpdated({ rowIdx, updated }) {
+    // merge updated row with current row and rerender by setting state
+    let value = Number(updated);
+    value = Number.isNaN(value)? updated: value;
+    Object.assign(this.props.pts[rowIdx], value);
+  }
+
+}
+
+//TODO: comprobar por qué no coincide con los valores del documento (área de huecos, p.e.)
+const KTable = ({ envolvente }) => {
+  const { huecos, opacos, pts } = envolvente;
+  const huecosA = huecos.map(h => h.A).reduce((a, b)=> a+b);
+  const huecosAU = huecos.map(h => h.A * h.U).reduce((a, b)=> a+b);
+  const opacosA = opacos.map(o => o.A).reduce((a, b)=> a+b);
+  const opacosAU = opacos.map(o => o.A * o.U).reduce((a, b)=> a+b);
+  const ptsPsiL = pts.map(h => h.L * h.psi).reduce((a, b) => a + b);
+  const totalA = huecosA + opacosA;
+  const totalAU = huecosAU + opacosAU;
+
+  return (
+    <Grid>
+      <h2>Transmitancia térmica global <b><i>K</i> = { ((totalAU + ptsPsiL) / totalA).toFixed(2) } <i>W/m²K</i></b></h2>
+      <p>K = H<sub>tr,adj</sub> / &sum;A<sub>i</sub> &asymp; &sum;<sub>x</sub> b<sub>tr,x</sub> · [&sum;<sub>i</sub> A<sub>i</sub> · U<sub>i</sub> + &sum;<sub>k</sub> l<sub>k</sub> · ψ<sub>k</sub>] / &sum;A<sub>i</sub></p>
+      <p>&sum;<sub>i</sub> A<sub>i</sub> · U<sub>i</sub> = { huecosAU.toFixed(2) } W/K (huecos) + { opacosAU.toFixed(2) } W/K (opacos) = { totalAU.toFixed(2) } W/K </p>
+      <p>&sum;A<sub>i</sub> = { totalA.toFixed(2)}</p>
+      <p>&sum;<sub>k</sub> l<sub>k</sub> · ψ<sub>k</sub> = { ptsPsiL.toFixed(2) } W/K </p>
+    </Grid>
+  );
+};
+
+const QSolTable = (props) => {
+  return (
+    <Grid>
+      <h2>Captación solar <i>q<sub>sol;jul</sub></i> (kWh/m²/mes)</h2>
+      <p>q<sub>sol;jul</sub> = Q<sub>sol;jul</sub> / A<sub>util</sub> = &sum;<sub>k</sub>(F<sub>sh,obst</sub> · F <sub>sh,gl</sub> · g<sub>gl</sub> · (1 − F<sub>F</sub>) · A<sub>w,p</sub> · H<sub>sol;jul</sub>) / A<sub>util</sub></p>
+      <p>TODO</p>
+    </Grid>
+  );
+};
+
 const Indicators = inject("appstate")(
   observer(class Indicators extends Component {
-
-    constructor(props) {
-      super(props);
-
-      this.huecosorientaciones = this.props.appstate.orientations;
-
-      this.huecoscolumns = [
-        { key: 'A', name: 'Area(m2)', editable: true,
-          formatter: Float2DigitsFormatter },
-        { key: 'U', name: 'U(W/m2K)', editable: true,
-          formatter: Float3DigitsFormatter },
-        { key: 'orientacion', name: 'orientacion', editable: true },
-        { key: 'Ff', name: 'F_f', editable: true,
-          formatter: Float1DigitsFormatter },
-        { key: 'ggl', name: 'g_gl', editable: true,
-          formatter: Float2DigitsFormatter },
-        { key: 'Fshobst', name: 'F_sh,obst', editable: true,
-          formatter: Float1DigitsFormatter },
-        { key: 'Fshgl', name: 'F_sh,gl', editable: true,
-          formatter: Float1DigitsFormatter },
-        { key: 'nombre', name: 'Elemento', editable: true }
-      ];
-
-      this.opacoscolumns = [
-        { key: 'A', name: 'Area(m2)', editable: true,
-          formatter: Float2DigitsFormatter },
-        { key: 'U', name: 'U(W/m2K)', editable: true,
-          formatter: Float3DigitsFormatter },
-        { key: 'nombre', name: 'Elemento', editable: true }
-      ];
-
-      this.ptcolumns = [
-        { key: 'L', name: 'Longitud(m)', editable: true,
-          formatter: Float2DigitsFormatter },
-        { key: 'psi', name: 'Psi(W/mK)', editable: true,
-          formatter: Float2DigitsFormatter },
-        { key: 'nombre', name: 'Encuentro', editable: true }
-      ];
-    }
 
     render() {
       // climate, radiationdata, climatedata,
@@ -93,46 +223,17 @@ const Indicators = inject("appstate")(
           <Grid>
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
               <Tab eventKey={1} title="Indicadores">
-                <Grid>
-                  <h2>Transmitancia térmica global <i>K</i> (W/m²K)</h2>
-                  <p>TODO</p>
-                </Grid>
-                <Grid>
-                  <h2>Captación solar <i>Q<sub>sol,jul</sub></i> (kWh/m²/mes)</h2>
-                  <p>TODO</p>
-                </Grid>
+                <KTable envolvente={ envolvente } />
+                <QSolTable envolvente={ envolvente } />
               </Tab>
               <Tab eventKey={2} title="Huecos">
-                <Grid>
-                  <h2>Huecos de la envolvente térmica</h2>
-                  <ReactDataGrid
-                      enableCellSelect={ true }
-                      columns={ this.huecoscolumns }
-                      rowGetter={ i => envolvente.huecos[i] }
-                      rowsCount={ envolvente.huecos.length }
-                      onRowUpdated={ v => this.handleHuecosRowUpdated(v) }
-                      minHeight={ 300 } />
-                </Grid>
+                <HuecosTable huecos={ envolvente.huecos } />
               </Tab>
               <Tab eventKey={3} title="Opacos">
-                <Grid>
-                  <h2>Elementos opacos de la envolvente térmica</h2>
-                  <ReactDataGrid
-                      columns={ this.opacoscolumns }
-                      rowGetter={ i => envolvente.opacos[i] }
-                      rowsCount={ envolvente.opacos.length }
-                      minHeight={ 300 } />
-                </Grid>
+                <OpacosTable opacos={ envolvente.opacos } />
               </Tab>
               <Tab eventKey={4} title="P. Térmicos">
-                <Grid>
-                  <h2>Puentes térmicos de la envolvente térmica</h2>
-                  <ReactDataGrid
-                      columns={ this.ptcolumns }
-                      rowGetter={ i => envolvente.pts[i] }
-                      rowsCount={ envolvente.pts.length }
-                      minHeight={ 300 } />
-                </Grid>
+                <PTsTable pts={ envolvente.pts } />
               </Tab>
             </Tabs>
           </Grid>
@@ -141,13 +242,6 @@ const Indicators = inject("appstate")(
       );
     }
 
-    handleHuecosRowUpdated({ rowIdx, updated }) {
-      // merge updated row with current row and rerender by setting state
-      const envolvente = this.props.appstate.envolvente;
-      let value = Number(updated);
-      value = Number.isNaN(value)? updated: value;
-      Object.assign(envolvente.huecos[rowIdx], value);
-    }
 
   })
 );
