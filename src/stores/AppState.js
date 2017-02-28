@@ -36,6 +36,14 @@ export default class AppState {
         get climatedata() {
           return radiationdata.filter(v => v.zc === this.climate);
         },
+        get climateTotRad() {
+          return this.climatedata
+            .reduce((obj, d) => {
+              obj[d.surfname] = d.tot[6];
+              return obj
+            }, {});
+        },
+        Autil: 1674,
         envolvente: {
           huecos: [
             { nombre: 'Huecos norte', orientacion: 'N',
@@ -44,7 +52,7 @@ export default class AppState {
               A: 17.11, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.82, Fshgl: 0.4 },
             { nombre: 'Huecos sur', orientacion: 'S',
               A: 46.83, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.67, Fshgl: 0.4 },
-            { nombre: 'Huecos oeste', orientacion: 'O',
+            { nombre: 'Huecos oeste', orientacion: 'W',
               A: 17.64, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.82, Fshgl: 0.4 }
           ],
           opacos: [

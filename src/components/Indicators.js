@@ -189,19 +189,27 @@ const KTable = ({ envolvente }) => {
     <Grid>
       <h2>Transmitancia térmica global <b><i>K</i> = { ((totalAU + ptsPsiL) / totalA).toFixed(2) } <i>W/m²K</i></b></h2>
       <p>K = H<sub>tr,adj</sub> / &sum;A<sub>i</sub> &asymp; &sum;<sub>x</sub> b<sub>tr,x</sub> · [&sum;<sub>i</sub> A<sub>i</sub> · U<sub>i</sub> + &sum;<sub>k</sub> l<sub>k</sub> · ψ<sub>k</sub>] / &sum;A<sub>i</sub></p>
-      <p>&sum;<sub>i</sub> A<sub>i</sub> · U<sub>i</sub> = { huecosAU.toFixed(2) } W/K (huecos) + { opacosAU.toFixed(2) } W/K (opacos) = { totalAU.toFixed(2) } W/K </p>
-      <p>&sum;A<sub>i</sub> = { totalA.toFixed(2)}</p>
-      <p>&sum;<sub>k</sub> l<sub>k</sub> · ψ<sub>k</sub> = { ptsPsiL.toFixed(2) } W/K </p>
+      <p>&sum;<sub>i</sub> A<sub>i</sub> · U<sub>i</sub> + &sum;<sub>k</sub> l<sub>k</sub> · ψ<sub>k</sub> = { huecosAU.toFixed(2) } W/K (huecos) + { opacosAU.toFixed(2) } W/K (opacos) + { ptsPsiL.toFixed(2) } W/K (PTs) = { (totalAU + ptsPsiL).toFixed(2) } W/K </p>
+      <p>&sum;A<sub>i</sub> = { huecosA.toFixed(2) } m² (huecos) + { opacosA.toFixed(2) } m² (opacos) = { totalA.toFixed(2)} m²</p>
     </Grid>
   );
 };
 
-const QSolTable = (props) => {
+const QSolTable = ({ huecos, Autil, radiation }) => {
+  const Qsoljul = huecos
+    .map(h =>
+      h.Fshobst * h.Fshgl * h.ggl * (1 - h.Ff) * h.A * radiation[h.orientacion])
+    .reduce((a, b) => a + b);
   return (
     <Grid>
-      <h2>Captación solar <i>q<sub>sol;jul</sub></i> (kWh/m²/mes)</h2>
+      <h2>Captación solar &nbsp;
+        <b><i>q<sub>sol;jul</sub></i> =
+          { (Qsoljul / Autil).toFixed(2) } <i>kWh/m²/mes</i>
+        </b>
+      </h2>
       <p>q<sub>sol;jul</sub> = Q<sub>sol;jul</sub> / A<sub>util</sub> = &sum;<sub>k</sub>(F<sub>sh,obst</sub> · F <sub>sh,gl</sub> · g<sub>gl</sub> · (1 − F<sub>F</sub>) · A<sub>w,p</sub> · H<sub>sol;jul</sub>) / A<sub>util</sub></p>
-      <p>TODO</p>
+      <p>Q<sub>sol;jul</sub> = { Qsoljul.toFixed(2) } kWh/mes</p>
+      <p>A<sub>util</sub> = { Autil } m²</p>
     </Grid>
   );
 };
@@ -210,8 +218,8 @@ const Indicators = inject("appstate")(
   observer(class Indicators extends Component {
 
     render() {
-      // climate, radiationdata, climatedata,
-      const { envolvente } = this.props.appstate;
+      // climate, radiationdata,
+      const { envolvente, Autil, climateTotRad } = this.props.appstate;
       return (
         <div>
           <NavBar route={ this.props.route } />
@@ -224,7 +232,9 @@ const Indicators = inject("appstate")(
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
               <Tab eventKey={1} title="Indicadores">
                 <KTable envolvente={ envolvente } />
-                <QSolTable envolvente={ envolvente } />
+                <QSolTable huecos={ envolvente.huecos }
+                           Autil={ Autil }
+                           radiation={ climateTotRad } />
               </Tab>
               <Tab eventKey={2} title="Huecos">
                 <HuecosTable huecos={ envolvente.huecos } />
