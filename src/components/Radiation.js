@@ -111,7 +111,7 @@ const Radiation = inject("appstate")(
           </Row>
           <Row>
             <h2>Orientaciones</h2>
-            <img className="img-responsive col-md-offset-2" width="60%" src={ orientaciones } />
+            <img className="img-responsive col-md-offset-2" alt="Roseta de orientaciones" width="60%" src={ orientaciones } />
           </Row>
           {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
         </Grid>
