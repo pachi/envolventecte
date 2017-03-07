@@ -227,7 +227,7 @@ const Indicators = inject("appstate")(
             <Panel>
               <Col md={4}><b><i>K</i> = { K.toFixed(2) } <i>W/m²K</i></b></Col>
               <Col md={4}><b><i>q<sub>sol;jul</sub></i> = { qsj.toFixed(2) } <i>kWh/m²/mes</i></b></Col>
-              <Col md={4}><p><b>A<sub>util</sub></b> = { Autil } m²</p></Col>
+              <Col md={4}><p><b>A<sub>util</sub></b> = <input type="text" onChange={ e => this.handleChange(e) } value={ Autil } /> m²</p></Col>
             </Panel>
           </Row>
           <Row>
@@ -257,7 +257,10 @@ const Indicators = inject("appstate")(
         </Grid>
       );
     }
-
+    handleChange(e) {
+      const currentValue = e.target.value;
+      this.props.appstate.Autil = Number(currentValue);
+    }
 
   })
 );
