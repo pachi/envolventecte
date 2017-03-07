@@ -22,9 +22,10 @@ SOFTWARE.
 */
 
 import React, { Component } from 'react';
-import { Grid, Well } from 'react-bootstrap';
+import { Grid, Row, Well } from 'react-bootstrap';
 
 import { observer, inject } from 'mobx-react';
+import orientaciones from './orientaciones.png';
 // import mobx from 'mobx';
 // import DevTools from 'mobx-react-devtools';
 
@@ -93,23 +94,27 @@ const Radiation = inject("appstate")(
       const { climatedata } = this.props.appstate;
 
       return (
-        <div>
+        <Grid>
           <NavBar route={ this.props.route } />
-          <Grid>
+          <Row>
             <Well>
               <ClimateSelector />
             </Well>
-          </Grid>
-          <Grid>
+          </Row>
+          <Row>
             <h2>Radiación acumulada en el mes de julio (kWh/m²/mes)</h2>
             <JulyRadiationTable data={ climatedata } />
 
             <h2>Irradiación solar en superficies orientadas e inclinadas (kWh/m²/mes)</h2>
             <RadiationTable data={ climatedata } />
             <p>La tabla anterior recoge la radiación mensual acumulada para una superficie horizontal y superficies verticales con la orientación indicada.</p>
-          </Grid>
+          </Row>
+          <Row>
+            <h2>Orientaciones</h2>
+            <img className="img-responsive col-md-offset-2" width="60%" src={ orientaciones } />
+          </Row>
           {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
-        </div>
+        </Grid>
       );
     }
   })
