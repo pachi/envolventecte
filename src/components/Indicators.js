@@ -250,6 +250,10 @@ const Indicators = inject("appstate")(
               <Tab eventKey={4} title="P. Térmicos">
                 <PTsTable pts={ envolvente.pts } />
               </Tab>
+              <Tab eventKey={5} title="Area útil">
+                <h2>Área útil (comprendida en la envolvente)</h2>
+                <p>A<sub>util</sub> = { Autil } m²</p>
+              </Tab>
             </Tabs>
           </Row>
           { <DevTools position={{ bottom: 0, right: 20 }} /> }
