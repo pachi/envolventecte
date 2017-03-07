@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { Component } from 'react';
-import { Grid, Tabs, Tab, Well } from 'react-bootstrap';
+import { Col, Grid, Panel, Row, Tabs, Tab, Well } from 'react-bootstrap';
 import { observer, inject } from 'mobx-react';
 import DevTools from 'mobx-react-devtools';
 import ReactDataGrid from 'react-data-grid';
@@ -175,66 +175,71 @@ class PTsTable extends Component {
 }
 
 //TODO: comprobar por qué no coincide con los valores del documento (área de huecos, p.e.)
-const KTable = ({ envolvente }) => {
-  const { huecos, opacos, pts } = envolvente;
-  const huecosA = huecos.map(h => h.A).reduce((a, b)=> a+b);
-  const huecosAU = huecos.map(h => h.A * h.U).reduce((a, b)=> a+b);
-  const opacosA = opacos.map(o => o.A).reduce((a, b)=> a+b);
-  const opacosAU = opacos.map(o => o.A * o.U).reduce((a, b)=> a+b);
-  const ptsPsiL = pts.map(h => h.L * h.psi).reduce((a, b) => a + b);
-  const totalA = huecosA + opacosA;
-  const totalAU = huecosAU + opacosAU;
+const KTable = ({ huecosA, huecosAU, opacosA, opacosAU, ptsPsiL, totalA, totalAU, K }) =>
+  <Grid>
+    <h2>Transmitancia térmica global <b><i>K</i> = { K.toFixed(2) } <i>W/m²K</i></b></h2>
+    <p>K = H<sub>tr,adj</sub> / &sum;A<sub>i</sub> &asymp; &sum;<sub>x</sub> b<sub>tr,x</sub> · [&sum;<sub>i</sub> A<sub>i</sub> · U<sub>i</sub> + &sum;<sub>k</sub> l<sub>k</sub> · ψ<sub>k</sub>] / &sum;A<sub>i</sub></p>
+    <p>&sum;<sub>i</sub> A<sub>i</sub> · U<sub>i</sub> + &sum;<sub>k</sub> l<sub>k</sub> · ψ<sub>k</sub> = { huecosAU.toFixed(2) } W/K (huecos) + { opacosAU.toFixed(2) } W/K (opacos) + { ptsPsiL.toFixed(2) } W/K (PTs) = { (totalAU + ptsPsiL).toFixed(2) } W/K </p>
+    <p>&sum;A<sub>i</sub> = { huecosA.toFixed(2) } m² (huecos) + { opacosA.toFixed(2) } m² (opacos) = { totalA.toFixed(2)} m²</p>
+  </Grid>;
 
-  return (
-    <Grid>
-      <h2>Transmitancia térmica global <b><i>K</i> = { ((totalAU + ptsPsiL) / totalA).toFixed(2) } <i>W/m²K</i></b></h2>
-      <p>K = H<sub>tr,adj</sub> / &sum;A<sub>i</sub> &asymp; &sum;<sub>x</sub> b<sub>tr,x</sub> · [&sum;<sub>i</sub> A<sub>i</sub> · U<sub>i</sub> + &sum;<sub>k</sub> l<sub>k</sub> · ψ<sub>k</sub>] / &sum;A<sub>i</sub></p>
-      <p>&sum;<sub>i</sub> A<sub>i</sub> · U<sub>i</sub> + &sum;<sub>k</sub> l<sub>k</sub> · ψ<sub>k</sub> = { huecosAU.toFixed(2) } W/K (huecos) + { opacosAU.toFixed(2) } W/K (opacos) + { ptsPsiL.toFixed(2) } W/K (PTs) = { (totalAU + ptsPsiL).toFixed(2) } W/K </p>
-      <p>&sum;A<sub>i</sub> = { huecosA.toFixed(2) } m² (huecos) + { opacosA.toFixed(2) } m² (opacos) = { totalA.toFixed(2)} m²</p>
-    </Grid>
-  );
-};
-
-const QSolTable = ({ huecos, Autil, radiation }) => {
-  const Qsoljul = huecos
-    .map(h =>
-      h.Fshobst * h.Fshgl * h.ggl * (1 - h.Ff) * h.A * radiation[h.orientacion])
-    .reduce((a, b) => a + b);
-  return (
+const QSolTable = ({ Qsoljul, qsj, Autil }) =>
     <Grid>
       <h2>Captación solar &nbsp;
         <b><i>q<sub>sol;jul</sub></i> =
-          { (Qsoljul / Autil).toFixed(2) } <i>kWh/m²/mes</i>
+          { qsj.toFixed(2) } <i>kWh/m²/mes</i>
         </b>
       </h2>
       <p>q<sub>sol;jul</sub> = Q<sub>sol;jul</sub> / A<sub>util</sub> = &sum;<sub>k</sub>(F<sub>sh,obst</sub> · F <sub>sh,gl</sub> · g<sub>gl</sub> · (1 − F<sub>F</sub>) · A<sub>w,p</sub> · H<sub>sol;jul</sub>) / A<sub>util</sub></p>
       <p>Q<sub>sol;jul</sub> = { Qsoljul.toFixed(2) } kWh/mes</p>
       <p>A<sub>util</sub> = { Autil } m²</p>
-    </Grid>
-  );
-};
+    </Grid>;
 
 const Indicators = inject("appstate")(
   observer(class Indicators extends Component {
-
     render() {
       // climate, radiationdata,
       const { envolvente, Autil, climateTotRad } = this.props.appstate;
+      const { huecos, opacos, pts } = envolvente;
+      const huecosA = huecos.map(h => h.A).reduce((a, b)=> a+b);
+      const huecosAU = huecos.map(h => h.A * h.U).reduce((a, b)=> a+b);
+      const opacosA = opacos.map(o => o.A).reduce((a, b)=> a+b);
+      const opacosAU = opacos.map(o => o.A * o.U).reduce((a, b)=> a+b);
+      const ptsPsiL = pts.map(h => h.L * h.psi).reduce((a, b) => a + b);
+      const totalA = huecosA + opacosA;
+      const totalAU = huecosAU + opacosAU;
+      const K = (totalAU + ptsPsiL) / totalA;
+      const Qsoljul = huecos
+        .map(h =>
+          h.Fshobst * h.Fshgl * h.ggl * (1 - h.Ff) * h.A * climateTotRad[h.orientacion])
+        .reduce((a, b) => a + b);
+      const qsj = Qsoljul / Autil;
+
       return (
-        <div>
+        <Grid>
           <NavBar route={ this.props.route } />
-          <Grid>
+          <Row>
             <Well>
               <ClimateSelector />
             </Well>
-          </Grid>
-          <Grid>
+          </Row>
+          <Row>
+            <Panel>
+              <Col md={6}><b><i>K</i> = { K.toFixed(2) } <i>W/m²K</i></b></Col>
+              <Col md={6}><b><i>q<sub>sol;jul</sub></i> = { qsj.toFixed(2) } <i>kWh/m²/mes</i></b></Col>
+            </Panel>
+          </Row>
+          <Row>
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
               <Tab eventKey={1} title="Indicadores">
-                <KTable envolvente={ envolvente } />
-                <QSolTable huecos={ envolvente.huecos }
-                           Autil={ Autil }
-                           radiation={ climateTotRad } />
+                <KTable huecosA={ huecosA } huecosAU={ huecosAU }
+                        opacosA={ opacosA } opacosAU={ opacosAU }
+                        ptsPsiL={ ptsPsiL }
+                        totalA={ totalA } totalAU={ totalAU }
+                        K={ K } />
+                <QSolTable Qsoljul={ Qsoljul }
+                           qsj={ qsj }
+                           Autil={ Autil } />
               </Tab>
               <Tab eventKey={2} title="Huecos">
                 <HuecosTable huecos={ envolvente.huecos } />
@@ -246,9 +251,9 @@ const Indicators = inject("appstate")(
                 <PTsTable pts={ envolvente.pts } />
               </Tab>
             </Tabs>
-          </Grid>
+          </Row>
           { <DevTools position={{ bottom: 0, right: 20 }} /> }
-        </div>
+        </Grid>
       );
     }
 
