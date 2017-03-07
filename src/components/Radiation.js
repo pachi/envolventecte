@@ -25,12 +25,12 @@ import React, { Component } from 'react';
 import { Grid, Row, Well } from 'react-bootstrap';
 
 import { observer, inject } from 'mobx-react';
-import orientaciones from './orientaciones.png';
 // import mobx from 'mobx';
 // import DevTools from 'mobx-react-devtools';
 
 import NavBar from './Nav';
 import ClimateSelector from './ClimateSelector';
+import orientaciones from './orientaciones.png';
 
 const RadiationTable = ({ data }) =>
   <table id="components"
