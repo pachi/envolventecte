@@ -245,6 +245,9 @@ const Indicators = inject("appstate")(
                 <QSolTable Qsoljul={ Qsoljul }
                            qsj={ qsj }
                            Autil={ Autil } />
+                <label>Carga archivo con datos de envolvente:</label>
+                <input ref="fileInput" type="file"
+                       onChange={ e => this.handleFiles(e) } />
               </Tab>
               <Tab eventKey={2} title="Huecos">
                 <HuecosTable huecos={ envolvente.huecos } />
@@ -261,11 +264,29 @@ const Indicators = inject("appstate")(
         </Grid>
       );
     }
+
     handleChange(e) {
       const currentValue = e.target.value;
       this.props.appstate.Autil = Number(currentValue);
     }
 
+    handleFiles(e) {
+      let file;
+      if (e.dataTransfer) {
+        file = e.dataTransfer.files[0];
+      } else if (e.target) {
+        file = e.target.files[0];
+      }
+
+      const reader = new FileReader();
+      reader.onload = e =>
+          {
+            const data = JSON.parse(e.target.result);
+            this.props.appstate.Autil = Number(data.Autil);
+            this.props.appstate.envolvente = data.envolvente;
+          };
+      reader.readAsText(file);
+    }
   })
 );
 
