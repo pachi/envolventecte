@@ -109,9 +109,11 @@ class OpacosTable extends Component {
       <Grid>
         <h2>Elementos opacos de la envolvente térmica</h2>
         <ReactDataGrid
+            enableCellSelect={ true }
             columns={ this.columns }
             rowGetter={ i => opacos[i] }
             rowsCount={ opacos.length }
+            onRowUpdated={ v => this.handleRowUpdated(v) }
             minHeight={ 300 } />
         <p>&sum;A = { opacos.map(h => h.A)
                             .reduce((a, b) => a + b)
@@ -151,9 +153,11 @@ class PTsTable extends Component {
       <Grid>
         <h2>Puentes térmicos de la envolvente térmica</h2>
         <ReactDataGrid
+            enableCellSelect={ true }
             columns={ this.columns }
             rowGetter={ i => pts[i] }
             rowsCount={ pts.length }
+            onRowUpdated={ v => this.handleRowUpdated(v) }
             minHeight={ 300 } />
         <p>&sum;L = { pts.map(h => h.L)
                          .reduce((a, b) => a + b)
