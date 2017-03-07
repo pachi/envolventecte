@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { Component } from 'react';
-import { Grid, Row, Well } from 'react-bootstrap';
+import { Col, Image, Grid, Row, Well } from 'react-bootstrap';
 
 import { observer, inject } from 'mobx-react';
 // import mobx from 'mobx';
@@ -30,7 +30,7 @@ import { observer, inject } from 'mobx-react';
 
 import NavBar from './Nav';
 import ClimateSelector from './ClimateSelector';
-import orientaciones from './orientaciones.png';
+import orientaciones from './orientaciones.svg';
 
 const RadiationTable = ({ data }) =>
   <table id="components"
@@ -111,7 +111,9 @@ const Radiation = inject("appstate")(
           </Row>
           <Row>
             <h2>Orientaciones</h2>
-            <img className="img-responsive col-md-offset-2" alt="Roseta de orientaciones" width="60%" src={ orientaciones } />
+            <Col md={8} mdOffset={2}>
+              <Image responsive alt="Roseta de orientaciones" src={ orientaciones } />
+            </Col>
           </Row>
           {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
         </Grid>
