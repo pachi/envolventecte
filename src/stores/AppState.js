@@ -47,13 +47,13 @@ export default class AppState {
         envolvente: {
           huecos: [
             { nombre: 'Huecos norte', orientacion: 'N',
-              A: 42.38, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 1.00, Fshgl: 0.4 },
+              A: 42.38, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 1.00, Fshgl: 0.3 },
             { nombre: 'Huecos este', orientacion: 'E',
-              A: 17.11, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.82, Fshgl: 0.4 },
+              A: 17.11, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.82, Fshgl: 0.3 },
             { nombre: 'Huecos sur', orientacion: 'S',
-              A: 46.83, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.67, Fshgl: 0.4 },
+              A: 46.83, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.67, Fshgl: 0.3 },
             { nombre: 'Huecos oeste', orientacion: 'W',
-              A: 17.64, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.82, Fshgl: 0.4 }
+              A: 17.64, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.82, Fshgl: 0.3 }
           ],
           opacos: [
             { A: 418.00, U: 0.211, nombre: 'Cubierta' },
