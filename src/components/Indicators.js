@@ -52,7 +52,7 @@ class HuecosTable extends Component {
       { key: 'ggl', name: 'g_gl', editable: true,
         formatter: Float2DigitsFormatter },
       { key: 'Fshobst', name: 'F_sh,obst', editable: true,
-        formatter: Float1DigitsFormatter },
+        formatter: Float2DigitsFormatter },
       { key: 'Fshgl', name: 'F_sh,gl', editable: true,
         formatter: Float1DigitsFormatter },
       { key: 'nombre', name: 'Elemento', editable: true }
