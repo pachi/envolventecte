@@ -225,8 +225,9 @@ const Indicators = inject("appstate")(
           </Row>
           <Row>
             <Panel>
-              <Col md={6}><b><i>K</i> = { K.toFixed(2) } <i>W/m²K</i></b></Col>
-              <Col md={6}><b><i>q<sub>sol;jul</sub></i> = { qsj.toFixed(2) } <i>kWh/m²/mes</i></b></Col>
+              <Col md={4}><b><i>K</i> = { K.toFixed(2) } <i>W/m²K</i></b></Col>
+              <Col md={4}><b><i>q<sub>sol;jul</sub></i> = { qsj.toFixed(2) } <i>kWh/m²/mes</i></b></Col>
+              <Col md={4}><p><b>A<sub>util</sub></b> = { Autil } m²</p></Col>
             </Panel>
           </Row>
           <Row>
@@ -249,10 +250,6 @@ const Indicators = inject("appstate")(
               </Tab>
               <Tab eventKey={4} title="P. Térmicos">
                 <PTsTable pts={ envolvente.pts } />
-              </Tab>
-              <Tab eventKey={5} title="Area útil">
-                <h2>Área útil (comprendida en la envolvente)</h2>
-                <p>A<sub>util</sub> = { Autil } m²</p>
               </Tab>
             </Tabs>
           </Row>
