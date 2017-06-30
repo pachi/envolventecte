@@ -3,3 +3,6 @@
 - Mover cálculo de radiación a un campo calculado, evitando cálculo manual
 - Mostrar indicación de que se está en proceso de cálculo o carga de datos
 - Separar el componente de selección de clima a la barra superior (ver componente en Indicators).
+- Arreglar carga de archivos, ahora que usamos UID
+- Eliminar y añadir elementos
+- Mover función de generación de UID a módulo separado de utilidades
