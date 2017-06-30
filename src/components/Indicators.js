@@ -23,175 +23,160 @@ SOFTWARE.
 
 import React, { Component } from 'react';
 import { Col, Grid, Panel, Row, Tabs, Tab, Well } from 'react-bootstrap';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+
 import { observer, inject } from 'mobx-react';
 import DevTools from 'mobx-react-devtools';
-import ReactDataGrid from 'react-data-grid';
 
 import NavBar from './Nav';
 import ClimateSelector from './ClimateSelector';
 
-const Float1DigitsFormatter = props =>
-  <span>{ Number(props.value).toFixed(1) }</span>;
-const Float2DigitsFormatter = props =>
-  <span>{ Number(props.value).toFixed(2) }</span>;
-const Float3DigitsFormatter = props =>
-  <span>{ Number(props.value).toFixed(3) }</span>;
+const Float1DigitsFormatter = (cell, row) => <span>{ Number(cell).toFixed(1) }</span>;
+const Float2DigitsFormatter = (cell, row) => <span>{ Number(cell).toFixed(2) }</span>;
+const Float3DigitsFormatter = (cell, row) => <span>{ Number(cell).toFixed(3) }</span>;
+
+// Orientaciones
+const orientacionesType = ['Horiz.', 'N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 
 class HuecosTable extends Component {
-  constructor(props) {
-    super(props);
-    // this.huecosorientaciones = this.props.appstate.orientations;
-    this.columns = [
-      { key: 'A', name: 'Area(m2)', editable: true,
-        formatter: Float2DigitsFormatter },
-      { key: 'U', name: 'U(W/m2K)', editable: true,
-        formatter: Float3DigitsFormatter },
-      { key: 'orientacion', name: 'orientacion', editable: true },
-      { key: 'Ff', name: 'F_f', editable: true,
-        formatter: Float1DigitsFormatter },
-      { key: 'ggl', name: 'g_gl', editable: true,
-        formatter: Float2DigitsFormatter },
-      { key: 'Fshobst', name: 'F_sh,obst', editable: true,
-        formatter: Float2DigitsFormatter },
-      { key: 'Fshgl', name: 'F_sh,gl', editable: true,
-        formatter: Float1DigitsFormatter },
-      { key: 'nombre', name: 'Elemento', editable: true }
-    ];
-  }
-
   render() {
     const huecos = this.props.huecos;
     return (
       <Grid>
         <h2>Huecos de la envolvente térmica</h2>
-        <ReactDataGrid
-            enableCellSelect={ true }
-            columns={ this.columns }
-            rowGetter={ i => huecos[i] }
-            rowsCount={ huecos.length }
-            onRowUpdated={ v => this.handleRowUpdated(v) }
-            minHeight={ 300 } />
-        <p>&sum;A = { huecos.map(h => h.A)
+        <BootstrapTable data={ huecos } striped hover bordered={ false }
+          cellEdit={ { mode: 'dbclick', blurToSave: true } }
+          selectRow={ { mode: 'radio',
+                        clickToSelectAndEditCell: true,
+                        onSelect: this.onRowSelect,
+                        hideSelectColumn: true,
+                        bgColor: 'lightgray' } }
+          >
+          <TableHeaderColumn dataField="id" isKey={ true } hidden={ true }>ID</TableHeaderColumn>
+          <TableHeaderColumn dataField="A" dataFormat={ Float2DigitsFormatter }>Area(m<sup>2</sup>)</TableHeaderColumn>
+          <TableHeaderColumn dataField="U" dataFormat={ Float3DigitsFormatter }>U(W/m<sup>2</sup>K)</TableHeaderColumn>
+          <TableHeaderColumn
+            dataField="orientacion"
+            editable={ { type: 'select', options: { values: orientacionesType } } }
+            >
+              orientacion
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField="Ff" dataFormat={ Float1DigitsFormatter }>F_f</TableHeaderColumn>
+          <TableHeaderColumn dataField="ggl" dataFormat={ Float2DigitsFormatter }>g_gl</TableHeaderColumn>
+          <TableHeaderColumn dataField="Fshobst" dataFormat={ Float2DigitsFormatter }>F_sh,obst</TableHeaderColumn>
+          <TableHeaderColumn dataField="Fshgl" dataFormat={ Float1DigitsFormatter }>F_sh,gl</TableHeaderColumn>
+          <TableHeaderColumn dataField="nombre">Elemento</TableHeaderColumn>
+        </BootstrapTable>
+        <p>&sum;A = { huecos.map(h => Number(h.A))
                             .reduce((a, b) => a + b)
                             .toFixed(2) } m²</p>
-        <p>&sum;A·U = { huecos.map(h => h.A * h.U)
+        <p>&sum;A·U = { huecos.map(h => Number(h.A) * Number(h.U))
                               .reduce((a, b) => a + b)
                               .toFixed(2) } W/K</p>
       </Grid>
     );
   }
 
-  handleRowUpdated({ rowIdx, updated }) {
-    // merge updated row with current row and rerender by setting state
-    let value = Number(updated);
-    value = Number.isNaN(value)? updated: value;
-    Object.assign(this.props.huecos[rowIdx], value);
+  onRowSelect(row, isSelected, e) {
+    console.log(`is selected: ${isSelected} id: ${row['id']}`, row);
   }
-
 }
 
 
 class OpacosTable extends Component {
-  constructor(props) {
-    super(props);
-    this.columns = [
-      { key: 'A', name: 'Area(m2)', editable: true,
-        formatter: Float2DigitsFormatter },
-      { key: 'U', name: 'U(W/m2K)', editable: true,
-        formatter: Float3DigitsFormatter },
-      { key: 'nombre', name: 'Elemento', editable: true }
-    ];
-  }
-
   render() {
     const opacos = this.props.opacos;
     return (
       <Grid>
         <h2>Elementos opacos de la envolvente térmica</h2>
-        <ReactDataGrid
-            enableCellSelect={ true }
-            columns={ this.columns }
-            rowGetter={ i => opacos[i] }
-            rowsCount={ opacos.length }
-            onRowUpdated={ v => this.handleRowUpdated(v) }
-            minHeight={ 300 } />
-        <p>&sum;A = { opacos.map(h => h.A)
+        <BootstrapTable data={ opacos } striped hover bordered={ false }
+          cellEdit={ { mode: 'dbclick', blurToSave: true } }
+          selectRow={ { mode: 'radio',
+                        clickToSelectAndEditCell: true,
+                        onSelect: this.onRowSelect,
+                        hideSelectColumn: true,
+                        bgColor: 'lightgray' } }
+          >
+          <TableHeaderColumn dataField="id" isKey={ true } hidden={ true }>ID</TableHeaderColumn>
+          <TableHeaderColumn dataField="A" dataFormat={ Float2DigitsFormatter }>Area(m<sup>2</sup>)</TableHeaderColumn>
+          <TableHeaderColumn dataField="U" dataFormat={ Float3DigitsFormatter }>U(W/m<sup>2</sup>K)</TableHeaderColumn>
+          <TableHeaderColumn dataField="nombre">Elemento</TableHeaderColumn>
+        </BootstrapTable>
+        <p>&sum;A = { opacos.map(h => Number(h.A))
                             .reduce((a, b) => a + b)
                             .toFixed(2) } m²</p>
-        <p>&sum;A·U = { opacos.map(h => h.A * h.U)
+        <p>&sum;A·U = { opacos.map(h => Number(h.A) * Number(h.U))
                               .reduce((a, b) => a + b)
                               .toFixed(2) } W/K</p>
       </Grid>
     );
   }
 
-  handleRowUpdated({ rowIdx, updated }) {
-    // merge updated row with current row and rerender by setting state
-    let value = Number(updated);
-    value = Number.isNaN(value)? updated: value;
-    Object.assign(this.props.opacos[rowIdx], value);
+  onRowSelect(row, isSelected, e) {
+/*    let rowStr = '';
+    for (const prop in row) {
+      rowStr += prop + ': "' + row[prop] + '"';
+    }*/
+    console.log(e);
+    console.log(`is selected: ${isSelected}, ${row}`);
   }
-
 }
 
 
 class PTsTable extends Component {
-  constructor(props) {
-    super(props);
-    this.columns = [
-      { key: 'L', name: 'Longitud(m)', editable: true,
-        formatter: Float2DigitsFormatter },
-      { key: 'psi', name: 'Psi(W/mK)', editable: true,
-        formatter: Float2DigitsFormatter },
-      { key: 'nombre', name: 'Encuentro', editable: true }
-    ];
-  }
-
   render() {
     const pts = this.props.pts;
     return (
       <Grid>
         <h2>Puentes térmicos de la envolvente térmica</h2>
-        <ReactDataGrid
-            enableCellSelect={ true }
-            columns={ this.columns }
-            rowGetter={ i => pts[i] }
-            rowsCount={ pts.length }
-            onRowUpdated={ v => this.handleRowUpdated(v) }
-            minHeight={ 300 } />
-        <p>&sum;L = { pts.map(h => h.L)
+        <BootstrapTable data={ pts } striped hover bordered={ false }
+          cellEdit={ { mode: 'dbclick', blurToSave: true } }
+          selectRow={ { mode: 'radio',
+                        clickToSelectAndEditCell: true,
+                        onSelect: this.onRowSelect,
+                        hideSelectColumn: true,
+                        bgColor: 'lightgray' } }
+          >
+          <TableHeaderColumn dataField="id" isKey={ true } hidden={ true }>ID</TableHeaderColumn>
+          <TableHeaderColumn dataField="L" dataFormat={ Float2DigitsFormatter }>Longitud(m)</TableHeaderColumn>
+          <TableHeaderColumn dataField="psi" dataFormat={ Float2DigitsFormatter }>Psi(W/mK)</TableHeaderColumn>
+          <TableHeaderColumn dataField="nombre">Encuentro</TableHeaderColumn>
+        </BootstrapTable>
+        <p>&sum;L = { pts.map(h => Number(h.L))
                          .reduce((a, b) => a + b)
                          .toFixed(2) } m</p>
-        <p>&sum;L·&psi; = { pts.map(h => h.L * h.psi)
+        <p>&sum;L·&psi; = { pts.map(h => Number(h.L) * Number(h.psi))
                            .reduce((a, b) => a + b)
                            .toFixed(2) } W/K</p>
       </Grid>
     );
   }
 
-  handleRowUpdated({ rowIdx, updated }) {
-    // merge updated row with current row and rerender by setting state
-    let value = Number(updated);
-    value = Number.isNaN(value)? updated: value;
-    Object.assign(this.props.pts[rowIdx], value);
+  onRowSelect(row, isSelected, e) {
+/*    let rowStr = '';
+    for (const prop in row) {
+      rowStr += prop + ': "' + row[prop] + '"';
+    }*/
+    console.log(e);
+    console.log(`is selected: ${isSelected}, ${row}`);
   }
 
 }
 
-//TODO: comprobar por qué no coincide con los valores del documento (área de huecos, p.e.)
 const KTable = ({ huecosA, huecosAU, opacosA, opacosAU, ptsPsiL, totalA, totalAU, K }) =>
+// TODO: comprobar por qué no coincide con los valores del documento (área de huecos, p.e.)
   <Grid>
-    <h2>Transmitancia térmica global <b><i>K</i> = { K.toFixed(2) } <i>W/m²K</i></b></h2>
+    <h2>Transmitancia térmica global <b><i>K</i> = { Number(K).toFixed(2) } <i>W/m²K</i></b></h2>
     <p>K = H<sub>tr,adj</sub> / &sum;A<sub>i</sub> &asymp; &sum;<sub>x</sub> b<sub>tr,x</sub> · [&sum;<sub>i</sub> A<sub>i</sub> · U<sub>i</sub> + &sum;<sub>k</sub> l<sub>k</sub> · ψ<sub>k</sub>] / &sum;A<sub>i</sub></p>
     <p>&sum;<sub>i</sub> A<sub>i</sub> · U<sub>i</sub> + &sum;<sub>k</sub> l<sub>k</sub> · ψ<sub>k</sub> = { huecosAU.toFixed(2) } W/K (huecos) + { opacosAU.toFixed(2) } W/K (opacos) + { ptsPsiL.toFixed(2) } W/K (PTs) = { (totalAU + ptsPsiL).toFixed(2) } W/K </p>
-    <p>&sum;A<sub>i</sub> = { huecosA.toFixed(2) } m² (huecos) + { opacosA.toFixed(2) } m² (opacos) = { totalA.toFixed(2)} m²</p>
+    <p>&sum;A<sub>i</sub> = { Number(huecosA).toFixed(2) } m² (huecos) + { Number(opacosA).toFixed(2) } m² (opacos) = { Number(totalA).toFixed(2)} m²</p>
   </Grid>;
 
 const QSolTable = ({ Qsoljul, qsj, Autil }) =>
     <Grid>
       <h2>Captación solar &nbsp;
         <b><i>q<sub>sol;jul</sub></i> =
-          { qsj.toFixed(2) } <i>kWh/m²/mes</i>
+          { Number(qsj).toFixed(2) } <i>kWh/m²/mes</i>
         </b>
       </h2>
       <p>q<sub>sol;jul</sub> = Q<sub>sol;jul</sub> / A<sub>util</sub> = &sum;<sub>k</sub>(F<sub>sh,obst</sub> · F <sub>sh,gl</sub> · g<sub>gl</sub> · (1 − F<sub>F</sub>) · A<sub>w,p</sub> · H<sub>sol;jul</sub>) / A<sub>util</sub></p>
@@ -205,17 +190,18 @@ const Indicators = inject("appstate")(
       // climate, radiationdata,
       const { envolvente, Autil, climateTotRad } = this.props.appstate;
       const { huecos, opacos, pts } = envolvente;
-      const huecosA = huecos.map(h => h.A).reduce((a, b)=> a+b);
-      const huecosAU = huecos.map(h => h.A * h.U).reduce((a, b)=> a+b);
-      const opacosA = opacos.map(o => o.A).reduce((a, b)=> a+b);
-      const opacosAU = opacos.map(o => o.A * o.U).reduce((a, b)=> a+b);
-      const ptsPsiL = pts.map(h => h.L * h.psi).reduce((a, b) => a + b);
+      const huecosA = huecos.map(h => Number(h.A)).reduce((a, b)=> a+b);
+      const huecosAU = huecos.map(h => Number(h.A) * Number(h.U)).reduce((a, b)=> a+b);
+      const opacosA = opacos.map(o => Number(o.A)).reduce((a, b)=> a+b);
+      const opacosAU = opacos.map(o => Number(o.A) * Number(o.U)).reduce((a, b)=> a+b);
+      const ptsPsiL = pts.map(h => Number(h.L) * Number(h.psi)).reduce((a, b) => a + b);
       const totalA = huecosA + opacosA;
       const totalAU = huecosAU + opacosAU;
       const K = (totalAU + ptsPsiL) / totalA;
       const Qsoljul = huecos
         .map(h =>
-          h.Fshobst * h.Fshgl * h.ggl * (1 - h.Ff) * h.A * climateTotRad[h.orientacion])
+          Number(h.Fshobst) * Number(h.Fshgl) * Number(h.ggl)
+          * (1 - Number(h.Ff)) * Number(h.A) * climateTotRad[h.orientacion])
         .reduce((a, b) => a + b);
       const qsj = Qsoljul / Autil;
 

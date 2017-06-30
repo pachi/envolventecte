@@ -27,6 +27,7 @@ import { Provider } from 'mobx-react';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
+import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 
 import AppState from '../stores/AppState';
 import Radiation from './Radiation';

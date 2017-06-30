@@ -24,6 +24,14 @@ SOFTWARE.
 import { extendObservable } from 'mobx';
 import radiationdata from '../zcraddata.json';
 
+// https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11)
+    .replace(/[018]/g,
+             // eslint-disable-next-line
+             c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16))
+}
+
 export default class AppState {
   constructor() {
     extendObservable(
@@ -40,31 +48,31 @@ export default class AppState {
           return this.climatedata
             .reduce((obj, d) => {
               obj[d.surfname] = d.tot[6];
-              return obj
+              return obj;
             }, {});
         },
         Autil: 1674,
         envolvente: {
           huecos: [
-            { nombre: 'Huecos norte', orientacion: 'N',
+            { id: uuidv4(), nombre: 'Huecos norte', orientacion: 'N',
               A: 42.38, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 1.00, Fshgl: 0.3 },
-            { nombre: 'Huecos este', orientacion: 'E',
+            { id: uuidv4(), nombre: 'Huecos este', orientacion: 'E',
               A: 17.11, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.82, Fshgl: 0.3 },
-            { nombre: 'Huecos sur', orientacion: 'S',
+            { id: uuidv4(), nombre: 'Huecos sur', orientacion: 'S',
               A: 46.83, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.67, Fshgl: 0.3 },
-            { nombre: 'Huecos oeste', orientacion: 'W',
+            { id: uuidv4(), nombre: 'Huecos oeste', orientacion: 'W',
               A: 17.64, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.82, Fshgl: 0.3 }
           ],
           opacos: [
-            { A: 418.00, U: 0.211, nombre: 'Cubierta' },
-            { A: 534.41, U: 0.271, nombre: 'Fachada' },
-            { A: 418.00, U: 0.246, nombre: 'Solera' }
+            { id: uuidv4(), A: 418.00, U: 0.211, nombre: 'Cubierta' },
+            { id: uuidv4(), A: 534.41, U: 0.271, nombre: 'Fachada' },
+            { id: uuidv4(), A: 418.00, U: 0.246, nombre: 'Solera' }
           ],
           pts: [
-            { L: 487.9, psi: 0.10, nombre: 'PT forjado-fachada' },
-            { L: 181.7, psi: 0.28, nombre: 'PT solera-fachada' },
-            { L: 124.5, psi: 0.24, nombre: 'PT cubierta-fachada' },
-            { L: 468.8, psi: 0.05, nombre: 'PT contorno huecos' }
+            { id: uuidv4(), L: 487.9, psi: 0.10, nombre: 'PT forjado-fachada' },
+            { id: uuidv4(), L: 181.7, psi: 0.28, nombre: 'PT solera-fachada' },
+            { id: uuidv4(), L: 124.5, psi: 0.24, nombre: 'PT cubierta-fachada' },
+            { id: uuidv4(), L: 468.8, psi: 0.05, nombre: 'PT contorno huecos' }
           ]
         }
       }
