@@ -100,10 +100,10 @@ class HuecosTable extends Component {
         </Row>
         <Row>
           <p>&sum;A = {huecos.map(h => Number(h.A))
-            .reduce((a, b) => a + b)
+            .reduce((a, b) => a + b, 0)
             .toFixed(2)} m²</p>
           <p>&sum;A·U = {huecos.map(h => Number(h.A) * Number(h.U))
-            .reduce((a, b) => a + b)
+            .reduce((a, b) => a + b, 0)
             .toFixed(2)} W/K</p>
         </Row>
       </Grid>
@@ -134,10 +134,10 @@ class OpacosTable extends Component {
           <TableHeaderColumn dataField="nombre">Elemento</TableHeaderColumn>
         </BootstrapTable>
         <p>&sum;A = {opacos.map(h => Number(h.A))
-          .reduce((a, b) => a + b)
+          .reduce((a, b) => a + b, 0)
           .toFixed(2)} m²</p>
         <p>&sum;A·U = {opacos.map(h => Number(h.A) * Number(h.U))
-          .reduce((a, b) => a + b)
+          .reduce((a, b) => a + b, 0)
           .toFixed(2)} W/K</p>
       </Grid>
     );
@@ -176,10 +176,10 @@ class PTsTable extends Component {
           <TableHeaderColumn dataField="nombre">Encuentro</TableHeaderColumn>
         </BootstrapTable>
         <p>&sum;L = {pts.map(h => Number(h.L))
-          .reduce((a, b) => a + b)
+          .reduce((a, b) => a + b, 0)
           .toFixed(2)} m</p>
         <p>&sum;L·&psi; = {pts.map(h => Number(h.L) * Number(h.psi))
-          .reduce((a, b) => a + b)
+          .reduce((a, b) => a + b, 0)
           .toFixed(2)} W/K</p>
       </Grid>
     );
@@ -221,14 +221,14 @@ const Indicators = inject("appstate", "radstate")(observer(
   class Indicators extends Component {
     render() {
       // climate, radiationdata,
-      const { envolvente, Autil } = this.props.appstate;
+      const { envolvente, Autil, newHueco, newOpaco, newPT } = this.props.appstate;
       const { climateTotRad } = this.props.radstate;
       const { huecos, opacos, pts } = envolvente;
-      const huecosA = huecos.map(h => Number(h.A)).reduce((a, b) => a + b);
-      const huecosAU = huecos.map(h => Number(h.A) * Number(h.U)).reduce((a, b) => a + b);
-      const opacosA = opacos.map(o => Number(o.A)).reduce((a, b) => a + b);
-      const opacosAU = opacos.map(o => Number(o.A) * Number(o.U)).reduce((a, b) => a + b);
-      const ptsPsiL = pts.map(h => Number(h.L) * Number(h.psi)).reduce((a, b) => a + b);
+      const huecosA = huecos.map(h => Number(h.A)).reduce((a, b) => a + b, 0);
+      const huecosAU = huecos.map(h => Number(h.A) * Number(h.U)).reduce((a, b) => a + b, 0);
+      const opacosA = opacos.map(o => Number(o.A)).reduce((a, b) => a + b, 0);
+      const opacosAU = opacos.map(o => Number(o.A) * Number(o.U)).reduce((a, b) => a + b, 0);
+      const ptsPsiL = pts.map(h => Number(h.L) * Number(h.psi)).reduce((a, b) => a + b, 0);
       const totalA = huecosA + opacosA;
       const totalAU = huecosAU + opacosAU;
       const K = (totalAU + ptsPsiL) / totalA;
@@ -236,7 +236,7 @@ const Indicators = inject("appstate", "radstate")(observer(
         .map(h =>
           Number(h.Fshobst) * Number(h.Fshgl) * Number(h.ggl)
           * (1 - Number(h.Ff)) * Number(h.A) * climateTotRad[h.orientacion])
-        .reduce((a, b) => a + b);
+        .reduce((a, b) => a + b, 0);
       const qsj = Qsoljul / Autil;
 
       return (
