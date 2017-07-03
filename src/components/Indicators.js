@@ -43,6 +43,28 @@ const Float3DigitsFormatter = (cell, row) => <span>{Number(cell).toFixed(3)}</sp
 // Orientaciones
 const orientacionesType = ['Horiz.', 'N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 
+const PlusMinusButtonRow = ({ objects, newObj, selectedId }) =>
+  (<Row>
+    <ButtonGroup>
+      <Button bsStyle="primary" bsSize="small"
+        onClick={() => {
+          const object = newObj;
+          object.id = uuidv4();
+          objects.push(object);
+        }}>
+        <Glyphicon glyph="plus" />
+      </Button>
+      <Button bsStyle="primary" bsSize="small"
+        onClick={() => {
+          const indexOfSelected = objects.findIndex(h => h.id === selectedId);
+          if (indexOfSelected >= 0) objects.splice(indexOfSelected, 1);
+        }}>
+        <Glyphicon glyph="minus" />
+      </Button>
+    </ButtonGroup>
+  </Row>);
+
+
 class HuecosTable extends Component {
   constructor(props, context) {
     super(props, context);
@@ -50,7 +72,7 @@ class HuecosTable extends Component {
   }
 
   render() {
-    let { huecos, newHueco } = this.props;
+    const { huecos, newHueco } = this.props;
     return (
       <Grid>
         <h2>Huecos de la envolvente térmica</h2>
@@ -79,25 +101,7 @@ class HuecosTable extends Component {
           <TableHeaderColumn dataField="Fshgl" dataFormat={Float1DigitsFormatter}>F_sh,gl</TableHeaderColumn>
           <TableHeaderColumn dataField="nombre">Elemento</TableHeaderColumn>
         </BootstrapTable>
-        <Row>
-          <ButtonGroup>
-            <Button bsStyle="primary" bsSize="small"
-              onClick={() => {
-                const hueco = newHueco;
-                hueco.id = uuidv4();
-                huecos.push(hueco);
-              }}>
-              <Glyphicon glyph="plus" />
-            </Button>
-            <Button bsStyle="primary" bsSize="small"
-              onClick={() => {
-                const indexOfSelected = huecos.findIndex(h => h.id === this.state.selectedId);
-                if (indexOfSelected >= 0) huecos.splice(indexOfSelected, 1);
-              }}>
-              <Glyphicon glyph="minus" />
-            </Button>
-          </ButtonGroup>
-        </Row>
+        <PlusMinusButtonRow objects={huecos} newObj={newHueco} selectedId={this.state.selectedId} />
         <Row>
           <p>&sum;A = {huecos.map(h => Number(h.A))
             .reduce((a, b) => a + b, 0)
