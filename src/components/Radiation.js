@@ -24,7 +24,7 @@ SOFTWARE.
 import React from 'react';
 import { Col, Image, Grid, Row, Well } from 'react-bootstrap';
 
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 // import mobx from 'mobx';
 // import DevTools from 'mobx-react-devtools';
 
@@ -87,7 +87,7 @@ const JulyRadiationTable = ({ data }) =>
   </table>;
 
 
-const Radiation = observer(["radstate"],
+const Radiation = inject("radstate")(observer(
   ({ radstate, route }) => {
     const { climatedata } = radstate;
     return (
@@ -116,6 +116,6 @@ const Radiation = observer(["radstate"],
       </Grid>
     );
   }
-);
+));
 
 export default Radiation;

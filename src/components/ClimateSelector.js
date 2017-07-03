@@ -22,10 +22,10 @@ SOFTWARE.
 */
 
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import { ControlLabel, Form, FormControl, FormGroup } from 'react-bootstrap';
 
-const ClimateSelector = observer(["radstate"],
+const ClimateSelector = inject("radstate")(observer(
   class ClimateSelector extends Component {
     render() {
       const radstate = this.props.radstate;
@@ -49,6 +49,6 @@ const ClimateSelector = observer(["radstate"],
       );
     }
   }
-);
+));
 
 export default ClimateSelector;

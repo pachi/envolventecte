@@ -28,7 +28,7 @@ import {
 } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import DevTools from 'mobx-react-devtools';
 
 import NavBar from './Nav';
@@ -206,7 +206,7 @@ const QSolTable = ({ Qsoljul, qsj, Autil }) =>
     <p>A<sub>util</sub> = {Autil} m²</p>
   </Grid>;
 
-const Indicators = observer(["appstate", "radstate"],
+const Indicators = inject("appstate", "radstate")(observer(
   class Indicators extends Component {
     render() {
       // climate, radiationdata,
@@ -296,6 +296,5 @@ const Indicators = observer(["appstate", "radstate"],
       reader.readAsText(file);
     }
   }
-);
-
+));
 export default Indicators;
