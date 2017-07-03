@@ -29,15 +29,14 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 
-import AppState from '../stores/AppState';
+import { AppState, RadState } from '../stores/AppState';
 import Radiation from './Radiation';
 import Indicators from './Indicators';
 import AboutPage from './AboutPage';
 
-const appState = new AppState();
-
 const stores = {
-  appstate: appState
+  radstate: RadState,
+  appstate: AppState
   // ...other stores
 };
 

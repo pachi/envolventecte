@@ -22,23 +22,23 @@ SOFTWARE.
 */
 
 import React, { Component } from 'react';
-import { observer, inject } from 'mobx-react';
+import { observer } from 'mobx-react';
 import { ControlLabel, Form, FormControl, FormGroup } from 'react-bootstrap';
 
-const ClimateSelector = inject("appstate")(
-  observer(class ClimateSelector extends Component {
+const ClimateSelector = observer(["radstate"],
+  class ClimateSelector extends Component {
     render() {
-      const appstate = this.props.appstate;
+      const radstate = this.props.radstate;
       return (
         <Form inline>
           <FormGroup controlId="formControlsClimateZone">
             <ControlLabel>Zona Climática</ControlLabel>{' '}
             <FormControl
-                value={ appstate.climate || '' }
-                onChange={ e => { appstate.climate = e.target.value } }
+                value={ radstate.climate || '' }
+                onChange={ e => { radstate.climate = e.target.value; } }
                 componentClass="select"
                 placeholder="select">
-              { appstate
+              { radstate
                 .zoneslist.map(z =>
                   <option value={ z } key={ 'zone_' + z }>{ z }</option>
                 )
@@ -48,7 +48,7 @@ const ClimateSelector = inject("appstate")(
         </Form>
       );
     }
-  })
+  }
 );
 
 export default ClimateSelector;

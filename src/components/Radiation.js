@@ -21,10 +21,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { Component } from 'react';
+import React from 'react';
 import { Col, Image, Grid, Row, Well } from 'react-bootstrap';
 
-import { observer, inject } from 'mobx-react';
+import { observer } from 'mobx-react';
 // import mobx from 'mobx';
 // import DevTools from 'mobx-react-devtools';
 
@@ -34,7 +34,7 @@ import orientaciones from './orientaciones.svg';
 
 const RadiationTable = ({ data }) =>
   <table id="components"
-         className="table table-striped table-bordered table-condensed">
+    className="table table-striped table-bordered table-condensed">
     <thead>
       <tr>
         <th className="col-md-1">Superficie</th>
@@ -45,24 +45,24 @@ const RadiationTable = ({ data }) =>
       </tr>
     </thead>
     { data.map((d, idx) => {
-        return (
-          <tbody style={{ textAlign:'right' }} key={ 'table' + idx }>
-            <tr key={ 'dir_' + d.surfname }>
-              <td rowSpan="3"><b>{ d.surfname }</b></td>
-              <td>Dir.</td>
-              { d.dir.map((v, i) => <td key={ 'dir_' + i }>{ v }</td>) }
-            </tr>
-            <tr key={ 'dif_' + d.surfname }>
-              <td>Dif.</td>
-              { d.dif.map((v, i) => <td key={ 'dif_' + i }>{ v }</td>) }
-            </tr>
-            <tr key={ 'tot_' + d.surfname }
-                style={ { fontWeight: 'bold' } }>
-              <td>Tot.</td>
-              { d.tot.map((v, i) => <td key={ 'tot_' + i }>{ v }</td>) }
-            </tr>
-          </tbody>);
-      })
+      return (
+        <tbody style={{ textAlign: 'right' }} key={'table' + idx}>
+          <tr key={'dir_' + d.surfname}>
+            <td rowSpan="3"><b>{d.surfname}</b></td>
+            <td>Dir.</td>
+            {d.dir.map((v, i) => <td key={'dir_' + i}>{v}</td>)}
+          </tr>
+          <tr key={'dif_' + d.surfname}>
+            <td>Dif.</td>
+            {d.dif.map((v, i) => <td key={'dif_' + i}>{v}</td>)}
+          </tr>
+          <tr key={'tot_' + d.surfname}
+            style={{ fontWeight: 'bold' }}>
+            <td>Tot.</td>
+            {d.tot.map((v, i) => <td key={'tot_' + i}>{v}</td>)}
+          </tr>
+        </tbody>);
+    })
     }
   </table>;
 
@@ -72,54 +72,50 @@ const JulyRadiationTable = ({ data }) =>
     <thead>
       <tr>
         <th className="col-md-1">kWh/m²/mes</th>
-        { data.map((d, i) => <th key={ 'hr' + i }>{ d.surfname }</th>) }
+        {data.map((d, i) => <th key={'hr' + i}>{d.surfname}</th>)}
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><b>{ data[0].zc }</b></td>
+        <td><b>{data[0].zc}</b></td>
         {
           data.map((d, i) =>
-            <td key={ 'tot_' + i }>{ d.tot[6].toFixed(2) }</td>)
+            <td key={'tot_' + i}>{d.tot[6].toFixed(2)}</td>)
         }
       </tr>
     </tbody>
   </table>;
 
 
-const Radiation = inject("appstate")(
-  observer(class Radiation extends Component {
-
-    render() {
-      const { climatedata } = this.props.appstate;
-
-      return (
-        <Grid>
-          <NavBar route={ this.props.route } />
-          <Row>
-            <Well>
-              <ClimateSelector />
-            </Well>
-          </Row>
-          <Row>
-            <h2>Radiación acumulada en el mes de julio (kWh/m²/mes)</h2>
-            <JulyRadiationTable data={ climatedata } />
-
-            <h2>Irradiación solar en superficies orientadas e inclinadas (kWh/m²/mes)</h2>
-            <RadiationTable data={ climatedata } />
-            <p>La tabla anterior recoge la radiación mensual acumulada para una superficie horizontal y superficies verticales con la orientación indicada.</p>
-          </Row>
-          <Row>
-            <h2>Orientaciones</h2>
-            <Col md={8} mdOffset={2}>
-              <Image responsive alt="Roseta de orientaciones" src={ orientaciones } />
-            </Col>
-          </Row>
-          {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
-        </Grid>
-      );
-    }
-  })
+const Radiation = observer(["radstate"],
+  ({ radstate, route }) => {
+    const { climatedata } = radstate;
+    return (
+      <Grid>
+        <NavBar route={ route } />
+        <Row>
+          <Well>
+            <ClimateSelector />
+          </Well>
+        </Row>
+        <Row>
+          <h2>Radiación acumulada en el mes de julio (kWh/m²/mes)</h2>
+          <JulyRadiationTable data={climatedata} />
+          <h2>Irradiación solar en superficies orientadas e inclinadas (kWh/m²/mes)</h2>
+          <RadiationTable data={climatedata} />
+          <p>La tabla anterior recoge la radiación mensual acumulada para una superficie
+             horizontal y superficies verticales con la orientación indicada.</p>
+        </Row>
+        <Row>
+          <h2>Orientaciones</h2>
+          <Col md={8} mdOffset={2}>
+            <Image responsive alt="Roseta de orientaciones" src={orientaciones} />
+          </Col>
+        </Row>
+        {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
+      </Grid>
+    );
+  }
 );
 
 export default Radiation;

@@ -22,10 +22,11 @@ SOFTWARE.
 */
 
 import React, { Component } from 'react';
-import { Col, Grid, Panel, Row, Tabs, Tab, Well } from 'react-bootstrap';
+import { Button, ButtonGroup, Col, Glyphicon,
+         Grid, Panel, Row, Tabs, Tab, Well } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
-import { observer, inject } from 'mobx-react';
+import { observer } from 'mobx-react';
 import DevTools from 'mobx-react-devtools';
 
 import NavBar from './Nav';
@@ -184,11 +185,12 @@ const QSolTable = ({ Qsoljul, qsj, Autil }) =>
       <p>A<sub>util</sub> = { Autil } m²</p>
     </Grid>;
 
-const Indicators = inject("appstate")(
-  observer(class Indicators extends Component {
+const Indicators = observer(["appstate", "radstate"],
+  class Indicators extends Component {
     render() {
       // climate, radiationdata,
-      const { envolvente, Autil, climateTotRad } = this.props.appstate;
+      const { envolvente, Autil } = this.props.appstate;
+      const { climateTotRad } = this.props.radstate;
       const { huecos, opacos, pts } = envolvente;
       const huecosA = huecos.map(h => Number(h.A)).reduce((a, b)=> a+b);
       const huecosAU = huecos.map(h => Number(h.A) * Number(h.U)).reduce((a, b)=> a+b);
@@ -273,7 +275,7 @@ const Indicators = inject("appstate")(
           };
       reader.readAsText(file);
     }
-  })
+  }
 );
 
 export default Indicators;
