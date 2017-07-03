@@ -34,6 +34,8 @@ import DevTools from 'mobx-react-devtools';
 import NavBar from './Nav';
 import ClimateSelector from './ClimateSelector';
 
+import { uuidv4 } from '../utils.js';
+
 const Float1DigitsFormatter = (cell, row) => <span>{Number(cell).toFixed(1)}</span>;
 const Float2DigitsFormatter = (cell, row) => <span>{Number(cell).toFixed(2)}</span>;
 const Float3DigitsFormatter = (cell, row) => <span>{Number(cell).toFixed(3)}</span>;
@@ -42,8 +44,13 @@ const Float3DigitsFormatter = (cell, row) => <span>{Number(cell).toFixed(3)}</sp
 const orientacionesType = ['Horiz.', 'N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 
 class HuecosTable extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.state = { selectedId: null };
+  }
+
   render() {
-    const huecos = this.props.huecos;
+    let { huecos, newHueco } = this.props;
     return (
       <Grid>
         <h2>Huecos de la envolvente térmica</h2>
@@ -52,7 +59,7 @@ class HuecosTable extends Component {
           selectRow={{
             mode: 'radio',
             clickToSelectAndEditCell: true,
-            onSelect: this.onRowSelect,
+            onSelect: (row, isSelected) => this.setState({ selectedId: isSelected ? row.id : null }),
             hideSelectColumn: true,
             bgColor: 'lightgray'
           }}
@@ -75,10 +82,18 @@ class HuecosTable extends Component {
         <Row>
           <ButtonGroup>
             <Button bsStyle="primary" bsSize="small"
-              onClick={() => { huecos.push(huecos[huecos.length - 1]); }}>
+              onClick={() => {
+                const hueco = newHueco;
+                hueco.id = uuidv4();
+                huecos.push(hueco);
+              }}>
               <Glyphicon glyph="plus" />
             </Button>
-            <Button bsStyle="primary" bsSize="small">
+            <Button bsStyle="primary" bsSize="small"
+              onClick={() => {
+                const indexOfSelected = huecos.findIndex(h => h.id === this.state.selectedId);
+                if (indexOfSelected >= 0) huecos.splice(indexOfSelected, 1);
+              }}>
               <Glyphicon glyph="minus" />
             </Button>
           </ButtonGroup>
@@ -93,10 +108,6 @@ class HuecosTable extends Component {
         </Row>
       </Grid>
     );
-  }
-
-  onRowSelect(row, isSelected, e) {
-    console.log(`is selected: ${isSelected} id: ${row['id']}`, row);
   }
 }
 
