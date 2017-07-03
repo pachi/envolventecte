@@ -117,8 +117,13 @@ class HuecosTable extends Component {
 
 
 class OpacosTable extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.state = { selectedId: null };
+  }
+
   render() {
-    const opacos = this.props.opacos;
+    const { opacos, newOpaco } = this.props;
     return (
       <Grid>
         <h2>Elementos opacos de la envolvente térmica</h2>
@@ -127,7 +132,7 @@ class OpacosTable extends Component {
           selectRow={{
             mode: 'radio',
             clickToSelectAndEditCell: true,
-            onSelect: this.onRowSelect,
+            onSelect: (row, isSelected) => this.setState({ selectedId: isSelected ? row.id : null }),
             hideSelectColumn: true,
             bgColor: 'lightgray'
           }}
@@ -137,30 +142,29 @@ class OpacosTable extends Component {
           <TableHeaderColumn dataField="U" dataFormat={Float3DigitsFormatter}>U(W/m<sup>2</sup>K)</TableHeaderColumn>
           <TableHeaderColumn dataField="nombre">Elemento</TableHeaderColumn>
         </BootstrapTable>
-        <p>&sum;A = {opacos.map(h => Number(h.A))
-          .reduce((a, b) => a + b, 0)
-          .toFixed(2)} m²</p>
-        <p>&sum;A·U = {opacos.map(h => Number(h.A) * Number(h.U))
-          .reduce((a, b) => a + b, 0)
-          .toFixed(2)} W/K</p>
+        <PlusMinusButtonRow objects={opacos} newObj={newOpaco} selectedId={this.state.selectedId} />
+        <Row>
+          <p>&sum;A = {opacos.map(h => Number(h.A))
+            .reduce((a, b) => a + b, 0)
+            .toFixed(2)} m²</p>
+          <p>&sum;A·U = {opacos.map(h => Number(h.A) * Number(h.U))
+            .reduce((a, b) => a + b, 0)
+            .toFixed(2)} W/K</p>
+        </Row>
       </Grid>
     );
-  }
-
-  onRowSelect(row, isSelected, e) {
-    /*    let rowStr = '';
-        for (const prop in row) {
-          rowStr += prop + ': "' + row[prop] + '"';
-        }*/
-    console.log(e);
-    console.log(`is selected: ${isSelected}, ${row}`);
   }
 }
 
 
 class PTsTable extends Component {
+  constructor(props, context) {
+    super(props, context);
+    this.state = { selectedId: null };
+  }
+
   render() {
-    const pts = this.props.pts;
+    const { pts, newPT } = this.props;
     return (
       <Grid>
         <h2>Puentes térmicos de la envolvente térmica</h2>
@@ -169,7 +173,7 @@ class PTsTable extends Component {
           selectRow={{
             mode: 'radio',
             clickToSelectAndEditCell: true,
-            onSelect: this.onRowSelect,
+            onSelect: (row, isSelected) => this.setState({ selectedId: isSelected ? row.id : null }),
             hideSelectColumn: true,
             bgColor: 'lightgray'
           }}
@@ -179,25 +183,18 @@ class PTsTable extends Component {
           <TableHeaderColumn dataField="psi" dataFormat={Float2DigitsFormatter}>Psi(W/mK)</TableHeaderColumn>
           <TableHeaderColumn dataField="nombre">Encuentro</TableHeaderColumn>
         </BootstrapTable>
-        <p>&sum;L = {pts.map(h => Number(h.L))
-          .reduce((a, b) => a + b, 0)
-          .toFixed(2)} m</p>
-        <p>&sum;L·&psi; = {pts.map(h => Number(h.L) * Number(h.psi))
-          .reduce((a, b) => a + b, 0)
-          .toFixed(2)} W/K</p>
+        <PlusMinusButtonRow objects={pts} newObj={newPT} selectedId={this.state.selectedId} />
+        <Row>
+          <p>&sum;L = {pts.map(h => Number(h.L))
+            .reduce((a, b) => a + b, 0)
+            .toFixed(2)} m</p>
+          <p>&sum;L·&psi; = {pts.map(h => Number(h.L) * Number(h.psi))
+            .reduce((a, b) => a + b, 0)
+            .toFixed(2)} W/K</p>
+        </Row>
       </Grid>
     );
   }
-
-  onRowSelect(row, isSelected, e) {
-    /*    let rowStr = '';
-        for (const prop in row) {
-          rowStr += prop + ': "' + row[prop] + '"';
-        }*/
-    console.log(e);
-    console.log(`is selected: ${isSelected}, ${row}`);
-  }
-
 }
 
 const KTable = ({ huecosA, huecosAU, opacosA, opacosAU, ptsPsiL, totalA, totalAU, K }) =>
@@ -277,10 +274,10 @@ const Indicators = inject("appstate", "radstate")(observer(
                 <HuecosTable huecos={envolvente.huecos} newHueco={newHueco} />
               </Tab>
               <Tab eventKey={3} title="Opacos">
-                <OpacosTable opacos={envolvente.opacos} />
+                <OpacosTable opacos={envolvente.opacos} newOpaco={newOpaco} />
               </Tab>
               <Tab eventKey={4} title="P. Térmicos">
-                <PTsTable pts={envolvente.pts} />
+                <PTsTable pts={envolvente.pts} newPT={newPT} />
               </Tab>
             </Tabs>
           </Row>
