@@ -74,5 +74,13 @@ export const AppState = observable({
       { id: uuidv4(), L: 124.5, psi: 0.24, nombre: 'PT cubierta-fachada' },
       { id: uuidv4(), L: 468.8, psi: 0.05, nombre: 'PT contorno huecos' }
     ]
-  }
+  },
+  newHueco() {
+    return {
+      id: null, nombre: 'Hueco nuevo', orientacion: 'N',
+      A: 1.0, U: 1.0, Ff: 0.2, ggl: 0.67, Fshobst: 1.0, Fshgl: 0.3
+    };
+  },
+  newOpaco() { return { id: null, A: 1.00, U: 0.200, nombre: 'Elemento opaco' }; },
+  newPT() { return { id: null, L: 1.0, psi: 0.05, nombre: 'PT' }; }
 });

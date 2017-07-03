@@ -270,7 +270,7 @@ const Indicators = inject("appstate", "radstate")(observer(
                   onChange={e => this.handleFiles(e)} />
               </Tab>
               <Tab eventKey={2} title="Huecos">
-                <HuecosTable huecos={envolvente.huecos} />
+                <HuecosTable huecos={envolvente.huecos} newHueco={newHueco} />
               </Tab>
               <Tab eventKey={3} title="Opacos">
                 <OpacosTable opacos={envolvente.opacos} />
