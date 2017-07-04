@@ -267,7 +267,16 @@ const Indicators = inject("appstate", "radstate")(observer(
           </Row>
           <Row>
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-              <Tab eventKey={1} title="Indicadores">
+              <Tab eventKey={1} title="Huecos">
+                <HuecosTable huecos={envolvente.huecos} newHueco={newHueco} />
+              </Tab>
+              <Tab eventKey={2} title="Opacos">
+                <OpacosTable opacos={envolvente.opacos} newOpaco={newOpaco} />
+              </Tab>
+              <Tab eventKey={3} title="P. Térmicos">
+                <PTsTable pts={envolvente.pts} newPT={newPT} />
+              </Tab>
+              <Tab eventKey={4} title="Carga de datos">
                 <DetallesPanel>
                 <KTable huecosA={huecosA} huecosAU={huecosAU}
                   opacosA={opacosA} opacosAU={opacosAU}
@@ -281,15 +290,6 @@ const Indicators = inject("appstate", "radstate")(observer(
                 <input ref="fileInput" type="file"
                   onChange={e => this.handleFiles(e)} />
                 </DetallesPanel>
-              </Tab>
-              <Tab eventKey={2} title="Huecos">
-                <HuecosTable huecos={envolvente.huecos} newHueco={newHueco} />
-              </Tab>
-              <Tab eventKey={3} title="Opacos">
-                <OpacosTable opacos={envolvente.opacos} newOpaco={newOpaco} />
-              </Tab>
-              <Tab eventKey={4} title="P. Térmicos">
-                <PTsTable pts={envolvente.pts} newPT={newPT} />
               </Tab>
             </Tabs>
           </Row>
