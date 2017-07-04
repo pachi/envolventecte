@@ -89,8 +89,8 @@ class HuecosTable extends Component {
           }}
         >
           <TableHeaderColumn dataField="id" isKey={true} hidden={true}>ID</TableHeaderColumn>
-          <TableHeaderColumn dataField="A" dataFormat={Float2DigitsFormatter}>Area(m<sup>2</sup>)</TableHeaderColumn>
-          <TableHeaderColumn dataField="U" dataFormat={Float3DigitsFormatter}>U(W/m<sup>2</sup>K)</TableHeaderColumn>
+          <TableHeaderColumn dataField="A" dataFormat={Float2DigitsFormatter}>A (m<sup>2</sup>)</TableHeaderColumn>
+          <TableHeaderColumn dataField="U" dataFormat={Float3DigitsFormatter}>U (W/m<sup>2</sup>K)</TableHeaderColumn>
           <TableHeaderColumn
             dataField="orientacion"
             editable={{ type: 'select', options: { values: orientacionesType } }}
@@ -101,7 +101,7 @@ class HuecosTable extends Component {
           <TableHeaderColumn dataField="ggl" dataFormat={Float2DigitsFormatter}>g_gl</TableHeaderColumn>
           <TableHeaderColumn dataField="Fshobst" dataFormat={Float2DigitsFormatter}>F_sh,obst</TableHeaderColumn>
           <TableHeaderColumn dataField="Fshgl" dataFormat={Float1DigitsFormatter}>F_sh,gl</TableHeaderColumn>
-          <TableHeaderColumn dataField="nombre">Elemento</TableHeaderColumn>
+          <TableHeaderColumn dataField="nombre">Descripción</TableHeaderColumn>
         </BootstrapTable>
         <PlusMinusButtonRow objects={huecos} newObj={newHueco} selectedId={this.state.selectedId} />
         <Row>
@@ -140,9 +140,9 @@ class OpacosTable extends Component {
           }}
         >
           <TableHeaderColumn dataField="id" isKey={true} hidden={true}>ID</TableHeaderColumn>
-          <TableHeaderColumn dataField="A" dataFormat={Float2DigitsFormatter}>Area(m<sup>2</sup>)</TableHeaderColumn>
-          <TableHeaderColumn dataField="U" dataFormat={Float3DigitsFormatter}>U(W/m<sup>2</sup>K)</TableHeaderColumn>
-          <TableHeaderColumn dataField="nombre">Elemento</TableHeaderColumn>
+          <TableHeaderColumn dataField="A" dataFormat={Float2DigitsFormatter}>A (m<sup>2</sup>)</TableHeaderColumn>
+          <TableHeaderColumn dataField="U" dataFormat={Float3DigitsFormatter}>U (W/m<sup>2</sup>K)</TableHeaderColumn>
+          <TableHeaderColumn dataField="nombre">Descripción</TableHeaderColumn>
         </BootstrapTable>
         <PlusMinusButtonRow objects={opacos} newObj={newOpaco} selectedId={this.state.selectedId} />
         <Row>
@@ -181,9 +181,9 @@ class PTsTable extends Component {
           }}
         >
           <TableHeaderColumn dataField="id" isKey={true} hidden={true}>ID</TableHeaderColumn>
-          <TableHeaderColumn dataField="L" dataFormat={Float2DigitsFormatter}>Longitud(m)</TableHeaderColumn>
-          <TableHeaderColumn dataField="psi" dataFormat={Float2DigitsFormatter}>Psi(W/mK)</TableHeaderColumn>
-          <TableHeaderColumn dataField="nombre">Encuentro</TableHeaderColumn>
+          <TableHeaderColumn dataField="L" dataFormat={Float2DigitsFormatter}>Longitud (m)</TableHeaderColumn>
+          <TableHeaderColumn dataField="psi" dataFormat={Float2DigitsFormatter}>&psi; (W/mK)</TableHeaderColumn>
+          <TableHeaderColumn dataField="nombre">Descripción</TableHeaderColumn>
         </BootstrapTable>
         <PlusMinusButtonRow objects={pts} newObj={newPT} selectedId={this.state.selectedId} />
         <Row>
