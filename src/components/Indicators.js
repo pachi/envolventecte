@@ -71,7 +71,7 @@ class HuecosTable extends Component {
   }
 
   render() {
-    const { huecos, newHueco } = this.props;
+    const { huecos, newHueco, huecosA, huecosAU } = this.props;
     return (
       <Grid>
         <h2>Huecos de la envolvente térmica</h2>
@@ -103,12 +103,8 @@ class HuecosTable extends Component {
         </BootstrapTable>
         <PlusMinusButtonRow objects={huecos} newObj={newHueco} selectedId={this.state.selectedId} />
         <Row>
-          <Col md={6}>
-            &sum;A = { huecos.map(h => Number(h.A)).reduce((a, b) => a + b, 0).toFixed(2) } m²
-          </Col>
-          <Col md={6} className="text-right">
-            &sum;A·U = { huecos.map(h => Number(h.A) * Number(h.U)).reduce((a, b) => a + b, 0).toFixed(2) } W/K
-          </Col>
+          <Col md={6}>&sum;A = { huecosA.toFixed(2) } m²</Col>
+          <Col md={6} className="text-right">&sum;A·U = { huecosAU.toFixed(2) } W/K</Col>
         </Row>
       </Grid>
     );
@@ -123,7 +119,7 @@ class OpacosTable extends Component {
   }
 
   render() {
-    const { opacos, newOpaco } = this.props;
+    const { opacos, newOpaco, opacosA, opacosAU } = this.props;
     return (
       <Grid>
         <h2>Elementos opacos de la envolvente térmica</h2>
@@ -145,12 +141,8 @@ class OpacosTable extends Component {
         </BootstrapTable>
         <PlusMinusButtonRow objects={opacos} newObj={newOpaco} selectedId={this.state.selectedId} />
         <Row>
-          <Col md={6}>
-            &sum;A = {opacos.map(h => Number(h.A)).reduce((a, b) => a + b, 0).toFixed(2)} m²
-          </Col>
-          <Col md={6} className="text-right">
-            &sum;A·U = {opacos.map(h => Number(h.A) * Number(h.U)).reduce((a, b) => a + b, 0).toFixed(2)} W/K
-          </Col>
+          <Col md={6}>&sum;A = {opacosA.toFixed(2)} m²</Col>
+          <Col md={6} className="text-right">&sum;A·U = {opacosAU.toFixed(2)} W/K</Col>
         </Row>
       </Grid>
     );
@@ -165,7 +157,7 @@ class PTsTable extends Component {
   }
 
   render() {
-    const { pts, newPT } = this.props;
+    const { pts, newPT, ptsL, ptsPsiL } = this.props;
     return (
       <Grid>
         <h2>Puentes térmicos de la envolvente térmica</h2>
@@ -187,120 +179,114 @@ class PTsTable extends Component {
         </BootstrapTable>
         <PlusMinusButtonRow objects={pts} newObj={newPT} selectedId={this.state.selectedId} />
         <Row>
-          <Col md={6}>
-            &sum;L = {pts.map(h => Number(h.L)).reduce((a, b) => a + b, 0).toFixed(2)} m
-          </Col>
-          <Col md={6} className="text-right">
-            &sum;L·&psi; = {pts.map(h => Number(h.L) * Number(h.psi)).reduce((a, b) => a + b, 0).toFixed(2)} W/K
-          </Col>
+          <Col md={6}>&sum;L = {ptsL.toFixed(2)} m</Col>
+          <Col md={6} className="text-right">&sum;L·&psi; = {ptsPsiL.toFixed(2)} W/K</Col>
         </Row>
       </Grid>
     );
   }
 }
 
+const IndicatorsPanel = inject("appstate", "radstate")(observer(
+  class IndicatorsPanel extends Component {
+    constructor(...args) {
+      super(...args);
+      this.state = { open: false };
+    }
 
-class DetallesPanel extends Component {
-  constructor(...args) {
-    super(...args);
-    this.state = {
-      open: true
-    };
-  }
-
-  render() {
-    return (
-      <div>
-        <Button bsStyle="info" onClick={ ()=> this.setState({ open: !this.state.open })}>
-          <span className="caret" /> Detalles
-        </Button>
-        <Panel collapsible expanded={this.state.open}>
-          { this.props.children }
-        </Panel>
-      </div>
-    );
-  }
-}
-
-
-const KTable = ({ huecosA, huecosAU, opacosA, opacosAU, ptsPsiL, totalA, totalAU, K }) =>
-  // TODO: comprobar por qué no coincide con los valores del documento (área de huecos, p.e.)
-  <Grid>
-    <h2>Transmitancia térmica global <b><i>K</i> = {Number(K).toFixed(2)} <i>W/m²K</i></b></h2>
-    <p>K = H<sub>tr,adj</sub> / &sum;A<sub>i</sub> &asymp; &sum;<sub>x</sub> b<sub>tr,x</sub> · [&sum;<sub>i</sub> A<sub>i</sub> · U<sub>i</sub> + &sum;<sub>k</sub> l<sub>k</sub> · ψ<sub>k</sub>] / &sum;A<sub>i</sub></p>
-    <p>&sum;<sub>i</sub> A<sub>i</sub> · U<sub>i</sub> + &sum;<sub>k</sub> l<sub>k</sub> · ψ<sub>k</sub> = {huecosAU.toFixed(2)} W/K (huecos) + {opacosAU.toFixed(2)} W/K (opacos) + {ptsPsiL.toFixed(2)} W/K (PTs) = {(totalAU + ptsPsiL).toFixed(2)} W/K </p>
-    <p>&sum;A<sub>i</sub> = {Number(huecosA).toFixed(2)} m² (huecos) + {Number(opacosA).toFixed(2)} m² (opacos) = {Number(totalA).toFixed(2)} m²</p>
-  </Grid>;
-
-const QSolTable = ({ Qsoljul, qsj, Autil }) =>
-  <Grid>
-    <h2>Captación solar &nbsp;
-        <b><i>q<sub>sol;jul</sub></i> =
-          {Number(qsj).toFixed(2)} <i>kWh/m²/mes</i>
-      </b>
-    </h2>
-    <p>q<sub>sol;jul</sub> = Q<sub>sol;jul</sub> / A<sub>util</sub> = &sum;<sub>k</sub>(F<sub>sh,obst</sub> · F <sub>sh,gl</sub> · g<sub>gl</sub> · (1 − F<sub>F</sub>) · A<sub>w,p</sub> · H<sub>sol;jul</sub>) / A<sub>util</sub></p>
-    <p>Q<sub>sol;jul</sub> = {Qsoljul.toFixed(2)} kWh/mes</p>
-    <p>A<sub>util</sub> = {Autil} m²</p>
-  </Grid>;
-
-const Indicators = inject("appstate", "radstate")(observer(
-  class Indicators extends Component {
     render() {
       // climate, radiationdata,
-      const { envolvente, Autil, newHueco, newOpaco, newPT,
-              huecosA, huecosAU, opacosA, opacosAU, ptsPsiL, totalA, totalAU, K, Qsoljul, qsj
-            } = this.props.appstate;
+      const { Autil, huecosA, huecosAU, opacosA, opacosAU, ptsPsiL,
+        totalA, totalAU, K, Qsoljul, qsj } = this.props.appstate;
       const { climateTotRad } = this.props.radstate;
       const Qsoljul_clima = Qsoljul(climateTotRad);
       const qsj_clima = qsj(climateTotRad);
 
       return (
         <Grid>
+          <Row>
+            <Col md={1}>
+              <Button bsSize="xs" bsStyle="info" onClick={() => this.setState({ open: !this.state.open })}>
+                <Glyphicon glyph="plus" />
+              </Button>
+            </Col>
+            <Col md={3}><b><i>K</i> = {K.toFixed(2)} <i>W/m²K</i></b></Col>
+            <Col md={3}><b><i>q<sub>sol;jul</sub></i> = {qsj_clima.toFixed(2)} <i>kWh/m²/mes</i></b></Col>
+            <Col md={5} className="text-right">
+              <p>
+                <b>A<sub>util</sub></b> = <input type="text"
+                                                 onChange={ e => this.handleChange(e) }
+                                                 value={Autil} /> m²
+              </p>
+            </Col>
+          </Row>
+          <Panel collapsible expanded={this.state.open} bsStyle="info">
+            <Grid>
+              <Row>
+                <h2>Detalle de cálculo de indicadores de envolvente</h2>
+              </Row>
+              <Row>
+                <h3>Transmitancia térmica global <b><i>K</i> = {Number(K).toFixed(2)} <i>W/m²K</i></b></h3>
+                <p>K = H<sub>tr,adj</sub> / &sum;A<sub>i</sub> &asymp; &sum;<sub>x</sub> b<sub>tr,x</sub> · [&sum;<sub>i</sub> A<sub>i</sub> · U<sub>i</sub> + &sum;<sub>k</sub> l<sub>k</sub> · ψ<sub>k</sub>] / &sum;A<sub>i</sub></p>
+                <p>&sum;<sub>i</sub> A<sub>i</sub> · U<sub>i</sub> + &sum;<sub>k</sub> l<sub>k</sub> · ψ<sub>k</sub> = {huecosAU.toFixed(2)} W/K (huecos) + {opacosAU.toFixed(2)} W/K (opacos) + {ptsPsiL.toFixed(2)} W/K (PTs) = {(totalAU + ptsPsiL).toFixed(2)} W/K </p>
+                <p>&sum;A<sub>i</sub> = {Number(huecosA).toFixed(2)} m² (huecos) + {Number(opacosA).toFixed(2)} m² (opacos) = {Number(totalA).toFixed(2)} m²</p>
+              </Row>
+              <Row>
+                <h3>Captación solar &nbsp;
+                <b><i>q<sub>sol;jul</sub></i> = {Number(qsj_clima).toFixed(2)} <i>kWh/m²/mes</i></b>
+                </h3>
+                <p>q<sub>sol;jul</sub> = Q<sub>sol;jul</sub> / A<sub>util</sub> = &sum;<sub>k</sub>(F<sub>sh,obst</sub> · F <sub>sh,gl</sub> · g<sub>gl</sub> · (1 − F<sub>F</sub>) · A<sub>w,p</sub> · H<sub>sol;jul</sub>) / A<sub>util</sub></p>
+                <p>Q<sub>sol;jul</sub> = {Qsoljul_clima.toFixed(2)} kWh/mes</p>
+                <p>A<sub>util</sub> = {Autil} m²</p>
+              </Row>
+            </Grid>
+          </Panel>
+        </Grid>
+      );
+    }
+
+    // Actualización de Autil
+    handleChange(e) {
+      const currentValue = e.target.value;
+      this.props.appstate.Autil = Number(currentValue);
+    }
+  }
+));
+
+
+const Indicators = inject("appstate", "radstate")(observer(
+  class Indicators extends Component {
+    render() {
+      // climate, radiationdata,
+      const { envolvente, newHueco, newOpaco, newPT,
+              huecosA, huecosAU, opacosA, opacosAU, ptsL, ptsPsiL } = this.props.appstate;
+      return (
+        <Grid>
           <NavBar route={this.props.route} />
           <Row>
-            <Panel>
-              <Col md={4}><b><i>K</i> = {K.toFixed(2)} <i>W/m²K</i></b></Col>
-              <Col md={4}><b><i>q<sub>sol;jul</sub></i> = {qsj_clima.toFixed(2)} <i>kWh/m²/mes</i></b></Col>
-              <Col md={4}><p><b>A<sub>util</sub></b> = <input type="text" onChange={e => this.handleChange(e)} value={Autil} /> m²</p></Col>
-            </Panel>
+            <IndicatorsPanel />
           </Row>
           <Row>
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
               <Tab eventKey={1} title="Huecos">
-                <HuecosTable huecos={envolvente.huecos} newHueco={newHueco} />
+                <HuecosTable huecos={envolvente.huecos} {...{ newHueco, huecosA, huecosAU }} />
               </Tab>
               <Tab eventKey={2} title="Opacos">
-                <OpacosTable opacos={envolvente.opacos} newOpaco={newOpaco} />
+                <OpacosTable opacos={envolvente.opacos} {...{ newOpaco, opacosA, opacosAU }} />
               </Tab>
               <Tab eventKey={3} title="P. Térmicos">
-                <PTsTable pts={envolvente.pts} newPT={newPT} />
+                <PTsTable pts={envolvente.pts} {...{ newPT, ptsL, ptsPsiL }} />
               </Tab>
               <Tab eventKey={4} title="Carga de datos">
-                <DetallesPanel>
-                <KTable huecosA={huecosA} huecosAU={huecosAU}
-                  opacosA={opacosA} opacosAU={opacosAU}
-                  ptsPsiL={ptsPsiL}
-                  totalA={totalA} totalAU={totalAU}
-                  K={K} />
-                <QSolTable Qsoljul={Qsoljul_clima}
-                  qsj={qsj_clima}
-                  Autil={Autil} />
                 <label>Carga archivo con datos de envolvente:</label>
                 <input ref="fileInput" type="file"
                   onChange={e => this.handleFiles(e)} />
-                </DetallesPanel>
               </Tab>
             </Tabs>
           </Row>
           {<DevTools position={{ bottom: 0, right: 20 }} />}
         </Grid>
       );
-    }
-
-    handleChange(e) {
-      const currentValue = e.target.value;
-      this.props.appstate.Autil = Number(currentValue);
     }
 
     handleFiles(e) {
