@@ -107,7 +107,7 @@ class HuecosTable extends Component {
           <Col md={6}>
             &sum;A = { huecos.map(h => Number(h.A)).reduce((a, b) => a + b, 0).toFixed(2) } m²
           </Col>
-          <Col md={6} style={{ textAlign: "right" }}>
+          <Col md={6} className="text-right">
             &sum;A·U = { huecos.map(h => Number(h.A) * Number(h.U)).reduce((a, b) => a + b, 0).toFixed(2) } W/K
           </Col>
         </Row>
@@ -149,7 +149,7 @@ class OpacosTable extends Component {
           <Col md={6}>
             &sum;A = {opacos.map(h => Number(h.A)).reduce((a, b) => a + b, 0).toFixed(2)} m²
           </Col>
-          <Col md={6} style={{ textAlign: "right" }}>
+          <Col md={6} className="text-right">
             &sum;A·U = {opacos.map(h => Number(h.A) * Number(h.U)).reduce((a, b) => a + b, 0).toFixed(2)} W/K
           </Col>
         </Row>
@@ -191,7 +191,7 @@ class PTsTable extends Component {
           <Col md={6}>
             &sum;L = {pts.map(h => Number(h.L)).reduce((a, b) => a + b, 0).toFixed(2)} m
           </Col>
-          <Col md={6} style={{ textAlign: "right" }}>
+          <Col md={6} className="text-right">
             &sum;L·&psi; = {pts.map(h => Number(h.L) * Number(h.psi)).reduce((a, b) => a + b, 0).toFixed(2)} W/K
           </Col>
         </Row>
