@@ -68,7 +68,7 @@ const PlusMinusButtonRow = ({ objects, newObj, selectedId }) =>
 class HuecosTable extends Component {
   constructor(props, context) {
     super(props, context);
-    this.state = { selectedId: null };
+    this.state = { selectedId: [] };
   }
 
   render() {
@@ -81,7 +81,8 @@ class HuecosTable extends Component {
           selectRow={{
             mode: 'radio',
             clickToSelectAndEditCell: true,
-            onSelect: (row, isSelected) => this.setState({ selectedId: isSelected ? row.id : null }),
+            selected: this.state.selectedId,
+            onSelect: (row, isSelected) => this.setState({ selectedId: isSelected ? [row.id] : [] }),
             hideSelectColumn: true,
             bgColor: 'lightgray'
           }}
@@ -119,7 +120,7 @@ class HuecosTable extends Component {
 class OpacosTable extends Component {
   constructor(props, context) {
     super(props, context);
-    this.state = { selectedId: null };
+    this.state = { selectedId: [] };
   }
 
   render() {
@@ -132,7 +133,8 @@ class OpacosTable extends Component {
           selectRow={{
             mode: 'radio',
             clickToSelectAndEditCell: true,
-            onSelect: (row, isSelected) => this.setState({ selectedId: isSelected ? row.id : null }),
+            selected: this.state.selectedId,
+            onSelect: (row, isSelected) => this.setState({ selectedId: isSelected ? [row.id] : [] }),
             hideSelectColumn: true,
             bgColor: 'lightgray'
           }}
@@ -160,7 +162,7 @@ class OpacosTable extends Component {
 class PTsTable extends Component {
   constructor(props, context) {
     super(props, context);
-    this.state = { selectedId: null };
+    this.state = { selectedId: [] };
   }
 
   render() {
@@ -173,7 +175,8 @@ class PTsTable extends Component {
           selectRow={{
             mode: 'radio',
             clickToSelectAndEditCell: true,
-            onSelect: (row, isSelected) => this.setState({ selectedId: isSelected ? row.id : null }),
+            selected: this.state.selectedId,
+            onSelect: (row, isSelected) => this.setState({ selectedId: isSelected ? [row.id] : [] }),
             hideSelectColumn: true,
             bgColor: 'lightgray'
           }}
