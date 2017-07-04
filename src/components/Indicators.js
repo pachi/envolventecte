@@ -248,24 +248,12 @@ const Indicators = inject("appstate", "radstate")(observer(
   class Indicators extends Component {
     render() {
       // climate, radiationdata,
-      const { envolvente, Autil, newHueco, newOpaco, newPT } = this.props.appstate;
+      const { envolvente, Autil, newHueco, newOpaco, newPT,
+              huecosA, huecosAU, opacosA, opacosAU, ptsPsiL, totalA, totalAU, K, Qsoljul, qsj
+            } = this.props.appstate;
       const { climateTotRad } = this.props.radstate;
-      const { huecos, opacos, pts } = envolvente;
-      // Mover a estado
-      const huecosA = huecos.map(h => Number(h.A)).reduce((a, b) => a + b, 0);
-      const huecosAU = huecos.map(h => Number(h.A) * Number(h.U)).reduce((a, b) => a + b, 0);
-      const opacosA = opacos.map(o => Number(o.A)).reduce((a, b) => a + b, 0);
-      const opacosAU = opacos.map(o => Number(o.A) * Number(o.U)).reduce((a, b) => a + b, 0);
-      const ptsPsiL = pts.map(h => Number(h.L) * Number(h.psi)).reduce((a, b) => a + b, 0);
-      const totalA = huecosA + opacosA;
-      const totalAU = huecosAU + opacosAU;
-      const K = (totalAU + ptsPsiL) / totalA;
-      const Qsoljul = huecos
-        .map(h =>
-          Number(h.Fshobst) * Number(h.Fshgl) * Number(h.ggl)
-          * (1 - Number(h.Ff)) * Number(h.A) * climateTotRad[h.orientacion])
-        .reduce((a, b) => a + b, 0);
-      const qsj = Qsoljul / Autil;
+      const Qsoljul_clima = Qsoljul(climateTotRad);
+      const qsj_clima = qsj(climateTotRad);
 
       return (
         <Grid>
@@ -273,7 +261,7 @@ const Indicators = inject("appstate", "radstate")(observer(
           <Row>
             <Panel>
               <Col md={4}><b><i>K</i> = {K.toFixed(2)} <i>W/m²K</i></b></Col>
-              <Col md={4}><b><i>q<sub>sol;jul</sub></i> = {qsj.toFixed(2)} <i>kWh/m²/mes</i></b></Col>
+              <Col md={4}><b><i>q<sub>sol;jul</sub></i> = {qsj_clima.toFixed(2)} <i>kWh/m²/mes</i></b></Col>
               <Col md={4}><p><b>A<sub>util</sub></b> = <input type="text" onChange={e => this.handleChange(e)} value={Autil} /> m²</p></Col>
             </Panel>
           </Row>
@@ -286,8 +274,8 @@ const Indicators = inject("appstate", "radstate")(observer(
                   ptsPsiL={ptsPsiL}
                   totalA={totalA} totalAU={totalAU}
                   K={K} />
-                <QSolTable Qsoljul={Qsoljul}
-                  qsj={qsj}
+                <QSolTable Qsoljul={Qsoljul_clima}
+                  qsj={qsj_clima}
                   Autil={Autil} />
                 <label>Carga archivo con datos de envolvente:</label>
                 <input ref="fileInput" type="file"

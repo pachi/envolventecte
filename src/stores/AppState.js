@@ -75,6 +75,8 @@ export const AppState = observable({
       { id: uuidv4(), L: 468.8, psi: 0.05, nombre: 'PT contorno huecos' }
     ]
   },
+
+  // Constructores de objetos básicos (hay que actualizar su id)
   newHueco() {
     return {
       id: null, nombre: 'Hueco nuevo', orientacion: 'N',
@@ -82,5 +84,25 @@ export const AppState = observable({
     };
   },
   newOpaco() { return { id: null, A: 1.00, U: 0.200, nombre: 'Elemento opaco' }; },
-  newPT() { return { id: null, L: 1.0, psi: 0.05, nombre: 'PT' }; }
+  newPT() { return { id: null, L: 1.0, psi: 0.05, nombre: 'PT' }; },
+
+  // Propiedades calculadas
+  get huecosA() { return this.envolvente.huecos.map(h => Number(h.A)).reduce((a, b) => a + b, 0); },
+  get huecosAU() { return this.envolvente.huecos.map(h => Number(h.A) * Number(h.U)).reduce((a, b) => a + b, 0); },
+  get opacosA() { return this.envolvente.opacos.map(o => Number(o.A)).reduce((a, b) => a + b, 0); },
+  get opacosAU() { return this.envolvente.opacos.map(o => Number(o.A) * Number(o.U)).reduce((a, b) => a + b, 0); },
+  get ptsPsiL() { return this.envolvente.pts.map(h => Number(h.L) * Number(h.psi)).reduce((a, b) => a + b, 0); },
+  get totalA() { return this.huecosA + this.opacosA; },
+  get totalAU() { return this.huecosAU + this.opacosAU; },
+  get K() { return (this.totalAU + this.ptsPsiL) / this.totalA; },
+
+  // Devolvemos funciones con el this apropiado para hacer autorreferencia
+  get Qsoljul() {
+    return climateTotRad => this.envolvente.huecos
+      .map(h =>
+        Number(h.Fshobst) * Number(h.Fshgl) * Number(h.ggl)
+        * (1 - Number(h.Ff)) * Number(h.A) * climateTotRad[h.orientacion])
+      .reduce((a, b) => a + b, 0);
+  },
+  get qsj() { return climateTotRad => this.Qsoljul(climateTotRad) / this.Autil; }
 });
