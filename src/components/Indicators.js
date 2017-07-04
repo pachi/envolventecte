@@ -56,8 +56,10 @@ const PlusMinusButtonRow = ({ objects, newObj, selectedId }) =>
       </Button>
       <Button bsStyle="primary" bsSize="small"
         onClick={() => {
-          const indexOfSelected = objects.findIndex(h => h.id === selectedId);
-          if (indexOfSelected >= 0) objects.splice(indexOfSelected, 1);
+          // https://mobx.js.org/refguide/array.html
+          objects.replace(objects.filter(h => !selectedId.includes(h.id)));
+          /*const indexOfSelected = objects.findIndex(h => h.id === selectedId);
+          if (indexOfSelected >= 0) objects.splice(indexOfSelected, 1);*/
         }}>
         <Glyphicon glyph="minus" />
       </Button>
