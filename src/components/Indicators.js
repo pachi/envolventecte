@@ -104,12 +104,12 @@ class HuecosTable extends Component {
         </BootstrapTable>
         <PlusMinusButtonRow objects={huecos} newObj={newHueco} selectedId={this.state.selectedId} />
         <Row>
-          <p>&sum;A = {huecos.map(h => Number(h.A))
-            .reduce((a, b) => a + b, 0)
-            .toFixed(2)} m²</p>
-          <p>&sum;A·U = {huecos.map(h => Number(h.A) * Number(h.U))
-            .reduce((a, b) => a + b, 0)
-            .toFixed(2)} W/K</p>
+          <Col md={6}>
+            &sum;A = { huecos.map(h => Number(h.A)).reduce((a, b) => a + b, 0).toFixed(2) } m²
+          </Col>
+          <Col md={6} style={{ textAlign: "right" }}>
+            &sum;A·U = { huecos.map(h => Number(h.A) * Number(h.U)).reduce((a, b) => a + b, 0).toFixed(2) } W/K
+          </Col>
         </Row>
       </Grid>
     );
@@ -146,12 +146,12 @@ class OpacosTable extends Component {
         </BootstrapTable>
         <PlusMinusButtonRow objects={opacos} newObj={newOpaco} selectedId={this.state.selectedId} />
         <Row>
-          <p>&sum;A = {opacos.map(h => Number(h.A))
-            .reduce((a, b) => a + b, 0)
-            .toFixed(2)} m²</p>
-          <p>&sum;A·U = {opacos.map(h => Number(h.A) * Number(h.U))
-            .reduce((a, b) => a + b, 0)
-            .toFixed(2)} W/K</p>
+          <Col md={6}>
+            &sum;A = {opacos.map(h => Number(h.A)).reduce((a, b) => a + b, 0).toFixed(2)} m²
+          </Col>
+          <Col md={6} style={{ textAlign: "right" }}>
+            &sum;A·U = {opacos.map(h => Number(h.A) * Number(h.U)).reduce((a, b) => a + b, 0).toFixed(2)} W/K
+          </Col>
         </Row>
       </Grid>
     );
@@ -188,12 +188,12 @@ class PTsTable extends Component {
         </BootstrapTable>
         <PlusMinusButtonRow objects={pts} newObj={newPT} selectedId={this.state.selectedId} />
         <Row>
-          <p>&sum;L = {pts.map(h => Number(h.L))
-            .reduce((a, b) => a + b, 0)
-            .toFixed(2)} m</p>
-          <p>&sum;L·&psi; = {pts.map(h => Number(h.L) * Number(h.psi))
-            .reduce((a, b) => a + b, 0)
-            .toFixed(2)} W/K</p>
+          <Col md={6}>
+            &sum;L = {pts.map(h => Number(h.L)).reduce((a, b) => a + b, 0).toFixed(2)} m
+          </Col>
+          <Col md={6} style={{ textAlign: "right" }}>
+            &sum;L·&psi; = {pts.map(h => Number(h.L) * Number(h.psi)).reduce((a, b) => a + b, 0).toFixed(2)} W/K
+          </Col>
         </Row>
       </Grid>
     );
