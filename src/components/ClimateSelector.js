@@ -32,7 +32,7 @@ const ClimateSelector = inject("radstate")(observer(
       return (
         <Form inline>
           <FormGroup controlId="formControlsClimateZone">
-            <ControlLabel>Zona Climática</ControlLabel>{' '}
+            <ControlLabel style={{ color: "white" }}>Zona Climática</ControlLabel>{' '}
             <FormControl
                 value={ radstate.climate || '' }
                 onChange={ e => { radstate.climate = e.target.value; } }

@@ -26,6 +26,8 @@ import { Link } from 'react-router';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Grid, Nav, NavItem, Navbar } from 'react-bootstrap';
 
+import ClimateSelector from './ClimateSelector';
+
 export default class NavBar extends React.Component {
 
   static defaultProps = { projectName: 'Solar CTE' }
@@ -39,15 +41,15 @@ export default class NavBar extends React.Component {
         <Grid>
           <Navbar.Header>
             <Navbar.Brand>
-              <Link className="navbar-brand" to='/'>
-                <span className="glyphicon glyphicon-home" aria-hidden="true"></span> { this.props.projectName }
+              <Link className="navbar-brand" to="/">
+                <span className="glyphicon glyphicon-home" aria-hidden="true" /> { this.props.projectName }
               </Link>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav>
-              <LinkContainer to='/'>
+              <LinkContainer to="/">
                 <NavItem className={ activeIfCurrent('/') }
                          eventKey={1}
                          role="presentation">Indicadores
@@ -55,7 +57,7 @@ export default class NavBar extends React.Component {
               </LinkContainer>
             </Nav>
             <Nav>
-              <LinkContainer to='/rad'>
+              <LinkContainer to="/rad">
                 <NavItem className={ activeIfCurrent('/rad') }
                          eventKey={2}
                          role="presentation">Radiación
@@ -63,15 +65,18 @@ export default class NavBar extends React.Component {
               </LinkContainer>
             </Nav>
             <Nav pullRight>
-              <LinkContainer to='/about'>
+              <LinkContainer to="/about">
                 <NavItem className={ activeIfCurrent('/about') }
                          eventKey={3}
                          role="presentation">
                   <span className="glyphicon glyphicon-question-sign"
-                        aria-hidden="true"></span> Créditos
+                        aria-hidden="true" /> Créditos
                 </NavItem>
               </LinkContainer>
             </Nav>
+            <Navbar.Form pullRight>
+              <ClimateSelector />
+            </Navbar.Form>
           </Navbar.Collapse>
         </Grid>
       </Navbar>

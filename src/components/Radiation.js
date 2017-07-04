@@ -29,7 +29,6 @@ import { observer, inject } from 'mobx-react';
 // import DevTools from 'mobx-react-devtools';
 
 import NavBar from './Nav';
-import ClimateSelector from './ClimateSelector';
 import orientaciones from './orientaciones.svg';
 
 const RadiationTable = ({ data }) =>
@@ -93,11 +92,6 @@ const Radiation = inject("radstate")(observer(
     return (
       <Grid>
         <NavBar route={ route } />
-        <Row>
-          <Well>
-            <ClimateSelector />
-          </Well>
-        </Row>
         <Row>
           <h2>Radiación acumulada en el mes de julio (kWh/m²/mes)</h2>
           <JulyRadiationTable data={climatedata} />

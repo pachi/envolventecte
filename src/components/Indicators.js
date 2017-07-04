@@ -32,7 +32,6 @@ import { observer, inject } from 'mobx-react';
 import DevTools from 'mobx-react-devtools';
 
 import NavBar from './Nav';
-import ClimateSelector from './ClimateSelector';
 
 import { uuidv4 } from '../utils.js';
 
@@ -246,11 +245,6 @@ const Indicators = inject("appstate", "radstate")(observer(
       return (
         <Grid>
           <NavBar route={this.props.route} />
-          <Row>
-            <Well>
-              <ClimateSelector />
-            </Well>
-          </Row>
           <Row>
             <Panel>
               <Col md={4}><b><i>K</i> = {K.toFixed(2)} <i>W/m²K</i></b></Col>
