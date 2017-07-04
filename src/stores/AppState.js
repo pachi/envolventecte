@@ -91,6 +91,7 @@ export const AppState = observable({
   get huecosAU() { return this.envolvente.huecos.map(h => Number(h.A) * Number(h.U)).reduce((a, b) => a + b, 0); },
   get opacosA() { return this.envolvente.opacos.map(o => Number(o.A)).reduce((a, b) => a + b, 0); },
   get opacosAU() { return this.envolvente.opacos.map(o => Number(o.A) * Number(o.U)).reduce((a, b) => a + b, 0); },
+  get ptsL() { return this.envolvente.pts.map(h => Number(h.L)).reduce((a, b) => a + b, 0); },
   get ptsPsiL() { return this.envolvente.pts.map(h => Number(h.L) * Number(h.psi)).reduce((a, b) => a + b, 0); },
   get totalA() { return this.huecosA + this.opacosA; },
   get totalAU() { return this.huecosAU + this.opacosAU; },
