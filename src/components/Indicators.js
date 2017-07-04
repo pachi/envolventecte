@@ -199,6 +199,30 @@ class PTsTable extends Component {
   }
 }
 
+
+class DetallesPanel extends Component {
+  constructor(...args) {
+    super(...args);
+    this.state = {
+      open: true
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <Button bsStyle="info" onClick={ ()=> this.setState({ open: !this.state.open })}>
+          <span className="caret" /> Detalles
+        </Button>
+        <Panel collapsible expanded={this.state.open}>
+          { this.props.children }
+        </Panel>
+      </div>
+    );
+  }
+}
+
+
 const KTable = ({ huecosA, huecosAU, opacosA, opacosAU, ptsPsiL, totalA, totalAU, K }) =>
   // TODO: comprobar por qué no coincide con los valores del documento (área de huecos, p.e.)
   <Grid>
@@ -227,6 +251,7 @@ const Indicators = inject("appstate", "radstate")(observer(
       const { envolvente, Autil, newHueco, newOpaco, newPT } = this.props.appstate;
       const { climateTotRad } = this.props.radstate;
       const { huecos, opacos, pts } = envolvente;
+      // Mover a estado
       const huecosA = huecos.map(h => Number(h.A)).reduce((a, b) => a + b, 0);
       const huecosAU = huecos.map(h => Number(h.A) * Number(h.U)).reduce((a, b) => a + b, 0);
       const opacosA = opacos.map(o => Number(o.A)).reduce((a, b) => a + b, 0);
@@ -255,6 +280,7 @@ const Indicators = inject("appstate", "radstate")(observer(
           <Row>
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
               <Tab eventKey={1} title="Indicadores">
+                <DetallesPanel>
                 <KTable huecosA={huecosA} huecosAU={huecosAU}
                   opacosA={opacosA} opacosAU={opacosAU}
                   ptsPsiL={ptsPsiL}
@@ -266,6 +292,7 @@ const Indicators = inject("appstate", "radstate")(observer(
                 <label>Carga archivo con datos de envolvente:</label>
                 <input ref="fileInput" type="file"
                   onChange={e => this.handleFiles(e)} />
+                </DetallesPanel>
               </Tab>
               <Tab eventKey={2} title="Huecos">
                 <HuecosTable huecos={envolvente.huecos} newHueco={newHueco} />
