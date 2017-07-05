@@ -24,7 +24,7 @@ SOFTWARE.
 import React, { Component } from 'react';
 import {
   Button, ButtonGroup, Col, Glyphicon,
-  Grid, Panel, Row, Tabs, Tab, Well
+  Grid, Panel, Row, Tabs, Tab
 } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 

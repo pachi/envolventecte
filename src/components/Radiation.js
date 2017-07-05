@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React from 'react';
-import { Col, Image, Grid, Row, Well } from 'react-bootstrap';
+import { Col, Image, Grid, Row } from 'react-bootstrap';
 
 import { observer, inject } from 'mobx-react';
 // import mobx from 'mobx';
