@@ -55,6 +55,21 @@ const PlusMinusButtonRow = ({ objects, newObj, selectedId }) =>
       </Button>
       <Button bsStyle="primary" bsSize="small"
         onClick={() => {
+          // Duplicamos el seleccionado o el primer objeto si hay objetos
+          if (objects.length > 0) {
+            const selectedIndex = objects.findIndex(h => h.id === selectedId);
+            const idx = selectedIndex >= 0 ? selectedIndex : 0;
+            const dupObj = { ...objects[idx], id: uuidv4() };
+            objects.splice(idx, 0, dupObj);
+          // En caso contrario añadimos un objeto nuevo
+          } else {
+            objects.push({ ...newObj, id: uuidv4() });
+          }
+        }}>
+        <Glyphicon glyph="duplicate" />
+      </Button>
+      <Button bsStyle="primary" bsSize="small"
+        onClick={() => {
           // https://mobx.js.org/refguide/array.html
           objects.replace(objects.filter(h => !selectedId.includes(h.id)));
         }}>

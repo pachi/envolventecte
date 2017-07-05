@@ -3,4 +3,3 @@
 - Mover cálculo de radiación a un campo calculado, evitando cálculo manual
 - Mostrar indicación de que se está en proceso de cálculo o carga de datos
 - Arreglar carga de archivos, ahora que usamos UID
-- Duplicar filas
