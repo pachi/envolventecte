@@ -47,9 +47,7 @@ const PlusMinusButtonRow = ({ objects, newObj, selectedId }) =>
     <ButtonGroup>
       <Button bsStyle="primary" bsSize="small"
         onClick={() => {
-          const object = newObj;
-          object.id = uuidv4();
-          objects.push(object);
+          objects.push({ ...newObj, id: uuidv4() });
         }}>
         <Glyphicon glyph="plus" />
       </Button>
