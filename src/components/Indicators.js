@@ -121,7 +121,9 @@ class HuecosTable extends Component {
           <Col md={6} className="text-right">&sum;A·U = { huecosAU.toFixed(2) } W/K</Col>
         </Row>
         <Row className="text-info small">
-          <Col md={12}>NOTA: Solamente se deben incluir los huecos con factor de ajuste no nulo.</Col>
+          <Col md={12}>NOTA: Únicamente deben incluirse en la tabla los huecos con
+            factor de ajuste no nulo (<i>b<sub>tr,x</sub></i>), suponiendo para los
+            definidos que este tiene valor 1.0.</Col>
         </Row>
       </Grid>
     );
@@ -207,7 +209,9 @@ class PTsTable extends Component {
           <Col md={6} className="text-right">&sum;L·&psi; = {ptsPsiL.toFixed(2)} W/K</Col>
         </Row>
         <Row className="text-info small">
-          <Col md={12}>NOTA: Solamente se deben incluir los puentes térmicos en elementos con factor de ajuste no nulo.</Col>
+          <Col md={12}>NOTA: Deben únicamente introducirse en la tabla los puentes térmicos
+            en elementos con factor de ajuste (<i>b<sub>tr,x</sub></i>) no nulo, considerándosé
+            que este tiene valor 1.0 para los definidos en la tabla.</Col>
         </Row>
       </Grid>
     );
