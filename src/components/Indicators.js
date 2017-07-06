@@ -121,9 +121,11 @@ class HuecosTable extends Component {
           <Col md={6} className="text-right">&sum;A·U = { huecosAU.toFixed(2) } W/K</Col>
         </Row>
         <Row className="text-info small">
-          <Col md={12}>NOTA: Únicamente deben incluirse en la tabla los huecos con
-            factor de ajuste no nulo (<i>b<sub>tr,x</sub></i>), suponiendo para los
-            definidos que este tiene valor 1.0.</Col>
+          <Col md={12}>
+            NOTA: Para los huecos definidos en la tabla se considera, a efectos
+            del cálculo de K, un factor de ajuste <i>b<sub>tr,x</sub> = 1.0</i>, de modo que
+            deben incluirse Únicamente los pertenecientes a elementos con un factor de ajuste no nulo.
+          </Col>
         </Row>
       </Grid>
     );
@@ -167,6 +169,13 @@ class OpacosTable extends Component {
           <Col md={6}>&sum;b<sub>tr,x</sub>·A<sub>x</sub> = {opacosA.toFixed(2)} m²</Col>
           <Col md={6} className="text-right">&sum;b<sub>tr,x</sub>·&sum;<sub>i</sub>A<sub>i</sub>·U<sub>i</sub> = {opacosAU.toFixed(2)} W/K</Col>
         </Row>
+        <Row className="text-info small">
+          <Col md={12}>
+            NOTA: El factor de ajuste propuesto para elementos en contacto con edificios o
+            espacios adyacentes es <i>b<sub>tr,x</sub> = 0.0</i>, y <i>b<sub>tr,x</sub> = 1.0</i>
+            para el resto de casos.
+          </Col>
+        </Row>
       </Grid>
     );
   }
@@ -209,9 +218,11 @@ class PTsTable extends Component {
           <Col md={6} className="text-right">&sum;L·&psi; = {ptsPsiL.toFixed(2)} W/K</Col>
         </Row>
         <Row className="text-info small">
-          <Col md={12}>NOTA: Deben únicamente introducirse en la tabla los puentes térmicos
-            en elementos con factor de ajuste (<i>b<sub>tr,x</sub></i>) no nulo, considerándosé
-            que este tiene valor 1.0 para los definidos en la tabla.</Col>
+          <Col md={12}>
+            NOTA: Para los puentes térmicos definidos en la tabla se considera, a efectos
+            del cálculo de K, un factor de ajuste <i>b<sub>tr,x</sub> = 1.0</i>, de modo que
+            deben incluirse Únicamente los pertenecientes a elementos con un factor de ajuste no nulo.
+          </Col>
         </Row>
       </Grid>
     );
