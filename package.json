@@ -25,18 +25,18 @@
     "sun"
   ],
   "devDependencies": {
-    "gh-pages": "^0.12.0",
+    "gh-pages": "^1.0.0",
     "react-scripts": "1.0.9"
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "mobx": "^2.6.5",
-    "mobx-react": "^4.0.3",
+    "mobx": "^3.1.17",
+    "mobx-react": "^4.2.2",
     "mobx-react-devtools": "^4.2.10",
-    "react": "^15.4.1",
-    "react-bootstrap": "^0.30.7",
-    "react-bootstrap-table": "^3.4.2",
-    "react-dom": "^15.4.1",
+    "react": "^15.6.1",
+    "react-bootstrap": "^0.31.0",
+    "react-bootstrap-table": "^3.4.3",
+    "react-dom": "^15.6.1",
     "react-router": "^3.0.0",
     "react-router-bootstrap": "^0.23.1",
     "soljs": "latest",
