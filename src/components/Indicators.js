@@ -124,7 +124,7 @@ class HuecosTable extends Component {
           <Col md={12}>
             NOTA: Para los huecos definidos en la tabla se considera, a efectos
             del cálculo de K, un factor de ajuste <i>b<sub>tr,x</sub> = 1.0</i>, de modo que
-            deben incluirse Únicamente los pertenecientes a elementos con un factor de ajuste no nulo.
+            solo deben incluirse aquellos pertenecientes a elementos con un factor de ajuste no nulo.
           </Col>
         </Row>
       </Grid>
@@ -221,7 +221,7 @@ class PTsTable extends Component {
           <Col md={12}>
             NOTA: Para los puentes térmicos definidos en la tabla se considera, a efectos
             del cálculo de K, un factor de ajuste <i>b<sub>tr,x</sub> = 1.0</i>, de modo que
-            deben incluirse Únicamente los pertenecientes a elementos con un factor de ajuste no nulo.
+            solo deben incluirse aquellos pertenecientes a elementos con un factor de ajuste no nulo.
           </Col>
         </Row>
       </Grid>
