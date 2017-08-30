@@ -49,16 +49,16 @@ const RadiationTable = ({ data }) =>
           <tr key={'dir_' + d.surfname}>
             <td rowSpan="3"><b>{d.surfname}</b></td>
             <td>Dir.</td>
-            {d.dir.map((v, i) => <td key={'dir_' + i}>{v}</td>)}
+            {d.dir.map((v, i) => <td key={'dir_' + i}>{v.toFixed(2)}</td>)}
           </tr>
           <tr key={'dif_' + d.surfname}>
             <td>Dif.</td>
-            {d.dif.map((v, i) => <td key={'dif_' + i}>{v}</td>)}
+            {d.dif.map((v, i) => <td key={'dif_' + i}>{v.toFixed(2)}</td>)}
           </tr>
           <tr key={'tot_' + d.surfname}
             style={{ fontWeight: 'bold' }}>
             <td>Tot.</td>
-            {d.tot.map((v, i) => <td key={'tot_' + i}>{v}</td>)}
+            {d.tot.map((v, i) => <td key={'tot_' + i}>{v.toFixed(2)}</td>)}
           </tr>
         </tbody>);
     })
