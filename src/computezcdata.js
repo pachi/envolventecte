@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
 
-/**** Precalcula datos de radiación por zonas y orientación kwh/m2/mes
+/* *** Precalcula datos de radiación por zonas y orientación kwh/m2/mes
 
 Genera el archivo de radiación zcraddata.json al ejecutar:
 
@@ -75,7 +75,7 @@ function radiationForSurface(latitude, surf, albedo, hourlydata) {
     d => {
       // Calcula altura solar = 90 - cenit y
       // corregir problema numérico con altitud solar = 0
-      const salt = (d.cenit !== 90) ? 90 - d.cenit : 90 - 89.95;
+      const salt = 90 - d.cenit;
       const rdir = soljs.gsolbeam(d.rdirhor, salt);
       const dir = soljs.idirtot(d.mes, d.dia, d.hora, rdir, d.rdifhor, salt,
                                 latitude, surf.beta, surf.gamma);
@@ -111,16 +111,14 @@ function monthlyRadiationForSurface(metdata, surf) {
 }
 
 let datalist = [];
-met.CLIMATEZONES.map( zona =>
-  {
-    const metpath = `${ CLIMASDIR }/zona${ zona }.met`;
-    const datalines = fs.readFileSync(metpath, 'utf-8');
-    const metdata = met.parsemet(datalines);
-    const zonevalues = ORIENTACIONES
-      .map(surf => monthlyRadiationForSurface(metdata, surf));
-    datalist = datalist.concat(zonevalues);
-  }
-);
+met.CLIMATEZONES.map(zona => {
+  const metpath = `${ CLIMASDIR }/zona${ zona }.met`;
+  const datalines = fs.readFileSync(metpath, 'utf-8');
+  const metdata = met.parsemet(datalines);
+  const zonevalues = ORIENTACIONES
+    .map(surf => monthlyRadiationForSurface(metdata, surf));
+  datalist = datalist.concat(zonevalues);
+});
 
 const jsonstring = JSON
   .stringify(datalist,
@@ -128,4 +126,3 @@ const jsonstring = JSON
              ' ');
 
 fs.writeFile('zcraddata.json', jsonstring);
-//console.log(outstring);
