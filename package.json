@@ -1,6 +1,6 @@
 {
   "name": "solarcte",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Radiation on oriented surfaces for use in building science and CTE DB-HE (spanish building regulations",
   "author": "Rafael Villar Burke <pachi@rvburke.com> (http://www.rvburke.com)",
   "license": "MIT",
