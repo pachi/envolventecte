@@ -46,7 +46,7 @@ const PlusMinusButtonRow = ({ objects, newObj, selectedId }) =>
     <ButtonGroup className="pull-right">
       <Button bsStyle="primary" bsSize="xs"
         onClick={() => {
-          objects.push({ ...newObj, id: uuidv4() });
+          objects.push(newObj());
         }}>
         <Glyphicon glyph="plus" />
       </Button>
@@ -60,7 +60,7 @@ const PlusMinusButtonRow = ({ objects, newObj, selectedId }) =>
             objects.splice(idx, 0, dupObj);
           // En caso contrario añadimos un objeto nuevo
           } else {
-            objects.push({ ...newObj, id: uuidv4() });
+            objects.push(newObj());
           }
         }}>
         <Glyphicon glyph="duplicate" />
@@ -81,13 +81,18 @@ class HuecosTable extends Component {
     this.state = { selectedId: [] };
   }
 
+  newHueco = () => (
+    { id: uuidv4(), nombre: 'Hueco nuevo', orientacion: 'N',
+      A: 1.0, U: 1.0, Ff: 0.2, ggl: 0.67, Fshobst: 1.0, Fshgl: 0.3 }
+  )
+
   render() {
-    const { huecos, newHueco, huecosA, huecosAU } = this.props;
+    const { huecos, huecosA, huecosAU } = this.props;
     return (
       <Grid>
         <h2>
           Huecos de la envolvente térmica
-          <PlusMinusButtonRow objects={huecos} newObj={newHueco}
+          <PlusMinusButtonRow objects={huecos} newObj={ this.newHueco }
                               selectedId={this.state.selectedId} />
         </h2>
         <BootstrapTable data={huecos} striped hover bordered={false}
@@ -132,20 +137,21 @@ class HuecosTable extends Component {
   }
 }
 
-
 class OpacosTable extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = { selectedId: [] };
   }
 
+  newOpaco = () => ({ id: uuidv4(), A: 1.00, U: 0.200, btrx: 1.0, nombre: 'Elemento opaco' })
+
   render() {
-    const { opacos, newOpaco, opacosA, opacosAU } = this.props;
+    const { opacos, opacosA, opacosAU } = this.props;
     return (
       <Grid>
         <h2>
           Elementos opacos de la envolvente térmica
-          <PlusMinusButtonRow objects={opacos} newObj={newOpaco}
+          <PlusMinusButtonRow objects={opacos} newObj={ this.newOpaco }
                               selectedId={this.state.selectedId} />
         </h2>
         <BootstrapTable data={opacos} striped hover bordered={false}
@@ -188,13 +194,15 @@ class PTsTable extends Component {
     this.state = { selectedId: [] };
   }
 
+  newPT = () => ({ id: uuidv4(), L: 1.0, psi: 0.05, nombre: 'PT por defecto' })
+
   render() {
-    const { pts, newPT, ptsL, ptsPsiL } = this.props;
+    const { pts, ptsL, ptsPsiL } = this.props;
     return (
       <Grid>
         <h2>
           Puentes térmicos de la envolvente térmica
-          <PlusMinusButtonRow objects={pts} newObj={newPT}
+          <PlusMinusButtonRow objects={pts} newObj={ this.newPT }
                               selectedId={this.state.selectedId} />
         </h2>
         <BootstrapTable data={pts} striped hover bordered={false}
@@ -290,13 +298,13 @@ const IndicatorsPanel = inject("appstate", "radstate")(observer(
   }
 ));
 
-
 const Indicators = inject("appstate", "radstate")(observer(
   class Indicators extends Component {
     render() {
       // climate, radiationdata,
-      const { envolvente, newHueco, newOpaco, newPT,
-              huecosA, huecosAU, opacosA, opacosAU, ptsL, ptsPsiL } = this.props.appstate;
+      const {
+        envolvente, huecosA, huecosAU, opacosA, opacosAU, ptsL, ptsPsiL, errors
+      } = this.props.appstate;
       return (
         <Grid>
           <NavBar route={this.props.route} />
@@ -306,13 +314,13 @@ const Indicators = inject("appstate", "radstate")(observer(
           <Row>
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
               <Tab eventKey={1} title="Huecos">
-                <HuecosTable huecos={envolvente.huecos} {...{ newHueco, huecosA, huecosAU }} />
+                <HuecosTable huecos={envolvente.huecos} {...{ huecosA, huecosAU }} />
               </Tab>
               <Tab eventKey={2} title="Opacos">
-                <OpacosTable opacos={envolvente.opacos} {...{ newOpaco, opacosA, opacosAU }} />
+                <OpacosTable opacos={envolvente.opacos} {...{ opacosA, opacosAU }} />
               </Tab>
               <Tab eventKey={3} title="P. Térmicos">
-                <PTsTable pts={envolvente.pts} {...{ newPT, ptsL, ptsPsiL }} />
+                <PTsTable pts={envolvente.pts} {...{ ptsL, ptsPsiL }} />
               </Tab>
               <Tab eventKey={4} title="Carga de datos">
                 <label>Carga archivo con datos de envolvente:</label>

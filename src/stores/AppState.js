@@ -66,7 +66,7 @@ export const AppState = observable({
     opacos: [
       { id: uuidv4(), A: 418.00, U: 0.211, btrx: 1.0, nombre: 'Cubierta' },
       { id: uuidv4(), A: 534.41, U: 0.271, btrx: 1.0, nombre: 'Fachada' },
-      { id: uuidv4(), A: 418.00, U: 0.246, btrx: 0.0, nombre: 'Solera' }
+      { id: uuidv4(), A: 418.00, U: 0.246, btrx: 1.0, nombre: 'Solera' }
     ],
     pts: [
       { id: uuidv4(), L: 487.9, psi: 0.10, nombre: 'PT forjado-fachada' },
@@ -76,15 +76,6 @@ export const AppState = observable({
     ]
   },
 
-  // Constructores de objetos básicos (hay que actualizar su id)
-  newHueco() {
-    return {
-      id: null, nombre: 'Hueco nuevo', orientacion: 'N',
-      A: 1.0, U: 1.0, Ff: 0.2, ggl: 0.67, Fshobst: 1.0, Fshgl: 0.3
-    };
-  },
-  newOpaco() { return { id: null, A: 1.00, U: 0.200, btrx: 1.0, nombre: 'Elemento opaco' }; },
-  newPT() { return { id: null, L: 1.0, psi: 0.05, nombre: 'PT' }; },
 
   // Propiedades calculadas
   get huecosA() { return this.envolvente.huecos.map(h => Number(h.A)).reduce((a, b) => a + b, 0); },
