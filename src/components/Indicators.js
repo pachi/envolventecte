@@ -23,7 +23,7 @@ SOFTWARE.
 
 import React, { Component } from 'react';
 import {
-  Button, ButtonGroup, Col, Glyphicon,
+  Alert, Button, ButtonGroup, Col, Glyphicon,
   Grid, Panel, Row, Tabs, Tab
 } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
@@ -305,7 +305,7 @@ const Indicators = inject("appstate", "radstate")(observer(
       const {
         envolvente, huecosA, huecosAU, opacosA, opacosAU, ptsL, ptsPsiL, errors
       } = this.props.appstate;
-      const errordisplay = errors.length !== 0 ? <label>{ errors.map(e => e.msg).join('\n') }</label> : null;
+      const errordisplay = errors.length !== 0 ? <Alert bsStyle="info">{ errors.map(e => e.msg).join('\n') }</Alert> : null;
       return (
         <Grid>
           <NavBar route={this.props.route} />
@@ -323,7 +323,7 @@ const Indicators = inject("appstate", "radstate")(observer(
               <Tab eventKey={3} title="P. Térmicos">
                 <PTsTable pts={envolvente.pts} {...{ ptsL, ptsPsiL }} />
               </Tab>
-              <Tab eventKey={4} title="Carga de datos">
+              <Tab eventKey={4} title="Carga/descarga de datos">
                 <label>Carga archivo con datos de envolvente:</label>
                 <input ref="fileInput" type="file"
                   onChange={e => this.handleFiles(e)} />
