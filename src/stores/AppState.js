@@ -76,6 +76,7 @@ export const AppState = observable({
     ]
   },
 
+  errors: [],
 
   // Propiedades calculadas
   get huecosA() { return this.envolvente.huecos.map(h => Number(h.A)).reduce((a, b) => a + b, 0); },

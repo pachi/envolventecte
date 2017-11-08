@@ -305,6 +305,7 @@ const Indicators = inject("appstate", "radstate")(observer(
       const {
         envolvente, huecosA, huecosAU, opacosA, opacosAU, ptsL, ptsPsiL, errors
       } = this.props.appstate;
+      const errordisplay = errors.length !== 0 ? <label>{ errors.map(e => e.msg).join('\n') }</label> : null;
       return (
         <Grid>
           <NavBar route={this.props.route} />
@@ -326,6 +327,7 @@ const Indicators = inject("appstate", "radstate")(observer(
                 <label>Carga archivo con datos de envolvente:</label>
                 <input ref="fileInput" type="file"
                   onChange={e => this.handleFiles(e)} />
+                { errordisplay }
               </Tab>
             </Tabs>
           </Row>
@@ -344,9 +346,18 @@ const Indicators = inject("appstate", "radstate")(observer(
 
       const reader = new FileReader();
       reader.onload = e => {
-        const data = JSON.parse(e.target.result);
-        this.props.appstate.Autil = Number(data.Autil);
-        this.props.appstate.envolvente = data.envolvente;
+        try {
+          const data = JSON.parse(e.target.result);
+          this.props.appstate.Autil = Number(data.Autil);
+          this.props.appstate.envolvente = data.envolvente;
+          this.props.appstate.errors = [
+            { type: 'OK', msg: "El archivo no contiene datos con un formato adecuado." }
+          ];
+        } catch (err) {
+          this.props.appstate.errors = [
+            { type: 'ERROR', msg: "El archivo no contiene datos con un formato adecuado." }
+          ];
+        }
       };
       reader.readAsText(file);
     }
