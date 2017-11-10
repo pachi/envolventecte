@@ -29,7 +29,7 @@ import {
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
 import { observer, inject } from 'mobx-react';
-import DevTools from 'mobx-react-devtools';
+// import DevTools from 'mobx-react-devtools';
 
 import NavBar from './Nav';
 
@@ -331,7 +331,7 @@ const Indicators = inject("appstate", "radstate")(observer(
               </Tab>
             </Tabs>
           </Row>
-          {<DevTools position={{ bottom: 0, right: 20 }} />}
+          {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
         </Grid>
       );
     }
