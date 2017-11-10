@@ -325,8 +325,11 @@ const Indicators = inject("appstate", "radstate")(observer(
               </Tab>
               <Tab eventKey={4} title="Carga/descarga de datos">
                 <label>Carga archivo con datos de envolvente:</label>
-                <input ref="fileInput" type="file"
-                  onChange={e => this.handleFiles(e)} />
+                <input ref="fileInput" type="file" onChange={e => this.handleUpload(e)} />
+                <Button className="btn" ref="fileDownload"
+                  onClick={ e => this.handleDownload(e) }>
+                  Descargar datos
+                </Button>
                 { errordisplay }
               </Tab>
             </Tabs>
@@ -336,7 +339,7 @@ const Indicators = inject("appstate", "radstate")(observer(
       );
     }
 
-    handleFiles(e) {
+    handleUpload(e) {
       let file;
       if (e.dataTransfer) {
         file = e.dataTransfer.files[0];
@@ -351,7 +354,7 @@ const Indicators = inject("appstate", "radstate")(observer(
           this.props.appstate.Autil = Number(data.Autil);
           this.props.appstate.envolvente = data.envolvente;
           this.props.appstate.errors = [
-            { type: 'OK', msg: "El archivo no contiene datos con un formato adecuado." }
+            { type: 'OK', msg: "Datos cargados correctamente." }
           ];
         } catch (err) {
           this.props.appstate.errors = [
@@ -360,6 +363,28 @@ const Indicators = inject("appstate", "radstate")(observer(
         }
       };
       reader.readAsText(file);
+    }
+
+    handleDownload(e) {
+      const { Autil, envolvente } = this.props.appstate;
+      const contents = JSON.stringify({ Autil, envolvente }, null, 2);
+      const filename = "solarcte.csv";
+      const blob = new Blob([contents], { type: 'text/plain' });
+      const uri = URL.createObjectURL(blob);
+      // from http://stackoverflow.com/questions/283956/
+      const link = document.createElement('a');
+      if (typeof link.download === 'string') {
+        link.href = uri;
+        link.download = filename;
+        // Firefox requires the link to be in the body
+        document.body.appendChild(link);
+        // Simulate click
+        link.click();
+        // Remove the link when done
+        document.body.removeChild(link);
+      } else {
+        window.open(uri);
+      }
     }
   }
 ));
