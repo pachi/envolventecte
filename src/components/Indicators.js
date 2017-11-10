@@ -33,7 +33,7 @@ import { observer, inject } from 'mobx-react';
 
 import NavBar from './Nav';
 
-import { uuidv4 } from '../utils.js';
+import { uuidv4, UserException } from '../utils.js';
 
 const Float1DigitsFormatter = (cell, row) => <span>{Number(cell).toFixed(1)}</span>;
 const Float2DigitsFormatter = (cell, row) => <span>{Number(cell).toFixed(2)}</span>;
@@ -305,7 +305,9 @@ const Indicators = inject("appstate", "radstate")(observer(
       const {
         envolvente, huecosA, huecosAU, opacosA, opacosAU, ptsL, ptsPsiL, errors
       } = this.props.appstate;
-      const errordisplay = errors.length !== 0 ? <Alert bsStyle="info">{ errors.map(e => e.msg).join('\n') }</Alert> : null;
+      const errordisplay = errors.map((e, idx) =>
+        <Alert bsStyle={ e.type.toLowerCase() }
+          key={ `AlertId${ idx }` }>{ e.msg }</Alert>);
       return (
         <Grid>
           <NavBar route={this.props.route} />
@@ -323,14 +325,19 @@ const Indicators = inject("appstate", "radstate")(observer(
               <Tab eventKey={3} title="P. Térmicos">
                 <PTsTable pts={envolvente.pts} {...{ ptsL, ptsPsiL }} />
               </Tab>
-              <Tab eventKey={4} title="Carga/descarga de datos">
-                <label>Carga archivo con datos de envolvente:</label>
-                <input ref="fileInput" type="file" onChange={e => this.handleUpload(e)} />
-                <Button className="btn" ref="fileDownload"
-                  onClick={ e => this.handleDownload(e) }>
-                  Descargar datos
-                </Button>
+              <Tab eventKey={4} title="Carga / descarga de datos">
+                <Panel header="Carga archivo con datos de envolvente:" bsStyle="primary">
+                  <input ref="fileInput" type="file" onChange={e => this.handleUpload(e)} />
+                </Panel>
+                <Row>
+                  <Button bsStyle="primary" ref="fileDownload" className="pull-right"
+                    onClick={ e => this.handleDownload(e) }>
+                    <Glyphicon glyph="download" /> Descargar datos de envolvente
+                  </Button>
+                </Row>
+                <Row>
                 { errordisplay }
+                </Row>
               </Tab>
             </Tabs>
           </Row>
@@ -348,17 +355,23 @@ const Indicators = inject("appstate", "radstate")(observer(
       }
 
       const reader = new FileReader();
-      reader.onload = e => {
+      reader.onload = rawdata => {
         try {
-          const data = JSON.parse(e.target.result);
-          this.props.appstate.Autil = Number(data.Autil);
-          this.props.appstate.envolvente = data.envolvente;
+          const { Autil, envolvente } = JSON.parse(rawdata.target.result);
+          const { huecos, opacos, pts } = envolvente;
+          if (!(Autil && envolvente
+            && Array.isArray(huecos) && Array.isArray(opacos)
+            && Array.isArray(pts))) throw UserException("Formato incorrecto");
+          this.props.appstate.Autil = Number(Autil);
+          this.props.appstate.envolvente = envolvente;
           this.props.appstate.errors = [
-            { type: 'OK', msg: "Datos cargados correctamente." }
+            { type: 'SUCCESS', msg: "Datos cargados correctamente." },
+            { type: 'INFO', msg: `Autil: ${ Autil } m², Elementos: `
+              + `${ huecos.length } huecos, ${ opacos.length } opacos, ${ pts.length } PTs.` }
           ];
         } catch (err) {
           this.props.appstate.errors = [
-            { type: 'ERROR', msg: "El archivo no contiene datos con un formato adecuado." }
+            { type: 'DANGER', msg: "El archivo no contiene datos con un formato adecuado." }
           ];
         }
       };

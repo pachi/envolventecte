@@ -28,3 +28,8 @@ export function uuidv4() {
     // eslint-disable-next-line
     c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16))
 }
+
+export function UserException(message, kind = 'UserException') {
+  this.message = message;
+  this.kind = kind;
+}
