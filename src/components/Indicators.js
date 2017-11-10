@@ -381,8 +381,8 @@ const Indicators = inject("appstate", "radstate")(observer(
     handleDownload(e) {
       const { Autil, envolvente } = this.props.appstate;
       const contents = JSON.stringify({ Autil, envolvente }, null, 2);
-      const filename = "solarcte.csv";
-      const blob = new Blob([contents], { type: 'text/plain' });
+      const filename = "solarcte.json";
+      const blob = new Blob([contents], { type: 'application/json' });
       const uri = URL.createObjectURL(blob);
       // from http://stackoverflow.com/questions/283956/
       const link = document.createElement('a');
