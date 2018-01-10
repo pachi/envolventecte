@@ -31,9 +31,25 @@ Genera el archivo de radiación zcraddata.json al ejecutar:
 
 const fs = require('fs');
 const path = require('path');
-const soljsm = require('soljs');
-const soljs = soljsm.soljs;
-const met = soljsm.met;
+const { soljs, met } = require('soljs');
+
+// Orientaciones para las que se realizan los cálculos
+const ORIENTACIONES = [
+  // Area, slope, azimuth, name
+  { beta: 0, gamma: 0, name: 'Horiz.' },
+  { beta: 90, gamma: -135, name: 'NE' },
+  { beta: 90, gamma: -90, name: 'E' },
+  { beta: 90, gamma: -45, name: 'SE' },
+  { beta: 90, gamma: 0, name: 'S' },
+  { beta: 90, gamma: 45, name: 'SW' },
+  { beta: 90, gamma: 90, name: 'W' },
+  { beta: 90, gamma: 135, name: 'NW' },
+  { beta: 90, gamma: 180, name: 'N' }
+];
+
+// Meses de cálculo
+const MESES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
 
 const args = process.argv.slice(2);
 let CLIMASDIR = args.find(v => v.startsWith('climasdir='));
@@ -47,20 +63,6 @@ if (CLIMASDIR) {
 } else {
   process.exit();
 }
-
-// Orientaciones
-const ORIENTACIONES = [
-  // Area, slope, azimuth, name
-  { beta: 0, gamma: 0, name: 'Horiz.' },
-  { beta: 90, gamma: -135, name: 'NE' },
-  { beta: 90, gamma: -90, name: 'E' },
-  { beta: 90, gamma: -45, name: 'SE' },
-  { beta: 90, gamma: 0, name: 'S' },
-  { beta: 90, gamma: 45, name: 'SW' },
-  { beta: 90, gamma: 90, name: 'W' },
-  { beta: 90, gamma: 135, name: 'NW' },
-  { beta: 90, gamma: 180, name: 'N' }
-];
 
 
 // Calcula radiación directa y difusa en una superficie orientada y con albedo
@@ -85,7 +87,7 @@ function radiationForSurface(latitude, surf, albedo, hourlydata) {
     });
 }
 
-const MESES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
 // Acumulados mensuales para el clima y la superficie dados
 function monthlyRadiationForSurface(metdata, surf) {
   const albedo = 0.2;
