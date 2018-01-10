@@ -125,4 +125,9 @@ const jsonstring = JSON
              (key, val) => val.toFixed ? Number(val.toFixed(2)) : val,
              ' ');
 
-fs.writeFile('zcraddata.json', jsonstring);
+fs.writeFile('zcraddata.json', jsonstring,
+  (err) => {
+    if (err) throw err;
+    console.log('Se han guardado los resultados en el archivo zcraddata.json');
+  }
+);
