@@ -68,13 +68,12 @@ function findClimasDir(args) {
   return climasdirarg;
 }
 
-
-// Calcula radiación directa y difusa en una superficie orientada y con albedo
+// Calcula radiación horaria directa y difusa en una superficie orientada y con albedo
 //
 // latitude: latitud de la localización
 // hourlydata: datos climáticos horarios (.data de climadata)
-// surf: descripción de la superficie orientada (inclinación, azimuth)
-//       { beta: [0, 180], gamma: [-180, 180] }
+// surf: descripción de la superficie orientada (nombre, inclinación, azimuth)
+//       { name: 'NW', beta: [0, 180], gamma: [-180, 180] }
 // albedo: reflectancia del entorno [0.0, 1.0]
 function radiationForSurface(latitude, surf, albedo, hourlydata) {
   return hourlydata.map(
