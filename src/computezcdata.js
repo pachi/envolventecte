@@ -50,18 +50,22 @@ const ORIENTACIONES = [
 // Meses de cálculo
 const MESES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
+// Zonas climáticas para las que se realizan los cálculos
+const CLIMATEZONES = met.CLIMATEZONES;
 
-const args = process.argv.slice(2);
-let CLIMASDIR = args.find(v => v.startsWith('climasdir='));
-if (CLIMASDIR) {
-  CLIMASDIR = path.resolve(__dirname, CLIMASDIR.split('climasdir=')[1]);
-  const stats = fs.statSync(CLIMASDIR);
-  if (!stats.isDirectory()) {
-    console.log(`No se encuentra el directorio ${ CLIMASDIR }.`);
+function findClimasDir(args) {
+  let climasdirarg = args.slice(2).find(v => v.startsWith('climasdir='));
+  if (climasdirarg) {
+    climasdirarg = path.resolve(__dirname, climasdirarg.split('climasdir=')[1]);
+    const stats = fs.statSync(climasdirarg);
+    if (!stats.isDirectory()) {
+      console.log(`No se encuentra el directorio ${climasdirarg}.`);
+      process.exit();
+    }
+  } else {
     process.exit();
   }
-} else {
-  process.exit();
+  return climasdirarg;
 }
 
 
@@ -112,20 +116,19 @@ function monthlyRadiationForSurface(metdata, surf) {
   };
 }
 
-let datalist = [];
-met.CLIMATEZONES.map(zona => {
-  const metpath = `${ CLIMASDIR }/zona${ zona }.met`;
-  const datalines = fs.readFileSync(metpath, 'utf-8');
-  const metdata = met.parsemet(datalines);
-  const zonevalues = ORIENTACIONES
-    .map(surf => monthlyRadiationForSurface(metdata, surf));
-  datalist = datalist.concat(zonevalues);
-});
+
+const CLIMASDIR = findClimasDir(process.argv);
+
+let datalist = CLIMATEZONES
+  .map(zona => {
+    const datalines = fs.readFileSync(`${CLIMASDIR}/zona${zona}.met`, 'utf-8');
+    const metdata = met.parsemet(datalines);
+    return ORIENTACIONES.map(surf => monthlyRadiationForSurface(metdata, surf));
+  })
+  .reduce((x, y) => x.concat(y), []);
 
 const jsonstring = JSON
-  .stringify(datalist,
-             (key, val) => val.toFixed ? Number(val.toFixed(2)) : val,
-             ' ');
+  .stringify(datalist, (key, val) => val.toFixed ? Number(val.toFixed(2)) : val, ' ');
 
 fs.writeFile('zcraddata.json', jsonstring,
   (err) => {
