@@ -91,18 +91,35 @@ function radiationForSurface(latitude, surf, albedo, hourlydata) {
 }
 
 
-// Acumulados mensuales para el clima y la superficie dados
+// Calcula valores mensuales de radiación para el clima y la superficie dados
+//
+// metdata: datos climáticos, incluyendo metadatos y datos horarios ({ meta, data })
+// surf: descripción de la superficie orientada (nombre, inclinación, azimuth)
+//       { name: 'NW', beta: [0, 180], gamma: [-180, 180] }
 function monthlyRadiationForSurface(metdata, surf) {
   const albedo = 0.2;
-  const surfRadiation = radiationForSurface(metdata.meta.latitud,
-                                            surf, albedo, metdata.data);
+  const surfHourlyRadiation = radiationForSurface(metdata.meta.latitud, surf, albedo, metdata.data);
+
   const mesesdata = MESES.map(imes => {
-    const monthRadiation = surfRadiation.filter(d => d.mes === imes);
+    const monthRadiation = surfHourlyRadiation.filter(d => d.mes === imes);
+    // 1) Irradiación solar mensual acumulada (directa, difusa y total) [kWh/m2·mes]
     const dir = monthRadiation.map(v => v.dir).reduce((a, b) => a + b) / 1000;
     const dif = monthRadiation.map(v => v.dif).reduce((a, b) => a + b) / 1000;
     const tot = dir + dif;
+    // 2) Factores mensuales de reducción del sombreamiento móvil f_sh_with [fracción]
+    // Fracción de tiempo del mes con sombra activada (sum(I | I > I_lim) / sum(I)) con I = I_dir + I_dif
+    // - I > 200 W/m2 (control automático)
+    // - I > 300 W/m2 (control manual)
+    // - I > 500 W/m2 (temporada de calefacción)
+    const totover200 = monthRadiation.reduce((acc, v) => (v.dir + v.dif) > 200 ? acc + (v.dir + v.dif) : acc, 0);
+    const totover300 = monthRadiation.reduce((acc, v) => (v.dir + v.dif) > 300 ? acc + (v.dir + v.dif) : acc, 0);
+    const totover500 = monthRadiation.reduce((acc, v) => (v.dir + v.dif) > 500 ? acc + (v.dir + v.dif) : acc, 0);
+    // NOTA: Multiplicamos tot por 1000 para convertir kwh a W
+    const f_shwith200 = tot > 0 ? totover200 / (tot * 1000) : 0;
+    const f_shwith300 = tot > 0 ? totover300 / (tot * 1000) : 0;
+    const f_shwith500 = tot > 0 ? totover500 / (tot * 1000) : 0;
     // dir, dif, tot, en kWh/m2/mes
-    return { dir, dif, tot };
+    return { dir, dif, tot, f_shwith200, f_shwith300, f_shwith500 };
   });
 
   return { zc: metdata.meta.zc,
@@ -111,7 +128,10 @@ function monthlyRadiationForSurface(metdata, surf) {
            surfgamma: surf.gamma,
            dir: mesesdata.map(m => m.dir),
            dif: mesesdata.map(m => m.dif),
-           tot: mesesdata.map(m => m.tot)
+           tot: mesesdata.map(m => m.tot),
+           f_shwith200: mesesdata.map(m => m.f_shwith200),
+           f_shwith300: mesesdata.map(m => m.f_shwith300),
+           f_shwith500: mesesdata.map(m => m.f_shwith500)
   };
 }
 
