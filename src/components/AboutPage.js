@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { Component } from 'react';
-import { Alert, Button, Col, Grid, Row, Image } from 'react-bootstrap';
+import { Alert, Grid, Row } from 'react-bootstrap';
 
 import NavBar from './Nav';
 
