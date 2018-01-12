@@ -30,9 +30,11 @@ import 'bootstrap/dist/css/bootstrap-theme.css';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 
 import { AppState, RadState } from '../stores/AppState';
-import Radiation from './Radiation';
-import Indicators from './Indicators';
+
 import AboutPage from './AboutPage';
+import HelpPage from './HelpPage';
+import Indicators from './Indicators';
+import Radiation from './Radiation';
 
 const stores = {
   radstate: RadState,
@@ -47,6 +49,7 @@ class App extends Component {
         <Router history={hashHistory}>
           <Route path="/" component={ Indicators } />
           <Route path="/rad" component={ Radiation } />
+          <Route path="/help" component={ HelpPage }/>
           <Route path="/about" component={ AboutPage }/>
         </Router>
       </Provider>

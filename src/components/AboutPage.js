@@ -25,8 +25,6 @@ import React, { Component } from 'react';
 import { Alert, Button, Col, Grid, Row, Image } from 'react-bootstrap';
 
 import NavBar from './Nav';
-import esquema5R1C from './5R1C.svg';
-import orientaciones from './orientaciones.svg';
 
 export default class AboutPage extends Component {
   render() {
@@ -37,35 +35,6 @@ export default class AboutPage extends Component {
           <h1>Radiación solar en superficies orientadas e indicadores de envolvente térmica</h1>
           <p className="lead">Cálculos de radiación solar para la aplicación del CTE DB-HE</p>
           <Alert bsStyle="warning"><b>NOTA:</b> Esta aplicación y la información contenida en ella no tiene valor reglamentario.</Alert>
-          <h3>Datos de radiación por superficies</h3>
-          <p>
-            Esta aplicación usa datos de radiación precalculados para las distintas orientaciones y climas, a partir de los archivos climáticos de referencia de CTE DB-HE y el procedimiento de la norma ISO/FDIS 52010‐1:2016.</p>
-          <p>
-            <Button
-                bsStyle="success"
-                bsSize="small"
-                href="http://www.codigotecnico.org/images/stories/pdf/ahorroEnergia/CTEdatosMET_20140418.zip"
-                target="_blank">
-              Descargar climas de referencia de codigotecnico.org
-            </Button>
-          </p>
-        </Row>
-        <Row>
-          <Col md={8} mdOffset={2}>
-            <Image responsive alt="Roseta de orientaciones de superficies" src={ orientaciones } />
-          </Col>
-        </Row>
-        <Row>
-          <h3>Indicadores de la envolvente térmica</h3>
-          <p>Los indicadores de calidad en la envolvente térmica se basan en los descritos en la UNE EN ISO 13790:2008 (e ISO/FDIS 52016‐1).</p>
-
-          <p>El indicador de <b>transmitancia térmica global (<i>K</i>)</b> se basa en el coeficiente global de transmisión de calor (<i>H<sub>tr,adj</sub></i>, apartado 8.3.1, ec. 17 de UNE EN ISO 13790:2008 y apartado 6.6.5.2, ec. 108 de la ISO/FDIS 52016-1) repercutido por la superficie de intercambio con el exterior.</p>
-          <p>El indicador de <b>ganancias solares (q<sub>sol;jul</sub>)</b> se basa en el flujo de calor por ganancias solares (&Phi;<sub>sol;k</sub>, apartado 11.3.2, ec. 43 de la UNE EN ISO 13790:2008 y apartado 6.5.13.2, ec. 69 de la ISO/FDIS 52016-1), despreciando la reirradiación al cielo, y repercutido por la superficie útil considerada.</p>
-
-          <p><small>En este último indicador no se han considerado de forma separada las componentes difusa y directa al tener en cuenta el efecto de las obstrucciones solares, siguiendo el criterio de la UNE EN ISO 13790:2008 y no la formulación de la ISO/FDIS 52016-1 (ver ec. 69, apartado 6.5.13.2).</small></p>
-          <Col md={6} mdOffset={3}>
-            <Image responsive alt="Esquema 5R1C EN 13790" src={ esquema5R1C } />
-          </Col>
         </Row>
         <Row>
           <h3>Equipo de desarrollo:</h3>
@@ -78,4 +47,4 @@ export default class AboutPage extends Component {
       </Grid>
     );
   }
-};
+}

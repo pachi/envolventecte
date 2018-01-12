@@ -65,11 +65,19 @@ export default class NavBar extends React.Component {
               </LinkContainer>
             </Nav>
             <Nav pullRight>
+              <LinkContainer to="/help">
+                <NavItem className={ activeIfCurrent('/help') }
+                         eventKey={3}
+                         role="presentation">
+                  <span className="glyphicon glyphicon-question-sign"
+                        aria-hidden="true" /> Ayuda
+                </NavItem>
+              </LinkContainer>
               <LinkContainer to="/about">
                 <NavItem className={ activeIfCurrent('/about') }
                          eventKey={3}
                          role="presentation">
-                  <span className="glyphicon glyphicon-question-sign"
+                  <span className="glyphicon glyphicon-user"
                         aria-hidden="true" /> Créditos
                 </NavItem>
               </LinkContainer>
