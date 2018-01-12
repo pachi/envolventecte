@@ -135,15 +135,17 @@ function monthlyRadiationForSurface(metdata, surf) {
   };
 }
 
-
 const CLIMASDIR = findClimasDir(process.argv);
 
-let datalist = CLIMATEZONES
-  .map(zona => {
-    const datalines = fs.readFileSync(`${CLIMASDIR}/zona${zona}.met`, 'utf-8');
-    const metdata = met.parsemet(datalines);
-    return ORIENTACIONES.map(surf => monthlyRadiationForSurface(metdata, surf));
-  })
+// Lista de valores de radiación para la zona y orientaciones dadas
+function computeZoneDataList(zona, orientaciones) {
+  const datalines = fs.readFileSync(`${CLIMASDIR}/zona${zona}.met`, 'utf-8');
+  const metdata = met.parsemet(datalines);
+  return orientaciones.map(surf => monthlyRadiationForSurface(metdata, surf));
+}
+
+const datalist = CLIMATEZONES
+  .map(zona => computeZoneDataList(zona, ORIENTACIONES))
   .reduce((x, y) => x.concat(y), []);
 
 const jsonstring = JSON
