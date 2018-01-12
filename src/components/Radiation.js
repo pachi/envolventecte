@@ -100,10 +100,19 @@ const Radiation = inject("radstate")(observer(
               </Row>
             </Tab>
             <Tab eventKey={2} title="Radiación acumulada mensual (H_sol;m)">
-              <h2>Irradiación solar (acumulada) mensual (kWh/m²/mes)</h2>
-              <RadiationTable data={climatedata} />
-              <p>La tabla anterior recoge la radiación mensual acumulada para una superficie
-              horizontal y superficies verticales con la orientación indicada.</p>
+              <Row>
+                <h2>Irradiación solar (acumulada) mensual (kWh/m²/mes)</h2>
+                <RadiationTable data={climatedata} />
+                <p>La tabla anterior recoge la radiación mensual acumulada para una superficie
+                horizontal y superficies verticales con la orientación indicada.</p>
+              </Row>
+            </Tab>
+            <Tab eventKey={3} title="Factores de reducción por sombreamiento (f_sh;with)">
+              <Row>
+                <h2>Factores mensuales de reducción para sombreamientos solares móviles</h2>
+                {/* <RadiationTable data={climatedata} /> */}
+                <p>La tabla anterior recoge la fracción del tiempo (mensual) que el dispositivo de sombra móvil está conectado.</p>
+              </Row>
             </Tab>
           </Tabs>
         </Row>
