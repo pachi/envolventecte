@@ -22,14 +22,13 @@ SOFTWARE.
 */
 
 import React from 'react';
-import { Col, Image, Grid, Row } from 'react-bootstrap';
+import { Col, Image, Grid, Row, Tabs, Tab } from 'react-bootstrap';
 
 import { observer, inject } from 'mobx-react';
 // import mobx from 'mobx';
 // import DevTools from 'mobx-react-devtools';
 
 import NavBar from './Nav';
-import orientaciones from './orientaciones.svg';
 
 const RadiationTable = ({ data }) =>
   <table id="components"
@@ -93,18 +92,20 @@ const Radiation = inject("radstate")(observer(
       <Grid>
         <NavBar route={ route } />
         <Row>
-          <h2>Radiación acumulada en el mes de julio (kWh/m²/mes)</h2>
-          <JulyRadiationTable data={climatedata} />
-          <h2>Irradiación solar en superficies orientadas e inclinadas (kWh/m²/mes)</h2>
-          <RadiationTable data={climatedata} />
-          <p>La tabla anterior recoge la radiación mensual acumulada para una superficie
-             horizontal y superficies verticales con la orientación indicada.</p>
-        </Row>
-        <Row>
-          <h2>Orientaciones</h2>
-          <Col md={8} mdOffset={2}>
-            <Image responsive alt="Roseta de orientaciones" src={orientaciones} />
-          </Col>
+          <Tabs>
+            <Tab eventKey={1} title="Radiación acumulada en julio (H_sol;jul)">
+              <Row>
+                <h2>Irradiación solar (acumulada) en el mes de julio <i>H<sub>sol;jul</sub></i> (kWh/m²/mes)</h2>
+                <JulyRadiationTable data={climatedata} />
+              </Row>
+            </Tab>
+            <Tab eventKey={2} title="Radiación acumulada mensual (H_sol;m)">
+              <h2>Irradiación solar (acumulada) mensual (kWh/m²/mes)</h2>
+              <RadiationTable data={climatedata} />
+              <p>La tabla anterior recoge la radiación mensual acumulada para una superficie
+              horizontal y superficies verticales con la orientación indicada.</p>
+            </Tab>
+          </Tabs>
         </Row>
         {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
       </Grid>
