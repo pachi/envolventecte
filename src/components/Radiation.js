@@ -125,13 +125,13 @@ const Radiation = inject("radstate")(observer(
         <NavBar route={ route } />
         <Row>
           <Tabs>
-            <Tab eventKey={1} title="Radiación acumulada en julio (H_sol;jul)">
+            <Tab eventKey={1} title="Radiación acumulada (H_sol;m)">
               <Row>
                 <h2>Irradiación solar (acumulada) en el mes de julio <i>H<sub>sol;jul</sub></i> (kWh/m²/mes)</h2>
                 <JulyRadiationTable data={climatedata} />
+                <p>Los valores proporcionados por la tabla anterior se utilizan en el cálculo del parámetro de
+                control solar (<b>q<sub>sol;jul</sub></b>).</p>
               </Row>
-            </Tab>
-            <Tab eventKey={2} title="Radiación acumulada mensual (H_sol;m)">
               <Row>
                 <h2>Irradiación solar (acumulada) mensual (kWh/m²/mes)</h2>
                 <RadiationTable data={climatedata} />
@@ -139,7 +139,7 @@ const Radiation = inject("radstate")(observer(
                 horizontal y superficies verticales con la orientación indicada.</p>
               </Row>
             </Tab>
-            <Tab eventKey={3} title="Factores de reducción por sombras móviles (f_sh;with)">
+            <Tab eventKey={2} title="Factores de reducción por sombras móviles (f_sh;with)">
               <Row>
                 <h2>Factores mensuales de reducción para sombreamientos solares móviles</h2>
                 <ShadingFactorsTable data={climatedata} />
