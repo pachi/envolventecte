@@ -31,7 +31,7 @@ import { observer, inject } from 'mobx-react';
 import NavBar from './Nav';
 
 const JulyRadiationTable = ({ data }) =>
-  <table id="components" className="table table-striped table-bordered table-condensed">
+  <table id="julyradiationtable" className="table table-striped table-bordered table-condensed">
     <thead>
       <tr>
         <th className="col-md-1">kWh/m²/mes</th>
@@ -51,7 +51,7 @@ const JulyRadiationTable = ({ data }) =>
 
 
 const RadiationTable = ({ data }) =>
-  <table id="components"
+  <table id="radiationtable"
     className="table table-striped table-bordered table-condensed">
     <thead>
       <tr>
