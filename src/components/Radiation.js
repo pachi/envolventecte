@@ -22,13 +22,33 @@ SOFTWARE.
 */
 
 import React from 'react';
-import { Col, Image, Grid, Row, Tabs, Tab } from 'react-bootstrap';
+import { Grid, Row, Tabs, Tab } from 'react-bootstrap';
 
 import { observer, inject } from 'mobx-react';
 // import mobx from 'mobx';
 // import DevTools from 'mobx-react-devtools';
 
 import NavBar from './Nav';
+
+const JulyRadiationTable = ({ data }) =>
+  <table id="components" className="table table-striped table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th className="col-md-1">kWh/m²/mes</th>
+        {data.map((d, i) => <th key={'hr' + i}>{d.surfname}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>{data[0].zc}</b></td>
+        {
+          data.map((d, i) =>
+            <td key={'tot_' + i}>{d.tot[6].toFixed(2)}</td>)
+        }
+      </tr>
+    </tbody>
+  </table>;
+
 
 const RadiationTable = ({ data }) =>
   <table id="components"
@@ -62,26 +82,6 @@ const RadiationTable = ({ data }) =>
         </tbody>);
     })
     }
-  </table>;
-
-
-const JulyRadiationTable = ({ data }) =>
-  <table id="components" className="table table-striped table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th className="col-md-1">kWh/m²/mes</th>
-        {data.map((d, i) => <th key={'hr' + i}>{d.surfname}</th>)}
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><b>{data[0].zc}</b></td>
-        {
-          data.map((d, i) =>
-            <td key={'tot_' + i}>{d.tot[6].toFixed(2)}</td>)
-        }
-      </tr>
-    </tbody>
   </table>;
 
 
