@@ -84,39 +84,98 @@ const RadiationTable = ({ data }) =>
     }
   </table>;
 
+// Optimizador en https://jakearchibald.github.io/svgomg/
+const SVGSprite = () =>
+  <svg xmlns="http://www.w3.org/2000/svg" display='none'>
+    <defs>
+      <g id="hueco" opacity=".8">
+        <rect id="marcoext" height="98" stroke="#000" strokeWidth="1" fill="#fff" width="74" y=".5" x=".5" />
+        <rect id="marcoint" height="84" stroke="#000" strokeWidth="1" fill="#4d4d4d" width="59" y="7.5" x="7.5" />
+        <path id="personaje" d="m12 92c0.0033-6.5 1-15 4.4-19 2.7-4 9.3-10 15-10-2.6-1.4-4.3-7.8-4.2-14-0.32-5.5 1.5-14 11-14 8.7 0.022 9.8 8.8 9.5 14 0.24 5.8-2.9 12-5.1 13 8.1 1 13 7.9 15 12 2.5 5.7 4 12 3.8 19" fill-rule="evenodd" fill="#ccc" />
+      </g>
+      <rect id="cortina" height="21" stroke="#000" fill="#f2f2f2" width="59" opacity=".8" y="7.5" x="7.5" />
+      <symbol id="ventana1" viewBox="0 0 75 100">
+        <use xlinkHref="#hueco" />
+      </symbol>
+      <symbol id="ventana2" viewBox="0 0 75 100">
+        <use xlinkHref="#hueco"/>
+        <use xlinkHref="#cortina"/>
+      </symbol>
+      <symbol id="ventana3" viewBox="0 0 75 100">
+        <use xlinkHref="#hueco"/>
+        <use xlinkHref="#cortina"/>
+        <use xlinkHref="#cortina" y="21" />
+      </symbol>
+      <symbol id="ventana4" viewBox="0 0 75 100">
+        <use xlinkHref="#hueco"/>
+        <use xlinkHref="#cortina"/>
+        <use xlinkHref="#cortina" y="21" />
+        <use xlinkHref="#cortina" y="42" />
+      </symbol>
+      <symbol id="ventana5" viewBox="0 0 75 100">
+        <use xlinkHref="#hueco"/>
+        <use xlinkHref="#cortina"/>
+        <use xlinkHref="#cortina" y="21" />
+        <use xlinkHref="#cortina" y="42" />
+        <use xlinkHref="#cortina" y="63" />
+      </symbol>
+    </defs>
+  </svg>;
+
+const FSHIcon = ({ fsh, width="1.2em", height="1.6em" }) => {
+  let name;
+  if (fsh < 0.2) {
+    name = "ventana1";
+  } else if (fsh < 0.4) {
+    name = "ventana2";
+  } else if (fsh < 0.6) {
+    name = "ventana3";
+  } else if (fsh < 0.8) {
+    name = "ventana4";
+  } else {
+    name = "ventana5";
+  }
+  return <svg width={ width } height={ height }><use xlinkHref={ `#${ name }` }/></svg>
+};
 
 const ShadingFactorsTable = ({ data }) =>
-  <table id="shadingfactorstable"
-    className="table table-striped table-bordered table-condensed">
-    <thead>
-      <tr style={{ borderBottom: '3px solid darkgray' }}>
-        <th className="col-md-1">Superficie</th>
-        <th className="col-md-1">f<sub>sh;with</sub></th>
-        <th>ENE</th><th>FEB</th><th>MAR</th><th>ABR</th>
-        <th>MAY</th><th>JUN</th><th>JUL</th><th>AGO</th>
-        <th>SET</th><th>OCT</th><th>NOV</th><th>DIC</th>
-      </tr>
-    </thead>
-    { data.map((d, idx) => {
-      return (
-        <tbody style={{ textAlign: 'right' }} key={'table' + idx}>
-          <tr key={'f_shwith200_' + d.surfname}>
-            <td rowSpan="3"><b>{d.surfname}</b></td>
-            <td>f<sub>sh;with,I>200</sub></td>
-            {d.f_shwith200.map((v, i) => <td key={'fshwith200_' + i}>{v.toFixed(2)}</td>)}
-          </tr>
-          <tr key={'f_shwith300_' + d.surfname} style={{ fontWeight: 'bold' }}>
-            <td>f<sub>sh;with,I>300</sub></td>
-            {d.f_shwith300.map((v, i) => <td key={'f_shwith300_' + i}>{v.toFixed(2)}</td>)}
-          </tr>
-          <tr key={'f_shwith500_' + d.surfname} style={{ borderBottom: '3px solid darkgray' }}>
-            <td>f<sub>sh;with,I>500</sub></td>
-            {d.f_shwith500.map((v, i) => <td key={'f_shwith500_' + i}>{v.toFixed(2)}</td>)}
-          </tr>
-        </tbody>);
-    })
-    }
-  </table>;
+<table id="shadingfactorstable"
+  className="table table-striped table-bordered table-condensed">
+  <thead>
+    <tr style={{ borderBottom: '3px solid darkgray' }}>
+      <th className="col-md-1">Superficie</th>
+      <th className="col-md-1">f<sub>sh;with</sub></th>
+      <th>ENE</th><th>FEB</th><th>MAR</th><th>ABR</th>
+      <th>MAY</th><th>JUN</th><th>JUL</th><th>AGO</th>
+      <th>SET</th><th>OCT</th><th>NOV</th><th>DIC</th>
+    </tr>
+  </thead>
+  { data.map((d, idx) => {
+    return (
+      <tbody style={{ textAlign: 'right' }} key={'table' + idx}>
+        <tr key={'f_shwith200_' + d.surfname}>
+          <td rowSpan="3"><b>{d.surfname}</b></td>
+          <td>f<sub>sh;with,I>200</sub></td>
+          { d.f_shwith200.map((v, i) =>
+            <td key={'fshwith200_' + i}>{v.toFixed(2)} <FSHIcon fsh={ v }/></td>)
+          }
+        </tr>
+        <tr key={'f_shwith300_' + d.surfname} style={{ fontWeight: 'bold' }}>
+          <td>f<sub>sh;with,I>300</sub></td>
+          { d.f_shwith300.map((v, i) =>
+            <td key={'f_shwith300_' + i}>{v.toFixed(2)} <FSHIcon fsh={ v }/></td>)
+          }
+        </tr>
+        <tr key={'f_shwith500_' + d.surfname} style={{ borderBottom: '3px solid darkgray' }}>
+          <td>f<sub>sh;with,I>500</sub></td>
+          { d.f_shwith500.map((v, i) =>
+            <td key={'f_shwith500_' + i}>{v.toFixed(2)} <FSHIcon fsh={ v }/></td>)
+          }
+        </tr>
+      </tbody>);
+  })
+  }
+</table>;
 
 const Radiation = inject("radstate")(observer(
   ({ radstate, route }) => {
@@ -124,19 +183,20 @@ const Radiation = inject("radstate")(observer(
     return (
       <Grid>
         <NavBar route={ route } />
+        <SVGSprite/>
         <Row>
-          <Tabs>
+          <Tabs defaultActiveKey={1} id="tabla-de-valores-radiacion">
             <Tab eventKey={1} title="Radiación acumulada (H_sol;m)">
               <Row>
                 <h2>Irradiación solar (acumulada) en el mes de julio <i>H<sub>sol;jul</sub></i> (kWh/m²/mes)</h2>
                 <JulyRadiationTable data={climatedata} />
-                <p>Los valores proporcionados por la tabla anterior se utilizan en el cálculo del parámetro de
+                <p className="text-info">Los valores proporcionados por la tabla anterior se utilizan en el cálculo del parámetro de
                 control solar (<b>q<sub>sol;jul</sub></b>).</p>
               </Row>
               <Row>
                 <h2>Irradiación solar (acumulada) mensual (kWh/m²/mes)</h2>
                 <RadiationTable data={climatedata} />
-                <p>La tabla anterior recoge la radiación mensual acumulada para una superficie
+                <p className="text-info">La tabla anterior recoge la radiación mensual acumulada para una superficie
                 horizontal y superficies verticales con la orientación indicada.</p>
               </Row>
             </Tab>
@@ -144,6 +204,7 @@ const Radiation = inject("radstate")(observer(
               <Row>
                 <h2>Factores mensuales de reducción para sombreamientos solares móviles</h2>
                 <ShadingFactorsTable data={climatedata} />
+                <div className="text-info">
                 <p>La tabla anterior recoge la fracción del tiempo (mensual) que el dispositivo
                 de sombra móvil está conectado.</p>
                 <p>Estos valores pueden resultar útiles para obtener los valores del factor solar del hueco
@@ -152,13 +213,13 @@ const Radiation = inject("radstate")(observer(
                 <p>Se puede considerar que el dispositivo está conectado cuando la radiación (total) incidente
                 supera el valor indicado (<i>I > 200 W/m<sup>2</sup></i>, <i>I > 300 W/m<sup>2</sup></i>, <i>I > 500 W/m<sup>2</sup></i>)
                 y desconectado cuando se encuentra por debajo de ese valor.</p>
-                <p>Usos indicados:
-                  <ul>
+                <p>Usos recomendados:</p>
+                <ul>
                   <li><i>I > 300 W/m<sup>2</sup></i>: dispositivos de sombra con accionamiento y control manual;</li>
                   <li><i>I > 200 W/m<sup>2</sup></i>: dispositivos de sombra con control y accionamiento automatizado;</li>
                   <li><i>I > 500 W/m<sup>2</sup></i>: dispositivos de sombra en modo de calefacción (evita cargas extremas).</li>
-                  </ul>
-                </p>
+                </ul>
+                </div>
               </Row>
             </Tab>
           </Tabs>
