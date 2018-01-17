@@ -48,19 +48,19 @@ export const AppState = observable({
     huecos: [
       {
         id: uuidv4(), nombre: 'Huecos norte', orientacion: 'N',
-        A: 42.38, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 1.00, Fshgl: 0.3
+        A: 42.38, U: 2.613, Ff: 0.25, gglshwi: 0.67, Fshobst: 1.00
       },
       {
         id: uuidv4(), nombre: 'Huecos este', orientacion: 'E',
-        A: 17.11, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.82, Fshgl: 0.3
+        A: 17.11, U: 2.613, Ff: 0.25, gglshwi: 0.67, Fshobst: 0.82
       },
       {
         id: uuidv4(), nombre: 'Huecos sur', orientacion: 'S',
-        A: 46.83, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.67, Fshgl: 0.3
+        A: 46.83, U: 2.613, Ff: 0.25, gglshwi: 0.67, Fshobst: 0.67
       },
       {
         id: uuidv4(), nombre: 'Huecos oeste', orientacion: 'W',
-        A: 17.64, U: 2.613, Ff: 0.2, ggl: 0.67, Fshobst: 0.82, Fshgl: 0.3
+        A: 17.64, U: 2.613, Ff: 0.25, gglshwi: 0.67, Fshobst: 0.82
       }
     ],
     opacos: [
@@ -93,7 +93,7 @@ export const AppState = observable({
   get Qsoljul() {
     return climateTotRad => this.envolvente.huecos
       .map(h =>
-        Number(h.Fshobst) * Number(h.Fshgl) * Number(h.ggl)
+        Number(h.Fshobst) * Number(h.gglshwi)
         * (1 - Number(h.Ff)) * Number(h.A) * climateTotRad[h.orientacion])
       .reduce((a, b) => a + b, 0);
   },

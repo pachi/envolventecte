@@ -84,7 +84,7 @@ class HuecosTable extends Component {
 
   newHueco = () => (
     { id: uuidv4(), nombre: 'Hueco nuevo', orientacion: 'N',
-      A: 1.0, U: 1.0, Ff: 0.2, ggl: 0.67, Fshobst: 1.0, Fshgl: 0.3 }
+      A: 1.0, U: 1.0, Ff: 0.2, gglshwi: 0.67, Fshobst: 1.0 }
   )
 
   render() {
@@ -108,18 +108,15 @@ class HuecosTable extends Component {
           }}
         >
           <TableHeaderColumn dataField="id" isKey={true} hidden={true}>ID</TableHeaderColumn>
-          <TableHeaderColumn dataField="A" dataFormat={Float2DigitsFormatter}>A (m<sup>2</sup>)</TableHeaderColumn>
-          <TableHeaderColumn dataField="U" dataFormat={Float3DigitsFormatter}>U (W/m<sup>2</sup>K)</TableHeaderColumn>
           <TableHeaderColumn
             dataField="orientacion"
             editable={{ type: 'select', options: { values: orientacionesType } }}
-          >
-            orientacion
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="Ff" dataFormat={Float1DigitsFormatter}>F_f</TableHeaderColumn>
-          <TableHeaderColumn dataField="ggl" dataFormat={Float2DigitsFormatter}>g_gl</TableHeaderColumn>
-          <TableHeaderColumn dataField="Fshobst" dataFormat={Float2DigitsFormatter}>F_sh,obst</TableHeaderColumn>
-          <TableHeaderColumn dataField="Fshgl" dataFormat={Float1DigitsFormatter}>F_sh,gl</TableHeaderColumn>
+          >Orientacion</TableHeaderColumn>
+          <TableHeaderColumn dataField="A" dataFormat={Float2DigitsFormatter}>A<sub>w,p</sub> (m<sup>2</sup>)</TableHeaderColumn>
+          <TableHeaderColumn dataField="U" dataFormat={Float3DigitsFormatter}>U (W/m<sup>2</sup>K)</TableHeaderColumn>
+          <TableHeaderColumn dataField="Ff" dataFormat={Float2DigitsFormatter}>F<sub>F</sub> (-)</TableHeaderColumn>
+          <TableHeaderColumn dataField="gglshwi" dataFormat={Float2DigitsFormatter}>g<sub>gl;sh;wi</sub> (-)</TableHeaderColumn>
+          <TableHeaderColumn dataField="Fshobst" dataFormat={Float2DigitsFormatter}>F<sub>sh;obst</sub> (-)</TableHeaderColumn>
           <TableHeaderColumn dataField="nombre">Descripción</TableHeaderColumn>
         </BootstrapTable>
         <Row>
@@ -128,9 +125,18 @@ class HuecosTable extends Component {
         </Row>
         <Row className="text-info small top20">
           <Col md={12}>
-            NOTA: Para los huecos definidos en la tabla se considera, a efectos
+            <p>Donde:</p>
+            <ul>
+              <li><b>A<sub>w,p</sub></b>: área (proyectada) del hueco (m²)</li>
+              <li><b>Orientación</b>: orientación del hueco (N, NE, NW, E, W, SE, SW, S, Horiz.)</li>
+              <li><b>U</b>: transmitancia térmica del hueco (W/m²K)</li>
+              <li><b>F<sub>F</sub></b>: fracción de marco del hueco (fracción). A falta de otros datos puede tomarse F_F = 0.25 (25%)</li>
+              <li><b>g<sub>gl;sh;wi</sub></b>: transmitancia total de energía solar del acristalamiento con el dispositivo de sombra móvil activado (f_sh;with = 1), para el mes de julio (fracción)</li>
+              <li><b>F<sub>sh;obst</sub></b>: factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción). A falta de datos puede asimilarse al factor de sombra del hueco.</li>
+            </ul>
+            <p><b>NOTA</b>: Para los huecos definidos en la tabla se considera, a efectos
             del cálculo de K, un factor de ajuste <i>b<sub>tr,x</sub> = 1.0</i>, de modo que
-            solo deben incluirse aquellos pertenecientes a elementos con un factor de ajuste no nulo.
+            solo deben incluirse aquellos pertenecientes a elementos con un factor de ajuste no nulo.</p>
           </Col>
         </Row>
       </Grid>
@@ -281,7 +287,7 @@ const IndicatorsPanel = inject("appstate", "radstate")(observer(
               </Row>
               <Row>
                 <h3>Captación solar</h3>
-                <p>Q<sub>sol;jul</sub> &sum;<sub>k</sub>(F<sub>sh,obst</sub> · F <sub>sh,gl</sub> · g<sub>gl</sub> · (1 − F<sub>F</sub>) · A<sub>w,p</sub> · H<sub>sol;jul</sub>) = {Qsoljul_clima.toFixed(2)} kWh/mes</p>
+                <p>Q<sub>sol;jul</sub> &sum;<sub>k</sub>(F<sub>sh,obst</sub> · g<sub>gl;sh;wi</sub> · (1 − F<sub>F</sub>) · A<sub>w,p</sub> · H<sub>sol;jul</sub>) = {Qsoljul_clima.toFixed(2)} kWh/mes</p>
                 <p>A<sub>util</sub> = {Autil} m²</p>
                 <p><b>q<sub>sol;jul</sub></b> = Q<sub>sol;jul</sub> / A<sub>util</sub> = {Qsoljul_clima.toFixed(2)} / { Autil } = <b><i>{ Number(qsj_clima).toFixed(2) } kWh/m²/mes</i></b></p>
               </Row>
