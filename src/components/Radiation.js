@@ -28,6 +28,7 @@ import { observer, inject } from 'mobx-react';
 // import mobx from 'mobx';
 // import DevTools from 'mobx-react-devtools';
 
+import Footer from './Footer';
 import NavBar from './Nav';
 
 const JulyRadiationTable = ({ data }) =>
@@ -163,6 +164,7 @@ const Radiation = inject("radstate")(observer(
           </Tabs>
         </Row>
         {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
+        <Footer/>
       </Grid>
     );
   }

@@ -24,7 +24,9 @@ SOFTWARE.
 import React, { Component } from 'react';
 import { Alert, Button, Col, Grid, Row, Image, Tabs, Tab } from 'react-bootstrap';
 
+import Footer from './Footer';
 import NavBar from './Nav';
+
 import esquema5R1C from './5R1C.svg';
 import orientaciones from './orientaciones.svg';
 
@@ -34,8 +36,7 @@ export default class HelpPage extends Component {
       <Grid>
         <NavBar route={ this.props.route } />
         <Row>
-          <h1>Ayuda</h1>
-          <p className="lead">Cálculo de indicadores de envolvente y radiación solar para la aplicación del CTE DB-HE</p>
+        <h1>Indicadores de envolvente térmica y valores de radiación solar para la aplicación del CTE DB-HE</h1>
           <Alert bsStyle="warning"><b>NOTA:</b> Esta aplicación y la información contenida en ella no tiene valor reglamentario.</Alert>
         </Row>
         <Row>
@@ -58,7 +59,7 @@ export default class HelpPage extends Component {
               <Row>
                 <h3>Datos de radiación por superficies</h3>
 
-                <p>La aplicación calcula los valores de <b>irradiación acumulada mensual (<i>H<sub>sol;m</sub></i>)</b> y el <b>factor de reducción para sombreamientos solares móviles (<i>f<sub>sh;with</sub></i>)</b> de superficies inclinadas y orientadas.</p>
+                <p>La aplicación calcula los valores de <b>irradiación acumulada mensual (<i>H<sub>sol;m</sub></i>)</b>, incluyendo la <b>irradiación acumulada en el mes de julio (<i>H<sub>sol;jul</sub></i>)</b>, así como el <b>factor de reducción para sombreamientos solares móviles (<i>f<sub>sh;with</sub></i>)</b> de superficies inclinadas y orientadas.</p>
                 <p>Esta aplicación usa datos de radiación precalculados para las distintas orientaciones y climas, a partir de los archivos climáticos de referencia de CTE DB-HE y el procedimiento de la norma ISO/FDIS 52010‐1:2016.</p>
                 <p>
                   <Button
@@ -78,6 +79,7 @@ export default class HelpPage extends Component {
             </Tab>
           </Tabs>
         </Row>
+        <Footer/>
       </Grid>
     );
   }

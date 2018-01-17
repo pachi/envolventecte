@@ -21,30 +21,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { Component } from 'react';
-import { Alert, Grid, Row } from 'react-bootstrap';
+import React from 'react';
+import { Grid, Row } from 'react-bootstrap';
 
-import Footer from './Footer';
-import NavBar from './Nav';
+const Footer = () =>
+  <footer className="navbar-fixed-bottom" style={{ backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
+    <Grid>
+      <Row>
+        <p className="text-center small text-muted">2018 - Rafael Villar Burke, Daniel Jiménez González, Marta Sorribes Gil.</p>
+      </Row>
+    </Grid>
+  </footer>;
 
-export default class AboutPage extends Component {
-  render() {
-    return (
-      <Grid>
-        <NavBar route={ this.props.route } />
-        <Row>
-          <h1>Equipo de desarrollo:</h1>
-          <ul>
-            <li>Rafael Villar Burke, <i>pachi@ietcc.csic.es</i></li>
-            <li>Daniel Jiménez González, <i>danielj@ietcc.csic.es</i></li>
-            <li>Marta Sorribes Gil, <i>msorribes@ietcc.csic.es</i></li>
-          </ul>
-        </Row>
-        <Row>
-          <Alert bsStyle="warning"><b>NOTA:</b> Esta aplicación y la información contenida en ella no tiene valor reglamentario.</Alert>
-        </Row>
-        <Footer/>
-      </Grid>
-    );
-  }
-}
+export default Footer;

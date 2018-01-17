@@ -31,6 +31,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { observer, inject } from 'mobx-react';
 // import DevTools from 'mobx-react-devtools';
 
+import Footer from './Footer';
 import NavBar from './Nav';
 
 import { uuidv4, UserException } from '../utils.js';
@@ -125,7 +126,7 @@ class HuecosTable extends Component {
           <Col md={6}>&sum;A = { huecosA.toFixed(2) } m²</Col>
           <Col md={6} className="text-right">&sum;A·U = { huecosAU.toFixed(2) } W/K</Col>
         </Row>
-        <Row className="text-info small">
+        <Row className="text-info small top20">
           <Col md={12}>
             NOTA: Para los huecos definidos en la tabla se considera, a efectos
             del cálculo de K, un factor de ajuste <i>b<sub>tr,x</sub> = 1.0</i>, de modo que
@@ -175,7 +176,7 @@ class OpacosTable extends Component {
           <Col md={6}>&sum;b<sub>tr,x</sub>·A<sub>x</sub> = {opacosA.toFixed(2)} m²</Col>
           <Col md={6} className="text-right">&sum;b<sub>tr,x</sub>·&sum;<sub>i</sub>A<sub>i</sub>·U<sub>i</sub> = {opacosAU.toFixed(2)} W/K</Col>
         </Row>
-        <Row className="text-info small">
+        <Row className="text-info small top20">
           <Col md={12}>
             NOTA: El factor de ajuste propuesto para elementos en contacto con edificios o
             espacios adyacentes es <i>b<sub>tr,x</sub> = 0.0</i>, y <i>b<sub>tr,x</sub> = 1.0</i>
@@ -225,7 +226,7 @@ class PTsTable extends Component {
           <Col md={6}>&sum;L = {ptsL.toFixed(2)} m</Col>
           <Col md={6} className="text-right">&sum;L·&psi; = {ptsPsiL.toFixed(2)} W/K</Col>
         </Row>
-        <Row className="text-info small">
+        <Row className="text-info small top20">
           <Col md={12}>
             NOTA: Para los puentes térmicos definidos en la tabla se considera, a efectos
             del cálculo de K, un factor de ajuste <i>b<sub>tr,x</sub> = 1.0</i>, de modo que
@@ -342,6 +343,7 @@ const Indicators = inject("appstate", "radstate")(observer(
             </Tabs>
           </Row>
           {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
+          <Footer/>
         </Grid>
       );
     }
