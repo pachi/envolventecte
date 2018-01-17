@@ -13,3 +13,5 @@ body {
 .top50 {
   padding-top: 50px;
 }
+
+#shadingfactorstable th, #radiationtable th { text-align: center }
