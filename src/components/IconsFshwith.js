@@ -74,7 +74,9 @@ const FshwithIcon = ({ fsh, width="1.2em", height="1.6em" }) => {
   } else {
     name = "ventana5";
   }
-  return <svg width={ width } height={ height }><use xlinkHref={ `#${ name }` }/></svg>
+  return <svg width={ width } height={ height } style={{ verticalAlign: 'middle' }}>
+    <use xlinkHref={ `#${ name }` }/>
+  </svg>;
 };
 
 export { FshwithSprite, FshwithIcon };
