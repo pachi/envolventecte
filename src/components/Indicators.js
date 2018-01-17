@@ -184,9 +184,15 @@ class OpacosTable extends Component {
         </Row>
         <Row className="text-info small top20">
           <Col md={12}>
-            NOTA: El factor de ajuste propuesto para elementos en contacto con edificios o
+            <p>Donde:</p>
+            <ul>
+              <li><b>A</b>: área del elemento opaco (m²)</li>
+              <li><b>U</b>: transmitancia térmica del elemento opaco (W/m²K)</li>
+              <li><b>b<sub>tr,x</sub></b>: factor de ajuste del elemento opaco (fracción)</li>
+            </ul>
+            <p><b>NOTA</b>: El factor de ajuste propuesto para elementos en contacto con edificios o
             espacios adyacentes es <i>b<sub>tr,x</sub> = 0.0</i>, y <i>b<sub>tr,x</sub> = 1.0</i>
-            para el resto de casos.
+            para el resto de casos.</p>
           </Col>
         </Row>
       </Grid>
@@ -234,9 +240,14 @@ class PTsTable extends Component {
         </Row>
         <Row className="text-info small top20">
           <Col md={12}>
-            NOTA: Para los puentes térmicos definidos en la tabla se considera, a efectos
+            <p>Donde:</p>
+            <ul>
+              <li><b>Longitud</b>: longitud del puente térmico (m)</li>
+              <li><b>&psi;</b>: transmitancia térmica lineal del puente térmico (W/mK)</li>
+            </ul>
+            <p><b>NOTA</b>: Para los puentes térmicos definidos en la tabla se considera, a efectos
             del cálculo de K, un factor de ajuste <i>b<sub>tr,x</sub> = 1.0</i>, de modo que
-            solo deben incluirse aquellos pertenecientes a elementos con un factor de ajuste no nulo.
+            solo deben incluirse aquellos pertenecientes a elementos con un factor de ajuste no nulo.</p>
           </Col>
         </Row>
       </Grid>
