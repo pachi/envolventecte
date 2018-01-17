@@ -29,8 +29,8 @@ const FshwithSprite = () =>
     <defs>
       <g id="hueco" opacity=".8">
         <rect id="marcoext" height="98" stroke="#000" strokeWidth="1" fill="#fff" width="74" y=".5" x=".5" />
-        <rect id="marcoint" height="84" stroke="#000" strokeWidth="1" fill="#4d4d4d" width="59" y="7.5" x="7.5" />
-        <path id="personaje" d="m12 92c0.0033-6.5 1-15 4.4-19 2.7-4 9.3-10 15-10-2.6-1.4-4.3-7.8-4.2-14-0.32-5.5 1.5-14 11-14 8.7 0.022 9.8 8.8 9.5 14 0.24 5.8-2.9 12-5.1 13 8.1 1 13 7.9 15 12 2.5 5.7 4 12 3.8 19" fill-rule="evenodd" fill="#ccc" />
+        <rect id="marcoint" height="84" stroke="#000" strokeWidth="1" fill="#4d4d8d" width="59" y="7.5" x="7.5" />
+        <path id="personaje" d="m12 92c0.0033-6.5 1-15 4.4-19 2.7-4 9.3-10 15-10-2.6-1.4-4.3-7.8-4.2-14-0.32-5.5 1.5-14 11-14 8.7 0.022 9.8 8.8 9.5 14 0.24 5.8-2.9 12-5.1 13 8.1 1 13 7.9 15 12 2.5 5.7 4 12 3.8 19" fillRule="evenodd" fill="#ccc" />
       </g>
       <rect id="cortina" height="21" stroke="#000" fill="#f2f2f2" width="59" opacity=".8" y="7.5" x="7.5" />
       <symbol id="ventana1" viewBox="0 0 75 100">
