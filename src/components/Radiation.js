@@ -38,7 +38,9 @@ const JulyRadiationTable = ({ data }) =>
     <thead>
       <tr>
         <th className="col-md-1">kWh/m²/mes</th>
-        {data.map((d, i) => <th key={'hr' + i}>{d.surfname}</th>)}
+        { data.map((d, i) =>
+          <th key={ 'hr' + i }>{ d.surfname } <OrientaIcon dir={ d.surfname }/></th>)
+        }
       </tr>
     </thead>
     <tbody>
@@ -69,7 +71,7 @@ const RadiationTable = ({ data }) =>
       return (
         <tbody style={{ textAlign: 'right' }} key={'table' + idx}>
           <tr key={'dir_' + d.surfname}>
-            <td rowSpan="3"><b>{d.surfname}</b></td>
+            <td rowSpan="3"><b>{d.surfname}</b><br/><OrientaIcon dir={ d.surfname }/></td>
             <td>Dir.</td>
             {d.dir.map((v, i) => <td key={'dir_' + i}>{v.toFixed(2)}</td>)}
           </tr>
@@ -103,7 +105,7 @@ const ShadingFactorsTable = ({ data }) =>
     return (
       <tbody style={{ textAlign: 'right' }} key={'table' + idx}>
         <tr key={'f_shwith200_' + d.surfname}>
-          <td rowSpan="3"><b>{d.surfname}</b></td>
+          <td rowSpan="3"><b>{d.surfname}</b><br/><OrientaIcon dir={ d.surfname }/></td>
           <td>f<sub>sh;with,I>200</sub></td>
           { d.f_shwith200.map((v, i) =>
             <td key={'fshwith200_' + i}>{v.toFixed(2)} <FshwithIcon fsh={ v }/></td>)
