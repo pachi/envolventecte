@@ -297,7 +297,7 @@ const IndicatorsPanel = inject("appstate", "radstate")(observer(
                 <p><b>K</b> = H<sub>tr,adj</sub> / &sum;A &asymp; { (totalAU + ptsPsiL).toFixed(2) } / { (totalA).toFixed(2) } = <b>{Number(K).toFixed(2)} <i>W/m²K</i></b> </p>
               </Row>
               <Row>
-                <h3>Captación solar</h3>
+                <h3>Control solar</h3>
                 <p>Q<sub>sol;jul</sub> &sum;<sub>k</sub>(F<sub>sh,obst</sub> · g<sub>gl;sh;wi</sub> · (1 − F<sub>F</sub>) · A<sub>w,p</sub> · H<sub>sol;jul</sub>) = {Qsoljul_clima.toFixed(2)} kWh/mes</p>
                 <p>A<sub>util</sub> = {Autil} m²</p>
                 <p><b>q<sub>sol;jul</sub></b> = Q<sub>sol;jul</sub> / A<sub>util</sub> = {Qsoljul_clima.toFixed(2)} / { Autil } = <b><i>{ Number(qsj_clima).toFixed(2) } kWh/m²/mes</i></b></p>
