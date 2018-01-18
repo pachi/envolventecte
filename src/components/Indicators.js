@@ -36,44 +36,42 @@ import NavBar from './Nav';
 
 import { uuidv4, UserException } from '../utils.js';
 
-const Float1DigitsFormatter = (cell, row) => <span>{Number(cell).toFixed(1)}</span>;
-const Float2DigitsFormatter = (cell, row) => <span>{Number(cell).toFixed(2)}</span>;
-const Float3DigitsFormatter = (cell, row) => <span>{Number(cell).toFixed(3)}</span>;
+const Float1DigitsFormatter = (cell, row) => <span>{ Number(cell).toFixed(1) }</span>;
+const Float2DigitsFormatter = (cell, row) => <span>{ Number(cell).toFixed(2) }</span>;
+const Float3DigitsFormatter = (cell, row) => <span>{ Number(cell).toFixed(3) }</span>;
 
 // Orientaciones
 const orientacionesType = ['Horiz.', 'N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 
 const PlusMinusButtonRow = ({ objects, newObj, selectedId }) =>
-    <ButtonGroup className="pull-right">
-      <Button bsStyle="primary" bsSize="xs"
-        onClick={() => {
+  <ButtonGroup className="pull-right">
+    <Button bsStyle="primary" bsSize="xs"
+      onClick={ () => { objects.push(newObj()); } }>
+      <Glyphicon glyph="plus" />
+    </Button>
+    <Button bsStyle="primary" bsSize="xs"
+      onClick={ () => {
+        // Duplicamos el seleccionado o el primer objeto si hay objetos
+        if (objects.length > 0) {
+          const selectedIndex = objects.findIndex(h => h.id === selectedId);
+          const idx = selectedIndex >= 0 ? selectedIndex : 0;
+          const dupObj = { ...objects[idx], id: uuidv4() };
+          objects.splice(idx, 0, dupObj);
+        // En caso contrario añadimos un objeto nuevo
+        } else {
           objects.push(newObj());
-        }}>
-        <Glyphicon glyph="plus" />
-      </Button>
-      <Button bsStyle="primary" bsSize="xs"
-        onClick={() => {
-          // Duplicamos el seleccionado o el primer objeto si hay objetos
-          if (objects.length > 0) {
-            const selectedIndex = objects.findIndex(h => h.id === selectedId);
-            const idx = selectedIndex >= 0 ? selectedIndex : 0;
-            const dupObj = { ...objects[idx], id: uuidv4() };
-            objects.splice(idx, 0, dupObj);
-          // En caso contrario añadimos un objeto nuevo
-          } else {
-            objects.push(newObj());
-          }
-        }}>
-        <Glyphicon glyph="duplicate" />
-      </Button>
-      <Button bsStyle="primary" bsSize="xs"
-        onClick={() => {
-          // https://mobx.js.org/refguide/array.html
-          objects.replace(objects.filter(h => !selectedId.includes(h.id)));
-        }}>
-        <Glyphicon glyph="minus" />
-      </Button>
-    </ButtonGroup>;
+        }
+      } }>
+      <Glyphicon glyph="duplicate" />
+    </Button>
+    <Button bsStyle="primary" bsSize="xs"
+      onClick={ () => {
+        // https://mobx.js.org/refguide/array.html
+        objects.replace(objects.filter(h => !selectedId.includes(h.id)));
+      } }>
+      <Glyphicon glyph="minus" />
+    </Button>
+  </ButtonGroup>;
 
 
 class HuecosTable extends Component {
