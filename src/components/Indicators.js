@@ -279,9 +279,9 @@ const IndicatorsPanel = inject("appstate", "radstate")(observer(
       // climate, radiationdata,
       const { Autil, huecosA, huecosAU, opacosA, opacosAU, ptsPsiL,
         totalA, totalAU, K, Qsoljul, qsj } = this.props.appstate;
-      const { climateTotRad } = this.props.radstate;
-      const Qsoljul_clima = Qsoljul(climateTotRad);
-      const qsj_clima = qsj(climateTotRad);
+      const { climateTotRadJul } = this.props.radstate;
+      const Qsoljul_clima = Qsoljul(climateTotRadJul);
+      const qsj_clima = qsj(climateTotRadJul);
 
       return (
         <Grid>

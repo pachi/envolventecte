@@ -33,12 +33,8 @@ export const RadState = observable({
   get climatedata() {
     return radiationdata.filter(v => v.zc === this.climate);
   },
-  get climateTotRad() {
-    return this.climatedata
-      .reduce((obj, d) => {
-        obj[d.surfname] = d.tot[6];
-        return obj;
-      }, {});
+  get climateTotRadJul() {
+    return this.climatedata.reduce((acc, v) => ({ ...acc, [v.surfname]: v.tot[6] }), {});
   }
 });
 
@@ -91,11 +87,11 @@ export const AppState = observable({
 
   // Devolvemos funciones con el this apropiado para hacer autorreferencia
   get Qsoljul() {
-    return climateTotRad => this.envolvente.huecos
+    return climateTotRadJul => this.envolvente.huecos
       .map(h =>
         Number(h.Fshobst) * Number(h.gglshwi)
-        * (1 - Number(h.Ff)) * Number(h.A) * climateTotRad[h.orientacion])
+        * (1 - Number(h.Ff)) * Number(h.A) * climateTotRadJul[h.orientacion])
       .reduce((a, b) => a + b, 0);
   },
-  get qsj() { return climateTotRad => this.Qsoljul(climateTotRad) / this.Autil; }
+  get qsj() { return climateTotRadJul => this.Qsoljul(climateTotRadJul) / this.Autil; }
 });
