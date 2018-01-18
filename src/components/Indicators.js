@@ -111,13 +111,31 @@ class HuecosTable extends Component {
           <TableHeaderColumn
             dataField="orientacion"
             editable={{ type: 'select', options: { values: orientacionesType } }}
-          >Orientacion</TableHeaderColumn>
-          <TableHeaderColumn dataField="A" dataFormat={Float2DigitsFormatter}>A<sub>w,p</sub> (m<sup>2</sup>)</TableHeaderColumn>
-          <TableHeaderColumn dataField="U" dataFormat={Float3DigitsFormatter}>U (W/m<sup>2</sup>K)</TableHeaderColumn>
-          <TableHeaderColumn dataField="Ff" dataFormat={Float2DigitsFormatter}>F<sub>F</sub> (-)</TableHeaderColumn>
-          <TableHeaderColumn dataField="gglshwi" dataFormat={Float2DigitsFormatter}>g<sub>gl;sh;wi</sub> (-)</TableHeaderColumn>
-          <TableHeaderColumn dataField="Fshobst" dataFormat={Float2DigitsFormatter}>F<sub>sh;obst</sub> (-)</TableHeaderColumn>
-          <TableHeaderColumn dataField="nombre">Descripción</TableHeaderColumn>
+            headerText="Orientación del hueco">
+            Orientación</TableHeaderColumn>
+          <TableHeaderColumn dataField="A"
+            dataFormat={Float2DigitsFormatter}
+            headerText="Área del hueco (m2)">
+            A<sub>w,p</sub> (m<sup>2</sup>)</TableHeaderColumn>
+          <TableHeaderColumn dataField="U"
+            dataFormat={Float3DigitsFormatter}
+            headerText="Transmitancia térmica del hueco (W/m²K)">
+            U (W/m<sup>2</sup>K)</TableHeaderColumn>
+          <TableHeaderColumn dataField="Ff"
+            dataFormat={Float2DigitsFormatter}
+            headerText="Fracción de marco del hueco (fracción)">
+            F<sub>F</sub> (-)</TableHeaderColumn>
+          <TableHeaderColumn dataField="gglshwi"
+            dataFormat={Float2DigitsFormatter}
+            headerText="Transmitancia total de energía solar del acristalamiento con el dispositivo de sombra móvil activado (fracción)">
+            g<sub>gl;sh;wi</sub> (-)</TableHeaderColumn>
+          <TableHeaderColumn dataField="Fshobst"
+            dataFormat={Float2DigitsFormatter}
+            headerText="Factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción)">
+            F<sub>sh;obst</sub> (-)</TableHeaderColumn>
+          <TableHeaderColumn dataField="nombre"
+            headerText="Descripción identificativa del hueco">
+            Descripción</TableHeaderColumn>
         </BootstrapTable>
         <Row>
           <Col md={6}>&sum;A = { huecosA.toFixed(2) } m²</Col>
@@ -131,12 +149,23 @@ class HuecosTable extends Component {
               <li><b>Orientación</b>: orientación del hueco (N, NE, NW, E, W, SE, SW, S, Horiz.)</li>
               <li><b>U</b>: transmitancia térmica del hueco (W/m²K)</li>
               <li><b>F<sub>F</sub></b>: fracción de marco del hueco (fracción). A falta de otros datos puede tomarse F_F = 0.25 (25%)</li>
-              <li><b>g<sub>gl;sh;wi</sub></b>: transmitancia total de energía solar del acristalamiento con el dispositivo de sombra móvil activado (f_sh;with = 1), para el mes de julio (fracción)</li>
-              <li><b>F<sub>sh;obst</sub></b>: factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción). A falta de datos puede asimilarse al factor de sombra del hueco.</li>
+              <li>
+                <b>g<sub>gl;sh;wi</sub></b>: transmitancia total de energía solar del acristalamiento con el dispositivo de sombra móvil activado (f_sh;with = 1), para el mes de julio (fracción).
+                <br/>Este valor puede obtenerse a partir del factor solar del vidrio a incidencia normal (g<sub>gl;n</sub>), el factor de dispersión del vidrio (F<sub>w</sub>~=0.9) y la definición del elemento de sombreamiento.
+                El Documento de Apoyo DA DB-HE/1 incluye valores tabulados para diversos tipos de vidrio y protecciones solares. A la hora de introducir este valor en las aplicaciones de cálculo, debe tenerse en cuenta que estas emplean
+                de manera predefinida un dispositivo de sombra que incide con un factor igual 0.7 (de acuerdo con el Documento de Condiciones Técnicas para la Evaluación de la Eficiencia Energética de Edificios),
+                de modo que el valor introducido en los programas debe descontar dicho efecto.
+              </li>
+              <li>
+                <b>F<sub>sh;obst</sub></b>: factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción).
+                <br/>Este valor puede asimilarse al factor de sombra del hueco (FS).
+                El Documento de Apoyo DA DB-HE/1 incluye valores tabulados para considerar el efecto de voladizos, retranqueos, aletas laterales o lamas exteriores.
+              </li>
             </ul>
             <p><b>NOTA</b>: Para los huecos definidos en la tabla se considera, a efectos
             del cálculo de K, un factor de ajuste <i>b<sub>tr,x</sub> = 1.0</i>, de modo que
-            solo deben incluirse aquellos pertenecientes a elementos con un factor de ajuste no nulo.</p>
+            solo deben incluirse aquellos pertenecientes a elementos con un factor de ajuste distinto de cero.
+            Es decir, deben excluirse aquellos huecos situados en elementos en contacto con edificios o espacios adyacentes, cuyo <i>b<sub>tr,x</sub> = 0.0</i>.</p>
           </Col>
         </Row>
       </Grid>
@@ -173,10 +202,21 @@ class OpacosTable extends Component {
           }}
         >
           <TableHeaderColumn dataField="id" isKey={true} hidden={true}>ID</TableHeaderColumn>
-          <TableHeaderColumn dataField="A" dataFormat={Float2DigitsFormatter}>A (m<sup>2</sup>)</TableHeaderColumn>
-          <TableHeaderColumn dataField="U" dataFormat={Float3DigitsFormatter}>U (W/m<sup>2</sup>K)</TableHeaderColumn>
-          <TableHeaderColumn dataField="btrx" dataFormat={Float1DigitsFormatter}>b<sub>tr,x</sub></TableHeaderColumn>
-          <TableHeaderColumn dataField="nombre">Descripción</TableHeaderColumn>
+          <TableHeaderColumn dataField="A"
+            dataFormat={Float2DigitsFormatter}
+            headerText="Área del elemento opaco (m²)">
+            A (m<sup>2</sup>)</TableHeaderColumn>
+          <TableHeaderColumn dataField="U"
+            dataFormat={Float3DigitsFormatter}
+            headerText="Transmitancia térmica del elemento opaco (W/m²K)">
+            U (W/m<sup>2</sup>K)</TableHeaderColumn>
+          <TableHeaderColumn dataField="btrx"
+            dataFormat={Float1DigitsFormatter}
+            headerText="Factor de ajuste del elemento opaco (fracción)">
+            b<sub>tr,x</sub></TableHeaderColumn>
+          <TableHeaderColumn dataField="nombre"
+            headerText="Descripción identificativa del elemento opaco">
+            Descripción</TableHeaderColumn>
         </BootstrapTable>
         <Row>
           <Col md={6}>&sum;b<sub>tr,x</sub>·A<sub>x</sub> = {opacosA.toFixed(2)} m²</Col>
@@ -191,8 +231,11 @@ class OpacosTable extends Component {
               <li><b>b<sub>tr,x</sub></b>: factor de ajuste del elemento opaco (fracción)</li>
             </ul>
             <p><b>NOTA</b>: El factor de ajuste propuesto para elementos en contacto con edificios o
-            espacios adyacentes es <i>b<sub>tr,x</sub> = 0.0</i>, y <i>b<sub>tr,x</sub> = 1.0</i>
+            espacios adyacentes es <i>b<sub>tr,x</sub> = 0.0</i>, y <i>b<sub>tr,x</sub> = 1.0 </i>
             para el resto de casos.</p>
+            <p>Esta simplificación introduce cierto error al considerar que el intercambio de calor
+            a través de los elementos en contacto con otros edificios o espacios adyacentes es despreciable,
+            pero simplifica considerablemente los cálculos.</p>
           </Col>
         </Row>
       </Grid>
@@ -230,9 +273,17 @@ class PTsTable extends Component {
           }}
         >
           <TableHeaderColumn dataField="id" isKey={true} hidden={true}>ID</TableHeaderColumn>
-          <TableHeaderColumn dataField="L" dataFormat={Float2DigitsFormatter}>Longitud (m)</TableHeaderColumn>
-          <TableHeaderColumn dataField="psi" dataFormat={Float2DigitsFormatter}>&psi; (W/mK)</TableHeaderColumn>
-          <TableHeaderColumn dataField="nombre">Descripción</TableHeaderColumn>
+          <TableHeaderColumn dataField="L"
+            dataFormat={Float2DigitsFormatter}
+            headerText="Longitud del puente térmico (m)">
+            Longitud (m)</TableHeaderColumn>
+          <TableHeaderColumn dataField="psi"
+            dataFormat={Float2DigitsFormatter}
+            headerText="Transmitancia térmica lineal del puente térmico (W/mK)">
+            &psi; (W/mK)</TableHeaderColumn>
+          <TableHeaderColumn dataField="nombre"
+            headerText="Descripción identificativa del puente térmico">
+            Descripción</TableHeaderColumn>
         </BootstrapTable>
         <Row>
           <Col md={6}>&sum;L = {ptsL.toFixed(2)} m</Col>
@@ -278,28 +329,38 @@ const IndicatorsPanel = inject("appstate", "radstate")(observer(
                 <Glyphicon glyph="plus" />
               </Button>
             </Col>
-            <Col md={3}><b><i>K</i> = {K.toFixed(2)} <i>W/m²K</i></b></Col>
-            <Col md={3}><b><i>q<sub>sol;jul</sub></i> = {qsj_clima.toFixed(2)} <i>kWh/m²/mes</i></b></Col>
+            <Col md={3} title="Transmitancia térmica global del edificio">
+              <b><i>K</i> = {K.toFixed(2)} <i>W/m²K</i></b>
+            </Col>
+            <Col md={3} title="Indicador de control solar">
+              <b><i>q<sub>sol;jul</sub></i> = {qsj_clima.toFixed(2)} <i>kWh/m²/mes</i></b>
+            </Col>
             <Col md={5} className="text-right">
-              <p>
+              <p title="Superficie útil del edificio o parte del edificio">
                 <b>A<sub>util</sub></b> = <input type="text"
                                                  onChange={ e => this.handleChange(e) }
                                                  value={Autil} /> m²
               </p>
             </Col>
           </Row>
-          <Panel collapsible expanded={this.state.open} bsStyle="info">
+          <Panel id="detalleindicadores" collapsible expanded={this.state.open} bsStyle="info">
             <Grid>
               <Row>
                 <h3>Transmitancia térmica global</h3>
+                <p>Transmisión de calor a través de la envolvente térmica (huecos, opacos y puentes térmicos)</p>
                 <p>H<sub>tr,adj</sub> &asymp; &sum;<sub>x</sub> b<sub>tr,x</sub> · [&sum;<sub>i</sub> A<sub>x,i</sub> · U<sub>x,i</sub> (huecos + opacos) + &sum;<sub>k</sub> l<sub>x,k</sub> · ψ<sub>x,k</sub> (PTs)] = {huecosAU.toFixed(2)} W/K (huecos) + {opacosAU.toFixed(2)} W/K (opacos) + {ptsPsiL.toFixed(2)} W/K (PTs) = {(totalAU + ptsPsiL).toFixed(2)} W/K </p>
-                <p>&sum;A = &sum; b<sub>tr,x</sub> · A<sub>x</sub> = {Number(huecosA).toFixed(2)} m² (huecos) + {Number(opacosA).toFixed(2)} m² (opacos) = {Number(totalA).toFixed(2)} m²</p>
-                <p><b>K</b> = H<sub>tr,adj</sub> / &sum;A &asymp; { (totalAU + ptsPsiL).toFixed(2) } / { (totalA).toFixed(2) } = <b>{Number(K).toFixed(2)} <i>W/m²K</i></b> </p>
+                <p>Superficie de intercambio de la envolvente térmica</p>
+                <p>&sum;A = &sum; b<sub>tr,x</sub> · A<sub>x</sub> = { Number(huecosA).toFixed(2) } m² (huecos) + { Number(opacosA).toFixed(2) } m² (opacos) = { Number(totalA).toFixed(2) } m²</p>
+                <p>Valor del indicador:</p>
+                <p><b>K</b> = H<sub>tr,adj</sub> / &sum;A &asymp; { (totalAU + ptsPsiL).toFixed(2) } / { (totalA).toFixed(2) } = <b>{ Number(K).toFixed(2) } <i>W/m²K</i></b> </p>
               </Row>
               <Row>
                 <h3>Control solar</h3>
-                <p>Q<sub>sol;jul</sub> &sum;<sub>k</sub>(F<sub>sh,obst</sub> · g<sub>gl;sh;wi</sub> · (1 − F<sub>F</sub>) · A<sub>w,p</sub> · H<sub>sol;jul</sub>) = {Qsoljul_clima.toFixed(2)} kWh/mes</p>
+                <p>Ganancias solares en el mes de julio con los dispositivos de sombra activados</p>
+                <p>Q<sub>sol;jul</sub> &sum;<sub>k</sub>(F<sub>sh,obst</sub> · g<sub>gl;sh;wi</sub> · (1 − F<sub>F</sub>) · A<sub>w,p</sub> · H<sub>sol;jul</sub>) = { Qsoljul_clima.toFixed(2) } kWh/mes</p>
+                <p>Superficie útil</p>
                 <p>A<sub>util</sub> = {Autil} m²</p>
+                <p>Valor del indicador:</p>
                 <p><b>q<sub>sol;jul</sub></b> = Q<sub>sol;jul</sub> / A<sub>util</sub> = {Qsoljul_clima.toFixed(2)} / { Autil } = <b><i>{ Number(qsj_clima).toFixed(2) } kWh/m²/mes</i></b></p>
               </Row>
             </Grid>
@@ -345,6 +406,7 @@ const Indicators = inject("appstate", "radstate")(observer(
               </Tab>
               <Tab eventKey={4} title="Carga / descarga de datos">
                 <Panel header="Carga archivo con datos de envolvente:" bsStyle="primary">
+                  <p>Si ha descargado con anterioridad datos de esta aplicación, cárguelos de nuevo seleccionando el archivo.</p>
                   <input ref="fileInput" type="file" onChange={e => this.handleUpload(e)} />
                 </Panel>
                 <Row>
