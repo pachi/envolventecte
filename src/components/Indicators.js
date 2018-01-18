@@ -301,7 +301,7 @@ const IndicatorsPanel = inject("appstate", "radstate")(observer(
               <p title="Superficie útil del edificio o parte del edificio">
                 <b>A<sub>util</sub></b> = <input type="text"
                                                  onChange={ e => this.handleChange(e) }
-                                                 value={Autil} /> m²
+                                                 value={ Autil } /> m²
               </p>
             </Col>
           </Row>
@@ -339,53 +339,15 @@ const IndicatorsPanel = inject("appstate", "radstate")(observer(
   }
 ));
 
-const Indicators = inject("appstate", "radstate")(observer(
-  class Indicators extends Component {
+
+const UploadPanel = inject("appstate")(observer(
+  class UploadPanel extends Component {
     render() {
-      // climate, radiationdata,
-      const {
-        envolvente, huecosA, huecosAU, opacosA, opacosAU, ptsL, ptsPsiL, errors
-      } = this.props.appstate;
-      const errordisplay = errors.map((e, idx) =>
-        <Alert bsStyle={ e.type.toLowerCase() }
-          key={ `AlertId${ idx }` }>{ e.msg }</Alert>);
       return (
-        <Grid>
-          <NavBar route={this.props.route} />
-          <Row>
-            <IndicatorsPanel />
-          </Row>
-          <Row>
-            <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-              <Tab eventKey={1} title="Huecos">
-                <HuecosTable huecos={envolvente.huecos} {...{ huecosA, huecosAU }} />
-              </Tab>
-              <Tab eventKey={2} title="Opacos">
-                <OpacosTable opacos={envolvente.opacos} {...{ opacosA, opacosAU }} />
-              </Tab>
-              <Tab eventKey={3} title="P. Térmicos">
-                <PTsTable pts={envolvente.pts} {...{ ptsL, ptsPsiL }} />
-              </Tab>
-              <Tab eventKey={4} title="Carga / descarga de datos">
-                <Panel header="Carga archivo con datos de envolvente:" bsStyle="primary">
-                  <p>Si ha descargado con anterioridad datos de esta aplicación, cárguelos de nuevo seleccionando el archivo.</p>
-                  <input ref="fileInput" type="file" onChange={e => this.handleUpload(e)} />
-                </Panel>
-                <Row>
-                  <Button bsStyle="primary" ref="fileDownload" className="pull-right"
-                    onClick={ e => this.handleDownload(e) }>
-                    <Glyphicon glyph="download" /> Descargar datos de envolvente
-                  </Button>
-                </Row>
-                <Row>
-                { errordisplay }
-                </Row>
-              </Tab>
-            </Tabs>
-          </Row>
-          {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
-          <Footer/>
-        </Grid>
+        <Panel header="Carga archivo con datos de envolvente:" bsStyle="primary">
+        <p>Si ha descargado con anterioridad datos de esta aplicación, cárguelos de nuevo seleccionando el archivo.</p>
+        <input ref="fileInput" type="file" onChange={ e => this.handleUpload(e) } />
+        </Panel>
       );
     }
 
@@ -420,27 +382,81 @@ const Indicators = inject("appstate", "radstate")(observer(
       };
       reader.readAsText(file);
     }
+  }
+));
 
-    handleDownload(e) {
-      const { Autil, envolvente } = this.props.appstate;
-      const contents = JSON.stringify({ Autil, envolvente }, null, 2);
-      const filename = "solarcte.json";
-      const blob = new Blob([contents], { type: 'application/json' });
-      const uri = URL.createObjectURL(blob);
-      // from http://stackoverflow.com/questions/283956/
-      const link = document.createElement('a');
-      if (typeof link.download === 'string') {
-        link.href = uri;
-        link.download = filename;
-        // Firefox requires the link to be in the body
-        document.body.appendChild(link);
-        // Simulate click
-        link.click();
-        // Remove the link when done
-        document.body.removeChild(link);
-      } else {
-        window.open(uri);
-      }
+
+class DownloadButton extends Component {
+  render() {
+    return (
+      <Button bsStyle="primary" ref="fileDownload" className="pull-right"
+        onClick={ e => this.handleDownload(e) }>
+        <Glyphicon glyph="download" /> Descargar datos de envolvente
+      </Button>
+    );
+  }
+
+  handleDownload(_) {
+    const contents = JSON.stringify(this.props.data, null, 2);
+    const filename = "solarcte.json";
+    const blob = new Blob([contents], { type: 'application/json' });
+    const uri = URL.createObjectURL(blob);
+    // from http://stackoverflow.com/questions/283956/
+    const link = document.createElement('a');
+    if (typeof link.download === 'string') {
+      link.href = uri;
+      link.download = filename;
+      // Firefox requires the link to be in the body
+      document.body.appendChild(link);
+      // Simulate click
+      link.click();
+      // Remove the link when done
+      document.body.removeChild(link);
+    } else {
+      window.open(uri);
+    }
+  }
+}
+
+
+const Indicators = inject("appstate")(observer(
+  class Indicators extends Component {
+    render() {
+      // climate, radiationdata,
+      const { Autil, envolvente, huecosA, huecosAU, opacosA, opacosAU, ptsL, ptsPsiL, errors
+      } = this.props.appstate;
+      const errordisplay = errors.map((e, idx) =>
+        <Alert bsStyle={ e.type.toLowerCase() } key={ `AlertId${ idx }` }>{ e.msg }</Alert>);
+      return (
+        <Grid>
+          <NavBar route={ this.props.route } />
+          <Row>
+            <IndicatorsPanel />
+          </Row>
+          <Row>
+            <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
+              <Tab eventKey={1} title="Huecos">
+                <HuecosTable huecos={ envolvente.huecos } {...{ huecosA, huecosAU }} />
+              </Tab>
+              <Tab eventKey={2} title="Opacos">
+                <OpacosTable opacos={ envolvente.opacos } {...{ opacosA, opacosAU }} />
+              </Tab>
+              <Tab eventKey={3} title="P. Térmicos">
+                <PTsTable pts={ envolvente.pts } {...{ ptsL, ptsPsiL }} />
+              </Tab>
+              <Tab eventKey={4} title="Carga / descarga de datos">
+                <Grid>
+                  <Row><UploadPanel/></Row>
+                  <Row><DownloadButton data={{ Autil, envolvente }}/></Row>
+                  <Row>{ errordisplay }</Row>
+                </Grid>
+              </Tab>
+            </Tabs>
+          </Row>
+          {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
+          <Footer/>
+        </Grid>
+      );
     }
   }
 ));
