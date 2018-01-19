@@ -7,7 +7,7 @@ module.exports = {
 
   "plugins": ["react"],
 
-  "extends": "eslint:recommended",
+  "extends": ["eslint:recommended", "prettier"],
   "parser": "babel-eslint",
 
   "ecmaFeatures": {
@@ -173,7 +173,7 @@ module.exports = {
     "func-names": 1, // require function expressions to have a name (off by default)
     "func-style": 0, // enforces use of function declarations or expressions (off by default)
     "id-length": 0, // mininum and maximum linid length
-    "indent": [1, 2], // this option sets a specific tab width for your code (off by default)
+    //"indent": [1, 2], // this option sets a specific tab width for your code (off by default)
     // specify whether double or single quotes should be used in JSX attributes
     // http://eslint.org/docs/rules/jsx-quotes
     "jsx-quotes": [2, "prefer-double"],
@@ -191,7 +191,11 @@ module.exports = {
     "linebreak-style": [2, "unix"], // unix linebreaks
     "max-len": [2, 120, 2, {
       "ignoreUrls": true,
-      "ignoreComments": false
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true,
+      "ignoreRegExpLiterals": true,
+      "ignoreComments": true,
+      "ignoreTrailingComments": true
     }], // specify the maximum length of a line in your program (off by default)
     "max-nested-callbacks": 0, // specify the maximum depth callbacks can be nested (off by default)
     "new-cap": 0, //[1, {"newIsCap": true, "capIsNew": false}], // require a capital letter for constructors
