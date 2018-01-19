@@ -19,7 +19,7 @@ Esta aplicación ha sido desarrollada por el equipo de energía del <i>Instituto
 
 El cálculo de los indicadores de calidad en la envolvente térmica se basa en los indicadores descritos en la *UNE EN ISO 13790:2008* (e *ISO/FDIS 52016‐1*).
 
-- El indicador de **transmitancia térmica global** (**K**) se basa en el coeficiente global de         transmisión de calor (**H<sub>tr,adj</sub>**, apartado 8.3.1, ec. 17 de la *UNE EN ISO 13790:2008* y apartado 6.6.5.2, ec. 108 de la *ISO/FDIS 52016-1*) repercutido por la superficie de intercambio con el exterior.<br /> Mide la capacidad global de evitar el intercambio de calor por conducción.
+- El indicador de **transmitancia térmica global** (**K**) se basa en el coeficiente global de      transmisión de calor (**H<sub>tr,adj</sub>**, apartado 8.3.1, ec. 17 de la *UNE EN ISO 13790:2008* y apartado 6.6.5.2, ec. 108 de la *ISO/FDIS 52016-1*) repercutido por la superficie de intercambio con el exterior.<br /> Mide la capacidad global de evitar el intercambio de calor por conducción.
 
 - El indicador de **control solar** (**q<sub>sol;jul</sub>**) se basa en el flujo de calor por ganancias solares, *Φ<sub>sol;k</sub>*, (apartado 11.3.2, ec. 43 de la *UNE EN ISO 13790:2008* y apartado 6.5.13.2, ec. 69 de la *ISO/FDIS 52016-1*), despreciando la reirradiación al cielo, repercutido por la superficie útil considerada y considerando activadas las protecciones solares móviles.<br /> Mide la posibilidad de controlar las ganancias solares (incluyendo el uso de dispositivos solares móviles y el efecto de otros obstáculos fijos o remotos).
 
