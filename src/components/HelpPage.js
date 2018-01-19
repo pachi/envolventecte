@@ -36,7 +36,12 @@ export default class HelpPage extends Component {
       <Grid>
         <NavBar route={ this.props.route } />
         <Row>
-        <h1>Indicadores de envolvente térmica y valores de radiación solar para la aplicación del CTE DB-HE</h1>
+          <h1>Indicadores de envolvente térmica y valores de radiación solar para la aplicación del CTE DB-HE</h1>
+          <p>Esta aplicación permite el cálculo de algunos indicadores de calidad de la envolvente térmica definidos en el CTE DB-HE (2018):</p>
+          <ul>
+            <li><b>Transmitancia térmica global</b> (<b>K</b>)</li>
+            <li><b>Control solar</b> (<b>q<sub>sol;jul</sub></b>)</li>
+          </ul>
           <Alert bsStyle="warning"><b>NOTA:</b> Esta aplicación y la información contenida en ella no tiene valor reglamentario.</Alert>
         </Row>
         <Row>
@@ -50,16 +55,16 @@ export default class HelpPage extends Component {
                 <p>Los indicadores de calidad en la envolvente térmica se basan en los descritos en la UNE EN ISO 13790:2008 (e ISO/FDIS 52016‐1).</p>
                 <ul>
                   <li>
-                    <p>El indicador de <b>transmitancia térmica global (<i>K</i>)</b> se basa en el coeficiente global de transmisión de calor (<i>H<sub>tr,adj</sub></i>, apartado 8.3.1, ec. 17 de UNE EN ISO 13790:2008 y apartado 6.6.5.2, ec. 108 de la ISO/FDIS 52016-1) repercutido por la superficie de intercambio con el exterior.</p>
+                    <p>El indicador de <b>transmitancia térmica global (<i>K</i>)</b> se basa en el coeficiente global de transmisión de calor (<i>H<sub>tr,adj</sub></i>, apartado 8.3.1, ec. 17 de la <i>UNE EN ISO 13790:2008</i> y apartado 6.6.5.2, ec. 108 de la <i>ISO/FDIS 52016-1</i>) repercutido por la superficie de intercambio con el exterior.</p>
                     <p><b>Mide la capacidad global de evitar el intercambio de calor por conducción.</b></p>
                   </li>
                   <li>
-                    <p>El indicador de <b>control solar (q<sub>sol;jul</sub>)</b> se basa en el <i>flujo de calor por ganancias solares, &Phi;<sub>sol;k</sub></i>, (apartado 11.3.2, ec. 43 de la UNE EN ISO 13790:2008 y apartado 6.5.13.2, ec. 69 de la ISO/FDIS 52016-1), despreciando la reirradiación al cielo, repercutido por la superficie útil considerada y considerando activadas las protecciones solares móviles.</p>
+                    <p>El indicador de <b>control solar (q<sub>sol;jul</sub>)</b> se basa en el <i>flujo de calor por ganancias solares, &Phi;<sub>sol;k</sub></i>, (apartado 11.3.2, ec. 43 de la <i>UNE EN ISO 13790:2008</i> y apartado 6.5.13.2, ec. 69 de la <i>ISO/FDIS 52016-1</i>), despreciando la reirradiación al cielo, repercutido por la superficie útil considerada y considerando activadas las protecciones solares móviles.</p>
                     <p><b>Mide la posibilidad de controlar las ganancias solares</b> (incluyendo el uso de dispositivos solares móviles y el efecto de otros obstáculos fijos o remotos).</p>
                   </li>
                 </ul>
 
-                <p><small>NOTA: En el indicador de ganancias solares no se han considerado de forma separada las componentes difusa y directa al tener en cuenta el efecto de las obstrucciones solares, siguiendo el criterio de la UNE EN ISO 13790:2008 y no la formulación de la ISO/FDIS 52016-1 (ver ec. 69, apartado 6.5.13.2).</small></p>
+                <p><small>NOTA: En el indicador de ganancias solares no se han considerado de forma separada las componentes difusa y directa al tener en cuenta el efecto de las obstrucciones solares, siguiendo el criterio de la <i>UNE EN ISO 13790:2008</i> y no la formulación de la <i>ISO/FDIS 52016-1</i> (ver ec. 69, apartado 6.5.13.2).</small></p>
                 </Col>
                 <Col md={4}>
                   <Image responsive alt="Esquema 5R1C EN 13790" src={esquema5R1C} />
@@ -76,11 +81,11 @@ export default class HelpPage extends Component {
                   <li><b>factor de reducción para sombreamientos solares móviles (<i>f<sub>sh;with</sub></i>)</b> de superficies inclinadas y orientadas.</li>
                 </ul>
                 <p>Los cálculos para las distintas orientaciones y climas usan valores obtenidos
-                  a partir de los archivos climáticos de referencia de CTE DB-HE y el procedimiento
-                  de la norma ISO/FDIS 52010‐1:2016. <Button bsStyle="info" bsSize="xsmall"
-                    href="http://www.codigotecnico.org/images/stories/pdf/ahorroEnergia/CTEdatosMET_20140418.zip"
-                    target="_blank">
-                    Descargar climas de referencia de codigotecnico.org </Button>.
+                  a partir de los archivos climáticos de referencia del <i>CTE DB-HE</i> y el procedimiento
+                  de la norma <i>ISO/FDIS 52010‐1:2016</i>. <Button bsStyle="info" bsSize="xsmall"
+                  href="http://www.codigotecnico.org/images/stories/pdf/ahorroEnergia/CTEdatosMET_20140418.zip"
+                  target="_blank">
+                  Descargar climas de referencia de codigotecnico.org </Button>.
                 </p>
               </Row>
               <Row>
