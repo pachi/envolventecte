@@ -142,7 +142,7 @@ const Radiation = inject("radstate")(observer(
               <Row>
                 <h2>Irradiación solar (acumulada) en el mes de julio <i>H<sub>sol;jul</sub></i> (kWh/m²/mes)</h2>
                 <JulyRadiationTable data={climatedata} />
-                <p className="text-info">Los valores proporcionados por la tabla anterior se utilizan en el cálculo del parámetro de
+                <p className="text-info">Los valores de por la tabla anterior se utilizan en el cálculo del parámetro de
                 control solar (<b>q<sub>sol;jul</sub></b>).</p>
               </Row>
               <Row>
@@ -157,20 +157,28 @@ const Radiation = inject("radstate")(observer(
                 <h2>Factores mensuales de reducción para sombreamientos solares móviles</h2>
                 <ShadingFactorsTable data={climatedata} />
                 <div className="text-info">
-                <p>La tabla anterior recoge la fracción del tiempo (mensual) que el dispositivo
-                de sombra móvil está conectado.</p>
-                <p>Estos valores pueden resultar útiles para obtener los valores del factor solar del hueco
-                teniendo en cuenta los dispositivos móviles, pudiendo promediar los valores mensuales al
-                aplicarlos a un periodo de tiempo superior (p.e. verano e invierno).</p>
-                <p>Se puede considerar que el dispositivo está conectado cuando la radiación (total) incidente
-                supera el valor indicado (<i>I > 200 W/m<sup>2</sup></i>, <i>I > 300 W/m<sup>2</sup></i>, <i>I > 500 W/m<sup>2</sup></i>)
-                y desconectado cuando se encuentra por debajo de ese valor.</p>
-                <p>Usos recomendados:</p>
-                <ul>
-                  <li><i>I > 300 W/m<sup>2</sup></i>: dispositivos de sombra con accionamiento y control manual;</li>
-                  <li><i>I > 200 W/m<sup>2</sup></i>: dispositivos de sombra con control y accionamiento automatizado;</li>
-                  <li><i>I > 500 W/m<sup>2</sup></i>: dispositivos de sombra en modo de calefacción (evita cargas extremas).</li>
-                </ul>
+                  <p>La tabla anterior recoge la fracción del tiempo (mensual) que el dispositivo
+                  de sombra móvil está conectado.</p>
+                  <p>Estos valores pueden resultar útiles para obtener el factor solar del hueco considerando
+                  los dispositivos de sombra móviles (<i>g<sub>gl;sh;wi</sub></i>). Para obtener valores estacionales
+                  se pueden promediar los valores mensuales correspondientes a la estación (p.e. verano e invierno).</p>
+                  <p>Se puede considerar que el dispositivo está conectado cuando la radiación (total) incidente
+                  supera el valor indicado (<i>I > 200 W/m<sup>2</sup></i>, <i>I > 300 W/m<sup>2</sup></i>, <i>I > 500 W/m<sup>2</sup></i>)
+                  y desconectado cuando se encuentra por debajo de ese valor. Es decir, un valor de <i>f<sub>sh;with</sub> = 1</i> significa
+                  que el dispositivo de sombra móvil está completamente conectado o activado (p.e. un toldo extendido o una persiana bajada)
+                  y un valor de <i>f<sub>sh;with</sub> = 1</i> significa que el dispositivo de sombra móvil está completamente
+                  desconectado o desactivado (p.e. un toldo recogido o una persiana subida).</p>
+                  <p>Se han calculados los factores de reducción para los siguientes valores de la irradiación sobre el hueco,
+                  para los que se indican sus usos recomendados:</p>
+                  <ul>
+                    <li><i>I > 300 W/m<sup>2</sup></i>:
+                      dispositivos de sombra con accionamiento y control manual;</li>
+                    <li><i>I > 200 W/m<sup>2</sup></i>:
+                      dispositivos de sombra con control y accionamiento automático;</li>
+                    <li><i>I > 500 W/m<sup>2</sup></i>:
+                      dispositivos de sombra en modo de calefacción (evita cargas extremas).</li>
+                  </ul>
+                  <p>NOTA: Debe tenerse en cuenta que los valores de la tabla se han obtenido sin considerar el efecto de los obstáculos remotos sobre el hueco.</p>
                 </div>
               </Row>
             </Tab>
