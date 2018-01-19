@@ -34,9 +34,9 @@ import NavBar from './Nav';
 
 import { uuidv4, UserException } from '../utils.js';
 
-const Float1DigitsFormatter = (cell, row) => <span>{ Number(cell).toFixed(1) }</span>;
-const Float2DigitsFormatter = (cell, row) => <span>{ Number(cell).toFixed(2) }</span>;
-const Float3DigitsFormatter = (cell, row) => <span>{ Number(cell).toFixed(3) }</span>;
+const Float1DigitsFormatter = (cell, _row) => <span>{ Number(cell).toFixed(1) }</span>;
+const Float2DigitsFormatter = (cell, _row) => <span>{ Number(cell).toFixed(2) }</span>;
+const Float3DigitsFormatter = (cell, _row) => <span>{ Number(cell).toFixed(3) }</span>;
 
 // Orientaciones
 const orientacionesType = ['Horiz.', 'N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];

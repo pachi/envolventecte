@@ -90,43 +90,43 @@ const RadiationTable = ({ data }) =>
 
 
 const ShadingFactorsTable = ({ data }) =>
-<table id="shadingfactorstable"
-  className="table table-striped table-bordered table-condensed">
-  <thead>
-    <tr style={{ borderBottom: '3px solid darkgray' }}>
-      <th className="col-md-1">Superficie</th>
-      <th className="col-md-1">f<sub>sh;with</sub></th>
-      <th>ENE</th><th>FEB</th><th>MAR</th><th>ABR</th>
-      <th>MAY</th><th>JUN</th><th>JUL</th><th>AGO</th>
-      <th>SET</th><th>OCT</th><th>NOV</th><th>DIC</th>
-    </tr>
-  </thead>
-  { data.map((d, idx) => {
-    return (
-      <tbody style={{ textAlign: 'right' }} key={'table' + idx}>
-        <tr key={'f_shwith200_' + d.surfname}>
-          <td rowSpan="3"><b>{d.surfname}</b><br/><OrientaIcon dir={ d.surfname }/></td>
-          <td>f<sub>sh;with,I>200</sub></td>
-          { d.f_shwith200.map((v, i) =>
-            <td key={'fshwith200_' + i}>{v.toFixed(2)} <FshwithIcon fsh={ v }/></td>)
-          }
-        </tr>
-        <tr key={'f_shwith300_' + d.surfname} style={{ fontWeight: 'bold' }}>
-          <td>f<sub>sh;with,I>300</sub></td>
-          { d.f_shwith300.map((v, i) =>
-            <td key={'f_shwith300_' + i}>{v.toFixed(2)} <FshwithIcon fsh={ v }/></td>)
-          }
-        </tr>
-        <tr key={'f_shwith500_' + d.surfname} style={{ borderBottom: '3px solid darkgray' }}>
-          <td>f<sub>sh;with,I>500</sub></td>
-          { d.f_shwith500.map((v, i) =>
-            <td key={'f_shwith500_' + i}>{v.toFixed(2)} <FshwithIcon fsh={ v }/></td>)
-          }
-        </tr>
-      </tbody>);
-  })
-  }
-</table>;
+  <table id="shadingfactorstable"
+    className="table table-striped table-bordered table-condensed">
+    <thead>
+      <tr style={{ borderBottom: '3px solid darkgray' }}>
+        <th className="col-md-1">Superficie</th>
+        <th className="col-md-1">f<sub>sh;with</sub></th>
+        <th>ENE</th><th>FEB</th><th>MAR</th><th>ABR</th>
+        <th>MAY</th><th>JUN</th><th>JUL</th><th>AGO</th>
+        <th>SET</th><th>OCT</th><th>NOV</th><th>DIC</th>
+      </tr>
+    </thead>
+    { data.map((d, idx) => {
+      return (
+        <tbody style={{ textAlign: 'right' }} key={'table' + idx}>
+          <tr key={'f_shwith200_' + d.surfname}>
+            <td rowSpan="3"><b>{d.surfname}</b><br/><OrientaIcon dir={ d.surfname }/></td>
+            <td>f<sub>sh;with,I>200</sub></td>
+            { d.f_shwith200.map((v, i) =>
+              <td key={'fshwith200_' + i}>{v.toFixed(2)} <FshwithIcon fsh={ v }/></td>)
+            }
+          </tr>
+          <tr key={'f_shwith300_' + d.surfname} style={{ fontWeight: 'bold' }}>
+            <td>f<sub>sh;with,I>300</sub></td>
+            { d.f_shwith300.map((v, i) =>
+              <td key={'f_shwith300_' + i}>{v.toFixed(2)} <FshwithIcon fsh={ v }/></td>)
+            }
+          </tr>
+          <tr key={'f_shwith500_' + d.surfname} style={{ borderBottom: '3px solid darkgray' }}>
+            <td>f<sub>sh;with,I>500</sub></td>
+            { d.f_shwith500.map((v, i) =>
+              <td key={'f_shwith500_' + i}>{v.toFixed(2)} <FshwithIcon fsh={ v }/></td>)
+            }
+          </tr>
+        </tbody>);
+    })
+    }
+  </table>;
 
 const Radiation = inject("radstate")(observer(
   ({ radstate, route }) => {
