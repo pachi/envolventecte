@@ -21,39 +21,51 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React from 'react';
-import { Button, ButtonGroup, Glyphicon } from 'react-bootstrap';
+import React from "react";
+import { Button, ButtonGroup, Glyphicon } from "react-bootstrap";
 
-import { uuidv4 } from '../utils.js';
+import { uuidv4 } from "../utils.js";
 
-const AddRemoveButtonGroup = ({ objects, newObj, selectedId }) =>
+const AddRemoveButtonGroup = ({ objects, newObj, selectedId }) => (
   <ButtonGroup className="pull-right">
-    <Button bsStyle="primary" bsSize="xs"
-      onClick={ () => { objects.push(newObj()); } }>
+    <Button
+      bsStyle="primary"
+      bsSize="xs"
+      onClick={() => {
+        objects.push(newObj());
+      }}
+    >
       <Glyphicon glyph="plus" />
     </Button>
-    <Button bsStyle="primary" bsSize="xs"
-      onClick={ () => {
+    <Button
+      bsStyle="primary"
+      bsSize="xs"
+      onClick={() => {
         // Duplicamos el seleccionado o el primer objeto si hay objetos
         if (objects.length > 0) {
           const selectedIndex = objects.findIndex(h => h.id === selectedId);
           const idx = selectedIndex >= 0 ? selectedIndex : 0;
           const dupObj = { ...objects[idx], id: uuidv4() };
           objects.splice(idx, 0, dupObj);
-        // En caso contrario añadimos un objeto nuevo
+          // En caso contrario añadimos un objeto nuevo
         } else {
           objects.push(newObj());
         }
-      } }>
+      }}
+    >
       <Glyphicon glyph="duplicate" />
     </Button>
-    <Button bsStyle="primary" bsSize="xs"
-      onClick={ () => {
+    <Button
+      bsStyle="primary"
+      bsSize="xs"
+      onClick={() => {
         // https://mobx.js.org/refguide/array.html
         objects.replace(objects.filter(h => !selectedId.includes(h.id)));
-      } }>
+      }}
+    >
       <Glyphicon glyph="minus" />
     </Button>
-  </ButtonGroup>;
+  </ButtonGroup>
+);
 
 export default AddRemoveButtonGroup;

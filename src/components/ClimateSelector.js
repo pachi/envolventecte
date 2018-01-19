@@ -21,34 +21,41 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { Component } from 'react';
-import { observer, inject } from 'mobx-react';
-import { ControlLabel, Form, FormControl, FormGroup } from 'react-bootstrap';
+import React, { Component } from "react";
+import { observer, inject } from "mobx-react";
+import { ControlLabel, Form, FormControl, FormGroup } from "react-bootstrap";
 
-const ClimateSelector = inject("radstate")(observer(
-  class ClimateSelector extends Component {
-    render() {
-      const radstate = this.props.radstate;
-      return (
-        <Form inline>
-          <FormGroup controlId="formControlsClimateZone">
-            <ControlLabel style={{ color: "white" }}>Zona Climática</ControlLabel>{' '}
-            <FormControl
-                value={ radstate.climate || '' }
-                onChange={ e => { radstate.climate = e.target.value; } }
+const ClimateSelector = inject("radstate")(
+  observer(
+    class ClimateSelector extends Component {
+      render() {
+        const radstate = this.props.radstate;
+        return (
+          <Form inline>
+            <FormGroup controlId="formControlsClimateZone">
+              <ControlLabel style={{ color: "white" }}>
+                Zona Climática
+              </ControlLabel>{" "}
+              <FormControl
+                value={radstate.climate || ""}
+                onChange={e => {
+                  radstate.climate = e.target.value;
+                }}
                 componentClass="select"
-                placeholder="select">
-              { radstate
-                .zoneslist.map(z =>
-                  <option value={ z } key={ 'zone_' + z }>{ z }</option>
-                )
-              }
-            </FormControl>
-          </FormGroup>
-        </Form>
-      );
+                placeholder="select"
+              >
+                {radstate.zoneslist.map(z => (
+                  <option value={z} key={"zone_" + z}>
+                    {z}
+                  </option>
+                ))}
+              </FormControl>
+            </FormGroup>
+          </Form>
+        );
+      }
     }
-  }
-));
+  )
+);
 
 export default ClimateSelector;

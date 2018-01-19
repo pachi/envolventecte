@@ -45,12 +45,12 @@ const stores = {
 class App extends Component {
   render() {
     return (
-      <Provider {... stores}>
+      <Provider {...stores}>
         <Router history={hashHistory}>
-          <Route path="/" component={ Indicators } />
-          <Route path="/rad" component={ Radiation } />
-          <Route path="/help" component={ HelpPage }/>
-          <Route path="/about" component={ AboutPage }/>
+          <Route path="/" component={Indicators} />
+          <Route path="/rad" component={Radiation} />
+          <Route path="/help" component={HelpPage} />
+          <Route path="/about" component={AboutPage} />
         </Router>
       </Provider>
     );

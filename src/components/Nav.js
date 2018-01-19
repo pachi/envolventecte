@@ -21,20 +21,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React from 'react';
-import { Link } from 'react-router';
-import { LinkContainer } from 'react-router-bootstrap';
-import { Grid, Nav, NavItem, Navbar } from 'react-bootstrap';
+import React from "react";
+import { Link } from "react-router";
+import { LinkContainer } from "react-router-bootstrap";
+import { Grid, Nav, NavItem, Navbar } from "react-bootstrap";
 
-import ClimateSelector from './ClimateSelector';
+import ClimateSelector from "./ClimateSelector";
 
 export default class NavBar extends React.Component {
-
-  static defaultProps = { projectName: 'Solar CTE' }
+  static defaultProps = { projectName: "Solar CTE" };
 
   render() {
     const currpath = this.props.route.path;
-    const activeIfCurrent = path => currpath === path ? 'active' : '';
+    const activeIfCurrent = path => (currpath === path ? "active" : "");
 
     return (
       <Navbar inverse fixedTop>
@@ -42,7 +41,8 @@ export default class NavBar extends React.Component {
           <Navbar.Header>
             <Navbar.Brand>
               <Link className="navbar-brand" to="/">
-                <span className="glyphicon glyphicon-home" aria-hidden="true" /> { this.props.projectName }
+                <span className="glyphicon glyphicon-home" aria-hidden="true" />{" "}
+                {this.props.projectName}
               </Link>
             </Navbar.Brand>
             <Navbar.Toggle />
@@ -50,35 +50,51 @@ export default class NavBar extends React.Component {
           <Navbar.Collapse>
             <Nav>
               <LinkContainer to="/">
-                <NavItem className={ activeIfCurrent('/') }
-                         eventKey={1}
-                         role="presentation">Indicadores
+                <NavItem
+                  className={activeIfCurrent("/")}
+                  eventKey={1}
+                  role="presentation"
+                >
+                  Indicadores
                 </NavItem>
               </LinkContainer>
             </Nav>
             <Nav>
               <LinkContainer to="/rad">
-                <NavItem className={ activeIfCurrent('/rad') }
-                         eventKey={2}
-                         role="presentation">Radiación
+                <NavItem
+                  className={activeIfCurrent("/rad")}
+                  eventKey={2}
+                  role="presentation"
+                >
+                  Radiación
                 </NavItem>
               </LinkContainer>
             </Nav>
             <Nav pullRight>
               <LinkContainer to="/help">
-                <NavItem className={ activeIfCurrent('/help') }
-                         eventKey={3}
-                         role="presentation">
-                  <span className="glyphicon glyphicon-question-sign"
-                        aria-hidden="true" /> Ayuda
+                <NavItem
+                  className={activeIfCurrent("/help")}
+                  eventKey={3}
+                  role="presentation"
+                >
+                  <span
+                    className="glyphicon glyphicon-question-sign"
+                    aria-hidden="true"
+                  />{" "}
+                  Ayuda
                 </NavItem>
               </LinkContainer>
               <LinkContainer to="/about">
-                <NavItem className={ activeIfCurrent('/about') }
-                         eventKey={3}
-                         role="presentation">
-                  <span className="glyphicon glyphicon-user"
-                        aria-hidden="true" /> Créditos
+                <NavItem
+                  className={activeIfCurrent("/about")}
+                  eventKey={3}
+                  role="presentation"
+                >
+                  <span
+                    className="glyphicon glyphicon-user"
+                    aria-hidden="true"
+                  />{" "}
+                  Créditos
                 </NavItem>
               </LinkContainer>
             </Nav>

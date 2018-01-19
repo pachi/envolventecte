@@ -21,16 +21,23 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React from 'react';
-import { Grid, Row } from 'react-bootstrap';
+import React from "react";
+import { Grid, Row } from "react-bootstrap";
 
-const Footer = () =>
-  <footer className="navbar-fixed-bottom" style={{ backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
+const Footer = () => (
+  <footer
+    className="navbar-fixed-bottom"
+    style={{ backgroundColor: "rgba(255, 255, 255, 0.7)" }}
+  >
     <Grid>
       <Row>
-        <p className="text-center small text-muted">2018 - Rafael Villar Burke, Daniel Jiménez González, Marta Sorribes Gil.</p>
+        <p className="text-center small text-muted">
+          2018 - Rafael Villar Burke, Daniel Jiménez González, Marta Sorribes
+          Gil.
+        </p>
       </Row>
     </Grid>
-  </footer>;
+  </footer>
+);
 
 export default Footer;
