@@ -475,6 +475,60 @@ class PTsTable extends Component {
   }
 }
 
+const IndicatorsDetail = ({ Autil, huecosA, huecosAU, opacosA, opacosAU, ptsPsiL, totalA, totalAU, K, qsj_clima, Qsoljul_clima }) =>
+  <Grid>
+    <Row>
+      <h3>Transmitancia térmica global</h3>
+      <p>
+        Transmisión de calor a través de la envolvente térmica (huecos, opacos
+        y puentes térmicos)
+      </p>
+      <p>
+        H<sub>tr,adj</sub> &asymp; &sum;<sub>x</sub> b<sub>tr,x</sub> · [&sum;<sub>i</sub>{" "}
+        A<sub>x,i</sub> · U<sub>x,i</sub> (huecos + opacos) + &sum;<sub>k</sub>{" "}
+        l<sub>x,k</sub> · ψ<sub>x,k</sub> (PTs)] = {huecosAU.toFixed(2)} W/K
+        (huecos) + {opacosAU.toFixed(2)} W/K (opacos) + {ptsPsiL.toFixed(2)}{" "}
+        W/K (PTs) = {(totalAU + ptsPsiL).toFixed(2)} W/K{" "}
+      </p>
+      <p>Superficie de intercambio de la envolvente térmica</p>
+      <p>
+        &sum;A = &sum; b<sub>tr,x</sub> · A<sub>x</sub> ={" "}
+        {Number(huecosA).toFixed(2)} m² (huecos) +{" "}
+        {Number(opacosA).toFixed(2)} m² (opacos) = {Number(totalA).toFixed(2)}{" "}
+        m²
+      </p>
+      <p>Valor del indicador:</p>
+      <p>
+        <b>K</b> = H<sub>tr,adj</sub> / &sum;A &asymp;{" "}
+        {(totalAU + ptsPsiL).toFixed(2)} / {totalA.toFixed(2)} ={" "}
+        <b>{Number(K).toFixed(2)} <i>W/m²K</i></b>
+      </p>
+    </Row>
+    <Row>
+      <h3>Control solar</h3>
+      <p>
+        Ganancias solares en el mes de julio con los dispositivos de sombra
+        activados
+      </p>
+      <p>
+        Q<sub>sol;jul</sub> &sum;<sub>k</sub>(F<sub>sh,obst</sub> · g<sub>gl;sh;wi</sub>{" "}
+        · (1 − F<sub>F</sub>) · A<sub>w,p</sub> · H<sub>sol;jul</sub>) ={" "}
+        {Qsoljul_clima.toFixed(2)} kWh/mes
+      </p>
+      <p>Superficie útil</p>
+      <p>
+        A<sub>util</sub> = {Autil} m²
+      </p>
+      <p>Valor del indicador:</p>
+      <p>
+        <b>q<sub>sol;jul</sub></b>{" "}
+        = Q<sub>sol;jul</sub> / A<sub>util</sub>{" "}
+        ={Qsoljul_clima.toFixed(2)} / {Autil} ={" "}
+        <b><i>{Number(qsj_clima).toFixed(2)} kWh/m²/mes</i></b>
+      </p>
+    </Row>
+  </Grid>;
+
 const IndicatorsPanel = inject("appstate", "radstate")(
   observer(
     class IndicatorsPanel extends Component {
@@ -485,8 +539,7 @@ const IndicatorsPanel = inject("appstate", "radstate")(
 
       render() {
         // climate, radiationdata,
-        const {
-          Autil,
+        const { Autil,
           huecosA,
           huecosAU,
           opacosA,
@@ -496,21 +549,18 @@ const IndicatorsPanel = inject("appstate", "radstate")(
           totalAU,
           K,
           Qsoljul,
-          qsj
+          qsj,
         } = this.props.appstate;
         const { climateTotRadJul } = this.props.radstate;
         const Qsoljul_clima = Qsoljul(climateTotRadJul);
         const qsj_clima = qsj(climateTotRadJul);
 
-        return (
-          <Grid>
+        return <Grid>
             <Row>
               <Col md={1}>
-                <Button
-                  bsSize="xs"
-                  bsStyle="info"
-                  onClick={() => this.setState({ open: !this.state.open })}
-                >
+                <Button bsSize="xs" bsStyle="info" onClick={() => this.setState(
+                      { open: !this.state.open }
+                    )}>
                   <Glyphicon glyph="plus" />
                 </Button>
               </Col>
@@ -523,98 +573,27 @@ const IndicatorsPanel = inject("appstate", "radstate")(
                 <b>
                   <i>
                     q<sub>sol;jul</sub>
-                  </i>{" "}
-                  = {qsj_clima.toFixed(2)} <i>kWh/m²/mes</i>
+                  </i> = {qsj_clima.toFixed(2)} <i>kWh/m²/mes</i>
                 </b>
               </Col>
               <Col md={5} className="text-right">
                 <p title="Superficie útil del edificio o parte del edificio">
                   <b>
                     A<sub>util</sub>
-                  </b>{" "}
-                  ={" "}
-                  <input
-                    type="text"
-                    onChange={e => this.handleChange(e)}
-                    value={Autil}
-                  />{" "}
-                  m²
+                  </b> = <input type="text" onChange={e => this.handleChange(e)} value={Autil} /> m²
                 </p>
               </Col>
             </Row>
-            <Panel
-              id="detalleindicadores"
-              collapsible
-              expanded={this.state.open}
-              bsStyle="info"
-            >
-              <Grid>
-                <Row>
-                  <h3>Transmitancia térmica global</h3>
-                  <p>
-                    Transmisión de calor a través de la envolvente térmica
-                    (huecos, opacos y puentes térmicos)
-                  </p>
-                  <p>
-                    H<sub>tr,adj</sub> &asymp; &sum;<sub>x</sub> b<sub>
-                      tr,x
-                    </sub>{" "}
-                    · [&sum;<sub>i</sub> A<sub>x,i</sub> · U<sub>x,i</sub>{" "}
-                    (huecos + opacos) + &sum;<sub>k</sub> l<sub>x,k</sub> · ψ<sub
-                    >
-                      x,k
-                    </sub>{" "}
-                    (PTs)] = {huecosAU.toFixed(2)} W/K (huecos) +{" "}
-                    {opacosAU.toFixed(2)} W/K (opacos) + {ptsPsiL.toFixed(2)}{" "}
-                    W/K (PTs) = {(totalAU + ptsPsiL).toFixed(2)} W/K{" "}
-                  </p>
-                  <p>Superficie de intercambio de la envolvente térmica</p>
-                  <p>
-                    &sum;A = &sum; b<sub>tr,x</sub> · A<sub>x</sub> ={" "}
-                    {Number(huecosA).toFixed(2)} m² (huecos) +{" "}
-                    {Number(opacosA).toFixed(2)} m² (opacos) ={" "}
-                    {Number(totalA).toFixed(2)} m²
-                  </p>
-                  <p>Valor del indicador:</p>
-                  <p>
-                    <b>K</b> = H<sub>tr,adj</sub> / &sum;A &asymp;{" "}
-                    {(totalAU + ptsPsiL).toFixed(2)} / {totalA.toFixed(2)} ={" "}
-                    <b>
-                      {Number(K).toFixed(2)} <i>W/m²K</i>
-                    </b>{" "}
-                  </p>
-                </Row>
-                <Row>
-                  <h3>Control solar</h3>
-                  <p>
-                    Ganancias solares en el mes de julio con los dispositivos de
-                    sombra activados
-                  </p>
-                  <p>
-                    Q<sub>sol;jul</sub> &sum;<sub>k</sub>(F<sub>sh,obst</sub> ·
-                    g<sub>gl;sh;wi</sub> · (1 − F<sub>F</sub>) · A<sub>w,p</sub>{" "}
-                    · H<sub>sol;jul</sub>) = {Qsoljul_clima.toFixed(2)} kWh/mes
-                  </p>
-                  <p>Superficie útil</p>
-                  <p>
-                    A<sub>util</sub> = {Autil} m²
-                  </p>
-                  <p>Valor del indicador:</p>
-                  <p>
-                    <b>
-                      q<sub>sol;jul</sub>
-                    </b>{" "}
-                    = Q<sub>sol;jul</sub> / A<sub>util</sub> ={" "}
-                    {Qsoljul_clima.toFixed(2)} / {Autil} ={" "}
-                    <b>
-                      <i>{Number(qsj_clima).toFixed(2)} kWh/m²/mes</i>
-                    </b>
-                  </p>
-                </Row>
-              </Grid>
+            <Panel id="detalleindicadores" expanded={this.state.open} bsStyle="info">
+              <Panel.Collapse>
+                <Panel.Body>
+                  <IndicatorsDetail
+                    {...{ Autil, huecosA, huecosAU, opacosA, opacosAU, ptsPsiL, totalA,
+                      totalAU, K, qsj_clima, Qsoljul_clima }} />
+                </Panel.Body>
+              </Panel.Collapse>
             </Panel>
-          </Grid>
-        );
+          </Grid>;
       }
 
       // Actualización de Autil
