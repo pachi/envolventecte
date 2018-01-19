@@ -111,19 +111,21 @@ class HuecosTable extends Component {
             <ul>
               <li><b>A<sub>w,p</sub></b>: área (proyectada) del hueco (m²)</li>
               <li><b>Orientación</b>: orientación del hueco (N, NE, NW, E, W, SE, SW, S, Horiz.)</li>
-              <li><b>U</b>: transmitancia térmica del hueco (W/m²K)</li>
+              <li>
+                <b>U</b>: transmitancia térmica del hueco (W/m²K). Se obtiene a partir de valores de proyecto, y
+                el Documento de Apoyo <i>DA DB-HE/1</i> recoge el cálculo a partir de las transmitancias de los componentes del hueco.</li>
               <li><b>F<sub>F</sub></b>: fracción de marco del hueco (fracción). A falta de otros datos puede tomarse F_F = 0.25 (25%)</li>
               <li>
                 <b>g<sub>gl;sh;wi</sub></b>: transmitancia total de energía solar del acristalamiento con el dispositivo de sombra móvil activado (f_sh;with = 1), para el mes de julio (fracción).
                 <br/>Este valor puede obtenerse a partir del factor solar del vidrio a incidencia normal (g<sub>gl;n</sub>), el factor de dispersión del vidrio (F<sub>w</sub>~=0.9) y la definición del elemento de sombreamiento.
-                El Documento de Apoyo DA DB-HE/1 incluye valores tabulados para diversos tipos de vidrio y protecciones solares. A la hora de introducir este valor en las aplicaciones de cálculo, debe tenerse en cuenta que estas emplean
+                El Documento de Apoyo <i>DA DB-HE/1</i> recoge valores de <i>g<sub>gl;sh;wi</sub></i> para diversos tipos de vidrio y protecciones solares. A la hora de introducir este valor en las aplicaciones de cálculo, debe tenerse en cuenta que estas emplean
                 de manera predefinida un dispositivo de sombra que incide con un factor igual 0.7 (de acuerdo con el Documento de Condiciones Técnicas para la Evaluación de la Eficiencia Energética de Edificios),
                 de modo que el valor introducido en los programas debe descontar dicho efecto.
               </li>
               <li>
                 <b>F<sub>sh;obst</sub></b>: factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción).
-                <br/>Este valor puede asimilarse al factor de sombra del hueco (FS).
-                El Documento de Apoyo DA DB-HE/1 incluye valores tabulados para considerar el efecto de voladizos, retranqueos, aletas laterales o lamas exteriores.
+                <br/>Este valor puede asimilarse al factor de sombra del hueco (<i>F<sub>S</sub></i>).
+                El Documento de Apoyo <i>DA DB-HE/1</i> recoge valores del factor de sombra <i>F<sub>S</sub></i> para considerar el efecto de voladizos, retranqueos, aletas laterales o lamas exteriores.
               </li>
             </ul>
             <p><b>NOTA</b>: Para los huecos definidos en la tabla se considera, a efectos
