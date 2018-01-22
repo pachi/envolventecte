@@ -31,6 +31,7 @@ const AddRemoveButtonGroup = ({ objects, newObj, selectedId }) => (
     <Button
       bsStyle="primary"
       bsSize="xs"
+      title="Añadir una fila al final de la tabla"
       onClick={() => {
         objects.push(newObj());
       }}
@@ -40,6 +41,7 @@ const AddRemoveButtonGroup = ({ objects, newObj, selectedId }) => (
     <Button
       bsStyle="primary"
       bsSize="xs"
+      title="Duplicar fila seleccionada de a la tabla"
       onClick={() => {
         // Duplicamos el seleccionado o el primer objeto si hay objetos
         if (objects.length > 0) {
@@ -58,6 +60,7 @@ const AddRemoveButtonGroup = ({ objects, newObj, selectedId }) => (
     <Button
       bsStyle="primary"
       bsSize="xs"
+      title="Eliminar fila seleccionada de la tabla"
       onClick={() => {
         // https://mobx.js.org/refguide/array.html
         objects.replace(objects.filter(h => !selectedId.includes(h.id)));
