@@ -21,8 +21,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React from "react";
-import { Grid, Row, Tabs, Tab } from "react-bootstrap";
+import React, { Component } from "react";
+import {
+  ControlLabel,
+  Form,
+  FormControl,
+  FormGroup,
+  Grid,
+  Row,
+  Tabs,
+  Tab
+} from "react-bootstrap";
 
 import { observer, inject } from "mobx-react";
 // import mobx from 'mobx';
@@ -91,8 +100,7 @@ const RadiationTable = ({ data }) => (
         <tbody style={{ textAlign: "right" }} key={"table" + idx}>
           <tr key={"dir_" + d.surfname}>
             <td rowSpan="3">
-              <b>{d.surfname}</b>
-              <br />
+              <b className="pull-left">{d.surfname}</b>
               <OrientaIcon dir={d.surfname} />
             </td>
             <td>Dir.</td>
@@ -115,77 +123,78 @@ const RadiationTable = ({ data }) => (
   </table>
 );
 
-const ShadingFactorsTable = ({ data }) => (
-  <table
-    id="shadingfactorstable"
-    className="table table-striped table-bordered table-condensed"
-  >
-    <thead>
-      <tr style={{ borderBottom: "3px solid darkgray" }}>
-        <th className="col-md-1">Superficie</th>
-        <th className="col-md-1">
-          f<sub>sh;with</sub>
-        </th>
-        <th>ENE</th>
-        <th>FEB</th>
-        <th>MAR</th>
-        <th>ABR</th>
-        <th>MAY</th>
-        <th>JUN</th>
-        <th>JUL</th>
-        <th>AGO</th>
-        <th>SET</th>
-        <th>OCT</th>
-        <th>NOV</th>
-        <th>DIC</th>
-      </tr>
-    </thead>
-    {data.map((d, idx) => {
-      return (
-        <tbody style={{ textAlign: "right" }} key={"table" + idx}>
-          <tr key={"f_shwith200_" + d.surfname}>
-            <td rowSpan="3">
-              <b>{d.surfname}</b>
-              <br />
-              <OrientaIcon dir={d.surfname} />
-            </td>
-            <td>
-              f<sub>sh;with,I>200</sub>
-            </td>
-            {d.f_shwith200.map((v, i) => (
-              <td key={"fshwith200_" + i}>
-                {v.toFixed(2)} <FshwithIcon fsh={v} />
-              </td>
-            ))}
-          </tr>
-          <tr key={"f_shwith300_" + d.surfname} style={{ fontWeight: "bold" }}>
-            <td>
-              f<sub>sh;with,I>300</sub>
-            </td>
-            {d.f_shwith300.map((v, i) => (
-              <td key={"f_shwith300_" + i}>
-                {v.toFixed(2)} <FshwithIcon fsh={v} />
-              </td>
-            ))}
-          </tr>
-          <tr
-            key={"f_shwith500_" + d.surfname}
-            style={{ borderBottom: "3px solid darkgray" }}
+class ShadingFactorsTable extends Component {
+  constructor(...args) {
+    super(...args);
+    this.levels = ["200", "300", "500"];
+    this.state = { showlevel: "300" };
+  }
+
+  render() {
+    const { data } = this.props;
+    return (
+      <Grid>
+        <Row>
+          <Form inline>
+            <FormGroup controlId="formControlsIrradiationLevel">
+              <ControlLabel>
+                Nivel de irradiación de activación / desactivación del
+                sombreamiento solar móvil (W/m²):
+              </ControlLabel>{" "}
+              <FormControl
+                value={this.state.showlevel}
+                onChange={e => this.setState({ showlevel: e.target.value })}
+                componentClass="select"
+                placeholder="select"
+              >
+                {this.levels.map(z => (
+                  <option value={z} key={"f_shwith" + z}>
+                    {z}
+                  </option>
+                ))}
+              </FormControl>
+            </FormGroup>
+          </Form>
+        </Row>
+        <Row style={{ marginTop: "2em" }}>
+          <table
+            id="shadingfactorstable"
+            className="table table-striped table-bordered table-condensed"
           >
-            <td>
-              f<sub>sh;with,I>500</sub>
-            </td>
-            {d.f_shwith500.map((v, i) => (
-              <td key={"f_shwith500_" + i}>
-                {v.toFixed(2)} <FshwithIcon fsh={v} />
-              </td>
-            ))}
-          </tr>
-        </tbody>
-      );
-    })}
-  </table>
-);
+            <thead>
+              <tr style={{ borderBottom: "3px solid darkgray" }}>
+                <th className="col-md-1">Superficie</th>
+                <th className="col-md-1">
+                  f<sub>sh;with</sub>
+                </th>
+                {MESES.map(m => <th key={m}>{m}</th>)}
+              </tr>
+            </thead>
+            {data.map((d, idx) => {
+              const level = this.state.showlevel;
+              return (
+                <tbody style={{ textAlign: "right" }} key={"table" + idx}>
+                  <tr key={"f_shwith200_" + d.surfname}>
+                    <td>
+                      <b className="pull-left">{d.surfname}</b>
+                      <OrientaIcon dir={d.surfname} />
+                    </td>
+                    <td style={{ textAlign: "center" }}>I > {level}</td>
+                    {d[`f_shwith${level}`].map((v, i) => (
+                      <td key={`fshwith${level}_${i}`}>
+                        {v.toFixed(2)} <FshwithIcon fsh={v} />
+                      </td>
+                    ))}
+                  </tr>
+                </tbody>
+              );
+            })}
+          </table>
+        </Row>
+      </Grid>
+    );
+  }
+}
 
 const Radiation = inject("radstate")(
   observer(({ radstate, route }) => {
