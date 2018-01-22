@@ -33,6 +33,21 @@ import NavBar from "./Nav";
 import { OrientacionesSprite, OrientaIcon } from "./IconsOrientaciones";
 import { FshwithSprite, FshwithIcon } from "./IconsFshwith";
 
+const MESES = [
+  "ENE",
+  "FEB",
+  "MAR",
+  "ABR",
+  "MAY",
+  "JUN",
+  "JUL",
+  "AGO",
+  "SET",
+  "OCT",
+  "NOV",
+  "DIC"
+];
+
 const JulyRadiationTable = ({ data }) => (
   <table
     id="julyradiationtable"
@@ -68,18 +83,7 @@ const RadiationTable = ({ data }) => (
       <tr style={{ borderBottom: "3px solid darkgray" }}>
         <th className="col-md-1">Superficie</th>
         <th className="col-md-1">Irradiación</th>
-        <th>ENE</th>
-        <th>FEB</th>
-        <th>MAR</th>
-        <th>ABR</th>
-        <th>MAY</th>
-        <th>JUN</th>
-        <th>JUL</th>
-        <th>AGO</th>
-        <th>SET</th>
-        <th>OCT</th>
-        <th>NOV</th>
-        <th>DIC</th>
+        {MESES.map(m => <th key={m}>{m}</th>)}
       </tr>
     </thead>
     {data.map((d, idx) => {
