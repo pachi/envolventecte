@@ -44,99 +44,6 @@ import OpacosTable from "./OpacosTable";
 import PTsTable from "./PTsTable";
 import { UserException } from "../utils.js";
 
-class UploadButton extends Component {
-  render() {
-    return <input ref="fileInput" type="file" onChange={e => this.handleUpload(e)} />;
-  }
-
-  handleUpload(e) {
-    let file;
-    if (e.dataTransfer) {
-      file = e.dataTransfer.files[0];
-    } else if (e.target) {
-      file = e.target.files[0];
-    }
-
-    const reader = new FileReader();
-    reader.onload = rawdata => {
-      try {
-        const { Autil, envolvente } = JSON.parse(rawdata.target.result);
-        const { huecos, opacos, pts } = envolvente;
-        if (
-          !(
-            Autil &&
-            envolvente &&
-            Array.isArray(huecos) &&
-            Array.isArray(opacos) &&
-            Array.isArray(pts)
-          )
-        ) {
-          throw UserException("Formato incorrecto");
-        }
-        this.props.appstate.Autil = Number(Autil);
-        this.props.appstate.envolvente = envolvente;
-        this.props.appstate.errors = [
-          { type: "SUCCESS", msg: "Datos cargados correctamente." },
-          {
-            type: "INFO",
-            msg:
-              `Autil: ${Autil} m², Elementos: ` +
-              `${huecos.length} huecos, ${opacos.length} opacos, ${
-                pts.length
-              } PTs.`
-          }
-        ];
-      } catch (err) {
-        this.props.appstate.errors = [
-          {
-            type: "DANGER",
-            msg: "El archivo no contiene datos con un formato adecuado."
-          }
-        ];
-      }
-    };
-    reader.readAsText(file);
-  }
-}
-
-UploadButton = inject("appstate")(observer(UploadButton));
-
-class DownloadButton extends Component {
-  render() {
-    return (
-      <Button
-        bsStyle="primary"
-        ref="fileDownload"
-        className="pull-right"
-        onClick={e => this.handleDownload(e)}
-      >
-        <Glyphicon glyph="download" /> Descargar datos de envolvente
-      </Button>
-    );
-  }
-
-  handleDownload(_) {
-    const contents = JSON.stringify(this.props.data, null, 2);
-    const filename = "solarcte.json";
-    const blob = new Blob([contents], { type: "application/json" });
-    const uri = URL.createObjectURL(blob);
-    // from http://stackoverflow.com/questions/283956/
-    const link = document.createElement("a");
-    if (typeof link.download === "string") {
-      link.href = uri;
-      link.download = filename;
-      // Firefox requires the link to be in the body
-      document.body.appendChild(link);
-      // Simulate click
-      link.click();
-      // Remove the link when done
-      document.body.removeChild(link);
-    } else {
-      window.open(uri);
-    }
-  }
-}
-
 class IndicatorsPage extends Component {
   render() {
     const {
@@ -211,11 +118,22 @@ class IndicatorsPage extends Component {
                       Si ha descargado con anterioridad datos de esta
                       aplicación, cárguelos de nuevo seleccionando el archivo.
                     </p>
-                    <UploadButton />
+                    <input
+                      ref="fileInput"
+                      type="file"
+                      onChange={e => this.handleUpload(e)}
+                    />
                   </Panel>
                 </Row>
                 <Row>
-                  <DownloadButton data={{ Autil, envolvente }} />
+                  <Button
+                    bsStyle="primary"
+                    ref="fileDownload"
+                    className="pull-right"
+                    onClick={e => this.handleDownload(e)}
+                  >
+                    <Glyphicon glyph="download" /> Descargar datos de envolvente
+                  </Button>
                 </Row>
                 <Row>{errordisplay}</Row>
               </Grid>
@@ -226,6 +144,77 @@ class IndicatorsPage extends Component {
         <Footer />
       </Grid>
     );
+  }
+
+  handleDownload(_) {
+    const { Autil, envolvente } = this.props.appstate;
+    const contents = JSON.stringify({ Autil, envolvente }, null, 2);
+    const filename = "solarcte.json";
+    const blob = new Blob([contents], { type: "application/json" });
+    const uri = URL.createObjectURL(blob);
+    // from http://stackoverflow.com/questions/283956/
+    const link = document.createElement("a");
+    if (typeof link.download === "string") {
+      link.href = uri;
+      link.download = filename;
+      // Firefox requires the link to be in the body
+      document.body.appendChild(link);
+      // Simulate click
+      link.click();
+      // Remove the link when done
+      document.body.removeChild(link);
+    } else {
+      window.open(uri);
+    }
+  }
+
+  handleUpload(e) {
+    let file;
+    if (e.dataTransfer) {
+      file = e.dataTransfer.files[0];
+    } else if (e.target) {
+      file = e.target.files[0];
+    }
+
+    const reader = new FileReader();
+    reader.onload = rawdata => {
+      try {
+        const { Autil, envolvente } = JSON.parse(rawdata.target.result);
+        const { huecos, opacos, pts } = envolvente;
+        if (
+          !(
+            Autil &&
+            envolvente &&
+            Array.isArray(huecos) &&
+            Array.isArray(opacos) &&
+            Array.isArray(pts)
+          )
+        ) {
+          throw UserException("Formato incorrecto");
+        }
+        this.props.appstate.Autil = Number(Autil);
+        this.props.appstate.envolvente = envolvente;
+        this.props.appstate.errors = [
+          { type: "SUCCESS", msg: "Datos cargados correctamente." },
+          {
+            type: "INFO",
+            msg:
+              `Autil: ${Autil} m², Elementos: ` +
+              `${huecos.length} huecos, ${opacos.length} opacos, ${
+                pts.length
+              } PTs.`
+          }
+        ];
+      } catch (err) {
+        this.props.appstate.errors = [
+          {
+            type: "DANGER",
+            msg: "El archivo no contiene datos con un formato adecuado."
+          }
+        ];
+      }
+    };
+    reader.readAsText(file);
   }
 }
 
