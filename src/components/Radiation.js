@@ -61,7 +61,7 @@ const JulyRadiationTable = ({ data }) => (
     <tbody>
       <tr>
         <td>
-          <b>{data[0].zc}</b>
+          <b className="pull-left">{data[0].zc}</b>
         </td>
         {data.map((d, i) => <td key={"tot_" + i}>{d.tot[6].toFixed(2)}</td>)}
       </tr>
@@ -110,48 +110,50 @@ class RadiationTable extends Component {
                 {this.MESES.map(m => <th key={m}>{m}</th>)}
               </tr>
             </thead>
-            {data.map((d, idx) => {
-              return (
-                <tbody style={{ textAlign: "right" }} key={"table" + idx}>
-                  <tr
-                    key={"tot_" + d.surfname}
-                    style={
-                      showDetail
-                        ? {
-                            fontWeight: "bold",
-                            borderTop: "3px solid darkgray"
-                          }
-                        : null
-                    }
-                  >
-                    <td rowSpan={showDetail ? "3" : null}>
-                      <b className="pull-left">{d.surfname}</b>
-                      <OrientaIcon dir={d.surfname} />
-                    </td>
-                    <td>Dir. + Dif.</td>
-                    {d.tot.map((v, i) => (
-                      <td key={"tot_" + i}>{v.toFixed(2)}</td>
-                    ))}
-                  </tr>
-                  {showDetail ? (
-                    <tr key={"dir_" + d.surfname}>
-                      <td>Dir.</td>
-                      {d.dir.map((v, i) => (
-                        <td key={"dir_" + i}>{v.toFixed(2)}</td>
+            <tbody>
+              {data.map(d => {
+                return (
+                  <React.Fragment>
+                    <tr
+                      key={"tot_" + d.surfname}
+                      style={
+                        showDetail
+                          ? {
+                              fontWeight: "bold",
+                              borderTop: "3px solid darkgray"
+                            }
+                          : null
+                      }
+                    >
+                      <td rowSpan={showDetail ? "3" : null}>
+                        <b className="pull-left">{d.surfname}</b>
+                        <OrientaIcon dir={d.surfname} />
+                      </td>
+                      <td>Dir. + Dif.</td>
+                      {d.tot.map((v, i) => (
+                        <td key={"tot_" + i}>{v.toFixed(2)}</td>
                       ))}
                     </tr>
-                  ) : null}
-                  {showDetail ? (
-                    <tr key={"dif_" + d.surfname}>
-                      <td>Dif.</td>
-                      {d.dif.map((v, i) => (
-                        <td key={"dif_" + i}>{v.toFixed(2)}</td>
-                      ))}
-                    </tr>
-                  ) : null}
-                </tbody>
-              );
-            })}
+                    {showDetail ? (
+                      <tr key={"dir_" + d.surfname}>
+                        <td>Dir.</td>
+                        {d.dir.map((v, i) => (
+                          <td key={"dir_" + i}>{v.toFixed(2)}</td>
+                        ))}
+                      </tr>
+                    ) : null}
+                    {showDetail ? (
+                      <tr key={"dif_" + d.surfname}>
+                        <td>Dif.</td>
+                        {d.dif.map((v, i) => (
+                          <td key={"dif_" + i}>{v.toFixed(2)}</td>
+                        ))}
+                      </tr>
+                    ) : null}
+                  </React.Fragment>
+                );
+              })}
+            </tbody>
           </table>
         </Row>
       </Grid>
@@ -207,10 +209,10 @@ class ShadingFactorsTable extends Component {
                 {this.MESES.map(m => <th key={m}>{m}</th>)}
               </tr>
             </thead>
-            {data.map((d, idx) => {
-              const level = this.state.showlevel;
-              return (
-                <tbody style={{ textAlign: "right" }} key={"table" + idx}>
+            <tbody>
+              {data.map(d => {
+                const level = this.state.showlevel;
+                return (
                   <tr key={"f_shwith200_" + d.surfname}>
                     <td>
                       <b className="pull-left">{d.surfname}</b>
@@ -223,9 +225,9 @@ class ShadingFactorsTable extends Component {
                       </td>
                     ))}
                   </tr>
-                </tbody>
-              );
-            })}
+                );
+              })}
+            </tbody>
           </table>
         </Row>
       </Grid>
