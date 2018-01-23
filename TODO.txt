@@ -1,6 +1,4 @@
-- Permitir cambiar parámetros de superficie con orientación definida por el usuario (ahora horizontal)
-- Gráfica / roseta por orientaciones
-- Mover cálculo de radiación a un campo calculado, evitando cálculo manual
+- Renombrar a EnvolventeCTE
 - Mostrar indicación de que se está en proceso de cálculo o carga de datos
-- Arreglar carga de archivos, ahora que usamos UID
-- Introducir b_x para cálculo de K
+- Cambiar Indicadores -> Envolvente y Radiación -> Parámetros
+- Añadir pestaña en Parámetros para calcular g_gl;sh;wi y F_sh;obst
