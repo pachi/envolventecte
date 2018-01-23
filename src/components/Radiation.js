@@ -43,21 +43,6 @@ import NavBar from "./Nav";
 import { OrientacionesSprite, OrientaIcon } from "./IconsOrientaciones";
 import { FshwithSprite, FshwithIcon } from "./IconsFshwith";
 
-const MESES = [
-  "ENE",
-  "FEB",
-  "MAR",
-  "ABR",
-  "MAY",
-  "JUN",
-  "JUL",
-  "AGO",
-  "SET",
-  "OCT",
-  "NOV",
-  "DIC"
-];
-
 const JulyRadiationTable = ({ data }) => (
   <table
     id="julyradiationtable"
@@ -87,6 +72,7 @@ const JulyRadiationTable = ({ data }) => (
 class RadiationTable extends Component {
   constructor(...args) {
     super(...args);
+    this.MESES = "ENE,FEB,MAR,ABR,MAY,JUN,JUL,AGO,SET,OCT,NOV,DIC".split(",");
     this.state = { showDetail: false };
   }
 
@@ -121,7 +107,7 @@ class RadiationTable extends Component {
               <tr style={{ borderBottom: "3px solid darkgray" }}>
                 <th className="col-md-1">Superficie</th>
                 <th className="col-md-1">Irradiación</th>
-                {MESES.map(m => <th key={m}>{m}</th>)}
+                {this.MESES.map(m => <th key={m}>{m}</th>)}
               </tr>
             </thead>
             {data.map((d, idx) => {
@@ -177,6 +163,7 @@ class ShadingFactorsTable extends Component {
   constructor(...args) {
     super(...args);
     this.levels = ["200", "300", "500"];
+    this.MESES = "ENE,FEB,MAR,ABR,MAY,JUN,JUL,AGO,SET,OCT,NOV,DIC".split(",");
     this.state = { showlevel: "300" };
   }
 
@@ -217,7 +204,7 @@ class ShadingFactorsTable extends Component {
                 <th className="col-md-1">
                   f<sub>sh;with</sub>
                 </th>
-                {MESES.map(m => <th key={m}>{m}</th>)}
+                {this.MESES.map(m => <th key={m}>{m}</th>)}
               </tr>
             </thead>
             {data.map((d, idx) => {
