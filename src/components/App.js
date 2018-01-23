@@ -34,7 +34,7 @@ import { AppState, RadState } from '../stores/AppState';
 import AboutPage from './AboutPage';
 import HelpPage from './HelpPage';
 import IndicatorsPage from './IndicatorsPage';
-import Radiation from './Radiation';
+import RadiationPage from './RadiationPage';
 
 const stores = {
   radstate: RadState,
@@ -48,7 +48,7 @@ class App extends Component {
       <Provider {...stores}>
         <Router history={hashHistory}>
           <Route path="/" component={IndicatorsPage} />
-          <Route path="/rad" component={Radiation} />
+          <Route path="/rad" component={RadiationPage} />
           <Route path="/help" component={HelpPage} />
           <Route path="/about" component={AboutPage} />
         </Router>

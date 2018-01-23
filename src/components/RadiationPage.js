@@ -36,7 +36,7 @@ import ShadingFactorsTable from "./ShadingFactorsTable";
 import { OrientacionesSprite } from "./IconsOrientaciones";
 import { FshwithSprite } from "./IconsFshwith";
 
-const Radiation = inject("radstate")(
+const RadiationPage = inject("radstate")(
   observer(({ radstate, route }) => {
     const { climatedata } = radstate;
     return (
@@ -65,4 +65,4 @@ const Radiation = inject("radstate")(
   })
 );
 
-export default Radiation;
+export default RadiationPage;
