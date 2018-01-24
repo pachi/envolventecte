@@ -93,6 +93,7 @@ export default class IndicatorsPanel extends Component {
           id="detalleindicadores"
           expanded={this.state.open}
           bsStyle="info"
+          onToggle={() => this.setState({ open: !this.state.open })}
         >
           <Panel.Collapse>
             <Panel.Body>
