@@ -22,10 +22,13 @@ SOFTWARE.
 */
 
 import React, { Component } from "react";
-import { Alert, Grid, Row, Well } from "react-bootstrap";
+import { Alert, Col, Grid, Image, Row, Well } from "react-bootstrap";
 
 import Footer from "./Footer";
 import NavBar from "./Nav";
+import FotoPachi from "./FotoPachi.jpg";
+import FotoDani from "./FotoDani.jpg";
+import FotoMarta from "./FotoMarta.jpg";
 
 export default class AboutPage extends Component {
   render() {
@@ -33,26 +36,45 @@ export default class AboutPage extends Component {
       <Grid>
         <NavBar route={this.props.route} />
         <Row>
-          <h1>Equipo de desarrollo:</h1>
-          <ul>
-            <li>
-              Rafael Villar Burke, <i>pachi@ietcc.csic.es</i>
-            </li>
-            <li>
-              Daniel Jiménez González, <i>danielj@ietcc.csic.es</i>
-            </li>
-            <li>
-              Marta Sorribes Gil, <i>msorribes@ietcc.csic.es</i>
-            </li>
-          </ul>
-        </Row>
-        <Row>
           <Alert bsStyle="warning">
             <b>NOTA:</b> Esta aplicación y la información contenida en ella no
             tiene valor reglamentario.
           </Alert>
         </Row>
         <Row>
+          <h2>Equipo de desarrollo:</h2>
+          <p>
+            Grupo de <i>Ahorro de Energía y Sostenibilidad</i> de la{" "}
+            <i>Unidad de Calidad en la Construcción</i> del{" "}
+            <a href="https://ietcc.csic.es">
+              Instituto Eduardo Torroja de Ciencias de la Construcción
+              (IETcc-CSIC)
+            </a>{" "}
+            del <i>Consejo Superior de Investigaciones Científicas (CSIC)</i>.
+          </p>
+        </Row>
+        <Row>
+          <Col md={2} mdOffset={3}>
+            <Image responsive alt="Rafael Villar Burke" src={FotoPachi} />
+            <p>
+              Rafael Villar Burke (pachi), <i>pachi@ietcc.csic.es</i>
+            </p>
+          </Col>
+          <Col md={2}>
+            <Image responsive alt="Daniel Jiménez González" src={FotoDani} />
+            <p>
+              Daniel Jiménez González, <i>danielj@ietcc.csic.es</i>
+            </p>
+          </Col>
+          <Col md={2}>
+            <Image responsive alt="Marta Sorribes Gil" src={FotoMarta} />
+            <p>
+              Marta Sorribes Gil, <i>msorribes@ietcc.csic.es</i>
+            </p>
+          </Col>
+        </Row>
+        <Row>
+          <h2>Licencia:</h2>
           <p>
             Esta aplicación es software libre y se distribuye con licencia MIT,
             que permite su uso, modificación y redistribución mientras se
@@ -69,8 +91,9 @@ export default class AboutPage extends Component {
           <Well>
             <p className="lead">The MIT License (MIT)</p>
             <p>
-              Copyright (c) 2018 Rafael Villar Burke, Daniel Jiménez González,
-              Marta Sorribes Gil
+              Copyright (c) 2018 Rafael Villar Burke &lt;pachi&#64;ietcc.csic.es&gt;,
+              Daniel Jiménez González &lt;danielj&#64;ietcc.csic.es&gt;,
+              Marta Sorribes Gil &lt;msorribes&#64;ietcc.csic.es&gt;
             </p>
 
             <p>
