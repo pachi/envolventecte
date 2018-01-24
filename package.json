@@ -3,6 +3,10 @@
   "version": "3.1.0",
   "description": "Thermal envelope indicators for energy regulations compliance (CTE DB-HE, spanish building regulations)",
   "author": "Rafael Villar Burke <pachi@rvburke.com> (http://www.rvburke.com)",
+  "contributors": [
+    "Daniel Jiménez González <danielj@ietcc.csic.es>",
+    "Marta Sorribes Gil <msorribes@ietcc.csic.es>"
+  ],
   "license": "MIT",
   "private": true,
   "repository": {
