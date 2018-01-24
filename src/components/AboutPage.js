@@ -60,8 +60,8 @@ export default class AboutPage extends Component {
           </p>
           <p>
             El código está disponible en{" "}
-            <a href="https://github.com/pachi/solarcte">
-              https://github.com/pachi/solarcte
+            <a href="https://github.com/pachi/envolventecte">
+              https://github.com/pachi/envolventecte
             </a>
           </p>
         </Row>

@@ -1,17 +1,17 @@
-# Indicadores de envolvente térmica y valores de radiación solar para la aplicación del CTE DB-HE
+# Indicadores de envolvente térmica para la aplicación del CTE DB-HE
 
 Esta aplicación permite el cálculo de algunos indicadores de calidad de la envolvente térmica definidos en el CTE DB-HE (2018):
 
 - **Transmitancia térmica global** (**K**)
 - **Control solar** (**q<sub>sol;jul</sub>**)
 
-Además de los indicadores anteriores, la aplicación calcula, para superficies inclinadas y orientadas, valores de otros parámetros interesantes para el diseño de edificios como la **irradiación solar acumulada mensual** y el **factor de reducción para sombreamientos solares móviles**.
+Además de los indicadores anteriores, la aplicación calcula, para superficies inclinadas y orientadas, valores de otros parámetros interesantes para el diseño energético de los edificios y su envolvente térmica como la **irradiación solar acumulada mensual** y el **factor de reducción para sombreamientos solares móviles**.
 
-La aplicación está disponible en línea en la web [http://github.io/pachi/solarcte](http://github.io/pachi/solarcte)
+La aplicación está disponible en línea en la web [http://github.io/pachi/envolventecte](http://github.io/pachi/envolventecte)
 
 Esta aplicación ha sido desarrollada por el equipo de energía del <i>Instituto Eduardo Torroja de Ciencias de la Construcción (IETcc-CSIC)</i>:
 
-- Rafael Villar Burke
+- Rafael Villar Burke (pachi)
 - Daniel Jiménez González
 - Marta Sorribes Gil
 

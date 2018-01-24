@@ -1,18 +1,18 @@
 {
-  "name": "solarcte",
+  "name": "envolventecte",
   "version": "2.0.0",
-  "description": "Radiation on oriented surfaces for use in building science and CTE DB-HE compliance (spanish building regulations)",
+  "description": "Thermal envelope indicators for energy regulations compliance (CTE DB-HE, spanish building regulations)",
   "author": "Rafael Villar Burke <pachi@rvburke.com> (http://www.rvburke.com)",
   "license": "MIT",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pachi/solarcte.git"
+    "url": "git+https://github.com/pachi/envolventecte.git"
   },
   "bugs": {
-    "url": "https://github.com/pachi/solarcte/issues"
+    "url": "https://github.com/pachi/envolventecte/issues"
   },
-  "homepage": "https://pachi.github.io/solarcte",
+  "homepage": "https://pachi.github.io/envolventecte",
   "keywords": [
     "energy",
     "buildings",
@@ -21,6 +21,7 @@
     "NZEB",
     "energía",
     "edificios",
+    "envolvente térmica",
     "solar",
     "sun"
   ],

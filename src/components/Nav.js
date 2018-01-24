@@ -29,7 +29,7 @@ import { Grid, Nav, NavItem, Navbar } from "react-bootstrap";
 import ClimateSelector from "./ClimateSelector";
 
 export default class NavBar extends React.Component {
-  static defaultProps = { projectName: "Solar CTE" };
+  static defaultProps = { projectName: "Envolvente CTE" };
 
   render() {
     const currpath = this.props.route.path;
