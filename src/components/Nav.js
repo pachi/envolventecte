@@ -55,18 +55,18 @@ export default class NavBar extends React.Component {
                   eventKey={1}
                   role="presentation"
                 >
-                  Indicadores
+                  Envolvente
                 </NavItem>
               </LinkContainer>
             </Nav>
             <Nav>
-              <LinkContainer to="/rad">
+              <LinkContainer to="/climate">
                 <NavItem
-                  className={activeIfCurrent("/rad")}
+                  className={activeIfCurrent("/climate")}
                   eventKey={2}
                   role="presentation"
                 >
-                  Radiación
+                  Clima
                 </NavItem>
               </LinkContainer>
             </Nav>

@@ -1,4 +1,2 @@
-- Renombrar a EnvolventeCTE
 - Mostrar indicación de que se está en proceso de cálculo o carga de datos
-- Cambiar Indicadores -> Envolvente y Radiación -> Parámetros
 - Añadir pestaña en Parámetros para calcular g_gl;sh;wi y F_sh;obst

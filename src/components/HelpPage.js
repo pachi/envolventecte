@@ -46,12 +46,13 @@ export default class HelpPage extends Component {
         <NavBar route={this.props.route} />
         <Row>
           <h1>
-            Indicadores de envolvente térmica y valores de radiación solar para
-            la aplicación del CTE DB-HE
+            Indicadores y parámetros de la envolvente térmica para la aplicación
+            del CTE DB-HE
           </h1>
           <p>
             Esta aplicación permite el cálculo de algunos indicadores de calidad
-            de la envolvente térmica definidos en el CTE DB-HE (2018):
+            y parámetros descriptivos de la envolvente térmica, para facilitar
+            la aplicación del CTE DB-HE (2018):
           </p>
           <ul>
             <li>
@@ -62,6 +63,7 @@ export default class HelpPage extends Component {
                 q<sub>sol;jul</sub>
               </b>)
             </li>
+            <li><b>Parámetros descriptivos de los elementos de la envolvente térmica</b> (<b>U</b>, <b>g</b>, <b>&psi;</b>...)</li>
           </ul>
           <Alert bsStyle="warning">
             <b>NOTA:</b> Esta aplicación y la información contenida en ella no
@@ -70,12 +72,20 @@ export default class HelpPage extends Component {
         </Row>
         <Row>
           <Tabs>
-            <Tab eventKey={1} title="Indicadores">
+            <Tab eventKey={1} title="Envolvente térmica">
               <Row>
-                <h3>Indicadores de calidad de la envolvente térmica</h3>
+                <h3>
+                  Definición e indicadores de calidad de la envolvente térmica
+                </h3>
               </Row>
               <Row>
                 <Col md={8}>
+                  <p>
+                    El apartado de <i>Envolente</i> permite la definición por
+                    parte del usuario de la envolvente térmica y calcula los
+                    indicadores de calidad (transmitancia térmica global y
+                    control solar).
+                  </p>
                   <p>
                     Los indicadores de calidad en la envolvente térmica se basan
                     en los descritos en la UNE EN ISO 13790:2008 (e ISO/FDIS
@@ -151,10 +161,14 @@ export default class HelpPage extends Component {
                 </Col>
               </Row>
             </Tab>
-            <Tab eventKey={2} title="Radiación">
+            <Tab eventKey={2} title="Clima">
               <Row>
-                <h3>Datos de radiación por superficies</h3>
-
+                <h3>Parámetros climáticos</h3>
+                <p>
+                  En la sección de <i>Parámetros</i> se recogen aquellos
+                  parámetros de la envolvente térmica relacionados con el clima
+                  exterior.
+                </p>
                 <p>
                   La aplicación calcula, para superficies inclinadas y
                   orientadas, los valores de:
@@ -165,9 +179,11 @@ export default class HelpPage extends Component {
                       Irradiación acumulada mensual (<i>
                         H<sub>sol;m</sub>
                       </i>)
-                    </b>, incluyendo la{" "}
+                    </b>
+                  </li>
+                  <li>
                     <b>
-                      irradiación acumulada en el mes de julio (<i>
+                      Irradiación acumulada en el mes de julio (<i>
                         H<sub>sol;jul</sub>
                       </i>)
                     </b>
@@ -186,7 +202,9 @@ export default class HelpPage extends Component {
                   Los cálculos para las distintas orientaciones y climas usan
                   valores obtenidos a partir de los archivos climáticos de
                   referencia del <i>CTE DB-HE</i> y el procedimiento de la norma{" "}
-                  <i>ISO/FDIS 52010‐1:2016</i>.{" "}
+                  <i>ISO/FDIS 52010‐1:2016</i>.
+                </p>
+                <p>
                   <Button
                     bsStyle="info"
                     bsSize="xsmall"
@@ -198,6 +216,7 @@ export default class HelpPage extends Component {
                 </p>
               </Row>
               <Row>
+                <h3>Orientaciones de los elementos de la envolvente</h3>
                 <Col md={8} mdOffset={2}>
                   <Image
                     responsive
@@ -205,6 +224,30 @@ export default class HelpPage extends Component {
                     src={orientaciones}
                   />
                 </Col>
+              </Row>
+            </Tab>
+            <Tab eventKey={3} title="Elementos">
+              <Row>
+                <h3>Elementos de la envolvente térmica</h3>
+                <p>
+                  La aplicación permite obtener algunos parámetros descriptivos
+                  del comportamiento térmico de elementos de la envolvente
+                  térmica a partir de sus características generales o parámetros
+                  de diseño.
+                </p>
+                <p>
+                  Por ejemplo, para los huecos se puede obtener: la
+                  <i>transmitancia térmica</i> (U<sub>H</sub>), el{" "}
+                  <i>factor solar del vidrio a incidencia normal</i> (g<sub>
+                    gl;n
+                  </sub>), el <i>factor solar del hueco</i> (g<sub>gl;wi</sub>),
+                  el{" "}
+                  <i>
+                    factor solar del hueco teniendo en cuenta los sombreamientos
+                    solares móviles
+                  </i>
+                  (g<sub>gl;sh;wi</sub>).
+                </p>
               </Row>
             </Tab>
           </Tabs>

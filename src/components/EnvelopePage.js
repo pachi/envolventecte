@@ -44,7 +44,7 @@ import OpacosTable from "./OpacosTable";
 import PTsTable from "./PTsTable";
 import { hash, UserException } from "../utils.js";
 
-class IndicatorsPage extends Component {
+class EnvelopePage extends Component {
   render() {
     const {
       Autil,
@@ -219,6 +219,6 @@ class IndicatorsPage extends Component {
   }
 }
 
-export default (IndicatorsPage = inject("appstate", "radstate")(
-  observer(IndicatorsPage)
+export default (EnvelopePage = inject("appstate", "radstate")(
+  observer(EnvelopePage)
 ));
