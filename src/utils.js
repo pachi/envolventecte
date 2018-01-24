@@ -34,6 +34,18 @@ export function uuidv4() {
   );
 }
 
+// Hashing function based on code from https://jsperf.com/hashing-strings by Jelle De Loecker
+export function hash(str) {
+  let hashvalue = 0;
+  if (str.length === 0) return hashvalue;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hashvalue = (hashvalue << 5) - hashvalue + char;
+    hashvalue = hashvalue & hashvalue; // Convert to 32bit integer
+  }
+  return hashvalue;
+}
+
 export function UserException(message, kind = "UserException") {
   this.message = message;
   this.kind = kind;
