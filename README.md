@@ -38,3 +38,7 @@ Los cálculos para las distintas orientaciones y climas usan valores obtenidos a
 La aplicación permite obtener algunos parámetros descriptivos del comportamiento térmico de elementos de la envolvente térmica a partir de sus características generales o parámetros de diseño.
 
 Por ejemplo, para los huecos se puede obtener: la transmitancia térmica, el factor solar del vidrio a incidencia normal, el factor solar del hueco, el factor solar del hueco teniendo en cuenta los sombreamientos solares móviles.
+
+## Licencia
+
+Esta aplicación es software libre y se distribuye bajo las condiciones de la licencia MIT. Vea el archivo LICENSE.txt para el texto de la licencia completo.
