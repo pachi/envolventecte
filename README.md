@@ -7,7 +7,7 @@ Esta aplicación permite el cálculo de algunos indicadores de calidad de la env
 
 Además de los indicadores anteriores, la aplicación calcula, para superficies inclinadas y orientadas, valores de otros parámetros interesantes para el diseño energético de los edificios y su envolvente térmica como la **irradiación solar acumulada mensual** y el **factor de reducción para sombreamientos solares móviles**.
 
-La aplicación está disponible en línea en la web [http://github.io/pachi/envolventecte](http://github.io/pachi/envolventecte)
+La aplicación está disponible en línea en la web [http://pachi.github.io/envolventecte](http://pachi.github.io/envolventecte)
 
 Esta aplicación ha sido desarrollada por el equipo de energía del <i>Instituto Eduardo Torroja de Ciencias de la Construcción (IETcc-CSIC)</i>:
 
