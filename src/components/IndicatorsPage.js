@@ -42,7 +42,7 @@ import IndicatorsPanel from "./IndicatorsPanel";
 import NavBar from "./Nav";
 import OpacosTable from "./OpacosTable";
 import PTsTable from "./PTsTable";
-import { UserException } from "../utils.js";
+import { hash, UserException } from "../utils.js";
 
 class IndicatorsPage extends Component {
   render() {
@@ -149,7 +149,8 @@ class IndicatorsPage extends Component {
   handleDownload(_) {
     const { Autil, envolvente } = this.props.appstate;
     const contents = JSON.stringify({ Autil, envolvente }, null, 2);
-    const filename = "solarcte.json";
+    const contenthash = hash(contents).toString(16);
+    const filename = `EnvolventeCTE-${contenthash}.json`;
     const blob = new Blob([contents], { type: "application/json" });
     const uri = URL.createObjectURL(blob);
     // from http://stackoverflow.com/questions/283956/
