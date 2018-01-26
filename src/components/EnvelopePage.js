@@ -104,7 +104,7 @@ class EnvelopePage extends Component {
                 {...{ opacosA, opacosAU }}
               />
             </Tab>
-            <Tab eventKey={3} title="P. Térmicos">
+            <Tab eventKey={3} title="Puentes Térmicos">
               <PTsTable pts={envolvente.pts} {...{ ptsL, ptsPsiL }} />
             </Tab>
             <Tab eventKey={4} title="Carga / descarga de datos">
