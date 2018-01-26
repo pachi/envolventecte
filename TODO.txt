@@ -1,2 +1,3 @@
 - Mostrar indicación de que se está en proceso de cálculo o carga de datos
 - Añadir cálculo de y F_sh;obst
+- Trasladar datos a public/data? (usando luego fetch o direcciones como <a href={process.env.PUBLIC_URL + "/data/zcraddata.json"}>Enlace</a>)
