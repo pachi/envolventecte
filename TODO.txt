@@ -1,3 +1,4 @@
+- Cálculo de valores de acristalamientos con sombras móviles usando parámetros U_gl, g_gl_n, tau_e_B y ro_e_B directamente
+- Añadir cálculo de F_sh;obst
 - Mostrar indicación de que se está en proceso de cálculo o carga de datos
-- Añadir cálculo de y F_sh;obst
 - Trasladar datos a public/data? (usando luego fetch o direcciones como <a href={process.env.PUBLIC_URL + "/data/zcraddata.json"}>Enlace</a>)
