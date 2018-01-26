@@ -70,11 +70,22 @@ export default class NavBar extends React.Component {
                 </NavItem>
               </LinkContainer>
             </Nav>
+            <Nav>
+              <LinkContainer to="/elements">
+                <NavItem
+                  className={activeIfCurrent("/elements")}
+                  eventKey={3}
+                  role="presentation"
+                >
+                  Elementos
+                </NavItem>
+              </LinkContainer>
+            </Nav>
             <Nav pullRight>
               <LinkContainer to="/help">
                 <NavItem
                   className={activeIfCurrent("/help")}
-                  eventKey={3}
+                  eventKey={4}
                   role="presentation"
                 >
                   <span
@@ -87,7 +98,7 @@ export default class NavBar extends React.Component {
               <LinkContainer to="/about">
                 <NavItem
                   className={activeIfCurrent("/about")}
-                  eventKey={3}
+                  eventKey={5}
                   role="presentation"
                 >
                   <span

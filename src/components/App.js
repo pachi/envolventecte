@@ -33,6 +33,7 @@ import { AppState, RadState } from '../stores/AppState';
 
 import AboutPage from './AboutPage';
 import HelpPage from './HelpPage';
+import ElementsPage from './ElementsPage';
 import EnvelopePage from './EnvelopePage';
 import ClimatePage from './ClimatePage';
 
@@ -49,6 +50,7 @@ class App extends Component {
         <Router history={hashHistory}>
           <Route path="/" component={EnvelopePage} />
           <Route path="/climate" component={ClimatePage} />
+          <Route path="/elements" component={ElementsPage} />
           <Route path="/help" component={HelpPage} />
           <Route path="/about" component={AboutPage} />
         </Router>

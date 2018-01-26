@@ -1,2 +1,2 @@
 - Mostrar indicación de que se está en proceso de cálculo o carga de datos
-- Añadir pestaña en Parámetros para calcular g_gl;sh;wi y F_sh;obst
+- Añadir cálculo de y F_sh;obst
