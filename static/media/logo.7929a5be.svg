@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+  <path fill="#ffce1b" fill-opacity=".7" fill-rule="evenodd" stroke="#000" stroke-width="5" d="M22.8 10.8L6 21.1c-3.2 2-5.7 5.2 1.4 5 4.3.1 4.2 2.3 4.2 6.3v17.9c-.4 4.8.3 4.3 5 4.3h30.8c5.1.3 5.1.3 5.1-4.3V32.4c0-4 0-6.3 4.5-6.3 7.1.2 4.7-3.5.5-5.7l-16.3-9.6c-8.3-4.7-10-4.6-18.3 0z" opacity=".9"/>
+  <g style="line-height:125%;-inkscape-font-specification:'Arial Bold';text-align:start">
+    <path d="M21 47.4V20h21.4v4.7H26.9v6h14.4v4.7H26.9v7.5h16v4.6H21z" font-family="Arial" font-size="129.2" font-weight="700" letter-spacing="0" word-spacing="0" style="-inkscape-font-specification:'Arial Bold'"/>
+  </g>
+</svg>
