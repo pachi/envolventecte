@@ -27,6 +27,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Grid, Nav, NavItem, Navbar } from "react-bootstrap";
 
 import ClimateSelector from "./ClimateSelector";
+import imglogo from "./logo.svg";
 
 export default class NavBar extends React.Component {
   static defaultProps = { projectName: "Envolvente CTE" };
@@ -41,7 +42,12 @@ export default class NavBar extends React.Component {
           <Navbar.Header>
             <Navbar.Brand>
               <Link className="navbar-brand" to="/">
-                <span className="glyphicon glyphicon-home" aria-hidden="true" />{" "}
+                <img
+                  src={imglogo}
+                  height="125%"
+                  style={{ display: "inline" }}
+                  alt="logo"
+                />{" "}
                 {this.props.projectName}
               </Link>
             </Navbar.Brand>
@@ -49,9 +55,9 @@ export default class NavBar extends React.Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav>
-              <LinkContainer to="/">
+              <LinkContainer to="/envelope">
                 <NavItem
-                  className={activeIfCurrent("/")}
+                  className={activeIfCurrent("/envelope")}
                   eventKey={1}
                   role="presentation"
                 >

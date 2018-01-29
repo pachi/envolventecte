@@ -32,10 +32,11 @@ import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import { AppState, RadState } from '../stores/AppState';
 
 import AboutPage from './AboutPage';
-import HelpPage from './HelpPage';
+import ClimatePage from './ClimatePage';
 import ElementsPage from './ElementsPage';
 import EnvelopePage from './EnvelopePage';
-import ClimatePage from './ClimatePage';
+import HelpPage from './HelpPage';
+import MainPage from './MainPage';
 
 const stores = {
   radstate: RadState,
@@ -48,7 +49,8 @@ class App extends Component {
     return (
       <Provider {...stores}>
         <Router history={hashHistory}>
-          <Route path="/" component={EnvelopePage} />
+          <Route path="/" component={MainPage} />
+          <Route path="/envelope" component={EnvelopePage} />
           <Route path="/climate" component={ClimatePage} />
           <Route path="/elements" component={ElementsPage} />
           <Route path="/help" component={HelpPage} />
