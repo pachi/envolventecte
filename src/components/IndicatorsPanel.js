@@ -23,8 +23,9 @@ SOFTWARE.
 
 import React, { Component } from "react";
 import { Button, Col, Glyphicon, Grid, Panel, Row } from "react-bootstrap";
+import { observer, inject } from "mobx-react";
 
-export default class IndicatorsPanel extends Component {
+class IndicatorsPanel extends Component {
   constructor(...args) {
     super(...args);
     this.state = { open: false };
@@ -34,7 +35,6 @@ export default class IndicatorsPanel extends Component {
     // climate, radiationdata,
     const {
       Autil,
-      climateTotRadJul,
       huecosA,
       huecosAU,
       opacosA,
@@ -45,7 +45,8 @@ export default class IndicatorsPanel extends Component {
       K,
       Qsoljul,
       qsj
-    } = this.props;
+    } = this.props.appstate;
+    const { climateTotRadJul } = this.props.radstate;
     const Qsoljul_clima = Qsoljul(climateTotRadJul);
     const qsj_clima = qsj(climateTotRadJul);
 
@@ -176,3 +177,7 @@ export default class IndicatorsPanel extends Component {
     this.props.appstate.Autil = Number(currentValue);
   }
 }
+
+export default (IndicatorsPanel = inject("appstate", "radstate")(
+  observer(IndicatorsPanel)
+));

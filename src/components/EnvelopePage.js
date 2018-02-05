@@ -47,22 +47,15 @@ import { hash, UserException } from "../utils.js";
 class EnvelopePage extends Component {
   render() {
     const {
-      Autil,
       envolvente,
       huecosA,
       huecosAU,
-      K,
       opacosA,
       opacosAU,
       ptsL,
       ptsPsiL,
-      qsj,
-      Qsoljul,
-      totalA,
-      totalAU,
       errors
     } = this.props.appstate;
-    const { climateTotRadJul } = this.props.radstate;
 
     const errordisplay = errors.map((e, idx) => (
       <Alert bsStyle={e.type.toLowerCase()} key={`AlertId${idx}`}>
@@ -73,22 +66,7 @@ class EnvelopePage extends Component {
       <Grid>
         <NavBar route={this.props.route} />
         <Row>
-          <IndicatorsPanel
-            {...{
-              Autil,
-              huecosA,
-              huecosAU,
-              opacosA,
-              opacosAU,
-              ptsPsiL,
-              totalA,
-              totalAU,
-              K,
-              Qsoljul,
-              qsj,
-              climateTotRadJul
-            }}
-          />
+          <IndicatorsPanel />
         </Row>
         <Row>
           <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
@@ -219,6 +197,4 @@ class EnvelopePage extends Component {
   }
 }
 
-export default (EnvelopePage = inject("appstate", "radstate")(
-  observer(EnvelopePage)
-));
+export default (EnvelopePage = inject("appstate")(observer(EnvelopePage)));
