@@ -51,12 +51,12 @@ class HuecosParams extends Component {
       tipovidrio: this.TIPOSVIDRIO[0],
       tiposombra: this.TIPOSSOMBRA[0],
       tau_e_B: 1,
-      ro_e_B: 0
+      rho_e_B: 0
     };
   }
 
   render() {
-    const { tipovidrio, tiposombra, tau_e_B, ro_e_B } = this.state;
+    const { tipovidrio, tiposombra, tau_e_B, rho_e_B } = this.state;
     const vidrio = this.ACRISTALAMIENTOS.tipos.find(v => v.name === tipovidrio);
     const F_w = this.ACRISTALAMIENTOS.propiedades.F_w;
     return (
@@ -111,7 +111,7 @@ class HuecosParams extends Component {
           </Form>{" "}
         </Row>
         <GlazingPropertiesPanel
-          {...{ vidrio, F_w, tiposombra, tau_e_B, ro_e_B }}
+          {...{ vidrio, F_w, tiposombra, tau_e_B, rho_e_B }}
         />
       </Grid>
     );
@@ -133,14 +133,18 @@ class SombrasForm extends Component {
   onUpdate() {
     const { opacidad, color } = this.state;
     const tau_e_B = this.OPACIDAD.find(v => v.opacidad === opacidad).tau_e_B;
-    const ro_e_B = this.REFLEXION.find(
+    const rho_e_B = this.REFLEXION.find(
       v => v.color === color && v.opacidad === opacidad
-    ).ro_e_B;
-    this.props.onUpdate({ tau_e_B, ro_e_B });
+    ).rho_e_B;
+    this.props.onUpdate({ tau_e_B, rho_e_B });
   }
 
   render() {
     const { opacidad, color } = this.state;
+    const tau_e_B = this.OPACIDAD.find(v => v.opacidad === opacidad).tau_e_B;
+    const rho_e_B = this.REFLEXION.find(
+      v => v.color === color && v.opacidad === opacidad
+    ).rho_e_B;
     return (
       <React.Fragment>
         <FormGroup controlId="formControlsShadingTransparency">
@@ -195,15 +199,15 @@ class SombrasForm extends Component {
 
 class GlazingPropertiesPanel extends Component {
   render() {
-    const { vidrio, F_w, tiposombra, tau_e_B, ro_e_B } = this.props;
+    const { vidrio, F_w, tiposombra, tau_e_B, rho_e_B } = this.props;
     const g_gl_wi = F_w * vidrio.g_gl_n;
     let g_gl_sh_wi;
     if (tiposombra === "Exterior") {
-      g_gl_sh_wi = g_t_e(vidrio.U_gl, vidrio.g_gl_n, tau_e_B, ro_e_B);
+      g_gl_sh_wi = g_t_e(vidrio.U_gl, vidrio.g_gl_n, tau_e_B, rho_e_B);
     } else if (tiposombra === "Interior") {
-      g_gl_sh_wi = g_t_i(vidrio.U_gl, vidrio.g_gl_n, tau_e_B, ro_e_B);
+      g_gl_sh_wi = g_t_i(vidrio.U_gl, vidrio.g_gl_n, tau_e_B, rho_e_B);
     } else if (tiposombra === "Integrado") {
-      g_gl_sh_wi = g_t_m(vidrio.U_gl, vidrio.g_gl_n, tau_e_B, ro_e_B);
+      g_gl_sh_wi = g_t_m(vidrio.U_gl, vidrio.g_gl_n, tau_e_B, rho_e_B);
     } else {
       g_gl_sh_wi = g_gl_wi;
     }
@@ -265,7 +269,7 @@ class GlazingPropertiesPanel extends Component {
               Factor de reflexión solar del dispositivo de sombra móvil, &rho;<sub
               >
                 e,B
-              </sub>: {ro_e_B.toFixed(2)}
+              </sub>: {rho_e_B.toFixed(2)}
             </p>
           )}
         </Panel.Body>

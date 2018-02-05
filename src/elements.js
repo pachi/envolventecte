@@ -64,18 +64,18 @@ export const ELEMENTOS = {
         ],
         reflexion: [
           // EN 13363-1 Anexo A - tabla A.2
-          { color: "blanco", opacidad: "Opaco", tau_e_B: 0.0, ro_e_B: 0.7 },
-          { color: "blanco", opacidad: "Medianamente translúcido", tau_e_B: 0.2, ro_e_B: 0.6 },
-          { color: "blanco", opacidad: "Muy translúcido", tau_e_B: 0.4, ro_e_B: 0.4 },
-          { color: "pastel", opacidad: "Opaco", tau_e_B: 0.0, ro_e_B: 0.5 },
-          { color: "pastel", opacidad: "Medianamente translúcido", tau_e_B: 0.2, ro_e_B: 0.4 },
-          { color: "pastel", opacidad: "Muy translúcido", tau_e_B: 0.4, ro_e_B: 0.3 },
-          { color: "oscuro", opacidad: "Opaco", tau_e_B: 0.0, ro_e_B: 0.3 },
-          { color: "oscuro", opacidad: "Medianamente translúcido", tau_e_B: 0.2, ro_e_B: 0.2 },
-          { color: "oscuro", opacidad: "Muy translúcido", tau_e_B: 0.4, ro_e_B: 0.2 },
-          { color: "negro", opacidad: "Opaco", tau_e_B: 0.0, ro_e_B: 0.1 },
-          { color: "negro", opacidad: "Medianamente translúcido", tau_e_B: 0.2, ro_e_B: 0.1 },
-          { color: "negro", opacidad: "Muy translúcido", tau_e_B: 0.4, ro_e_B: 0.1 }
+          { color: "blanco", opacidad: "Opaco", tau_e_B: 0.0, rho_e_B: 0.7 },
+          { color: "blanco", opacidad: "Medianamente translúcido", tau_e_B: 0.2, rho_e_B: 0.6 },
+          { color: "blanco", opacidad: "Muy translúcido", tau_e_B: 0.4, rho_e_B: 0.4 },
+          { color: "pastel", opacidad: "Opaco", tau_e_B: 0.0, rho_e_B: 0.5 },
+          { color: "pastel", opacidad: "Medianamente translúcido", tau_e_B: 0.2, rho_e_B: 0.4 },
+          { color: "pastel", opacidad: "Muy translúcido", tau_e_B: 0.4, rho_e_B: 0.3 },
+          { color: "oscuro", opacidad: "Opaco", tau_e_B: 0.0, rho_e_B: 0.3 },
+          { color: "oscuro", opacidad: "Medianamente translúcido", tau_e_B: 0.2, rho_e_B: 0.2 },
+          { color: "oscuro", opacidad: "Muy translúcido", tau_e_B: 0.4, rho_e_B: 0.2 },
+          { color: "negro", opacidad: "Opaco", tau_e_B: 0.0, rho_e_B: 0.1 },
+          { color: "negro", opacidad: "Medianamente translúcido", tau_e_B: 0.2, rho_e_B: 0.1 },
+          { color: "negro", opacidad: "Muy translúcido", tau_e_B: 0.4, rho_e_B: 0.1 }
         ]
       }
     }
@@ -90,28 +90,28 @@ export const ELEMENTOS = {
 // - U_gl: coeficiente de transmitancia de la energía solar total del acristalamiento [W/m2K]
 // - g_gl_n: factor de transmitancia de energía solar a incidencia normal del acristalamiento [-]
 // - tau_e_B: factor de transmitancia solar del dispositivo de protección solar [-]
-// - ro_e_B: factor de reflexión solar de la cara del dispositivo de protección solar del lado de la radiación [-]
+// - rho_e_B: factor de reflexión solar de la cara del dispositivo de protección solar del lado de la radiación [-]
 
 // Factor de transmitancia de energía solar total con protección solar exterior
-export function g_t_e(U_gl, g_gl_n, tau_e_B, ro_e_B) {
-  const alpha_e_B = 1 - tau_e_B - ro_e_B;
+export function g_t_e(U_gl, g_gl_n, tau_e_B, rho_e_B) {
+  const alpha_e_B = 1 - tau_e_B - rho_e_B;
   const G = 1 / (1 / U_gl + 1 / 5 + 1 / 10); // W/m2K
   return tau_e_B * g_gl_n + alpha_e_B * G / 10 + tau_e_B * (1 - g_gl_n) * G / 5;
 }
 
 // Factor de transmitancia de energía solar total con protección solar interior
-export function g_t_i(U_gl, g_gl_n, tau_e_B, ro_e_B) {
-  const alpha_e_B = 1 - tau_e_B - ro_e_B;
+export function g_t_i(U_gl, g_gl_n, tau_e_B, rho_e_B) {
+  const alpha_e_B = 1 - tau_e_B - rho_e_B;
   const G = 1 / (1 / U_gl + 1 / 30); // W/m2K
-  return g_gl_n * (1 - g_gl_n * ro_e_B - alpha_e_B * G / 30);
+  return g_gl_n * (1 - g_gl_n * rho_e_B - alpha_e_B * G / 30);
 }
 
 // Factor de transmitancia de energía solar total con protección solar integrado
 // Válido cuando:
 // - El acristalamiento exterior no está recubierto
 // - El acristalamiento interior está o no recubierto
-export function g_t_m(U_gl, g_gl_n, tau_e_B, ro_e_B) {
-  const alpha_e_B = 1 - tau_e_B - ro_e_B;
+export function g_t_m(U_gl, g_gl_n, tau_e_B, rho_e_B) {
+  const alpha_e_B = 1 - tau_e_B - rho_e_B;
   const G = 1 / (1 / U_gl + 1 / 3); // W/m2K
-  return tau_e_B * g_gl_n + g_gl_n * (alpha_e_B + (1 - g_gl_n) * ro_e_B) * G / 3;
+  return tau_e_B * g_gl_n + g_gl_n * (alpha_e_B + (1 - g_gl_n) * rho_e_B) * G / 3;
 }
