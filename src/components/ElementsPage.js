@@ -151,7 +151,7 @@ class SombrasForm extends Component {
           <Col componentClass={ControlLabel} md={6}>
             Opacidad del dispositivo de sombra móvil:
           </Col>{" "}
-          <Col md={6}>
+          <Col md={4}>
             <FormControl
               value={opacidad}
               onChange={e =>
@@ -170,12 +170,23 @@ class SombrasForm extends Component {
               ))}
             </FormControl>
           </Col>
+          <Col componentClass={ControlLabel} md={1}>
+            &tau;<sub>e,B</sub>:
+          </Col>
+          <Col md={1}>
+            <FormControl
+              readOnly
+              type="text"
+              value={tau_e_B.toFixed(2)}
+              md={1}
+            />
+          </Col>
         </FormGroup>
         <FormGroup controlId="formControlsShadingColor">
           <Col componentClass={ControlLabel} md={6}>
             Color del dispositivo de sombra móvil:
           </Col>{" "}
-          <Col md={6}>
+          <Col md={4}>
             <FormControl
               value={color}
               onChange={e =>
@@ -190,6 +201,17 @@ class SombrasForm extends Component {
                 </option>
               ))}
             </FormControl>
+          </Col>
+          <Col componentClass={ControlLabel} md={1}>
+            &rho;<sub>e,B</sub>:
+          </Col>
+          <Col md={1}>
+            <FormControl
+              readOnly
+              type="text"
+              value={rho_e_B.toFixed(2)}
+              md={1}
+            />
           </Col>
         </FormGroup>
       </React.Fragment>
