@@ -33,7 +33,17 @@ export default class HuecosTable extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = { selectedId: [] };
-    this.orientacionesList = [ "Horiz.", "N", "NE", "E", "SE", "S", "SW", "W", "NW" ];
+    this.orientacionesList = [
+      "Horiz.",
+      "N",
+      "NE",
+      "E",
+      "SE",
+      "S",
+      "SW",
+      "W",
+      "NW"
+    ];
   }
 
   newHueco = () => ({
@@ -78,7 +88,9 @@ export default class HuecosTable extends Component {
             clickToSelectAndEditCell: true,
             selected: this.state.selectedId,
             onSelect: (row, isSelected) =>
-              this.setState({ selectedId: isSelected ? [row.id] : [] }),
+              this.setState({
+                selectedId: isSelected ? [row.id] : []
+              }),
             hideSelectColumn: true,
             bgColor: "lightgray"
           }}
