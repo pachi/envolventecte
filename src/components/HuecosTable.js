@@ -22,7 +22,14 @@ SOFTWARE.
 */
 
 import React, { Component } from "react";
-import { Col, Grid, Row } from "react-bootstrap";
+import {
+  Button,
+  ButtonGroup,
+  Col,
+  Glyphicon,
+  Grid,
+  Row
+} from "react-bootstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
@@ -66,7 +73,7 @@ export default class HuecosTable extends Component {
   );
 
   render() {
-    const { huecos, huecosA, huecosAU } = this.props;
+    let { huecos, huecosA, huecosAU } = this.props;
     return (
       <Grid>
         <h2>
@@ -156,6 +163,20 @@ export default class HuecosTable extends Component {
             &sum;A·U = {huecosAU.toFixed(2)} W/K
           </Col>
         </Row>
+        <Row className="top20">
+          <Col md={12}>
+            <ButtonGroup className="pull-right">
+              <Button
+                bsStyle="default"
+                bsSize="xs"
+                title="Agrupar huecos"
+                onClick={() => huecos.replace(this.agrupaHuecos(huecos))}
+              >
+                <Glyphicon glyph="minus" /> Agrupar huecos
+              </Button>
+            </ButtonGroup>
+          </Col>
+        </Row>
         <Row className="text-info small top20">
           <Col md={12}>
             <p>Donde:</p>
@@ -240,5 +261,28 @@ export default class HuecosTable extends Component {
         </Row>
       </Grid>
     );
+  }
+
+  // Agrupa superficie de huecos por tipos
+  agrupaHuecos(huecos) {
+    const isequal = (h1, h2) =>
+      h1.orientacion === h2.orientacion &&
+      h1.Ff === h2.Ff &&
+      h1.U === h2.U &&
+      h1.gglshwi === h2.gglshwi;
+    const huecosagrupados = [];
+    for (let hueco of huecos) {
+      const h = huecosagrupados.find(e => isequal(hueco, e));
+      if (h) {
+        h.Fshobst =
+          (h.Fshobst * h.A + hueco.Fshobst * hueco.A) / (h.A + hueco.A);
+        h.A = h.A + hueco.A;
+        h.id = uuidv4();
+        h.nombre = h.nombre + ", " + hueco.nombre;
+      } else {
+        huecosagrupados.push(hueco);
+      }
+    }
+    return huecosagrupados;
   }
 }
