@@ -170,7 +170,7 @@ export default class HuecosTable extends Component {
               <Button
                 bsStyle="default"
                 bsSize="xs"
-                title="Agrupar huecos"
+                title="Agrupar huecos de igual orientación, fracción de marco, transmitancia y factor de transmisión solar con protecciones solares activadas. Suma las áreas y calcula el factor equivalente de sombras remotas."
                 onClick={() => huecos.replace(this.agrupaHuecos(huecos))}
               >
                 <Glyphicon glyph="minus" /> Agrupar huecos
