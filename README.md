@@ -1,8 +1,8 @@
 # Indicadores de envolvente térmica para la aplicación del CTE DB-HE
 
-Aplicación para el cálculo de indicadores de eficiencia energética de la envolvente térmica.
+Aplicación para el cálculo de parámetros de eficiencia energética de la envolvente térmica.
 
-A partir de una descripción de la envolvente (de sus parámetros energéticos básicos) y la zona climática del edificio, la aplicación calcula los indicadores definidos en el CTE DB-HE (2018):
+A partir de una descripción de la envolvente (de sus parámetros energéticos básicos) y la zona climática del edificio, la aplicación calcula diversos indicadores de eficiencia energética de la envolvente térmica, entre ellos los definidos en el CTE DB-HE (2018):
 
 * **Transmitancia térmica global** (**K**)
 * **Control solar** (**q<sub>sol;jul</sub>**)

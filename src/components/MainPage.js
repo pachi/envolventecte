@@ -42,7 +42,7 @@ export default class HelpPage extends Component {
           <Col md={9}>
             <h1>Envolvente CTE</h1>
             <h3>
-              Cálculo de indicadores y parámetros de la envolvente térmica
+              Parámetros de eficiencia energética de la envolvente térmica
             </h3>
             <p>
               Esta aplicación facilita el cálculo de indicadores de calidad y
