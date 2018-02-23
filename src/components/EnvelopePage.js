@@ -27,10 +27,10 @@ import {
   Button,
   Glyphicon,
   Grid,
-  Panel,
   Row,
   Tabs,
-  Tab
+  Tab,
+  Well
 } from "react-bootstrap";
 
 import { observer, inject } from "mobx-react";
@@ -86,22 +86,57 @@ class EnvelopePage extends Component {
               <PTsTable pts={envolvente.pts} {...{ ptsL, ptsPsiL }} />
             </Tab>
             <Tab eventKey={4} title="Carga / descarga de datos">
-              <Grid>
+              <Grid className="top20">
                 <Row>
-                  <Panel
-                    header="Carga archivo con datos de envolvente:"
-                    bsStyle="primary"
-                  >
+                  <p>
+                    Si ha descargado con anterioridad datos de esta aplicación,
+                    puede cargarlos de nuevo seleccionando el archivo:
+                  </p>
+                  <input
+                    ref="fileInput"
+                    type="file"
+                    onChange={e => this.handleUpload(e)}
+                  />
+                </Row>
+                <Row className="top20">
+                  <Well bsStyle="primary">
                     <p>
-                      Si ha descargado con anterioridad datos de esta
-                      aplicación, cárguelos de nuevo seleccionando el archivo.
+                      Puede generar un archivo de datos para su importación a
+                      partir de un proyecto de la{" "}
+                      <i>Herramienta unificada LIDER-CALENER</i> usando la
+                      herramienta{" "}
+                      <a href="https://github.com/pachi/hulc2envolventecte">
+                        hulc2envolventecte
+                      </a>.
                     </p>
-                    <input
-                      ref="fileInput"
-                      type="file"
-                      onChange={e => this.handleUpload(e)}
-                    />
-                  </Panel>
+                    <p>
+                      Para generar dicho archivo, descargue en su equipo la
+                      aplicación <i>hulc2envolventecte</i> (
+                      <a
+                        href={
+                          process.env.PUBLIC_URL +
+                          "/hulc2envolventecte/hulc2envolventecte.exe"
+                        }
+                      >
+                        ejecutable para MS-Windows
+                      </a>,{" "}
+                      <a
+                        href={
+                          process.env.PUBLIC_URL +
+                          "/hulc2envolventecte/hulc2envolventecte"
+                        }
+                      >
+                        ejecutable para GNU/Linux
+                      </a>) y úsela desde la consola de comandos (terminal),
+                      indicando como parámetro la ruta al directorio del
+                      proyecto que quiere exportar, y redirija la salida del
+                      programa a un archivo:
+                    </p>
+                    <code>
+                      C:\ProyectosCTEyCEE\CTEHE2018\> hulc2envolventecte.exe
+                      Proyectos\miproyectoHULC/ > archivo_salida.json
+                    </code>
+                  </Well>
                 </Row>
                 <Row>
                   <Button
