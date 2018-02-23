@@ -23,7 +23,7 @@ SOFTWARE.
 
 import React, { Component } from "react";
 import { Alert, Col, Grid, Row, Image } from "react-bootstrap";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 
 import Footer from "./Footer";
 import NavBar from "./Nav";

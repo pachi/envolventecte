@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { Grid, Nav, NavItem, Navbar } from "react-bootstrap";
 
@@ -33,9 +33,6 @@ export default class NavBar extends React.Component {
   static defaultProps = { projectName: "Envolvente CTE" };
 
   render() {
-    const currpath = this.props.route.path;
-    const activeIfCurrent = path => (currpath === path ? "active" : "");
-
     return (
       <Navbar inverse fixedTop>
         <Grid>
@@ -57,7 +54,6 @@ export default class NavBar extends React.Component {
             <Nav>
               <LinkContainer to="/envelope">
                 <NavItem
-                  className={activeIfCurrent("/envelope")}
                   eventKey={1}
                   role="presentation"
                 >
@@ -68,7 +64,6 @@ export default class NavBar extends React.Component {
             <Nav>
               <LinkContainer to="/climate">
                 <NavItem
-                  className={activeIfCurrent("/climate")}
                   eventKey={2}
                   role="presentation"
                 >
@@ -79,7 +74,6 @@ export default class NavBar extends React.Component {
             <Nav>
               <LinkContainer to="/elements">
                 <NavItem
-                  className={activeIfCurrent("/elements")}
                   eventKey={3}
                   role="presentation"
                 >
@@ -90,7 +84,6 @@ export default class NavBar extends React.Component {
             <Nav pullRight>
               <LinkContainer to="/help">
                 <NavItem
-                  className={activeIfCurrent("/help")}
                   eventKey={4}
                   role="presentation"
                 >
@@ -103,7 +96,6 @@ export default class NavBar extends React.Component {
               </LinkContainer>
               <LinkContainer to="/about">
                 <NavItem
-                  className={activeIfCurrent("/about")}
                   eventKey={5}
                   role="presentation"
                 >

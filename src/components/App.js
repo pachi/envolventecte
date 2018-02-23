@@ -21,22 +21,22 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { Component } from 'react';
-import { Router, Route, hashHistory } from 'react-router';
-import { Provider } from 'mobx-react';
+import React, { Component } from "react";
+import { HashRouter, Redirect, Route, Switch } from "react-router-dom";
+import { Provider } from "mobx-react";
 
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
-import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/css/bootstrap-theme.css";
+import "react-bootstrap-table/dist/react-bootstrap-table-all.min.css";
 
-import { AppState, RadState } from '../stores/AppState';
+import { AppState, RadState } from "../stores/AppState";
 
-import AboutPage from './AboutPage';
-import ClimatePage from './ClimatePage';
-import ElementsPage from './ElementsPage';
-import EnvelopePage from './EnvelopePage';
-import HelpPage from './HelpPage';
-import MainPage from './MainPage';
+import AboutPage from "./AboutPage";
+import ClimatePage from "./ClimatePage";
+import ElementsPage from "./ElementsPage";
+import EnvelopePage from "./EnvelopePage";
+import HelpPage from "./HelpPage";
+import MainPage from "./MainPage";
 
 const stores = {
   radstate: RadState,
@@ -48,14 +48,17 @@ class App extends Component {
   render() {
     return (
       <Provider {...stores}>
-        <Router history={hashHistory}>
-          <Route path="/" component={MainPage} />
-          <Route path="/envelope" component={EnvelopePage} />
-          <Route path="/climate" component={ClimatePage} />
-          <Route path="/elements" component={ElementsPage} />
-          <Route path="/help" component={HelpPage} />
-          <Route path="/about" component={AboutPage} />
-        </Router>
+        <HashRouter>
+          <Switch>
+            <Route exact path="/" component={MainPage} />
+            <Route exact path="/envelope" component={EnvelopePage} />
+            <Route exact path="/climate" component={ClimatePage} />
+            <Route exact path="/elements" component={ElementsPage} />
+            <Route exact path="/help" component={HelpPage} />
+            <Route exact path="/about" component={AboutPage} />
+            <Route path="*" render={() => <Redirect to="/" />} />
+          </Switch>
+        </HashRouter>
       </Provider>
     );
   }
