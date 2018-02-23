@@ -109,6 +109,7 @@ export default class OpacosTable extends Component {
           <TableHeaderColumn
             dataField="nombre"
             headerText="Descripción identificativa del elemento opaco"
+            width="40%"
           >
             Descripción
           </TableHeaderColumn>

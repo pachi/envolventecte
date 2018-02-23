@@ -153,6 +153,7 @@ export default class HuecosTable extends Component {
           <TableHeaderColumn
             dataField="nombre"
             headerText="Descripción identificativa del hueco"
+            width="40%"
           >
             Descripción
           </TableHeaderColumn>

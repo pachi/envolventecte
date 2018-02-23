@@ -88,6 +88,7 @@ export default class PTsTable extends Component {
           <TableHeaderColumn
             dataField="nombre"
             headerText="Descripción identificativa del puente térmico"
+            width="40%"
           >
             Descripción
           </TableHeaderColumn>
