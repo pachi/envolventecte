@@ -1,6 +1,6 @@
 # Indicadores de envolvente térmica para la aplicación del CTE DB-HE
 
-Aplicación para el cálculo de parámetros de eficiencia energética de la envolvente térmica.
+`EnvolventeCTE` es una aplicación web de ayuda al cálculo de indicadores y parámetros de eficiencia energética de la envolvente térmica.
 
 A partir de una descripción de la envolvente (de sus parámetros energéticos básicos) y la zona climática del edificio, la aplicación calcula diversos indicadores de eficiencia energética de la envolvente térmica, entre ellos los definidos en el CTE DB-HE (2018):
 

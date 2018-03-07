@@ -50,10 +50,11 @@ export default class HelpPage extends Component {
             del CTE DB-HE
           </h1>
           <p>
-            Esta aplicación permite el cálculo de algunos indicadores de calidad
-            y parámetros descriptivos de la envolvente térmica, para facilitar
-            la aplicación del CTE DB-HE (2018):
+            <i>EnvolventeCTE</i> es una aplicación web de ayuda al cálculo de
+            indicadores y parámetros de eficiencia energética de la envolvente
+            térmica, facilitando la aplicación del CTE DB-HE (2018).
           </p>
+          <p>Los indicadores y parámetros implementados son:</p>
           <ul>
             <li>
               <b>Transmitancia térmica global</b> (<b>K</b>)
@@ -63,7 +64,13 @@ export default class HelpPage extends Component {
                 q<sub>sol;jul</sub>
               </b>)
             </li>
-            <li><b>Parámetros descriptivos de los elementos de la envolvente térmica</b> (<b>U</b>, <b>g</b>, <b>&psi;</b>...)</li>
+            <li>
+              <b>
+                Parámetros descriptivos de los elementos de la envolvente
+                térmica
+              </b>{" "}
+              (<b>U</b>, <b>g</b>, <b>&psi;</b>...)
+            </li>
           </ul>
           <Alert bsStyle="warning">
             <b>NOTA:</b> Esta aplicación y la información contenida en ella no
