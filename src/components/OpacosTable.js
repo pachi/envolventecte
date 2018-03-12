@@ -22,7 +22,14 @@ SOFTWARE.
 */
 
 import React, { Component } from "react";
-import { Col, Grid, Row } from "react-bootstrap";
+import {
+  Button,
+  ButtonGroup,
+  Col,
+  Glyphicon,
+  Grid,
+  Row
+} from "react-bootstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
@@ -123,6 +130,20 @@ export default class OpacosTable extends Component {
             {opacosAU.toFixed(2)} W/K
           </Col>
         </Row>
+        <Row className="top20">
+          <Col md={12}>
+            <ButtonGroup className="pull-right">
+              <Button
+                bsStyle="default"
+                bsSize="xs"
+                title="Agrupa opacos, sumando áreas de igual transmitancia y factor de ajuste."
+                onClick={() => opacos.replace(this.agrupaOpacos(opacos))}
+              >
+                <Glyphicon glyph="compressed" /> Agrupar opacos
+              </Button>
+            </ButtonGroup>
+          </Col>
+        </Row>
         <Row className="text-info small top20">
           <Col md={12}>
             <p>Donde:</p>
@@ -160,5 +181,22 @@ export default class OpacosTable extends Component {
         </Row>
       </Grid>
     );
+  }
+
+  // Agrupa superficie de opacos por tipos
+  agrupaOpacos(opacos) {
+    const isequal = (o1, o2) => Number(o1.U) === Number(o2.U) && Number(o1.btrx) === Number(o2.btrx);
+    const opacosagrupados = [];
+    for (let opaco of opacos) {
+      const o = opacosagrupados.find(e => isequal(opaco, e));
+      if (o) {
+        o.A = o.A + opaco.A;
+        o.id = uuidv4();
+        o.nombre = o.nombre + ", " + opaco.nombre;
+      } else {
+        opacosagrupados.push(opaco);
+      }
+    }
+    return opacosagrupados;
   }
 }
