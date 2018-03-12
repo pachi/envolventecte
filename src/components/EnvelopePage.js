@@ -161,7 +161,8 @@ class EnvelopePage extends Component {
 
   handleDownload(_) {
     const { Autil, envolvente } = this.props.appstate;
-    const contents = JSON.stringify({ Autil, envolvente }, null, 2);
+    const { climate } = this.props.radstate;
+    const contents = JSON.stringify({ Autil, envolvente, climate }, null, 2);
     const contenthash = hash(contents).toString(16);
     const filename = `EnvolventeCTE-${contenthash}.json`;
     const blob = new Blob([contents], { type: "application/json" });
@@ -193,7 +194,9 @@ class EnvelopePage extends Component {
     const reader = new FileReader();
     reader.onload = rawdata => {
       try {
-        const { Autil, envolvente } = JSON.parse(rawdata.target.result);
+        const { climate = "D3", Autil, envolvente } = JSON.parse(
+          rawdata.target.result
+        );
         const { huecos, opacos, pts } = envolvente;
         if (
           !(
@@ -206,6 +209,7 @@ class EnvelopePage extends Component {
         ) {
           throw UserException("Formato incorrecto");
         }
+        this.props.radstate.climate = climate;
         this.props.appstate.Autil = Number(Autil);
         this.props.appstate.envolvente = envolvente;
         this.props.appstate.errors = [
@@ -232,4 +236,6 @@ class EnvelopePage extends Component {
   }
 }
 
-export default (EnvelopePage = inject("appstate")(observer(EnvelopePage)));
+export default (EnvelopePage = inject("appstate", "radstate")(
+  observer(EnvelopePage)
+));
