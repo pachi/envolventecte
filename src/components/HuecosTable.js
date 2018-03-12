@@ -268,16 +268,16 @@ export default class HuecosTable extends Component {
   agrupaHuecos(huecos) {
     const isequal = (h1, h2) =>
       h1.orientacion === h2.orientacion &&
-      h1.Ff === h2.Ff &&
-      h1.U === h2.U &&
-      h1.gglshwi === h2.gglshwi;
+      Number(h1.Ff) === Number(h2.Ff) &&
+      Number(h1.U) === Number(h2.U) &&
+      Number(h1.gglshwi) === Number(h2.gglshwi);
     const huecosagrupados = [];
     for (let hueco of huecos) {
       const h = huecosagrupados.find(e => isequal(hueco, e));
       if (h) {
-        h.Fshobst =
+        h.Fshobst = 1.0 *
           (h.Fshobst * h.A + hueco.Fshobst * hueco.A) / (h.A + hueco.A);
-        h.A = h.A + hueco.A;
+        h.A = 0.0 + h.A + hueco.A;
         h.id = uuidv4();
         h.nombre = h.nombre + ", " + hueco.nombre;
       } else {
