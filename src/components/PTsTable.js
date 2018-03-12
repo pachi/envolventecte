@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { Component } from "react";
-import { Col, Grid, Row } from "react-bootstrap";
+import { Button, ButtonGroup, Col, Glyphicon, Grid, Row } from "react-bootstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
@@ -99,6 +99,20 @@ export default class PTsTable extends Component {
             &sum;L·&psi; = {ptsPsiL.toFixed(2)} W/K
           </Col>
         </Row>
+        <Row className="top20">
+          <Col md={12}>
+            <ButtonGroup className="pull-right">
+              <Button
+                bsStyle="default"
+                bsSize="xs"
+                title="Agrupa puentes térmicos, sumando longitudes de igual transmitancia térmica lineal."
+                onClick={() => pts.replace(this.agrupaPts(pts))}
+              >
+                <Glyphicon glyph="compressed" /> Agrupar PTs
+              </Button>
+            </ButtonGroup>
+          </Col>
+        </Row>
         <Row className="text-info small top20">
           <Col md={12}>
             <p>Donde:</p>
@@ -123,5 +137,21 @@ export default class PTsTable extends Component {
         </Row>
       </Grid>
     );
+  }
+  // Agrupa longitudes de puentes térmicos por tipos
+  agrupaPts(pts) {
+    const isequal = (p1, p2) => Number(p1.psi) === Number(p2.psi);
+    const ptsagrupados = [];
+    for (let pt of pts) {
+      const p = ptsagrupados.find(e => isequal(pt, e));
+      if (p) {
+        p.A = p.L + pt.L;
+        p.id = uuidv4();
+        p.nombre = p.nombre + ", " + pt.nombre;
+      } else {
+        ptsagrupados.push(pt);
+      }
+    }
+    return ptsagrupados;
   }
 }
