@@ -37,9 +37,9 @@ const ClimateSelector = inject("radstate")(
                 Zona Climática
               </ControlLabel>{" "}
               <FormControl
-                value={radstate.climate || ""}
+                value={radstate.clima || ""}
                 onChange={e => {
-                  radstate.climate = e.target.value;
+                  radstate.clima = e.target.value;
                 }}
                 componentClass="select"
                 placeholder="select"

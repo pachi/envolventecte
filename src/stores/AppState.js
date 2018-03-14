@@ -27,11 +27,11 @@ import { uuidv4 } from "../utils.js";
 
 export const RadState = observable({
   radiationdata,
-  climate: "D3",
+  clima: "D3",
   zoneslist: [...new Set(radiationdata.map(v => v.zc))],
   orientations: [...new Set(radiationdata.map(v => v.surfname))],
   get climatedata() {
-    return radiationdata.filter(v => v.zc === this.climate);
+    return radiationdata.filter(v => v.zc === this.clima);
   },
   get climateTotRadJul() {
     return this.climatedata.reduce(
