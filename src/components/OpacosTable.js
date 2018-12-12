@@ -22,18 +22,13 @@ SOFTWARE.
 */
 
 import React, { Component } from "react";
-import {
-  Button,
-  ButtonGroup,
-  Col,
-  Glyphicon,
-  Grid,
-  Row
-} from "react-bootstrap";
+import { Button, ButtonGroup, Col, Container, Row } from "react-bootstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 import { uuidv4 } from "../utils.js";
+
+import icongroup from "./img/outline-add_comment-24px.svg";
 
 export default class OpacosTable extends Component {
   constructor(props, context) {
@@ -62,90 +57,98 @@ export default class OpacosTable extends Component {
   render() {
     const { opacos, opacosA, opacosAU } = this.props;
     return (
-      <Grid>
-        <h2>
-          Elementos opacos de la envolvente térmica
-          <AddRemoveButtonGroup
-            objects={opacos}
-            newObj={this.newOpaco}
-            selectedId={this.state.selectedId}
-          />
-        </h2>
-        <BootstrapTable
-          data={opacos}
-          striped
-          hover
-          bordered={false}
-          cellEdit={{ mode: "dbclick", blurToSave: true }}
-          selectRow={{
-            mode: "radio",
-            clickToSelectAndEditCell: true,
-            selected: this.state.selectedId,
-            onSelect: (row, isSelected) =>
-              this.setState({
-                selectedId: isSelected ? [row.id] : []
-              }),
-            hideSelectColumn: true,
-            bgColor: "lightgray"
-          }}
-        >
-          <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-            ID
-          </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="A"
-            dataFormat={this.Float2DigitsFormatter}
-            headerText="Área del elemento opaco (m²)"
-          >
-            A (m<sup>2</sup>)
-          </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="U"
-            dataFormat={this.Float3DigitsFormatter}
-            headerText="Transmitancia térmica del elemento opaco (W/m²K)"
-          >
-            U (W/m<sup>2</sup>K)
-          </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="btrx"
-            dataFormat={this.Float1DigitsFormatter}
-            headerText="Factor de ajuste del elemento opaco (fracción)"
-          >
-            b<sub>tr,x</sub>
-          </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="nombre"
-            headerText="Descripción identificativa del elemento opaco"
-            width="40%"
-          >
-            Descripción
-          </TableHeaderColumn>
-        </BootstrapTable>
+      <Container>
         <Row>
-          <Col md={6}>
+          <Col>
+            <h4>Elementos opacos de la envolvente térmica</h4>
+          </Col>
+          <Col md="auto">
+            <AddRemoveButtonGroup
+              objects={opacos}
+              newObj={this.newOpaco}
+              selectedId={this.state.selectedId}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <BootstrapTable
+              data={opacos}
+              striped
+              hover
+              bordered={false}
+              cellEdit={{ mode: "dbclick", blurToSave: true }}
+              selectRow={{
+                mode: "radio",
+                clickToSelectAndEditCell: true,
+                selected: this.state.selectedId,
+                onSelect: (row, isSelected) =>
+                  this.setState({
+                    selectedId: isSelected ? [row.id] : []
+                  }),
+                hideSelectColumn: true,
+                bgColor: "lightgray"
+              }}
+            >
+              <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
+                ID
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="A"
+                dataFormat={this.Float2DigitsFormatter}
+                headerText="Área del elemento opaco (m²)"
+              >
+                A (m<sup>2</sup>)
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="U"
+                dataFormat={this.Float3DigitsFormatter}
+                headerText="Transmitancia térmica del elemento opaco (W/m²K)"
+              >
+                U (W/m<sup>2</sup>K)
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="btrx"
+                dataFormat={this.Float1DigitsFormatter}
+                headerText="Factor de ajuste del elemento opaco (fracción)"
+              >
+                b<sub>tr,x</sub>
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="nombre"
+                headerText="Descripción identificativa del elemento opaco"
+                width="40%"
+              >
+                Descripción
+              </TableHeaderColumn>
+            </BootstrapTable>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
             &sum;b<sub>tr,x</sub>·A<sub>x</sub> = {opacosA.toFixed(2)} m²
           </Col>
-          <Col md={6} className="text-right">
+          <Col md="auto">
             &sum;b<sub>tr,x</sub>·&sum;<sub>i</sub>A<sub>i</sub>·U<sub>i</sub> ={" "}
             {opacosAU.toFixed(2)} W/K
           </Col>
         </Row>
-        <Row className="top20">
-          <Col md={12}>
-            <ButtonGroup className="pull-right">
+        <Row className="top20 justify-content-end">
+          <Col md="auto">
+            <ButtonGroup>
               <Button
-                bsStyle="default"
-                bsSize="xs"
+                variant="default"
+                size="sm"
                 title="Agrupa opacos, sumando áreas de igual transmitancia y factor de ajuste."
                 onClick={() => opacos.replace(this.agrupaOpacos(opacos))}
               >
-                <Glyphicon glyph="compressed" /> Agrupar opacos
+                <img src={icongroup} alt="Agrupar opacos" /> Agrupar opacos
               </Button>
             </ButtonGroup>
           </Col>
         </Row>
         <Row className="text-info small top20">
-          <Col md={12}>
+          <Col>
             <p>Donde:</p>
             <ul>
               <li>
@@ -157,7 +160,8 @@ export default class OpacosTable extends Component {
               <li>
                 <b>
                   b<sub>tr,x</sub>
-                </b>: factor de ajuste del elemento opaco (fracción)
+                </b>
+                : factor de ajuste del elemento opaco (fracción)
               </li>
             </ul>
             <p>
@@ -165,7 +169,8 @@ export default class OpacosTable extends Component {
               contacto con edificios o espacios adyacentes es{" "}
               <i>
                 b<sub>tr,x</sub> = 0.0
-              </i>, y{" "}
+              </i>
+              , y{" "}
               <i>
                 b<sub>tr,x</sub> = 1.0{" "}
               </i>
@@ -179,13 +184,14 @@ export default class OpacosTable extends Component {
             </p>
           </Col>
         </Row>
-      </Grid>
+      </Container>
     );
   }
 
   // Agrupa superficie de opacos por tipos
   agrupaOpacos(opacos) {
-    const isequal = (o1, o2) => Number(o1.U) === Number(o2.U) && Number(o1.btrx) === Number(o2.btrx);
+    const isequal = (o1, o2) =>
+      Number(o1.U) === Number(o2.U) && Number(o1.btrx) === Number(o2.btrx);
     const opacosagrupados = [];
     for (let opaco of opacos) {
       const o = opacosagrupados.find(e => isequal(opaco, e));

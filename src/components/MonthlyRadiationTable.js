@@ -22,15 +22,7 @@ SOFTWARE.
 */
 
 import React, { Component } from "react";
-import {
-  Checkbox,
-  ControlLabel,
-  Form,
-  FormControl,
-  FormGroup,
-  Grid,
-  Row
-} from "react-bootstrap";
+import { Col, Form, Container, Row } from "react-bootstrap";
 
 import { OrientaIcon } from "./IconsOrientaciones";
 
@@ -46,93 +38,95 @@ export default class MonthlyRadiationTable extends Component {
     const { data } = this.props;
     const showDetail = this.state.showDetail;
     return (
-      <Grid>
+      <Container>
         <Row>
-          <h2>Irradiación solar (acumulada) mensual (kWh/m²/mes)</h2>
+          <Col>
+            <h4>Irradiación solar (acumulada) mensual (kWh/m²/mes)</h4>
+          </Col>
         </Row>
         <Row>
-          <Form inline>
-            <FormGroup controlId="formControlsShowDetail">
-              <ControlLabel>
-                ¿Mostrar detalle de irradiación directa y difusa?
-              </ControlLabel>{" "}
-              <FormControl
-                value={showDetail}
+          <Col>
+            <Form inline>
+              <Form.Check
+                checked={showDetail}
                 onChange={e => this.setState({ showDetail: !showDetail })}
-                componentClass="checkbox"
-                placeholder="checkbox"
-              >
-                <Checkbox />
-              </FormControl>
-            </FormGroup>
-          </Form>
+                label="¿Mostrar detalle de irradiación directa y difusa?"
+              />
+            </Form>
+          </Col>
         </Row>
         <Row style={{ marginTop: "2em" }}>
-          <table
-            id="radiationtable"
-            className="table table-striped table-bordered table-condensed"
-          >
-            <thead>
-              <tr style={{ borderBottom: "3px solid darkgray" }}>
-                <th className="col-md-1">Superficie</th>
-                <th className="col-md-1">Irradiación</th>
-                {this.MESES.map(m => <th key={m}>{m}</th>)}
-              </tr>
-            </thead>
-            <tbody>
-              {data.map(d => {
-                return (
-                  <React.Fragment>
-                    <tr
-                      key={"tot_" + d.surfname}
-                      style={
-                        showDetail
-                          ? {
-                              fontWeight: "bold",
-                              borderTop: "3px solid darkgray"
-                            }
-                          : null
-                      }
-                    >
-                      <td rowSpan={showDetail ? "3" : null}>
-                        <b className="pull-left">{d.surfname}</b>
-                        <OrientaIcon dir={d.surfname} />
-                      </td>
-                      <td>Dir. + Dif.</td>
-                      {d.tot.map((v, i) => (
-                        <td key={"tot_" + i}>{v.toFixed(2)}</td>
-                      ))}
-                    </tr>
-                    {showDetail ? (
-                      <tr key={"dir_" + d.surfname}>
-                        <td>Dir.</td>
-                        {d.dir.map((v, i) => (
-                          <td key={"dir_" + i}>{v.toFixed(2)}</td>
+          <Col>
+            <table
+              id="radiationtable"
+              className="table table-striped table-bordered table-condensed"
+            >
+              <thead>
+                <tr style={{ borderBottom: "3px solid darkgray" }}>
+                  <th className="col-md-1">Superficie</th>
+                  <th className="col-md-1">Irradiación</th>
+                  {this.MESES.map(m => (
+                    <th key={m}>{m}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((d, idx) => {
+                  return (
+                    <React.Fragment key={idx}>
+                      <tr
+                        key={"tot_" + d.surfname}
+                        style={
+                          showDetail
+                            ? {
+                                fontWeight: "bold",
+                                borderTop: "3px solid darkgray"
+                              }
+                            : null
+                        }
+                      >
+                        <td rowSpan={showDetail ? "3" : null}>
+                          <b className="pull-left">{d.surfname}</b>
+                          <OrientaIcon dir={d.surfname} />
+                        </td>
+                        <td>Dir. + Dif.</td>
+                        {d.tot.map((v, i) => (
+                          <td key={"tot_" + i}>{v.toFixed(2)}</td>
                         ))}
                       </tr>
-                    ) : null}
-                    {showDetail ? (
-                      <tr key={"dif_" + d.surfname}>
-                        <td>Dif.</td>
-                        {d.dif.map((v, i) => (
-                          <td key={"dif_" + i}>{v.toFixed(2)}</td>
-                        ))}
-                      </tr>
-                    ) : null}
-                  </React.Fragment>
-                );
-              })}
-            </tbody>
-          </table>
+                      {showDetail ? (
+                        <tr key={"dir_" + d.surfname}>
+                          <td>Dir.</td>
+                          {d.dir.map((v, i) => (
+                            <td key={"dir_" + i}>{v.toFixed(2)}</td>
+                          ))}
+                        </tr>
+                      ) : null}
+                      {showDetail ? (
+                        <tr key={"dif_" + d.surfname}>
+                          <td>Dif.</td>
+                          {d.dif.map((v, i) => (
+                            <td key={"dif_" + i}>{v.toFixed(2)}</td>
+                          ))}
+                        </tr>
+                      ) : null}
+                    </React.Fragment>
+                  );
+                })}
+              </tbody>
+            </table>
+          </Col>
         </Row>
         <Row>
-          <p className="text-info">
-            La tabla anterior recoge la radiación mensual acumulada para una
-            superficie horizontal y superficies verticales con la orientación
-            indicada.
-          </p>
+          <Col>
+            <p className="text-info">
+              La tabla anterior recoge la radiación mensual acumulada para una
+              superficie horizontal y superficies verticales con la orientación
+              indicada.
+            </p>
+          </Col>
         </Row>
-      </Grid>
+      </Container>
     );
   }
 }

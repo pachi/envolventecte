@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  padding-top: 70px;            /* Separa body de navbar fixedtop*/
+  padding-top: 100px;            /* Separa body de navbar fixedtop*/
   padding-bottom: 50px;            /* Separa body de navbar fixedbottom*/
   font-family: sans-serif;
 }

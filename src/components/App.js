@@ -25,8 +25,8 @@ import React, { Component } from "react";
 import { HashRouter, Redirect, Route, Switch } from "react-router-dom";
 import { Provider } from "mobx-react";
 
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/css/bootstrap-theme.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap-theme.css";
 import "react-bootstrap-table/dist/react-bootstrap-table-all.min.css";
 
 import { AppState, RadState } from "../stores/AppState";

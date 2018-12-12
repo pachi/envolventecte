@@ -22,18 +22,7 @@ SOFTWARE.
 */
 
 import React, { Component } from "react";
-import {
-  Col,
-  ControlLabel,
-  Form,
-  FormControl,
-  FormGroup,
-  Grid,
-  Panel,
-  Row,
-  Tabs,
-  Tab
-} from "react-bootstrap";
+import { Col, Form, Container, Card, Row, Tabs, Tab } from "react-bootstrap";
 
 import Footer from "./Footer";
 import NavBar from "./Nav";
@@ -60,60 +49,73 @@ class HuecosParams extends Component {
     const vidrio = this.ACRISTALAMIENTOS.tipos.find(v => v.name === tipovidrio);
     const F_w = this.ACRISTALAMIENTOS.propiedades.F_w;
     return (
-      <Grid className="top20">
+      <Container className="top20">
         <Row className="well">
-          <Form horizontal>
-            <FormGroup controlId="formControlsGlassType">
-              <Col componentClass={ControlLabel} md={4}>
-                Tipo de vidrio:
-              </Col>{" "}
-              <Col md={8}>
-                <FormControl
-                  value={tipovidrio}
-                  onChange={e => this.setState({ tipovidrio: e.target.value })}
-                  componentClass="select"
-                  placeholder="select"
-                >
-                  {this.TIPOSVIDRIO.map(v => (
-                    <option value={v} key={"tipovidrio_" + v.replace(" ", "_")}>
-                      {v}
-                    </option>
-                  ))}
-                </FormControl>
-              </Col>
-            </FormGroup>
-            <FormGroup controlId="formControlsHasShading">
-              <Col componentClass={ControlLabel} md={4}>
-                Dispositivo de protección solar móvil:
-              </Col>{" "}
-              <Col md={8}>
-                <FormControl
-                  value={tiposombra}
-                  onChange={e => this.setState({ tiposombra: e.target.value })}
-                  componentClass="select"
-                  placeholder="select"
-                >
-                  {this.TIPOSSOMBRA.map(v => (
-                    <option value={v} key={"tiposombra_" + v}>
-                      {v}
-                    </option>
-                  ))}
-                </FormControl>
-              </Col>
-            </FormGroup>
-            {tiposombra === "Ninguno" ? null : (
-              <SombrasForm
-                onUpdate={obj => {
-                  this.setState(obj);
-                }}
-              />
-            )}
-          </Form>{" "}
+          <Col>
+            <Form horizontal>
+              <Form.Group controlId="formControlsGlassType">
+                <Col as={Form.Label} md={4}>
+                  Tipo de vidrio:
+                </Col>{" "}
+                <Col md={8}>
+                  <Form.Control
+                    value={tipovidrio}
+                    onChange={e =>
+                      this.setState({ tipovidrio: e.target.value })
+                    }
+                    as="select"
+                    placeholder="select"
+                  >
+                    {this.TIPOSVIDRIO.map(v => (
+                      <option
+                        value={v}
+                        key={"tipovidrio_" + v.replace(" ", "_")}
+                      >
+                        {v}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </Col>
+              </Form.Group>
+              <Form.Group controlId="formControlsHasShading">
+                <Col as={Form.Label} md={4}>
+                  Dispositivo de protección solar móvil:
+                </Col>{" "}
+                <Col md={8}>
+                  <Form.Control
+                    value={tiposombra}
+                    onChange={e =>
+                      this.setState({ tiposombra: e.target.value })
+                    }
+                    as="select"
+                    placeholder="select"
+                  >
+                    {this.TIPOSSOMBRA.map(v => (
+                      <option value={v} key={"tiposombra_" + v}>
+                        {v}
+                      </option>
+                    ))}
+                  </Form.Control>
+                </Col>
+              </Form.Group>
+              {tiposombra === "Ninguno" ? null : (
+                <SombrasForm
+                  onUpdate={obj => {
+                    this.setState(obj);
+                  }}
+                />
+              )}
+            </Form>{" "}
+          </Col>
         </Row>
-        <GlazingPropertiesPanel
-          {...{ vidrio, F_w, tiposombra, tau_e_B, rho_e_B }}
-        />
-      </Grid>
+        <Row>
+          <Col>
+            <GlazingPropertiesCard
+              {...{ vidrio, F_w, tiposombra, tau_e_B, rho_e_B }}
+            />
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
@@ -147,17 +149,17 @@ class SombrasForm extends Component {
     ).rho_e_B;
     return (
       <React.Fragment>
-        <FormGroup controlId="formControlsShadingTransparency">
-          <Col componentClass={ControlLabel} md={6}>
+        <Form.Group controlId="formControlsShadingTransparency">
+          <Col as={Form.Label} md={6}>
             Opacidad del dispositivo de sombra móvil:
           </Col>{" "}
           <Col md={4}>
-            <FormControl
+            <Form.Control
               value={opacidad}
               onChange={e =>
                 this.setState({ opacidad: e.target.value }, this.onUpdate)
               }
-              componentClass="select"
+              as="select"
               placeholder="select"
             >
               {this.OPACIDAD.map(v => (
@@ -168,31 +170,31 @@ class SombrasForm extends Component {
                   {v.opacidad}
                 </option>
               ))}
-            </FormControl>
+            </Form.Control>
           </Col>
-          <Col componentClass={ControlLabel} md={1}>
+          <Col as={Form.Label} md={1}>
             &tau;<sub>e,B</sub>:
           </Col>
           <Col md={1}>
-            <FormControl
+            <Form.Control
               readOnly
               type="text"
               value={tau_e_B.toFixed(2)}
               md={1}
             />
           </Col>
-        </FormGroup>
-        <FormGroup controlId="formControlsShadingColor">
-          <Col componentClass={ControlLabel} md={6}>
+        </Form.Group>
+        <Form.Group controlId="formControlsShadingColor">
+          <Col as={Form.Label} md={6}>
             Color del dispositivo de sombra móvil:
           </Col>{" "}
           <Col md={4}>
-            <FormControl
+            <Form.Control
               value={color}
               onChange={e =>
                 this.setState({ color: e.target.value }, this.onUpdate)
               }
-              componentClass="select"
+              as="select"
               placeholder="select"
             >
               {this.REFLEXION.filter(v => v.opacidad === opacidad).map(v => (
@@ -200,26 +202,26 @@ class SombrasForm extends Component {
                   {v.color}
                 </option>
               ))}
-            </FormControl>
+            </Form.Control>
           </Col>
-          <Col componentClass={ControlLabel} md={1}>
+          <Col as={Form.Label} md={1}>
             &rho;<sub>e,B</sub>:
           </Col>
           <Col md={1}>
-            <FormControl
+            <Form.Control
               readOnly
               type="text"
               value={rho_e_B.toFixed(2)}
               md={1}
             />
           </Col>
-        </FormGroup>
+        </Form.Group>
       </React.Fragment>
     );
   }
 }
 
-class GlazingPropertiesPanel extends Component {
+class GlazingPropertiesCard extends Component {
   render() {
     const { vidrio, F_w, tiposombra, tau_e_B, rho_e_B } = this.props;
     const g_gl_wi = F_w * vidrio.g_gl_n;
@@ -234,68 +236,69 @@ class GlazingPropertiesPanel extends Component {
       g_gl_sh_wi = g_gl_wi;
     }
     return (
-      <Panel>
-        <Panel.Heading>
+      <Card>
+        <Card.Header>
           Propiedades del acristalamiento ({vidrio.name.toLowerCase()},{" "}
           {tiposombra === "Ninguno"
             ? "sin sombreamiento"
-            : `sombreamiento ${tiposombra.toLowerCase()}`})
-        </Panel.Heading>
-        <Panel.Body>
-          <p>
-            Transmitancia térmica del vidrio,{" "}
-            <b>
-              U<sub>gl</sub>
-            </b>{" "}
-            = {vidrio.U_gl.toFixed(2)}
-          </p>
-          <p>
-            Factor de transmitancia de energía solar del vidrio a incidencia
-            normal,{" "}
-            <b>
-              g<sub>gl;n</sub>
-            </b>{" "}
-            = {vidrio.g_gl_n.toFixed(2)}
-          </p>
-          <p>
-            Factor de dispersión del vidrio,{" "}
-            <b>
-              F<sub>w</sub>
-            </b>{" "}
-            = {F_w.toFixed(2)}
-          </p>
-          <p>
-            Factor de transmitancia de energía solar del vidrio, <b>sin</b> las
-            sombras solares móviles en uso normal,{" "}
-            <b>
-              g<sub>gl;wi</sub>
-            </b>{" "}
-            = F<sub>w</sub> · g<sub>gl;n</sub> = {g_gl_wi.toFixed(2)}
-          </p>
-          <p>
-            Factor de transmitancia de energía solar del vidrio, <b>con</b> las
-            sombras solares móviles en uso normal,{" "}
-            <b>
-              g<sub>gl;sh;wi</sub>
-            </b>{" "}
-            = {g_gl_sh_wi.toFixed(2)}
-          </p>
-          {tiposombra === "Ninguno" ? null : (
+            : `sombreamiento ${tiposombra.toLowerCase()}`}
+          )
+        </Card.Header>
+        <Card.Body>
+          <Card.Text>
             <p>
-              Factor de transmitancia solar del dispositivo de sombra móvil,
-              &tau;<sub>e,B</sub>: {tau_e_B.toFixed(2)}
+              Transmitancia térmica del vidrio,{" "}
+              <b>
+                U<sub>gl</sub>
+              </b>{" "}
+              = {vidrio.U_gl.toFixed(2)}
             </p>
-          )}
-          {tiposombra === "Ninguno" ? null : (
             <p>
-              Factor de reflexión solar del dispositivo de sombra móvil, &rho;<sub
-              >
-                e,B
-              </sub>: {rho_e_B.toFixed(2)}
+              Factor de transmitancia de energía solar del vidrio a incidencia
+              normal,{" "}
+              <b>
+                g<sub>gl;n</sub>
+              </b>{" "}
+              = {vidrio.g_gl_n.toFixed(2)}
             </p>
-          )}
-        </Panel.Body>
-      </Panel>
+            <p>
+              Factor de dispersión del vidrio,{" "}
+              <b>
+                F<sub>w</sub>
+              </b>{" "}
+              = {F_w.toFixed(2)}
+            </p>
+            <p>
+              Factor de transmitancia de energía solar del vidrio, <b>sin</b>{" "}
+              las sombras solares móviles en uso normal,{" "}
+              <b>
+                g<sub>gl;wi</sub>
+              </b>{" "}
+              = F<sub>w</sub> · g<sub>gl;n</sub> = {g_gl_wi.toFixed(2)}
+            </p>
+            <p>
+              Factor de transmitancia de energía solar del vidrio, <b>con</b>{" "}
+              las sombras solares móviles en uso normal,{" "}
+              <b>
+                g<sub>gl;sh;wi</sub>
+              </b>{" "}
+              = {g_gl_sh_wi.toFixed(2)}
+            </p>
+            {tiposombra === "Ninguno" ? null : (
+              <p>
+                Factor de transmitancia solar del dispositivo de sombra móvil,
+                &tau;<sub>e,B</sub>: {tau_e_B.toFixed(2)}
+              </p>
+            )}
+            {tiposombra === "Ninguno" ? null : (
+              <p>
+                Factor de reflexión solar del dispositivo de sombra móvil, &rho;
+                <sub>e,B</sub>: {rho_e_B.toFixed(2)}
+              </p>
+            )}
+          </Card.Text>
+        </Card.Body>
+      </Card>
     );
   }
 }
@@ -303,18 +306,20 @@ class GlazingPropertiesPanel extends Component {
 export default class ElementsPage extends Component {
   render() {
     return (
-      <Grid>
+      <Container>
         <NavBar route={this.props.route} />
         <Row>
-          <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-            <Tab eventKey={1} title="Huecos">
-              <HuecosParams />
-            </Tab>
-          </Tabs>
+          <Col>
+            <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
+              <Tab eventKey={1} title="Huecos">
+                <HuecosParams />
+              </Tab>
+            </Tabs>
+          </Col>
         </Row>
         {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
         <Footer />
-      </Grid>
+      </Container>
     );
   }
 }

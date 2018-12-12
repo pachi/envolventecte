@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { Component } from "react";
-import { Alert, Col, Grid, Row, Image } from "react-bootstrap";
+import { Alert, Col, Container, Row, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import Footer from "./Footer";
@@ -33,7 +33,7 @@ import imglogo from "./logo.svg";
 export default class HelpPage extends Component {
   render() {
     return (
-      <Grid>
+      <Container>
         <NavBar route={this.props.route} />
         <Row>
           <Col md={3}>
@@ -82,13 +82,13 @@ export default class HelpPage extends Component {
           </Col>
         </Row>
         <Row>
-          <Alert bsStyle="warning">
+          <Alert variant="warning">
             <b>NOTA:</b> Esta aplicación y la información contenida en ella no
             tiene valor reglamentario.
           </Alert>
         </Row>
         <Footer />
-      </Grid>
+      </Container>
     );
   }
 }

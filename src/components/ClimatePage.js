@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React from "react";
-import { Grid, Row, Tabs, Tab } from "react-bootstrap";
+import { Col, Container, Row, Tabs, Tab } from "react-bootstrap";
 
 import { observer, inject } from "mobx-react";
 // import mobx from 'mobx';
@@ -40,27 +40,29 @@ const ClimatePage = inject("radstate")(
   observer(({ radstate, route }) => {
     const { climatedata } = radstate;
     return (
-      <Grid>
+      <Container>
         <NavBar route={route} />
         <OrientacionesSprite />
         <FshwithSprite />
         <Row>
-          <Tabs defaultActiveKey={1} id="tabla-de-valores-radiacion">
-            <Tab eventKey={1} title="Radiación acumulada (H_sol;m)">
-              <JulyRadiationTable data={climatedata} />
-              <MonthlyRadiationTable data={climatedata} />
-            </Tab>
-            <Tab
-              eventKey={2}
-              title="Factores de reducción por sombras móviles (f_sh;with)"
-            >
-              <ShadingFactorsTable data={climatedata} />
-            </Tab>
-          </Tabs>
+          <Col>
+            <Tabs defaultActiveKey={1} id="tabla-de-valores-radiacion">
+              <Tab eventKey={1} title="Radiación acumulada (H_sol;m)">
+                <JulyRadiationTable data={climatedata} />
+                <MonthlyRadiationTable data={climatedata} />
+              </Tab>
+              <Tab
+                eventKey={2}
+                title="Factores de reducción por sombras móviles (f_sh;with)"
+              >
+                <ShadingFactorsTable data={climatedata} />
+              </Tab>
+            </Tabs>
+          </Col>
         </Row>
         {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
         <Footer />
-      </Grid>
+      </Container>
     );
   })
 );

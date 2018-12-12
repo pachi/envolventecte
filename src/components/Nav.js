@@ -24,94 +24,63 @@ SOFTWARE.
 import React from "react";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { Grid, Nav, NavItem, Navbar } from "react-bootstrap";
+import { Container, Nav, Navbar } from "react-bootstrap";
 
 import ClimateSelector from "./ClimateSelector";
 import imglogo from "./logo.svg";
+import iconhelp from "./img/outline-live_help-24px.svg";
+import iconinfo from "./img/outline-info-24px.svg";
 
 export default class NavBar extends React.Component {
   static defaultProps = { projectName: "Envolvente CTE" };
 
   render() {
     return (
-      <Navbar inverse fixedTop>
-        <Grid>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <Link className="navbar-brand" to="/">
-                <img
-                  src={imglogo}
-                  height="125%"
-                  style={{ display: "inline" }}
-                  alt="logo"
-                />{" "}
-                {this.props.projectName}
-              </Link>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
-          <Navbar.Collapse>
+      <Navbar bg="dark" variant="dark" fixed="top">
+        <Container>
+          <Navbar.Brand>
+            <Link className="navbar-brand" to="/">
+              <img
+                src={imglogo}
+                height="24px"
+                style={{ display: "inline" }}
+                alt="logo"
+              />{" "}
+              {this.props.projectName}
+            </Link>
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
             <Nav>
-              <LinkContainer to="/envelope">
-                <NavItem
-                  eventKey={1}
-                  role="presentation"
-                >
-                  Envolvente
-                </NavItem>
+              <LinkContainer to="/envelope" eventKey={1}>
+                <Nav.Link>Envolvente</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/climate" eventKey={2}>
+                  <Nav.Link>Clima</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/elements" eventKey={3}>
+                  <Nav.Link>Elementos</Nav.Link>
               </LinkContainer>
             </Nav>
-            <Nav>
-              <LinkContainer to="/climate">
-                <NavItem
-                  eventKey={2}
-                  role="presentation"
-                >
-                  Clima
-                </NavItem>
-              </LinkContainer>
-            </Nav>
-            <Nav>
-              <LinkContainer to="/elements">
-                <NavItem
-                  eventKey={3}
-                  role="presentation"
-                >
-                  Elementos
-                </NavItem>
-              </LinkContainer>
-            </Nav>
-            <Nav pullRight>
-              <LinkContainer to="/help">
-                <NavItem
-                  eventKey={4}
-                  role="presentation"
-                >
-                  <span
-                    className="glyphicon glyphicon-question-sign"
-                    aria-hidden="true"
-                  />{" "}
+            <Nav className="ml-auto pr-3">
+              <LinkContainer to="/help" eventKey={4}>
+              <Nav.Link>
+                  <img src={iconhelp} alt="Ayuda" />{" "}
                   Ayuda
-                </NavItem>
+              </Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/about">
-                <NavItem
-                  eventKey={5}
-                  role="presentation"
-                >
-                  <span
-                    className="glyphicon glyphicon-user"
-                    aria-hidden="true"
-                  />{" "}
+              <LinkContainer to="/about" eventKey={5}>
+              <Nav.Link>
+                <Nav.Item>
+                <img src={iconinfo} alt="Créditos" />{" "}
                   Créditos
-                </NavItem>
+                </Nav.Item>
+              </Nav.Link>
               </LinkContainer>
             </Nav>
-            <Navbar.Form pullRight>
-              <ClimateSelector />
-            </Navbar.Form>
+            <ClimateSelector className="mr-auto" />
           </Navbar.Collapse>
-        </Grid>
+        </Container>
       </Navbar>
     );
   }

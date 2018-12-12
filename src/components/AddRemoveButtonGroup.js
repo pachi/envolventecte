@@ -22,26 +22,29 @@ SOFTWARE.
 */
 
 import React from "react";
-import { Button, ButtonGroup, Glyphicon } from "react-bootstrap";
+import { Button, ButtonGroup } from "react-bootstrap";
+import iconplus from "./img/baseline-add-24px.svg";
+import iconless from "./img/baseline-remove-24px.svg";
+import iconduplicate from "./img/outline-file_copy-24px.svg";
 
 import { uuidv4 } from "../utils.js";
 
 const AddRemoveButtonGroup = ({ objects, newObj, selectedId }) => (
-  <ButtonGroup className="pull-right">
+  <ButtonGroup>
     <Button
-      bsStyle="primary"
-      bsSize="xs"
+      variant="primary"
+      size="sm"
       title="Añadir una fila al final de la tabla"
       onClick={() => {
         objects.push(newObj());
       }}
     >
-      <Glyphicon glyph="plus" />
+      <img src={iconplus} alt="Añadir fila" />
     </Button>
     <Button
-      bsStyle="primary"
-      bsSize="xs"
-      title="Duplicar fila seleccionada de a la tabla"
+      variant="primary"
+      size="sm"
+      title="Duplicar fila seleccionada de la tabla"
       onClick={() => {
         // Duplicamos el seleccionado o el primer objeto si hay objetos
         if (objects.length > 0) {
@@ -55,18 +58,18 @@ const AddRemoveButtonGroup = ({ objects, newObj, selectedId }) => (
         }
       }}
     >
-      <Glyphicon glyph="duplicate" />
+      <img src={iconduplicate} alt="Duplicar fila" />
     </Button>
     <Button
-      bsStyle="primary"
-      bsSize="xs"
+      variant="primary"
+      size="sm"
       title="Eliminar fila seleccionada de la tabla"
       onClick={() => {
         // https://mobx.js.org/refguide/array.html
         objects.replace(objects.filter(h => !selectedId.includes(h.id)));
       }}
     >
-      <Glyphicon glyph="minus" />
+      <img src={iconless} alt="Eliminar fila" />
     </Button>
   </ButtonGroup>
 );

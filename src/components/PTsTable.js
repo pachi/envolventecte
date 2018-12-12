@@ -22,11 +22,13 @@ SOFTWARE.
 */
 
 import React, { Component } from "react";
-import { Button, ButtonGroup, Col, Glyphicon, Grid, Row } from "react-bootstrap";
+import { Button, ButtonGroup, Col, Container, Row } from "react-bootstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 import { uuidv4 } from "../utils.js";
+
+import icongroup from "./img/outline-add_comment-24px.svg";
 
 export default class PTsTable extends Component {
   constructor(props, context) {
@@ -43,78 +45,84 @@ export default class PTsTable extends Component {
   render() {
     const { pts, ptsL, ptsPsiL } = this.props;
     return (
-      <Grid>
-        <h2>
-          Puentes térmicos de la envolvente térmica
-          <AddRemoveButtonGroup
-            objects={pts}
-            newObj={this.newPT}
-            selectedId={this.state.selectedId}
-          />
-        </h2>
-        <BootstrapTable
-          data={pts}
-          striped
-          hover
-          bordered={false}
-          cellEdit={{ mode: "dbclick", blurToSave: true }}
-          selectRow={{
-            mode: "radio",
-            clickToSelectAndEditCell: true,
-            selected: this.state.selectedId,
-            onSelect: (row, isSelected) =>
-              this.setState({ selectedId: isSelected ? [row.id] : [] }),
-            hideSelectColumn: true,
-            bgColor: "lightgray"
-          }}
-        >
-          <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-            ID
-          </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="L"
-            dataFormat={this.Float2DigitsFormatter}
-            headerText="Longitud del puente térmico (m)"
-          >
-            Longitud (m)
-          </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="psi"
-            dataFormat={this.Float2DigitsFormatter}
-            headerText="Transmitancia térmica lineal del puente térmico (W/mK)"
-          >
-            &psi; (W/mK)
-          </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="nombre"
-            headerText="Descripción identificativa del puente térmico"
-            width="40%"
-          >
-            Descripción
-          </TableHeaderColumn>
-        </BootstrapTable>
+      <Container>
         <Row>
-          <Col md={6}>&sum;L = {ptsL.toFixed(2)} m</Col>
-          <Col md={6} className="text-right">
-            &sum;L·&psi; = {ptsPsiL.toFixed(2)} W/K
+          <Col>
+            <h4>Puentes térmicos de la envolvente térmica</h4>
+          </Col>
+          <Col md="auto">
+            <AddRemoveButtonGroup
+              objects={pts}
+              newObj={this.newPT}
+              selectedId={this.state.selectedId}
+            />
           </Col>
         </Row>
-        <Row className="top20">
-          <Col md={12}>
-            <ButtonGroup className="pull-right">
+        <Row>
+          <Col>
+            <BootstrapTable
+              data={pts}
+              striped
+              hover
+              bordered={false}
+              cellEdit={{ mode: "dbclick", blurToSave: true }}
+              selectRow={{
+                mode: "radio",
+                clickToSelectAndEditCell: true,
+                selected: this.state.selectedId,
+                onSelect: (row, isSelected) =>
+                  this.setState({ selectedId: isSelected ? [row.id] : [] }),
+                hideSelectColumn: true,
+                bgColor: "lightgray"
+              }}
+            >
+              <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
+                ID
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="L"
+                dataFormat={this.Float2DigitsFormatter}
+                headerText="Longitud del puente térmico (m)"
+              >
+                Longitud (m)
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="psi"
+                dataFormat={this.Float2DigitsFormatter}
+                headerText="Transmitancia térmica lineal del puente térmico (W/mK)"
+              >
+                &psi; (W/mK)
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="nombre"
+                headerText="Descripción identificativa del puente térmico"
+                width="40%"
+              >
+                Descripción
+              </TableHeaderColumn>
+            </BootstrapTable>
+          </Col>
+        </Row>
+        <Row>
+          <Col>&sum;L = {ptsL.toFixed(2)} m</Col>
+          <Col md="auto">&sum;L·&psi; = {ptsPsiL.toFixed(2)} W/K</Col>
+        </Row>
+        <Row className="top20 justify-content-end">
+          <Col md="auto">
+            <ButtonGroup>
               <Button
-                bsStyle="default"
-                bsSize="xs"
+                variant="default"
+                size="sm"
                 title="Agrupa puentes térmicos, sumando longitudes de igual transmitancia térmica lineal."
                 onClick={() => pts.replace(this.agrupaPts(pts))}
               >
-                <Glyphicon glyph="compressed" /> Agrupar PTs
+                <img src={icongroup} alt="Agrupar PTs" /> Agrupar PTs
               </Button>
             </ButtonGroup>
           </Col>
         </Row>
         <Row className="text-info small top20">
-          <Col md={12}>
+          <Col>
             <p>Donde:</p>
             <ul>
               <li>
@@ -130,12 +138,13 @@ export default class PTsTable extends Component {
               considera, a efectos del cálculo de K, un factor de ajuste{" "}
               <i>
                 b<sub>tr,x</sub> = 1.0
-              </i>, de modo que solo deben incluirse aquellos pertenecientes a
+              </i>
+              , de modo que solo deben incluirse aquellos pertenecientes a
               elementos con un factor de ajuste no nulo.
             </p>
           </Col>
         </Row>
-      </Grid>
+      </Container>
     );
   }
   // Agrupa longitudes de puentes térmicos por tipos

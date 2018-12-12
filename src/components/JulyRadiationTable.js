@@ -22,58 +22,66 @@ SOFTWARE.
 */
 
 import React from "react";
-import { Grid, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 
 import { OrientaIcon } from "./IconsOrientaciones";
 
 // Tabla de irradiación acumulada mensual en el mes de julio
 const JulyRadiationTable = ({ data }) => (
-  <Grid>
+  <Container>
     <Row>
-      <h2>
-        Irradiación solar (acumulada) en el mes de julio{" "}
-        <i>
-          H<sub>sol;jul</sub>
-        </i>{" "}
-        (kWh/m²/mes)
-      </h2>
+      <Col>
+        <h4>
+          Irradiación solar (acumulada) en el mes de julio{" "}
+          <i>
+            H<sub>sol;jul</sub>
+          </i>{" "}
+          (kWh/m²/mes)
+        </h4>
+      </Col>
     </Row>
     <Row>
-      <table
-        id="julyradiationtable"
-        className="table table-striped table-bordered table-condensed"
-      >
-        <thead>
-          <tr>
-            <th className="col-md-1">kWh/m²/mes</th>
-            {data.map((d, i) => (
-              <th key={"hr" + i}>
-                {d.surfname} <OrientaIcon dir={d.surfname} />
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <b className="pull-left">{data[0].zc}</b>
-            </td>
-            {data.map((d, i) => (
-              <td key={"tot_" + i}>{d.tot[6].toFixed(2)}</td>
-            ))}
-          </tr>
-        </tbody>
-      </table>
+      <Col>
+        <table
+          id="julyradiationtable"
+          className="table table-striped table-bordered table-condensed"
+        >
+          <thead>
+            <tr>
+              <th className="col-md-1">kWh/m²/mes</th>
+              {data.map((d, i) => (
+                <th key={"hr" + i}>
+                  {d.surfname} <OrientaIcon dir={d.surfname} />
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <b className="pull-left">{data[0].zc}</b>
+              </td>
+              {data.map((d, i) => (
+                <td key={"tot_" + i}>{d.tot[6].toFixed(2)}</td>
+              ))}
+            </tr>
+          </tbody>
+        </table>
+      </Col>
     </Row>
     <Row>
-      <p className="text-info">
-        Los valores de por la tabla anterior se utilizan en el cálculo del
-        parámetro de control solar (<b>
-          q<sub>sol;jul</sub>
-        </b>).
-      </p>
+      <Col>
+        <p className="text-info">
+          Los valores de por la tabla anterior se utilizan en el cálculo del
+          parámetro de control solar (
+          <b>
+            q<sub>sol;jul</sub>
+          </b>
+          ).
+        </p>
+      </Col>
     </Row>
-  </Grid>
+  </Container>
 );
 
 export default JulyRadiationTable;
