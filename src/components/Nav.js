@@ -24,7 +24,7 @@ SOFTWARE.
 import React from "react";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { Container, Nav, Navbar } from "react-bootstrap";
+import { Nav, Navbar } from "react-bootstrap";
 
 import ClimateSelector from "./ClimateSelector";
 import imglogo from "./logo.svg";
@@ -37,50 +37,41 @@ export default class NavBar extends React.Component {
   render() {
     return (
       <Navbar bg="dark" variant="dark" fixed="top">
-        <Container>
-          <Navbar.Brand>
-            <Link className="navbar-brand" to="/">
-              <img
-                src={imglogo}
-                height="24px"
-                style={{ display: "inline" }}
-                alt="logo"
-              />{" "}
-              {this.props.projectName}
-            </Link>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav>
-              <LinkContainer to="/envelope" eventKey={1}>
-                <Nav.Link>Envolvente</Nav.Link>
-              </LinkContainer>
-              <LinkContainer to="/climate" eventKey={2}>
-                  <Nav.Link>Clima</Nav.Link>
-              </LinkContainer>
-              <LinkContainer to="/elements" eventKey={3}>
-                  <Nav.Link>Elementos</Nav.Link>
-              </LinkContainer>
-            </Nav>
-            <Nav className="ml-auto pr-3">
-              <LinkContainer to="/help" eventKey={4}>
+        <Navbar.Brand>
+          <Link className="navbar-brand" to="/">
+            <img src={imglogo} height="40px" className="mr-2" alt="logo" />{" "}
+            {this.props.projectName}
+          </Link>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav>
+            <LinkContainer to="/envelope" eventKey={1}>
+              <Nav.Link>Envolvente</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/climate" eventKey={2}>
+              <Nav.Link>Clima</Nav.Link>
+            </LinkContainer>
+            <LinkContainer to="/elements" eventKey={3}>
+              <Nav.Link>Elementos</Nav.Link>
+            </LinkContainer>
+          </Nav>
+          <Nav className="ml-auto pr-3">
+            <LinkContainer to="/help" eventKey={4}>
               <Nav.Link>
-                  <img src={iconhelp} alt="Ayuda" />{" "}
-                  Ayuda
+                <img src={iconhelp} alt="Ayuda" /> Ayuda
               </Nav.Link>
-              </LinkContainer>
-              <LinkContainer to="/about" eventKey={5}>
+            </LinkContainer>
+            <LinkContainer to="/about" eventKey={5}>
               <Nav.Link>
                 <Nav.Item>
-                <img src={iconinfo} alt="Créditos" />{" "}
-                  Créditos
+                  <img src={iconinfo} alt="Créditos" /> Créditos
                 </Nav.Item>
               </Nav.Link>
-              </LinkContainer>
-            </Nav>
-            <ClimateSelector className="mr-auto" />
-          </Navbar.Collapse>
-        </Container>
+            </LinkContainer>
+          </Nav>
+          <ClimateSelector className="mr-auto" />
+        </Navbar.Collapse>
       </Navbar>
     );
   }
