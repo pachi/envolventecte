@@ -23,8 +23,6 @@ SOFTWARE.
 
 import React, { Component } from "react";
 import { Container, Row, Tabs, Tab } from "react-bootstrap";
-
-import { observer, inject } from "mobx-react";
 // import DevTools from 'mobx-react-devtools';
 
 import DownloadUpload from "./DownloadUpload";
@@ -37,16 +35,6 @@ import PTsTable from "./PTsTable";
 
 class EnvelopePage extends Component {
   render() {
-    const {
-      envolvente,
-      huecosA,
-      huecosAU,
-      opacosA,
-      opacosAU,
-      ptsL,
-      ptsPsiL
-    } = this.props.appstate;
-
     return (
       <Container>
         <NavBar route={this.props.route} />
@@ -56,19 +44,13 @@ class EnvelopePage extends Component {
         <Row>
           <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
             <Tab eventKey={1} title="Huecos">
-              <HuecosTable
-                huecos={envolvente.huecos}
-                {...{ huecosA, huecosAU }}
-              />
+              <HuecosTable />
             </Tab>
             <Tab eventKey={2} title="Opacos">
-              <OpacosTable
-                opacos={envolvente.opacos}
-                {...{ opacosA, opacosAU }}
-              />
+              <OpacosTable />
             </Tab>
             <Tab eventKey={3} title="Puentes Térmicos">
-              <PTsTable pts={envolvente.pts} {...{ ptsL, ptsPsiL }} />
+              <PTsTable />
             </Tab>
             <Tab eventKey={4} title="Carga / descarga de datos">
               <DownloadUpload />
@@ -82,6 +64,4 @@ class EnvelopePage extends Component {
   }
 }
 
-export default (EnvelopePage = inject("appstate", "radstate")(
-  observer(EnvelopePage)
-));
+export default EnvelopePage;
