@@ -69,7 +69,7 @@ export default class HuecosTable extends Component {
   render() {
     let { huecos, huecosA, huecosAU } = this.props;
     return (
-      <Container>
+      <Container className="mt-3">
         <Row>
           <Col>
             <h4>Huecos de la envolvente térmica</h4>

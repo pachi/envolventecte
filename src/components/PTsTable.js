@@ -45,7 +45,7 @@ export default class PTsTable extends Component {
   render() {
     const { pts, ptsL, ptsPsiL } = this.props;
     return (
-      <Container>
+      <Container className="mt-3">
         <Row>
           <Col>
             <h4>Puentes térmicos de la envolvente térmica</h4>

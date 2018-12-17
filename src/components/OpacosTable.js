@@ -57,7 +57,7 @@ export default class OpacosTable extends Component {
   render() {
     const { opacos, opacosA, opacosAU } = this.props;
     return (
-      <Container>
+      <Container className="mt-3">
         <Row>
           <Col>
             <h4>Elementos opacos de la envolvente térmica</h4>
