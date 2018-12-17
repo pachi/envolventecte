@@ -33,8 +33,8 @@ const ClimateSelector = inject("radstate")(
         return (
           <Form inline>
             <Form.Group controlId="formControlsClimateZone">
-              <Form.Label style={{ color: "white" }}>
-                Zona Climática:
+              <Form.Label style={{ color: "white" }} className="mr-2 ml-3">
+                Zona Climática
               </Form.Label>{" "}
               <Form.Control
                 value={radstate.clima || ""}
