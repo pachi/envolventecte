@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { Component } from "react";
-import { Button, Col, Container, Collapse, Row } from "react-bootstrap";
+import { Button, Col, Collapse, Container, Row } from "react-bootstrap";
 import { observer, inject } from "mobx-react";
 
 import iconplus from "./img/baseline-add-24px.svg";
@@ -55,7 +55,7 @@ const IndicatorsPanel = inject("appstate", "radstate")(
         const qsj_clima = qsj(climateTotRadJul);
 
         return (
-          <Container>
+          <React.Fragment>
             <Row>
               <Col md={1}>
                 <Button
@@ -97,7 +97,7 @@ const IndicatorsPanel = inject("appstate", "radstate")(
               </Col>
             </Row>
             <Collapse in={this.state.open}>
-              <Container>
+              <Container fluid>
                 <Row>
                   <Col>
                     <h3>Transmitancia térmica global</h3>
@@ -163,7 +163,7 @@ const IndicatorsPanel = inject("appstate", "radstate")(
                 </Row>
               </Container>
             </Collapse>
-          </Container>
+          </React.Fragment>
         );
       }
 

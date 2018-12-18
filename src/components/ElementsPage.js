@@ -49,7 +49,7 @@ class HuecosParams extends Component {
     const vidrio = this.ACRISTALAMIENTOS.tipos.find(v => v.name === tipovidrio);
     const F_w = this.ACRISTALAMIENTOS.propiedades.F_w;
     return (
-      <Container className="top20">
+      <Col>
         <Row className="well">
           <Col>
             <Form horizontal>
@@ -105,7 +105,7 @@ class HuecosParams extends Component {
                   }}
                 />
               )}
-            </Form>{" "}
+            </Form>
           </Col>
         </Row>
         <Row>
@@ -115,7 +115,7 @@ class HuecosParams extends Component {
             />
           </Col>
         </Row>
-      </Container>
+      </Col>
     );
   }
 }
@@ -306,12 +306,12 @@ class GlazingPropertiesCard extends Component {
 export default class ElementsPage extends Component {
   render() {
     return (
-      <Container>
+      <Container fluid>
         <NavBar route={this.props.route} />
         <Row>
           <Col>
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-              <Tab eventKey={1} title="Huecos">
+              <Tab eventKey={1} title="Huecos" className="pt-3">
                 <HuecosParams />
               </Tab>
             </Tabs>

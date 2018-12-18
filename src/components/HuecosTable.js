@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { Component } from "react";
-import { Button, ButtonGroup, Col, Container, Row } from "react-bootstrap";
+import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer, inject } from "mobx-react";
 
@@ -74,7 +74,7 @@ const HuecosTable = inject("appstate")(
         const huecos = envolvente.huecos;
 
         return (
-          <Container className="mt-3">
+          <Col>
             <Row>
               <Col>
                 <h4>Huecos de la envolvente térmica</h4>
@@ -169,7 +169,7 @@ const HuecosTable = inject("appstate")(
               <Col>&sum;A = {huecosA.toFixed(2)} m²</Col>
               <Col md="auto">&sum;A·U = {huecosAU.toFixed(2)} W/K</Col>
             </Row>
-            <Row className="top20 justify-content-end">
+            <Row className="mt-3 justify-content-end">
               <Col md="auto">
                 <ButtonGroup>
                   <Button
@@ -183,7 +183,7 @@ const HuecosTable = inject("appstate")(
                 </ButtonGroup>
               </Col>
             </Row>
-            <Row className="text-info small top20">
+            <Row className="text-info small mt-3">
               <Col>
                 <p>Donde:</p>
                 <ul>
@@ -274,7 +274,7 @@ const HuecosTable = inject("appstate")(
                 </p>
               </Col>
             </Row>
-          </Container>
+          </Col>
         );
       }
 

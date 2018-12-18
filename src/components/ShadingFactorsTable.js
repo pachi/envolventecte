@@ -28,7 +28,6 @@ import {
   Form,
   FormControl,
   FormGroup,
-  Container,
   Row
 } from "react-bootstrap";
 
@@ -52,7 +51,7 @@ export default class ShadingFactorsTable extends Component {
   render() {
     const { data } = this.props;
     return (
-      <Container>
+      <Col>
         <Row>
           <Col>
             <h4>
@@ -206,7 +205,7 @@ export default class ShadingFactorsTable extends Component {
             </div>
           </Col>
         </Row>
-      </Container>
+      </Col>
     );
   }
 }

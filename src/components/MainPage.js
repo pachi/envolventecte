@@ -33,7 +33,7 @@ import imglogo from "./img/logo.svg";
 export default class HelpPage extends Component {
   render() {
     return (
-      <Container>
+      <Container fluid>
         <NavBar route={this.props.route} />
         <Row>
           <Col md={3}>

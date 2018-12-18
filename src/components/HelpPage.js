@@ -42,14 +42,11 @@ import orientaciones from "./img/orientaciones.svg";
 export default class HelpPage extends Component {
   render() {
     return (
-      <Container>
+      <Container fluid>
         <NavBar route={this.props.route} />
         <Row>
           <Col>
-            <h1>
-              Indicadores y parámetros de la envolvente térmica para la
-              aplicación del CTE DB-HE
-            </h1>
+            <h1>EnvolventeCTE</h1>
             <p>
               <i>EnvolventeCTE</i> es una aplicación web de ayuda al cálculo de
               indicadores y parámetros de eficiencia energética de la envolvente
@@ -77,14 +74,14 @@ export default class HelpPage extends Component {
             </ul>
             <Alert variant="warning">
               <b>NOTA:</b> Esta aplicación y la información contenida en ella no
-              tiene valor reglamentario.
+              tienen valor reglamentario.
             </Alert>
           </Col>
         </Row>
         <Row>
           <Col>
             <Tabs>
-              <Tab eventKey={1} title="Envolvente térmica">
+              <Tab eventKey={1} title="Envolvente térmica" className="pt-3">
                 <Row>
                   <Col>
                     <h4>
@@ -179,7 +176,7 @@ export default class HelpPage extends Component {
                   </Col>
                 </Row>
               </Tab>
-              <Tab eventKey={2} title="Clima">
+              <Tab eventKey={2} title="Clima" className="pt-3">
                 <Row>
                   <Col>
                     <h4>Parámetros climáticos</h4>
@@ -255,7 +252,7 @@ export default class HelpPage extends Component {
                   </Col>
                 </Row>
               </Tab>
-              <Tab eventKey={3} title="Elementos">
+              <Tab eventKey={3} title="Elementos" className="pt-3">
                 <Row>
                   <Col>
                     <h4>Elementos de la envolvente térmica</h4>

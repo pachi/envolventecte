@@ -22,13 +22,13 @@ SOFTWARE.
 */
 
 import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 
 import { OrientaIcon } from "./IconsOrientaciones";
 
 // Tabla de irradiación acumulada mensual en el mes de julio
 const JulyRadiationTable = ({ data }) => (
-  <Container>
+  <Col>
     <Row>
       <Col>
         <h4>
@@ -81,7 +81,7 @@ const JulyRadiationTable = ({ data }) => (
         </p>
       </Col>
     </Row>
-  </Container>
+  </Col>
 );
 
 export default JulyRadiationTable;

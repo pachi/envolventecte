@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { Component } from "react";
-import { Alert, Button, Col, Container, Row } from "react-bootstrap";
+import { Alert, Button, Col, Row } from "react-bootstrap";
 import { observer, inject } from "mobx-react";
 // import DevTools from 'mobx-react-devtools';
 
@@ -39,7 +39,7 @@ class DownloadUpload extends Component {
     ));
 
     return (
-      <Container className="top20">
+      <Col>
         <Row>
           <Col>
             <p>
@@ -53,7 +53,7 @@ class DownloadUpload extends Component {
             />
           </Col>
         </Row>
-        <Row className="top20">
+        <Row className="mt-3">
           <Col>
             <Alert variant="info">
               <p>
@@ -102,7 +102,7 @@ class DownloadUpload extends Component {
         <Row>
           <Col>{errordisplay}</Col>
         </Row>
-      </Container>
+      </Col>
     );
   }
 

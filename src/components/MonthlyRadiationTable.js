@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { Component } from "react";
-import { Col, Form, Container, Row } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 
 import { OrientaIcon } from "./IconsOrientaciones";
 
@@ -38,7 +38,7 @@ export default class MonthlyRadiationTable extends Component {
     const { data } = this.props;
     const showDetail = this.state.showDetail;
     return (
-      <Container>
+      <Col>
         <Row>
           <Col>
             <h4>Irradiación solar (acumulada) mensual (kWh/m²/mes)</h4>
@@ -126,7 +126,7 @@ export default class MonthlyRadiationTable extends Component {
             </p>
           </Col>
         </Row>
-      </Container>
+      </Col>
     );
   }
 }

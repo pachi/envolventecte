@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { Component } from "react";
-import { Container, Row, Tabs, Tab } from "react-bootstrap";
+import { Col, Container, Row, Tabs, Tab } from "react-bootstrap";
 // import DevTools from 'mobx-react-devtools';
 
 import DownloadUpload from "./DownloadUpload";
@@ -36,26 +36,34 @@ import PTsTable from "./PTsTable";
 class EnvelopePage extends Component {
   render() {
     return (
-      <Container>
+      <Container fluid>
         <NavBar route={this.props.route} />
         <Row>
+          <Col>
           <IndicatorsPanel />
+          </Col>
         </Row>
         <Row>
+          <Col>
           <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-            <Tab eventKey={1} title="Huecos">
+            <Tab eventKey={1} title="Huecos" className="pt-3">
               <HuecosTable />
             </Tab>
-            <Tab eventKey={2} title="Opacos">
+            <Tab eventKey={2} title="Opacos" className="pt-3">
               <OpacosTable />
             </Tab>
-            <Tab eventKey={3} title="Puentes Térmicos">
+            <Tab eventKey={3} title="Puentes Térmicos" className="pt-3">
               <PTsTable />
             </Tab>
-            <Tab eventKey={4} title="Carga / descarga de datos">
+            <Tab
+              eventKey={4}
+              title="Carga / descarga de datos"
+              className="pt-3"
+            >
               <DownloadUpload />
             </Tab>
           </Tabs>
+          </Col>
         </Row>
         {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
         <Footer />

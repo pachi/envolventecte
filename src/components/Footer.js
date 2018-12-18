@@ -22,10 +22,9 @@ SOFTWARE.
 */
 
 import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 
 const Footer = () => (
-  <Container>
     <Row>
       <Col>
         <footer
@@ -39,7 +38,6 @@ const Footer = () => (
         </footer>
       </Col>
     </Row>
-  </Container>
 );
 
 export default Footer;

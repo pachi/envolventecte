@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { Component } from "react";
-import { Button, ButtonGroup, Col, Container, Row } from "react-bootstrap";
+import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer, inject } from "mobx-react";
 
@@ -62,7 +62,7 @@ const OpacosTable = inject("appstate")(
         const opacos = envolvente.opacos;
 
         return (
-          <Container className="mt-3">
+          <Col>
             <Row>
               <Col>
                 <h4>Elementos opacos de la envolvente térmica</h4>
@@ -138,7 +138,7 @@ const OpacosTable = inject("appstate")(
                 <sub>i</sub> = {opacosAU.toFixed(2)} W/K
               </Col>
             </Row>
-            <Row className="top20 justify-content-end">
+            <Row className="mt-3 justify-content-end">
               <Col md="auto">
                 <ButtonGroup>
                   <Button
@@ -152,7 +152,7 @@ const OpacosTable = inject("appstate")(
                 </ButtonGroup>
               </Col>
             </Row>
-            <Row className="text-info small top20">
+            <Row className="text-info small mt-3">
               <Col>
                 <p>Donde:</p>
                 <ul>
@@ -189,7 +189,7 @@ const OpacosTable = inject("appstate")(
                 </p>
               </Col>
             </Row>
-          </Container>
+          </Col>
         );
       }
 

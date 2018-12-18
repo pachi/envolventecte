@@ -33,7 +33,7 @@ import FotoMarta from "./img/FotoMarta.jpg";
 export default class AboutPage extends Component {
   render() {
     return (
-      <Container>
+      <Container fluid>
         <NavBar route={this.props.route} />
         <Row>
           <Col>

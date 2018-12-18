@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { Component } from "react";
-import { Button, ButtonGroup, Col, Container, Row } from "react-bootstrap";
+import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer, inject } from "mobx-react";
 
@@ -55,7 +55,7 @@ const PTsTable = inject("appstate")(
         const pts = envolvente.pts;
 
         return (
-          <Container className="mt-3">
+          <Col>
             <Row>
               <Col>
                 <h4>Puentes térmicos de la envolvente térmica</h4>
@@ -117,7 +117,7 @@ const PTsTable = inject("appstate")(
               <Col>&sum;L = {ptsL.toFixed(2)} m</Col>
               <Col md="auto">&sum;L·&psi; = {ptsPsiL.toFixed(2)} W/K</Col>
             </Row>
-            <Row className="top20 justify-content-end">
+            <Row className="mt-3 justify-content-end">
               <Col md="auto">
                 <ButtonGroup>
                   <Button
@@ -131,7 +131,7 @@ const PTsTable = inject("appstate")(
                 </ButtonGroup>
               </Col>
             </Row>
-            <Row className="text-info small top20">
+            <Row className="text-info small mt-3">
               <Col>
                 <p>Donde:</p>
                 <ul>
@@ -154,7 +154,7 @@ const PTsTable = inject("appstate")(
                 </p>
               </Col>
             </Row>
-          </Container>
+          </Col>
         );
       }
       // Agrupa longitudes de puentes térmicos por tipos

@@ -6,14 +6,6 @@ body {
   font-family: sans-serif;
 }
 
-.top20 {
-  padding-top: 20px;
-}
-
-.top50 {
-  padding-top: 50px;
-}
-
 #shadingfactorstable th, #radiationtable th, #julyradiationtable th { text-align: center; background: lightsteelblue }
 #shadingfactorstable tbody, #radiationtable tbody, #julyradiationtable tbody { text-align: right }
 #shadingfactorstable, #radiationtable, #julyradiationtable { background: rgb(199, 215, 236) }

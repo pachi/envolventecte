@@ -40,20 +40,25 @@ const ClimatePage = inject("radstate")(
   observer(({ radstate, route }) => {
     const { climatedata } = radstate;
     return (
-      <Container>
+      <Container fluid>
         <NavBar route={route} />
         <OrientacionesSprite />
         <FshwithSprite />
         <Row>
           <Col>
             <Tabs defaultActiveKey={1} id="tabla-de-valores-radiacion">
-              <Tab eventKey={1} title="Radiación acumulada (H_sol;m)">
+              <Tab
+                eventKey={1}
+                title="Radiación acumulada (H_sol;m)"
+                className="pt-3"
+              >
                 <JulyRadiationTable data={climatedata} />
                 <MonthlyRadiationTable data={climatedata} />
               </Tab>
               <Tab
                 eventKey={2}
                 title="Factores de reducción por sombras móviles (f_sh;with)"
+                className="pt-3"
               >
                 <ShadingFactorsTable data={climatedata} />
               </Tab>
