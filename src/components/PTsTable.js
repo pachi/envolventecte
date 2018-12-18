@@ -27,8 +27,6 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer, inject } from "mobx-react";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
-import { uuidv4 } from "../utils.js";
-
 import icongroup from "./img/outline-add_comment-24px.svg";
 
 const PTsTable = inject("appstate")(
@@ -38,13 +36,6 @@ const PTsTable = inject("appstate")(
         super(props, context);
         this.state = { selectedId: [] };
       }
-
-      newPT = () => ({
-        id: uuidv4(),
-        L: 1.0,
-        psi: 0.05,
-        nombre: "PT por defecto"
-      });
 
       Float2DigitsFormatter = (cell, _row) => (
         <span>{Number(cell).toFixed(2)}</span>
@@ -63,7 +54,7 @@ const PTsTable = inject("appstate")(
               <Col md="auto">
                 <AddRemoveButtonGroup
                   objects={pts}
-                  newObj={this.newPT}
+                  newObj={this.props.appstate.newPT}
                   selectedId={this.state.selectedId}
                 />
               </Col>
@@ -72,6 +63,7 @@ const PTsTable = inject("appstate")(
               <Col>
                 <BootstrapTable
                   data={pts}
+                  version="4"
                   striped
                   hover
                   bordered={false}
@@ -124,7 +116,7 @@ const PTsTable = inject("appstate")(
                     variant="default"
                     size="sm"
                     title="Agrupa puentes térmicos, sumando longitudes de igual transmitancia térmica lineal."
-                    onClick={() => pts.replace(this.agrupaPts(pts))}
+                    onClick={() => this.props.appstate.agrupaPts()}
                   >
                     <img src={icongroup} alt="Agrupar PTs" /> Agrupar PTs
                   </Button>
@@ -156,22 +148,6 @@ const PTsTable = inject("appstate")(
             </Row>
           </Col>
         );
-      }
-      // Agrupa longitudes de puentes térmicos por tipos
-      agrupaPts(pts) {
-        const isequal = (p1, p2) => Number(p1.psi) === Number(p2.psi);
-        const ptsagrupados = [];
-        for (let pt of pts) {
-          const p = ptsagrupados.find(e => isequal(pt, e));
-          if (p) {
-            p.A = p.L + pt.L;
-            p.id = uuidv4();
-            p.nombre = p.nombre + ", " + pt.nombre;
-          } else {
-            ptsagrupados.push(pt);
-          }
-        }
-        return ptsagrupados;
       }
     }
   )

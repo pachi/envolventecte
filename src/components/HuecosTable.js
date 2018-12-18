@@ -27,8 +27,6 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer, inject } from "mobx-react";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
-import { uuidv4 } from "../utils.js";
-
 import icongroup from "./img/outline-add_comment-24px.svg";
 
 const HuecosTable = inject("appstate")(
@@ -49,17 +47,6 @@ const HuecosTable = inject("appstate")(
           "NW"
         ];
       }
-
-      newHueco = () => ({
-        id: uuidv4(),
-        nombre: "Hueco nuevo",
-        orientacion: "N",
-        A: 1.0,
-        U: 1.0,
-        Ff: 0.2,
-        gglshwi: 0.67,
-        Fshobst: 1.0
-      });
 
       Float2DigitsFormatter = (cell, _row) => (
         <span>{Number(cell).toFixed(2)}</span>
@@ -82,7 +69,7 @@ const HuecosTable = inject("appstate")(
               <Col md="auto">
                 <AddRemoveButtonGroup
                   objects={huecos}
-                  newObj={this.newHueco}
+                  newObj={this.props.appstate.newHueco}
                   selectedId={this.state.selectedId}
                 />
               </Col>
@@ -91,6 +78,7 @@ const HuecosTable = inject("appstate")(
               <Col>
                 <BootstrapTable
                   data={huecos}
+                  version="4"
                   striped
                   hover
                   bordered={false}
@@ -176,7 +164,7 @@ const HuecosTable = inject("appstate")(
                     variant="default"
                     size="sm"
                     title="Agrupar huecos de igual orientación, fracción de marco, transmitancia y factor de transmisión solar con protecciones solares activadas. Suma las áreas y calcula el factor equivalente de sombras remotas."
-                    onClick={() => huecos.replace(this.agrupaHuecos(huecos))}
+                    onClick={() => this.props.appstate.agrupaHuecos()}
                   >
                     <img src={icongroup} alt="Agrupar huecos" /> Agrupar huecos
                   </Button>
@@ -276,30 +264,6 @@ const HuecosTable = inject("appstate")(
             </Row>
           </Col>
         );
-      }
-
-      // Agrupa superficie de huecos por tipos
-      agrupaHuecos(huecos) {
-        const isequal = (h1, h2) =>
-          h1.orientacion === h2.orientacion &&
-          Number(h1.Ff) === Number(h2.Ff) &&
-          Number(h1.U) === Number(h2.U) &&
-          Number(h1.gglshwi) === Number(h2.gglshwi);
-        const huecosagrupados = [];
-        for (let hueco of huecos) {
-          const h = huecosagrupados.find(e => isequal(hueco, e));
-          if (h) {
-            h.Fshobst =
-              (1.0 * (h.Fshobst * h.A + hueco.Fshobst * hueco.A)) /
-              (h.A + hueco.A);
-            h.A = 0.0 + h.A + hueco.A;
-            h.id = uuidv4();
-            h.nombre = h.nombre + ", " + hueco.nombre;
-          } else {
-            huecosagrupados.push(hueco);
-          }
-        }
-        return huecosagrupados;
       }
     }
   )

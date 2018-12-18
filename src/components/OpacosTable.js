@@ -27,8 +27,6 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer, inject } from "mobx-react";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
-import { uuidv4 } from "../utils.js";
-
 import icongroup from "./img/outline-add_comment-24px.svg";
 
 const OpacosTable = inject("appstate")(
@@ -38,14 +36,6 @@ const OpacosTable = inject("appstate")(
         super(props, context);
         this.state = { selectedId: [] };
       }
-
-      newOpaco = () => ({
-        id: uuidv4(),
-        A: 1.0,
-        U: 0.2,
-        btrx: 1.0,
-        nombre: "Elemento opaco"
-      });
 
       Float1DigitsFormatter = (cell, _row) => (
         <span>{Number(cell).toFixed(1)}</span>
@@ -70,7 +60,7 @@ const OpacosTable = inject("appstate")(
               <Col md="auto">
                 <AddRemoveButtonGroup
                   objects={opacos}
-                  newObj={this.newOpaco}
+                  newObj={this.props.appstate.newOpaco}
                   selectedId={this.state.selectedId}
                 />
               </Col>
@@ -79,6 +69,7 @@ const OpacosTable = inject("appstate")(
               <Col>
                 <BootstrapTable
                   data={opacos}
+                  version="4"
                   striped
                   hover
                   bordered={false}
@@ -145,7 +136,7 @@ const OpacosTable = inject("appstate")(
                     variant="default"
                     size="sm"
                     title="Agrupa opacos, sumando áreas de igual transmitancia y factor de ajuste."
-                    onClick={() => opacos.replace(this.agrupaOpacos(opacos))}
+                    onClick={() => this.props.appstate.agrupaOpacos()}
                   >
                     <img src={icongroup} alt="Agrupar opacos" /> Agrupar opacos
                   </Button>
@@ -191,24 +182,6 @@ const OpacosTable = inject("appstate")(
             </Row>
           </Col>
         );
-      }
-
-      // Agrupa superficie de opacos por tipos
-      agrupaOpacos(opacos) {
-        const isequal = (o1, o2) =>
-          Number(o1.U) === Number(o2.U) && Number(o1.btrx) === Number(o2.btrx);
-        const opacosagrupados = [];
-        for (let opaco of opacos) {
-          const o = opacosagrupados.find(e => isequal(opaco, e));
-          if (o) {
-            o.A = o.A + opaco.A;
-            o.id = uuidv4();
-            o.nombre = o.nombre + ", " + opaco.nombre;
-          } else {
-            opacosagrupados.push(opaco);
-          }
-        }
-        return opacosagrupados;
       }
     }
   )
