@@ -36,8 +36,8 @@ import {
 import Footer from "./Footer";
 import NavBar from "./Nav";
 
-import esquema5R1C from "./5R1C.svg";
-import orientaciones from "./orientaciones.svg";
+import esquema5R1C from "./img/5R1C.svg";
+import orientaciones from "./img/orientaciones.svg";
 
 export default class HelpPage extends Component {
   render() {

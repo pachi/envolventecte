@@ -26,9 +26,9 @@ import { Alert, Col, Container, Image, Row } from "react-bootstrap";
 
 import Footer from "./Footer";
 import NavBar from "./Nav";
-import FotoPachi from "./FotoPachi.jpg";
-import FotoDani from "./FotoDani.jpg";
-import FotoMarta from "./FotoMarta.jpg";
+import FotoPachi from "./img/FotoPachi.jpg";
+import FotoDani from "./img/FotoDani.jpg";
+import FotoMarta from "./img/FotoMarta.jpg";
 
 export default class AboutPage extends Component {
   render() {

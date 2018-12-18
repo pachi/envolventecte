@@ -28,7 +28,7 @@ import { Link } from "react-router-dom";
 import Footer from "./Footer";
 import NavBar from "./Nav";
 
-import imglogo from "./logo.svg";
+import imglogo from "./img/logo.svg";
 
 export default class HelpPage extends Component {
   render() {

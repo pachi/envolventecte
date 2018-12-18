@@ -27,7 +27,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Nav, Navbar } from "react-bootstrap";
 
 import ClimateSelector from "./ClimateSelector";
-import imglogo from "./logo.svg";
+import imglogo from "./img/logo.svg";
 import iconhelp from "./img/outline-live_help-24px.svg";
 import iconinfo from "./img/outline-info-24px.svg";
 
