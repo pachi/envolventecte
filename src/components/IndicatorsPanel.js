@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { Component } from "react";
-import { Button, Col, Collapse, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Collapse, Row } from "react-bootstrap";
 import { observer, inject } from "mobx-react";
 
 import iconplus from "./img/baseline-add-24px.svg";
@@ -55,7 +55,7 @@ const IndicatorsPanel = inject("appstate", "radstate")(
         const qsj_clima = qsj(climateTotRadJul);
 
         return (
-          <React.Fragment>
+          <Card body bg="light" className="mb-3">
             <Row>
               <Col md={1}>
                 <Button
@@ -97,7 +97,7 @@ const IndicatorsPanel = inject("appstate", "radstate")(
               </Col>
             </Row>
             <Collapse in={this.state.open}>
-              <Container fluid>
+              <Card body bg="light" border="info" className="mt-3">
                 <Row>
                   <Col>
                     <h3>Transmitancia térmica global</h3>
@@ -133,10 +133,10 @@ const IndicatorsPanel = inject("appstate", "radstate")(
                 </Row>
                 <Row>
                   <Col>
-                    <h3>Control solar</h3>
+                    <h3>Control solar de los huecos</h3>
                     <p>
                       Ganancias solares en el mes de julio con los dispositivos
-                      de sombra activados
+                      de sombra de los huecos activados
                     </p>
                     <p>
                       Q<sub>sol;jul</sub> = &sum;<sub>k</sub>(F
@@ -161,9 +161,9 @@ const IndicatorsPanel = inject("appstate", "radstate")(
                     </p>
                   </Col>
                 </Row>
-              </Container>
+              </Card>
             </Collapse>
-          </React.Fragment>
+          </Card>
         );
       }
 
