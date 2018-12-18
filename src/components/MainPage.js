@@ -60,9 +60,11 @@ export default class HelpPage extends Component {
               El apartado <Link to="/envelope">Envolvente</Link> muestra en un
               panel el valor actualizado y el desglose del cálculo de la{" "}
               <b>transmitancia térmica global</b> (<b>K</b>) y del{" "}
-              <b>parámetro de control solar</b> (<b>
+              <b>parámetro de control solar</b> (
+              <b>
                 q<sub>sol;jul</sub>
-              </b>) de la envolvente definida.
+              </b>
+              ) de la envolvente definida.
             </p>
             <p>
               Como ayuda para completar la descripción de la envolvente térmica

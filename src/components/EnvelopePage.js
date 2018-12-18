@@ -40,29 +40,29 @@ class EnvelopePage extends Component {
         <NavBar route={this.props.route} />
         <Row>
           <Col>
-          <IndicatorsPanel />
+            <IndicatorsPanel />
           </Col>
         </Row>
         <Row>
           <Col>
-          <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-            <Tab eventKey={1} title="Huecos" className="pt-3">
-              <HuecosTable />
-            </Tab>
-            <Tab eventKey={2} title="Opacos" className="pt-3">
-              <OpacosTable />
-            </Tab>
-            <Tab eventKey={3} title="Puentes Térmicos" className="pt-3">
-              <PTsTable />
-            </Tab>
-            <Tab
-              eventKey={4}
-              title="Carga / descarga de datos"
-              className="pt-3"
-            >
-              <DownloadUpload />
-            </Tab>
-          </Tabs>
+            <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
+              <Tab eventKey={1} title="Huecos" className="pt-3">
+                <HuecosTable />
+              </Tab>
+              <Tab eventKey={2} title="Opacos" className="pt-3">
+                <OpacosTable />
+              </Tab>
+              <Tab eventKey={3} title="Puentes Térmicos" className="pt-3">
+                <PTsTable />
+              </Tab>
+              <Tab
+                eventKey={4}
+                title="Carga / descarga de datos"
+                className="pt-3"
+              >
+                <DownloadUpload />
+              </Tab>
+            </Tabs>
           </Col>
         </Row>
         {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
