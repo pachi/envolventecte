@@ -40,7 +40,7 @@ import MainPage from "./MainPage";
 
 const stores = {
   radstate: RadState,
-  appstate: AppState
+  appstate: new AppState()
   // ...other stores
 };
 
