@@ -269,9 +269,4 @@ decorate(AppState, {
   K: computed,
   Qsoljul: computed({ requiresReaction: true }),
   qsj: computed({ requiresReaction: true })
-  // XXX: AgrupaXXX se supone que deberían ser acciones pero si se cambia
-  // XXX: el decorate de más abajo a action
-  // XXX: no se actualiza bien la tabla (probar a duplicar y agrupar huecos)
-  // XXX: solo funciona bien con computed (¿o sin nada?)
-  // agrupaHuecos: action
 });
