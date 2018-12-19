@@ -39,7 +39,7 @@ import HelpPage from "./HelpPage";
 import MainPage from "./MainPage";
 
 const stores = {
-  radstate: RadState,
+  radstate: new RadState(),
   appstate: new AppState()
   // ...other stores
 };

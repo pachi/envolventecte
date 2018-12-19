@@ -25,23 +25,31 @@ import { observable, computed, decorate } from "mobx";
 import radiationdata from "../zcraddata.json";
 import { uuidv4 } from "../utils.js";
 
-export const RadState = observable({
-  radiationdata,
-  clima: "D3",
-  zoneslist: [...new Set(radiationdata.map(v => v.zc))],
-  orientations: [...new Set(radiationdata.map(v => v.surfname))],
+export class RadState {
+  radiationdata
+  clima = "D3"
+  zoneslist = [...new Set(radiationdata.map(v => v.zc))]
+  orientations = [...new Set(radiationdata.map(v => v.surfname))]
+
   get climatedata() {
     return radiationdata.filter(v => v.zc === this.clima);
-  },
+  }
+
   get climateTotRadJul() {
     return this.climatedata.reduce(
       (acc, v) => ({ ...acc, [v.surfname]: v.tot[6] }),
       {}
     );
   }
+}
+
+decorate(RadState, {
+  clima: observable,
+  climatedata: computed({ requiresReaction: true })
 });
 
 export class AppState {
+  // Datos geométricos y constructivos
   Autil = 1674;
   envolvente = {
     huecos: [
@@ -99,6 +107,7 @@ export class AppState {
     ]
   };
 
+  // Lista de errores
   errors = [];
 
   // Constructores
