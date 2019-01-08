@@ -130,9 +130,16 @@ const HuecosTable = inject("appstate")(
                     F<sub>F</sub> (-)
                   </TableHeaderColumn>
                   <TableHeaderColumn
+                    dataField="gglwi"
+                    dataFormat={this.Float2DigitsFormatter}
+                    headerText="Transmitancia total de energía solar del acristalamiento SIN el dispositivo de sombra móvil activado (fracción)"
+                  >
+                    g<sub>gl;wi</sub> (-)
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
                     dataField="gglshwi"
                     dataFormat={this.Float2DigitsFormatter}
-                    headerText="Transmitancia total de energía solar del acristalamiento con el dispositivo de sombra móvil activado (fracción)"
+                    headerText="Transmitancia total de energía solar del acristalamiento CON el dispositivo de sombra móvil activado (fracción)"
                   >
                     g<sub>gl;sh;wi</sub> (-)
                   </TableHeaderColumn>
@@ -200,10 +207,21 @@ const HuecosTable = inject("appstate")(
                   </li>
                   <li>
                     <b>
+                      g<sub>gl;wi</sub>
+                    </b>
+                    : transmitancia total de energía solar del acristalamiento
+                    SIN el dispositivo de sombra móvil activado.
+                    <br />
+                    Este valor puede obtenerse a partir del factor solar del
+                    vidrio a incidencia normal (g<sub>gl;n</sub>) y el factor de
+                    dispersión del vidrio (F<sub>w</sub>~=0.9).
+                  </li>
+                  <li>
+                    <b>
                       g<sub>gl;sh;wi</sub>
                     </b>
                     : transmitancia total de energía solar del acristalamiento
-                    con el dispositivo de sombra móvil activado (f_sh;with = 1),
+                    CON el dispositivo de sombra móvil activado (f_sh;with = 1),
                     para el mes de julio (fracción).
                     <br />
                     Este valor puede obtenerse a partir del factor solar del

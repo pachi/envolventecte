@@ -61,6 +61,7 @@ export class AppState {
         U: 2.613,
         Ff: 0.25,
         gglshwi: 0.67,
+        gglwi: 0.67,
         Fshobst: 1.0
       },
       {
@@ -71,6 +72,7 @@ export class AppState {
         U: 2.613,
         Ff: 0.25,
         gglshwi: 0.67,
+        gglwi: 0.67,
         Fshobst: 0.82
       },
       {
@@ -81,6 +83,7 @@ export class AppState {
         U: 2.613,
         Ff: 0.25,
         gglshwi: 0.67,
+        gglwi: 0.67,
         Fshobst: 0.67
       },
       {
@@ -91,6 +94,7 @@ export class AppState {
         U: 2.613,
         Ff: 0.25,
         gglshwi: 0.67,
+        gglwi: 0.67,
         Fshobst: 0.82
       }
     ],
@@ -119,6 +123,7 @@ export class AppState {
     U: 1.0,
     Ff: 0.2,
     gglshwi: 0.67,
+    gglwi: 0.67,
     Fshobst: 1.0
   });
 
@@ -208,7 +213,8 @@ export class AppState {
       h1.orientacion === h2.orientacion &&
       Number(h1.Ff) === Number(h2.Ff) &&
       Number(h1.U) === Number(h2.U) &&
-      Number(h1.gglshwi) === Number(h2.gglshwi);
+      Number(h1.gglshwi) === Number(h2.gglshwi) &&
+      Number(h1.gglwi) === Number(h2.gglwi);
     const huecosagrupados = [];
     for (let hueco of this.envolvente.huecos) {
       const h = huecosagrupados.find(e => isequal(hueco, e));
