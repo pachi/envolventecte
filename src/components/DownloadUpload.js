@@ -107,8 +107,7 @@ class DownloadUpload extends Component {
   }
 
   handleDownload(_) {
-    const { Autil, envolvente } = this.props.appstate;
-    const { clima } = this.props.radstate;
+    const { Autil, envolvente, clima } = this.props.appstate;
     const contents = JSON.stringify({ Autil, clima, envolvente }, null, 2);
     const contenthash = hash(contents).toString(16);
     const filename = `EnvolventeCTE-${contenthash}.json`;
@@ -156,7 +155,7 @@ class DownloadUpload extends Component {
         ) {
           throw UserException("Formato incorrecto");
         }
-        this.props.radstate.clima = clima;
+        this.props.appstate.clima = clima;
         this.props.appstate.Autil = Number(Autil);
         this.props.appstate.envolvente = envolvente;
         this.props.appstate.errors = [
@@ -183,6 +182,6 @@ class DownloadUpload extends Component {
   }
 }
 
-export default (DownloadUpload = inject("appstate", "radstate")(
+export default (DownloadUpload = inject("appstate")(
   observer(DownloadUpload)
 ));

@@ -25,11 +25,11 @@ import React, { Component } from "react";
 import { observer, inject } from "mobx-react";
 import { Form } from "react-bootstrap";
 
-const ClimateSelector = inject("radstate")(
+const ClimateSelector = inject("appstate")(
   observer(
     class ClimateSelector extends Component {
       render() {
-        const radstate = this.props.radstate;
+        const appstate = this.props.appstate;
         return (
           <Form inline>
             <Form.Group controlId="formControlsClimateZone">
@@ -37,14 +37,14 @@ const ClimateSelector = inject("radstate")(
                 Zona Climática
               </Form.Label>{" "}
               <Form.Control
-                value={radstate.clima || ""}
+                value={appstate.clima || ""}
                 onChange={e => {
-                  radstate.clima = e.target.value;
+                  appstate.clima = e.target.value;
                 }}
                 as="select"
                 placeholder="select"
               >
-                {radstate.zoneslist.map(z => (
+                {appstate.zoneslist.map(z => (
                   <option value={z} key={"zone_" + z}>
                     {z}
                   </option>

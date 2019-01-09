@@ -29,7 +29,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import "bootstrap/dist/css/bootstrap-theme.css";
 import "react-bootstrap-table/dist/react-bootstrap-table-all.min.css";
 
-import { AppState, RadState } from "../stores/AppState";
+import AppState from "../stores/AppState";
 
 import AboutPage from "./AboutPage";
 import ClimatePage from "./ClimatePage";
@@ -39,7 +39,6 @@ import HelpPage from "./HelpPage";
 import MainPage from "./MainPage";
 
 const stores = {
-  radstate: new RadState(),
   appstate: new AppState()
   // ...other stores
 };

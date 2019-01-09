@@ -36,9 +36,9 @@ import ShadingFactorsTable from "./ShadingFactorsTable";
 import { OrientacionesSprite } from "./IconsOrientaciones";
 import { FshwithSprite } from "./IconsFshwith";
 
-const ClimatePage = inject("radstate")(
-  observer(({ radstate, route }) => {
-    const { climatedata } = radstate;
+const ClimatePage = inject("appstate")(
+  observer(({ appstate, route }) => {
+    const { climatedata } = appstate;
     return (
       <Container fluid>
         <NavBar route={route} />

@@ -25,30 +25,12 @@ import { observable, computed, decorate } from "mobx";
 import radiationdata from "../zcraddata.json";
 import { uuidv4 } from "../utils.js";
 
-export class RadState {
+export default class AppState {
+  // Datos climáticos
   radiationdata
   clima = "D3"
   zoneslist = [...new Set(radiationdata.map(v => v.zc))]
   orientations = [...new Set(radiationdata.map(v => v.surfname))]
-
-  get climatedata() {
-    return radiationdata.filter(v => v.zc === this.clima);
-  }
-
-  get climateTotRadJul() {
-    return this.climatedata.reduce(
-      (acc, v) => ({ ...acc, [v.surfname]: v.tot[6] }),
-      {}
-    );
-  }
-}
-
-decorate(RadState, {
-  clima: observable,
-  climatedata: computed({ requiresReaction: true })
-});
-
-export class AppState {
   // Datos geométricos y constructivos
   Autil = 1674;
   envolvente = {
@@ -114,6 +96,18 @@ export class AppState {
   // Lista de errores
   errors = [];
 
+  // Propiedades de datos climáticos
+  get climatedata() {
+    return radiationdata.filter(v => v.zc === this.clima);
+  }
+
+  get climateTotRadJul() {
+    return this.climatedata.reduce(
+      (acc, v) => ({ ...acc, [v.surfname]: v.tot[6] }),
+      {}
+    );
+  }
+
   // Constructores
   newHueco = () => ({
     id: uuidv4(),
@@ -142,7 +136,7 @@ export class AppState {
     nombre: "PT por defecto"
   });
 
-  // Propiedades calculadas
+  // Propiedades de datos de envolvente
   get huecosA() {
     return this.envolvente.huecos
       .map(h => Number(h.A))
@@ -270,6 +264,8 @@ export class AppState {
 decorate(AppState, {
   // Decorators
   // title: observable can be omitted, its is the default when using observable.object
+  clima: observable,
+  climatedata: computed({ requiresReaction: true }),
   Autil: observable,
   envolvente: observable,
   errors: observable,

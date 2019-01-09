@@ -27,7 +27,7 @@ import { observer, inject } from "mobx-react";
 
 import iconplus from "./img/baseline-add-24px.svg";
 
-const IndicatorsPanel = inject("appstate", "radstate")(
+const IndicatorsPanel = inject("appstate")(
   observer(
     class IndicatorsPanel extends Component {
       constructor(...args) {
@@ -38,6 +38,7 @@ const IndicatorsPanel = inject("appstate", "radstate")(
       render() {
         // climate, radiationdata,
         const {
+          climateTotRadJul,
           Autil,
           huecosA,
           huecosAU,
@@ -50,7 +51,6 @@ const IndicatorsPanel = inject("appstate", "radstate")(
           Qsoljul,
           qsj
         } = this.props.appstate;
-        const { climateTotRadJul } = this.props.radstate;
         const Qsoljul_clima = Qsoljul(climateTotRadJul);
         const qsj_clima = qsj(climateTotRadJul);
 
