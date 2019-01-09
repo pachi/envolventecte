@@ -85,6 +85,33 @@ const DEFAULT_ENVOLVENTE = {
   ]
 };
 
+const DEFAULT_HUECO = () => ({
+  id: uuidv4(),
+  nombre: "Hueco nuevo",
+  orientacion: "N",
+  A: 1.0,
+  U: 1.0,
+  Ff: 0.2,
+  gglshwi: 0.67,
+  gglwi: 0.67,
+  Fshobst: 1.0
+});
+
+const DEFAULT_OPACO = () => ({
+  id: uuidv4(),
+  A: 1.0,
+  U: 0.2,
+  btrx: 1.0,
+  nombre: "Elemento opaco"
+});
+
+const DEFAULT_PT = () => ({
+  id: uuidv4(),
+  L: 1.0,
+  psi: 0.05,
+  nombre: "PT por defecto"
+});
+
 export default class AppState {
   // Datos climáticos
   radiationdata = radiationdata;
@@ -118,32 +145,9 @@ export default class AppState {
   }
 
   // Constructores
-  newHueco = () => ({
-    id: uuidv4(),
-    nombre: "Hueco nuevo",
-    orientacion: "N",
-    A: 1.0,
-    U: 1.0,
-    Ff: 0.2,
-    gglshwi: 0.67,
-    gglwi: 0.67,
-    Fshobst: 1.0
-  });
-
-  newOpaco = () => ({
-    id: uuidv4(),
-    A: 1.0,
-    U: 0.2,
-    btrx: 1.0,
-    nombre: "Elemento opaco"
-  });
-
-  newPT = () => ({
-    id: uuidv4(),
-    L: 1.0,
-    psi: 0.05,
-    nombre: "PT por defecto"
-  });
+  newHueco = DEFAULT_HUECO;
+  newOpaco = DEFAULT_OPACO;
+  newPT = DEFAULT_PT;
 
   // Propiedades de datos de envolvente
   get huecosA() {
