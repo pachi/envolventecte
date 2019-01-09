@@ -25,6 +25,66 @@ import { action, observable, computed, decorate } from "mobx";
 import radiationdata from "../zcraddata.json";
 import { uuidv4, UserException } from "../utils.js";
 
+const DEFAULT_ENVOLVENTE = {
+  huecos: [
+    {
+      id: uuidv4(),
+      nombre: "Huecos norte",
+      orientacion: "N",
+      A: 42.38,
+      U: 2.613,
+      Ff: 0.25,
+      gglshwi: 0.67,
+      gglwi: 0.67,
+      Fshobst: 1.0
+    },
+    {
+      id: uuidv4(),
+      nombre: "Huecos este",
+      orientacion: "E",
+      A: 17.11,
+      U: 2.613,
+      Ff: 0.25,
+      gglshwi: 0.67,
+      gglwi: 0.67,
+      Fshobst: 0.82
+    },
+    {
+      id: uuidv4(),
+      nombre: "Huecos sur",
+      orientacion: "S",
+      A: 46.83,
+      U: 2.613,
+      Ff: 0.25,
+      gglshwi: 0.67,
+      gglwi: 0.67,
+      Fshobst: 0.67
+    },
+    {
+      id: uuidv4(),
+      nombre: "Huecos oeste",
+      orientacion: "W",
+      A: 17.64,
+      U: 2.613,
+      Ff: 0.25,
+      gglshwi: 0.67,
+      gglwi: 0.67,
+      Fshobst: 0.82
+    }
+  ],
+  opacos: [
+    { id: uuidv4(), A: 418.0, U: 0.211, btrx: 1.0, nombre: "Cubierta" },
+    { id: uuidv4(), A: 534.41, U: 0.271, btrx: 1.0, nombre: "Fachada" },
+    { id: uuidv4(), A: 418.0, U: 0.246, btrx: 1.0, nombre: "Solera" }
+  ],
+  pts: [
+    { id: uuidv4(), L: 487.9, psi: 0.1, nombre: "PT forjado-fachada" },
+    { id: uuidv4(), L: 181.7, psi: 0.28, nombre: "PT solera-fachada" },
+    { id: uuidv4(), L: 124.5, psi: 0.24, nombre: "PT cubierta-fachada" },
+    { id: uuidv4(), L: 468.8, psi: 0.05, nombre: "PT contorno huecos" }
+  ]
+};
+
 export default class AppState {
   // Datos climáticos
   radiationdata = radiationdata;
@@ -32,65 +92,7 @@ export default class AppState {
 
   // Datos geométricos y constructivos
   Autil = 1674;
-  envolvente = {
-    huecos: [
-      {
-        id: uuidv4(),
-        nombre: "Huecos norte",
-        orientacion: "N",
-        A: 42.38,
-        U: 2.613,
-        Ff: 0.25,
-        gglshwi: 0.67,
-        gglwi: 0.67,
-        Fshobst: 1.0
-      },
-      {
-        id: uuidv4(),
-        nombre: "Huecos este",
-        orientacion: "E",
-        A: 17.11,
-        U: 2.613,
-        Ff: 0.25,
-        gglshwi: 0.67,
-        gglwi: 0.67,
-        Fshobst: 0.82
-      },
-      {
-        id: uuidv4(),
-        nombre: "Huecos sur",
-        orientacion: "S",
-        A: 46.83,
-        U: 2.613,
-        Ff: 0.25,
-        gglshwi: 0.67,
-        gglwi: 0.67,
-        Fshobst: 0.67
-      },
-      {
-        id: uuidv4(),
-        nombre: "Huecos oeste",
-        orientacion: "W",
-        A: 17.64,
-        U: 2.613,
-        Ff: 0.25,
-        gglshwi: 0.67,
-        gglwi: 0.67,
-        Fshobst: 0.82
-      }
-    ],
-    opacos: [
-      { id: uuidv4(), A: 418.0, U: 0.211, btrx: 1.0, nombre: "Cubierta" },
-      { id: uuidv4(), A: 534.41, U: 0.271, btrx: 1.0, nombre: "Fachada" },
-      { id: uuidv4(), A: 418.0, U: 0.246, btrx: 1.0, nombre: "Solera" }
-    ],
-    pts: [
-      { id: uuidv4(), L: 487.9, psi: 0.1, nombre: "PT forjado-fachada" },
-      { id: uuidv4(), L: 181.7, psi: 0.28, nombre: "PT solera-fachada" },
-      { id: uuidv4(), L: 124.5, psi: 0.24, nombre: "PT cubierta-fachada" },
-      { id: uuidv4(), L: 468.8, psi: 0.05, nombre: "PT contorno huecos" }
-    ]
-  };
+  envolvente = DEFAULT_ENVOLVENTE;
 
   // Lista de errores
   errors = [];
