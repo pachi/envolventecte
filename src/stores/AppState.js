@@ -27,10 +27,9 @@ import { uuidv4, UserException } from "../utils.js";
 
 export default class AppState {
   // Datos climáticos
-  radiationdata
-  clima = "D3"
-  zoneslist = [...new Set(radiationdata.map(v => v.zc))]
-  orientations = [...new Set(radiationdata.map(v => v.surfname))]
+  radiationdata = radiationdata;
+  clima = "D3";
+
   // Datos geométricos y constructivos
   Autil = 1674;
   envolvente = {
@@ -97,8 +96,16 @@ export default class AppState {
   errors = [];
 
   // Propiedades de datos climáticos
+  get zoneslist() {
+    return [...new Set(this.radiationdata.map(v => v.zc))];
+  }
+
+  get orientations() {
+    return [...new Set(this.radiationdata.map(v => v.surfname))];
+  }
+
   get climatedata() {
-    return radiationdata.filter(v => v.zc === this.clima);
+    return this.radiationdata.filter(v => v.zc === this.clima);
   }
 
   get climateTotRadJul() {
@@ -268,9 +275,7 @@ export default class AppState {
 
   loadJSON(data) {
     try {
-      const { Autil, clima = "D3", envolvente } = JSON.parse(
-        data
-      );
+      const { Autil, clima = "D3", envolvente } = JSON.parse(data);
       const { huecos, opacos, pts } = envolvente;
       if (
         !(
@@ -312,10 +317,14 @@ decorate(AppState, {
   // Decorators
   // title: observable can be omitted, its is the default when using observable.object
   clima: observable,
-  climatedata: computed({ requiresReaction: true }),
   Autil: observable,
   envolvente: observable,
   errors: observable,
+  // Valores calculados
+  zoneslist: computed,
+  orientations: computed,
+  climatedata: computed({ requiresReaction: true }),
+  climateTotRadJul: computed({ requiresReaction: true }),
   huecosA: computed,
   huecosAU: computed,
   opacosA: computed,
