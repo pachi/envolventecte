@@ -164,7 +164,7 @@ export default class ShadingFactorsTable extends Component {
                 conectado o activado (p.e. un toldo extendido o una persiana
                 bajada) y un valor de{" "}
                 <i>
-                  f<sub>sh;with</sub> = 1
+                  f<sub>sh;with</sub> = 0
                 </i>{" "}
                 significa que el dispositivo de sombra móvil está completamente
                 desconectado o desactivado (p.e. un toldo recogido o una
