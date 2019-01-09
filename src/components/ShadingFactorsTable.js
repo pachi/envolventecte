@@ -45,7 +45,7 @@ export default class ShadingFactorsTable extends Component {
     super(...args);
     this.levels = ["200", "300", "500"];
     this.MESES = "ENE,FEB,MAR,ABR,MAY,JUN,JUL,AGO,SET,OCT,NOV,DIC".split(",");
-    this.state = { showlevel: "300" };
+    this.state = { showlevel: "500" };
   }
 
   render() {
