@@ -21,9 +21,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { observable, computed, decorate } from "mobx";
+import { action, observable, computed, decorate } from "mobx";
 import radiationdata from "../zcraddata.json";
-import { uuidv4 } from "../utils.js";
+import { uuidv4, UserException } from "../utils.js";
 
 export default class AppState {
   // Datos climáticos
@@ -259,6 +259,53 @@ export default class AppState {
     }
     this.envolvente.pts.replace(ptsagrupados);
   }
+
+  // Serialización y deserialización
+  get asJSON() {
+    const { Autil, envolvente, clima } = this;
+    return JSON.stringify({ Autil, clima, envolvente }, null, 2);
+  }
+
+  loadJSON(data) {
+    try {
+      const { Autil, clima = "D3", envolvente } = JSON.parse(
+        data
+      );
+      const { huecos, opacos, pts } = envolvente;
+      if (
+        !(
+          Autil &&
+          envolvente &&
+          Array.isArray(huecos) &&
+          Array.isArray(opacos) &&
+          Array.isArray(pts)
+        )
+      ) {
+        throw UserException("Formato incorrecto");
+      }
+      this.clima = clima;
+      this.Autil = Number(Autil);
+      this.envolvente = envolvente;
+      this.errors = [
+        { type: "SUCCESS", msg: "Datos cargados correctamente." },
+        {
+          type: "INFO",
+          msg:
+            `Autil: ${Autil} m², Elementos: ` +
+            `${huecos.length} huecos, ${opacos.length} opacos, ${
+              pts.length
+            } PTs.`
+        }
+      ];
+    } catch (err) {
+      this.errors = [
+        {
+          type: "DANGER",
+          msg: "El archivo no contiene datos con un formato adecuado."
+        }
+      ];
+    }
+  }
 }
 
 decorate(AppState, {
@@ -279,5 +326,10 @@ decorate(AppState, {
   totalAU: computed,
   K: computed,
   Qsoljul: computed({ requiresReaction: true }),
-  qsj: computed({ requiresReaction: true })
+  qsj: computed({ requiresReaction: true }),
+  agrupaHuecos: action,
+  agrupaOpacos: action,
+  agrupaPts: action,
+  asJSON: computed,
+  loadJSON: action
 });

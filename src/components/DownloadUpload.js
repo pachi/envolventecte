@@ -26,7 +26,7 @@ import { Alert, Button, Col, Row } from "react-bootstrap";
 import { observer, inject } from "mobx-react";
 // import DevTools from 'mobx-react-devtools';
 
-import { hash, UserException } from "../utils.js";
+import { hash } from "../utils.js";
 
 import icondownload from "./img/baseline-archive-24px.svg";
 
@@ -107,8 +107,7 @@ class DownloadUpload extends Component {
   }
 
   handleDownload(_) {
-    const { Autil, envolvente, clima } = this.props.appstate;
-    const contents = JSON.stringify({ Autil, clima, envolvente }, null, 2);
+    const contents = this.props.appstate.asJSON;
     const contenthash = hash(contents).toString(16);
     const filename = `EnvolventeCTE-${contenthash}.json`;
     const blob = new Blob([contents], { type: "application/json" });
@@ -139,44 +138,7 @@ class DownloadUpload extends Component {
 
     const reader = new FileReader();
     reader.onload = rawdata => {
-      try {
-        const { Autil, clima = "D3", envolvente } = JSON.parse(
-          rawdata.target.result
-        );
-        const { huecos, opacos, pts } = envolvente;
-        if (
-          !(
-            Autil &&
-            envolvente &&
-            Array.isArray(huecos) &&
-            Array.isArray(opacos) &&
-            Array.isArray(pts)
-          )
-        ) {
-          throw UserException("Formato incorrecto");
-        }
-        this.props.appstate.clima = clima;
-        this.props.appstate.Autil = Number(Autil);
-        this.props.appstate.envolvente = envolvente;
-        this.props.appstate.errors = [
-          { type: "SUCCESS", msg: "Datos cargados correctamente." },
-          {
-            type: "INFO",
-            msg:
-              `Autil: ${Autil} m², Elementos: ` +
-              `${huecos.length} huecos, ${opacos.length} opacos, ${
-                pts.length
-              } PTs.`
-          }
-        ];
-      } catch (err) {
-        this.props.appstate.errors = [
-          {
-            type: "DANGER",
-            msg: "El archivo no contiene datos con un formato adecuado."
-          }
-        ];
-      }
+      this.props.appstate.loadJSON(rawdata.target.result);
     };
     reader.readAsText(file);
   }
