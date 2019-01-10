@@ -113,47 +113,87 @@ const HuecosTable = inject("appstate")(
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Área del hueco (m2)"
                   >
-                    A<sub>w,p</sub> (m<sup>2</sup>)
+                    A<sub>w,p</sub>
+                    <br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>
+                        [m<sup>2</sup>]
+                      </i>
+                    </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="U"
                     dataFormat={this.Float3DigitsFormatter}
                     headerText="Transmitancia térmica del hueco (W/m²K)"
                   >
-                    U (W/m<sup>2</sup>K)
+                    U<br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>
+                        [W/m<sup>2</sup>K]
+                      </i>
+                    </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="Ff"
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Fracción de marco del hueco (fracción)"
                   >
-                    F<sub>F</sub> (-)
+                    F<sub>F</sub>
+                    <br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>[-]</i>
+                    </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="gglwi"
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Transmitancia total de energía solar del acristalamiento SIN el dispositivo de sombra móvil activado (fracción)"
                   >
-                    g<sub>gl;wi</sub> (-)
+                    g<sub>gl;wi</sub>
+                    <br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>[-]</i>
+                    </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="gglshwi"
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Transmitancia total de energía solar del acristalamiento CON el dispositivo de sombra móvil activado (fracción)"
                   >
-                    g<sub>gl;sh;wi</sub> (-)
+                    g<sub>gl;sh;wi</sub>
+                    <br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>[-]</i>
+                    </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="Fshobst"
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción)"
                   >
-                    F<sub>sh;obst</sub> (-)
+                    F<sub>sh;obst</sub>
+                    <br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>[-]</i>
+                    </span>
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField="Ch100"
+                    dataFormat={this.Float2DigitsFormatter}
+                    headerText="Coeficiente de permeabilidad al aire del hueco a 100 Pa (m3/hm2)"
+                  >
+                    C<sub>h;100</sub>
+                    <br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>
+                        [m<sup>3</sup>/h·m<sup>2</sup>]
+                      </i>
+                    </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="nombre"
                     headerText="Descripción identificativa del hueco"
-                    width="40%"
+                    width="30%"
                   >
                     Descripción
                   </TableHeaderColumn>
@@ -261,6 +301,18 @@ const HuecosTable = inject("appstate")(
                     </i>{" "}
                     para considerar el efecto de voladizos, retranqueos, aletas
                     laterales o lamas exteriores.
+                  </li>
+                  <li>
+                    <b>
+                      C<sub>h;100</sub>
+                    </b>
+                    : Coeficiente de permeabilidad al aire del hueco a 100 Pa de
+                    diferencia de presión (m<sup>3</sup>/h·m<sup>2</sup>). La
+                    clase de permeabilidad al aire de los huecos, según la norma
+                    UNE EN 12207:2000 es: Clase 1: C<sub>h;100</sub> &le;
+                    50m3/hm2, Clase 2: C<sub>h;100</sub> &le; 27 m3/hm2, Clase
+                    3: C<sub>h;100</sub> &le; 9 m3/hm2, Clase 4: C
+                    <sub>h;100</sub> &le; 3 m3/hm2.
                   </li>
                 </ul>
                 <p>
