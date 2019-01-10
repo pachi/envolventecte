@@ -40,6 +40,7 @@ const IndicatorsPanel = inject("appstate")(
         const {
           climateTotRadJul,
           Autil,
+          V,
           huecosA,
           huecosAU,
           opacosA,
@@ -66,7 +67,7 @@ const IndicatorsPanel = inject("appstate")(
                   <img src={iconplus} alt="Añadir fila" />
                 </Button>
               </Col>
-              <Col md={3} title="Transmitancia térmica global del edificio">
+              <Col md={2} title="Transmitancia térmica global del edificio">
                 <b>
                   <i>K</i> = {K.toFixed(2)} <i>W/m²K</i>
                 </b>
@@ -80,7 +81,7 @@ const IndicatorsPanel = inject("appstate")(
                 </b>
               </Col>
               <Col
-                md={5}
+                md={3}
                 className="text-right"
                 title="Superficie útil del edificio o parte del edificio"
               >
@@ -90,10 +91,27 @@ const IndicatorsPanel = inject("appstate")(
                 ={" "}
                 <input
                   type="text"
-                  onChange={e => this.handleChange(e)}
+                  onChange={e => {
+                    this.props.appstate.Autil = Number(e.target.value);
+                  }}
                   value={Autil}
                 />{" "}
                 m²
+              </Col>
+              <Col
+                md={3}
+                className="text-right"
+                title="Volumen interno a la envolvente térmica"
+              >
+                <b>V</b> ={" "}
+                <input
+                  type="text"
+                  onChange={e => {
+                    this.props.appstate.V = Number(e.target.value);
+                  }}
+                  value={V}
+                />{" "}
+                m³
               </Col>
             </Row>
             <Collapse in={this.state.open}>
@@ -165,12 +183,6 @@ const IndicatorsPanel = inject("appstate")(
             </Collapse>
           </Card>
         );
-      }
-
-      // Actualización de Autil
-      handleChange(e) {
-        const currentValue = e.target.value;
-        this.props.appstate.Autil = Number(currentValue);
       }
     }
   )
