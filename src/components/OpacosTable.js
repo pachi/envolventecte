@@ -48,7 +48,7 @@ const OpacosTable = inject("appstate")(
       );
 
       render() {
-        const { envolvente, opacosA, opacosAU } = this.props.appstate;
+        const { Co100, envolvente, opacosA, opacosAU } = this.props.appstate;
         const opacos = envolvente.opacos;
 
         return (
@@ -63,6 +63,26 @@ const OpacosTable = inject("appstate")(
                   newObj={this.props.appstate.newOpaco}
                   selectedId={this.state.selectedId}
                 />
+              </Col>
+            </Row>
+            <Row>
+              <Col
+                title="Coeficiente de caudal de aire de la parte opaca de la envolvente
+                térmica (a 100 Pa)"
+                className="my-3 text-right"
+              >
+                <b>
+                  C<sub>o</sub>
+                </b>{" "}
+                ={" "}
+                <input
+                  type="text"
+                  onChange={e => {
+                    this.props.appstate.Co100 = Number(e.target.value);
+                  }}
+                  value={Co100}
+                />{" "}
+                m<sup>3</sup>/h·m<sup>2</sup>
               </Col>
             </Row>
             <Row>
