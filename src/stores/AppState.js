@@ -36,7 +36,8 @@ const DEFAULT_ENVOLVENTE = {
       Ff: 0.25,
       gglshwi: 0.67,
       gglwi: 0.67,
-      Fshobst: 1.0
+      Fshobst: 1.0,
+      Ch100: 27.0
     },
     {
       id: uuidv4(),
@@ -47,7 +48,8 @@ const DEFAULT_ENVOLVENTE = {
       Ff: 0.25,
       gglshwi: 0.67,
       gglwi: 0.67,
-      Fshobst: 0.82
+      Fshobst: 0.82,
+      Ch100: 27.0
     },
     {
       id: uuidv4(),
@@ -58,7 +60,8 @@ const DEFAULT_ENVOLVENTE = {
       Ff: 0.25,
       gglshwi: 0.67,
       gglwi: 0.67,
-      Fshobst: 0.67
+      Fshobst: 0.67,
+      Ch100: 27.0
     },
     {
       id: uuidv4(),
@@ -69,7 +72,8 @@ const DEFAULT_ENVOLVENTE = {
       Ff: 0.25,
       gglshwi: 0.67,
       gglwi: 0.67,
-      Fshobst: 0.82
+      Fshobst: 0.82,
+      Ch100: 27.0
     }
   ],
   opacos: [
@@ -94,7 +98,8 @@ const DEFAULT_HUECO = () => ({
   Ff: 0.2,
   gglshwi: 0.67,
   gglwi: 0.67,
-  Fshobst: 1.0
+  Fshobst: 1.0,
+  Ch100: 27.0
 });
 
 const DEFAULT_OPACO = () => ({
@@ -114,11 +119,21 @@ const DEFAULT_PT = () => ({
 
 export default class AppState {
   // Datos climáticos
+
+  // Valores de radiación
   radiationdata = radiationdata;
+  // Zona climática
   clima = "D3";
 
   // Datos geométricos y constructivos
+
+  // Área útil
   Autil = 1674;
+  // Volumen interno a la envolvente térmica
+  V = 4519;
+  // Coeficiente de caudal de aire de la parte opaca de la envolvente térmica a 100 Pa (m3/h/m2)
+  Co100 = 16;
+  // Elementos de la envolvente térmica
   envolvente = DEFAULT_ENVOLVENTE;
 
   // Lista de errores
@@ -324,6 +339,8 @@ decorate(AppState, {
   // title: observable can be omitted, its is the default when using observable.object
   clima: observable,
   Autil: observable,
+  V: observable,
+  Co100: observable,
   envolvente: observable,
   errors: observable,
   // Valores calculados
