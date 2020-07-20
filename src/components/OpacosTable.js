@@ -134,11 +134,10 @@ const OpacosTable = inject("appstate")(
                     </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="btrx"
-                    dataFormat={this.Float1DigitsFormatter}
-                    headerText="Factor de ajuste del elemento opaco (fracción)"
+                    dataField="bounds"
+                    headerText="Condición de contorno del elemento opaco (INTERIOR | EXTERIOR | UNDERGROUND | ADIABATIC)"
                   >
-                    b<sub>tr,x</sub>
+                    Tipo
                     <br />
                     <span style={{ fontWeight: "normal" }}>
                       <i>[-]</i>{" "}
@@ -188,30 +187,23 @@ const OpacosTable = inject("appstate")(
                     <b>U</b>: transmitancia térmica del elemento opaco (W/m²K)
                   </li>
                   <li>
-                    <b>
-                      b<sub>tr,x</sub>
-                    </b>
-                    : factor de ajuste del elemento opaco (fracción)
+                    <b>Tipo</b>: Condición de contorno del elemento opaco
+                    (EXTERIOR, INTERIOR, ADIABATIC, UNDERGROUND). Determina el
+                    factor de ajuste del elemento opaco (b<sub>tr,x</sub>), que
+                    vale 1 para elementos en contacto con el aire exterior o el
+                    terreno y 0 para el resto (adiabáticos y en contacto con
+                    otros espacios).
+                    <p>
+                      Esta simplificación introduce cierto error al considerar
+                      que el intercambio de calor a través de los elementos en
+                      contacto con otros edificios o espacios adyacentes es
+                      despreciable, pero simplifica considerablemente los
+                      cálculos y el objetivo del parámetro K no es, en el caso
+                      del DB-HE, el cálculo de la demanda energética si no como
+                      indicador de la calidad de la envolvente térmica.
+                    </p>
                   </li>
                 </ul>
-                <p>
-                  <b>NOTA</b>: El factor de ajuste propuesto para elementos en
-                  contacto con edificios o espacios adyacentes es{" "}
-                  <i>
-                    b<sub>tr,x</sub> = 0.0
-                  </i>
-                  , y{" "}
-                  <i>
-                    b<sub>tr,x</sub> = 1.0{" "}
-                  </i>
-                  para el resto de casos.
-                </p>
-                <p>
-                  Esta simplificación introduce cierto error al considerar que
-                  el intercambio de calor a través de los elementos en contacto
-                  con otros edificios o espacios adyacentes es despreciable,
-                  pero simplifica considerablemente los cálculos.
-                </p>
               </Col>
             </Row>
           </Col>

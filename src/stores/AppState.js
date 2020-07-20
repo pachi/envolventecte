@@ -77,9 +77,9 @@ const DEFAULT_ENVELOPE = {
     },
   ],
   walls: [
-    { id: uuidv4(), A: 418.0, U: 0.211, btrx: 1.0, name: "Cubierta" },
-    { id: uuidv4(), A: 534.41, U: 0.271, btrx: 1.0, name: "Fachada" },
-    { id: uuidv4(), A: 418.0, U: 0.246, btrx: 1.0, name: "Solera" },
+    { id: uuidv4(), A: 418.0, U: 0.211, bounds: "EXTERIOR", name: "Cubierta" },
+    { id: uuidv4(), A: 534.41, U: 0.271, bounds: "EXTERIOR", name: "Fachada" },
+    { id: uuidv4(), A: 418.0, U: 0.246, bounds: "UNDERGROUND", name: "Solera" },
   ],
   thermal_bridges: [
     { id: uuidv4(), L: 487.9, psi: 0.1, name: "PT forjado-fachada" },
@@ -106,7 +106,7 @@ const DEFAULT_WALL = () => ({
   id: uuidv4(),
   A: 1.0,
   U: 0.2,
-  btrx: 1.0,
+  bounds: "EXTERIOR",
   name: "Elemento opaco",
 });
 
@@ -233,13 +233,22 @@ export default class AppState {
 
   get opacosA() {
     return this.envelope.walls
-      .map((o) => Number(o.btrx) * Number(o.A))
+      .map(
+        (o) =>
+          (o.bounds === "EXTERIOR" || o.bounds === "UNDERGROUND" ? 1.0 : 0.0) *
+          Number(o.A)
+      )
       .reduce((a, b) => a + b, 0);
   }
 
   get opacosAU() {
     return this.envelope.walls
-      .map((o) => Number(o.btrx) * Number(o.A) * Number(o.U))
+      .map(
+        (o) =>
+          (o.bounds === "EXTERIOR" || o.bounds === "UNDERGROUND" ? 1.0 : 0.0) *
+          Number(o.A) *
+          Number(o.U)
+      )
       .reduce((a, b) => a + b, 0);
   }
 
@@ -312,7 +321,7 @@ export default class AppState {
   // Agrupa superficie de opacos por tipos
   agrupaOpacos() {
     const isequal = (o1, o2) =>
-      Number(o1.U) === Number(o2.U) && Number(o1.btrx) === Number(o2.btrx);
+      Number(o1.U) === Number(o2.U) && o1.bounds === o2.bounds;
     const opacosagrupados = [];
     for (let opaco of this.envelope.walls) {
       const o = opacosagrupados.find((e) => isequal(opaco, e));
