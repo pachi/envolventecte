@@ -34,19 +34,21 @@ class HuecosParams extends Component {
     super(...args);
     this.ACRISTALAMIENTOS = ELEMENTOS.huecos.acristalamientos;
     this.SOMBREAMIENTOS = ELEMENTOS.huecos.sombreamientos;
-    this.TIPOSVIDRIO = this.ACRISTALAMIENTOS.tipos.map(v => v.name);
-    this.TIPOSSOMBRA = this.SOMBREAMIENTOS.tipos.map(v => v.name);
+    this.TIPOSVIDRIO = this.ACRISTALAMIENTOS.tipos.map((v) => v.name);
+    this.TIPOSSOMBRA = this.SOMBREAMIENTOS.tipos.map((v) => v.name);
     this.state = {
       tipovidrio: this.TIPOSVIDRIO[0],
       tiposombra: this.TIPOSSOMBRA[0],
       tau_e_B: 1,
-      rho_e_B: 0
+      rho_e_B: 0,
     };
   }
 
   render() {
     const { tipovidrio, tiposombra, tau_e_B, rho_e_B } = this.state;
-    const vidrio = this.ACRISTALAMIENTOS.tipos.find(v => v.name === tipovidrio);
+    const vidrio = this.ACRISTALAMIENTOS.tipos.find(
+      (v) => v.name === tipovidrio
+    );
     const F_w = this.ACRISTALAMIENTOS.propiedades.F_w;
     return (
       <Col>
@@ -60,13 +62,13 @@ class HuecosParams extends Component {
                 <Col md={8}>
                   <Form.Control
                     value={tipovidrio}
-                    onChange={e =>
+                    onChange={(e) =>
                       this.setState({ tipovidrio: e.target.value })
                     }
                     as="select"
                     placeholder="select"
                   >
-                    {this.TIPOSVIDRIO.map(v => (
+                    {this.TIPOSVIDRIO.map((v) => (
                       <option
                         value={v}
                         key={"tipovidrio_" + v.replace(" ", "_")}
@@ -84,13 +86,13 @@ class HuecosParams extends Component {
                 <Col md={8}>
                   <Form.Control
                     value={tiposombra}
-                    onChange={e =>
+                    onChange={(e) =>
                       this.setState({ tiposombra: e.target.value })
                     }
                     as="select"
                     placeholder="select"
                   >
-                    {this.TIPOSSOMBRA.map(v => (
+                    {this.TIPOSSOMBRA.map((v) => (
                       <option value={v} key={"tiposombra_" + v}>
                         {v}
                       </option>
@@ -100,7 +102,7 @@ class HuecosParams extends Component {
               </Form.Group>
               {tiposombra === "Ninguno" ? null : (
                 <SombrasForm
-                  onUpdate={obj => {
+                  onUpdate={(obj) => {
                     this.setState(obj);
                   }}
                 />
@@ -127,25 +129,25 @@ class SombrasForm extends Component {
     this.REFLEXION = ELEMENTOS.huecos.sombreamientos.propiedades.reflexion;
     this.state = {
       opacidad: this.OPACIDAD[0].opacidad,
-      color: this.REFLEXION[0].color
+      color: this.REFLEXION[0].color,
     };
     this.onUpdate();
   }
 
   onUpdate() {
     const { opacidad, color } = this.state;
-    const tau_e_B = this.OPACIDAD.find(v => v.opacidad === opacidad).tau_e_B;
+    const tau_e_B = this.OPACIDAD.find((v) => v.opacidad === opacidad).tau_e_B;
     const rho_e_B = this.REFLEXION.find(
-      v => v.color === color && v.opacidad === opacidad
+      (v) => v.color === color && v.opacidad === opacidad
     ).rho_e_B;
     this.props.onUpdate({ tau_e_B, rho_e_B });
   }
 
   render() {
     const { opacidad, color } = this.state;
-    const tau_e_B = this.OPACIDAD.find(v => v.opacidad === opacidad).tau_e_B;
+    const tau_e_B = this.OPACIDAD.find((v) => v.opacidad === opacidad).tau_e_B;
     const rho_e_B = this.REFLEXION.find(
-      v => v.color === color && v.opacidad === opacidad
+      (v) => v.color === color && v.opacidad === opacidad
     ).rho_e_B;
     return (
       <React.Fragment>
@@ -156,13 +158,13 @@ class SombrasForm extends Component {
           <Col md={4}>
             <Form.Control
               value={opacidad}
-              onChange={e =>
+              onChange={(e) =>
                 this.setState({ opacidad: e.target.value }, this.onUpdate)
               }
               as="select"
               placeholder="select"
             >
-              {this.OPACIDAD.map(v => (
+              {this.OPACIDAD.map((v) => (
                 <option
                   value={v.opacidad}
                   key={"opacidad_" + v.opacidad.replace(" ", "_")}
@@ -191,17 +193,19 @@ class SombrasForm extends Component {
           <Col md={4}>
             <Form.Control
               value={color}
-              onChange={e =>
+              onChange={(e) =>
                 this.setState({ color: e.target.value }, this.onUpdate)
               }
               as="select"
               placeholder="select"
             >
-              {this.REFLEXION.filter(v => v.opacidad === opacidad).map(v => (
-                <option value={v.color} key={"color_" + v.color}>
-                  {v.color}
-                </option>
-              ))}
+              {this.REFLEXION.filter((v) => v.opacidad === opacidad).map(
+                (v) => (
+                  <option value={v.color} key={"color_" + v.color}>
+                    {v.color}
+                  </option>
+                )
+              )}
             </Form.Control>
           </Col>
           <Col as={Form.Label} md={1}>
