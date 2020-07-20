@@ -114,14 +114,24 @@ const OpacosTable = inject("appstate")(
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Área del elemento opaco (m²)"
                   >
-                    A (m<sup>2</sup>)
+                    A<br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>
+                        [m<sup>2</sup>]
+                      </i>{" "}
+                    </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="U"
                     dataFormat={this.Float3DigitsFormatter}
                     headerText="Transmitancia térmica del elemento opaco (W/m²K)"
                   >
-                    U (W/m<sup>2</sup>K)
+                    U<br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>
+                        [W/m<sup>2</sup>K]
+                      </i>{" "}
+                    </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="btrx"
@@ -129,6 +139,10 @@ const OpacosTable = inject("appstate")(
                     headerText="Factor de ajuste del elemento opaco (fracción)"
                   >
                     b<sub>tr,x</sub>
+                    <br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>[-]</i>{" "}
+                    </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="name"
