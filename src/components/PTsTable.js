@@ -42,8 +42,8 @@ const PTsTable = inject("appstate")(
       );
 
       render() {
-        const { envolvente, ptsL, ptsPsiL } = this.props.appstate;
-        const pts = envolvente.pts;
+        const { envelope, ptsL, ptsPsiL } = this.props.appstate;
+        const thermal_bridges = envelope.thermal_bridges;
 
         return (
           <Col>
@@ -53,7 +53,7 @@ const PTsTable = inject("appstate")(
               </Col>
               <Col md="auto">
                 <AddRemoveButtonGroup
-                  objects={pts}
+                  objects={thermal_bridges}
                   newObj={this.props.appstate.newPT}
                   selectedId={this.state.selectedId}
                 />
@@ -62,7 +62,7 @@ const PTsTable = inject("appstate")(
             <Row>
               <Col>
                 <BootstrapTable
-                  data={pts}
+                  data={thermal_bridges}
                   version="4"
                   striped
                   hover
@@ -75,7 +75,7 @@ const PTsTable = inject("appstate")(
                     onSelect: (row, isSelected) =>
                       this.setState({ selectedId: isSelected ? [row.id] : [] }),
                     hideSelectColumn: true,
-                    bgColor: "lightgray"
+                    bgColor: "lightgray",
                   }}
                 >
                   <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
@@ -96,7 +96,7 @@ const PTsTable = inject("appstate")(
                     &psi; (W/mK)
                   </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="nombre"
+                    dataField="name"
                     headerText="Descripción identificativa del puente térmico"
                     width="40%"
                   >

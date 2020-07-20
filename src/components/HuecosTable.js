@@ -44,7 +44,7 @@ const HuecosTable = inject("appstate")(
           "S",
           "SW",
           "W",
-          "NW"
+          "NW",
         ];
       }
 
@@ -57,8 +57,8 @@ const HuecosTable = inject("appstate")(
       );
 
       render() {
-        const { envolvente, huecosA, huecosAU } = this.props.appstate;
-        const huecos = envolvente.huecos;
+        const { envelope, huecosA, huecosAU } = this.props.appstate;
+        const windows = envelope.windows;
 
         return (
           <Col>
@@ -68,7 +68,7 @@ const HuecosTable = inject("appstate")(
               </Col>
               <Col md="auto">
                 <AddRemoveButtonGroup
-                  objects={huecos}
+                  objects={windows}
                   newObj={this.props.appstate.newHueco}
                   selectedId={this.state.selectedId}
                 />
@@ -77,7 +77,7 @@ const HuecosTable = inject("appstate")(
             <Row>
               <Col>
                 <BootstrapTable
-                  data={huecos}
+                  data={windows}
                   version="4"
                   striped
                   hover
@@ -89,20 +89,20 @@ const HuecosTable = inject("appstate")(
                     selected: this.state.selectedId,
                     onSelect: (row, isSelected) =>
                       this.setState({
-                        selectedId: isSelected ? [row.id] : []
+                        selectedId: isSelected ? [row.id] : [],
                       }),
                     hideSelectColumn: true,
-                    bgColor: "lightgray"
+                    bgColor: "lightgray",
                   }}
                 >
                   <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
                     ID
                   </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="orientacion"
+                    dataField="orientation"
                     editable={{
                       type: "select",
-                      options: { values: this.orientacionesList }
+                      options: { values: this.orientacionesList },
                     }}
                     headerText="Orientación del hueco"
                   >
@@ -178,7 +178,7 @@ const HuecosTable = inject("appstate")(
                     </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="Ch100"
+                    dataField="C_100"
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Coeficiente de permeabilidad al aire del hueco a 100 Pa (m3/hm2)"
                   >
@@ -191,7 +191,7 @@ const HuecosTable = inject("appstate")(
                     </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="nombre"
+                    dataField="name"
                     headerText="Descripción identificativa del hueco"
                     width="30%"
                   >

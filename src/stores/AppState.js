@@ -25,96 +25,96 @@ import { action, observable, computed, decorate } from "mobx";
 import radiationdata from "../zcraddata.json";
 import { uuidv4, UserException } from "../utils.js";
 
-const DEFAULT_ENVOLVENTE = {
-  huecos: [
+const DEFAULT_ENVELOPE = {
+  windows: [
     {
       id: uuidv4(),
-      nombre: "Huecos norte",
-      orientacion: "N",
+      name: "Huecos norte",
+      orientation: "N",
       A: 42.38,
       U: 2.613,
       Ff: 0.25,
       gglshwi: 0.67,
       gglwi: 0.67,
       Fshobst: 1.0,
-      Ch100: 27.0
+      C_100: 27.0,
     },
     {
       id: uuidv4(),
-      nombre: "Huecos este",
-      orientacion: "E",
+      name: "Huecos este",
+      orientation: "E",
       A: 17.11,
       U: 2.613,
       Ff: 0.25,
       gglshwi: 0.67,
       gglwi: 0.67,
       Fshobst: 0.82,
-      Ch100: 27.0
+      C_100: 27.0,
     },
     {
       id: uuidv4(),
-      nombre: "Huecos sur",
-      orientacion: "S",
+      name: "Huecos sur",
+      orientation: "S",
       A: 46.83,
       U: 2.613,
       Ff: 0.25,
       gglshwi: 0.67,
       gglwi: 0.67,
       Fshobst: 0.67,
-      Ch100: 27.0
+      C_100: 27.0,
     },
     {
       id: uuidv4(),
-      nombre: "Huecos oeste",
-      orientacion: "W",
+      name: "Huecos oeste",
+      orientation: "W",
       A: 17.64,
       U: 2.613,
       Ff: 0.25,
       gglshwi: 0.67,
       gglwi: 0.67,
       Fshobst: 0.82,
-      Ch100: 27.0
-    }
+      C_100: 27.0,
+    },
   ],
-  opacos: [
-    { id: uuidv4(), A: 418.0, U: 0.211, btrx: 1.0, nombre: "Cubierta" },
-    { id: uuidv4(), A: 534.41, U: 0.271, btrx: 1.0, nombre: "Fachada" },
-    { id: uuidv4(), A: 418.0, U: 0.246, btrx: 1.0, nombre: "Solera" }
+  walls: [
+    { id: uuidv4(), A: 418.0, U: 0.211, btrx: 1.0, name: "Cubierta" },
+    { id: uuidv4(), A: 534.41, U: 0.271, btrx: 1.0, name: "Fachada" },
+    { id: uuidv4(), A: 418.0, U: 0.246, btrx: 1.0, name: "Solera" },
   ],
-  pts: [
-    { id: uuidv4(), L: 487.9, psi: 0.1, nombre: "PT forjado-fachada" },
-    { id: uuidv4(), L: 181.7, psi: 0.28, nombre: "PT solera-fachada" },
-    { id: uuidv4(), L: 124.5, psi: 0.24, nombre: "PT cubierta-fachada" },
-    { id: uuidv4(), L: 468.8, psi: 0.05, nombre: "PT contorno huecos" }
-  ]
+  thermal_bridges: [
+    { id: uuidv4(), L: 487.9, psi: 0.1, name: "PT forjado-fachada" },
+    { id: uuidv4(), L: 181.7, psi: 0.28, name: "PT solera-fachada" },
+    { id: uuidv4(), L: 124.5, psi: 0.24, name: "PT cubierta-fachada" },
+    { id: uuidv4(), L: 468.8, psi: 0.05, name: "PT contorno huecos" },
+  ],
 };
 
-const DEFAULT_HUECO = () => ({
+const DEFAULT_WINDOW = () => ({
   id: uuidv4(),
-  nombre: "Hueco nuevo",
-  orientacion: "N",
+  name: "Hueco nuevo",
+  orientation: "N",
   A: 1.0,
   U: 1.0,
   Ff: 0.2,
   gglshwi: 0.67,
   gglwi: 0.67,
   Fshobst: 1.0,
-  Ch100: 27.0
+  C_100: 27.0,
 });
 
-const DEFAULT_OPACO = () => ({
+const DEFAULT_WALL = () => ({
   id: uuidv4(),
   A: 1.0,
   U: 0.2,
   btrx: 1.0,
-  nombre: "Elemento opaco"
+  name: "Elemento opaco",
 });
 
-const DEFAULT_PT = () => ({
+const DEFAULT_TB = () => ({
   id: uuidv4(),
   L: 1.0,
   psi: 0.05,
-  nombre: "PT por defecto"
+  name: "PT por defecto",
 });
 
 export default class AppState {
@@ -123,7 +123,7 @@ export default class AppState {
   // Valores de radiación
   radiationdata = radiationdata;
   // Zona climática
-  clima = "D3";
+  climate = "D3";
 
   // Datos geométricos y constructivos
 
@@ -134,22 +134,22 @@ export default class AppState {
   // Coeficiente de caudal de aire de la parte opaca de la envolvente térmica a 100 Pa (m3/h/m2)
   Co100 = 16;
   // Elementos de la envolvente térmica
-  envolvente = DEFAULT_ENVOLVENTE;
+  envelope = DEFAULT_ENVELOPE;
 
   // Lista de errores
   errors = [];
 
   // Propiedades de datos climáticos
   get zoneslist() {
-    return [...new Set(this.radiationdata.map(v => v.zc))];
+    return [...new Set(this.radiationdata.map((v) => v.zc))];
   }
 
   get orientations() {
-    return [...new Set(this.radiationdata.map(v => v.surfname))];
+    return [...new Set(this.radiationdata.map((v) => v.surfname))];
   }
 
   get climatedata() {
-    return this.radiationdata.filter(v => v.zc === this.clima);
+    return this.radiationdata.filter((v) => v.zc === this.climate);
   }
 
   get climateTotRadJul() {
@@ -160,42 +160,44 @@ export default class AppState {
   }
 
   // Constructores
-  newHueco = DEFAULT_HUECO;
-  newOpaco = DEFAULT_OPACO;
-  newPT = DEFAULT_PT;
+  newHueco = DEFAULT_WINDOW;
+  newOpaco = DEFAULT_WALL;
+  newPT = DEFAULT_TB;
 
   // Propiedades de datos de envolvente
   get huecosA() {
-    return this.envolvente.huecos
-      .map(h => Number(h.A))
+    return this.envelope.windows
+      .map((h) => Number(h.A))
       .reduce((a, b) => a + b, 0);
   }
 
   get huecosAU() {
-    return this.envolvente.huecos
-      .map(h => Number(h.A) * Number(h.U))
+    return this.envelope.windows
+      .map((h) => Number(h.A) * Number(h.U))
       .reduce((a, b) => a + b, 0);
   }
 
   get opacosA() {
-    return this.envolvente.opacos
-      .map(o => Number(o.btrx) * Number(o.A))
+    return this.envelope.walls
+      .map((o) => Number(o.btrx) * Number(o.A))
       .reduce((a, b) => a + b, 0);
   }
 
   get opacosAU() {
-    return this.envolvente.opacos
-      .map(o => Number(o.btrx) * Number(o.A) * Number(o.U))
+    return this.envelope.walls
+      .map((o) => Number(o.btrx) * Number(o.A) * Number(o.U))
       .reduce((a, b) => a + b, 0);
   }
 
   get ptsL() {
-    return this.envolvente.pts.map(h => Number(h.L)).reduce((a, b) => a + b, 0);
+    return this.envelope.thermal_bridges
+      .map((h) => Number(h.L))
+      .reduce((a, b) => a + b, 0);
   }
 
   get ptsPsiL() {
-    return this.envolvente.pts
-      .map(h => Number(h.L) * Number(h.psi))
+    return this.envelope.thermal_bridges
+      .map((h) => Number(h.L) * Number(h.psi))
       .reduce((a, b) => a + b, 0);
   }
 
@@ -212,45 +214,45 @@ export default class AppState {
   }
 
   get Qsoljul() {
-    return climateTotRadJul =>
-      this.envolvente.huecos
+    return (climateTotRadJul) =>
+      this.envelope.windows
         .map(
-          h =>
+          (h) =>
             Number(h.Fshobst) *
             Number(h.gglshwi) *
             (1 - Number(h.Ff)) *
             Number(h.A) *
-            climateTotRadJul[h.orientacion]
+            climateTotRadJul[h.orientation]
         )
         .reduce((a, b) => a + b, 0);
   }
 
   get qsj() {
-    return climateTotRadJul => this.Qsoljul(climateTotRadJul) / this.Autil;
+    return (climateTotRadJul) => this.Qsoljul(climateTotRadJul) / this.Autil;
   }
 
   // Agrupa superficie de huecos por tipos
   agrupaHuecos() {
     const isequal = (h1, h2) =>
-      h1.orientacion === h2.orientacion &&
+      h1.orientation === h2.orientation &&
       Number(h1.Ff) === Number(h2.Ff) &&
       Number(h1.U) === Number(h2.U) &&
       Number(h1.gglshwi) === Number(h2.gglshwi) &&
       Number(h1.gglwi) === Number(h2.gglwi);
     const huecosagrupados = [];
-    for (let hueco of this.envolvente.huecos) {
-      const h = huecosagrupados.find(e => isequal(hueco, e));
+    for (let hueco of this.envelope.windows) {
+      const h = huecosagrupados.find((e) => isequal(hueco, e));
       if (h) {
         h.Fshobst =
           (1.0 * (h.Fshobst * h.A + hueco.Fshobst * hueco.A)) / (h.A + hueco.A);
         h.A = 0.0 + h.A + hueco.A;
         h.id = uuidv4();
-        h.nombre = h.nombre + ", " + hueco.nombre;
+        h.name = h.name + ", " + hueco.name;
       } else {
         huecosagrupados.push(hueco);
       }
     }
-    this.envolvente.huecos.replace(huecosagrupados);
+    this.envelope.windows.replace(huecosagrupados);
   }
 
   // Agrupa superficie de opacos por tipos
@@ -258,77 +260,77 @@ export default class AppState {
     const isequal = (o1, o2) =>
       Number(o1.U) === Number(o2.U) && Number(o1.btrx) === Number(o2.btrx);
     const opacosagrupados = [];
-    for (let opaco of this.envolvente.opacos) {
-      const o = opacosagrupados.find(e => isequal(opaco, e));
+    for (let opaco of this.envelope.walls) {
+      const o = opacosagrupados.find((e) => isequal(opaco, e));
       if (o) {
         o.A = o.A + opaco.A;
         o.id = uuidv4();
-        o.nombre = o.nombre + ", " + opaco.nombre;
+        o.name = o.name + ", " + opaco.name;
       } else {
         opacosagrupados.push(opaco);
       }
     }
-    this.envolvente.opacos.replace(opacosagrupados);
+    this.envelope.walls.replace(opacosagrupados);
   }
 
   // Agrupa longitudes de puentes térmicos por tipos
   agrupaPts() {
     const isequal = (p1, p2) => Number(p1.psi) === Number(p2.psi);
     const ptsagrupados = [];
-    for (let pt of this.envolvente.pts) {
-      const p = ptsagrupados.find(e => isequal(pt, e));
+    for (let pt of this.envelope.thermal_bridges) {
+      const p = ptsagrupados.find((e) => isequal(pt, e));
       if (p) {
         p.A = p.L + pt.L;
         p.id = uuidv4();
-        p.nombre = p.nombre + ", " + pt.nombre;
+        p.name = p.name + ", " + pt.name;
       } else {
         ptsagrupados.push(pt);
       }
     }
-    this.envolvente.pts.replace(ptsagrupados);
+    this.envelope.thermal_bridges.replace(ptsagrupados);
   }
 
   // Serialización y deserialización
   get asJSON() {
-    const { Autil, envolvente, clima } = this;
-    return JSON.stringify({ Autil, clima, envolvente }, null, 2);
+    const { Autil, envelope, climate } = this;
+    return JSON.stringify({ Autil, climate, envelope }, null, 2);
   }
 
   loadJSON(data) {
     try {
-      const { Autil, clima = "D3", envolvente } = JSON.parse(data);
-      const { huecos, opacos, pts } = envolvente;
+      const { Autil, climate = "D3", envelope } = JSON.parse(data);
+      const { windows, walls, thermal_bridges } = envelope;
       if (
         !(
           Autil &&
-          envolvente &&
-          Array.isArray(huecos) &&
-          Array.isArray(opacos) &&
-          Array.isArray(pts)
+          envelope &&
+          Array.isArray(windows) &&
+          Array.isArray(walls) &&
+          Array.isArray(thermal_bridges)
         )
       ) {
         throw UserException("Formato incorrecto");
       }
-      this.clima = clima;
+      this.climate = climate;
       this.Autil = Number(Autil);
-      this.envolvente = envolvente;
+      this.envelope = envelope;
       this.errors = [
         { type: "SUCCESS", msg: "Datos cargados correctamente." },
         {
           type: "INFO",
           msg:
             `Autil: ${Autil} m², Elementos: ` +
-            `${huecos.length} huecos, ${opacos.length} opacos, ${
-              pts.length
-            } PTs.`
-        }
+            `${windows.length} huecos, ${walls.length} opacos, ${
+              thermal_bridges.length
+            } PTs.`,
+        },
       ];
     } catch (err) {
       this.errors = [
         {
           type: "DANGER",
-          msg: "El archivo no contiene datos con un formato adecuado."
-        }
+          msg: "El archivo no contiene datos con un formato adecuado.",
+        },
       ];
     }
   }
@@ -337,11 +339,11 @@ export default class AppState {
 decorate(AppState, {
   // Decorators
   // title: observable can be omitted, its is the default when using observable.object
-  clima: observable,
+  climate: observable,
   Autil: observable,
   V: observable,
   Co100: observable,
-  envolvente: observable,
+  envelope: observable,
   errors: observable,
   // Valores calculados
   zoneslist: computed,
@@ -363,5 +365,5 @@ decorate(AppState, {
   agrupaOpacos: action,
   agrupaPts: action,
   asJSON: computed,
-  loadJSON: action
+  loadJSON: action,
 });

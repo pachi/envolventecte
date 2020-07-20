@@ -48,8 +48,8 @@ const OpacosTable = inject("appstate")(
       );
 
       render() {
-        const { Co100, envolvente, opacosA, opacosAU } = this.props.appstate;
-        const opacos = envolvente.opacos;
+        const { Co100, envelope, opacosA, opacosAU } = this.props.appstate;
+        const walls = envelope.walls;
 
         return (
           <Col>
@@ -59,7 +59,7 @@ const OpacosTable = inject("appstate")(
               </Col>
               <Col md="auto">
                 <AddRemoveButtonGroup
-                  objects={opacos}
+                  objects={walls}
                   newObj={this.props.appstate.newOpaco}
                   selectedId={this.state.selectedId}
                 />
@@ -77,7 +77,7 @@ const OpacosTable = inject("appstate")(
                 ={" "}
                 <input
                   type="text"
-                  onChange={e => {
+                  onChange={(e) => {
                     this.props.appstate.Co100 = Number(e.target.value);
                   }}
                   value={Co100}
@@ -88,7 +88,7 @@ const OpacosTable = inject("appstate")(
             <Row>
               <Col>
                 <BootstrapTable
-                  data={opacos}
+                  data={walls}
                   version="4"
                   striped
                   hover
@@ -100,10 +100,10 @@ const OpacosTable = inject("appstate")(
                     selected: this.state.selectedId,
                     onSelect: (row, isSelected) =>
                       this.setState({
-                        selectedId: isSelected ? [row.id] : []
+                        selectedId: isSelected ? [row.id] : [],
                       }),
                     hideSelectColumn: true,
-                    bgColor: "lightgray"
+                    bgColor: "lightgray",
                   }}
                 >
                   <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
@@ -131,7 +131,7 @@ const OpacosTable = inject("appstate")(
                     b<sub>tr,x</sub>
                   </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="nombre"
+                    dataField="name"
                     headerText="Descripción identificativa del elemento opaco"
                     width="40%"
                   >
