@@ -32,6 +32,7 @@ import IndicatorsPanel from "./IndicatorsPanel";
 import NavBar from "./Nav";
 import OpacosTable from "./OpacosTable";
 import PTsTable from "./PTsTable";
+import SpacesTable from "./SpacesTable";
 
 class EnvelopePage extends Component {
   render() {
@@ -55,8 +56,11 @@ class EnvelopePage extends Component {
               <Tab eventKey={3} title="Puentes Térmicos" className="pt-3">
                 <PTsTable />
               </Tab>
+              <Tab eventKey={4} title="Espacios" className="pt-3">
+                <SpacesTable />
+              </Tab>
               <Tab
-                eventKey={4}
+                eventKey={5}
                 title="Carga / descarga de datos"
                 className="pt-3"
               >

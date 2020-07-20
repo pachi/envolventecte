@@ -117,6 +117,33 @@ const DEFAULT_TB = () => ({
   name: "PT por defecto",
 });
 
+const DEFAULT_SPACES = [
+  {
+    id: uuidv4(),
+    name: "Espacio_1",
+    area: 1674.0,
+    height_net: 2.7,
+    height_gross: 3.0,
+    inside_tenv: true,
+    multiplier: 1.0,
+    type: "ACONDICIONADO",
+  },
+];
+
+const DEFAULT_SPACE = () => {
+  const id = uuidv4();
+  return {
+    id,
+    name: `Espacio_${id}`,
+    area: 1.0,
+    height_net: 2.7,
+    height_gross: 3.0,
+    inside_tenv: true,
+    multiplier: 1.0,
+    type: "ACONDICIONADO",
+  };
+};
+
 export default class AppState {
   // Datos climáticos
 
@@ -135,6 +162,8 @@ export default class AppState {
   Co100 = 16;
   // Elementos de la envolvente térmica
   envelope = DEFAULT_ENVELOPE;
+  // Espacios de la envolvente térmica
+  spaces = DEFAULT_SPACES;
 
   // Lista de errores
   errors = [];
@@ -163,6 +192,7 @@ export default class AppState {
   newHueco = DEFAULT_WINDOW;
   newOpaco = DEFAULT_WALL;
   newPT = DEFAULT_TB;
+  newSpace = DEFAULT_SPACE;
 
   // Propiedades de datos de envolvente
   get huecosA() {
@@ -290,15 +320,41 @@ export default class AppState {
     this.envelope.thermal_bridges.replace(ptsagrupados);
   }
 
-  // Serialización y deserialización
+  // Serialización de los datos
   get asJSON() {
-    const { Autil, envelope, climate } = this;
-    return JSON.stringify({ Autil, climate, envelope }, null, 2);
+    const { Autil, climate } = this;
+
+    // Eliminamos ids
+    const windows = this.envelope.windows.map((e) => {
+      const { id, ...rest } = e;
+      return rest;
+    });
+    const walls = this.envelope.walls.map((e) => {
+      const { id, ...rest } = e;
+      return rest;
+    });
+    const thermal_bridges = this.envelope.thermal_bridges.map((e) => {
+      const { id, ...rest } = e;
+      return rest;
+    });
+
+    const spaces = this.spaces.map((e) => {
+      const { id, ...rest } = e;
+      return rest;
+    });
+
+    return JSON.stringify(
+      { Autil, climate, envelope: { windows, walls, thermal_bridges }, spaces },
+      null,
+      2
+    );
   }
 
+  // Deserialización de datos desde JSON
   loadJSON(data) {
+    // Lee datos
     try {
-      const { Autil, climate = "D3", envelope } = JSON.parse(data);
+      const { Autil, climate = "D3", envelope, spaces } = JSON.parse(data);
       const { windows, walls, thermal_bridges } = envelope;
       if (
         !(
@@ -306,14 +362,35 @@ export default class AppState {
           envelope &&
           Array.isArray(windows) &&
           Array.isArray(walls) &&
-          Array.isArray(thermal_bridges)
+          Array.isArray(thermal_bridges) &&
+          Array.isArray(spaces)
         )
       ) {
         throw UserException("Formato incorrecto");
       }
+      // Añade índices
+      windows.map((e) => {
+        e.id = uuidv4();
+        return e;
+      });
+      walls.map((e) => {
+        e.id = uuidv4();
+        return e;
+      });
+      thermal_bridges.map((e) => {
+        e.id = uuidv4();
+        return e;
+      });
+      spaces.map((e) => {
+        e.id = uuidv4();
+        return e;
+      });
+
+      // Almacena en store datos
       this.climate = climate;
       this.Autil = Number(Autil);
       this.envelope = envelope;
+      this.spaces = spaces;
       this.errors = [
         { type: "SUCCESS", msg: "Datos cargados correctamente." },
         {
