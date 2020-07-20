@@ -154,10 +154,6 @@ export default class AppState {
 
   // Datos geométricos y constructivos
 
-  // Área útil
-  Autil = 1674;
-  // Volumen interno a la envolvente térmica
-  V = 4519;
   // Coeficiente de caudal de aire de la parte opaca de la envolvente térmica a 100 Pa (m3/h/m2)
   Co100 = 16;
   // Elementos de la envolvente térmica
@@ -193,6 +189,34 @@ export default class AppState {
   newOpaco = DEFAULT_WALL;
   newPT = DEFAULT_TB;
   newSpace = DEFAULT_SPACE;
+
+  // Propiedades de datos de espacios
+
+  // Área útil de los espacios habitables en el interior de la envolvente térmica
+  get Autil() {
+    const nA = this.spaces
+      .map(
+        (s) =>
+          s.multiplier *
+          s.area *
+          (s.inside_tenv ? 1.0 : 0.0) *
+          (s.type !== "NO_HABITABLE" ? 1.0 : 0.0)
+      )
+      .reduce((acc, x) => acc + x, 0.0);
+    return nA;
+  }
+
+  // Volumen neto de los espacios en el interior de la envolvente teŕmica
+  // TODO: ¿es de todos los espacios o solo de los habitables?
+  get V() {
+    const V = this.spaces
+      .map(
+        (s) =>
+          s.multiplier * s.area * (s.inside_tenv ? 1.0 : 0.0) * s.height_net
+      )
+      .reduce((acc, x) => acc + x, 0.0);
+    return V;
+  }
 
   // Propiedades de datos de envolvente
   get huecosA() {
@@ -356,9 +380,9 @@ export default class AppState {
     try {
       const { Autil, climate = "D3", envelope, spaces } = JSON.parse(data);
       const { windows, walls, thermal_bridges } = envelope;
+      console.log("Espacios: ", spaces);
       if (
         !(
-          Autil &&
           envelope &&
           Array.isArray(windows) &&
           Array.isArray(walls) &&
@@ -388,7 +412,6 @@ export default class AppState {
 
       // Almacena en store datos
       this.climate = climate;
-      this.Autil = Number(Autil);
       this.envelope = envelope;
       this.spaces = spaces;
       this.errors = [
@@ -417,12 +440,13 @@ decorate(AppState, {
   // Decorators
   // title: observable can be omitted, its is the default when using observable.object
   climate: observable,
-  Autil: observable,
-  V: observable,
   Co100: observable,
   envelope: observable,
+  spaces: observable,
   errors: observable,
   // Valores calculados
+  Autil: computed,
+  V: computed,
   zoneslist: computed,
   orientations: computed,
   climatedata: computed({ requiresReaction: true }),
