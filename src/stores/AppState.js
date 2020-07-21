@@ -389,7 +389,6 @@ export default class AppState {
     try {
       const { climate = "D3", envelope, spaces } = JSON.parse(data);
       const { windows, walls, thermal_bridges } = envelope;
-      console.log("Espacios: ", spaces);
       if (
         !(
           envelope &&
