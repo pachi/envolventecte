@@ -21,12 +21,46 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer, inject } from "mobx-react";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
+
+const Float1DigitsFormatter = (cell, _row) => (
+  <span>{Number(cell).toFixed(1)}</span>
+);
+
+const Float2DigitsFormatter = (cell, _row) => (
+  <span>{Number(cell).toFixed(2)}</span>
+);
+
+const BoolFormatter = (cell, _row) => (
+  <span>{cell === true ? "Sí" : "No"}</span>
+);
+
+// Custom editor para booleanos
+//
+// The getElement function returns a JSX value and takes two arguments:
+//  - onUpdate: if you want to apply the modified data, call this function
+//  - props: contain customEditorParameters, whole row data, defaultValue and attrs
+// Usamos forwardRef para poder tener referencias en componentes funcionales
+// ver: https://github.com/reactjs/reactjs.org/issues/2120
+const BoolEditor = React.forwardRef((props, ref) => {
+  const { defaultValue, onKeyDown, onUpdate } = props;
+  const [value, setValue] = useState(defaultValue);
+
+  return (
+    <input
+      type="checkbox"
+      checked={value}
+      onKeyDown={onKeyDown}
+      onChange={(e) => setValue(!value)}
+      onBlur={(e) => onUpdate(value)}
+    />
+  );
+});
 
 const SpacesTable = inject("appstate")(
   observer(
@@ -36,16 +70,6 @@ const SpacesTable = inject("appstate")(
         this.state = { selectedId: [] };
         this.spacetypes = ["ACONDICIONADO", "NO_ACONDICIONADO", "NO_HABITABLE"];
       }
-
-      Float1DigitsFormatter = (cell, _row) => (
-        <span>{Number(cell).toFixed(1)}</span>
-      );
-      Float2DigitsFormatter = (cell, _row) => (
-        <span>{Number(cell).toFixed(2)}</span>
-      );
-      BoolFormatter = (cell, _row) => (
-        <span>{cell === true ? "Sí" : "No"}</span>
-      );
 
       render() {
         const { spaces } = this.props.appstate;
@@ -97,22 +121,19 @@ const SpacesTable = inject("appstate")(
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="inside_tenv"
-                    // dataFormat={this.BoolFormatter}
-                    // editable={{
-                    //   type: "checkbox",
-                    //   options: { values: "Sí:No" },
-                    //   // options: [
-                    //   //   { value: "Sí", value: true },
-                    //   //   { value: "No", value: false },
-                    //   // ],
-                    // }}
+                    customEditor={{
+                      getElement: (onUpdate, props) => (
+                        <BoolEditor onUpdate={onUpdate} {...props} />
+                      ),
+                    }}
+                    dataFormat={BoolFormatter}
                     headerText="¿Pertenece a la envolvente térmica?"
                   >
-                    ET
+                    ¿Interior <br />a la E.T.?
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="multiplier"
-                    dataFormat={this.Float1DigitsFormatter}
+                    dataFormat={Float1DigitsFormatter}
                     headerText="Multiplicador (-)"
                   >
                     n<br />
@@ -122,7 +143,7 @@ const SpacesTable = inject("appstate")(
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="area"
-                    dataFormat={this.Float2DigitsFormatter}
+                    dataFormat={Float2DigitsFormatter}
                     headerText="Superficie útil del espacio (m²)"
                   >
                     A<br />
@@ -148,7 +169,7 @@ const SpacesTable = inject("appstate")(
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="height_net"
-                    dataFormat={this.Float2DigitsFormatter}
+                    dataFormat={Float2DigitsFormatter}
                     headerText="Altura libre, o suelo a techo, del espacio (m)"
                   >
                     h<sub>s-t</sub>
@@ -159,7 +180,7 @@ const SpacesTable = inject("appstate")(
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="height_gross"
-                    dataFormat={this.Float2DigitsFormatter}
+                    dataFormat={Float2DigitsFormatter}
                     headerText="Altura suelo a suelo del espacio (m)"
                   >
                     h<sub>s-s</sub>
