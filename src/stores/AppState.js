@@ -207,7 +207,6 @@ export default class AppState {
   }
 
   // Volumen neto de los espacios en el interior de la envolvente teŕmica
-  // TODO: ¿es de todos los espacios o solo de los habitables?
   get V() {
     const V = this.spaces
       .map(
