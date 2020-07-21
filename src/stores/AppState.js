@@ -355,7 +355,7 @@ export default class AppState {
 
   // Serialización de los datos
   get asJSON() {
-    const { Autil, climate } = this;
+    const { climate } = this;
 
     // Eliminamos ids
     const windows = this.envelope.windows.map((e) => {
@@ -377,7 +377,7 @@ export default class AppState {
     });
 
     return JSON.stringify(
-      { Autil, climate, envelope: { windows, walls, thermal_bridges }, spaces },
+      { climate, envelope: { windows, walls, thermal_bridges }, spaces },
       null,
       2
     );
@@ -387,7 +387,7 @@ export default class AppState {
   loadJSON(data) {
     // Lee datos
     try {
-      const { Autil, climate = "D3", envelope, spaces } = JSON.parse(data);
+      const { climate = "D3", envelope, spaces } = JSON.parse(data);
       const { windows, walls, thermal_bridges } = envelope;
       console.log("Espacios: ", spaces);
       if (
@@ -427,11 +427,7 @@ export default class AppState {
         { type: "SUCCESS", msg: "Datos cargados correctamente." },
         {
           type: "INFO",
-          msg:
-            `Autil: ${Autil} m², Elementos: ` +
-            `${windows.length} huecos, ${walls.length} opacos, ${
-              thermal_bridges.length
-            } PTs.`,
+          msg: `Cargados ${windows.length} huecos, ${walls.length} opacos, ${thermal_bridges.length} PTs, ${spaces.length} espacios, clima ${climate}`,
         },
       ];
     } catch (err) {

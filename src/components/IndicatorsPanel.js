@@ -77,7 +77,7 @@ const IndicatorsPanel = inject("appstate")(
                   <i>
                     q<sub>sol;jul</sub>
                   </i>{" "}
-                  = {qsj_clima.toFixed(2)} <i>kWh/m²/mes</i>
+                  = {Autil !== 0 ? qsj_clima.toFixed(2) : "-"} <i>kWh/m²/mes</i>
                 </b>
               </Col>
               <Col
@@ -88,7 +88,7 @@ const IndicatorsPanel = inject("appstate")(
                 <b>
                   A<sub>util</sub>
                 </b>{" "}
-                = {Autil} m²
+                = {Autil.toFixed(2)} m²
               </Col>
               <Col
                 md={3}
@@ -151,7 +151,7 @@ const IndicatorsPanel = inject("appstate")(
                     </p>
                     <p>Superficie útil</p>
                     <p>
-                      A<sub>util</sub> = {Autil} m²
+                      A<sub>util</sub> = {Autil.toFixed(2)} m²
                     </p>
                     <p>Valor del indicador:</p>
                     <p>
@@ -159,9 +159,11 @@ const IndicatorsPanel = inject("appstate")(
                         q<sub>sol;jul</sub>
                       </b>{" "}
                       = Q<sub>sol;jul</sub> / A<sub>util</sub> =
-                      {Qsoljul_clima.toFixed(2)} / {Autil} ={" "}
+                      {Qsoljul_clima.toFixed(2)} / {Autil.toFixed(2)} ={" "}
                       <b>
-                        <i>{Number(qsj_clima).toFixed(2)} kWh/m²/mes</i>
+                        <i>
+                          {Autil !== 0 ? qsj_clima.toFixed(2) : "-"} kWh/m²/mes
+                        </i>
                       </b>
                     </p>
                   </Col>
