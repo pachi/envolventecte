@@ -50,7 +50,7 @@ const IndicatorsPanel = inject("appstate")(
           totalAU,
           K,
           Qsoljul,
-          qsj
+          qsj,
         } = this.props.appstate;
         const Qsoljul_clima = Qsoljul(climateTotRadJul);
         const qsj_clima = qsj(climateTotRadJul);
@@ -83,35 +83,22 @@ const IndicatorsPanel = inject("appstate")(
               <Col
                 md={3}
                 className="text-right"
-                title="Superficie útil del edificio o parte del edificio"
+                title="Superficie útil de los espacios habitables del edificio o parte del edificio [m2]"
               >
                 <b>
                   A<sub>util</sub>
                 </b>{" "}
-                ={" "}
-                <input
-                  type="text"
-                  onChange={e => {
-                    this.props.appstate.Autil = Number(e.target.value);
-                  }}
-                  value={Autil}
-                />{" "}
-                m²
+                = {Autil} m²
               </Col>
               <Col
                 md={3}
                 className="text-right"
-                title="Volumen interno a la envolvente térmica"
+                title="Volumen interno neto de la envolvente térmica (volumen neto s-t) [m3]"
               >
-                <b>V</b> ={" "}
-                <input
-                  type="text"
-                  onChange={e => {
-                    this.props.appstate.V = Number(e.target.value);
-                  }}
-                  value={V}
-                />{" "}
-                m³
+                <b>
+                  V<sub>neto</sub>
+                </b>{" "}
+                = {V} m³
               </Col>
             </Row>
             <Collapse in={this.state.open}>
