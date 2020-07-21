@@ -125,9 +125,9 @@ const IndicatorsPanel = inject("appstate")(
                     </p>
                     <p>
                       H<sub>tr,adj</sub> &asymp; &sum;<sub>x</sub> b
-                      <sub>tr,x</sub> · [&sCardsub> A<sub>x,i</sub> · U
-                      <sub>x,i</sub> (huecCard) + &sum;<sub>k</sub> l
-                      <sub>x,k</sub> · ψ<sub>x,kCard</sub> (PTs)] ={" "}
+                      <sub>tr,x</sub> · [&sum;<sub>i</sub> A<sub>x,i</sub> · U
+                      <sub>x,i</sub> (huecos + opacos) + &sum;<sub>k</sub> l
+                      <sub>x,k</sub> · ψ<sub>x,k</sub> (PTs)] ={" "}
                       {huecosAU.toFixed(2)} W/K (huecos) + {opacosAU.toFixed(2)}{" "}
                       W/K (opacos) + {ptsPsiL.toFixed(2)} W/K (PTs) ={" "}
                       {(totalAU + ptsPsiL).toFixed(2)} W/K{" "}
