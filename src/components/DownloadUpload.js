@@ -49,7 +49,7 @@ class DownloadUpload extends Component {
             <input
               ref="fileInput"
               type="file"
-              onChange={e => this.handleUpload(e)}
+              onChange={(e) => this.handleUpload(e)}
             />
           </Col>
         </Row>
@@ -68,11 +68,11 @@ class DownloadUpload extends Component {
               <p>
                 Para generar dicho archivo, descargue en su equipo la aplicación{" "}
                 <i>hulc2envolventecte</i> (
-                <a href="https://github.com/pachi/hulc2envolventecte/releases/download/v1.3/hulc2envolventecte.exe">
+                <a href="https://github.com/pachi/hulc2envolventecte/releases/download/v1.5.0/hulc2envolventecte.exe">
                   ejecutable para MS-Windows
                 </a>
                 ,{" "}
-                <a href="https://github.com/pachi/hulc2envolventecte/releases/download/v1.3/hulc2envolventecte">
+                <a href="https://github.com/pachi/hulc2envolventecte/releases/download/v1.5.0/hulc2envolventecte">
                   ejecutable para GNU/Linux
                 </a>
                 ) y úsela desde la consola de comandos (terminal), indicando
@@ -83,6 +83,13 @@ class DownloadUpload extends Component {
                 C:\ProyectosCTEyCEE\CTEHE2018\> hulc2envolventecte.exe
                 Proyectos\miproyectoHULC/ > archivo_salida.json
               </code>
+              <p>
+                Alternativamente, en sistemas MS-Windows al pulsar sobre el
+                ejecutable se abre una interfaz gráfica en la que puede
+                seleccionar el directorio de proyecto HULC sobre el que desea
+                trabajar, y en el que se generará el archivo <tt>.json</tt> que
+                puede cargar aquí.
+              </p>
             </Alert>
           </Col>
         </Row>
@@ -92,7 +99,7 @@ class DownloadUpload extends Component {
               variant="primary"
               ref="fileDownload"
               className="pull-right"
-              onClick={e => this.handleDownload(e)}
+              onClick={(e) => this.handleDownload(e)}
             >
               <img src={icondownload} alt="Descargar datos de envolvente" />{" "}
               Descargar datos de envolvente
@@ -137,13 +144,11 @@ class DownloadUpload extends Component {
     }
 
     const reader = new FileReader();
-    reader.onload = rawdata => {
+    reader.onload = (rawdata) => {
       this.props.appstate.loadJSON(rawdata.target.result);
     };
     reader.readAsText(file);
   }
 }
 
-export default (DownloadUpload = inject("appstate")(
-  observer(DownloadUpload)
-));
+export default DownloadUpload = inject("appstate")(observer(DownloadUpload));
