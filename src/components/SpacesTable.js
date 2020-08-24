@@ -40,6 +40,22 @@ const BoolFormatter = (cell, _row) => (
   <span>{cell === true ? "Sí" : "No"}</span>
 );
 
+const SpaceTypeFormatter = (cell, _row) => (
+  <span>{spacetypesmapinv[cell]}</span>
+);
+
+const spacetypesmapinv = {
+  CONDITIONED: "ACONDICIONADO",
+  UNCONDITIONED: "NO ACONDICIONADO",
+  UNINHABITED: "NO HABITABLE",
+};
+
+const spacetypes = [
+  { text: "ACONDICIONADO", value: "CONDITIONED" },
+  { text: "NO ACONDICONADO", value: "UNCONDITIONED" },
+  { text: "NO HABITABLE", value: "UNINHABITED" },
+];
+
 // Custom editor para booleanos
 //
 // The getElement function returns a JSX value and takes two arguments:
@@ -68,7 +84,6 @@ const SpacesTable = inject("appstate")(
       constructor(props, context) {
         super(props, context);
         this.state = { selectedId: [] };
-        this.spacetypes = ["ACONDICIONADO", "NO_ACONDICIONADO", "NO_HABITABLE"];
       }
 
       render() {
@@ -157,9 +172,10 @@ const SpacesTable = inject("appstate")(
                     dataField="type"
                     editable={{
                       type: "select",
-                      options: { values: this.spacetypes },
+                      options: { values: spacetypes },
                     }}
-                    headerText="Tipo de espacio (ACONDICIONADO | NO_ACONDICIONADO | NO_HABITABLE)"
+                    dataFormat={SpaceTypeFormatter}
+                    headerText="Tipo de espacio: ACONDICIONADO, NO ACONDICIONADO, NO HABITABLE"
                   >
                     Tipo
                     <br />

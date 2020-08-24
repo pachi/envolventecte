@@ -126,7 +126,7 @@ const DEFAULT_SPACES = [
     height_gross: 3.0,
     inside_tenv: true,
     multiplier: 1.0,
-    type: "ACONDICIONADO",
+    type: "CONDITIONED",
   },
 ];
 
@@ -140,7 +140,7 @@ const DEFAULT_SPACE = () => {
     height_gross: 3.0,
     inside_tenv: true,
     multiplier: 1.0,
-    type: "ACONDICIONADO",
+    type: "CONDITIONED",
   };
 };
 
