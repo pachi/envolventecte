@@ -29,6 +29,34 @@ import { observer, inject } from "mobx-react";
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 import icongroup from "./img/outline-add_comment-24px.svg";
 
+const Float1DigitsFormatter = (cell, _row) => (
+  <span>{Number(cell).toFixed(1)}</span>
+);
+const Float2DigitsFormatter = (cell, _row) => (
+  <span>{Number(cell).toFixed(2)}</span>
+);
+const Float3DigitsFormatter = (cell, _row) => (
+  <span>{Number(cell).toFixed(3)}</span>
+);
+
+const BoundaryTypeFormatter = (cell, _row) => (
+  <span>{boundarytypesmap[cell]}</span>
+);
+
+const boundarytypesmap = {
+  EXTERIOR: "EXTERIOR",
+  INTERIOR: "INTERIOR",
+  ADIABATIC: "ADIABÁTICO",
+  UNDERGROUND: "TERRENO",
+};
+
+const boundarytypes = [
+  { text: "EXTERIOR", value: "EXTERIOR" },
+  { text: "INTERIOR", value: "INTERIOR" },
+  { text: "ADIABÁTICO", value: "ADIABATIC" },
+  { text: "TERRENO", value: "UNDERGROUND" },
+];
+
 const OpacosTable = inject("appstate")(
   observer(
     class OpacosTable extends Component {
@@ -36,16 +64,6 @@ const OpacosTable = inject("appstate")(
         super(props, context);
         this.state = { selectedId: [] };
       }
-
-      Float1DigitsFormatter = (cell, _row) => (
-        <span>{Number(cell).toFixed(1)}</span>
-      );
-      Float2DigitsFormatter = (cell, _row) => (
-        <span>{Number(cell).toFixed(2)}</span>
-      );
-      Float3DigitsFormatter = (cell, _row) => (
-        <span>{Number(cell).toFixed(3)}</span>
-      );
 
       render() {
         const { Co100, envelope, opacosA, opacosAU } = this.props.appstate;
@@ -111,7 +129,7 @@ const OpacosTable = inject("appstate")(
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="A"
-                    dataFormat={this.Float2DigitsFormatter}
+                    dataFormat={Float2DigitsFormatter}
                     headerText="Área del elemento opaco (m²)"
                   >
                     A<br />
@@ -123,7 +141,7 @@ const OpacosTable = inject("appstate")(
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="U"
-                    dataFormat={this.Float3DigitsFormatter}
+                    dataFormat={Float3DigitsFormatter}
                     headerText="Transmitancia térmica del elemento opaco (W/m²K)"
                   >
                     U<br />
@@ -135,6 +153,11 @@ const OpacosTable = inject("appstate")(
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="bounds"
+                    editable={{
+                      type: "select",
+                      options: { values: boundarytypes },
+                    }}
+                    dataFormat={BoundaryTypeFormatter}
                     headerText="Condición de contorno del elemento opaco (INTERIOR | EXTERIOR | UNDERGROUND | ADIABATIC)"
                   >
                     Tipo
@@ -188,7 +211,7 @@ const OpacosTable = inject("appstate")(
                   </li>
                   <li>
                     <b>Tipo</b>: Condición de contorno del elemento opaco
-                    (EXTERIOR, INTERIOR, ADIABATIC, UNDERGROUND). Determina el
+                    (EXTERIOR, INTERIOR, ADIABÁTICO, TERRENO). Determina el
                     factor de ajuste del elemento opaco (b<sub>tr,x</sub>), que
                     vale 1 para elementos en contacto con el aire exterior o el
                     terreno y 0 para el resto (adiabáticos y en contacto con
