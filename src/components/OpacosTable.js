@@ -29,9 +29,6 @@ import { observer, inject } from "mobx-react";
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 import icongroup from "./img/outline-add_comment-24px.svg";
 
-const Float1DigitsFormatter = (cell, _row) => (
-  <span>{Number(cell).toFixed(1)}</span>
-);
 const Float2DigitsFormatter = (cell, _row) => (
   <span>{Number(cell).toFixed(2)}</span>
 );
