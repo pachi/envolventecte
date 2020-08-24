@@ -80,7 +80,7 @@ class DownloadUpload extends Component {
                 exportar, y redirija la salida del programa a un archivo:
               </p>
               <code>
-                C:\ProyectosCTEyCEE\CTEHE2018\> hulc2envolventecte.exe
+                C:\ProyectosCTEyCEE\CTEHE2019\> hulc2envolventecte.exe
                 Proyectos\miproyectoHULC/ > archivo_salida.json
               </code>
               <p>
