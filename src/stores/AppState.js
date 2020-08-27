@@ -25,7 +25,7 @@ import { action, observable, computed, decorate } from "mobx";
 import radiationdata from "../zcraddata.json";
 import { uuidv4, UserException } from "../utils.js";
 
-const DEFAULT_ENVELOPE = {
+const EXAMPLE_ENVELOPE = {
   windows: [
     {
       id: uuidv4(),
@@ -117,7 +117,7 @@ const DEFAULT_TB = () => ({
   name: "PT por defecto",
 });
 
-const DEFAULT_SPACES = [
+const EXAMPLE_SPACES = [
   {
     id: uuidv4(),
     name: "Espacio_1",
@@ -157,9 +157,9 @@ export default class AppState {
   // Coeficiente de caudal de aire de la parte opaca de la envolvente térmica a 100 Pa (m3/h/m2)
   Co100 = 16;
   // Elementos de la envolvente térmica
-  envelope = DEFAULT_ENVELOPE;
+  envelope = EXAMPLE_ENVELOPE;
   // Espacios de la envolvente térmica
-  spaces = DEFAULT_SPACES;
+  spaces = EXAMPLE_SPACES;
 
   // Lista de errores
   errors = [];
