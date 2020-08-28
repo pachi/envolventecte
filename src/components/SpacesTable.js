@@ -133,9 +133,11 @@ const SpacesTable = inject("appstate")(
                     bgColor: "lightgray",
                   }}
                 >
+                  <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
+                    - ID -{" "}
+                  </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="name"
-                    isKey={true}
                     headerText="Nombre del espacio"
                     width="30%"
                   >

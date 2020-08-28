@@ -37,6 +37,11 @@ const BoundaryTypeFormatter = (cell, _row) => (
   <span>{boundarytypesmap[cell]}</span>
 );
 
+const NameFormatter = (cell, row) => {
+  const text = row.U === 0.0 || row.type === "ADIABATIC" ? cell + " **" : cell;
+  return <span>{text}</span>;
+};
+
 const boundarytypesmap = {
   EXTERIOR: "EXTERIOR",
   INTERIOR: "INTERIOR",
@@ -139,9 +144,12 @@ const OpacosTable = inject("appstate")(
                     bgColor: "lightgray",
                   }}
                 >
+                  <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
+                    - ID -{" "}
+                  </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="name"
-                    isKey={true}
+                    dataFormat={NameFormatter}
                     headerText="Nombre que identifica de forma única el elemento opaco"
                     width="30%"
                   >
@@ -202,6 +210,11 @@ const OpacosTable = inject("appstate")(
             </Row>
             <Row className="text-info small mt-3">
               <Col>
+                <p>
+                  <b>**</b>Los elementos así marcados se excluyen del cómputo de
+                  la superficie de opacos por considerarse que no pertenecen a
+                  la ET con intercambio térmico.
+                </p>
                 <p>Donde:</p>
                 <ul>
                   <li>

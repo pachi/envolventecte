@@ -24,6 +24,7 @@ SOFTWARE.
 import { uuidv4 } from "../utils.js";
 
 export const DEFAULT_WINDOW = () => ({
+  id: uuidv4(),
   name: `Hueco_${uuidv4()}`,
   A: 1.0,
   U: 1.0,
@@ -36,6 +37,7 @@ export const DEFAULT_WINDOW = () => ({
 });
 
 export const DEFAULT_WALL = () => ({
+  id: uuidv4(),
   name: `Elemento_opaco_${uuidv4()}`,
   A: 1.0,
   U: 0.2,
@@ -43,12 +45,14 @@ export const DEFAULT_WALL = () => ({
 });
 
 export const DEFAULT_TB = () => ({
+  id: uuidv4(),
   name: `PT_${uuidv4()}`,
   L: 1.0,
   psi: 0.05,
 });
 
 export const DEFAULT_SPACE = () => ({
+  id: uuidv4(),
   name: `Espacio_${uuidv4()}`,
   area: 1.0,
   height_net: 2.7,

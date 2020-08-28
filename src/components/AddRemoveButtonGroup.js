@@ -26,6 +26,7 @@ import { Button, ButtonGroup } from "react-bootstrap";
 import iconplus from "./img/baseline-add-24px.svg";
 import iconless from "./img/baseline-remove-24px.svg";
 import iconduplicate from "./img/outline-file_copy-24px.svg";
+import { uuidv4 } from "../utils";
 
 const AddRemoveButtonGroup = ({ objects, newObj, selected, clear }) => (
   <ButtonGroup>
@@ -52,6 +53,7 @@ const AddRemoveButtonGroup = ({ objects, newObj, selected, clear }) => (
             const dupObj = {
               ...selectedObj,
               name: selectedObj.name + " (dup.)",
+              id: uuidv4(),
             };
             objects.splice(idx + 1, 0, dupObj);
           }

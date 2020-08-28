@@ -1,4 +1,3 @@
-- Usar casoA como caso base para el programa y ver cómo salen los resultados en comparación con HULC
 - Migrar a la estructura de datos del nuevo hulc2envolventecte
 - Mostrar nombre del proyecto (meta.name)
 

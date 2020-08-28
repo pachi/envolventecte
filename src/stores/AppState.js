@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import { action, observable, computed, decorate } from "mobx";
-import { UserException } from "../utils.js";
+import { UserException, uuidv4 } from "../utils.js";
 import {
   DEFAULT_SPACE,
   DEFAULT_TB,
@@ -32,6 +32,24 @@ import {
 
 import radiationdata from "../zcraddata.json";
 import example from "./example.json";
+
+// Añade id's a archivo de ejemplo
+const { walls, windows, thermal_bridges } = example.envelope;
+const example_spaces = example.spaces;
+// Añade id's
+windows.forEach((e) => {
+  e.id = uuidv4();
+});
+walls.forEach((e) => {
+  e.id = uuidv4();
+});
+thermal_bridges.forEach((e) => {
+  e.id = uuidv4();
+});
+example_spaces.forEach((e) => {
+  e.id = uuidv4();
+});
+const example_envelope = { walls, windows, thermal_bridges };
 
 export default class AppState {
   // Datos climáticos --------
@@ -46,9 +64,9 @@ export default class AppState {
   // Coeficiente de caudal de aire de la parte opaca de la envolvente térmica a 100 Pa (m3/h/m2)
   Co100 = 16;
   // Elementos de la envolvente térmica
-  envelope = example.envelope;
+  envelope = example_envelope;
   // Espacios de la envolvente térmica
-  spaces = example.spaces;
+  spaces = example_spaces;
 
   // Lista de errores -------
   errors = [];
@@ -200,6 +218,7 @@ export default class AppState {
           (1.0 * (h.Fshobst * h.A + hueco.Fshobst * hueco.A)) / (h.A + hueco.A);
         h.A = 0.0 + h.A + hueco.A;
         h.name = h.name + ", " + hueco.name;
+        h.id = uuidv4();
       } else {
         huecosagrupados.push(hueco);
       }
@@ -217,6 +236,7 @@ export default class AppState {
       if (o) {
         o.A = o.A + opaco.A;
         o.name = o.name + ", " + opaco.name;
+        o.id = uuidv4();
       } else {
         opacosagrupados.push(opaco);
       }
@@ -233,6 +253,7 @@ export default class AppState {
       if (p) {
         p.A = p.L + pt.L;
         p.name = p.name + ", " + pt.name;
+        p.id = uuidv4();
       } else {
         ptsagrupados.push(pt);
       }
@@ -249,6 +270,12 @@ export default class AppState {
       envelope: { windows, walls, thermal_bridges },
       spaces,
     } = this;
+
+    // Eliminamos ids
+    windows.forEach((e) => delete e.id);
+    walls.forEach((e) => delete e.id);
+    thermal_bridges.forEach((e) => delete e.id);
+    spaces.forEach((e) => delete e.id);
 
     return JSON.stringify(
       { climate, envelope: { windows, walls, thermal_bridges }, spaces },
@@ -275,9 +302,23 @@ export default class AppState {
         throw UserException("Formato incorrecto");
       }
 
+      // Añade id's
+      windows.forEach((e) => {
+        e.id = uuidv4();
+      });
+      walls.forEach((e) => {
+        e.id = uuidv4();
+      });
+      thermal_bridges.forEach((e) => {
+        e.id = uuidv4();
+      });
+      spaces.forEach((e) => {
+        e.id = uuidv4();
+      });
+
       // Almacena en store datos
       this.climate = climate;
-      this.envelope = envelope;
+      this.envelope = { envelope: { windows, walls, thermal_bridges } };
       this.spaces = spaces;
       this.errors = [
         { type: "SUCCESS", msg: "Datos cargados correctamente." },

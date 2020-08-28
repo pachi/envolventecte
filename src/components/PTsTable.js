@@ -101,9 +101,11 @@ const PTsTable = inject("appstate")(
                     bgColor: "lightgray",
                   }}
                 >
+                  <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
+                    - ID -{" "}
+                  </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="name"
-                    isKey={true}
                     headerText="Nombre que identifica de forma única el puente térmico"
                     width="30%"
                   >
