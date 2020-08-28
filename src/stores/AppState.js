@@ -89,7 +89,7 @@ export default class AppState {
           s.multiplier *
           s.area *
           (s.inside_tenv ? 1.0 : 0.0) *
-          (s.type !== "NO_HABITABLE" ? 1.0 : 0.0)
+          (s.type !== "UNINHABITED" ? 1.0 : 0.0)
       )
       .reduce((acc, x) => acc + x, 0.0);
     return nA;
