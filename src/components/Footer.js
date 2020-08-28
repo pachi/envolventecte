@@ -25,19 +25,19 @@ import React from "react";
 import { Col, Row } from "react-bootstrap";
 
 const Footer = () => (
-    <Row>
-      <Col>
-        <footer
-          className="navbar fixed-bottom"
-          style={{ backgroundColor: "rgba(255, 255, 255, 0.7)" }}
-        >
-          <p className="mx-auto small text-muted">
-            2018 - Rafael Villar Burke, Daniel Jiménez González, Marta Sorribes
-            Gil.
-          </p>
-        </footer>
-      </Col>
-    </Row>
+  <Row>
+    <Col>
+      <footer
+        className="navbar fixed-bottom"
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.7)" }}
+      >
+        <p className="mx-auto small text-muted">
+          2018-2020 - Rafael Villar Burke, Daniel Jiménez González, Marta
+          Sorribes Gil.
+        </p>
+      </footer>
+    </Col>
+  </Row>
 );
 
 export default Footer;

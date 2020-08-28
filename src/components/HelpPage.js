@@ -30,7 +30,7 @@ import {
   Row,
   Image,
   Tabs,
-  Tab
+  Tab,
 } from "react-bootstrap";
 
 import Footer from "./Footer";
@@ -50,7 +50,7 @@ export default class HelpPage extends Component {
             <p>
               <i>EnvolventeCTE</i> es una aplicación web de ayuda al cálculo de
               indicadores y parámetros de eficiencia energética de la envolvente
-              térmica, facilitando la aplicación del CTE DB-HE (2018).
+              térmica, facilitando la aplicación del CTE DB-HE (2019).
             </p>
             <p>Los indicadores y parámetros implementados son:</p>
             <ul>

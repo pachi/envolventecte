@@ -48,7 +48,7 @@ export default class HelpPage extends Component {
               Esta aplicación facilita el cálculo de indicadores de calidad y
               parámetros descriptivos de la envolvente térmica de los edificios
               para su evaluación energética y para la aplicación del CTE DB-HE
-              (2018).
+              (2019).
             </p>
             <p>
               Puede comenzar introduciendo la{" "}
