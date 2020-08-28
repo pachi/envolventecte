@@ -124,6 +124,7 @@ export default class AppState {
       .map(
         (o) =>
           (o.bounds === "EXTERIOR" || o.bounds === "UNDERGROUND" ? 1.0 : 0.0) *
+          (o.U === 0.0 ? 0.0 : 1.0) * // XXX: Elementos adiabáticos y no pertenecientes a la ET desde HULC (con 0.0 al no estar en KyG)
           Number(o.A)
       )
       .reduce((a, b) => a + b, 0);
