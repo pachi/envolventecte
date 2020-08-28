@@ -27,7 +27,7 @@ import iconplus from "./img/baseline-add-24px.svg";
 import iconless from "./img/baseline-remove-24px.svg";
 import iconduplicate from "./img/outline-file_copy-24px.svg";
 
-const AddRemoveButtonGroup = ({ objects, newObj, selectedName }) => (
+const AddRemoveButtonGroup = ({ objects, newObj, selected }) => (
   <ButtonGroup>
     <Button
       variant="primary"
@@ -42,21 +42,21 @@ const AddRemoveButtonGroup = ({ objects, newObj, selectedName }) => (
     <Button
       variant="primary"
       size="sm"
-      title="Duplicar fila seleccionada de la tabla"
+      title="Duplicar filas seleccionadas de la tabla"
       onClick={() => {
-        // Duplicamos el seleccionado o el primer objeto si hay objetos
-        if (objects.length > 0) {
-          const selectedIndex = objects.findIndex(
-            (h) => h.name === selectedName[0]
-          );
+        selected.map((name) => {
+          const selectedIndex = objects.findIndex((h) => h.name === name);
+          if (selectedIndex == -1) {
+            return;
+          }
           const idx = selectedIndex >= 0 ? selectedIndex : 0;
           const selectedObj = objects[idx];
-          const dupObj = { ...selectedObj, name: selectedObj.name + " (dup.)" };
+          const dupObj = {
+            ...selectedObj,
+            name: selectedObj.name + " (dup.)",
+          };
           objects.splice(idx + 1, 0, dupObj);
-          // En caso contrario añadimos un objeto nuevo
-        } else {
-          objects.push(newObj());
-        }
+        });
       }}
     >
       <img src={iconduplicate} alt="Duplicar fila" />
@@ -64,10 +64,10 @@ const AddRemoveButtonGroup = ({ objects, newObj, selectedName }) => (
     <Button
       variant="primary"
       size="sm"
-      title="Eliminar fila seleccionada de la tabla"
+      title="Eliminar filas seleccionadas de la tabla"
       onClick={() => {
         // https://mobx.js.org/refguide/array.html
-        objects.replace(objects.filter((h) => !selectedName.includes(h.name)));
+        objects.replace(objects.filter((h) => !selected.includes(h.name)));
       }}
     >
       <img src={iconless} alt="Eliminar fila" />

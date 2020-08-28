@@ -83,7 +83,18 @@ const SpacesTable = inject("appstate")(
     class SpacesTable extends Component {
       constructor(props, context) {
         super(props, context);
-        this.state = { selectedName: [] };
+        this.state = { selected: [] };
+      }
+
+      onRowSelect(row, isSelected) {
+        const name = row.name;
+        if (isSelected) {
+          this.setState({ selected: [...this.state.selected, name] });
+        } else {
+          this.setState({
+            selected: this.state.selected.filter((it) => it !== name),
+          });
+        }
       }
 
       render() {
@@ -99,7 +110,7 @@ const SpacesTable = inject("appstate")(
                 <AddRemoveButtonGroup
                   objects={spaces}
                   newObj={this.props.appstate.newSpace}
-                  selectedName={this.state.selectedName}
+                  selected={this.state.selected}
                 />
               </Col>
             </Row>
@@ -113,13 +124,10 @@ const SpacesTable = inject("appstate")(
                   bordered={false}
                   cellEdit={{ mode: "dbclick", blurToSave: true }}
                   selectRow={{
-                    mode: "radio",
+                    mode: "checkbox",
                     clickToSelectAndEditCell: true,
-                    selected: this.state.selectedName,
-                    onSelect: (row, isSelected) =>
-                      this.setState({
-                        selectedName: isSelected ? [row.name] : [],
-                      }),
+                    selected: this.state.selected,
+                    onSelect: this.onRowSelect.bind(this),
                     hideSelectColumn: true,
                     bgColor: "lightgray",
                   }}
