@@ -133,16 +133,16 @@ const SpacesTable = inject("appstate")(
                     Nombre
                   </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="inside_tenv"
-                    customEditor={{
-                      getElement: (onUpdate, props) => (
-                        <BoolEditor onUpdate={onUpdate} {...props} />
-                      ),
-                    }}
-                    dataFormat={BoolFormatter}
-                    headerText="¿Pertenece a la envolvente térmica?"
+                    dataField="area"
+                    dataFormat={Float2DigitsFormatter}
+                    headerText="Superficie útil del espacio (m²)"
                   >
-                    ¿Interior <br />a la E.T.?
+                    A<br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>
+                        [m<sup>2</sup>]
+                      </i>{" "}
+                    </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="multiplier"
@@ -153,18 +153,6 @@ const SpacesTable = inject("appstate")(
                     <br />
                     <span style={{ fontWeight: "normal" }}>
                       <i>[-]</i>{" "}
-                    </span>
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="area"
-                    dataFormat={Float2DigitsFormatter}
-                    headerText="Superficie útil del espacio (m²)"
-                  >
-                    A<br />
-                    <span style={{ fontWeight: "normal" }}>
-                      <i>
-                        [m<sup>2</sup>]
-                      </i>{" "}
                     </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
@@ -181,6 +169,18 @@ const SpacesTable = inject("appstate")(
                     <span style={{ fontWeight: "normal" }}>
                       <i>[-]</i>{" "}
                     </span>
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField="inside_tenv"
+                    customEditor={{
+                      getElement: (onUpdate, props) => (
+                        <BoolEditor onUpdate={onUpdate} {...props} />
+                      ),
+                    }}
+                    dataFormat={BoolFormatter}
+                    headerText="¿Pertenece a la envolvente térmica?"
+                  >
+                    ¿Interior <br />a la E.T.?
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="height_net"
