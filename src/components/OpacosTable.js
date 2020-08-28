@@ -32,9 +32,6 @@ import icongroup from "./img/outline-add_comment-24px.svg";
 const Float2DigitsFormatter = (cell, _row) => (
   <span>{Number(cell).toFixed(2)}</span>
 );
-const Float3DigitsFormatter = (cell, _row) => (
-  <span>{Number(cell).toFixed(3)}</span>
-);
 
 const BoundaryTypeFormatter = (cell, _row) => (
   <span>{boundarytypesmap[cell]}</span>
@@ -164,7 +161,7 @@ const OpacosTable = inject("appstate")(
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="U"
-                    dataFormat={Float3DigitsFormatter}
+                    dataFormat={Float2DigitsFormatter}
                     headerText="Transmitancia térmica del elemento opaco (W/m²K)"
                   >
                     U<br />
