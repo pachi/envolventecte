@@ -1,5 +1,6 @@
 - Usar casoA como caso base para el programa y ver cómo salen los resultados en comparación con HULC
 - Migrar a la estructura de datos del nuevo hulc2envolventecte
+- Mostrar nombre del proyecto (meta.name)
 
 - Cálculo de valores de acristalamientos con sombras móviles usando parámetros U_gl, g_gl_n, tau_e_B y ro_e_B directamente
 - Añadir cálculo de F_sh;obst
