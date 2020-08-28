@@ -34,7 +34,7 @@ const HuecosTable = inject("appstate")(
     class HuecosTable extends Component {
       constructor(props, context) {
         super(props, context);
-        this.state = { selectedId: [] };
+        this.state = { selectedName: [] };
         this.orientacionesList = [
           "Horiz.",
           "N",
@@ -67,10 +67,22 @@ const HuecosTable = inject("appstate")(
                 <h4>Huecos de la envolvente térmica</h4>
               </Col>
               <Col md="auto">
+                <ButtonGroup>
+                  <Button
+                    variant="default"
+                    size="sm"
+                    title="Agrupar huecos de igual orientación, fracción de marco, transmitancia y factor de transmisión solar con protecciones solares activadas. Suma las áreas y calcula el factor equivalente de sombras remotas."
+                    onClick={() => this.props.appstate.agrupaHuecos()}
+                  >
+                    <img src={icongroup} alt="Agrupar huecos" /> Agrupar huecos
+                  </Button>
+                </ButtonGroup>
+              </Col>
+              <Col md="auto">
                 <AddRemoveButtonGroup
                   objects={windows}
                   newObj={this.props.appstate.newHueco}
-                  selectedId={this.state.selectedId}
+                  selectedName={this.state.selectedName}
                 />
               </Col>
             </Row>
@@ -86,32 +98,27 @@ const HuecosTable = inject("appstate")(
                   selectRow={{
                     mode: "radio",
                     clickToSelectAndEditCell: true,
-                    selected: this.state.selectedId,
+                    selected: this.state.selectedName,
                     onSelect: (row, isSelected) =>
                       this.setState({
-                        selectedId: isSelected ? [row.id] : [],
+                        selectedName: isSelected ? [row.name] : [],
                       }),
                     hideSelectColumn: true,
                     bgColor: "lightgray",
                   }}
                 >
-                  <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-                    ID
-                  </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="orientation"
-                    editable={{
-                      type: "select",
-                      options: { values: this.orientacionesList },
-                    }}
-                    headerText="Orientación del hueco"
+                    dataField="name"
+                    isKey={true}
+                    headerText="Nombre que identifica de forma única el hueco"
+                    width="30%"
                   >
-                    Orientación
+                    Nombre
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="A"
                     dataFormat={this.Float2DigitsFormatter}
-                    headerText="Área del hueco (m2)"
+                    headerText="Área proyectada del hueco (m2)"
                   >
                     A<sub>w,p</sub>
                     <br />
@@ -124,7 +131,7 @@ const HuecosTable = inject("appstate")(
                   <TableHeaderColumn
                     dataField="U"
                     dataFormat={this.Float3DigitsFormatter}
-                    headerText="Transmitancia térmica del hueco (W/m²K)"
+                    headerText="Transmitancia térmica del hueco (W/m²K). Se obtiene a partir de valores de proyecto, y el Documento de Apoyo DA DB-HE/1 recoge el cálculo a partir de las transmitancias de los componentes del hueco."
                   >
                     U<br />
                     <span style={{ fontWeight: "normal" }}>
@@ -134,9 +141,19 @@ const HuecosTable = inject("appstate")(
                     </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
+                    dataField="orientation"
+                    editable={{
+                      type: "select",
+                      options: { values: this.orientacionesList },
+                    }}
+                    headerText="Orientación del hueco (N, NE, NW, E, W, SE, SW, S, Horiz.)"
+                  >
+                    Orientación
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
                     dataField="Ff"
                     dataFormat={this.Float2DigitsFormatter}
-                    headerText="Fracción de marco del hueco (fracción)"
+                    headerText="Fracción de marco del hueco (fracción). A falta de otros datos puede tomarse F_F = 0.25 (25%)"
                   >
                     F<sub>F</sub>
                     <br />
@@ -147,7 +164,7 @@ const HuecosTable = inject("appstate")(
                   <TableHeaderColumn
                     dataField="gglwi"
                     dataFormat={this.Float2DigitsFormatter}
-                    headerText="Transmitancia total de energía solar del acristalamiento SIN el dispositivo de sombra móvil activado (fracción)"
+                    headerText="Transmitancia total de energía solar del acristalamiento SIN el dispositivo de sombra móvil activado (fracción). Este valor puede obtenerse a partir del factor solar del vidrio a incidencia normal (ggl;n) y el factor de dispersión del vidrio (Fw~=0.9)."
                   >
                     g<sub>gl;wi</sub>
                     <br />
@@ -158,7 +175,7 @@ const HuecosTable = inject("appstate")(
                   <TableHeaderColumn
                     dataField="gglshwi"
                     dataFormat={this.Float2DigitsFormatter}
-                    headerText="Transmitancia total de energía solar del acristalamiento CON el dispositivo de sombra móvil activado (fracción)"
+                    headerText="Transmitancia total de energía solar del acristalamiento CON el dispositivo de sombra móvil activado (fracción). Este valor puede obtenerse a partir del factor solar del vidrio a incidencia normal (ggl;n), el factor de dispersión del vidrio (Fw~=0.9) y la definición del elemento de sombreamiento. El Documento de Apoyo DA DB-HE/1 recoge valores de ggl;sh;wi para diversos tipos de vidrio y protecciones solares. A la hora de introducir este valor en las aplicaciones de cálculo, debe tenerse en cuenta que estas emplean de manera predefinida un dispositivo de sombra que incide con un factor igual 0.7 (de acuerdo con el Documento de Condiciones Técnicas para la Evaluación de la Eficiencia Energética de Edificios), de modo que el valor introducido en los programas debe descontar dicho efecto."
                   >
                     g<sub>gl;sh;wi</sub>
                     <br />
@@ -169,7 +186,7 @@ const HuecosTable = inject("appstate")(
                   <TableHeaderColumn
                     dataField="Fshobst"
                     dataFormat={this.Float2DigitsFormatter}
-                    headerText="Factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción)"
+                    headerText="Factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción). Este valor puede asimilarse al factor de sombra del hueco (FS). El Documento de Apoyo DA DB-HE/1 recoge valores del factor de sombra FS para considerar el efecto de voladizos, retranqueos, aletas laterales o lamas exteriores."
                   >
                     F<sub>sh;obst</sub>
                     <br />
@@ -180,7 +197,7 @@ const HuecosTable = inject("appstate")(
                   <TableHeaderColumn
                     dataField="C_100"
                     dataFormat={this.Float2DigitsFormatter}
-                    headerText="Coeficiente de permeabilidad al aire del hueco a 100 Pa (m3/hm2)"
+                    headerText="Coeficiente de permeabilidad al aire del hueco a 100 Pa (m3/hm2). La clase de permeabilidad al aire de los huecos, según la norma UNE EN 12207:2000 es: Clase 1: Ch;100 ≤ 50m3/hm2, Clase 2: Ch;100 ≤ 27 m3/hm2, Clase 3: Ch;100 ≤ 9 m3/hm2, Clase 4: Ch;100 ≤ 3 m3/hm2."
                   >
                     C<sub>h;100</sub>
                     <br />
@@ -190,33 +207,14 @@ const HuecosTable = inject("appstate")(
                       </i>
                     </span>
                   </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="name"
-                    headerText="Descripción identificativa del hueco"
-                    width="30%"
-                  >
-                    Descripción
-                  </TableHeaderColumn>
                 </BootstrapTable>
               </Col>
             </Row>
             <Row>
               <Col>&sum;A = {huecosA.toFixed(2)} m²</Col>
-              <Col md="auto">&sum;A·U = {huecosAU.toFixed(2)} W/K</Col>
             </Row>
-            <Row className="mt-3 justify-content-end">
-              <Col md="auto">
-                <ButtonGroup>
-                  <Button
-                    variant="default"
-                    size="sm"
-                    title="Agrupar huecos de igual orientación, fracción de marco, transmitancia y factor de transmisión solar con protecciones solares activadas. Suma las áreas y calcula el factor equivalente de sombras remotas."
-                    onClick={() => this.props.appstate.agrupaHuecos()}
-                  >
-                    <img src={icongroup} alt="Agrupar huecos" /> Agrupar huecos
-                  </Button>
-                </ButtonGroup>
-              </Col>
+            <Row>
+              <Col md="auto">&sum;A·U = {huecosAU.toFixed(2)} W/K</Col>
             </Row>
             <Row className="text-info small mt-3">
               <Col>

@@ -59,7 +59,7 @@ const OpacosTable = inject("appstate")(
     class OpacosTable extends Component {
       constructor(props, context) {
         super(props, context);
-        this.state = { selectedId: [] };
+        this.state = { selectedName: [] };
       }
 
       render() {
@@ -73,10 +73,22 @@ const OpacosTable = inject("appstate")(
                 <h4>Elementos opacos de la envolvente térmica</h4>
               </Col>
               <Col md="auto">
+                <ButtonGroup>
+                  <Button
+                    variant="default"
+                    size="sm"
+                    title="Agrupa opacos, sumando áreas de igual transmitancia y factor de ajuste."
+                    onClick={() => this.props.appstate.agrupaOpacos()}
+                  >
+                    <img src={icongroup} alt="Agrupar opacos" /> Agrupar opacos
+                  </Button>
+                </ButtonGroup>
+              </Col>
+              <Col md="auto">
                 <AddRemoveButtonGroup
                   objects={walls}
                   newObj={this.props.appstate.newOpaco}
-                  selectedId={this.state.selectedId}
+                  selectedName={this.state.selectedName}
                 />
               </Col>
             </Row>
@@ -112,17 +124,22 @@ const OpacosTable = inject("appstate")(
                   selectRow={{
                     mode: "radio",
                     clickToSelectAndEditCell: true,
-                    selected: this.state.selectedId,
+                    selected: this.state.selectedName,
                     onSelect: (row, isSelected) =>
                       this.setState({
-                        selectedId: isSelected ? [row.id] : [],
+                        selectedName: isSelected ? [row.name] : [],
                       }),
                     hideSelectColumn: true,
                     bgColor: "lightgray",
                   }}
                 >
-                  <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-                    ID
+                  <TableHeaderColumn
+                    dataField="name"
+                    isKey={true}
+                    headerText="Nombre que identifica de forma única el elemento opaco"
+                    width="30%"
+                  >
+                    Nombre
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="A"
@@ -163,13 +180,6 @@ const OpacosTable = inject("appstate")(
                       <i>[-]</i>{" "}
                     </span>
                   </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="name"
-                    headerText="Descripción identificativa del elemento opaco"
-                    width="40%"
-                  >
-                    Descripción
-                  </TableHeaderColumn>
                 </BootstrapTable>
               </Col>
             </Row>
@@ -177,23 +187,11 @@ const OpacosTable = inject("appstate")(
               <Col>
                 &sum;b<sub>tr,x</sub>·A<sub>x</sub> = {opacosA.toFixed(2)} m²
               </Col>
+            </Row>
+            <Row>
               <Col md="auto">
                 &sum;b<sub>tr,x</sub>·&sum;<sub>i</sub>A<sub>i</sub>·U
                 <sub>i</sub> = {opacosAU.toFixed(2)} W/K
-              </Col>
-            </Row>
-            <Row className="mt-3 justify-content-end">
-              <Col md="auto">
-                <ButtonGroup>
-                  <Button
-                    variant="default"
-                    size="sm"
-                    title="Agrupa opacos, sumando áreas de igual transmitancia y factor de ajuste."
-                    onClick={() => this.props.appstate.agrupaOpacos()}
-                  >
-                    <img src={icongroup} alt="Agrupar opacos" /> Agrupar opacos
-                  </Button>
-                </ButtonGroup>
               </Col>
             </Row>
             <Row className="text-info small mt-3">

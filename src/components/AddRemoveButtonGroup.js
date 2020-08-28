@@ -27,9 +27,7 @@ import iconplus from "./img/baseline-add-24px.svg";
 import iconless from "./img/baseline-remove-24px.svg";
 import iconduplicate from "./img/outline-file_copy-24px.svg";
 
-import { uuidv4 } from "../utils.js";
-
-const AddRemoveButtonGroup = ({ objects, newObj, selectedId }) => (
+const AddRemoveButtonGroup = ({ objects, newObj, selectedName }) => (
   <ButtonGroup>
     <Button
       variant="primary"
@@ -48,9 +46,12 @@ const AddRemoveButtonGroup = ({ objects, newObj, selectedId }) => (
       onClick={() => {
         // Duplicamos el seleccionado o el primer objeto si hay objetos
         if (objects.length > 0) {
-          const selectedIndex = objects.findIndex(h => h.id === selectedId);
+          const selectedIndex = objects.findIndex(
+            (h) => h.name === selectedName
+          );
           const idx = selectedIndex >= 0 ? selectedIndex : 0;
-          const dupObj = { ...objects[idx], id: uuidv4() };
+          const selectedObj = objects[idx];
+          const dupObj = { ...selectedObj, name: selectedObj + " (dup.)" };
           objects.splice(idx, 0, dupObj);
           // En caso contrario añadimos un objeto nuevo
         } else {
@@ -66,7 +67,7 @@ const AddRemoveButtonGroup = ({ objects, newObj, selectedId }) => (
       title="Eliminar fila seleccionada de la tabla"
       onClick={() => {
         // https://mobx.js.org/refguide/array.html
-        objects.replace(objects.filter(h => !selectedId.includes(h.id)));
+        objects.replace(objects.filter((h) => !selectedName.includes(h.name)));
       }}
     >
       <img src={iconless} alt="Eliminar fila" />

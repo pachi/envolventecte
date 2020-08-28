@@ -1,0 +1,104 @@
+{
+  "climate": "D3",
+  "envelope": {
+    "windows": [
+      {
+        "name": "Huecos norte",
+        "orientation": "N",
+        "A": 42.38,
+        "U": 2.613,
+        "Ff": 0.25,
+        "gglshwi": 0.67,
+        "gglwi": 0.67,
+        "Fshobst": 1,
+        "C_100": 27
+      },
+      {
+        "name": "Huecos este",
+        "orientation": "E",
+        "A": 17.11,
+        "U": 2.613,
+        "Ff": 0.25,
+        "gglshwi": 0.67,
+        "gglwi": 0.67,
+        "Fshobst": 0.82,
+        "C_100": 27
+      },
+      {
+        "name": "Huecos sur",
+        "orientation": "S",
+        "A": 46.83,
+        "U": 2.613,
+        "Ff": 0.25,
+        "gglshwi": 0.67,
+        "gglwi": 0.67,
+        "Fshobst": 0.67,
+        "C_100": 27
+      },
+      {
+        "name": "Huecos oeste",
+        "orientation": "W",
+        "A": 17.64,
+        "U": 2.613,
+        "Ff": 0.25,
+        "gglshwi": 0.67,
+        "gglwi": 0.67,
+        "Fshobst": 0.82,
+        "C_100": 27
+      }
+    ],
+    "walls": [
+      {
+        "A": 418,
+        "U": 0.211,
+        "bounds": "EXTERIOR",
+        "name": "Cubierta"
+      },
+      {
+        "A": 534.41,
+        "U": 0.271,
+        "bounds": "EXTERIOR",
+        "name": "Fachada"
+      },
+      {
+        "A": 418,
+        "U": 0.246,
+        "bounds": "UNDERGROUND",
+        "name": "Solera"
+      }
+    ],
+    "thermal_bridges": [
+      {
+        "L": 487.9,
+        "psi": 0.1,
+        "name": "PT forjado-fachada"
+      },
+      {
+        "L": 181.7,
+        "psi": 0.28,
+        "name": "PT solera-fachada"
+      },
+      {
+        "L": 124.5,
+        "psi": 0.24,
+        "name": "PT cubierta-fachada"
+      },
+      {
+        "L": 468.8,
+        "psi": 0.05,
+        "name": "PT contorno huecos"
+      }
+    ]
+  },
+  "spaces": [
+    {
+      "name": "Espacio_1",
+      "area": 1674,
+      "height_net": 2.7,
+      "height_gross": 3,
+      "inside_tenv": true,
+      "multiplier": 1,
+      "type": "CONDITIONED"
+    }
+  ]
+}

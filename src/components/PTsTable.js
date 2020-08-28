@@ -34,7 +34,7 @@ const PTsTable = inject("appstate")(
     class PTsTable extends Component {
       constructor(props, context) {
         super(props, context);
-        this.state = { selectedId: [] };
+        this.state = { selectedName: [] };
       }
 
       Float2DigitsFormatter = (cell, _row) => (
@@ -52,10 +52,22 @@ const PTsTable = inject("appstate")(
                 <h4>Puentes térmicos de la envolvente térmica</h4>
               </Col>
               <Col md="auto">
+                <ButtonGroup>
+                  <Button
+                    variant="default"
+                    size="sm"
+                    title="Agrupa puentes térmicos, sumando longitudes de igual transmitancia térmica lineal."
+                    onClick={() => this.props.appstate.agrupaPts()}
+                  >
+                    <img src={icongroup} alt="Agrupar PTs" /> Agrupar PTs
+                  </Button>
+                </ButtonGroup>
+              </Col>
+              <Col md="auto">
                 <AddRemoveButtonGroup
                   objects={thermal_bridges}
                   newObj={this.props.appstate.newPT}
-                  selectedId={this.state.selectedId}
+                  selectedName={this.state.selectedName}
                 />
               </Col>
             </Row>
@@ -71,26 +83,22 @@ const PTsTable = inject("appstate")(
                   selectRow={{
                     mode: "radio",
                     clickToSelectAndEditCell: true,
-                    selected: this.state.selectedId,
+                    selected: this.state.selectedName,
                     onSelect: (row, isSelected) =>
-                      this.setState({ selectedId: isSelected ? [row.id] : [] }),
+                      this.setState({
+                        selectedName: isSelected ? [row.name] : [],
+                      }),
                     hideSelectColumn: true,
                     bgColor: "lightgray",
                   }}
                 >
-                  <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-                    ID
-                  </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="L"
-                    dataFormat={this.Float2DigitsFormatter}
-                    headerText="Longitud del puente térmico (m)"
+                    dataField="name"
+                    isKey={true}
+                    headerText="Nombre que identifica de forma única el puente térmico"
+                    width="30%"
                   >
-                    Longitud
-                    <br />
-                    <span style={{ fontWeight: "normal" }}>
-                      <i>[m]</i>{" "}
-                    </span>
+                    Nombre
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="psi"
@@ -104,32 +112,24 @@ const PTsTable = inject("appstate")(
                     </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="name"
-                    headerText="Descripción identificativa del puente térmico"
-                    width="40%"
+                    dataField="L"
+                    dataFormat={this.Float2DigitsFormatter}
+                    headerText="Longitud del puente térmico (m)"
                   >
-                    Descripción
+                    Longitud
+                    <br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>[m]</i>{" "}
+                    </span>
                   </TableHeaderColumn>
                 </BootstrapTable>
               </Col>
             </Row>
             <Row>
               <Col>&sum;L = {ptsL.toFixed(2)} m</Col>
-              <Col md="auto">&sum;L·&psi; = {ptsPsiL.toFixed(2)} W/K</Col>
             </Row>
-            <Row className="mt-3 justify-content-end">
-              <Col md="auto">
-                <ButtonGroup>
-                  <Button
-                    variant="default"
-                    size="sm"
-                    title="Agrupa puentes térmicos, sumando longitudes de igual transmitancia térmica lineal."
-                    onClick={() => this.props.appstate.agrupaPts()}
-                  >
-                    <img src={icongroup} alt="Agrupar PTs" /> Agrupar PTs
-                  </Button>
-                </ButtonGroup>
-              </Col>
+            <Row>
+              <Col md="auto">&sum;L·&psi; = {ptsPsiL.toFixed(2)} W/K</Col>
             </Row>
             <Row className="text-info small mt-3">
               <Col>

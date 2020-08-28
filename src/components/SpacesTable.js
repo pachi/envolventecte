@@ -83,7 +83,7 @@ const SpacesTable = inject("appstate")(
     class SpacesTable extends Component {
       constructor(props, context) {
         super(props, context);
-        this.state = { selectedId: [] };
+        this.state = { selectedName: [] };
       }
 
       render() {
@@ -99,7 +99,7 @@ const SpacesTable = inject("appstate")(
                 <AddRemoveButtonGroup
                   objects={spaces}
                   newObj={this.props.appstate.newSpace}
-                  selectedId={this.state.selectedId}
+                  selectedName={this.state.selectedName}
                 />
               </Col>
             </Row>
@@ -115,20 +115,18 @@ const SpacesTable = inject("appstate")(
                   selectRow={{
                     mode: "radio",
                     clickToSelectAndEditCell: true,
-                    selected: this.state.selectedId,
+                    selected: this.state.selectedName,
                     onSelect: (row, isSelected) =>
                       this.setState({
-                        selectedId: isSelected ? [row.id] : [],
+                        selectedName: isSelected ? [row.name] : [],
                       }),
                     hideSelectColumn: true,
                     bgColor: "lightgray",
                   }}
                 >
-                  <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-                    ID
-                  </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="name"
+                    isKey={true}
                     headerText="Nombre del espacio"
                     width="30%"
                   >
@@ -151,7 +149,8 @@ const SpacesTable = inject("appstate")(
                     dataFormat={Float1DigitsFormatter}
                     headerText="Multiplicador (-)"
                   >
-                    n<br />
+                    mult.
+                    <br />
                     <span style={{ fontWeight: "normal" }}>
                       <i>[-]</i>{" "}
                     </span>
@@ -197,7 +196,7 @@ const SpacesTable = inject("appstate")(
                   <TableHeaderColumn
                     dataField="height_gross"
                     dataFormat={Float2DigitsFormatter}
-                    headerText="Altura suelo a suelo del espacio (m)"
+                    headerText="Altura total, o suelo a suelo, del espacio (m)"
                   >
                     h<sub>s-s</sub>
                     <br />
