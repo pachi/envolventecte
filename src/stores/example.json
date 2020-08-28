@@ -3,102 +3,625 @@
   "envelope": {
     "windows": [
       {
-        "name": "Huecos norte",
-        "orientation": "N",
-        "A": 42.38,
-        "U": 2.613,
-        "Ff": 0.25,
-        "gglshwi": 0.67,
-        "gglwi": 0.67,
-        "Fshobst": 1,
-        "C_100": 27
-      },
-      {
-        "name": "Huecos este",
-        "orientation": "E",
-        "A": 17.11,
-        "U": 2.613,
-        "Ff": 0.25,
-        "gglshwi": 0.67,
-        "gglwi": 0.67,
-        "Fshobst": 0.82,
-        "C_100": 27
-      },
-      {
-        "name": "Huecos sur",
-        "orientation": "S",
-        "A": 46.83,
-        "U": 2.613,
-        "Ff": 0.25,
-        "gglshwi": 0.67,
-        "gglwi": 0.67,
-        "Fshobst": 0.67,
-        "C_100": 27
-      },
-      {
-        "name": "Huecos oeste",
+        "name": "P02_E01_PE001_V",
+        "wall": "P02_E01_PE001",
         "orientation": "W",
-        "A": 17.64,
-        "U": 2.613,
-        "Ff": 0.25,
-        "gglshwi": 0.67,
-        "gglwi": 0.67,
-        "Fshobst": 0.82,
-        "C_100": 27
+        "A": 2.0,
+        "U": 1.26,
+        "Ff": 0.1,
+        "gglwi": 0.72,
+        "gglshwi": 1.0,
+        "Fshobst": 0.94293106,
+        "C_100": 50.0
+      },
+      {
+        "name": "P02_E01_PE002_V",
+        "wall": "P02_E01_PE002",
+        "orientation": "S",
+        "A": 2.0,
+        "U": 1.26,
+        "Ff": 0.1,
+        "gglwi": 0.72,
+        "gglshwi": 1.0,
+        "Fshobst": 0.9874494,
+        "C_100": 50.0
+      },
+      {
+        "name": "P02_E01_PE002_V_1",
+        "wall": "P02_E01_PE002",
+        "orientation": "S",
+        "A": 2.0,
+        "U": 1.26,
+        "Ff": 0.1,
+        "gglwi": 0.72,
+        "gglshwi": 1.0,
+        "Fshobst": 0.9874494,
+        "C_100": 50.0
+      },
+      {
+        "name": "P02_E01_PE003_V",
+        "wall": "P02_E01_PE003",
+        "orientation": "E",
+        "A": 2.0,
+        "U": 1.26,
+        "Ff": 0.1,
+        "gglwi": 0.72,
+        "gglshwi": 1.0,
+        "Fshobst": 0.9996361,
+        "C_100": 50.0
+      },
+      {
+        "name": "P03_E01_PE006_V",
+        "wall": "P03_E01_PE006",
+        "orientation": "W",
+        "A": 2.0,
+        "U": 1.26,
+        "Ff": 0.1,
+        "gglwi": 0.72,
+        "gglshwi": 1.0,
+        "Fshobst": 0.86871797,
+        "C_100": 50.0
+      },
+      {
+        "name": "P03_E01_PE007_V",
+        "wall": "P03_E01_PE007",
+        "orientation": "S",
+        "A": 2.0,
+        "U": 1.26,
+        "Ff": 0.1,
+        "gglwi": 0.72,
+        "gglshwi": 1.0,
+        "Fshobst": 0.9874494,
+        "C_100": 50.0
+      },
+      {
+        "name": "P03_E01_PE007_V_1",
+        "wall": "P03_E01_PE007",
+        "orientation": "S",
+        "A": 2.0,
+        "U": 1.26,
+        "Ff": 0.1,
+        "gglwi": 0.72,
+        "gglshwi": 1.0,
+        "Fshobst": 0.9874494,
+        "C_100": 50.0
+      },
+      {
+        "name": "P03_E01_PE008_V",
+        "wall": "P03_E01_PE008",
+        "orientation": "E",
+        "A": 2.0,
+        "U": 1.26,
+        "Ff": 0.1,
+        "gglwi": 0.72,
+        "gglshwi": 1.0,
+        "Fshobst": 0.9996361,
+        "C_100": 50.0
+      },
+      {
+        "name": "P04_E01_PE001_V",
+        "wall": "P04_E01_PE001",
+        "orientation": "S",
+        "A": 1.0,
+        "U": 1.26,
+        "Ff": 0.1,
+        "gglwi": 0.72,
+        "gglshwi": 1.0,
+        "Fshobst": 0.9874494,
+        "C_100": 50.0
+      },
+      {
+        "name": "P04_E01_PE002_V",
+        "wall": "P04_E01_PE002",
+        "orientation": "E",
+        "A": 2.0,
+        "U": 1.26,
+        "Ff": 0.1,
+        "gglwi": 0.72,
+        "gglshwi": 1.0,
+        "Fshobst": 0.9996361,
+        "C_100": 50.0
       }
     ],
     "walls": [
       {
-        "A": 418,
-        "U": 0.211,
+        "name": "P01_E01_ME001",
+        "space": "P01_E01",
+        "nextto": null,
+        "A": 30.0,
+        "U": 0.3,
         "bounds": "EXTERIOR",
-        "name": "Cubierta"
+        "absorptance": 0.6,
+        "orientation": 90.0,
+        "tilt": 90.0
       },
       {
-        "A": 534.41,
-        "U": 0.271,
-        "bounds": "EXTERIOR",
-        "name": "Fachada"
+        "name": "P01_E01_Med001",
+        "space": "P01_E01",
+        "nextto": "P01_E02",
+        "A": 30.0,
+        "U": 0.81,
+        "bounds": "INTERIOR",
+        "absorptance": 0.6,
+        "orientation": -90.0,
+        "tilt": 90.0
       },
       {
-        "A": 418,
-        "U": 0.246,
+        "name": "P01_E01_MED002",
+        "space": "P01_E01",
+        "nextto": null,
+        "A": 15.0,
+        "U": 0.0,
+        "bounds": "ADIABATIC",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P01_E01_FTER001",
+        "space": "P01_E01",
+        "nextto": null,
+        "A": 50.0,
+        "U": 0.47,
         "bounds": "UNDERGROUND",
-        "name": "Solera"
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 180.0
+      },
+      {
+        "name": "P01_E01_TER002",
+        "space": "P01_E01",
+        "nextto": null,
+        "A": 15.0,
+        "U": 0.58,
+        "bounds": "UNDERGROUND",
+        "absorptance": 0.6,
+        "orientation": 0.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P01_E02_MED002",
+        "space": "P01_E02",
+        "nextto": null,
+        "A": 15.0,
+        "U": 0.0,
+        "bounds": "ADIABATIC",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P01_E02_TER001",
+        "space": "P01_E02",
+        "nextto": null,
+        "A": 15.0,
+        "U": 0.0,
+        "bounds": "UNDERGROUND",
+        "absorptance": 0.6,
+        "orientation": 0.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P01_E02_TER002",
+        "space": "P01_E02",
+        "nextto": null,
+        "A": 50.0,
+        "U": 0.0,
+        "bounds": "UNDERGROUND",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 180.0
+      },
+      {
+        "name": "P01_E02_TER003",
+        "space": "P01_E02",
+        "nextto": null,
+        "A": 30.0,
+        "U": 0.0,
+        "bounds": "UNDERGROUND",
+        "absorptance": 0.6,
+        "orientation": -90.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P02_E01_PE001",
+        "space": "P02_E01",
+        "nextto": null,
+        "A": 28.0,
+        "U": 0.3,
+        "bounds": "EXTERIOR",
+        "absorptance": 0.6,
+        "orientation": -90.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P02_E01_PE002",
+        "space": "P02_E01",
+        "nextto": null,
+        "A": 41.0,
+        "U": 0.3,
+        "bounds": "EXTERIOR",
+        "absorptance": 0.6,
+        "orientation": 0.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P02_E01_PE003",
+        "space": "P02_E01",
+        "nextto": null,
+        "A": 28.0,
+        "U": 0.3,
+        "bounds": "EXTERIOR",
+        "absorptance": 0.6,
+        "orientation": 90.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P02_E01_ME001",
+        "space": "P02_E01",
+        "nextto": null,
+        "A": 50.0,
+        "U": 0.34,
+        "bounds": "EXTERIOR",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 180.0
+      },
+      {
+        "name": "P02_E01_FI001",
+        "space": "P02_E01",
+        "nextto": "P01_E01",
+        "A": 49.99,
+        "U": 0.0,
+        "bounds": "INTERIOR",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 180.0
+      },
+      {
+        "name": "P02_E01_FI002",
+        "space": "P02_E01",
+        "nextto": "P01_E02",
+        "A": 50.0,
+        "U": 0.65,
+        "bounds": "INTERIOR",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 180.0
+      },
+      {
+        "name": "P02_E01_MED001",
+        "space": "P02_E01",
+        "nextto": null,
+        "A": 45.0,
+        "U": 0.0,
+        "bounds": "ADIABATIC",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P03_E01_PE006",
+        "space": "P03_E01",
+        "nextto": null,
+        "A": 28.0,
+        "U": 0.3,
+        "bounds": "EXTERIOR",
+        "absorptance": 0.6,
+        "orientation": -90.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P03_E01_PE007",
+        "space": "P03_E01",
+        "nextto": null,
+        "A": 41.0,
+        "U": 0.3,
+        "bounds": "EXTERIOR",
+        "absorptance": 0.6,
+        "orientation": 0.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P03_E01_PE008",
+        "space": "P03_E01",
+        "nextto": null,
+        "A": 28.0,
+        "U": 0.3,
+        "bounds": "EXTERIOR",
+        "absorptance": 0.6,
+        "orientation": 90.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P03_E01_FE004",
+        "space": "P03_E01",
+        "nextto": null,
+        "A": 50.0,
+        "U": 0.34,
+        "bounds": "EXTERIOR",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 0.0
+      },
+      {
+        "name": "P03_E01_FI003",
+        "space": "P03_E01",
+        "nextto": "P02_E01",
+        "A": 150.0,
+        "U": 0.0,
+        "bounds": "INTERIOR",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 180.0
+      },
+      {
+        "name": "P03_E01_MED001",
+        "space": "P03_E01",
+        "nextto": null,
+        "A": 45.0,
+        "U": 0.0,
+        "bounds": "ADIABATIC",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P03_E01_FI001",
+        "space": "P03_E01",
+        "nextto": "P04_E02",
+        "A": 50.0,
+        "U": 0.77,
+        "bounds": "INTERIOR",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 0.0
+      },
+      {
+        "name": "P04_E01_PE001",
+        "space": "P04_E01",
+        "nextto": null,
+        "A": 14.0,
+        "U": 0.3,
+        "bounds": "EXTERIOR",
+        "absorptance": 0.6,
+        "orientation": 0.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P04_E01_PE002",
+        "space": "P04_E01",
+        "nextto": null,
+        "A": 28.0,
+        "U": 0.3,
+        "bounds": "EXTERIOR",
+        "absorptance": 0.6,
+        "orientation": 90.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P04_E01_Med001",
+        "space": "P04_E01",
+        "nextto": "P04_E02",
+        "A": 30.0,
+        "U": 0.68,
+        "bounds": "INTERIOR",
+        "absorptance": 0.6,
+        "orientation": -90.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P04_E01_FI001",
+        "space": "P04_E01",
+        "nextto": "P03_E01",
+        "A": 49.99,
+        "U": 0.0,
+        "bounds": "INTERIOR",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 180.0
+      },
+      {
+        "name": "P04_E01_MED001",
+        "space": "P04_E01",
+        "nextto": null,
+        "A": 15.0,
+        "U": 0.0,
+        "bounds": "ADIABATIC",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P04_E01C003",
+        "space": "P04_E01",
+        "nextto": null,
+        "A": 25.0,
+        "U": 0.3,
+        "bounds": "EXTERIOR",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 0.0
+      },
+      {
+        "name": "P04_E01C004",
+        "space": "P04_E01",
+        "nextto": null,
+        "A": 25.0,
+        "U": 0.3,
+        "bounds": "EXTERIOR",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 0.0
+      },
+      {
+        "name": "P04_E02_PE002",
+        "space": "P04_E02",
+        "nextto": null,
+        "A": 30.0,
+        "U": 0.0,
+        "bounds": "EXTERIOR",
+        "absorptance": 0.6,
+        "orientation": -90.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P04_E02_PE003",
+        "space": "P04_E02",
+        "nextto": null,
+        "A": 15.0,
+        "U": 0.0,
+        "bounds": "EXTERIOR",
+        "absorptance": 0.6,
+        "orientation": 0.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P04_E02_MED001",
+        "space": "P04_E02",
+        "nextto": null,
+        "A": 15.0,
+        "U": 0.0,
+        "bounds": "ADIABATIC",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 90.0
+      },
+      {
+        "name": "P04_E02C001",
+        "space": "P04_E02",
+        "nextto": null,
+        "A": 25.0,
+        "U": 0.0,
+        "bounds": "EXTERIOR",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 180.0
+      },
+      {
+        "name": "P04_E02C002",
+        "space": "P04_E02",
+        "nextto": null,
+        "A": 25.0,
+        "U": 0.0,
+        "bounds": "EXTERIOR",
+        "absorptance": 0.6,
+        "orientation": -180.0,
+        "tilt": 180.0
       }
     ],
     "thermal_bridges": [
       {
-        "L": 487.9,
-        "psi": 0.1,
-        "name": "PT forjado-fachada"
+        "name": "ESQUINA_CONVEXA_FORJADO",
+        "L": 30.0,
+        "psi": 0.86
       },
       {
-        "L": 181.7,
-        "psi": 0.28,
-        "name": "PT solera-fachada"
+        "name": "LONGITUDES_CALCULADAS",
+        "L": 0.0,
+        "psi": 0.0
       },
       {
-        "L": 124.5,
-        "psi": 0.24,
-        "name": "PT cubierta-fachada"
+        "name": "HUECO_CAPIALZADO",
+        "L": 12.0,
+        "psi": 0.111
       },
       {
-        "L": 468.8,
-        "psi": 0.05,
-        "name": "PT contorno huecos"
+        "name": "UNION_CUBIERTA",
+        "L": 113.54,
+        "psi": 0.25875
+      },
+      {
+        "name": "ESQUINA_CONVEXA",
+        "L": 48.0,
+        "psi": 0.06
+      },
+      {
+        "name": "UNION_SOLERA_PAREDEXT",
+        "L": 40.0,
+        "psi": 0.3975
+      },
+      {
+        "name": "FRENTE_FORJADO",
+        "L": 110.0,
+        "psi": 0.0
+      },
+      {
+        "name": "ESQUINA_CONCAVA",
+        "L": 0.0,
+        "psi": -0.08
+      },
+      {
+        "name": "PILAR",
+        "L": 1.0,
+        "psi": 0.0
+      },
+      {
+        "name": "HUECO_JAMBA",
+        "L": 24.0,
+        "psi": 0.01
+      },
+      {
+        "name": "HUECO_ALFEIZAR",
+        "L": 12.0,
+        "psi": 0.08
       }
     ]
   },
   "spaces": [
     {
-      "name": "Espacio_1",
-      "area": 1674,
-      "height_net": 2.7,
-      "height_gross": 3,
+      "name": "P01_E01",
+      "area": 50.0,
+      "height_net": 2.62,
+      "height_gross": 3.0,
       "inside_tenv": true,
-      "multiplier": 1,
+      "multiplier": 1.0,
       "type": "CONDITIONED"
+    },
+    {
+      "name": "P01_E02",
+      "area": 50.0,
+      "height_net": 2.91,
+      "height_gross": 3.0,
+      "inside_tenv": false,
+      "multiplier": 1.0,
+      "type": "UNINHABITED"
+    },
+    {
+      "name": "P02_E01",
+      "area": 150.0,
+      "height_net": 2.5180001,
+      "height_gross": 3.0,
+      "inside_tenv": true,
+      "multiplier": 1.0,
+      "type": "CONDITIONED"
+    },
+    {
+      "name": "P03_E01",
+      "area": 150.0,
+      "height_net": 2.5180001,
+      "height_gross": 3.0,
+      "inside_tenv": true,
+      "multiplier": 1.0,
+      "type": "CONDITIONED"
+    },
+    {
+      "name": "P04_E01",
+      "area": 50.0,
+      "height_net": 2.5180001,
+      "height_gross": 3.0,
+      "inside_tenv": true,
+      "multiplier": 1.0,
+      "type": "CONDITIONED"
+    },
+    {
+      "name": "P04_E02",
+      "area": 50.0,
+      "height_net": 2.5180001,
+      "height_gross": 3.0,
+      "inside_tenv": false,
+      "multiplier": 1.0,
+      "type": "UNINHABITED"
     }
   ]
 }
