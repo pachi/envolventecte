@@ -47,12 +47,12 @@ const AddRemoveButtonGroup = ({ objects, newObj, selectedName }) => (
         // Duplicamos el seleccionado o el primer objeto si hay objetos
         if (objects.length > 0) {
           const selectedIndex = objects.findIndex(
-            (h) => h.name === selectedName
+            (h) => h.name === selectedName[0]
           );
           const idx = selectedIndex >= 0 ? selectedIndex : 0;
           const selectedObj = objects[idx];
           const dupObj = { ...selectedObj, name: selectedObj.name + " (dup.)" };
-          objects.splice(idx, 0, dupObj);
+          objects.splice(idx + 1, 0, dupObj);
           // En caso contrario añadimos un objeto nuevo
         } else {
           objects.push(newObj());
