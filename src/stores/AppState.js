@@ -114,7 +114,7 @@ export default class AppState {
   }
 
   // Volumen neto de los espacios en el interior de la envolvente teŕmica
-  get V() {
+  get V_int() {
     const V = this.spaces
       .map(
         (s) =>
@@ -348,7 +348,7 @@ decorate(AppState, {
   errors: observable,
   // Valores calculados
   Autil: computed,
-  V: computed,
+  V_int: computed,
   zoneslist: computed,
   orientations: computed,
   climatedata: computed({ requiresReaction: true }),

@@ -40,7 +40,7 @@ const IndicatorsPanel = inject("appstate")(
         const {
           climateTotRadJul,
           Autil,
-          V,
+          V_int,
           huecosA,
           huecosAU,
           opacosA,
@@ -98,7 +98,7 @@ const IndicatorsPanel = inject("appstate")(
                 <b>
                   V<sub>int</sub>
                 </b>{" "}
-                = {V.toFixed(2)} m³
+                = {V_int.toFixed(2)} m³
               </Col>
             </Row>
             <Collapse in={this.state.open}>
