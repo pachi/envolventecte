@@ -93,12 +93,12 @@ const IndicatorsPanel = inject("appstate")(
               <Col
                 md={3}
                 className="text-right"
-                title="Volumen interno neto de la envolvente térmica (volumen neto s-t) [m3]"
+                title="Volumen habitable interior de la envolvente térmica (volumen neto s-t) [m3]"
               >
                 <b>
-                  V<sub>neto</sub>
+                  V<sub>int</sub>
                 </b>{" "}
-                = {V} m³
+                = {V.toFixed(2)} m³
               </Col>
             </Row>
             <Collapse in={this.state.open}>
