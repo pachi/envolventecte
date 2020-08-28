@@ -100,6 +100,7 @@ const OpacosTable = inject("appstate")(
                   objects={walls}
                   newObj={this.props.appstate.newOpaco}
                   selected={this.state.selected}
+                  clear={() => this.setState({ selected: [] })}
                 />
               </Col>
             </Row>

@@ -94,6 +94,7 @@ const HuecosTable = inject("appstate")(
                   objects={windows}
                   newObj={this.props.appstate.newHueco}
                   selected={this.state.selected}
+                  clear={() => this.setState({ selected: [] })}
                 />
               </Col>
             </Row>

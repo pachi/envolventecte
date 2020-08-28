@@ -27,7 +27,7 @@ import iconplus from "./img/baseline-add-24px.svg";
 import iconless from "./img/baseline-remove-24px.svg";
 import iconduplicate from "./img/outline-file_copy-24px.svg";
 
-const AddRemoveButtonGroup = ({ objects, newObj, selected }) => (
+const AddRemoveButtonGroup = ({ objects, newObj, selected, clear }) => (
   <ButtonGroup>
     <Button
       variant="primary"
@@ -44,18 +44,17 @@ const AddRemoveButtonGroup = ({ objects, newObj, selected }) => (
       size="sm"
       title="Duplicar filas seleccionadas de la tabla"
       onClick={() => {
-        selected.map((name) => {
+        selected.forEach((name) => {
           const selectedIndex = objects.findIndex((h) => h.name === name);
-          if (selectedIndex == -1) {
-            return;
+          if (selectedIndex !== -1) {
+            const idx = selectedIndex >= 0 ? selectedIndex : 0;
+            const selectedObj = objects[idx];
+            const dupObj = {
+              ...selectedObj,
+              name: selectedObj.name + " (dup.)",
+            };
+            objects.splice(idx + 1, 0, dupObj);
           }
-          const idx = selectedIndex >= 0 ? selectedIndex : 0;
-          const selectedObj = objects[idx];
-          const dupObj = {
-            ...selectedObj,
-            name: selectedObj.name + " (dup.)",
-          };
-          objects.splice(idx + 1, 0, dupObj);
         });
       }}
     >
@@ -68,6 +67,7 @@ const AddRemoveButtonGroup = ({ objects, newObj, selected }) => (
       onClick={() => {
         // https://mobx.js.org/refguide/array.html
         objects.replace(objects.filter((h) => !selected.includes(h.name)));
+        clear();
       }}
     >
       <img src={iconless} alt="Eliminar fila" />

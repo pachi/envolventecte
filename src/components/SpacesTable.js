@@ -111,6 +111,7 @@ const SpacesTable = inject("appstate")(
                   objects={spaces}
                   newObj={this.props.appstate.newSpace}
                   selected={this.state.selected}
+                  clear={() => this.setState({ selected: [] })}
                 />
               </Col>
             </Row>

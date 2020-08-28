@@ -79,6 +79,7 @@ const PTsTable = inject("appstate")(
                   objects={thermal_bridges}
                   newObj={this.props.appstate.newPT}
                   selected={this.state.selected}
+                  clear={() => this.setState({ selected: [] })}
                 />
               </Col>
             </Row>
