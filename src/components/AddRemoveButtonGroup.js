@@ -51,7 +51,7 @@ const AddRemoveButtonGroup = ({ objects, newObj, selectedName }) => (
           );
           const idx = selectedIndex >= 0 ? selectedIndex : 0;
           const selectedObj = objects[idx];
-          const dupObj = { ...selectedObj, name: selectedObj + " (dup.)" };
+          const dupObj = { ...selectedObj, name: selectedObj.name + " (dup.)" };
           objects.splice(idx, 0, dupObj);
           // En caso contrario añadimos un objeto nuevo
         } else {
