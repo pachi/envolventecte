@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/envolventecte/static/css/main.87ed6282.chunk.css",
-    "main.js": "/envolventecte/static/js/main.560b42f1.chunk.js",
-    "main.js.map": "/envolventecte/static/js/main.560b42f1.chunk.js.map",
+    "main.js": "/envolventecte/static/js/main.d9abc0d6.chunk.js",
+    "main.js.map": "/envolventecte/static/js/main.d9abc0d6.chunk.js.map",
     "runtime-main.js": "/envolventecte/static/js/runtime-main.54f747ff.js",
     "runtime-main.js.map": "/envolventecte/static/js/runtime-main.54f747ff.js.map",
-    "static/css/2.541b0151.chunk.css": "/envolventecte/static/css/2.541b0151.chunk.css",
-    "static/js/2.c18a3af9.chunk.js": "/envolventecte/static/js/2.c18a3af9.chunk.js",
-    "static/js/2.c18a3af9.chunk.js.map": "/envolventecte/static/js/2.c18a3af9.chunk.js.map",
+    "static/css/2.41076024.chunk.css": "/envolventecte/static/css/2.41076024.chunk.css",
+    "static/js/2.79893a45.chunk.js": "/envolventecte/static/js/2.79893a45.chunk.js",
+    "static/js/2.79893a45.chunk.js.map": "/envolventecte/static/js/2.79893a45.chunk.js.map",
     "index.html": "/envolventecte/index.html",
-    "precache-manifest.6bc2c5961254250f9e7861245da65d5d.js": "/envolventecte/precache-manifest.6bc2c5961254250f9e7861245da65d5d.js",
+    "precache-manifest.cad1e4f4fe7b15166676e32b7954ec2a.js": "/envolventecte/precache-manifest.cad1e4f4fe7b15166676e32b7954ec2a.js",
     "service-worker.js": "/envolventecte/service-worker.js",
-    "static/css/2.541b0151.chunk.css.map": "/envolventecte/static/css/2.541b0151.chunk.css.map",
+    "static/css/2.41076024.chunk.css.map": "/envolventecte/static/css/2.41076024.chunk.css.map",
     "static/css/main.87ed6282.chunk.css.map": "/envolventecte/static/css/main.87ed6282.chunk.css.map",
-    "static/js/2.c18a3af9.chunk.js.LICENSE.txt": "/envolventecte/static/js/2.c18a3af9.chunk.js.LICENSE.txt",
+    "static/js/2.79893a45.chunk.js.LICENSE.txt": "/envolventecte/static/js/2.79893a45.chunk.js.LICENSE.txt",
     "static/media/5R1C.svg": "/envolventecte/static/media/5R1C.5774dbba.svg",
     "static/media/FotoDani.jpg": "/envolventecte/static/media/FotoDani.a4df5d9e.jpg",
     "static/media/FotoMarta.jpg": "/envolventecte/static/media/FotoMarta.9e5efdfa.jpg",
@@ -29,9 +29,9 @@
   },
   "entrypoints": [
     "static/js/runtime-main.54f747ff.js",
-    "static/css/2.541b0151.chunk.css",
-    "static/js/2.c18a3af9.chunk.js",
+    "static/css/2.41076024.chunk.css",
+    "static/js/2.79893a45.chunk.js",
     "static/css/main.87ed6282.chunk.css",
-    "static/js/main.560b42f1.chunk.js"
+    "static/js/main.d9abc0d6.chunk.js"
   ]
 }
