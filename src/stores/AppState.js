@@ -141,7 +141,7 @@ export default class AppState {
     return this.envelope.walls
       .map(
         (o) =>
-          (o.bounds === "EXTERIOR" || o.bounds === "UNDERGROUND" ? 1.0 : 0.0) *
+          (o.bounds === "EXTERIOR" || o.bounds === "GROUND" ? 1.0 : 0.0) *
           (o.U === 0.0 ? 0.0 : 1.0) * // XXX: Elementos adiabáticos y no pertenecientes a la ET desde HULC (con 0.0 al no estar en KyG)
           Number(o.A)
       )
@@ -152,7 +152,7 @@ export default class AppState {
     return this.envelope.walls
       .map(
         (o) =>
-          (o.bounds === "EXTERIOR" || o.bounds === "UNDERGROUND" ? 1.0 : 0.0) *
+          (o.bounds === "EXTERIOR" || o.bounds === "GROUND" ? 1.0 : 0.0) *
           Number(o.A) *
           Number(o.U)
       )

@@ -1,0 +1,754 @@
+{
+  "meta": {
+    "name": "Caso a",
+    "is_new_building": true,
+    "is_dwelling": true,
+    "num_dwellings": 5,
+    "climate": "D3",
+    "global_ventilation_l_s": 66.67,
+    "n50_test_ach": 5.32,
+    "d_perim_insulation": 1.0,
+    "rn_perim_insulation": 1.0
+  },
+  "windows": {
+    "P02_E01_PE001_V": {
+      "name": "P02_E01_PE001_V",
+      "cons": "PVC 2",
+      "wall": "P02_E01_PE001",
+      "A": 2.0,
+      "fshobst": 0.94
+    },
+    "P02_E01_PE002_V": {
+      "name": "P02_E01_PE002_V",
+      "cons": "PVC 2",
+      "wall": "P02_E01_PE002",
+      "A": 2.0,
+      "fshobst": 0.99
+    },
+    "P02_E01_PE002_V_1": {
+      "name": "P02_E01_PE002_V_1",
+      "cons": "PVC 2",
+      "wall": "P02_E01_PE002",
+      "A": 2.0,
+      "fshobst": 0.99
+    },
+    "P02_E01_PE003_V": {
+      "name": "P02_E01_PE003_V",
+      "cons": "PVC 2",
+      "wall": "P02_E01_PE003",
+      "A": 2.0,
+      "fshobst": 1.0
+    },
+    "P03_E01_PE006_V": {
+      "name": "P03_E01_PE006_V",
+      "cons": "PVC 2",
+      "wall": "P03_E01_PE006",
+      "A": 2.0,
+      "fshobst": 0.87
+    },
+    "P03_E01_PE007_V": {
+      "name": "P03_E01_PE007_V",
+      "cons": "PVC 2",
+      "wall": "P03_E01_PE007",
+      "A": 2.0,
+      "fshobst": 0.99
+    },
+    "P03_E01_PE007_V_1": {
+      "name": "P03_E01_PE007_V_1",
+      "cons": "PVC 2",
+      "wall": "P03_E01_PE007",
+      "A": 2.0,
+      "fshobst": 0.99
+    },
+    "P03_E01_PE008_V": {
+      "name": "P03_E01_PE008_V",
+      "cons": "PVC 2",
+      "wall": "P03_E01_PE008",
+      "A": 2.0,
+      "fshobst": 1.0
+    },
+    "P04_E01_PE001_V": {
+      "name": "P04_E01_PE001_V",
+      "cons": "PVC 2",
+      "wall": "P04_E01_PE001",
+      "A": 1.0,
+      "fshobst": 0.99
+    },
+    "P04_E01_PE002_V": {
+      "name": "P04_E01_PE002_V",
+      "cons": "PVC 2",
+      "wall": "P04_E01_PE002",
+      "A": 2.0,
+      "fshobst": 1.0
+    }
+  },
+  "walls": {
+    "P01_E01_FTER001": {
+      "name": "P01_E01_FTER001",
+      "cons": "Solera",
+      "space": "P01_E01",
+      "nextto": null,
+      "bounds": "GROUND",
+      "A": 50.0,
+      "azimuth": -180.0,
+      "tilt": 180.0,
+      "zground": -4.468579e-7
+    },
+    "P01_E01_ME001": {
+      "name": "P01_E01_ME001",
+      "cons": "SATE",
+      "space": "P01_E01",
+      "nextto": null,
+      "bounds": "EXTERIOR",
+      "A": 30.0,
+      "azimuth": 90.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P01_E01_MED002": {
+      "name": "P01_E01_MED002",
+      "cons": "SATE",
+      "space": "P01_E01",
+      "nextto": null,
+      "bounds": "ADIABATIC",
+      "A": 15.0,
+      "azimuth": -180.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P01_E01_Med001": {
+      "name": "P01_E01_Med001",
+      "cons": "Placas de yeso",
+      "space": "P01_E01",
+      "nextto": "P01_E02",
+      "bounds": "INTERIOR",
+      "A": 30.0,
+      "azimuth": -90.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P01_E01_TER002": {
+      "name": "P01_E01_TER002",
+      "cons": "Solera",
+      "space": "P01_E01",
+      "nextto": null,
+      "bounds": "GROUND",
+      "A": 15.0,
+      "azimuth": 0.0,
+      "tilt": 90.0,
+      "zground": 0.0
+    },
+    "P01_E02_MED002": {
+      "name": "P01_E02_MED002",
+      "cons": "SATE",
+      "space": "P01_E02",
+      "nextto": null,
+      "bounds": "ADIABATIC",
+      "A": 15.0,
+      "azimuth": -180.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P01_E02_TER001": {
+      "name": "P01_E02_TER001",
+      "cons": "Solera",
+      "space": "P01_E02",
+      "nextto": null,
+      "bounds": "GROUND",
+      "A": 15.0,
+      "azimuth": 0.0,
+      "tilt": 90.0,
+      "zground": 0.0
+    },
+    "P01_E02_TER002": {
+      "name": "P01_E02_TER002",
+      "cons": "Solera",
+      "space": "P01_E02",
+      "nextto": null,
+      "bounds": "GROUND",
+      "A": 50.0,
+      "azimuth": -180.0,
+      "tilt": 180.0,
+      "zground": 0.0
+    },
+    "P01_E02_TER003": {
+      "name": "P01_E02_TER003",
+      "cons": "Solera",
+      "space": "P01_E02",
+      "nextto": null,
+      "bounds": "GROUND",
+      "A": 30.0,
+      "azimuth": -90.0,
+      "tilt": 90.0,
+      "zground": 0.0
+    },
+    "P02_E01_FI001": {
+      "name": "P02_E01_FI001",
+      "cons": "Forjado interior",
+      "space": "P02_E01",
+      "nextto": "P01_E01",
+      "bounds": "INTERIOR",
+      "A": 49.99,
+      "azimuth": -180.0,
+      "tilt": 180.0,
+      "zground": null
+    },
+    "P02_E01_FI002": {
+      "name": "P02_E01_FI002",
+      "cons": "Forjado interior",
+      "space": "P02_E01",
+      "nextto": "P01_E02",
+      "bounds": "INTERIOR",
+      "A": 50.0,
+      "azimuth": -180.0,
+      "tilt": 180.0,
+      "zground": null
+    },
+    "P02_E01_ME001": {
+      "name": "P02_E01_ME001",
+      "cons": "Cubierta no transitable",
+      "space": "P02_E01",
+      "nextto": null,
+      "bounds": "EXTERIOR",
+      "A": 50.0,
+      "azimuth": -180.0,
+      "tilt": 180.0,
+      "zground": null
+    },
+    "P02_E01_MED001": {
+      "name": "P02_E01_MED001",
+      "cons": "SATE",
+      "space": "P02_E01",
+      "nextto": null,
+      "bounds": "ADIABATIC",
+      "A": 45.0,
+      "azimuth": -180.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P02_E01_PE001": {
+      "name": "P02_E01_PE001",
+      "cons": "SATE",
+      "space": "P02_E01",
+      "nextto": null,
+      "bounds": "EXTERIOR",
+      "A": 28.0,
+      "azimuth": -90.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P02_E01_PE002": {
+      "name": "P02_E01_PE002",
+      "cons": "SATE",
+      "space": "P02_E01",
+      "nextto": null,
+      "bounds": "EXTERIOR",
+      "A": 41.0,
+      "azimuth": 0.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P02_E01_PE003": {
+      "name": "P02_E01_PE003",
+      "cons": "SATE",
+      "space": "P02_E01",
+      "nextto": null,
+      "bounds": "EXTERIOR",
+      "A": 28.0,
+      "azimuth": 90.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P03_E01_FE004": {
+      "name": "P03_E01_FE004",
+      "cons": "Cubierta no transitable",
+      "space": "P03_E01",
+      "nextto": null,
+      "bounds": "EXTERIOR",
+      "A": 50.0,
+      "azimuth": -180.0,
+      "tilt": 0.0,
+      "zground": null
+    },
+    "P03_E01_FI001": {
+      "name": "P03_E01_FI001",
+      "cons": "Forjado interior",
+      "space": "P03_E01",
+      "nextto": "P04_E02",
+      "bounds": "INTERIOR",
+      "A": 50.0,
+      "azimuth": -180.0,
+      "tilt": 0.0,
+      "zground": null
+    },
+    "P03_E01_FI003": {
+      "name": "P03_E01_FI003",
+      "cons": "Forjado interior",
+      "space": "P03_E01",
+      "nextto": "P02_E01",
+      "bounds": "INTERIOR",
+      "A": 150.0,
+      "azimuth": -180.0,
+      "tilt": 180.0,
+      "zground": null
+    },
+    "P03_E01_MED001": {
+      "name": "P03_E01_MED001",
+      "cons": "SATE",
+      "space": "P03_E01",
+      "nextto": null,
+      "bounds": "ADIABATIC",
+      "A": 45.0,
+      "azimuth": -180.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P03_E01_PE006": {
+      "name": "P03_E01_PE006",
+      "cons": "SATE",
+      "space": "P03_E01",
+      "nextto": null,
+      "bounds": "EXTERIOR",
+      "A": 28.0,
+      "azimuth": -90.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P03_E01_PE007": {
+      "name": "P03_E01_PE007",
+      "cons": "SATE",
+      "space": "P03_E01",
+      "nextto": null,
+      "bounds": "EXTERIOR",
+      "A": 41.0,
+      "azimuth": 0.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P03_E01_PE008": {
+      "name": "P03_E01_PE008",
+      "cons": "SATE",
+      "space": "P03_E01",
+      "nextto": null,
+      "bounds": "EXTERIOR",
+      "A": 28.0,
+      "azimuth": 90.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P04_E01C003": {
+      "name": "P04_E01C003",
+      "cons": "SATE",
+      "space": "P04_E01",
+      "nextto": null,
+      "bounds": "EXTERIOR",
+      "A": 25.0,
+      "azimuth": -180.0,
+      "tilt": 0.0,
+      "zground": null
+    },
+    "P04_E01C004": {
+      "name": "P04_E01C004",
+      "cons": "SATE",
+      "space": "P04_E01",
+      "nextto": null,
+      "bounds": "EXTERIOR",
+      "A": 25.0,
+      "azimuth": -180.0,
+      "tilt": 0.0,
+      "zground": null
+    },
+    "P04_E01_FI001": {
+      "name": "P04_E01_FI001",
+      "cons": "Forjado interior",
+      "space": "P04_E01",
+      "nextto": "P03_E01",
+      "bounds": "INTERIOR",
+      "A": 49.99,
+      "azimuth": -180.0,
+      "tilt": 180.0,
+      "zground": null
+    },
+    "P04_E01_MED001": {
+      "name": "P04_E01_MED001",
+      "cons": "SATE",
+      "space": "P04_E01",
+      "nextto": null,
+      "bounds": "ADIABATIC",
+      "A": 15.0,
+      "azimuth": -180.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P04_E01_Med001": {
+      "name": "P04_E01_Med001",
+      "cons": "Placas de yeso",
+      "space": "P04_E01",
+      "nextto": "P04_E02",
+      "bounds": "INTERIOR",
+      "A": 30.0,
+      "azimuth": -90.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P04_E01_PE001": {
+      "name": "P04_E01_PE001",
+      "cons": "SATE",
+      "space": "P04_E01",
+      "nextto": null,
+      "bounds": "EXTERIOR",
+      "A": 14.0,
+      "azimuth": 0.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P04_E01_PE002": {
+      "name": "P04_E01_PE002",
+      "cons": "SATE",
+      "space": "P04_E01",
+      "nextto": null,
+      "bounds": "EXTERIOR",
+      "A": 28.0,
+      "azimuth": 90.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P04_E02C001": {
+      "name": "P04_E02C001",
+      "cons": "SATE",
+      "space": "P04_E02",
+      "nextto": null,
+      "bounds": "EXTERIOR",
+      "A": 25.0,
+      "azimuth": -180.0,
+      "tilt": 180.0,
+      "zground": null
+    },
+    "P04_E02C002": {
+      "name": "P04_E02C002",
+      "cons": "SATE",
+      "space": "P04_E02",
+      "nextto": null,
+      "bounds": "EXTERIOR",
+      "A": 25.0,
+      "azimuth": -180.0,
+      "tilt": 180.0,
+      "zground": null
+    },
+    "P04_E02_MED001": {
+      "name": "P04_E02_MED001",
+      "cons": "SATE",
+      "space": "P04_E02",
+      "nextto": null,
+      "bounds": "ADIABATIC",
+      "A": 15.0,
+      "azimuth": -180.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P04_E02_PE002": {
+      "name": "P04_E02_PE002",
+      "cons": "SATE",
+      "space": "P04_E02",
+      "nextto": null,
+      "bounds": "EXTERIOR",
+      "A": 30.0,
+      "azimuth": -90.0,
+      "tilt": 90.0,
+      "zground": null
+    },
+    "P04_E02_PE003": {
+      "name": "P04_E02_PE003",
+      "cons": "SATE",
+      "space": "P04_E02",
+      "nextto": null,
+      "bounds": "EXTERIOR",
+      "A": 15.0,
+      "azimuth": 0.0,
+      "tilt": 90.0,
+      "zground": null
+    }
+  },
+  "thermal_bridges": {
+    "ESQUINA_CONCAVA": {
+      "name": "ESQUINA_CONCAVA",
+      "L": 0.0,
+      "psi": -0.08
+    },
+    "ESQUINA_CONVEXA": {
+      "name": "ESQUINA_CONVEXA",
+      "L": 48.0,
+      "psi": 0.06
+    },
+    "ESQUINA_CONVEXA_FORJADO": {
+      "name": "ESQUINA_CONVEXA_FORJADO",
+      "L": 30.0,
+      "psi": 0.86
+    },
+    "FRENTE_FORJADO": {
+      "name": "FRENTE_FORJADO",
+      "L": 110.0,
+      "psi": 0.0
+    },
+    "HUECO_ALFEIZAR": {
+      "name": "HUECO_ALFEIZAR",
+      "L": 12.0,
+      "psi": 0.08
+    },
+    "HUECO_CAPIALZADO": {
+      "name": "HUECO_CAPIALZADO",
+      "L": 12.0,
+      "psi": 0.111
+    },
+    "HUECO_JAMBA": {
+      "name": "HUECO_JAMBA",
+      "L": 24.0,
+      "psi": 0.01
+    },
+    "LONGITUDES_CALCULADAS": {
+      "name": "LONGITUDES_CALCULADAS",
+      "L": 0.0,
+      "psi": 0.0
+    },
+    "PILAR": {
+      "name": "PILAR",
+      "L": 1.0,
+      "psi": 0.0
+    },
+    "UNION_CUBIERTA": {
+      "name": "UNION_CUBIERTA",
+      "L": 113.54,
+      "psi": 0.25875
+    },
+    "UNION_SOLERA_PAREDEXT": {
+      "name": "UNION_SOLERA_PAREDEXT",
+      "L": 40.0,
+      "psi": 0.3975
+    }
+  },
+  "spaces": {
+    "P01_E01": {
+      "name": "P01_E01",
+      "area": 50.0,
+      "perimeter": 30.0,
+      "height_net": 2.62,
+      "height_gross": 3.0,
+      "inside_tenv": true,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "n_v": null
+    },
+    "P01_E02": {
+      "name": "P01_E02",
+      "area": 50.0,
+      "perimeter": 30.0,
+      "height_net": 2.91,
+      "height_gross": 3.0,
+      "inside_tenv": false,
+      "multiplier": 1.0,
+      "type": "UNINHABITED",
+      "n_v": 0.1
+    },
+    "P02_E01": {
+      "name": "P02_E01",
+      "area": 150.0,
+      "perimeter": 50.0,
+      "height_net": 2.52,
+      "height_gross": 3.0,
+      "inside_tenv": true,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "n_v": null
+    },
+    "P03_E01": {
+      "name": "P03_E01",
+      "area": 150.0,
+      "perimeter": 50.0,
+      "height_net": 2.52,
+      "height_gross": 3.0,
+      "inside_tenv": true,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "n_v": null
+    },
+    "P04_E01": {
+      "name": "P04_E01",
+      "area": 50.0,
+      "perimeter": 30.0,
+      "height_net": 2.52,
+      "height_gross": 3.0,
+      "inside_tenv": true,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "n_v": null
+    },
+    "P04_E02": {
+      "name": "P04_E02",
+      "area": 50.0,
+      "perimeter": 30.0,
+      "height_net": 2.52,
+      "height_gross": 3.0,
+      "inside_tenv": false,
+      "multiplier": 1.0,
+      "type": "UNINHABITED",
+      "n_v": 0.1
+    }
+  },
+  "wincons": {
+    "PVC 2": {
+      "name": "PVC 2",
+      "group": "Ventanas de PVC",
+      "U": 1.26,
+      "Ff": 0.1,
+      "gglwi": 0.72,
+      "gglshwi": 1.0,
+      "C_100": 50.0
+    }
+  },
+  "wallcons": {
+    "Cubierta no transitable": {
+      "name": "Cubierta no transitable",
+      "group": "Cubiertas planas",
+      "R_intrinsic": 2.797551,
+      "absorptance": 0.6
+    },
+    "Forjado interior": {
+      "name": "Forjado interior",
+      "group": "Forjados Interiores",
+      "R_intrinsic": 0.47136593,
+      "absorptance": 0.0
+    },
+    "Placas de yeso": {
+      "name": "Placas de yeso",
+      "group": "Tabiques",
+      "R_intrinsic": 0.33999997,
+      "absorptance": 0.0
+    },
+    "SATE": {
+      "name": "SATE",
+      "group": "Fachada",
+      "R_intrinsic": 3.1920033,
+      "absorptance": 0.0
+    },
+    "Solera": {
+      "name": "Solera",
+      "group": "Soleras",
+      "R_intrinsic": 1.523416,
+      "absorptance": 0.0
+    }
+  },
+  "extra": [
+    {
+      "name": "P01_E01_FTER001",
+      "bounds": "GROUND",
+      "tilt": "BOTTOM",
+      "cons": "Solera",
+      "u": 0.47,
+      "computed_u": 0.35
+    },
+    {
+      "name": "P01_E01_Med001",
+      "bounds": "INTERIOR",
+      "tilt": "SIDE",
+      "cons": "Placas de yeso",
+      "u": 1.67,
+      "computed_u": 0.82
+    },
+    {
+      "name": "P01_E01_TER002",
+      "bounds": "GROUND",
+      "tilt": "SIDE",
+      "cons": "Solera",
+      "u": 0.58,
+      "computed_u": 0.59
+    },
+    {
+      "name": "P01_E02_TER001",
+      "bounds": "GROUND",
+      "tilt": "SIDE",
+      "cons": "Solera",
+      "u": 0.0,
+      "computed_u": 0.59
+    },
+    {
+      "name": "P01_E02_TER002",
+      "bounds": "GROUND",
+      "tilt": "BOTTOM",
+      "cons": "Solera",
+      "u": 0.0,
+      "computed_u": 0.35
+    },
+    {
+      "name": "P01_E02_TER003",
+      "bounds": "GROUND",
+      "tilt": "SIDE",
+      "cons": "Solera",
+      "u": 0.0,
+      "computed_u": 0.59
+    },
+    {
+      "name": "P02_E01_FI002",
+      "bounds": "INTERIOR",
+      "tilt": "BOTTOM",
+      "cons": "Forjado interior",
+      "u": 1.37,
+      "computed_u": 0.54
+    },
+    {
+      "name": "P02_E01_ME001",
+      "bounds": "EXTERIOR",
+      "tilt": "BOTTOM",
+      "cons": "Cubierta no transitable",
+      "u": 0.34,
+      "computed_u": 0.33
+    },
+    {
+      "name": "P03_E01_FI001",
+      "bounds": "INTERIOR",
+      "tilt": "TOP",
+      "cons": "Forjado interior",
+      "u": 1.37,
+      "computed_u": 0.45
+    },
+    {
+      "name": "P04_E01_Med001",
+      "bounds": "INTERIOR",
+      "tilt": "SIDE",
+      "cons": "Placas de yeso",
+      "u": 1.67,
+      "computed_u": 0.65
+    },
+    {
+      "name": "P04_E02C001",
+      "bounds": "EXTERIOR",
+      "tilt": "BOTTOM",
+      "cons": "SATE",
+      "u": 0.0,
+      "computed_u": 0.29
+    },
+    {
+      "name": "P04_E02C002",
+      "bounds": "EXTERIOR",
+      "tilt": "BOTTOM",
+      "cons": "SATE",
+      "u": 0.0,
+      "computed_u": 0.29
+    },
+    {
+      "name": "P04_E02_PE002",
+      "bounds": "EXTERIOR",
+      "tilt": "SIDE",
+      "cons": "SATE",
+      "u": 0.0,
+      "computed_u": 0.3
+    },
+    {
+      "name": "P04_E02_PE003",
+      "bounds": "EXTERIOR",
+      "tilt": "SIDE",
+      "cons": "SATE",
+      "u": 0.0,
+      "computed_u": 0.3
+    }
+  ]
+}

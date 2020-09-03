@@ -163,7 +163,7 @@
         "nextto": null,
         "A": 50.0,
         "U": 0.47,
-        "bounds": "UNDERGROUND",
+        "bounds": "GROUND",
         "absorptance": 0.6,
         "orientation": -180.0,
         "tilt": 180.0
@@ -174,7 +174,7 @@
         "nextto": null,
         "A": 15.0,
         "U": 0.58,
-        "bounds": "UNDERGROUND",
+        "bounds": "GROUND",
         "absorptance": 0.6,
         "orientation": 0.0,
         "tilt": 90.0
@@ -196,7 +196,7 @@
         "nextto": null,
         "A": 15.0,
         "U": 0.0,
-        "bounds": "UNDERGROUND",
+        "bounds": "GROUND",
         "absorptance": 0.6,
         "orientation": 0.0,
         "tilt": 90.0
@@ -207,7 +207,7 @@
         "nextto": null,
         "A": 50.0,
         "U": 0.0,
-        "bounds": "UNDERGROUND",
+        "bounds": "GROUND",
         "absorptance": 0.6,
         "orientation": -180.0,
         "tilt": 180.0
@@ -218,7 +218,7 @@
         "nextto": null,
         "A": 30.0,
         "U": 0.0,
-        "bounds": "UNDERGROUND",
+        "bounds": "GROUND",
         "absorptance": 0.6,
         "orientation": -90.0,
         "tilt": 90.0

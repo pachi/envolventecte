@@ -46,14 +46,14 @@ const boundarytypesmap = {
   EXTERIOR: "EXTERIOR",
   INTERIOR: "INTERIOR",
   ADIABATIC: "ADIABÁTICO",
-  UNDERGROUND: "TERRENO",
+  GROUND: "TERRENO",
 };
 
 const boundarytypes = [
   { text: "EXTERIOR", value: "EXTERIOR" },
   { text: "INTERIOR", value: "INTERIOR" },
   { text: "ADIABÁTICO", value: "ADIABATIC" },
-  { text: "TERRENO", value: "UNDERGROUND" },
+  { text: "TERRENO", value: "GROUND" },
 ];
 
 const OpacosTable = inject("appstate")(
@@ -186,7 +186,7 @@ const OpacosTable = inject("appstate")(
                       options: { values: boundarytypes },
                     }}
                     dataFormat={BoundaryTypeFormatter}
-                    headerText="Condición de contorno del elemento opaco (INTERIOR | EXTERIOR | UNDERGROUND | ADIABATIC)"
+                    headerText="Condición de contorno del elemento opaco (INTERIOR | EXTERIOR | GROUND | ADIABATIC)"
                   >
                     Tipo
                     <br />
