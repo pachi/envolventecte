@@ -318,7 +318,7 @@ export default class AppState {
 
       // Almacena en store datos
       this.climate = climate;
-      this.envelope = { envelope: { windows, walls, thermal_bridges } };
+      this.envelope = { windows, walls, thermal_bridges };
       this.spaces = spaces;
       this.errors = [
         { type: "SUCCESS", msg: "Datos cargados correctamente." },
