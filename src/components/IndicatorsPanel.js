@@ -49,11 +49,10 @@ const IndicatorsPanel = inject("appstate")(
           totalA,
           totalAU,
           K,
-          Qsoljul,
-          qsj,
+          q_soljul,
         } = this.props.appstate;
-        const Qsoljul_clima = Qsoljul(climateTotRadJul);
-        const qsj_clima = qsj(climateTotRadJul);
+        const q_soljul_clima = q_soljul(climateTotRadJul);
+        const Qsoljul_clima = q_soljul_clima * Autil;
 
         return (
           <Card body bg="light" className="mb-3">
@@ -77,7 +76,8 @@ const IndicatorsPanel = inject("appstate")(
                   <i>
                     q<sub>sol;jul</sub>
                   </i>{" "}
-                  = {Autil !== 0 ? qsj_clima.toFixed(2) : "-"} <i>kWh/m²/mes</i>
+                  = {Autil !== 0 ? q_soljul_clima.toFixed(2) : "-"}{" "}
+                  <i>kWh/m²/mes</i>
                 </b>
               </Col>
               <Col
@@ -162,7 +162,8 @@ const IndicatorsPanel = inject("appstate")(
                       {Qsoljul_clima.toFixed(2)} / {Autil.toFixed(2)} ={" "}
                       <b>
                         <i>
-                          {Autil !== 0 ? qsj_clima.toFixed(2) : "-"} kWh/m²/mes
+                          {Autil !== 0 ? q_soljul_clima.toFixed(2) : "-"}{" "}
+                          kWh/m²/mes
                         </i>
                       </b>
                     </p>

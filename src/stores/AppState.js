@@ -183,7 +183,7 @@ export default class AppState {
     return (this.totalAU + this.ptsPsiL) / this.totalA;
   }
 
-  get Qsoljul() {
+  get q_soljul() {
     return (climateTotRadJul) =>
       this.envelope.windows
         .map(
@@ -194,11 +194,7 @@ export default class AppState {
             Number(h.A) *
             climateTotRadJul[h.orientation]
         )
-        .reduce((a, b) => a + b, 0);
-  }
-
-  get qsj() {
-    return (climateTotRadJul) => this.Qsoljul(climateTotRadJul) / this.Autil;
+        .reduce((a, b) => a + b, 0) / this.Autil;
   }
   // Acciones --------
 
@@ -362,8 +358,7 @@ decorate(AppState, {
   totalA: computed,
   totalAU: computed,
   K: computed,
-  Qsoljul: computed({ requiresReaction: true }),
-  qsj: computed({ requiresReaction: true }),
+  q_soljul: computed({ requiresReaction: true }),
   agrupaHuecos: action,
   agrupaOpacos: action,
   agrupaPts: action,
