@@ -33,7 +33,7 @@ const Float1DigitsFormatter = (cell, _row) => (
 );
 
 const Float2DigitsFormatter = (cell, _row) => {
-  if (cell == null) {
+  if (cell === null || cell === undefined) {
     return <span>-</span>;
   } else {
     return <span>{Number(cell).toFixed(2)}</span>;
@@ -82,6 +82,38 @@ const BoolEditor = React.forwardRef((props, ref) => {
   );
 });
 
+const NVEditor = React.forwardRef((props, ref) => {
+  const { defaultValue, onUpdate } = props;
+  const [value, setValue] = useState(defaultValue);
+  const updateData = () => {
+    // onUpdate cancela la edición si se pasa null así que usamos undefined en ese caso
+    // en BootstrapTable usamos cellEdit.afterSaveCell para cambiar undefined por null
+    const res = value === null || value === "" ? undefined : Number(value);
+    onUpdate(res);
+  };
+
+  return (
+    <span>
+      <input
+        type="text"
+        value={value === null || undefined ? "" : value}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            updateData();
+          }
+        }}
+        onChange={(e) => {
+          let val = e.currentTarget.value;
+          val =
+            val === "" || val === null || Number.isNaN(Number(val)) ? "" : val;
+          setValue(val);
+        }}
+        onBlur={(e) => updateData()}
+      />
+    </span>
+  );
+});
+
 const SpacesTable = inject("appstate")(
   observer(
     class SpacesTable extends Component {
@@ -127,7 +159,20 @@ const SpacesTable = inject("appstate")(
                   striped
                   hover
                   bordered={false}
-                  cellEdit={{ mode: "dbclick", blurToSave: true }}
+                  cellEdit={{
+                    mode: "dbclick",
+                    blurToSave: true,
+                    // Corrige el valor de n_v de undefined a null
+                    // o cambia a null cuando no son espacios no habitables
+                    afterSaveCell: (row, cellName, cellValue) => {
+                      if (
+                        (cellName === "n_v" && cellValue === undefined) ||
+                        (cellName === "type" && cellValue !== "UNINHABITED")
+                      ) {
+                        row.n_v = null;
+                      }
+                    },
+                  }}
                   selectRow={{
                     mode: "checkbox",
                     clickToSelectAndEditCell: true,
@@ -222,6 +267,15 @@ const SpacesTable = inject("appstate")(
                   <TableHeaderColumn
                     dataField="n_v"
                     dataFormat={Float2DigitsFormatter}
+                    customEditor={{
+                      getElement: (onUpdate, props) => (
+                        <NVEditor
+                          onUpdate={onUpdate}
+                          defaultValue={null}
+                          {...props}
+                        />
+                      ),
+                    }}
                     headerText="Ventilación, en ren/h"
                   >
                     n<sub>v</sub>
@@ -244,9 +298,9 @@ const SpacesTable = inject("appstate")(
                   <TableHeaderColumn
                     dataField="exposed_perimeter"
                     dataFormat={Float2DigitsFormatter}
-                    headerText="Perímetro expuesto del espacio (suelos en contacto con el terreno), en m. Incluye la parte del perímetro que separa el espacio del exterior y excluye la que lo separa de otros espacios acondicionados."
+                    headerText="Perímetro del espacio expuesto al exterior, en m. Excluye la que lo separa de otros espacios acondicionados. Es relevante en el caso de espacios en contacto con el terreno."
                   >
-                    p_exp
+                    p<sub>ext</sub>
                     <br />
                     <span style={{ fontWeight: "normal" }}>
                       <i>[m]</i>{" "}
