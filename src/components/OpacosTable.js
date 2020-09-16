@@ -192,7 +192,7 @@ const OpacosTable = inject("appstate")(
                     dataField="cons"
                     headerText="Construcción del opaco"
                   >
-                    Cons.
+                    Construcción
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="space"
@@ -212,6 +212,10 @@ const OpacosTable = inject("appstate")(
                     headerText="Orientación (gamma) [-180,+180] (S=0, E=+90, W=-90). Medido como azimuth geográfico de la proyección horizontal de la normal a la superficie"
                   >
                     Orientación
+                    <br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>[-]</i>{" "}
+                    </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="tilt"
@@ -219,6 +223,10 @@ const OpacosTable = inject("appstate")(
                     headerText="Inclinación (beta) [0, 180]. Medido respecto a la horizontal y normal hacia arriba (0 -> suelo, 180 -> techo)"
                   >
                     Inclinación
+                    <br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>[-]</i>{" "}
+                    </span>
                   </TableHeaderColumn>
                 </BootstrapTable>
               </Col>
@@ -247,9 +255,6 @@ const OpacosTable = inject("appstate")(
                     <b>A</b>: área del elemento opaco (m²)
                   </li>
                   <li>
-                    <b>U</b>: transmitancia térmica del elemento opaco (W/m²K)
-                  </li>
-                  <li>
                     <b>Tipo</b>: Condición de contorno del elemento opaco
                     (EXTERIOR, INTERIOR, ADIABÁTICO, TERRENO). Determina el
                     factor de ajuste del elemento opaco (b<sub>tr,x</sub>), que
@@ -265,6 +270,27 @@ const OpacosTable = inject("appstate")(
                       del DB-HE, el cálculo de la demanda energética si no como
                       indicador de la calidad de la envolvente térmica.
                     </p>
+                  </li>
+                  <li>
+                    <b>Construcción</b>: solución constructiva del elemento
+                    opaco
+                  </li>
+                  <li>
+                    <b>Espacio</b>: Espacio al que pertenece el elemento opaco
+                  </li>
+                  <li>
+                    <b>Espacio ady.</b>: Espacio adyacente con el que comunica
+                    el elemento opaco, cuando este es un elemento interior
+                  </li>
+                  <li>
+                    <b>Orientación</b>: Orientación (gamma) [-180,+180] (S=0,
+                    E=+90, W=-90). Medido como azimuth geográfico de la
+                    proyección horizontal de la normal a la superficie.
+                  </li>
+                  <li>
+                    <b>Inclinación</b>: Inclinación (beta) [0, 180]. Medido
+                    respecto a la horizontal y normal hacia arriba (0 -&gt;
+                    suelo, 180 -&gt; techo)
                   </li>
                 </ul>
               </Col>
