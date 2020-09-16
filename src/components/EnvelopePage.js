@@ -47,18 +47,19 @@ class EnvelopePage extends Component {
         <Row>
           <Col>
             <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-              <Tab eventKey={1} title="Huecos" className="pt-3">
-                <HuecosTable />
+              <Tab eventKey={1} title="Espacios" className="pt-3">
+                <SpacesTable />
               </Tab>
               <Tab eventKey={2} title="Opacos" className="pt-3">
                 <OpacosTable />
               </Tab>
-              <Tab eventKey={3} title="Puentes Térmicos" className="pt-3">
+              <Tab eventKey={3} title="Huecos" className="pt-3">
+                <HuecosTable />
+              </Tab>
+              <Tab eventKey={4} title="Puentes Térmicos" className="pt-3">
                 <PTsTable />
               </Tab>
-              <Tab eventKey={4} title="Espacios" className="pt-3">
-                <SpacesTable />
-              </Tab>
+
               <Tab
                 eventKey={5}
                 title="Carga / descarga de datos"
