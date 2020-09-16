@@ -26,22 +26,22 @@ import { uuidv4 } from "../utils.js";
 export const DEFAULT_WINDOW = () => ({
   id: uuidv4(),
   name: `Hueco_${uuidv4()}`,
+  cons: null,
+  wall: null,
   A: 1.0,
-  U: 1.0,
-  orientation: "N",
-  Ff: 0.2,
-  gglshwi: 0.67,
-  gglwi: 0.67,
   Fshobst: 1.0,
-  C_100: 27.0,
 });
 
 export const DEFAULT_WALL = () => ({
   id: uuidv4(),
   name: `Elemento_opaco_${uuidv4()}`,
-  A: 1.0,
-  U: 0.2,
+  cons: null,
+  space: null,
+  nextto: null,
   bounds: "EXTERIOR",
+  A: 1.0,
+  azimuth: 0.0,
+  tilt: 90.0,
 });
 
 export const DEFAULT_TB = () => ({
@@ -55,9 +55,31 @@ export const DEFAULT_SPACE = () => ({
   id: uuidv4(),
   name: `Espacio_${uuidv4()}`,
   area: 1.0,
+  z: 0.0,
+  exposed_perimeter: 0.0,
   height_net: 2.7,
   height_gross: 3.0,
   inside_tenv: true,
   multiplier: 1.0,
   type: "CONDITIONED",
+  n_v: null,
+});
+
+export const DEFAULT_WALLCONS = () => ({
+  id: uuidv4(),
+  name: `Cons_opacos_${uuidv4()}`,
+  group: "Fachada",
+  R_intrinsic: 2.0,
+  absorptance: 0.6,
+});
+
+export const DEFAULT_WINCONS = () => ({
+  id: uuidv4(),
+  name: `Espacio_${uuidv4()}`,
+  group: "Ventanas",
+  U: 1.5,
+  Ff: 0.25,
+  gglwi: 0.65,
+  gglshwi: 0.65,
+  C_100: 27.0,
 });

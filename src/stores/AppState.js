@@ -27,7 +27,9 @@ import {
   DEFAULT_SPACE,
   DEFAULT_TB,
   DEFAULT_WALL,
+  DEFAULT_WALLCONS,
   DEFAULT_WINDOW,
+  DEFAULT_WINCONS,
 } from "./defaults";
 
 import radiationdata from "../zcraddata.json";
@@ -110,6 +112,8 @@ export default class AppState {
   newOpaco = DEFAULT_WALL;
   newPT = DEFAULT_TB;
   newSpace = DEFAULT_SPACE;
+  newWallCons = DEFAULT_WALLCONS;
+  newWinCons = DEFAULT_WINCONS;
 
   // Propiedades de datos de espacios ------------
 
