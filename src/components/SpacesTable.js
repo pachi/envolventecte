@@ -279,7 +279,7 @@ const SpacesTable = inject("appstate")(
                         />
                       ),
                     }}
-                    headerText="Ventilación, en ren/h"
+                    headerText="Ventilación, en ren/h. Sólo para espacios no habitables."
                   >
                     n<sub>v</sub>
                     <br />
