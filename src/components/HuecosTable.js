@@ -71,7 +71,7 @@ const HuecosTable = inject("appstate")(
           <Col>
             <Row>
               <Col>
-                <h4>Huecos de la envolvente térmica</h4>
+                <h4>Huecos del edificio</h4>
               </Col>
               <Col md="auto">
                 <ButtonGroup>

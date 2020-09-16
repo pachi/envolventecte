@@ -64,7 +64,7 @@ const PTsTable = inject("appstate")(
           <Col>
             <Row>
               <Col>
-                <h4>Puentes térmicos de la envolvente térmica</h4>
+                <h4>Puentes térmicos</h4>
               </Col>
               <Col md="auto">
                 <ButtonGroup>
