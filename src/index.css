@@ -1,11 +1,28 @@
 body {
   margin: 0;
   padding: 0;
-  padding-top: 100px;            /* Separa body de navbar fixedtop*/
-  padding-bottom: 50px;            /* Separa body de navbar fixedbottom*/
+  padding-top: 100px; /* Separa body de navbar fixedtop*/
+  padding-bottom: 50px; /* Separa body de navbar fixedbottom*/
   font-family: sans-serif;
 }
 
-#shadingfactorstable th, #radiationtable th, #julyradiationtable th { text-align: center; background: lightsteelblue }
-#shadingfactorstable tbody, #radiationtable tbody, #julyradiationtable tbody { text-align: right }
-#shadingfactorstable, #radiationtable, #julyradiationtable { background: rgb(199, 215, 236) }
+#shadingfactorstable th,
+#radiationtable th,
+#julyradiationtable th {
+  text-align: center;
+  background: lightsteelblue;
+}
+#shadingfactorstable tbody,
+#radiationtable tbody,
+#julyradiationtable tbody {
+  text-align: right;
+}
+#shadingfactorstable,
+#radiationtable,
+#julyradiationtable {
+  background: rgb(199, 215, 236);
+}
+
+tr.insidetenv td {
+  color: rgb(82, 7, 7);
+}

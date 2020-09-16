@@ -181,6 +181,9 @@ const SpacesTable = inject("appstate")(
                     hideSelectColumn: true,
                     bgColor: "lightgray",
                   }}
+                  trClassName={(row, rowIdx) =>
+                    row.inside_tenv ? "insidetenv" : null
+                  }
                 >
                   <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
                     - ID -{" "}
