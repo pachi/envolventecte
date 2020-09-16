@@ -139,7 +139,7 @@ const HuecosTable = inject("appstate")(
                     dataField="cons"
                     headerText="Construcción del hueco"
                   >
-                    Cons.
+                    Construcción
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="wall"
@@ -178,57 +178,10 @@ const HuecosTable = inject("appstate")(
                     : área (proyectada) del hueco (m²)
                   </li>
                   <li>
-                    <b>Orientación</b>: orientación del hueco (N, NE, NW, E, W,
-                    SE, SW, S, Horiz.)
+                    <b>Construcción</b>: Solución constructiva del hueco.
                   </li>
                   <li>
-                    <b>U</b>: transmitancia térmica del hueco (W/m²K). Se
-                    obtiene a partir de valores de proyecto, y el Documento de
-                    Apoyo <i>DA DB-HE/1</i> recoge el cálculo a partir de las
-                    transmitancias de los componentes del hueco.
-                  </li>
-                  <li>
-                    <b>
-                      F<sub>F</sub>
-                    </b>
-                    : fracción de marco del hueco (fracción). A falta de otros
-                    datos puede tomarse F_F = 0.25 (25%)
-                  </li>
-                  <li>
-                    <b>
-                      g<sub>gl;wi</sub>
-                    </b>
-                    : transmitancia total de energía solar del acristalamiento
-                    SIN el dispositivo de sombra móvil activado.
-                    <br />
-                    Este valor puede obtenerse a partir del factor solar del
-                    vidrio a incidencia normal (g<sub>gl;n</sub>) y el factor de
-                    dispersión del vidrio (F<sub>w</sub>~=0.9).
-                  </li>
-                  <li>
-                    <b>
-                      g<sub>gl;sh;wi</sub>
-                    </b>
-                    : transmitancia total de energía solar del acristalamiento
-                    CON el dispositivo de sombra móvil activado (f_sh;with = 1),
-                    para el mes de julio (fracción).
-                    <br />
-                    Este valor puede obtenerse a partir del factor solar del
-                    vidrio a incidencia normal (g<sub>gl;n</sub>), el factor de
-                    dispersión del vidrio (F<sub>w</sub>~=0.9) y la definición
-                    del elemento de sombreamiento. El Documento de Apoyo{" "}
-                    <i>DA DB-HE/1</i> recoge valores de{" "}
-                    <i>
-                      g<sub>gl;sh;wi</sub>
-                    </i>{" "}
-                    para diversos tipos de vidrio y protecciones solares. A la
-                    hora de introducir este valor en las aplicaciones de
-                    cálculo, debe tenerse en cuenta que estas emplean de manera
-                    predefinida un dispositivo de sombra que incide con un
-                    factor igual 0.7 (de acuerdo con el Documento de Condiciones
-                    Técnicas para la Evaluación de la Eficiencia Energética de
-                    Edificios), de modo que el valor introducido en los
-                    programas debe descontar dicho efecto.
+                    <b>Opaco</b>: Elemento opaco en el que se sitúa el hueco
                   </li>
                   <li>
                     <b>
@@ -250,18 +203,6 @@ const HuecosTable = inject("appstate")(
                     </i>{" "}
                     para considerar el efecto de voladizos, retranqueos, aletas
                     laterales o lamas exteriores.
-                  </li>
-                  <li>
-                    <b>
-                      C<sub>h;100</sub>
-                    </b>
-                    : Coeficiente de permeabilidad al aire del hueco a 100 Pa de
-                    diferencia de presión (m<sup>3</sup>/h·m<sup>2</sup>). La
-                    clase de permeabilidad al aire de los huecos, según la norma
-                    UNE EN 12207:2000 es: Clase 1: C<sub>h;100</sub> &le;
-                    50m3/hm2, Clase 2: C<sub>h;100</sub> &le; 27 m3/hm2, Clase
-                    3: C<sub>h;100</sub> &le; 9 m3/hm2, Clase 4: C
-                    <sub>h;100</sub> &le; 3 m3/hm2.
                   </li>
                 </ul>
                 <p>
