@@ -76,14 +76,19 @@ const OpacosTable = inject("appstate")(
       }
 
       render() {
-        const { Co100, envelope, opacosA, opacosAU } = this.props.appstate;
-        const walls = envelope.walls;
+        const {
+          Co100,
+          walls: walls_obj,
+          opacosA,
+          opacosAU,
+        } = this.props.appstate;
+        const walls = Object.values(walls_obj);
 
         return (
           <Col>
             <Row>
               <Col>
-                <h4>Elementos opacos de la envolvente térmica</h4>
+                <h4>Elementos opacos del edificio</h4>
               </Col>
               <Col md="auto">
                 <ButtonGroup>
@@ -107,6 +112,7 @@ const OpacosTable = inject("appstate")(
               </Col>
             </Row>
             <Row>
+              {/* TODO: esto hay que tomarlo de los metadatos y cálcularlo */}
               <Col
                 title="Coeficiente de caudal de aire de la parte opaca de la envolvente
                 térmica (a 100 Pa)"
@@ -158,24 +164,12 @@ const OpacosTable = inject("appstate")(
                   <TableHeaderColumn
                     dataField="A"
                     dataFormat={Float2DigitsFormatter}
-                    headerText="Área del elemento opaco (m²)"
+                    headerText="Superficie neta (sin huecos) del elemento opaco, en m²"
                   >
                     A<br />
                     <span style={{ fontWeight: "normal" }}>
                       <i>
                         [m<sup>2</sup>]
-                      </i>{" "}
-                    </span>
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="U"
-                    dataFormat={Float2DigitsFormatter}
-                    headerText="Transmitancia térmica del elemento opaco (W/m²K)"
-                  >
-                    U<br />
-                    <span style={{ fontWeight: "normal" }}>
-                      <i>
-                        [W/m<sup>2</sup>K]
                       </i>{" "}
                     </span>
                   </TableHeaderColumn>
@@ -193,6 +187,38 @@ const OpacosTable = inject("appstate")(
                     <span style={{ fontWeight: "normal" }}>
                       <i>[-]</i>{" "}
                     </span>
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField="cons"
+                    headerText="Construcción del opaco"
+                  >
+                    Cons.
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField="space"
+                    headerText="Espacio al que pertenece el elemento opaco"
+                  >
+                    Espacio
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField="nextto"
+                    headerText="Espacio adyacente con el que comunica el elemento opaco cuando es interior"
+                  >
+                    Espacio ady.
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField="azimuth"
+                    dataFormat={Float2DigitsFormatter}
+                    headerText="Orientación (gamma) [-180,+180] (S=0, E=+90, W=-90). Medido como azimuth geográfico de la proyección horizontal de la normal a la superficie"
+                  >
+                    Orientación
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField="tilt"
+                    dataFormat={Float2DigitsFormatter}
+                    headerText="Inclinación (beta) [0, 180]. Medido respecto a la horizontal y normal hacia arriba (0 -> suelo, 180 -> techo)"
+                  >
+                    Inclinación
                   </TableHeaderColumn>
                 </BootstrapTable>
               </Col>

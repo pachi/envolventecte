@@ -34,39 +34,43 @@ import radiationdata from "../zcraddata.json";
 import example from "./example.json";
 
 // Añade id's a archivo de ejemplo
-const { walls, windows, thermal_bridges } = example.envelope;
-const example_spaces = example.spaces;
+const { spaces, walls, windows, thermal_bridges } = example;
+
 // Añade id's
-windows.forEach((e) => {
-  e.id = uuidv4();
-});
-walls.forEach((e) => {
-  e.id = uuidv4();
-});
-thermal_bridges.forEach((e) => {
-  e.id = uuidv4();
-});
-example_spaces.forEach((e) => {
-  e.id = uuidv4();
-});
-const example_envelope = { walls, windows, thermal_bridges };
+for (const win in windows) {
+  windows[win].id = uuidv4();
+}
+for (const wall in walls) {
+  walls[wall].id = uuidv4();
+}
+for (const tb in thermal_bridges) {
+  thermal_bridges[tb].id = uuidv4();
+}
+for (const sp in spaces) {
+  spaces[sp].id = uuidv4();
+}
 
 export default class AppState {
   // Datos climáticos --------
 
   // Valores de radiación
   radiationdata = radiationdata;
-  // Zona climática
-  climate = example.climate;
+  // Zona climática y otros metadatos
+  meta = example.meta;
 
   // Datos geométricos y constructivos -----------
 
   // Coeficiente de caudal de aire de la parte opaca de la envolvente térmica a 100 Pa (m3/h/m2)
   Co100 = 16;
-  // Elementos de la envolvente térmica
-  envelope = example_envelope;
   // Espacios de la envolvente térmica
-  spaces = example_spaces;
+  spaces = example.spaces;
+  // Opacos
+  walls = example.walls;
+  // Huecos
+  windows = example.windows;
+
+  // Puentes térmicos
+  thermal_bridges = example.thermal_bridges;
 
   // Lista de errores -------
   errors = [];
@@ -81,7 +85,7 @@ export default class AppState {
   }
 
   get climatedata() {
-    return this.radiationdata.filter((v) => v.zc === this.climate);
+    return this.radiationdata.filter((v) => v.zc === this.meta.climate);
   }
 
   get climateTotRadJul() {
@@ -101,7 +105,7 @@ export default class AppState {
 
   // Área útil de los espacios habitables en el interior de la envolvente térmica
   get Autil() {
-    const nA = this.spaces
+    const nA = Object.values(this.spaces)
       .map(
         (s) =>
           s.multiplier *
@@ -115,7 +119,7 @@ export default class AppState {
 
   // Volumen neto de los espacios en el interior de la envolvente teŕmica
   get V_int() {
-    const V = this.spaces
+    const V = Object.values(this.spaces)
       .map(
         (s) =>
           s.multiplier * s.area * (s.inside_tenv ? 1.0 : 0.0) * s.height_net
@@ -126,19 +130,19 @@ export default class AppState {
 
   // Propiedades de datos de envolvente ---------
   get huecosA() {
-    return this.envelope.windows
+    return Object.values(this.windows)
       .map((h) => Number(h.A))
       .reduce((a, b) => a + b, 0);
   }
 
   get huecosAU() {
-    return this.envelope.windows
+    return Object.values(this.windows)
       .map((h) => Number(h.A) * Number(h.U))
       .reduce((a, b) => a + b, 0);
   }
 
   get opacosA() {
-    return this.envelope.walls
+    return Object.values(this.walls)
       .map(
         (o) =>
           (o.bounds === "EXTERIOR" || o.bounds === "GROUND" ? 1.0 : 0.0) *
@@ -149,7 +153,7 @@ export default class AppState {
   }
 
   get opacosAU() {
-    return this.envelope.walls
+    return Object.values(this.walls)
       .map(
         (o) =>
           (o.bounds === "EXTERIOR" || o.bounds === "GROUND" ? 1.0 : 0.0) *
@@ -160,13 +164,13 @@ export default class AppState {
   }
 
   get ptsL() {
-    return this.envelope.thermal_bridges
+    return Object.values(this.thermal_bridges)
       .map((h) => Number(h.L))
       .reduce((a, b) => a + b, 0);
   }
 
   get ptsPsiL() {
-    return this.envelope.thermal_bridges
+    return Object.values(this.thermal_bridges)
       .map((h) => Number(h.L) * Number(h.psi))
       .reduce((a, b) => a + b, 0);
   }
@@ -185,7 +189,7 @@ export default class AppState {
 
   get q_soljul() {
     return (climateTotRadJul) =>
-      this.envelope.windows
+      Object.values(this.windows)
         .map(
           (h) =>
             Number(h.Fshobst) *
@@ -200,6 +204,7 @@ export default class AppState {
 
   // Agrupa superficie de huecos por tipos
   agrupaHuecos() {
+    // TODO: esto no es correcto mientras no arreglemos los tipos
     const isequal = (h1, h2) =>
       h1.orientation === h2.orientation &&
       Number(h1.Ff) === Number(h2.Ff) &&
@@ -207,7 +212,7 @@ export default class AppState {
       Number(h1.gglshwi) === Number(h2.gglshwi) &&
       Number(h1.gglwi) === Number(h2.gglwi);
     const huecosagrupados = [];
-    for (let hueco of this.envelope.windows) {
+    for (let hueco of Object.values(this.windows)) {
       const h = huecosagrupados.find((e) => isequal(hueco, e));
       if (h) {
         h.Fshobst =
@@ -219,15 +224,16 @@ export default class AppState {
         huecosagrupados.push(hueco);
       }
     }
-    this.envelope.windows.replace(huecosagrupados);
+    this.windows = Object.fromEntries(huecosagrupados.map((e) => [e.name, e]));
   }
 
   // Agrupa superficie de opacos por tipos
   agrupaOpacos() {
+    // TODO: esto no es correcto mientras no arreglemos los tipos
     const isequal = (o1, o2) =>
       Number(o1.U) === Number(o2.U) && o1.bounds === o2.bounds;
     const opacosagrupados = [];
-    for (let opaco of this.envelope.walls) {
+    for (let opaco of Object.values(this.walls)) {
       const o = opacosagrupados.find((e) => isequal(opaco, e));
       if (o) {
         o.A = o.A + opaco.A;
@@ -237,14 +243,14 @@ export default class AppState {
         opacosagrupados.push(opaco);
       }
     }
-    this.envelope.walls.replace(opacosagrupados);
+    this.walls = Object.fromEntries(opacosagrupados.map((e) => [e.name, e]));
   }
 
   // Agrupa longitudes de puentes térmicos por tipos
   agrupaPts() {
     const isequal = (p1, p2) => Number(p1.psi) === Number(p2.psi);
     const ptsagrupados = [];
-    for (let pt of this.envelope.thermal_bridges) {
+    for (let pt of Object.values(this.thermal_bridges)) {
       const p = ptsagrupados.find((e) => isequal(pt, e));
       if (p) {
         p.A = p.L + pt.L;
@@ -254,27 +260,25 @@ export default class AppState {
         ptsagrupados.push(pt);
       }
     }
-    this.envelope.thermal_bridges.replace(ptsagrupados);
+    this.thermal_bridges = Object.fromEntries(
+      ptsagrupados.map((e) => [e.name, e])
+    );
   }
 
   // Importación y exportación de datos -------------
 
   // Serialización de los datos
   get asJSON() {
-    const {
-      climate,
-      envelope: { windows, walls, thermal_bridges },
-      spaces,
-    } = this;
+    const { meta, thermal_bridges, walls, windows, spaces } = this;
 
     // Eliminamos ids
-    windows.forEach((e) => delete e.id);
-    walls.forEach((e) => delete e.id);
-    thermal_bridges.forEach((e) => delete e.id);
-    spaces.forEach((e) => delete e.id);
+    Object.values(windows).forEach((e) => delete e.id);
+    Object.values(walls).forEach((e) => delete e.id);
+    Object.values(thermal_bridges).forEach((e) => delete e.id);
+    Object.values(spaces).forEach((e) => delete e.id);
 
     return JSON.stringify(
-      { climate, envelope: { windows, walls, thermal_bridges }, spaces },
+      { meta, spaces, walls, windows, thermal_bridges },
       null,
       2
     );
@@ -284,50 +288,60 @@ export default class AppState {
   loadJSON(data) {
     // Lee datos
     try {
-      const { climate = "D3", envelope, spaces } = JSON.parse(data);
-      const { windows, walls, thermal_bridges } = envelope;
+      const {
+        meta = { climate: "D3" },
+        spaces,
+        walls,
+        windows,
+        thermal_bridges,
+      } = JSON.parse(data);
       if (
         !(
-          envelope &&
-          Array.isArray(windows) &&
-          Array.isArray(walls) &&
-          Array.isArray(thermal_bridges) &&
-          Array.isArray(spaces)
+          typeof windows === "object" &&
+          typeof walls === "object" &&
+          typeof thermal_bridges === "object" &&
+          typeof spaces === "object"
         )
       ) {
         throw UserException("Formato incorrecto");
       }
 
       // Añade id's
-      windows.forEach((e) => {
+      Object.values(windows).forEach((e) => {
         e.id = uuidv4();
       });
-      walls.forEach((e) => {
+      Object.values(walls).forEach((e) => {
         e.id = uuidv4();
       });
-      thermal_bridges.forEach((e) => {
+      Object.values(thermal_bridges).forEach((e) => {
         e.id = uuidv4();
       });
-      spaces.forEach((e) => {
+      Object.values(spaces).forEach((e) => {
         e.id = uuidv4();
       });
 
       // Almacena en store datos
-      this.climate = climate;
-      this.envelope = { windows, walls, thermal_bridges };
+      this.meta = meta;
+      this.thermal_bridges = thermal_bridges;
+      this.walls = walls;
+      this.windows = windows;
       this.spaces = spaces;
       this.errors = [
         { type: "SUCCESS", msg: "Datos cargados correctamente." },
         {
           type: "INFO",
-          msg: `Cargados ${windows.length} huecos, ${walls.length} opacos, ${thermal_bridges.length} PTs, ${spaces.length} espacios, clima ${climate}`,
+          msg: `Cargados ${Object.values(spaces).length} espacios, ${
+            Object.values(walls).length
+          } opacos, ${Object.values(windows).length} huecos, ${
+            Object.values(thermal_bridges).length
+          } PTs, clima ${meta.climate}`,
         },
       ];
     } catch (err) {
       this.errors = [
         {
           type: "DANGER",
-          msg: "El archivo no contiene datos con un formato adecuado.",
+          msg: `El archivo no contiene datos con un formato adecuado. ${err}`,
         },
       ];
     }
@@ -337,10 +351,12 @@ export default class AppState {
 decorate(AppState, {
   // Decorators
   // title: observable can be omitted, its is the default when using observable.object
-  climate: observable,
+  meta: observable,
   Co100: observable,
-  envelope: observable,
   spaces: observable,
+  walls: observable,
+  windows: observable,
+  thermal_bridges: observable,
   errors: observable,
   // Valores calculados
   Autil: computed,

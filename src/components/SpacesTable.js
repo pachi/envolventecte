@@ -32,9 +32,13 @@ const Float1DigitsFormatter = (cell, _row) => (
   <span>{Number(cell).toFixed(1)}</span>
 );
 
-const Float2DigitsFormatter = (cell, _row) => (
-  <span>{Number(cell).toFixed(2)}</span>
-);
+const Float2DigitsFormatter = (cell, _row) => {
+  if (cell == null) {
+    return <span>-</span>;
+  } else {
+    return <span>{Number(cell).toFixed(2)}</span>;
+  }
+};
 
 const BoolFormatter = (cell, _row) => (
   <span>{cell === true ? "Sí" : "No"}</span>
@@ -98,13 +102,13 @@ const SpacesTable = inject("appstate")(
       }
 
       render() {
-        const { spaces } = this.props.appstate;
+        const spaces = Object.values(this.props.appstate.spaces);
 
         return (
           <Col>
             <Row>
               <Col>
-                <h4>Espacios de la envolvente térmica</h4>
+                <h4>Espacios del edificio</h4>
               </Col>
               <Col md="auto">
                 <AddRemoveButtonGroup
@@ -210,6 +214,39 @@ const SpacesTable = inject("appstate")(
                     headerText="Altura total, o suelo a suelo, del espacio (m)"
                   >
                     h<sub>s-s</sub>
+                    <br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>[m]</i>{" "}
+                    </span>
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField="n_v"
+                    dataFormat={Float2DigitsFormatter}
+                    headerText="Ventilación, en ren/h"
+                  >
+                    n<sub>v</sub>
+                    <br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>[ren/h]</i>{" "}
+                    </span>
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField="z"
+                    dataFormat={Float2DigitsFormatter}
+                    headerText="Cota de la planta, en m"
+                  >
+                    z
+                    <br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>[m]</i>{" "}
+                    </span>
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField="exposed_perimeter"
+                    dataFormat={Float2DigitsFormatter}
+                    headerText="Perímetro expuesto del espacio (suelos en contacto con el terreno), en m. Incluye la parte del perímetro que separa el espacio del exterior y excluye la que lo separa de otros espacios acondicionados."
+                  >
+                    p_exp
                     <br />
                     <span style={{ fontWeight: "normal" }}>
                       <i>[m]</i>{" "}

@@ -53,8 +53,12 @@ const PTsTable = inject("appstate")(
       }
 
       render() {
-        const { envelope, ptsL, ptsPsiL } = this.props.appstate;
-        const thermal_bridges = envelope.thermal_bridges;
+        const {
+          thermal_bridges: thermal_bridges_obj,
+          ptsL,
+          ptsPsiL,
+        } = this.props.appstate;
+        const thermal_bridges = Object.values(thermal_bridges_obj);
 
         return (
           <Col>

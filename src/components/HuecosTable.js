@@ -64,8 +64,8 @@ const HuecosTable = inject("appstate")(
       }
 
       render() {
-        const { envelope, huecosA, huecosAU } = this.props.appstate;
-        const windows = envelope.windows;
+        const { windows: windows_obj, huecosA, huecosAU } = this.props.appstate;
+        const windows = Object.values(windows_obj);
 
         return (
           <Col>
@@ -136,62 +136,19 @@ const HuecosTable = inject("appstate")(
                     </span>
                   </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="U"
-                    dataFormat={Float2DigitsFormatter}
-                    headerText="Transmitancia térmica del hueco (W/m²K). Se obtiene a partir de valores de proyecto, y el Documento de Apoyo DA DB-HE/1 recoge el cálculo a partir de las transmitancias de los componentes del hueco."
+                    dataField="cons"
+                    headerText="Construcción del hueco"
                   >
-                    U<br />
-                    <span style={{ fontWeight: "normal" }}>
-                      <i>
-                        [W/m<sup>2</sup>K]
-                      </i>
-                    </span>
+                    Cons.
                   </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="orientation"
-                    editable={{
-                      type: "select",
-                      options: { values: this.orientacionesList },
-                    }}
-                    headerText="Orientación del hueco (N, NE, NW, E, W, SE, SW, S, Horiz.)"
+                    dataField="wall"
+                    headerText="Opaco al que pertenece el hueco"
                   >
-                    Orientación
+                    Opaco
                   </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="Ff"
-                    dataFormat={Float2DigitsFormatter}
-                    headerText="Fracción de marco del hueco (fracción). A falta de otros datos puede tomarse F_F = 0.25 (25%)"
-                  >
-                    F<sub>F</sub>
-                    <br />
-                    <span style={{ fontWeight: "normal" }}>
-                      <i>[-]</i>
-                    </span>
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="gglwi"
-                    dataFormat={Float2DigitsFormatter}
-                    headerText="Transmitancia total de energía solar del acristalamiento SIN el dispositivo de sombra móvil activado (fracción). Este valor puede obtenerse a partir del factor solar del vidrio a incidencia normal (ggl;n) y el factor de dispersión del vidrio (Fw~=0.9)."
-                  >
-                    g<sub>gl;wi</sub>
-                    <br />
-                    <span style={{ fontWeight: "normal" }}>
-                      <i>[-]</i>
-                    </span>
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="gglshwi"
-                    dataFormat={Float2DigitsFormatter}
-                    headerText="Transmitancia total de energía solar del acristalamiento CON el dispositivo de sombra móvil activado (fracción). Este valor puede obtenerse a partir del factor solar del vidrio a incidencia normal (ggl;n), el factor de dispersión del vidrio (Fw~=0.9) y la definición del elemento de sombreamiento. El Documento de Apoyo DA DB-HE/1 recoge valores de ggl;sh;wi para diversos tipos de vidrio y protecciones solares. A la hora de introducir este valor en las aplicaciones de cálculo, debe tenerse en cuenta que estas emplean de manera predefinida un dispositivo de sombra que incide con un factor igual 0.7 (de acuerdo con el Documento de Condiciones Técnicas para la Evaluación de la Eficiencia Energética de Edificios), de modo que el valor introducido en los programas debe descontar dicho efecto."
-                  >
-                    g<sub>gl;sh;wi</sub>
-                    <br />
-                    <span style={{ fontWeight: "normal" }}>
-                      <i>[-]</i>
-                    </span>
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="Fshobst"
+                    dataField="fshobst"
                     dataFormat={Float2DigitsFormatter}
                     headerText="Factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción). Este valor puede asimilarse al factor de sombra del hueco (FS). El Documento de Apoyo DA DB-HE/1 recoge valores del factor de sombra FS para considerar el efecto de voladizos, retranqueos, aletas laterales o lamas exteriores."
                   >
@@ -199,19 +156,6 @@ const HuecosTable = inject("appstate")(
                     <br />
                     <span style={{ fontWeight: "normal" }}>
                       <i>[-]</i>
-                    </span>
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="C_100"
-                    dataFormat={Float2DigitsFormatter}
-                    headerText="Coeficiente de permeabilidad al aire del hueco a 100 Pa (m3/hm2). La clase de permeabilidad al aire de los huecos, según la norma UNE EN 12207:2000 es: Clase 1: Ch;100 ≤ 50m3/hm2, Clase 2: Ch;100 ≤ 27 m3/hm2, Clase 3: Ch;100 ≤ 9 m3/hm2, Clase 4: Ch;100 ≤ 3 m3/hm2."
-                  >
-                    C<sub>h;100</sub>
-                    <br />
-                    <span style={{ fontWeight: "normal" }}>
-                      <i>
-                        [m<sup>3</sup>/h·m<sup>2</sup>]
-                      </i>
                     </span>
                   </TableHeaderColumn>
                 </BootstrapTable>

@@ -37,9 +37,9 @@ const ClimateSelector = inject("appstate")(
                 Zona Climática
               </Form.Label>{" "}
               <Form.Control
-                value={appstate.climate || ""}
+                value={appstate.meta.climate || ""}
                 onChange={(e) => {
-                  appstate.climate = e.target.value;
+                  appstate.meta.climate = e.target.value;
                 }}
                 as="select"
                 placeholder="select"
