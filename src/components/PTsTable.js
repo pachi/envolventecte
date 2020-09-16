@@ -116,17 +116,6 @@ const PTsTable = inject("appstate")(
                     Nombre
                   </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="psi"
-                    dataFormat={this.Float2DigitsFormatter}
-                    headerText="Transmitancia térmica lineal del puente térmico (W/mK)"
-                  >
-                    &psi;
-                    <br />
-                    <span style={{ fontWeight: "normal" }}>
-                      <i>[W/mK]</i>{" "}
-                    </span>
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
                     dataField="L"
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Longitud del puente térmico (m)"
@@ -135,6 +124,17 @@ const PTsTable = inject("appstate")(
                     <br />
                     <span style={{ fontWeight: "normal" }}>
                       <i>[m]</i>{" "}
+                    </span>
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField="psi"
+                    dataFormat={this.Float2DigitsFormatter}
+                    headerText="Transmitancia térmica lineal del puente térmico (W/mK)"
+                  >
+                    &psi;
+                    <br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>[W/mK]</i>{" "}
                     </span>
                   </TableHeaderColumn>
                 </BootstrapTable>
