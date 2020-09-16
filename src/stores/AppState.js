@@ -34,7 +34,7 @@ import radiationdata from "../zcraddata.json";
 import example from "./example.json";
 
 // Añade id's a archivo de ejemplo
-const { spaces, walls, windows, thermal_bridges } = example;
+const { spaces, walls, windows, thermal_bridges, wallcons, wincons } = example;
 
 // Añade id's
 for (const win in windows) {
@@ -48,6 +48,12 @@ for (const tb in thermal_bridges) {
 }
 for (const sp in spaces) {
   spaces[sp].id = uuidv4();
+}
+for (const c in wallcons) {
+  wallcons[c].id = uuidv4();
+}
+for (const c in wincons) {
+  wincons[c].id = uuidv4();
 }
 
 export default class AppState {
@@ -68,6 +74,10 @@ export default class AppState {
   walls = example.walls;
   // Huecos
   windows = example.windows;
+  // Construcciones de opacos
+  wallcons = example.wallcons;
+  // Construcciones de huecos
+  wincons = example.wincons;
 
   // Puentes térmicos
   thermal_bridges = example.thermal_bridges;
@@ -276,9 +286,11 @@ export default class AppState {
     Object.values(walls).forEach((e) => delete e.id);
     Object.values(thermal_bridges).forEach((e) => delete e.id);
     Object.values(spaces).forEach((e) => delete e.id);
+    Object.values(wallcons).forEach((e) => delete e.id);
+    Object.values(wincons).forEach((e) => delete e.id);
 
     return JSON.stringify(
-      { meta, spaces, walls, windows, thermal_bridges },
+      { meta, spaces, walls, windows, thermal_bridges, wallcons, wincons },
       null,
       2
     );
@@ -294,13 +306,17 @@ export default class AppState {
         walls,
         windows,
         thermal_bridges,
+        wallcons,
+        wincons,
       } = JSON.parse(data);
       if (
         !(
           typeof windows === "object" &&
           typeof walls === "object" &&
           typeof thermal_bridges === "object" &&
-          typeof spaces === "object"
+          typeof spaces === "object" &&
+          typeof wallcons === "object" &&
+          typeof wincons === "object"
         )
       ) {
         throw UserException("Formato incorrecto");
@@ -319,6 +335,12 @@ export default class AppState {
       Object.values(spaces).forEach((e) => {
         e.id = uuidv4();
       });
+      Object.values(wallcons).forEach((e) => {
+        e.id = uuidv4();
+      });
+      Object.values(wincons).forEach((e) => {
+        e.id = uuidv4();
+      });
 
       // Almacena en store datos
       this.meta = meta;
@@ -326,15 +348,22 @@ export default class AppState {
       this.walls = walls;
       this.windows = windows;
       this.spaces = spaces;
+      this.wallcons = wallcons;
+      this.wincons = wincons;
+
       this.errors = [
         { type: "SUCCESS", msg: "Datos cargados correctamente." },
         {
           type: "INFO",
-          msg: `Cargados ${Object.values(spaces).length} espacios, ${
-            Object.values(walls).length
-          } opacos, ${Object.values(windows).length} huecos, ${
-            Object.values(thermal_bridges).length
-          } PTs, clima ${meta.climate}`,
+          msg: `Clima ${meta.climate}, Cargados ${
+            Object.values(spaces).length
+          } espacios, ${Object.values(walls).length} opacos, ${
+            Object.values(windows).length
+          } huecos, ${Object.values(thermal_bridges).length} PTs, ${
+            Object.values(wallcons).length
+          } construcciones de opacos y ${
+            Object.values(wincons).length
+          } construcciones de huecos`,
         },
       ];
     } catch (err) {
@@ -357,6 +386,8 @@ decorate(AppState, {
   walls: observable,
   windows: observable,
   thermal_bridges: observable,
+  wallcons: observable,
+  wincons: observable,
   errors: observable,
   // Valores calculados
   Autil: computed,

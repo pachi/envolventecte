@@ -28,6 +28,8 @@ import { Col, Container, Row, Tabs, Tab } from "react-bootstrap";
 import DownloadUpload from "./DownloadUpload";
 import Footer from "./Footer";
 import HuecosTable from "./HuecosTable";
+import WinConsTable from "./WinConsTable";
+import WallConsTable from "./WallConsTable";
 import IndicatorsPanel from "./IndicatorsPanel";
 import NavBar from "./Nav";
 import OpacosTable from "./OpacosTable";
@@ -58,6 +60,20 @@ class EnvelopePage extends Component {
               </Tab>
               <Tab eventKey={4} title="Puentes Térmicos" className="pt-3">
                 <PTsTable />
+              </Tab>
+              <Tab
+                eventKey={5}
+                title="Construcciones de opacos"
+                className="pt-3"
+              >
+                <WallConsTable />
+              </Tab>
+              <Tab
+                eventKey={6}
+                title="Construcciones de huecos"
+                className="pt-3"
+              >
+                <WinConsTable />
               </Tab>
 
               <Tab
