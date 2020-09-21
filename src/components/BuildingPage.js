@@ -36,7 +36,7 @@ import OpacosTable from "./OpacosTable";
 import PTsTable from "./PTsTable";
 import SpacesTable from "./SpacesTable";
 
-class EnvelopePage extends Component {
+class BuildingPage extends Component {
   render() {
     return (
       <Container fluid>
@@ -93,4 +93,4 @@ class EnvelopePage extends Component {
   }
 }
 
-export default EnvelopePage;
+export default BuildingPage;

@@ -53,11 +53,11 @@ export default class HelpPage extends Component {
             <p>
               Puede comenzar introduciendo la{" "}
               <b>descripción de la envolvente térmica y sus elementos</b> en el
-              apartado <Link to="/envelope">Envolvente</Link> y seleccionando la{" "}
+              apartado <Link to="/building">Edificio</Link> y seleccionando la{" "}
               <b>zona climática</b> en el desplegable del menú superior.
             </p>
             <p>
-              El apartado <Link to="/envelope">Envolvente</Link> muestra en un
+              El apartado <Link to="/building">Edificio</Link> muestra en un
               panel el valor actualizado y el desglose del cálculo de la{" "}
               <b>transmitancia térmica global</b> (<b>K</b>) y del{" "}
               <b>parámetro de control solar</b> (

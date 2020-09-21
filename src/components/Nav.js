@@ -46,8 +46,8 @@ export default class NavBar extends React.Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav>
-            <LinkContainer to="/envelope" eventKey={1}>
-              <Nav.Link>Envolvente</Nav.Link>
+            <LinkContainer to="/building" eventKey={1}>
+              <Nav.Link>Edificio</Nav.Link>
             </LinkContainer>
             <LinkContainer to="/climate" eventKey={2}>
               <Nav.Link>Clima</Nav.Link>

@@ -34,12 +34,12 @@ import AppState from "../stores/AppState";
 import AboutPage from "./AboutPage";
 import ClimatePage from "./ClimatePage";
 import ElementsPage from "./ElementsPage";
-import EnvelopePage from "./EnvelopePage";
+import BuildingPage from "./BuildingPage";
 import HelpPage from "./HelpPage";
 import MainPage from "./MainPage";
 
 const stores = {
-  appstate: new AppState()
+  appstate: new AppState(),
   // ...other stores
 };
 
@@ -50,7 +50,7 @@ class App extends Component {
         <HashRouter>
           <Switch>
             <Route exact path="/" component={MainPage} />
-            <Route exact path="/envelope" component={EnvelopePage} />
+            <Route exact path="/building" component={BuildingPage} />
             <Route exact path="/climate" component={ClimatePage} />
             <Route exact path="/elements" component={ElementsPage} />
             <Route exact path="/help" component={HelpPage} />
