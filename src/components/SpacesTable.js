@@ -246,20 +246,9 @@ const SpacesTable = inject("appstate")(
                     ¿Interior <br />a la E.T.?
                   </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField="height_net"
+                    dataField="height"
                     dataFormat={Float2DigitsFormatter}
-                    headerText="Altura libre, o suelo a techo, del espacio (m)"
-                  >
-                    h<sub>s-t</sub>
-                    <br />
-                    <span style={{ fontWeight: "normal" }}>
-                      <i>[m]</i>{" "}
-                    </span>
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="height_gross"
-                    dataFormat={Float2DigitsFormatter}
-                    headerText="Altura total, o suelo a suelo, del espacio (m)"
+                    headerText="Altura total, bruta, o suelo a suelo, del espacio (m)"
                   >
                     h<sub>s-s</sub>
                     <br />

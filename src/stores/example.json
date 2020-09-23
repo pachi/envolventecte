@@ -10,1922 +10,2155 @@
     "d_perim_insulation": 0.0,
     "rn_perim_insulation": 0.0
   },
-  "windows": {
-    "P01_E01_PE001_V": {
-      "name": "P01_E01_PE001_V",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E01_PE001",
-      "A": 1.7,
-      "fshobst": 0.71
-    },
-    "P01_E01_PE001_V_1": {
-      "name": "P01_E01_PE001_V_1",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E01_PE001",
-      "A": 2.4,
-      "fshobst": 0.73
-    },
-    "P01_E01_PE001_V_2": {
-      "name": "P01_E01_PE001_V_2",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E01_PE001",
-      "A": 1.7,
-      "fshobst": 0.66
-    },
-    "P01_E01_PE003_V": {
-      "name": "P01_E01_PE003_V",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E01_PE003",
-      "A": 1.8,
-      "fshobst": 0.73
-    },
-    "P01_E01_PE004_V": {
-      "name": "P01_E01_PE004_V",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E01_PE004",
-      "A": 1.2,
-      "fshobst": 0.4
-    },
-    "P01_E02_PE006_V": {
-      "name": "P01_E02_PE006_V",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E02_PE006",
-      "A": 1.2,
-      "fshobst": 0.43
-    },
-    "P01_E02_PE006_V_1": {
-      "name": "P01_E02_PE006_V_1",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E02_PE006",
-      "A": 1.2,
-      "fshobst": 0.47
-    },
-    "P01_E03_PE001_V": {
-      "name": "P01_E03_PE001_V",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E03_PE001",
-      "A": 1.68,
-      "fshobst": 0.39
-    },
-    "P01_E03_PE002_V": {
-      "name": "P01_E03_PE002_V",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E03_PE002",
-      "A": 1.8,
-      "fshobst": 0.75
-    },
-    "P01_E03_PE004_V": {
-      "name": "P01_E03_PE004_V",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E03_PE004",
-      "A": 2.4,
-      "fshobst": 0.73
-    },
-    "P01_E03_PE004_V_1": {
-      "name": "P01_E03_PE004_V_1",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E03_PE004",
-      "A": 1.7,
-      "fshobst": 0.73
-    },
-    "P01_E03_PE004_V_2": {
-      "name": "P01_E03_PE004_V_2",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E03_PE004",
-      "A": 1.7,
-      "fshobst": 0.7
-    },
-    "P01_E04_PE001_V": {
-      "name": "P01_E04_PE001_V",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E04_PE001",
-      "A": 4.0,
-      "fshobst": 0.65
-    },
-    "P01_E05_PE001_V": {
-      "name": "P01_E05_PE001_V",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E05_PE001",
-      "A": 4.1,
-      "fshobst": 0.85
-    },
-    "P01_E05_PE001_V_1": {
-      "name": "P01_E05_PE001_V_1",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E05_PE001",
-      "A": 1.8,
-      "fshobst": 0.83
-    },
-    "P01_E05_PE001_V_2": {
-      "name": "P01_E05_PE001_V_2",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E05_PE001",
-      "A": 2.4,
-      "fshobst": 0.88
-    },
-    "P01_E05_PE003_V": {
-      "name": "P01_E05_PE003_V",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E05_PE003",
-      "A": 1.8,
-      "fshobst": 0.59
-    },
-    "P01_E05_PE004_V": {
-      "name": "P01_E05_PE004_V",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E05_PE004",
-      "A": 1.68,
-      "fshobst": 0.44
-    },
-    "P01_E06_PE001_V": {
-      "name": "P01_E06_PE001_V",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E06_PE001",
-      "A": 1.2,
-      "fshobst": 0.44
-    },
-    "P01_E06_PE002_V": {
-      "name": "P01_E06_PE002_V",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E06_PE002",
-      "A": 1.8,
-      "fshobst": 0.59
-    },
-    "P01_E06_PE004_V": {
-      "name": "P01_E06_PE004_V",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E06_PE004",
-      "A": 2.4,
-      "fshobst": 0.88
-    },
-    "P01_E06_PE004_V_1": {
-      "name": "P01_E06_PE004_V_1",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E06_PE004",
-      "A": 1.8,
-      "fshobst": 0.83
-    },
-    "P01_E06_PE004_V_2": {
-      "name": "P01_E06_PE004_V_2",
-      "cons": "ventana_igualOS",
-      "wall": "P01_E06_PE004",
-      "A": 4.1,
-      "fshobst": 0.85
-    },
-    "P02_E01_PE001_V": {
-      "name": "P02_E01_PE001_V",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E01_PE001",
-      "A": 1.68,
-      "fshobst": 0.38
-    },
-    "P02_E01_PE002_V": {
-      "name": "P02_E01_PE002_V",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E01_PE002",
-      "A": 1.8,
-      "fshobst": 0.75
-    },
-    "P02_E01_PE004_V": {
-      "name": "P02_E01_PE004_V",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E01_PE004",
-      "A": 2.4,
-      "fshobst": 0.69
-    },
-    "P02_E01_PE004_V_1": {
-      "name": "P02_E01_PE004_V_1",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E01_PE004",
-      "A": 1.8,
-      "fshobst": 0.73
-    },
-    "P02_E01_PE004_V_2": {
-      "name": "P02_E01_PE004_V_2",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E01_PE004",
-      "A": 4.1,
-      "fshobst": 0.59
-    },
-    "P02_E02_PE005_V": {
-      "name": "P02_E02_PE005_V",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E02_PE005",
-      "A": 1.2,
-      "fshobst": 0.44
-    },
-    "P02_E02_PE006_V": {
-      "name": "P02_E02_PE006_V",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E02_PE006",
-      "A": 1.8,
-      "fshobst": 0.59
-    },
-    "P02_E02_PE008_V": {
-      "name": "P02_E02_PE008_V",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E02_PE008",
-      "A": 2.4,
-      "fshobst": 0.85
-    },
-    "P02_E02_PE008_V_1": {
-      "name": "P02_E02_PE008_V_1",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E02_PE008",
-      "A": 1.8,
-      "fshobst": 0.83
-    },
-    "P02_E02_PE008_V_2": {
-      "name": "P02_E02_PE008_V_2",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E02_PE008",
-      "A": 4.1,
-      "fshobst": 0.83
-    },
-    "P02_E03_PE009_V": {
-      "name": "P02_E03_PE009_V",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E03_PE009",
-      "A": 4.1,
-      "fshobst": 0.58
-    },
-    "P02_E03_PE009_V_1": {
-      "name": "P02_E03_PE009_V_1",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E03_PE009",
-      "A": 1.8,
-      "fshobst": 0.71
-    },
-    "P02_E03_PE009_V_2": {
-      "name": "P02_E03_PE009_V_2",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E03_PE009",
-      "A": 2.4,
-      "fshobst": 0.69
-    },
-    "P02_E03_PE011_V": {
-      "name": "P02_E03_PE011_V",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E03_PE011",
-      "A": 1.8,
-      "fshobst": 0.73
-    },
-    "P02_E03_PE012_V": {
-      "name": "P02_E03_PE012_V",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E03_PE012",
-      "A": 1.2,
-      "fshobst": 0.4
-    },
-    "P02_E04_PE001_V": {
-      "name": "P02_E04_PE001_V",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E04_PE001",
-      "A": 4.1,
-      "fshobst": 0.83
-    },
-    "P02_E04_PE001_V_1": {
-      "name": "P02_E04_PE001_V_1",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E04_PE001",
-      "A": 1.8,
-      "fshobst": 0.83
-    },
-    "P02_E04_PE001_V_2": {
-      "name": "P02_E04_PE001_V_2",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E04_PE001",
-      "A": 2.4,
-      "fshobst": 0.85
-    },
-    "P02_E04_PE003_V": {
-      "name": "P02_E04_PE003_V",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E04_PE003",
-      "A": 1.8,
-      "fshobst": 0.6
-    },
-    "P02_E04_PE004_V": {
-      "name": "P02_E04_PE004_V",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E04_PE004",
-      "A": 1.68,
-      "fshobst": 0.43
-    },
-    "P02_E05_PE001_V": {
-      "name": "P02_E05_PE001_V",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E05_PE001",
-      "A": 1.43,
-      "fshobst": 0.46
-    },
-    "P02_E05_PE002_V": {
-      "name": "P02_E05_PE002_V",
-      "cons": "ventana_igualOS",
-      "wall": "P02_E05_PE002",
-      "A": 1.2,
-      "fshobst": 0.47
-    },
-    "P02_E05_PE002_V_1": {
-      "name": "P02_E05_PE002_V_1",
-      "cons": "ventana tipo",
-      "wall": "P02_E05_PE002",
-      "A": 1.2,
-      "fshobst": 0.46
-    },
-    "P03_E01_PE001_V": {
-      "name": "P03_E01_PE001_V",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E01_PE001",
-      "A": 1.68,
-      "fshobst": 0.52
-    },
-    "P03_E01_PE002_V": {
-      "name": "P03_E01_PE002_V",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E01_PE002",
-      "A": 1.8,
-      "fshobst": 0.78
-    },
-    "P03_E01_PE004_V": {
-      "name": "P03_E01_PE004_V",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E01_PE004",
-      "A": 2.4,
-      "fshobst": 0.69
-    },
-    "P03_E01_PE004_V_2": {
-      "name": "P03_E01_PE004_V_2",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E01_PE004",
-      "A": 1.8,
-      "fshobst": 0.74
-    },
-    "P03_E01_PE004_V_3": {
-      "name": "P03_E01_PE004_V_3",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E01_PE004",
-      "A": 4.1,
-      "fshobst": 0.59
-    },
-    "P03_E02_PE005_V": {
-      "name": "P03_E02_PE005_V",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E02_PE005",
-      "A": 1.2,
-      "fshobst": 0.6
-    },
-    "P03_E02_PE006_V": {
-      "name": "P03_E02_PE006_V",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E02_PE006",
-      "A": 1.8,
-      "fshobst": 0.67
-    },
-    "P03_E02_PE008_V": {
-      "name": "P03_E02_PE008_V",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E02_PE008",
-      "A": 2.4,
-      "fshobst": 0.85
-    },
-    "P03_E02_PE008_V_5": {
-      "name": "P03_E02_PE008_V_5",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E02_PE008",
-      "A": 1.8,
-      "fshobst": 0.84
-    },
-    "P03_E02_PE008_V_6": {
-      "name": "P03_E02_PE008_V_6",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E02_PE008",
-      "A": 4.1,
-      "fshobst": 0.83
-    },
-    "P03_E03_PE009_V": {
-      "name": "P03_E03_PE009_V",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E03_PE009",
-      "A": 4.1,
-      "fshobst": 0.58
-    },
-    "P03_E03_PE009_V_7": {
-      "name": "P03_E03_PE009_V_7",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E03_PE009",
-      "A": 1.8,
-      "fshobst": 0.72
-    },
-    "P03_E03_PE009_V_8": {
-      "name": "P03_E03_PE009_V_8",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E03_PE009",
-      "A": 2.4,
-      "fshobst": 0.69
-    },
-    "P03_E03_PE011_V": {
-      "name": "P03_E03_PE011_V",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E03_PE011",
-      "A": 1.8,
-      "fshobst": 0.77
-    },
-    "P03_E03_PE012_V": {
-      "name": "P03_E03_PE012_V",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E03_PE012",
-      "A": 1.2,
-      "fshobst": 0.48
-    },
-    "P03_E04_PE013_V": {
-      "name": "P03_E04_PE013_V",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E04_PE013",
-      "A": 4.1,
-      "fshobst": 0.83
-    },
-    "P03_E04_PE013_V_10": {
-      "name": "P03_E04_PE013_V_10",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E04_PE013",
-      "A": 1.8,
-      "fshobst": 0.84
-    },
-    "P03_E04_PE013_V_11": {
-      "name": "P03_E04_PE013_V_11",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E04_PE013",
-      "A": 2.4,
-      "fshobst": 0.85
-    },
-    "P03_E04_PE015_V": {
-      "name": "P03_E04_PE015_V",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E04_PE015",
-      "A": 1.8,
-      "fshobst": 0.66
-    },
-    "P03_E04_PE016_V": {
-      "name": "P03_E04_PE016_V",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E04_PE016",
-      "A": 1.68,
-      "fshobst": 0.58
-    },
-    "P03_E05_PE017_V": {
-      "name": "P03_E05_PE017_V",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E05_PE017",
-      "A": 1.43,
-      "fshobst": 0.6
-    },
-    "P03_E05_PE018_V": {
-      "name": "P03_E05_PE018_V",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E05_PE018",
-      "A": 1.2,
-      "fshobst": 0.59
-    },
-    "P03_E05_PE018_V_13": {
-      "name": "P03_E05_PE018_V_13",
-      "cons": "ventana_igualOS",
-      "wall": "P03_E05_PE018",
-      "A": 1.2,
-      "fshobst": 0.59
-    },
-    "P04_E01_PE001_V": {
-      "name": "P04_E01_PE001_V",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E01_PE001",
-      "A": 1.68,
-      "fshobst": 0.85
-    },
-    "P04_E01_PE002_V": {
-      "name": "P04_E01_PE002_V",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E01_PE002",
-      "A": 1.8,
-      "fshobst": 0.79
-    },
-    "P04_E01_PE004_V": {
-      "name": "P04_E01_PE004_V",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E01_PE004",
-      "A": 2.4,
-      "fshobst": 0.69
-    },
-    "P04_E01_PE004_V_2": {
-      "name": "P04_E01_PE004_V_2",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E01_PE004",
-      "A": 1.8,
-      "fshobst": 0.79
-    },
-    "P04_E01_PE004_V_3": {
-      "name": "P04_E01_PE004_V_3",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E01_PE004",
-      "A": 4.1,
-      "fshobst": 0.59
-    },
-    "P04_E02_PE005_V": {
-      "name": "P04_E02_PE005_V",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E02_PE005",
-      "A": 1.2,
-      "fshobst": 0.74
-    },
-    "P04_E02_PE006_V": {
-      "name": "P04_E02_PE006_V",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E02_PE006",
-      "A": 1.8,
-      "fshobst": 0.66
-    },
-    "P04_E02_PE008_V": {
-      "name": "P04_E02_PE008_V",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E02_PE008",
-      "A": 2.4,
-      "fshobst": 0.85
-    },
-    "P04_E02_PE008_V_5": {
-      "name": "P04_E02_PE008_V_5",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E02_PE008",
-      "A": 1.8,
-      "fshobst": 0.85
-    },
-    "P04_E02_PE008_V_6": {
-      "name": "P04_E02_PE008_V_6",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E02_PE008",
-      "A": 4.1,
-      "fshobst": 0.83
-    },
-    "P04_E03_PE009_V": {
-      "name": "P04_E03_PE009_V",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E03_PE009",
-      "A": 4.1,
-      "fshobst": 0.58
-    },
-    "P04_E03_PE009_V_7": {
-      "name": "P04_E03_PE009_V_7",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E03_PE009",
-      "A": 1.8,
-      "fshobst": 0.78
-    },
-    "P04_E03_PE009_V_8": {
-      "name": "P04_E03_PE009_V_8",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E03_PE009",
-      "A": 2.4,
-      "fshobst": 0.69
-    },
-    "P04_E03_PE011_V": {
-      "name": "P04_E03_PE011_V",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E03_PE011",
-      "A": 1.8,
-      "fshobst": 0.79
-    },
-    "P04_E03_PE012_V": {
-      "name": "P04_E03_PE012_V",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E03_PE012",
-      "A": 1.2,
-      "fshobst": 0.86
-    },
-    "P04_E04_PE013_V": {
-      "name": "P04_E04_PE013_V",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E04_PE013",
-      "A": 4.1,
-      "fshobst": 0.83
-    },
-    "P04_E04_PE013_V_10": {
-      "name": "P04_E04_PE013_V_10",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E04_PE013",
-      "A": 1.8,
-      "fshobst": 0.85
-    },
-    "P04_E04_PE013_V_11": {
-      "name": "P04_E04_PE013_V_11",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E04_PE013",
-      "A": 2.4,
-      "fshobst": 0.85
-    },
-    "P04_E04_PE015_V": {
-      "name": "P04_E04_PE015_V",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E04_PE015",
-      "A": 1.8,
-      "fshobst": 0.66
-    },
-    "P04_E04_PE016_V": {
-      "name": "P04_E04_PE016_V",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E04_PE016",
-      "A": 1.68,
-      "fshobst": 0.76
-    },
-    "P04_E05_PE017_V": {
-      "name": "P04_E05_PE017_V",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E05_PE017",
-      "A": 1.43,
-      "fshobst": 0.79
-    },
-    "P04_E05_PE018_V": {
-      "name": "P04_E05_PE018_V",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E05_PE018",
-      "A": 1.2,
-      "fshobst": 0.78
-    },
-    "P04_E05_PE018_V_13": {
-      "name": "P04_E05_PE018_V_13",
-      "cons": "ventana_igualOS",
-      "wall": "P04_E05_PE018",
-      "A": 1.2,
-      "fshobst": 0.78
+  "spaces": {
+    "P01_E01": {
+      "name": "P01_E01",
+      "area": 76.31,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.5,
+      "n_v": null,
+      "z": 0.0,
+      "exposed_perimeter": 22.0
+    },
+    "P01_E02": {
+      "name": "P01_E02",
+      "area": 35.18,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.5,
+      "n_v": null,
+      "z": 0.0,
+      "exposed_perimeter": 4.32
+    },
+    "P01_E03": {
+      "name": "P01_E03",
+      "area": 74.45,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.5,
+      "n_v": null,
+      "z": 0.0,
+      "exposed_perimeter": 22.55
+    },
+    "P01_E04": {
+      "name": "P01_E04",
+      "area": 41.53,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.5,
+      "n_v": null,
+      "z": 0.0,
+      "exposed_perimeter": 15.03
+    },
+    "P01_E05": {
+      "name": "P01_E05",
+      "area": 95.56,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.5,
+      "n_v": null,
+      "z": 0.0,
+      "exposed_perimeter": 20.5
+    },
+    "P01_E06": {
+      "name": "P01_E06",
+      "area": 95.45,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.5,
+      "n_v": null,
+      "z": 0.0,
+      "exposed_perimeter": 18.18
+    },
+    "P02_E01": {
+      "name": "P02_E01",
+      "area": 96.14,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.0,
+      "n_v": null,
+      "z": 3.5,
+      "exposed_perimeter": 23.75
+    },
+    "P02_E02": {
+      "name": "P02_E02",
+      "area": 95.45,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.0,
+      "n_v": null,
+      "z": 3.5,
+      "exposed_perimeter": 23.74
+    },
+    "P02_E03": {
+      "name": "P02_E03",
+      "area": 96.14,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.0,
+      "n_v": null,
+      "z": 3.5,
+      "exposed_perimeter": 29.28
+    },
+    "P02_E04": {
+      "name": "P02_E04",
+      "area": 95.56,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.0,
+      "n_v": null,
+      "z": 3.5,
+      "exposed_perimeter": 32.61
+    },
+    "P02_E05": {
+      "name": "P02_E05",
+      "area": 35.19,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.0,
+      "n_v": null,
+      "z": 3.5,
+      "exposed_perimeter": 6.06
+    },
+    "P03_E01": {
+      "name": "P03_E01",
+      "area": 96.14,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.0,
+      "n_v": null,
+      "z": 6.5,
+      "exposed_perimeter": 23.75
+    },
+    "P03_E02": {
+      "name": "P03_E02",
+      "area": 95.45,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.0,
+      "n_v": null,
+      "z": 6.5,
+      "exposed_perimeter": 23.74
+    },
+    "P03_E03": {
+      "name": "P03_E03",
+      "area": 96.14,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.0,
+      "n_v": null,
+      "z": 6.5,
+      "exposed_perimeter": 29.28
+    },
+    "P03_E04": {
+      "name": "P03_E04",
+      "area": 95.56,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.0,
+      "n_v": null,
+      "z": 6.5,
+      "exposed_perimeter": 32.61
+    },
+    "P03_E05": {
+      "name": "P03_E05",
+      "area": 35.19,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.0,
+      "n_v": null,
+      "z": 6.5,
+      "exposed_perimeter": 6.06
+    },
+    "P04_E01": {
+      "name": "P04_E01",
+      "area": 96.14,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.0,
+      "n_v": null,
+      "z": 9.5,
+      "exposed_perimeter": 23.75
+    },
+    "P04_E02": {
+      "name": "P04_E02",
+      "area": 95.45,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.0,
+      "n_v": null,
+      "z": 9.5,
+      "exposed_perimeter": 23.74
+    },
+    "P04_E03": {
+      "name": "P04_E03",
+      "area": 96.14,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.0,
+      "n_v": null,
+      "z": 9.5,
+      "exposed_perimeter": 29.28
+    },
+    "P04_E04": {
+      "name": "P04_E04",
+      "area": 95.56,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.0,
+      "n_v": null,
+      "z": 9.5,
+      "exposed_perimeter": 32.61
+    },
+    "P04_E05": {
+      "name": "P04_E05",
+      "area": 35.19,
+      "multiplier": 1.0,
+      "type": "CONDITIONED",
+      "inside_tenv": true,
+      "height": 3.0,
+      "n_v": null,
+      "z": 9.5,
+      "exposed_perimeter": 6.06
     }
   },
   "walls": {
     "P01_E01_FTER001": {
       "name": "P01_E01_FTER001",
+      "A": 76.31,
+      "bounds": "GROUND",
       "cons": "solera tipo",
       "space": "P01_E01",
       "nextto": null,
-      "bounds": "GROUND",
-      "A": 76.31,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P01_E01_MED001": {
       "name": "P01_E01_MED001",
+      "A": 31.64,
+      "bounds": "ADIABATIC",
       "cons": "fachada tipo",
       "space": "P01_E01",
       "nextto": null,
-      "bounds": "ADIABATIC",
-      "A": 31.64,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P01_E01_Med001": {
       "name": "P01_E01_Med001",
+      "A": 14.46,
+      "bounds": "INTERIOR",
       "cons": "tabique tipo",
       "space": "P01_E01",
       "nextto": "P01_E02",
-      "bounds": "INTERIOR",
-      "A": 14.46,
       "azimuth": -180.0,
       "tilt": 90.0
     },
     "P01_E01_Med002": {
       "name": "P01_E01_Med002",
+      "A": 39.87,
+      "bounds": "INTERIOR",
       "cons": "tabique tipo",
       "space": "P01_E01",
       "nextto": "P01_E04",
-      "bounds": "INTERIOR",
-      "A": 39.87,
       "azimuth": -89.9,
       "tilt": 90.0
     },
     "P01_E01_PE001": {
       "name": "P01_E01_PE001",
+      "A": 19.96,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P01_E01",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 19.96,
       "azimuth": 0.0,
       "tilt": 90.0
     },
     "P01_E01_PE003": {
       "name": "P01_E01_PE003",
+      "A": 9.57,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P01_E01",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 9.57,
       "azimuth": -180.0,
       "tilt": 90.0
     },
     "P01_E01_PE004": {
       "name": "P01_E01_PE004",
+      "A": 7.03,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P01_E01",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.03,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P01_E02_FTER002": {
       "name": "P01_E02_FTER002",
+      "A": 35.18,
+      "bounds": "GROUND",
       "cons": "solera tipo",
       "space": "P01_E02",
       "nextto": null,
-      "bounds": "GROUND",
-      "A": 35.18,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P01_E02_Med003": {
       "name": "P01_E02_Med003",
+      "A": 20.48,
+      "bounds": "INTERIOR",
       "cons": "tabique tipo",
       "space": "P01_E02",
       "nextto": "P01_E06",
-      "bounds": "INTERIOR",
-      "A": 20.48,
       "azimuth": -179.71,
       "tilt": 90.0
     },
     "P01_E02_Med004": {
       "name": "P01_E02_Med004",
+      "A": 20.55,
+      "bounds": "INTERIOR",
       "cons": "tabique tipo",
       "space": "P01_E02",
       "nextto": "P01_E05",
-      "bounds": "INTERIOR",
-      "A": 20.55,
       "azimuth": 179.71,
       "tilt": 90.0
     },
     "P01_E02_Med005": {
       "name": "P01_E02_Med005",
+      "A": 13.79,
+      "bounds": "INTERIOR",
       "cons": "tabique tipo",
       "space": "P01_E02",
       "nextto": "P01_E03",
-      "bounds": "INTERIOR",
-      "A": 13.79,
       "azimuth": 0.15,
       "tilt": 90.0
     },
     "P01_E02_Med006": {
       "name": "P01_E02_Med006",
+      "A": 12.78,
+      "bounds": "INTERIOR",
       "cons": "tabique tipo",
       "space": "P01_E02",
       "nextto": "P01_E04",
-      "bounds": "INTERIOR",
-      "A": 12.78,
       "azimuth": -0.16,
       "tilt": 90.0
     },
     "P01_E02_PE005": {
       "name": "P01_E02_PE005",
+      "A": 10.57,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P01_E02",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 10.57,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P01_E02_PE006": {
       "name": "P01_E02_PE006",
+      "A": 8.17,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P01_E02",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 8.17,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P01_E03_FTER003": {
       "name": "P01_E03_FTER003",
+      "A": 74.45,
+      "bounds": "GROUND",
       "cons": "solera tipo",
       "space": "P01_E03",
       "nextto": null,
-      "bounds": "GROUND",
-      "A": 74.45,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P01_E03_MED001": {
       "name": "P01_E03_MED001",
+      "A": 31.64,
+      "bounds": "ADIABATIC",
       "cons": "fachada tipo",
       "space": "P01_E03",
       "nextto": null,
-      "bounds": "ADIABATIC",
-      "A": 31.64,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P01_E03_Med001": {
       "name": "P01_E03_Med001",
+      "A": 39.9,
+      "bounds": "INTERIOR",
       "cons": "tabique tipo",
       "space": "P01_E03",
       "nextto": "P01_E04",
-      "bounds": "INTERIOR",
-      "A": 39.9,
       "azimuth": 90.15,
       "tilt": 90.0
     },
     "P01_E03_PE001": {
       "name": "P01_E03_PE001",
+      "A": 6.54,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P01_E03",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 6.54,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P01_E03_PE002": {
       "name": "P01_E03_PE002",
+      "A": 9.58,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P01_E03",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 9.58,
       "azimuth": -180.0,
       "tilt": 90.0
     },
     "P01_E03_PE004": {
       "name": "P01_E03_PE004",
+      "A": 19.47,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P01_E03",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 19.47,
       "azimuth": 0.0,
       "tilt": 90.0
     },
     "P01_E04_FTER004": {
       "name": "P01_E04_FTER004",
+      "A": 41.53,
+      "bounds": "GROUND",
       "cons": "solera tipo",
       "space": "P01_E04",
       "nextto": null,
-      "bounds": "GROUND",
-      "A": 41.53,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P01_E04_PE001": {
       "name": "P01_E04_PE001",
+      "A": 8.74,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P01_E04",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 8.74,
       "azimuth": 0.0,
       "tilt": 90.0
     },
     "P01_E05_FTER005": {
       "name": "P01_E05_FTER005",
+      "A": 95.56,
+      "bounds": "GROUND",
       "cons": "solera tipo",
       "space": "P01_E05",
       "nextto": null,
-      "bounds": "GROUND",
-      "A": 95.56,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P01_E05_MED001": {
       "name": "P01_E05_MED001",
+      "A": 30.94,
+      "bounds": "ADIABATIC",
       "cons": "fachada tipo",
       "space": "P01_E05",
       "nextto": null,
-      "bounds": "ADIABATIC",
-      "A": 30.94,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P01_E05_Med001": {
       "name": "P01_E05_Med001",
+      "A": 39.94,
+      "bounds": "INTERIOR",
       "cons": "tabique tipo",
       "space": "P01_E05",
       "nextto": "P01_E06",
-      "bounds": "INTERIOR",
-      "A": 39.94,
       "azimuth": 90.05,
       "tilt": 90.0
     },
     "P01_E05_PE001": {
       "name": "P01_E05_PE001",
+      "A": 23.59,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P01_E05",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 23.59,
       "azimuth": -180.0,
       "tilt": 90.0
     },
     "P01_E05_PE003": {
       "name": "P01_E05_PE003",
+      "A": 9.58,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P01_E05",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 9.58,
       "azimuth": 0.0,
       "tilt": 90.0
     },
     "P01_E05_PE004": {
       "name": "P01_E05_PE004",
+      "A": 7.21,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P01_E05",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.21,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P01_E06_FTER006": {
       "name": "P01_E06_FTER006",
+      "A": 95.45,
+      "bounds": "GROUND",
       "cons": "solera tipo",
       "space": "P01_E06",
       "nextto": null,
-      "bounds": "GROUND",
-      "A": 95.45,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P01_E06_MED001": {
       "name": "P01_E06_MED001",
+      "A": 30.94,
+      "bounds": "ADIABATIC",
       "cons": "fachada tipo",
       "space": "P01_E06",
       "nextto": null,
-      "bounds": "ADIABATIC",
-      "A": 30.94,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P01_E06_PE001": {
       "name": "P01_E06_PE001",
+      "A": 7.69,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P01_E06",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.69,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P01_E06_PE002": {
       "name": "P01_E06_PE002",
+      "A": 9.57,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P01_E06",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 9.57,
       "azimuth": 0.0,
       "tilt": 90.0
     },
     "P01_E06_PE004": {
       "name": "P01_E06_PE004",
+      "A": 23.59,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P01_E06",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 23.59,
       "azimuth": -180.0,
       "tilt": 90.0
     },
     "P02_E01_FI001": {
       "name": "P02_E01_FI001",
+      "A": 74.43,
+      "bounds": "INTERIOR",
       "cons": "forjado tipo",
       "space": "P02_E01",
       "nextto": "P01_E03",
-      "bounds": "INTERIOR",
-      "A": 74.43,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P02_E01_FI002": {
       "name": "P02_E01_FI002",
+      "A": 21.7,
+      "bounds": "INTERIOR",
       "cons": "forjado tipo",
       "space": "P02_E01",
       "nextto": "P01_E04",
-      "bounds": "INTERIOR",
-      "A": 21.7,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P02_E01_MED001": {
       "name": "P02_E01_MED001",
+      "A": 27.12,
+      "bounds": "ADIABATIC",
       "cons": "fachada tipo",
       "space": "P02_E01",
       "nextto": null,
-      "bounds": "ADIABATIC",
-      "A": 27.12,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P02_E01_Med001": {
       "name": "P02_E01_Med001",
+      "A": 34.18,
+      "bounds": "INTERIOR",
       "cons": "division_viviendas",
       "space": "P02_E01",
       "nextto": "P02_E03",
-      "bounds": "INTERIOR",
-      "A": 34.18,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P02_E01_Med002": {
       "name": "P02_E01_Med002",
+      "A": 17.58,
+      "bounds": "INTERIOR",
       "cons": "division_viviendas",
       "space": "P02_E01",
       "nextto": "P02_E05",
-      "bounds": "INTERIOR",
-      "A": 17.58,
       "azimuth": -179.96,
       "tilt": 90.0
     },
     "P02_E01_PE001": {
       "name": "P02_E01_PE001",
+      "A": 5.37,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P02_E01",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 5.37,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P02_E01_PE002": {
       "name": "P02_E01_PE002",
+      "A": 7.95,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P02_E01",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.95,
       "azimuth": -180.0,
       "tilt": 90.0
     },
     "P02_E01_PE004": {
       "name": "P02_E01_PE004",
+      "A": 19.03,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P02_E01",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 19.03,
       "azimuth": 0.0,
       "tilt": 90.0
     },
     "P02_E02_FI003": {
       "name": "P02_E02_FI003",
+      "A": 95.34,
+      "bounds": "INTERIOR",
       "cons": "forjado tipo",
       "space": "P02_E02",
       "nextto": "P01_E06",
-      "bounds": "INTERIOR",
-      "A": 95.34,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P02_E02_MED001": {
       "name": "P02_E02_MED001",
+      "A": 26.52,
+      "bounds": "ADIABATIC",
       "cons": "fachada tipo",
       "space": "P02_E02",
       "nextto": null,
-      "bounds": "ADIABATIC",
-      "A": 26.52,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P02_E02_Med003": {
       "name": "P02_E02_Med003",
+      "A": 17.55,
+      "bounds": "INTERIOR",
       "cons": "division_viviendas",
       "space": "P02_E02",
       "nextto": "P02_E05",
-      "bounds": "INTERIOR",
-      "A": 17.55,
       "azimuth": 0.29,
       "tilt": 90.0
     },
     "P02_E02_Med004": {
       "name": "P02_E02_Med004",
+      "A": 34.23,
+      "bounds": "INTERIOR",
       "cons": "tabique tipo",
       "space": "P02_E02",
       "nextto": "P02_E04",
-      "bounds": "INTERIOR",
-      "A": 34.23,
       "azimuth": -89.95,
       "tilt": 90.0
     },
     "P02_E02_PE005": {
       "name": "P02_E02_PE005",
+      "A": 6.42,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P02_E02",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 6.42,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P02_E02_PE006": {
       "name": "P02_E02_PE006",
+      "A": 7.95,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P02_E02",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.95,
       "azimuth": 0.0,
       "tilt": 90.0
     },
     "P02_E02_PE008": {
       "name": "P02_E02_PE008",
+      "A": 19.03,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P02_E02",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 19.03,
       "azimuth": -180.0,
       "tilt": 90.0
     },
     "P02_E03_FI001": {
       "name": "P02_E03_FI001",
+      "A": 76.19,
+      "bounds": "INTERIOR",
       "cons": "forjado tipo",
       "space": "P02_E03",
       "nextto": "P01_E01",
-      "bounds": "INTERIOR",
-      "A": 76.19,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P02_E03_FI002": {
       "name": "P02_E03_FI002",
+      "A": 19.82,
+      "bounds": "INTERIOR",
       "cons": "forjado tipo",
       "space": "P02_E03",
       "nextto": "P01_E04",
-      "bounds": "INTERIOR",
-      "A": 19.82,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P02_E03_MED001": {
       "name": "P02_E03_MED001",
+      "A": 27.12,
+      "bounds": "ADIABATIC",
       "cons": "fachada tipo",
       "space": "P02_E03",
       "nextto": null,
-      "bounds": "ADIABATIC",
-      "A": 27.12,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P02_E03_Med005": {
       "name": "P02_E03_Med005",
+      "A": 17.58,
+      "bounds": "INTERIOR",
       "cons": "division_viviendas",
       "space": "P02_E03",
       "nextto": "P02_E05",
-      "bounds": "INTERIOR",
-      "A": 17.58,
       "azimuth": 179.96,
       "tilt": 90.0
     },
     "P02_E03_PE009": {
       "name": "P02_E03_PE009",
+      "A": 19.03,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P02_E03",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 19.03,
       "azimuth": 0.0,
       "tilt": 90.0
     },
     "P02_E03_PE011": {
       "name": "P02_E03_PE011",
+      "A": 7.95,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P02_E03",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.95,
       "azimuth": -180.0,
       "tilt": 90.0
     },
     "P02_E03_PE012": {
       "name": "P02_E03_PE012",
+      "A": 5.85,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P02_E03",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 5.85,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P02_E04_FI001": {
       "name": "P02_E04_FI001",
+      "A": 95.5,
+      "bounds": "INTERIOR",
       "cons": "forjado tipo",
       "space": "P02_E04",
       "nextto": "P01_E05",
-      "bounds": "INTERIOR",
-      "A": 95.5,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P02_E04_MED001": {
       "name": "P02_E04_MED001",
+      "A": 26.52,
+      "bounds": "ADIABATIC",
       "cons": "fachada tipo",
       "space": "P02_E04",
       "nextto": null,
-      "bounds": "ADIABATIC",
-      "A": 26.52,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P02_E04_Med001": {
       "name": "P02_E04_Med001",
+      "A": 17.61,
+      "bounds": "INTERIOR",
       "cons": "division_viviendas",
       "space": "P02_E04",
       "nextto": "P02_E05",
-      "bounds": "INTERIOR",
-      "A": 17.61,
       "azimuth": -0.29,
       "tilt": 90.0
     },
     "P02_E04_PE001": {
       "name": "P02_E04_PE001",
+      "A": 19.03,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P02_E04",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 19.03,
       "azimuth": -180.0,
       "tilt": 90.0
     },
     "P02_E04_PE003": {
       "name": "P02_E04_PE003",
+      "A": 7.95,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P02_E04",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.95,
       "azimuth": 0.0,
       "tilt": 90.0
     },
     "P02_E04_PE004": {
       "name": "P02_E04_PE004",
+      "A": 5.94,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P02_E04",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 5.94,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P02_E05_FI001": {
       "name": "P02_E05_FI001",
+      "A": 35.14,
+      "bounds": "INTERIOR",
       "cons": "forjado tipo",
       "space": "P02_E05",
       "nextto": "P01_E02",
-      "bounds": "INTERIOR",
-      "A": 35.14,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P02_E05_PE001": {
       "name": "P02_E05_PE001",
+      "A": 7.64,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P02_E05",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.64,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P02_E05_PE002": {
       "name": "P02_E05_PE002",
+      "A": 6.66,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P02_E05",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 6.66,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P03_E01_FI007": {
       "name": "P03_E01_FI007",
+      "A": 96.14,
+      "bounds": "INTERIOR",
       "cons": "forjado tipo",
       "space": "P03_E01",
       "nextto": "P02_E01",
-      "bounds": "INTERIOR",
-      "A": 96.14,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P03_E01_MED001": {
       "name": "P03_E01_MED001",
+      "A": 27.12,
+      "bounds": "ADIABATIC",
       "cons": "fachada tipo",
       "space": "P03_E01",
       "nextto": null,
-      "bounds": "ADIABATIC",
-      "A": 27.12,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P03_E01_Med001": {
       "name": "P03_E01_Med001",
+      "A": 34.18,
+      "bounds": "INTERIOR",
       "cons": "division_viviendas",
       "space": "P03_E01",
       "nextto": "P03_E03",
-      "bounds": "INTERIOR",
-      "A": 34.18,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P03_E01_Med002": {
       "name": "P03_E01_Med002",
+      "A": 17.58,
+      "bounds": "INTERIOR",
       "cons": "division_viviendas",
       "space": "P03_E01",
       "nextto": "P03_E05",
-      "bounds": "INTERIOR",
-      "A": 17.58,
       "azimuth": -179.96,
       "tilt": 90.0
     },
     "P03_E01_PE001": {
       "name": "P03_E01_PE001",
+      "A": 5.37,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P03_E01",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 5.37,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P03_E01_PE002": {
       "name": "P03_E01_PE002",
+      "A": 7.95,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P03_E01",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.95,
       "azimuth": -180.0,
       "tilt": 90.0
     },
     "P03_E01_PE004": {
       "name": "P03_E01_PE004",
+      "A": 19.03,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P03_E01",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 19.03,
       "azimuth": 0.0,
       "tilt": 90.0
     },
     "P03_E02_FI008": {
       "name": "P03_E02_FI008",
+      "A": 95.45,
+      "bounds": "INTERIOR",
       "cons": "forjado tipo",
       "space": "P03_E02",
       "nextto": "P02_E02",
-      "bounds": "INTERIOR",
-      "A": 95.45,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P03_E02_MED001": {
       "name": "P03_E02_MED001",
+      "A": 26.52,
+      "bounds": "ADIABATIC",
       "cons": "fachada tipo",
       "space": "P03_E02",
       "nextto": null,
-      "bounds": "ADIABATIC",
-      "A": 26.52,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P03_E02_Med003": {
       "name": "P03_E02_Med003",
+      "A": 17.55,
+      "bounds": "INTERIOR",
       "cons": "division_viviendas",
       "space": "P03_E02",
       "nextto": "P03_E05",
-      "bounds": "INTERIOR",
-      "A": 17.55,
       "azimuth": 0.29,
       "tilt": 90.0
     },
     "P03_E02_Med004": {
       "name": "P03_E02_Med004",
+      "A": 34.23,
+      "bounds": "INTERIOR",
       "cons": "division_viviendas",
       "space": "P03_E02",
       "nextto": "P03_E04",
-      "bounds": "INTERIOR",
-      "A": 34.23,
       "azimuth": -89.95,
       "tilt": 90.0
     },
     "P03_E02_PE005": {
       "name": "P03_E02_PE005",
+      "A": 6.42,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P03_E02",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 6.42,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P03_E02_PE006": {
       "name": "P03_E02_PE006",
+      "A": 7.95,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P03_E02",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.95,
       "azimuth": 0.0,
       "tilt": 90.0
     },
     "P03_E02_PE008": {
       "name": "P03_E02_PE008",
+      "A": 19.03,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P03_E02",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 19.03,
       "azimuth": -180.0,
       "tilt": 90.0
     },
     "P03_E03_FI009": {
       "name": "P03_E03_FI009",
+      "A": 96.14,
+      "bounds": "INTERIOR",
       "cons": "forjado tipo",
       "space": "P03_E03",
       "nextto": "P02_E03",
-      "bounds": "INTERIOR",
-      "A": 96.14,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P03_E03_MED001": {
       "name": "P03_E03_MED001",
+      "A": 27.12,
+      "bounds": "ADIABATIC",
       "cons": "fachada tipo",
       "space": "P03_E03",
       "nextto": null,
-      "bounds": "ADIABATIC",
-      "A": 27.12,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P03_E03_Med005": {
       "name": "P03_E03_Med005",
+      "A": 17.58,
+      "bounds": "INTERIOR",
       "cons": "division_viviendas",
       "space": "P03_E03",
       "nextto": "P03_E05",
-      "bounds": "INTERIOR",
-      "A": 17.58,
       "azimuth": 179.96,
       "tilt": 90.0
     },
     "P03_E03_PE009": {
       "name": "P03_E03_PE009",
+      "A": 19.03,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P03_E03",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 19.03,
       "azimuth": 0.0,
       "tilt": 90.0
     },
     "P03_E03_PE011": {
       "name": "P03_E03_PE011",
+      "A": 7.95,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P03_E03",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.95,
       "azimuth": -180.0,
       "tilt": 90.0
     },
     "P03_E03_PE012": {
       "name": "P03_E03_PE012",
+      "A": 5.85,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P03_E03",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 5.85,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P03_E04_FI010": {
       "name": "P03_E04_FI010",
+      "A": 95.56,
+      "bounds": "INTERIOR",
       "cons": "forjado tipo",
       "space": "P03_E04",
       "nextto": "P02_E04",
-      "bounds": "INTERIOR",
-      "A": 95.56,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P03_E04_MED001": {
       "name": "P03_E04_MED001",
+      "A": 26.52,
+      "bounds": "ADIABATIC",
       "cons": "fachada tipo",
       "space": "P03_E04",
       "nextto": null,
-      "bounds": "ADIABATIC",
-      "A": 26.52,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P03_E04_Med006": {
       "name": "P03_E04_Med006",
+      "A": 17.61,
+      "bounds": "INTERIOR",
       "cons": "division_viviendas",
       "space": "P03_E04",
       "nextto": "P03_E05",
-      "bounds": "INTERIOR",
-      "A": 17.61,
       "azimuth": -0.29,
       "tilt": 90.0
     },
     "P03_E04_PE013": {
       "name": "P03_E04_PE013",
+      "A": 19.03,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P03_E04",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 19.03,
       "azimuth": -180.0,
       "tilt": 90.0
     },
     "P03_E04_PE015": {
       "name": "P03_E04_PE015",
+      "A": 7.95,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P03_E04",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.95,
       "azimuth": 0.0,
       "tilt": 90.0
     },
     "P03_E04_PE016": {
       "name": "P03_E04_PE016",
+      "A": 5.94,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P03_E04",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 5.94,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P03_E05_FI011": {
       "name": "P03_E05_FI011",
+      "A": 35.19,
+      "bounds": "INTERIOR",
       "cons": "forjado tipo",
       "space": "P03_E05",
       "nextto": "P02_E05",
-      "bounds": "INTERIOR",
-      "A": 35.19,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P03_E05_PE017": {
       "name": "P03_E05_PE017",
+      "A": 7.64,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P03_E05",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.64,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P03_E05_PE018": {
       "name": "P03_E05_PE018",
+      "A": 6.66,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P03_E05",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 6.66,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P04_E01_CUB001": {
       "name": "P04_E01_CUB001",
+      "A": 96.14,
+      "bounds": "EXTERIOR",
       "cons": "cubierta tipo",
       "space": "P04_E01",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 96.14,
       "azimuth": -180.0,
       "tilt": 0.0
     },
     "P04_E01_FI007": {
       "name": "P04_E01_FI007",
+      "A": 96.14,
+      "bounds": "INTERIOR",
       "cons": "forjado tipo",
       "space": "P04_E01",
       "nextto": "P03_E01",
-      "bounds": "INTERIOR",
-      "A": 96.14,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P04_E01_MED001": {
       "name": "P04_E01_MED001",
+      "A": 27.12,
+      "bounds": "ADIABATIC",
       "cons": "fachada tipo",
       "space": "P04_E01",
       "nextto": null,
-      "bounds": "ADIABATIC",
-      "A": 27.12,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P04_E01_Med001": {
       "name": "P04_E01_Med001",
+      "A": 34.18,
+      "bounds": "INTERIOR",
       "cons": "division_viviendas",
       "space": "P04_E01",
       "nextto": "P04_E03",
-      "bounds": "INTERIOR",
-      "A": 34.18,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P04_E01_Med002": {
       "name": "P04_E01_Med002",
+      "A": 17.58,
+      "bounds": "INTERIOR",
       "cons": "division_viviendas",
       "space": "P04_E01",
       "nextto": "P04_E05",
-      "bounds": "INTERIOR",
-      "A": 17.58,
       "azimuth": -179.96,
       "tilt": 90.0
     },
     "P04_E01_PE001": {
       "name": "P04_E01_PE001",
+      "A": 5.37,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P04_E01",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 5.37,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P04_E01_PE002": {
       "name": "P04_E01_PE002",
+      "A": 7.95,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P04_E01",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.95,
       "azimuth": -180.0,
       "tilt": 90.0
     },
     "P04_E01_PE004": {
       "name": "P04_E01_PE004",
+      "A": 19.03,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P04_E01",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 19.03,
       "azimuth": 0.0,
       "tilt": 90.0
     },
     "P04_E02_CUB001": {
       "name": "P04_E02_CUB001",
+      "A": 95.45,
+      "bounds": "EXTERIOR",
       "cons": "cubierta tipo",
       "space": "P04_E02",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 95.45,
       "azimuth": -180.0,
       "tilt": 0.0
     },
     "P04_E02_FI008": {
       "name": "P04_E02_FI008",
+      "A": 95.45,
+      "bounds": "INTERIOR",
       "cons": "forjado tipo",
       "space": "P04_E02",
       "nextto": "P03_E02",
-      "bounds": "INTERIOR",
-      "A": 95.45,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P04_E02_MED001": {
       "name": "P04_E02_MED001",
+      "A": 26.52,
+      "bounds": "ADIABATIC",
       "cons": "fachada tipo",
       "space": "P04_E02",
       "nextto": null,
-      "bounds": "ADIABATIC",
-      "A": 26.52,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P04_E02_Med003": {
       "name": "P04_E02_Med003",
+      "A": 17.55,
+      "bounds": "INTERIOR",
       "cons": "division_viviendas",
       "space": "P04_E02",
       "nextto": "P04_E05",
-      "bounds": "INTERIOR",
-      "A": 17.55,
       "azimuth": 0.29,
       "tilt": 90.0
     },
     "P04_E02_Med004": {
       "name": "P04_E02_Med004",
+      "A": 34.23,
+      "bounds": "INTERIOR",
       "cons": "division_viviendas",
       "space": "P04_E02",
       "nextto": "P04_E04",
-      "bounds": "INTERIOR",
-      "A": 34.23,
       "azimuth": -89.95,
       "tilt": 90.0
     },
     "P04_E02_PE005": {
       "name": "P04_E02_PE005",
+      "A": 6.42,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P04_E02",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 6.42,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P04_E02_PE006": {
       "name": "P04_E02_PE006",
+      "A": 7.95,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P04_E02",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.95,
       "azimuth": 0.0,
       "tilt": 90.0
     },
     "P04_E02_PE008": {
       "name": "P04_E02_PE008",
+      "A": 19.03,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P04_E02",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 19.03,
       "azimuth": -180.0,
       "tilt": 90.0
     },
     "P04_E03_CUB001": {
       "name": "P04_E03_CUB001",
+      "A": 96.14,
+      "bounds": "EXTERIOR",
       "cons": "cubierta tipo",
       "space": "P04_E03",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 96.14,
       "azimuth": -180.0,
       "tilt": 0.0
     },
     "P04_E03_FI009": {
       "name": "P04_E03_FI009",
+      "A": 96.14,
+      "bounds": "INTERIOR",
       "cons": "forjado tipo",
       "space": "P04_E03",
       "nextto": "P03_E03",
-      "bounds": "INTERIOR",
-      "A": 96.14,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P04_E03_MED001": {
       "name": "P04_E03_MED001",
+      "A": 27.12,
+      "bounds": "ADIABATIC",
       "cons": "fachada tipo",
       "space": "P04_E03",
       "nextto": null,
-      "bounds": "ADIABATIC",
-      "A": 27.12,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P04_E03_Med005": {
       "name": "P04_E03_Med005",
+      "A": 17.58,
+      "bounds": "INTERIOR",
       "cons": "division_viviendas",
       "space": "P04_E03",
       "nextto": "P04_E05",
-      "bounds": "INTERIOR",
-      "A": 17.58,
       "azimuth": 179.96,
       "tilt": 90.0
     },
     "P04_E03_PE009": {
       "name": "P04_E03_PE009",
+      "A": 19.03,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P04_E03",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 19.03,
       "azimuth": 0.0,
       "tilt": 90.0
     },
     "P04_E03_PE011": {
       "name": "P04_E03_PE011",
+      "A": 7.95,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P04_E03",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.95,
       "azimuth": -180.0,
       "tilt": 90.0
     },
     "P04_E03_PE012": {
       "name": "P04_E03_PE012",
+      "A": 5.85,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P04_E03",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 5.85,
       "azimuth": 90.0,
       "tilt": 90.0
     },
     "P04_E04_CUB001": {
       "name": "P04_E04_CUB001",
+      "A": 95.56,
+      "bounds": "EXTERIOR",
       "cons": "cubierta tipo",
       "space": "P04_E04",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 95.56,
       "azimuth": -180.0,
       "tilt": 0.0
     },
     "P04_E04_FI010": {
       "name": "P04_E04_FI010",
+      "A": 95.56,
+      "bounds": "INTERIOR",
       "cons": "forjado tipo",
       "space": "P04_E04",
       "nextto": "P03_E04",
-      "bounds": "INTERIOR",
-      "A": 95.56,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P04_E04_MED001": {
       "name": "P04_E04_MED001",
+      "A": 26.52,
+      "bounds": "ADIABATIC",
       "cons": "fachada tipo",
       "space": "P04_E04",
       "nextto": null,
-      "bounds": "ADIABATIC",
-      "A": 26.52,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P04_E04_Med006": {
       "name": "P04_E04_Med006",
+      "A": 17.61,
+      "bounds": "INTERIOR",
       "cons": "division_viviendas",
       "space": "P04_E04",
       "nextto": "P04_E05",
-      "bounds": "INTERIOR",
-      "A": 17.61,
       "azimuth": -0.29,
       "tilt": 90.0
     },
     "P04_E04_PE013": {
       "name": "P04_E04_PE013",
+      "A": 19.03,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P04_E04",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 19.03,
       "azimuth": -180.0,
       "tilt": 90.0
     },
     "P04_E04_PE015": {
       "name": "P04_E04_PE015",
+      "A": 7.95,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P04_E04",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.95,
       "azimuth": 0.0,
       "tilt": 90.0
     },
     "P04_E04_PE016": {
       "name": "P04_E04_PE016",
+      "A": 5.94,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P04_E04",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 5.94,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P04_E05_CUB001": {
       "name": "P04_E05_CUB001",
+      "A": 35.19,
+      "bounds": "EXTERIOR",
       "cons": "cubierta tipo",
       "space": "P04_E05",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 35.19,
       "azimuth": -180.0,
       "tilt": 0.0
     },
     "P04_E05_FI011": {
       "name": "P04_E05_FI011",
+      "A": 35.19,
+      "bounds": "INTERIOR",
       "cons": "forjado tipo",
       "space": "P04_E05",
       "nextto": "P03_E05",
-      "bounds": "INTERIOR",
-      "A": 35.19,
       "azimuth": -180.0,
       "tilt": 180.0
     },
     "P04_E05_PE017": {
       "name": "P04_E05_PE017",
+      "A": 7.64,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P04_E05",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 7.64,
       "azimuth": -90.0,
       "tilt": 90.0
     },
     "P04_E05_PE018": {
       "name": "P04_E05_PE018",
+      "A": 6.66,
+      "bounds": "EXTERIOR",
       "cons": "fachada tipo",
       "space": "P04_E05",
       "nextto": null,
-      "bounds": "EXTERIOR",
-      "A": 6.66,
       "azimuth": 90.0,
       "tilt": 90.0
+    }
+  },
+  "windows": {
+    "P01_E01_PE001_V": {
+      "name": "P01_E01_PE001_V",
+      "A": 1.7,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E01_PE001",
+      "fshobst": 0.71
+    },
+    "P01_E01_PE001_V_1": {
+      "name": "P01_E01_PE001_V_1",
+      "A": 2.4,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E01_PE001",
+      "fshobst": 0.73
+    },
+    "P01_E01_PE001_V_2": {
+      "name": "P01_E01_PE001_V_2",
+      "A": 1.7,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E01_PE001",
+      "fshobst": 0.66
+    },
+    "P01_E01_PE003_V": {
+      "name": "P01_E01_PE003_V",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E01_PE003",
+      "fshobst": 0.73
+    },
+    "P01_E01_PE004_V": {
+      "name": "P01_E01_PE004_V",
+      "A": 1.2,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E01_PE004",
+      "fshobst": 0.4
+    },
+    "P01_E02_PE006_V": {
+      "name": "P01_E02_PE006_V",
+      "A": 1.2,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E02_PE006",
+      "fshobst": 0.43
+    },
+    "P01_E02_PE006_V_1": {
+      "name": "P01_E02_PE006_V_1",
+      "A": 1.2,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E02_PE006",
+      "fshobst": 0.47
+    },
+    "P01_E03_PE001_V": {
+      "name": "P01_E03_PE001_V",
+      "A": 1.68,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E03_PE001",
+      "fshobst": 0.39
+    },
+    "P01_E03_PE002_V": {
+      "name": "P01_E03_PE002_V",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E03_PE002",
+      "fshobst": 0.75
+    },
+    "P01_E03_PE004_V": {
+      "name": "P01_E03_PE004_V",
+      "A": 2.4,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E03_PE004",
+      "fshobst": 0.73
+    },
+    "P01_E03_PE004_V_1": {
+      "name": "P01_E03_PE004_V_1",
+      "A": 1.7,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E03_PE004",
+      "fshobst": 0.73
+    },
+    "P01_E03_PE004_V_2": {
+      "name": "P01_E03_PE004_V_2",
+      "A": 1.7,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E03_PE004",
+      "fshobst": 0.7
+    },
+    "P01_E04_PE001_V": {
+      "name": "P01_E04_PE001_V",
+      "A": 4.0,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E04_PE001",
+      "fshobst": 0.65
+    },
+    "P01_E05_PE001_V": {
+      "name": "P01_E05_PE001_V",
+      "A": 4.1,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E05_PE001",
+      "fshobst": 0.85
+    },
+    "P01_E05_PE001_V_1": {
+      "name": "P01_E05_PE001_V_1",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E05_PE001",
+      "fshobst": 0.83
+    },
+    "P01_E05_PE001_V_2": {
+      "name": "P01_E05_PE001_V_2",
+      "A": 2.4,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E05_PE001",
+      "fshobst": 0.88
+    },
+    "P01_E05_PE003_V": {
+      "name": "P01_E05_PE003_V",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E05_PE003",
+      "fshobst": 0.59
+    },
+    "P01_E05_PE004_V": {
+      "name": "P01_E05_PE004_V",
+      "A": 1.68,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E05_PE004",
+      "fshobst": 0.44
+    },
+    "P01_E06_PE001_V": {
+      "name": "P01_E06_PE001_V",
+      "A": 1.2,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E06_PE001",
+      "fshobst": 0.44
+    },
+    "P01_E06_PE002_V": {
+      "name": "P01_E06_PE002_V",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E06_PE002",
+      "fshobst": 0.59
+    },
+    "P01_E06_PE004_V": {
+      "name": "P01_E06_PE004_V",
+      "A": 2.4,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E06_PE004",
+      "fshobst": 0.88
+    },
+    "P01_E06_PE004_V_1": {
+      "name": "P01_E06_PE004_V_1",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E06_PE004",
+      "fshobst": 0.83
+    },
+    "P01_E06_PE004_V_2": {
+      "name": "P01_E06_PE004_V_2",
+      "A": 4.1,
+      "cons": "ventana_igualOS",
+      "wall": "P01_E06_PE004",
+      "fshobst": 0.85
+    },
+    "P02_E01_PE001_V": {
+      "name": "P02_E01_PE001_V",
+      "A": 1.68,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E01_PE001",
+      "fshobst": 0.38
+    },
+    "P02_E01_PE002_V": {
+      "name": "P02_E01_PE002_V",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E01_PE002",
+      "fshobst": 0.75
+    },
+    "P02_E01_PE004_V": {
+      "name": "P02_E01_PE004_V",
+      "A": 2.4,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E01_PE004",
+      "fshobst": 0.69
+    },
+    "P02_E01_PE004_V_1": {
+      "name": "P02_E01_PE004_V_1",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E01_PE004",
+      "fshobst": 0.73
+    },
+    "P02_E01_PE004_V_2": {
+      "name": "P02_E01_PE004_V_2",
+      "A": 4.1,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E01_PE004",
+      "fshobst": 0.59
+    },
+    "P02_E02_PE005_V": {
+      "name": "P02_E02_PE005_V",
+      "A": 1.2,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E02_PE005",
+      "fshobst": 0.44
+    },
+    "P02_E02_PE006_V": {
+      "name": "P02_E02_PE006_V",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E02_PE006",
+      "fshobst": 0.59
+    },
+    "P02_E02_PE008_V": {
+      "name": "P02_E02_PE008_V",
+      "A": 2.4,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E02_PE008",
+      "fshobst": 0.85
+    },
+    "P02_E02_PE008_V_1": {
+      "name": "P02_E02_PE008_V_1",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E02_PE008",
+      "fshobst": 0.83
+    },
+    "P02_E02_PE008_V_2": {
+      "name": "P02_E02_PE008_V_2",
+      "A": 4.1,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E02_PE008",
+      "fshobst": 0.83
+    },
+    "P02_E03_PE009_V": {
+      "name": "P02_E03_PE009_V",
+      "A": 4.1,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E03_PE009",
+      "fshobst": 0.58
+    },
+    "P02_E03_PE009_V_1": {
+      "name": "P02_E03_PE009_V_1",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E03_PE009",
+      "fshobst": 0.71
+    },
+    "P02_E03_PE009_V_2": {
+      "name": "P02_E03_PE009_V_2",
+      "A": 2.4,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E03_PE009",
+      "fshobst": 0.69
+    },
+    "P02_E03_PE011_V": {
+      "name": "P02_E03_PE011_V",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E03_PE011",
+      "fshobst": 0.73
+    },
+    "P02_E03_PE012_V": {
+      "name": "P02_E03_PE012_V",
+      "A": 1.2,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E03_PE012",
+      "fshobst": 0.4
+    },
+    "P02_E04_PE001_V": {
+      "name": "P02_E04_PE001_V",
+      "A": 4.1,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E04_PE001",
+      "fshobst": 0.83
+    },
+    "P02_E04_PE001_V_1": {
+      "name": "P02_E04_PE001_V_1",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E04_PE001",
+      "fshobst": 0.83
+    },
+    "P02_E04_PE001_V_2": {
+      "name": "P02_E04_PE001_V_2",
+      "A": 2.4,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E04_PE001",
+      "fshobst": 0.85
+    },
+    "P02_E04_PE003_V": {
+      "name": "P02_E04_PE003_V",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E04_PE003",
+      "fshobst": 0.6
+    },
+    "P02_E04_PE004_V": {
+      "name": "P02_E04_PE004_V",
+      "A": 1.68,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E04_PE004",
+      "fshobst": 0.43
+    },
+    "P02_E05_PE001_V": {
+      "name": "P02_E05_PE001_V",
+      "A": 1.43,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E05_PE001",
+      "fshobst": 0.46
+    },
+    "P02_E05_PE002_V": {
+      "name": "P02_E05_PE002_V",
+      "A": 1.2,
+      "cons": "ventana_igualOS",
+      "wall": "P02_E05_PE002",
+      "fshobst": 0.47
+    },
+    "P02_E05_PE002_V_1": {
+      "name": "P02_E05_PE002_V_1",
+      "A": 1.2,
+      "cons": "ventana tipo",
+      "wall": "P02_E05_PE002",
+      "fshobst": 0.46
+    },
+    "P03_E01_PE001_V": {
+      "name": "P03_E01_PE001_V",
+      "A": 1.68,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E01_PE001",
+      "fshobst": 0.52
+    },
+    "P03_E01_PE002_V": {
+      "name": "P03_E01_PE002_V",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E01_PE002",
+      "fshobst": 0.78
+    },
+    "P03_E01_PE004_V": {
+      "name": "P03_E01_PE004_V",
+      "A": 2.4,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E01_PE004",
+      "fshobst": 0.69
+    },
+    "P03_E01_PE004_V_2": {
+      "name": "P03_E01_PE004_V_2",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E01_PE004",
+      "fshobst": 0.74
+    },
+    "P03_E01_PE004_V_3": {
+      "name": "P03_E01_PE004_V_3",
+      "A": 4.1,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E01_PE004",
+      "fshobst": 0.59
+    },
+    "P03_E02_PE005_V": {
+      "name": "P03_E02_PE005_V",
+      "A": 1.2,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E02_PE005",
+      "fshobst": 0.6
+    },
+    "P03_E02_PE006_V": {
+      "name": "P03_E02_PE006_V",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E02_PE006",
+      "fshobst": 0.67
+    },
+    "P03_E02_PE008_V": {
+      "name": "P03_E02_PE008_V",
+      "A": 2.4,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E02_PE008",
+      "fshobst": 0.85
+    },
+    "P03_E02_PE008_V_5": {
+      "name": "P03_E02_PE008_V_5",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E02_PE008",
+      "fshobst": 0.84
+    },
+    "P03_E02_PE008_V_6": {
+      "name": "P03_E02_PE008_V_6",
+      "A": 4.1,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E02_PE008",
+      "fshobst": 0.83
+    },
+    "P03_E03_PE009_V": {
+      "name": "P03_E03_PE009_V",
+      "A": 4.1,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E03_PE009",
+      "fshobst": 0.58
+    },
+    "P03_E03_PE009_V_7": {
+      "name": "P03_E03_PE009_V_7",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E03_PE009",
+      "fshobst": 0.72
+    },
+    "P03_E03_PE009_V_8": {
+      "name": "P03_E03_PE009_V_8",
+      "A": 2.4,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E03_PE009",
+      "fshobst": 0.69
+    },
+    "P03_E03_PE011_V": {
+      "name": "P03_E03_PE011_V",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E03_PE011",
+      "fshobst": 0.77
+    },
+    "P03_E03_PE012_V": {
+      "name": "P03_E03_PE012_V",
+      "A": 1.2,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E03_PE012",
+      "fshobst": 0.48
+    },
+    "P03_E04_PE013_V": {
+      "name": "P03_E04_PE013_V",
+      "A": 4.1,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E04_PE013",
+      "fshobst": 0.83
+    },
+    "P03_E04_PE013_V_10": {
+      "name": "P03_E04_PE013_V_10",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E04_PE013",
+      "fshobst": 0.84
+    },
+    "P03_E04_PE013_V_11": {
+      "name": "P03_E04_PE013_V_11",
+      "A": 2.4,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E04_PE013",
+      "fshobst": 0.85
+    },
+    "P03_E04_PE015_V": {
+      "name": "P03_E04_PE015_V",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E04_PE015",
+      "fshobst": 0.66
+    },
+    "P03_E04_PE016_V": {
+      "name": "P03_E04_PE016_V",
+      "A": 1.68,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E04_PE016",
+      "fshobst": 0.58
+    },
+    "P03_E05_PE017_V": {
+      "name": "P03_E05_PE017_V",
+      "A": 1.43,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E05_PE017",
+      "fshobst": 0.6
+    },
+    "P03_E05_PE018_V": {
+      "name": "P03_E05_PE018_V",
+      "A": 1.2,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E05_PE018",
+      "fshobst": 0.59
+    },
+    "P03_E05_PE018_V_13": {
+      "name": "P03_E05_PE018_V_13",
+      "A": 1.2,
+      "cons": "ventana_igualOS",
+      "wall": "P03_E05_PE018",
+      "fshobst": 0.59
+    },
+    "P04_E01_PE001_V": {
+      "name": "P04_E01_PE001_V",
+      "A": 1.68,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E01_PE001",
+      "fshobst": 0.85
+    },
+    "P04_E01_PE002_V": {
+      "name": "P04_E01_PE002_V",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E01_PE002",
+      "fshobst": 0.79
+    },
+    "P04_E01_PE004_V": {
+      "name": "P04_E01_PE004_V",
+      "A": 2.4,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E01_PE004",
+      "fshobst": 0.69
+    },
+    "P04_E01_PE004_V_2": {
+      "name": "P04_E01_PE004_V_2",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E01_PE004",
+      "fshobst": 0.79
+    },
+    "P04_E01_PE004_V_3": {
+      "name": "P04_E01_PE004_V_3",
+      "A": 4.1,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E01_PE004",
+      "fshobst": 0.59
+    },
+    "P04_E02_PE005_V": {
+      "name": "P04_E02_PE005_V",
+      "A": 1.2,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E02_PE005",
+      "fshobst": 0.74
+    },
+    "P04_E02_PE006_V": {
+      "name": "P04_E02_PE006_V",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E02_PE006",
+      "fshobst": 0.66
+    },
+    "P04_E02_PE008_V": {
+      "name": "P04_E02_PE008_V",
+      "A": 2.4,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E02_PE008",
+      "fshobst": 0.85
+    },
+    "P04_E02_PE008_V_5": {
+      "name": "P04_E02_PE008_V_5",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E02_PE008",
+      "fshobst": 0.85
+    },
+    "P04_E02_PE008_V_6": {
+      "name": "P04_E02_PE008_V_6",
+      "A": 4.1,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E02_PE008",
+      "fshobst": 0.83
+    },
+    "P04_E03_PE009_V": {
+      "name": "P04_E03_PE009_V",
+      "A": 4.1,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E03_PE009",
+      "fshobst": 0.58
+    },
+    "P04_E03_PE009_V_7": {
+      "name": "P04_E03_PE009_V_7",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E03_PE009",
+      "fshobst": 0.78
+    },
+    "P04_E03_PE009_V_8": {
+      "name": "P04_E03_PE009_V_8",
+      "A": 2.4,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E03_PE009",
+      "fshobst": 0.69
+    },
+    "P04_E03_PE011_V": {
+      "name": "P04_E03_PE011_V",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E03_PE011",
+      "fshobst": 0.79
+    },
+    "P04_E03_PE012_V": {
+      "name": "P04_E03_PE012_V",
+      "A": 1.2,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E03_PE012",
+      "fshobst": 0.86
+    },
+    "P04_E04_PE013_V": {
+      "name": "P04_E04_PE013_V",
+      "A": 4.1,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E04_PE013",
+      "fshobst": 0.83
+    },
+    "P04_E04_PE013_V_10": {
+      "name": "P04_E04_PE013_V_10",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E04_PE013",
+      "fshobst": 0.85
+    },
+    "P04_E04_PE013_V_11": {
+      "name": "P04_E04_PE013_V_11",
+      "A": 2.4,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E04_PE013",
+      "fshobst": 0.85
+    },
+    "P04_E04_PE015_V": {
+      "name": "P04_E04_PE015_V",
+      "A": 1.8,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E04_PE015",
+      "fshobst": 0.66
+    },
+    "P04_E04_PE016_V": {
+      "name": "P04_E04_PE016_V",
+      "A": 1.68,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E04_PE016",
+      "fshobst": 0.76
+    },
+    "P04_E05_PE017_V": {
+      "name": "P04_E05_PE017_V",
+      "A": 1.43,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E05_PE017",
+      "fshobst": 0.79
+    },
+    "P04_E05_PE018_V": {
+      "name": "P04_E05_PE018_V",
+      "A": 1.2,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E05_PE018",
+      "fshobst": 0.78
+    },
+    "P04_E05_PE018_V_13": {
+      "name": "P04_E05_PE018_V_13",
+      "A": 1.2,
+      "cons": "ventana_igualOS",
+      "wall": "P04_E05_PE018",
+      "fshobst": 0.78
     }
   },
   "thermal_bridges": {
@@ -1980,258 +2213,48 @@
       "psi": 0.28
     }
   },
-  "spaces": {
-    "P01_E01": {
-      "name": "P01_E01",
-      "area": 76.31,
-      "z": 0.0,
-      "exposed_perimeter": 22.0,
-      "height_net": 3.22,
-      "height_gross": 3.5,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
+  "wallcons": {
+    "cubierta tipo": {
+      "name": "cubierta tipo",
+      "group": "Horizontales",
+      "thickness": 0.48,
+      "R_intrinsic": 4.483,
+      "absorptance": 0.0
     },
-    "P01_E02": {
-      "name": "P01_E02",
-      "area": 35.18,
-      "z": 0.0,
-      "exposed_perimeter": 4.32,
-      "height_net": 3.43,
-      "height_gross": 3.5,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
+    "division_viviendas": {
+      "name": "division_viviendas",
+      "group": "Tabiques",
+      "thickness": 0.07,
+      "R_intrinsic": 0.245,
+      "absorptance": 0.0
     },
-    "P01_E03": {
-      "name": "P01_E03",
-      "area": 74.45,
-      "z": 0.0,
-      "exposed_perimeter": 22.55,
-      "height_net": 3.43,
-      "height_gross": 3.5,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
+    "fachada tipo": {
+      "name": "fachada tipo",
+      "group": "Fachada",
+      "thickness": 0.32,
+      "R_intrinsic": 4.736,
+      "absorptance": 0.6
     },
-    "P01_E04": {
-      "name": "P01_E04",
-      "area": 41.53,
-      "z": 0.0,
-      "exposed_perimeter": 15.03,
-      "height_net": 3.43,
-      "height_gross": 3.5,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
+    "forjado tipo": {
+      "name": "forjado tipo",
+      "group": "Horizontales",
+      "thickness": 0.29,
+      "R_intrinsic": 0.306,
+      "absorptance": 0.0
     },
-    "P01_E05": {
-      "name": "P01_E05",
-      "area": 95.56,
-      "z": 0.0,
-      "exposed_perimeter": 20.5,
-      "height_net": 3.43,
-      "height_gross": 3.5,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
+    "solera tipo": {
+      "name": "solera tipo",
+      "group": "Horizontales",
+      "thickness": 0.32,
+      "R_intrinsic": 2.763,
+      "absorptance": 0.0
     },
-    "P01_E06": {
-      "name": "P01_E06",
-      "area": 95.45,
-      "z": 0.0,
-      "exposed_perimeter": 18.18,
-      "height_net": 3.43,
-      "height_gross": 3.5,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
-    },
-    "P02_E01": {
-      "name": "P02_E01",
-      "area": 96.14,
-      "z": 3.5,
-      "exposed_perimeter": 23.75,
-      "height_net": 2.72,
-      "height_gross": 3.0,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
-    },
-    "P02_E02": {
-      "name": "P02_E02",
-      "area": 95.45,
-      "z": 3.5,
-      "exposed_perimeter": 23.74,
-      "height_net": 2.72,
-      "height_gross": 3.0,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
-    },
-    "P02_E03": {
-      "name": "P02_E03",
-      "area": 96.14,
-      "z": 3.5,
-      "exposed_perimeter": 29.28,
-      "height_net": 2.93,
-      "height_gross": 3.0,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
-    },
-    "P02_E04": {
-      "name": "P02_E04",
-      "area": 95.56,
-      "z": 3.5,
-      "exposed_perimeter": 32.61,
-      "height_net": 2.93,
-      "height_gross": 3.0,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
-    },
-    "P02_E05": {
-      "name": "P02_E05",
-      "area": 35.19,
-      "z": 3.5,
-      "exposed_perimeter": 6.06,
-      "height_net": 2.93,
-      "height_gross": 3.0,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
-    },
-    "P03_E01": {
-      "name": "P03_E01",
-      "area": 96.14,
-      "z": 6.5,
-      "exposed_perimeter": 23.75,
-      "height_net": 2.72,
-      "height_gross": 3.0,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
-    },
-    "P03_E02": {
-      "name": "P03_E02",
-      "area": 95.45,
-      "z": 6.5,
-      "exposed_perimeter": 23.74,
-      "height_net": 2.72,
-      "height_gross": 3.0,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
-    },
-    "P03_E03": {
-      "name": "P03_E03",
-      "area": 96.14,
-      "z": 6.5,
-      "exposed_perimeter": 29.28,
-      "height_net": 2.93,
-      "height_gross": 3.0,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
-    },
-    "P03_E04": {
-      "name": "P03_E04",
-      "area": 95.56,
-      "z": 6.5,
-      "exposed_perimeter": 32.61,
-      "height_net": 2.93,
-      "height_gross": 3.0,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
-    },
-    "P03_E05": {
-      "name": "P03_E05",
-      "area": 35.19,
-      "z": 6.5,
-      "exposed_perimeter": 6.06,
-      "height_net": 2.93,
-      "height_gross": 3.0,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
-    },
-    "P04_E01": {
-      "name": "P04_E01",
-      "area": 96.14,
-      "z": 9.5,
-      "exposed_perimeter": 23.75,
-      "height_net": 2.52,
-      "height_gross": 3.0,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
-    },
-    "P04_E02": {
-      "name": "P04_E02",
-      "area": 95.45,
-      "z": 9.5,
-      "exposed_perimeter": 23.74,
-      "height_net": 2.52,
-      "height_gross": 3.0,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
-    },
-    "P04_E03": {
-      "name": "P04_E03",
-      "area": 96.14,
-      "z": 9.5,
-      "exposed_perimeter": 29.28,
-      "height_net": 2.93,
-      "height_gross": 3.0,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
-    },
-    "P04_E04": {
-      "name": "P04_E04",
-      "area": 95.56,
-      "z": 9.5,
-      "exposed_perimeter": 32.61,
-      "height_net": 2.93,
-      "height_gross": 3.0,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
-    },
-    "P04_E05": {
-      "name": "P04_E05",
-      "area": 35.19,
-      "z": 9.5,
-      "exposed_perimeter": 6.06,
-      "height_net": 2.93,
-      "height_gross": 3.0,
-      "inside_tenv": true,
-      "multiplier": 1.0,
-      "type": "CONDITIONED",
-      "n_v": null
+    "tabique tipo": {
+      "name": "tabique tipo",
+      "group": "Tabiques",
+      "thickness": 0.07,
+      "R_intrinsic": 0.245,
+      "absorptance": 0.0
     }
   },
   "wincons": {
@@ -2252,44 +2275,6 @@
       "gglwi": 0.38,
       "gglshwi": 0.08,
       "C_100": 27.0
-    }
-  },
-  "wallcons": {
-    "cubierta tipo": {
-      "name": "cubierta tipo",
-      "group": "Horizontales",
-      "R_intrinsic": 4.483,
-      "absorptance": 0.0
-    },
-    "division_viviendas": {
-      "name": "division_viviendas",
-      "group": "Tabiques",
-      "R_intrinsic": 0.245,
-      "absorptance": 0.0
-    },
-    "fachada tipo": {
-      "name": "fachada tipo",
-      "group": "Fachada",
-      "R_intrinsic": 4.736,
-      "absorptance": 0.6
-    },
-    "forjado tipo": {
-      "name": "forjado tipo",
-      "group": "Horizontales",
-      "R_intrinsic": 0.306,
-      "absorptance": 0.0
-    },
-    "solera tipo": {
-      "name": "solera tipo",
-      "group": "Horizontales",
-      "R_intrinsic": 2.763,
-      "absorptance": 0.0
-    },
-    "tabique tipo": {
-      "name": "tabique tipo",
-      "group": "Tabiques",
-      "R_intrinsic": 0.245,
-      "absorptance": 0.0
     }
   },
   "extra": [

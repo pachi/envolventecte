@@ -104,6 +104,17 @@ const WallConsTable = inject("appstate")(
                     Grupo
                   </TableHeaderColumn>
                   <TableHeaderColumn
+                    dataField="thickness"
+                    dataFormat={this.Float2DigitsFormatter}
+                    headerText="Grosor el elemento (m)"
+                  >
+                    e
+                    <br />
+                    <span style={{ fontWeight: "normal" }}>
+                      <i>[m]</i>{" "}
+                    </span>
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
                     dataField="R_intrinsic"
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Resistencia intrínseca de la solución constructiva (solo capas, sin resistencias superficiales) (m²K/W)"
