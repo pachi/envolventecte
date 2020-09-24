@@ -58,6 +58,7 @@ const HuecosTable = inject("appstate")(
           spaces,
           walls,
           windows: windows_obj,
+          wincons,
           huecosA,
           huecosAU,
         } = this.props.appstate;
@@ -86,6 +87,13 @@ const HuecosTable = inject("appstate")(
             is_outside_tenv[win.name] = null;
           }
         });
+
+        const winconsOptions = [
+          ...new Set(Object.values(wincons).map((s) => s.name)),
+        ].sort();
+        const wallOptions = [
+          ...new Set(Object.values(walls).map((s) => s.name)),
+        ].sort();
 
         return (
           <Col>
@@ -164,6 +172,10 @@ const HuecosTable = inject("appstate")(
                     headerText="Construcción del hueco"
                     headerAlign="center"
                     dataAlign="center"
+                    editable={{
+                      type: "select",
+                      options: { values: winconsOptions },
+                    }}
                   >
                     Construcción
                   </TableHeaderColumn>
@@ -172,6 +184,10 @@ const HuecosTable = inject("appstate")(
                     headerText="Opaco al que pertenece el hueco"
                     headerAlign="center"
                     dataAlign="center"
+                    editable={{
+                      type: "select",
+                      options: { values: wallOptions },
+                    }}
                   >
                     Opaco
                   </TableHeaderColumn>

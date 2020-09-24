@@ -73,6 +73,7 @@ const OpacosTable = inject("appstate")(
         const {
           walls: walls_obj,
           spaces,
+          wallcons,
           opacosA,
           opacosAU,
         } = this.props.appstate;
@@ -94,6 +95,14 @@ const OpacosTable = inject("appstate")(
             is_outside_tenv[w.name] = null;
           }
         });
+
+        const wallconsOptions = [
+          ...new Set(Object.values(wallcons).map((s) => s.name)),
+        ].sort();
+        const spaceOptions = [
+          ...new Set(Object.values(spaces).map((s) => s.name)),
+        ].sort();
+        const adjSpaceOptions = ["", ...spaceOptions];
 
         return (
           <Col>
@@ -131,7 +140,16 @@ const OpacosTable = inject("appstate")(
                   hover
                   bordered={false}
                   tableHeaderClass="text-light bg-secondary"
-                  cellEdit={{ mode: "dbclick", blurToSave: true }}
+                  cellEdit={{
+                    mode: "dbclick",
+                    blurToSave: true,
+                    // Corrige el valor del espacio adyacente de "" a null
+                    afterSaveCell: (row, cellName, cellValue) => {
+                      if (cellName === "nextto" && cellValue !== "") {
+                        row.nextto = null;
+                      }
+                    },
+                  }}
                   selectRow={{
                     mode: "checkbox",
                     clickToSelectAndEditCell: true,
@@ -188,6 +206,10 @@ const OpacosTable = inject("appstate")(
                     headerText="Construcción del opaco"
                     headerAlign="center"
                     dataAlign="center"
+                    editable={{
+                      type: "select",
+                      options: { values: wallconsOptions },
+                    }}
                   >
                     Construcción
                   </TableHeaderColumn>
@@ -196,6 +218,10 @@ const OpacosTable = inject("appstate")(
                     headerText="Espacio al que pertenece el elemento opaco"
                     headerAlign="center"
                     dataAlign="center"
+                    editable={{
+                      type: "select",
+                      options: { values: spaceOptions },
+                    }}
                   >
                     Espacio
                   </TableHeaderColumn>
@@ -204,6 +230,10 @@ const OpacosTable = inject("appstate")(
                     headerText="Espacio adyacente con el que comunica el elemento opaco cuando es interior"
                     headerAlign="center"
                     dataAlign="center"
+                    editable={{
+                      type: "select",
+                      options: { values: adjSpaceOptions },
+                    }}
                   >
                     Espacio ady.
                   </TableHeaderColumn>
