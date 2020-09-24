@@ -1,5 +1,7 @@
-- Migrar a la estructura de datos del nuevo hulc2envolventecte
-- Mostrar nombre del proyecto (meta.name)
+- Mostrar con otro color de fondo los elementos que pertenecen a la ET en opacos y huecos
+- Revisar agrupar opacos y huecos (pensar qué significa con espacios)
+- Edición de muros, espacios al que pertenecen, etc, comprobando que están definidos
+- Introducir wasm de hulc2envolventecte
 
 - Cálculo de valores de acristalamientos con sombras móviles usando parámetros U_gl, g_gl_n, tau_e_B y ro_e_B directamente
 - Añadir cálculo de F_sh;obst
