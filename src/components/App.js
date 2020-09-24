@@ -32,6 +32,7 @@ import "react-bootstrap-table/dist/react-bootstrap-table-all.min.css";
 import AppState from "../stores/AppState";
 
 import AboutPage from "./AboutPage";
+import MetaPage from "./MetaPage";
 import ClimatePage from "./ClimatePage";
 import ElementsPage from "./ElementsPage";
 import BuildingPage from "./BuildingPage";
@@ -50,6 +51,7 @@ class App extends Component {
         <HashRouter>
           <Switch>
             <Route exact path="/" component={MainPage} />
+            <Route exact path="/meta" component={MetaPage} />
             <Route exact path="/building" component={BuildingPage} />
             <Route exact path="/climate" component={ClimatePage} />
             <Route exact path="/elements" component={ElementsPage} />
