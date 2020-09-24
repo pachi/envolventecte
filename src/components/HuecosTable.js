@@ -28,6 +28,7 @@ import { observer, inject } from "mobx-react";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 import icongroup from "./img/outline-add_comment-24px.svg";
+import { azimuth_name, tilt_name } from "../utils";
 
 const Float2DigitsFormatter = (cell, _row) => (
   <span>{Number(cell).toFixed(2)}</span>
@@ -62,9 +63,18 @@ const HuecosTable = inject("appstate")(
         } = this.props.appstate;
         const windows = Object.values(windows_obj);
 
+        const WindowOrientationFormatter = (cell, _row) => (
+          <span>{azimuth_name(walls[cell].azimuth)}</span>
+        );
+
+        const WindowTiltFormatter = (cell, _row) => (
+          <span>{tilt_name(walls[cell].tilt)}</span>
+        );
+
         const is_outside_tenv = {};
         windows.forEach((win) => {
           const w = walls[win.wall];
+          // Identifica si el muro del hueco está en el interior de la envolvente térmica
           if (w.bounds !== "INTERIOR" && spaces[w.space].inside_tenv !== true) {
             is_outside_tenv[win.name] = "outsidetenv";
           } else if (
@@ -168,6 +178,24 @@ const HuecosTable = inject("appstate")(
                     <span style={{ fontWeight: "normal" }}>
                       <i>[-]</i>
                     </span>
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField="wall"
+                    dataFormat={WindowOrientationFormatter}
+                    headerText="Orientación del hueco"
+                    editable={false}
+                    columnClassName="td-column-readonly"
+                  >
+                    Orientación
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField="wall"
+                    dataFormat={WindowTiltFormatter}
+                    headerText="Inclinación del hueco"
+                    editable={false}
+                    columnClassName="td-column-readonly"
+                  >
+                    Inclinación
                   </TableHeaderColumn>
                 </BootstrapTable>
               </Col>

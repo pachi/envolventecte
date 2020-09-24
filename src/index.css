@@ -26,3 +26,7 @@ body {
 tr.outsidetenv td {
   opacity: 0.5;
 }
+
+td.td-column-readonly {
+  opacity: 0.6;
+}
