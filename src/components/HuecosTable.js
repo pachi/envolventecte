@@ -39,17 +39,6 @@ const HuecosTable = inject("appstate")(
       constructor(props, context) {
         super(props, context);
         this.state = { selected: [] };
-        this.orientacionesList = [
-          "Horiz.",
-          "N",
-          "NE",
-          "E",
-          "SE",
-          "S",
-          "SW",
-          "W",
-          "NW",
-        ];
       }
 
       onRowSelect(row, isSelected) {
