@@ -33,7 +33,7 @@ const ClimateSelector = inject("appstate")(
         return (
           <Form inline>
             <Form.Group controlId="formControlsClimateZone">
-              <Form.Label style={{ color: "white" }} className="mr-2 ml-3">
+              <Form.Label style={this.props.labelStyle} className="mr-2 ml-3">
                 Zona Climática
               </Form.Label>{" "}
               <Form.Control
