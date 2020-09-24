@@ -23,6 +23,8 @@ SOFTWARE.
 
 import { action, observable, computed, decorate } from "mobx";
 import { UserException, uuidv4 } from "../utils.js";
+import { he1_indicators } from "wasm-envolventecte";
+
 import {
   DEFAULT_SPACE,
   DEFAULT_TB,
@@ -107,6 +109,29 @@ export default class AppState {
     );
   }
 
+  get he1_indicators() {
+    const { meta, thermal_bridges, walls, windows, spaces } = this;
+
+    // Eliminamos ids
+    Object.values(windows).forEach((e) => delete e.id);
+    Object.values(walls).forEach((e) => delete e.id);
+    Object.values(thermal_bridges).forEach((e) => delete e.id);
+    Object.values(spaces).forEach((e) => delete e.id);
+    Object.values(wallcons).forEach((e) => delete e.id);
+    Object.values(wincons).forEach((e) => delete e.id);
+
+    const model = {
+      meta,
+      spaces,
+      walls,
+      windows,
+      thermal_bridges,
+      wallcons,
+      wincons,
+    };
+    return he1_indicators(model);
+  }
+
   // Constructores --------
   newHueco = DEFAULT_WINDOW;
   newOpaco = DEFAULT_WALL;
@@ -116,31 +141,6 @@ export default class AppState {
   newWinCons = DEFAULT_WINCONS;
 
   // Propiedades de datos de espacios ------------
-
-  // Área útil de los espacios habitables en el interior de la envolvente térmica
-  get Autil() {
-    const nA = Object.values(this.spaces)
-      .map(
-        (s) =>
-          s.multiplier *
-          s.area *
-          (s.inside_tenv ? 1.0 : 0.0) *
-          (s.type !== "UNINHABITED" ? 1.0 : 0.0)
-      )
-      .reduce((acc, x) => acc + x, 0.0);
-    return nA;
-  }
-
-  // Volumen neto de los espacios en el interior de la envolvente teŕmica
-  get V_int() {
-    const V = Object.values(this.spaces)
-      .map(
-        (s) =>
-          s.multiplier * s.area * (s.inside_tenv ? 1.0 : 0.0) * s.height_net
-      )
-      .reduce((acc, x) => acc + x, 0.0);
-    return V;
-  }
 
   // Propiedades de datos de envolvente ---------
   get huecosA() {
@@ -197,23 +197,6 @@ export default class AppState {
     return this.huecosAU + this.opacosAU;
   }
 
-  get K() {
-    return (this.totalAU + this.ptsPsiL) / this.totalA;
-  }
-
-  get q_soljul() {
-    return (climateTotRadJul) =>
-      Object.values(this.windows)
-        .map(
-          (h) =>
-            Number(h.Fshobst) *
-            Number(h.gglshwi) *
-            (1 - Number(h.Ff)) *
-            Number(h.A) *
-            climateTotRadJul[h.orientation]
-        )
-        .reduce((a, b) => a + b, 0) / this.Autil;
-  }
   // Acciones --------
 
   // Agrupa superficie de huecos por tipos
@@ -394,10 +377,10 @@ decorate(AppState, {
   wincons: observable,
   errors: observable,
   // Valores calculados
-  Autil: computed,
-  V_int: computed,
+  he1_indicators: computed({ requiresReaction: true }),
   zoneslist: computed,
   orientations: computed,
+  // TODO: estos dos se podrían llegar a eliminar si cambiamos climas y usamos los del wasm
   climatedata: computed({ requiresReaction: true }),
   climateTotRadJul: computed({ requiresReaction: true }),
   huecosA: computed,
@@ -408,8 +391,6 @@ decorate(AppState, {
   ptsPsiL: computed,
   totalA: computed,
   totalAU: computed,
-  K: computed,
-  q_soljul: computed({ requiresReaction: true }),
   agrupaHuecos: action,
   agrupaOpacos: action,
   agrupaPts: action,

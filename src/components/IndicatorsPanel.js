@@ -38,9 +38,6 @@ const IndicatorsPanel = inject("appstate")(
       render() {
         // climate, radiationdata,
         const {
-          climateTotRadJul,
-          Autil,
-          V_int,
           huecosA,
           huecosAU,
           opacosA,
@@ -48,11 +45,22 @@ const IndicatorsPanel = inject("appstate")(
           ptsPsiL,
           totalA,
           totalAU,
-          K,
-          q_soljul,
+          he1_indicators,
         } = this.props.appstate;
-        const q_soljul_clima = q_soljul(climateTotRadJul);
-        const Qsoljul_clima = q_soljul_clima * Autil;
+
+        const {
+          A_ref,
+          qsoljul,
+          K,
+          vol_env_net,
+          vol_env_gross,
+          compacity,
+          n50,
+          n50_he2019,
+          C_o,
+          C_o_he2019,
+        } = he1_indicators;
+        const Qsoljul = qsoljul * A_ref;
 
         return (
           <Card body bg="light" className="mb-3">
@@ -71,34 +79,59 @@ const IndicatorsPanel = inject("appstate")(
                   <i>K</i> = {K.toFixed(2)} <i>W/m²K</i>
                 </b>
               </Col>
-              <Col md={3} title="Indicador de control solar">
+              <Col md={2} title="Indicador de control solar">
                 <b>
                   <i>
                     q<sub>sol;jul</sub>
                   </i>{" "}
-                  = {Autil !== 0 ? q_soljul_clima.toFixed(2) : "-"}{" "}
-                  <i>kWh/m²/mes</i>
+                  = {A_ref !== 0 ? qsoljul.toFixed(2) : "-"} <i>kWh/m²/mes</i>
                 </b>
               </Col>
+              <Col md={2} title="Transmitancia térmica global del edificio">
+                <b>
+                  <i>
+                    n<sub>50</sub>
+                  </i>{" "}
+                  = {n50.toFixed(2)} <i>renh</i>
+                </b>{" "}
+                (n<sub>50,ref</sub> = {n50_he2019.toFixed(2)} renh)
+              </Col>
               <Col
-                md={3}
+                md={2}
                 className="text-right"
-                title="Superficie útil de los espacios habitables del edificio o parte del edificio [m2]"
+                title="Superficie útil de los espacios habitables del edificio o parte del edificio [m²]"
               >
                 <b>
                   A<sub>util</sub>
                 </b>{" "}
-                = {Autil.toFixed(2)} m²
+                = {A_ref.toFixed(2)} m²
               </Col>
               <Col
-                md={3}
+                md={1}
                 className="text-right"
-                title="Volumen habitable interior de la envolvente térmica (volumen neto s-t) [m3]"
+                title="Volumen bruto de la envolvente térmica (volumen bruto s-s) [m³]"
+              >
+                <b>
+                  V<sub>tot</sub>
+                </b>{" "}
+                = {vol_env_gross.toFixed(2)} m³
+              </Col>
+              <Col
+                md={1}
+                className="text-right"
+                title="Compacidad de la envolvente térmica (V_tot / A) [m³/m²]"
+              >
+                <b>V/A</b> = {compacity.toFixed(2)} m³
+              </Col>
+              <Col
+                md={1}
+                className="text-right"
+                title="Volumen habitable interior de la envolvente térmica (volumen neto s-t) [m³]"
               >
                 <b>
                   V<sub>int</sub>
                 </b>{" "}
-                = {V_int.toFixed(2)} m³
+                = {vol_env_net.toFixed(2)} m³
               </Col>
             </Row>
             <Collapse in={this.state.open}>
@@ -147,11 +180,11 @@ const IndicatorsPanel = inject("appstate")(
                       Q<sub>sol;jul</sub> = &sum;<sub>k</sub>(F
                       <sub>sh,obst</sub> · g<sub>gl;sh;wi</sub> · (1 − F
                       <sub>F</sub>) · A<sub>w,p</sub> · H<sub>sol;jul</sub>) ={" "}
-                      {Qsoljul_clima.toFixed(2)} kWh/mes
+                      {Qsoljul.toFixed(2)} kWh/mes
                     </p>
                     <p>Superficie útil</p>
                     <p>
-                      A<sub>util</sub> = {Autil.toFixed(2)} m²
+                      A<sub>util</sub> = {A_ref.toFixed(2)} m²
                     </p>
                     <p>Valor del indicador:</p>
                     <p>
@@ -159,11 +192,10 @@ const IndicatorsPanel = inject("appstate")(
                         q<sub>sol;jul</sub>
                       </b>{" "}
                       = Q<sub>sol;jul</sub> / A<sub>util</sub> =
-                      {Qsoljul_clima.toFixed(2)} / {Autil.toFixed(2)} ={" "}
+                      {Qsoljul.toFixed(2)} / {A_ref.toFixed(2)} ={" "}
                       <b>
                         <i>
-                          {Autil !== 0 ? q_soljul_clima.toFixed(2) : "-"}{" "}
-                          kWh/m²/mes
+                          {A_ref !== 0 ? qsoljul.toFixed(2) : "-"} kWh/m²/mes
                         </i>
                       </b>
                     </p>

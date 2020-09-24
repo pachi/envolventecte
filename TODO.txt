@@ -1,7 +1,9 @@
 - Revisar agrupar opacos y huecos (pensar qué significa con espacios)
 - Al editar nombres de elementos, actualizar referencias en otros elementos
 - Mostrar inclinación como icono (y también azimuth)
-- Introducir wasm de hulc2envolventecte
+- Llevar a wasm:
+    - U de elementos
+    - valores parciales de A y AU de opacos y huecos, y Psi.L
 
 - Cálculo de valores de acristalamientos con sombras móviles usando parámetros U_gl, g_gl_n, tau_e_B y ro_e_B directamente
 - Añadir cálculo de F_sh;obst
