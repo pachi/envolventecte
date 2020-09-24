@@ -79,10 +79,28 @@ const OpacosTable = inject("appstate")(
         const {
           Co100,
           walls: walls_obj,
+          spaces,
           opacosA,
           opacosAU,
         } = this.props.appstate;
         const walls = Object.values(walls_obj);
+
+        const is_outside_tenv = {};
+        walls.forEach((w) => {
+          if (
+            w.bounds !== "INTERIOR" &&
+            spaces[w.space].inside_tenv === false
+          ) {
+            is_outside_tenv[w.name] = "outsidetenv";
+          } else if (
+            w.bounds === "INTERIOR" &&
+            spaces[w.space].inside_tenv === spaces[w.nextto].inside_tenv
+          ) {
+            is_outside_tenv[w.name] = "outsidetenv";
+          } else {
+            is_outside_tenv[w.name] = null;
+          }
+        });
 
         return (
           <Col>
@@ -149,6 +167,7 @@ const OpacosTable = inject("appstate")(
                     hideSelectColumn: true,
                     bgColor: "lightgray",
                   }}
+                  trClassName={(row, rowIdx) => is_outside_tenv[row.name]}
                 >
                   <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
                     - ID -{" "}
@@ -245,9 +264,8 @@ const OpacosTable = inject("appstate")(
             <Row className="text-info small mt-3">
               <Col>
                 <p>
-                  <b>**</b>Los elementos así marcados se excluyen del cómputo de
-                  la superficie de opacos por considerarse que no pertenecen a
-                  la ET con intercambio térmico.
+                  <b>NOTA:</b>Se marcan en color más claro aquellos elementos
+                  que no pertenecen a la ET.
                 </p>
                 <p>Donde:</p>
                 <ul>

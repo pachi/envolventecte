@@ -64,8 +64,29 @@ const HuecosTable = inject("appstate")(
       }
 
       render() {
-        const { windows: windows_obj, huecosA, huecosAU } = this.props.appstate;
+        const {
+          spaces,
+          walls,
+          windows: windows_obj,
+          huecosA,
+          huecosAU,
+        } = this.props.appstate;
         const windows = Object.values(windows_obj);
+
+        const is_outside_tenv = {};
+        windows.forEach((win) => {
+          const w = walls[win.wall];
+          if (w.bounds !== "INTERIOR" && spaces[w.space].inside_tenv !== true) {
+            is_outside_tenv[win.name] = "outsidetenv";
+          } else if (
+            w.bounds === "INTERIOR" &&
+            spaces[w.space].inside_tenv === spaces[w.nextto].inside_tenv
+          ) {
+            is_outside_tenv[win.name] = "outsidetenv";
+          } else {
+            is_outside_tenv[win.name] = null;
+          }
+        });
 
         return (
           <Col>
@@ -111,6 +132,7 @@ const HuecosTable = inject("appstate")(
                     hideSelectColumn: true,
                     bgColor: "lightgray",
                   }}
+                  trClassName={(row, rowIdx) => is_outside_tenv[row.name]}
                 >
                   <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
                     - ID -{" "}
@@ -169,6 +191,10 @@ const HuecosTable = inject("appstate")(
             </Row>
             <Row className="text-info small mt-3">
               <Col>
+                <p>
+                  <b>NOTA:</b>Se marcan en color más claro aquellos elementos
+                  que no pertenecen a la ET.
+                </p>
                 <p>Donde:</p>
                 <ul>
                   <li>

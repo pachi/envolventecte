@@ -182,7 +182,7 @@ const SpacesTable = inject("appstate")(
                     bgColor: "lightgray",
                   }}
                   trClassName={(row, rowIdx) =>
-                    row.inside_tenv ? "insidetenv" : null
+                    row.inside_tenv ? null : "outsidetenv"
                   }
                 >
                   <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
@@ -299,6 +299,14 @@ const SpacesTable = inject("appstate")(
                     </span>
                   </TableHeaderColumn>
                 </BootstrapTable>
+              </Col>
+            </Row>
+            <Row className="text-info small mt-3">
+              <Col>
+                <p>
+                  <b>NOTA:</b>Se marcan en color más claro aquellos elementos
+                  que no pertenecen a la ET.
+                </p>
               </Col>
             </Row>
           </Col>
