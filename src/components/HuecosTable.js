@@ -122,6 +122,7 @@ const HuecosTable = inject("appstate")(
                   striped
                   hover
                   bordered={false}
+                  tableHeaderClass="text-light bg-secondary"
                   cellEdit={{ mode: "dbclick", blurToSave: true }}
                   selectRow={{
                     mode: "checkbox",
@@ -147,6 +148,8 @@ const HuecosTable = inject("appstate")(
                     dataField="A"
                     dataFormat={Float2DigitsFormatter}
                     headerText="Área proyectada del hueco (m2)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     A<sub>w,p</sub>
                     <br />
@@ -159,12 +162,16 @@ const HuecosTable = inject("appstate")(
                   <TableHeaderColumn
                     dataField="cons"
                     headerText="Construcción del hueco"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     Construcción
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="wall"
                     headerText="Opaco al que pertenece el hueco"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     Opaco
                   </TableHeaderColumn>
@@ -172,6 +179,8 @@ const HuecosTable = inject("appstate")(
                     dataField="fshobst"
                     dataFormat={Float2DigitsFormatter}
                     headerText="Factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción). Este valor puede asimilarse al factor de sombra del hueco (FS). El Documento de Apoyo DA DB-HE/1 recoge valores del factor de sombra FS para considerar el efecto de voladizos, retranqueos, aletas laterales o lamas exteriores."
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     F<sub>sh;obst</sub>
                     <br />
@@ -185,6 +194,8 @@ const HuecosTable = inject("appstate")(
                     headerText="Orientación del hueco"
                     editable={false}
                     columnClassName="td-column-readonly"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     Orientación
                   </TableHeaderColumn>
@@ -194,6 +205,8 @@ const HuecosTable = inject("appstate")(
                     headerText="Inclinación del hueco"
                     editable={false}
                     columnClassName="td-column-readonly"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     Inclinación
                   </TableHeaderColumn>

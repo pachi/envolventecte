@@ -71,7 +71,6 @@ const OpacosTable = inject("appstate")(
 
       render() {
         const {
-          Co100,
           walls: walls_obj,
           spaces,
           opacosA,
@@ -124,27 +123,6 @@ const OpacosTable = inject("appstate")(
               </Col>
             </Row>
             <Row>
-              {/* TODO: esto hay que tomarlo de los metadatos y cálcularlo */}
-              <Col
-                title="Coeficiente de caudal de aire de la parte opaca de la envolvente
-                térmica (a 100 Pa)"
-                className="my-3 text-right"
-              >
-                <b>
-                  C<sub>o</sub>
-                </b>{" "}
-                ={" "}
-                <input
-                  type="text"
-                  onChange={(e) => {
-                    this.props.appstate.Co100 = Number(e.target.value);
-                  }}
-                  value={Co100}
-                />{" "}
-                m<sup>3</sup>/h·m<sup>2</sup>
-              </Col>
-            </Row>
-            <Row>
               <Col>
                 <BootstrapTable
                   data={walls}
@@ -152,6 +130,7 @@ const OpacosTable = inject("appstate")(
                   striped
                   hover
                   bordered={false}
+                  tableHeaderClass="text-light bg-secondary"
                   cellEdit={{ mode: "dbclick", blurToSave: true }}
                   selectRow={{
                     mode: "checkbox",
@@ -177,6 +156,8 @@ const OpacosTable = inject("appstate")(
                     dataField="A"
                     dataFormat={Float2DigitsFormatter}
                     headerText="Superficie neta (sin huecos) del elemento opaco, en m²"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     A<br />
                     <span style={{ fontWeight: "normal" }}>
@@ -193,6 +174,8 @@ const OpacosTable = inject("appstate")(
                     }}
                     dataFormat={BoundaryTypeFormatter}
                     headerText="Condición de contorno del elemento opaco (INTERIOR | EXTERIOR | GROUND | ADIABATIC)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     Tipo
                     <br />
@@ -203,18 +186,24 @@ const OpacosTable = inject("appstate")(
                   <TableHeaderColumn
                     dataField="cons"
                     headerText="Construcción del opaco"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     Construcción
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="space"
                     headerText="Espacio al que pertenece el elemento opaco"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     Espacio
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="nextto"
                     headerText="Espacio adyacente con el que comunica el elemento opaco cuando es interior"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     Espacio ady.
                   </TableHeaderColumn>
@@ -222,6 +211,8 @@ const OpacosTable = inject("appstate")(
                     dataField="azimuth"
                     dataFormat={AzimuthFormatter}
                     headerText="Orientación (gamma) [-180,+180] (S=0, E=+90, W=-90). Medido como azimuth geográfico de la proyección horizontal de la normal a la superficie"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     Orientación
                     <br />
@@ -233,6 +224,8 @@ const OpacosTable = inject("appstate")(
                     dataField="tilt"
                     dataFormat={TiltFormatter}
                     headerText="Inclinación (beta) [0, 180]. Medido respecto a la horizontal y normal hacia arriba (0 -> suelo, 180 -> techo)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     Inclinación
                     <br />

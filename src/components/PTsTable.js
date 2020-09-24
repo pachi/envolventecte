@@ -95,6 +95,7 @@ const PTsTable = inject("appstate")(
                   striped
                   hover
                   bordered={false}
+                  tableHeaderClass="text-light bg-secondary"
                   cellEdit={{ mode: "dbclick", blurToSave: true }}
                   selectRow={{
                     mode: "checkbox",
@@ -119,6 +120,8 @@ const PTsTable = inject("appstate")(
                     dataField="L"
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Longitud del puente térmico (m)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     Longitud
                     <br />
@@ -130,6 +133,8 @@ const PTsTable = inject("appstate")(
                     dataField="psi"
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Transmitancia térmica lineal del puente térmico (W/mK)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     &psi;
                     <br />

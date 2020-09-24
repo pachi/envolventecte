@@ -151,6 +151,7 @@ const SpacesTable = inject("appstate")(
                   striped
                   hover
                   bordered={false}
+                  tableHeaderClass="text-light bg-secondary"
                   cellEdit={{
                     mode: "dbclick",
                     blurToSave: true,
@@ -191,6 +192,8 @@ const SpacesTable = inject("appstate")(
                     dataField="area"
                     dataFormat={Float2DigitsFormatter}
                     headerText="Superficie útil del espacio (m²)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     A<br />
                     <span style={{ fontWeight: "normal" }}>
@@ -203,6 +206,8 @@ const SpacesTable = inject("appstate")(
                     dataField="multiplier"
                     dataFormat={Float1DigitsFormatter}
                     headerText="Multiplicador (-)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     mult.
                     <br />
@@ -218,6 +223,8 @@ const SpacesTable = inject("appstate")(
                     }}
                     dataFormat={SpaceTypeFormatter}
                     headerText="Tipo de espacio: ACONDICIONADO, NO ACONDICIONADO, NO HABITABLE"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     Tipo
                     <br />
@@ -234,6 +241,8 @@ const SpacesTable = inject("appstate")(
                     }}
                     dataFormat={BoolFormatter}
                     headerText="¿Pertenece a la envolvente térmica?"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     ¿Interior <br />a la E.T.?
                   </TableHeaderColumn>
@@ -241,6 +250,8 @@ const SpacesTable = inject("appstate")(
                     dataField="height"
                     dataFormat={Float2DigitsFormatter}
                     headerText="Altura total, bruta, o suelo a suelo, del espacio (m)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     h<sub>s-s</sub>
                     <br />
@@ -261,6 +272,8 @@ const SpacesTable = inject("appstate")(
                       ),
                     }}
                     headerText="Ventilación, en ren/h. Sólo para espacios no habitables."
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     n<sub>v</sub>
                     <br />
@@ -272,6 +285,8 @@ const SpacesTable = inject("appstate")(
                     dataField="z"
                     dataFormat={Float2DigitsFormatter}
                     headerText="Cota de la planta, en m"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     z
                     <br />
@@ -283,6 +298,8 @@ const SpacesTable = inject("appstate")(
                     dataField="exposed_perimeter"
                     dataFormat={Float2DigitsFormatter}
                     headerText="Perímetro del espacio expuesto al exterior, en m. Excluye la que lo separa de otros espacios acondicionados. Es relevante en el caso de espacios en contacto con el terreno."
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     p<sub>ext</sub>
                     <br />

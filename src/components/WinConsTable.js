@@ -77,6 +77,7 @@ const WinConsTable = inject("appstate")(
                   striped
                   hover
                   bordered={false}
+                  tableHeaderClass="text-light bg-secondary"
                   cellEdit={{ mode: "dbclick", blurToSave: true }}
                   selectRow={{
                     mode: "checkbox",
@@ -100,6 +101,8 @@ const WinConsTable = inject("appstate")(
                   <TableHeaderColumn
                     dataField="group"
                     headerText="Grupo de soluciones al que pertenece la construcción (solo a efectos de clasificación)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     Grupo
                   </TableHeaderColumn>
@@ -107,6 +110,8 @@ const WinConsTable = inject("appstate")(
                     dataField="U"
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Transmitancia térmica del hueco (W/m²K)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     U<sub>w</sub>
                     <br />
@@ -118,6 +123,8 @@ const WinConsTable = inject("appstate")(
                     dataField="Ff"
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Fracción de marco de la construcción de hueco (-)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     F<sub>f</sub>
                     <br />
@@ -129,6 +136,8 @@ const WinConsTable = inject("appstate")(
                     dataField="gglwi"
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Factor solar del hueco sin la protección solar activada (g_glwi = g_gln * 0.90) (-)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     g<sub>gl;wi</sub>
                     <br />
@@ -140,6 +149,8 @@ const WinConsTable = inject("appstate")(
                     dataField="gglshwi"
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Factor solar del hueco con la protección solar activada (g_glwi = g_gln * 0.90) (-)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     g<sub>gl;sh;wi</sub>
                     <br />
@@ -151,8 +162,10 @@ const WinConsTable = inject("appstate")(
                     dataField="C_100"
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Permeabilidad al aire a 100 Pa (m³/hm²)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
-                    C<sub>w;100Pa</sub>
+                    C<sub>h;100</sub>
                     <br />
                     <span style={{ fontWeight: "normal" }}>
                       <i>[m³/h·m²]</i>{" "}
@@ -194,7 +207,7 @@ const WinConsTable = inject("appstate")(
                   </li>
                   <li>
                     <b>
-                      C<sub>w;100</sub>
+                      C<sub>h;100</sub>
                     </b>
                     : Coeficiente de permeabilidad al aire del hueco a 100 Pa de
                     diferencia de presión (m³/h·m²). La clase de permeabilidad

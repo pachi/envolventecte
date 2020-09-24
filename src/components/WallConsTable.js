@@ -77,6 +77,7 @@ const WallConsTable = inject("appstate")(
                   striped
                   hover
                   bordered={false}
+                  tableHeaderClass="text-light bg-secondary"
                   cellEdit={{ mode: "dbclick", blurToSave: true }}
                   selectRow={{
                     mode: "checkbox",
@@ -100,6 +101,8 @@ const WallConsTable = inject("appstate")(
                   <TableHeaderColumn
                     dataField="group"
                     headerText="Grupo de soluciones al que pertenece la construcción (solo a efectos de clasificación)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     Grupo
                   </TableHeaderColumn>
@@ -107,6 +110,8 @@ const WallConsTable = inject("appstate")(
                     dataField="thickness"
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Grosor el elemento (m)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     e
                     <br />
@@ -118,6 +123,8 @@ const WallConsTable = inject("appstate")(
                     dataField="R_intrinsic"
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Resistencia intrínseca de la solución constructiva (solo capas, sin resistencias superficiales) (m²K/W)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     R<sub>e</sub>
                     <br />
@@ -129,11 +136,30 @@ const WallConsTable = inject("appstate")(
                     dataField="absorptance"
                     dataFormat={this.Float2DigitsFormatter}
                     headerText="Absortividad térmica de la solución constructiva (-)"
+                    headerAlign="center"
+                    dataAlign="center"
                   >
                     &alpha;
                     <br />
                     <span style={{ fontWeight: "normal" }}>
                       <i>[-]</i>{" "}
+                    </span>
+                  </TableHeaderColumn>
+
+                  <TableHeaderColumn
+                    datatField="name"
+                    dataFormat={() => this.props.appstate.Co100}
+                    headerText="Coeficiente de caudal de aire de la parte opaca de la envolvente
+                térmica (a 100 Pa). Varía según n50 de ensayo o tipo de edificio (nuevo / existente)"
+                    editable={false}
+                    columnClassName="td-column-readonly"
+                    headerAlign="center"
+                    dataAlign="center"
+                  >
+                    C<sub>o</sub>
+                    <br />
+                    <span style={{ fontWeight: "normal" }}>
+                      [m<sup>3</sup>/h·m<sup>2</sup>]
                     </span>
                   </TableHeaderColumn>
                 </BootstrapTable>
@@ -148,6 +174,10 @@ const WallConsTable = inject("appstate")(
                     de opacos
                   </li>
                   <li>
+                    <b>e</b>: grosor total del conjunto de capas de la
+                    construcción
+                  </li>
+                  <li>
                     <b>
                       R<sub>e</sub>
                     </b>
@@ -156,6 +186,15 @@ const WallConsTable = inject("appstate")(
                   </li>
                   <li>
                     <b>&alpha;</b>: absortividad térmica de la construcción [-]
+                  </li>
+                  <li>
+                    <b>
+                      C<sub>o;100</sub>
+                    </b>
+                    : coeficiente de permeabilidad de opacos a 100Pa. Depende
+                    del tipo de edificio (nuevo / existente) y de si existe
+                    ensayo de permeabildad, n<sub>50</sub> (Blower-door)
+                    [m³/h·m²]
                   </li>
                 </ul>
               </Col>
