@@ -28,10 +28,18 @@ import { observer, inject } from "mobx-react";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 
+const spacetypesmap = {
+  CONDITIONED: "ACONDICIONADO",
+  UNCONDITIONED: "NO ACONDICIONADO",
+  UNINHABITED: "NO HABITABLE",
+};
+const spaceTypesOptions = Object.keys(spacetypesmap).map((k) => {
+  return { text: spacetypesmap[k], value: k };
+});
+
 const Float1DigitsFormatter = (cell, _row) => (
   <span>{Number(cell).toFixed(1)}</span>
 );
-
 const Float2DigitsFormatter = (cell, _row) => {
   if (cell === null || cell === undefined) {
     return <span>-</span>;
@@ -39,26 +47,10 @@ const Float2DigitsFormatter = (cell, _row) => {
     return <span>{Number(cell).toFixed(2)}</span>;
   }
 };
-
 const BoolFormatter = (cell, _row) => (
   <span>{cell === true ? "Sí" : "No"}</span>
 );
-
-const SpaceTypeFormatter = (cell, _row) => (
-  <span>{spacetypesmapinv[cell]}</span>
-);
-
-const spacetypesmapinv = {
-  CONDITIONED: "ACONDICIONADO",
-  UNCONDITIONED: "NO ACONDICIONADO",
-  UNINHABITED: "NO HABITABLE",
-};
-
-const spacetypes = [
-  { text: "ACONDICIONADO", value: "CONDITIONED" },
-  { text: "NO ACONDICONADO", value: "UNCONDITIONED" },
-  { text: "NO HABITABLE", value: "UNINHABITED" },
-];
+const SpaceTypeFormatter = (cell, _row) => <span>{spacetypesmap[cell]}</span>;
 
 // Custom editor para booleanos
 //
@@ -222,7 +214,7 @@ const SpacesTable = inject("appstate")(
                     dataField="type"
                     editable={{
                       type: "select",
-                      options: { values: spacetypes },
+                      options: { values: spaceTypesOptions },
                     }}
                     dataFormat={SpaceTypeFormatter}
                     headerText="Tipo de espacio: ACONDICIONADO, NO ACONDICIONADO, NO HABITABLE"

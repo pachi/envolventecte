@@ -25,22 +25,10 @@ import React, { Component } from "react";
 import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer, inject } from "mobx-react";
+import { azimuth_name, tilt_name } from "../utils";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 import icongroup from "./img/outline-add_comment-24px.svg";
-
-const Float2DigitsFormatter = (cell, _row) => (
-  <span>{Number(cell).toFixed(2)}</span>
-);
-
-const BoundaryTypeFormatter = (cell, _row) => (
-  <span>{boundarytypesmap[cell]}</span>
-);
-
-const NameFormatter = (cell, row) => {
-  const text = row.U === 0.0 || row.type === "ADIABATIC" ? cell + " **" : cell;
-  return <span>{text}</span>;
-};
 
 const boundarytypesmap = {
   EXTERIOR: "EXTERIOR",
@@ -49,12 +37,18 @@ const boundarytypesmap = {
   GROUND: "TERRENO",
 };
 
-const boundarytypes = [
-  { text: "EXTERIOR", value: "EXTERIOR" },
-  { text: "INTERIOR", value: "INTERIOR" },
-  { text: "ADIABÁTICO", value: "ADIABATIC" },
-  { text: "TERRENO", value: "GROUND" },
-];
+const boundaryTypesOptions = Object.keys(boundarytypesmap).map((k) => {
+  return { text: boundarytypesmap[k], value: k };
+});
+
+const Float2DigitsFormatter = (cell, _row) => (
+  <span>{Number(cell).toFixed(2)}</span>
+);
+const BoundaryTypeFormatter = (cell, _row) => (
+  <span>{boundarytypesmap[cell]}</span>
+);
+const AzimuthFormatter = (cell, _row) => <span>{azimuth_name(cell)}</span>;
+const TiltFormatter = (cell, _row) => <span>{tilt_name(cell)}</span>;
 
 const OpacosTable = inject("appstate")(
   observer(
@@ -174,7 +168,6 @@ const OpacosTable = inject("appstate")(
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="name"
-                    dataFormat={NameFormatter}
                     headerText="Nombre que identifica de forma única el elemento opaco"
                     width="30%"
                   >
@@ -196,7 +189,7 @@ const OpacosTable = inject("appstate")(
                     dataField="bounds"
                     editable={{
                       type: "select",
-                      options: { values: boundarytypes },
+                      options: { values: boundaryTypesOptions },
                     }}
                     dataFormat={BoundaryTypeFormatter}
                     headerText="Condición de contorno del elemento opaco (INTERIOR | EXTERIOR | GROUND | ADIABATIC)"
@@ -227,7 +220,7 @@ const OpacosTable = inject("appstate")(
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="azimuth"
-                    dataFormat={Float2DigitsFormatter}
+                    dataFormat={AzimuthFormatter}
                     headerText="Orientación (gamma) [-180,+180] (S=0, E=+90, W=-90). Medido como azimuth geográfico de la proyección horizontal de la normal a la superficie"
                   >
                     Orientación
@@ -238,7 +231,7 @@ const OpacosTable = inject("appstate")(
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="tilt"
-                    dataFormat={Float2DigitsFormatter}
+                    dataFormat={TiltFormatter}
                     headerText="Inclinación (beta) [0, 180]. Medido respecto a la horizontal y normal hacia arriba (0 -> suelo, 180 -> techo)"
                   >
                     Inclinación
