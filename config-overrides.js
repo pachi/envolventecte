@@ -1,6 +1,8 @@
 // Config overrides for  react-app-rewired
 const path = require("path");
 
+const wasmExtensionRegExp = /\.wasm$/;
+
 module.exports = function override(config, env) {
   // Make file-loader ignore WASM files
   config.resolve.extensions.push(".wasm");
