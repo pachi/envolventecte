@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { Component } from "react";
+import React from "react";
 import { Col, Container, Row, Tabs, Tab } from "react-bootstrap";
 // import DevTools from 'mobx-react-devtools';
 
@@ -36,61 +36,45 @@ import OpacosTable from "./OpacosTable";
 import PTsTable from "./PTsTable";
 import SpacesTable from "./SpacesTable";
 
-class BuildingPage extends Component {
-  render() {
-    return (
-      <Container fluid>
-        <NavBar route={this.props.route} />
-        <Row>
-          <Col>
-            <IndicatorsPanel />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-              <Tab eventKey={1} title="Espacios" className="pt-3">
-                <SpacesTable />
-              </Tab>
-              <Tab eventKey={2} title="Opacos" className="pt-3">
-                <OpacosTable />
-              </Tab>
-              <Tab eventKey={3} title="Huecos" className="pt-3">
-                <HuecosTable />
-              </Tab>
-              <Tab eventKey={4} title="Puentes Térmicos" className="pt-3">
-                <PTsTable />
-              </Tab>
-              <Tab
-                eventKey={5}
-                title="Construcciones de opacos"
-                className="pt-3"
-              >
-                <WallConsTable />
-              </Tab>
-              <Tab
-                eventKey={6}
-                title="Construcciones de huecos"
-                className="pt-3"
-              >
-                <WinConsTable />
-              </Tab>
+const BuildingPage = (props) => (
+  <Container fluid>
+    <NavBar route={props.route} />
+    <Row>
+      <Col>
+        <IndicatorsPanel />
+      </Col>
+    </Row>
+    <Row>
+      <Col>
+        <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
+          <Tab eventKey={1} title="Espacios" className="pt-3">
+            <SpacesTable />
+          </Tab>
+          <Tab eventKey={2} title="Opacos" className="pt-3">
+            <OpacosTable />
+          </Tab>
+          <Tab eventKey={3} title="Huecos" className="pt-3">
+            <HuecosTable />
+          </Tab>
+          <Tab eventKey={4} title="Puentes Térmicos" className="pt-3">
+            <PTsTable />
+          </Tab>
+          <Tab eventKey={5} title="Construcciones de opacos" className="pt-3">
+            <WallConsTable />
+          </Tab>
+          <Tab eventKey={6} title="Construcciones de huecos" className="pt-3">
+            <WinConsTable />
+          </Tab>
 
-              <Tab
-                eventKey={7}
-                title="Carga / descarga de datos"
-                className="pt-3"
-              >
-                <DownloadUpload />
-              </Tab>
-            </Tabs>
-          </Col>
-        </Row>
-        {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
-        <Footer />
-      </Container>
-    );
-  }
-}
+          <Tab eventKey={7} title="Carga / descarga de datos" className="pt-3">
+            <DownloadUpload />
+          </Tab>
+        </Tabs>
+      </Col>
+    </Row>
+    {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
+    <Footer />
+  </Container>
+);
 
 export default BuildingPage;
