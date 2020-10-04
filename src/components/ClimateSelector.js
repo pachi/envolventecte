@@ -21,41 +21,37 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { Component } from "react";
+import React from "react";
 import { observer, inject } from "mobx-react";
 import { Form, Row, Col } from "react-bootstrap";
 
 const ClimateSelector = inject("appstate")(
-  observer(
-    class ClimateSelector extends Component {
-      render() {
-        const appstate = this.props.appstate;
-        return (
-          <Form.Group as={Row} controlId="formControlsClimateZone">
-            <Col as={Form.Label} md={4} style={this.props.labelStyle}>
-              Zona Climática
-            </Col>
-            <Col md={4}>
-              <Form.Control
-                value={appstate.meta.climate || ""}
-                onChange={(e) => {
-                  appstate.meta.climate = e.target.value;
-                }}
-                as="select"
-                placeholder="select"
-              >
-                {appstate.zoneslist.map((z) => (
-                  <option value={z} key={"zone_" + z}>
-                    {z}
-                  </option>
-                ))}
-              </Form.Control>
-            </Col>
-          </Form.Group>
-        );
-      }
-    }
-  )
+  observer((props) => {
+    const appstate = props.appstate;
+    return (
+      <Form.Group as={Row} controlId="formControlsClimateZone">
+        <Col as={Form.Label} md={4} style={props.labelStyle}>
+          Zona Climática
+        </Col>
+        <Col md={4}>
+          <Form.Control
+            value={appstate.meta.climate || ""}
+            onChange={(e) => {
+              appstate.meta.climate = e.target.value;
+            }}
+            as="select"
+            placeholder="select"
+          >
+            {appstate.zoneslist.map((z) => (
+              <option value={z} key={"zone_" + z}>
+                {z}
+              </option>
+            ))}
+          </Form.Control>
+        </Col>
+      </Form.Group>
+    );
+  })
 );
 
 export default ClimateSelector;
