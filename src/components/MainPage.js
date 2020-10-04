@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { Component } from "react";
+import React from "react";
 import { Alert, Col, Container, Row, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -30,11 +30,9 @@ import NavBar from "./Nav";
 
 import imglogo from "./img/logo.svg";
 
-export default class HelpPage extends Component {
-  render() {
-    return (
+const HelpPage = props => (
       <Container fluid>
-        <NavBar route={this.props.route} />
+        <NavBar route={props.route} />
         <Row>
           <Col md={3}>
             <Image src={imglogo} width="90%" />
@@ -92,5 +90,5 @@ export default class HelpPage extends Component {
         <Footer />
       </Container>
     );
-  }
-}
+
+export default HelpPage;
