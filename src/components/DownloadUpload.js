@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { Component } from "react";
+import React from "react";
 import { Alert, Button, Col, Row } from "react-bootstrap";
 import { observer, inject } from "mobx-react";
 // import DevTools from 'mobx-react-devtools';
@@ -30,13 +30,53 @@ import { hash } from "../utils.js";
 
 import icondownload from "./img/baseline-archive-24px.svg";
 
-class DownloadUpload extends Component {
-  render() {
-    const errordisplay = this.props.appstate.errors.map((e, idx) => (
+const DownloadUpload = inject("appstate")(
+  observer((props) => {
+    const handleDownload = (e) => {
+      const contents = props.appstate.asJSON;
+      const contenthash = hash(contents).toString(16);
+      const filename = `EnvolventeCTE-${contenthash}.json`;
+      const blob = new Blob([contents], { type: "application/json" });
+      const uri = URL.createObjectURL(blob);
+      // from http://stackoverflow.com/questions/283956/
+      const link = document.createElement("a");
+      if (typeof link.download === "string") {
+        link.href = uri;
+        link.download = filename;
+        // Firefox requires the link to be in the body
+        document.body.appendChild(link);
+        // Simulate click
+        link.click();
+        // Remove the link when done
+        document.body.removeChild(link);
+      } else {
+        window.open(uri);
+      }
+    };
+
+    const handleUpload = (e) => {
+      let file;
+      if (e.dataTransfer) {
+        file = e.dataTransfer.files[0];
+      } else if (e.target) {
+        file = e.target.files[0];
+      }
+
+      const reader = new FileReader();
+      reader.onload = (rawdata) => {
+        props.appstate.loadJSON(rawdata.target.result);
+      };
+      reader.readAsText(file);
+    };
+
+    const errordisplay = props.appstate.errors.map((e, idx) => (
       <Alert variant={e.type.toLowerCase()} key={`AlertId${idx}`}>
         {e.msg}
       </Alert>
     ));
+
+    const fileInput = React.createRef();
+    const fileDownload = React.createRef();
 
     return (
       <Col>
@@ -47,9 +87,9 @@ class DownloadUpload extends Component {
               cargarlos de nuevo seleccionando el archivo:
             </p>
             <input
-              ref="fileInput"
+              ref={fileInput}
               type="file"
-              onChange={(e) => this.handleUpload(e)}
+              onChange={(e) => handleUpload(e)}
             />
           </Col>
         </Row>
@@ -97,9 +137,9 @@ class DownloadUpload extends Component {
           <Col>
             <Button
               variant="primary"
-              ref="fileDownload"
+              ref={fileDownload}
               className="pull-right"
-              onClick={(e) => this.handleDownload(e)}
+              onClick={(e) => handleDownload(e)}
             >
               <img src={icondownload} alt="Descargar datos de envolvente" />{" "}
               Descargar datos de envolvente
@@ -111,44 +151,7 @@ class DownloadUpload extends Component {
         </Row>
       </Col>
     );
-  }
+  })
+);
 
-  handleDownload(_) {
-    const contents = this.props.appstate.asJSON;
-    const contenthash = hash(contents).toString(16);
-    const filename = `EnvolventeCTE-${contenthash}.json`;
-    const blob = new Blob([contents], { type: "application/json" });
-    const uri = URL.createObjectURL(blob);
-    // from http://stackoverflow.com/questions/283956/
-    const link = document.createElement("a");
-    if (typeof link.download === "string") {
-      link.href = uri;
-      link.download = filename;
-      // Firefox requires the link to be in the body
-      document.body.appendChild(link);
-      // Simulate click
-      link.click();
-      // Remove the link when done
-      document.body.removeChild(link);
-    } else {
-      window.open(uri);
-    }
-  }
-
-  handleUpload(e) {
-    let file;
-    if (e.dataTransfer) {
-      file = e.dataTransfer.files[0];
-    } else if (e.target) {
-      file = e.target.files[0];
-    }
-
-    const reader = new FileReader();
-    reader.onload = (rawdata) => {
-      this.props.appstate.loadJSON(rawdata.target.result);
-    };
-    reader.readAsText(file);
-  }
-}
-
-export default DownloadUpload = inject("appstate")(observer(DownloadUpload));
+export default DownloadUpload;
