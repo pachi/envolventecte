@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { Component } from "react";
+import React from "react";
 import { HashRouter, Redirect, Route, Switch } from "react-router-dom";
 import { Provider } from "mobx-react";
 
@@ -44,25 +44,21 @@ const stores = {
   // ...other stores
 };
 
-class App extends Component {
-  render() {
-    return (
-      <Provider {...stores}>
-        <HashRouter>
-          <Switch>
-            <Route exact path="/" component={MainPage} />
-            <Route exact path="/meta" component={MetaPage} />
-            <Route exact path="/building" component={BuildingPage} />
-            <Route exact path="/climate" component={ClimatePage} />
-            <Route exact path="/elements" component={ElementsPage} />
-            <Route exact path="/help" component={HelpPage} />
-            <Route exact path="/about" component={AboutPage} />
-            <Route path="*" render={() => <Redirect to="/" />} />
-          </Switch>
-        </HashRouter>
-      </Provider>
-    );
-  }
-}
+const App = (props) => (
+  <Provider {...stores}>
+    <HashRouter>
+      <Switch>
+        <Route exact path="/" component={MainPage} />
+        <Route exact path="/meta" component={MetaPage} />
+        <Route exact path="/building" component={BuildingPage} />
+        <Route exact path="/climate" component={ClimatePage} />
+        <Route exact path="/elements" component={ElementsPage} />
+        <Route exact path="/help" component={HelpPage} />
+        <Route exact path="/about" component={AboutPage} />
+        <Route path="*" render={() => <Redirect to="/" />} />
+      </Switch>
+    </HashRouter>
+  </Provider>
+);
 
 export default App;
