@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer, inject } from "mobx-react";
@@ -29,156 +29,144 @@ import { observer, inject } from "mobx-react";
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 import icongroup from "./img/outline-add_comment-24px.svg";
 
+const Float2DigitsFormatter = (cell, _row) => (
+  <span>{Number(cell).toFixed(2)}</span>
+);
+
 const PTsTable = inject("appstate")(
-  observer(
-    class PTsTable extends Component {
-      constructor(props, context) {
-        super(props, context);
-        this.state = { selected: [] };
-      }
+  observer((props) => {
+    const [selected, setSelected] = useState([]);
+    const {
+      thermal_bridges: thermal_bridges_obj,
+      ptsL,
+      ptsPsiL,
+    } = props.appstate;
+    const thermal_bridges = Object.values(thermal_bridges_obj);
 
-      Float2DigitsFormatter = (cell, _row) => (
-        <span>{Number(cell).toFixed(2)}</span>
-      );
-
-      onRowSelect(row, isSelected) {
-        const name = row.name;
-        if (isSelected) {
-          this.setState({ selected: [...this.state.selected, name] });
-        } else {
-          this.setState({
-            selected: this.state.selected.filter((it) => it !== name),
-          });
-        }
-      }
-
-      render() {
-        const {
-          thermal_bridges: thermal_bridges_obj,
-          ptsL,
-          ptsPsiL,
-        } = this.props.appstate;
-        const thermal_bridges = Object.values(thermal_bridges_obj);
-
-        return (
+    return (
+      <Col>
+        <Row>
           <Col>
-            <Row>
-              <Col>
-                <h4>Puentes térmicos</h4>
-              </Col>
-              <Col md="auto">
-                <ButtonGroup>
-                  <Button
-                    variant="default"
-                    size="sm"
-                    title="Agrupa puentes térmicos, sumando longitudes de igual transmitancia térmica lineal."
-                    onClick={() => this.props.appstate.agrupaPts()}
-                  >
-                    <img src={icongroup} alt="Agrupar PTs" /> Agrupar PTs
-                  </Button>
-                </ButtonGroup>
-              </Col>
-              <Col md="auto">
-                <AddRemoveButtonGroup
-                  objects={thermal_bridges}
-                  newObj={this.props.appstate.newPT}
-                  selected={this.state.selected}
-                  clear={() => this.setState({ selected: [] })}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <BootstrapTable
-                  data={thermal_bridges}
-                  version="4"
-                  striped
-                  hover
-                  bordered={false}
-                  tableHeaderClass="text-light bg-secondary"
-                  cellEdit={{ mode: "dbclick", blurToSave: true }}
-                  selectRow={{
-                    mode: "checkbox",
-                    clickToSelectAndEditCell: true,
-                    selected: this.state.selected,
-                    onSelect: this.onRowSelect.bind(this),
-                    hideSelectColumn: true,
-                    bgColor: "lightgray",
-                  }}
-                >
-                  <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-                    - ID -{" "}
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="name"
-                    headerText="Nombre que identifica de forma única el puente térmico"
-                    width="30%"
-                  >
-                    Nombre
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="L"
-                    dataFormat={this.Float2DigitsFormatter}
-                    headerText="Longitud del puente térmico (m)"
-                    headerAlign="center"
-                    dataAlign="center"
-                  >
-                    Longitud
-                    <br />
-                    <span style={{ fontWeight: "normal" }}>
-                      <i>[m]</i>{" "}
-                    </span>
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="psi"
-                    dataFormat={this.Float2DigitsFormatter}
-                    headerText="Transmitancia térmica lineal del puente térmico (W/mK)"
-                    headerAlign="center"
-                    dataAlign="center"
-                  >
-                    &psi;
-                    <br />
-                    <span style={{ fontWeight: "normal" }}>
-                      <i>[W/mK]</i>{" "}
-                    </span>
-                  </TableHeaderColumn>
-                </BootstrapTable>
-              </Col>
-            </Row>
-            <Row>
-              <Col>&sum;L = {ptsL.toFixed(2)} m</Col>
-            </Row>
-            <Row>
-              <Col md="auto">&sum;L·&psi; = {ptsPsiL.toFixed(2)} W/K</Col>
-            </Row>
-            <Row className="text-info small mt-3">
-              <Col>
-                <p>Donde:</p>
-                <ul>
-                  <li>
-                    <b>Longitud</b>: longitud del puente térmico (m)
-                  </li>
-                  <li>
-                    <b>&psi;</b>: transmitancia térmica lineal del puente
-                    térmico (W/mK)
-                  </li>
-                </ul>
-                <p>
-                  <b>NOTA</b>: Para los puentes térmicos definidos en la tabla
-                  se considera, a efectos del cálculo de K, un factor de ajuste{" "}
-                  <i>
-                    b<sub>tr,x</sub> = 1.0
-                  </i>
-                  , de modo que solo deben incluirse aquellos pertenecientes a
-                  elementos con un factor de ajuste no nulo.
-                </p>
-              </Col>
-            </Row>
+            <h4>Puentes térmicos</h4>
           </Col>
-        );
-      }
-    }
-  )
+          <Col md="auto">
+            <ButtonGroup>
+              <Button
+                variant="default"
+                size="sm"
+                title="Agrupa puentes térmicos, sumando longitudes de igual transmitancia térmica lineal."
+                onClick={() => props.appstate.agrupaPts()}
+              >
+                <img src={icongroup} alt="Agrupar PTs" /> Agrupar PTs
+              </Button>
+            </ButtonGroup>
+          </Col>
+          <Col md="auto">
+            <AddRemoveButtonGroup
+              objects={thermal_bridges}
+              newObj={props.appstate.newPT}
+              selected={selected}
+              clear={() => setSelected([])}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <BootstrapTable
+              data={thermal_bridges}
+              version="4"
+              striped
+              hover
+              bordered={false}
+              tableHeaderClass="text-light bg-secondary"
+              cellEdit={{ mode: "dbclick", blurToSave: true }}
+              selectRow={{
+                mode: "checkbox",
+                clickToSelectAndEditCell: true,
+                selected: selected,
+                onSelect: (row, isSelected) => {
+                  if (isSelected) {
+                    setSelected([...selected, row.name]);
+                  } else {
+                    setSelected(selected.filter((it) => it !== row.name));
+                  }
+                },
+                hideSelectColumn: true,
+                bgColor: "lightgray",
+              }}
+            >
+              {/* <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
+                    - ID -{" "}
+                  </TableHeaderColumn> */}
+              <TableHeaderColumn
+                dataField="name"
+                isKey={true}
+                headerText="Nombre que identifica de forma única el puente térmico"
+                width="30%"
+              >
+                Nombre
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="L"
+                dataFormat={Float2DigitsFormatter}
+                headerText="Longitud del puente térmico (m)"
+                headerAlign="center"
+                dataAlign="center"
+              >
+                Longitud
+                <br />
+                <span style={{ fontWeight: "normal" }}>
+                  <i>[m]</i>{" "}
+                </span>
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="psi"
+                dataFormat={Float2DigitsFormatter}
+                headerText="Transmitancia térmica lineal del puente térmico (W/mK)"
+                headerAlign="center"
+                dataAlign="center"
+              >
+                &psi;
+                <br />
+                <span style={{ fontWeight: "normal" }}>
+                  <i>[W/mK]</i>{" "}
+                </span>
+              </TableHeaderColumn>
+            </BootstrapTable>
+          </Col>
+        </Row>
+        <Row>
+          <Col>&sum;L = {ptsL.toFixed(2)} m</Col>
+        </Row>
+        <Row>
+          <Col md="auto">&sum;L·&psi; = {ptsPsiL.toFixed(2)} W/K</Col>
+        </Row>
+        <Row className="text-info small mt-3">
+          <Col>
+            <p>Donde:</p>
+            <ul>
+              <li>
+                <b>Longitud</b>: longitud del puente térmico (m)
+              </li>
+              <li>
+                <b>&psi;</b>: transmitancia térmica lineal del puente térmico
+                (W/mK)
+              </li>
+            </ul>
+            <p>
+              <b>NOTA</b>: Para los puentes térmicos definidos en la tabla se
+              considera, a efectos del cálculo de K, un factor de ajuste{" "}
+              <i>
+                b<sub>tr,x</sub> = 1.0
+              </i>
+              , de modo que solo deben incluirse aquellos pertenecientes a
+              elementos con un factor de ajuste no nulo.
+            </p>
+          </Col>
+        </Row>
+      </Col>
+    );
+  })
 );
 
 export default PTsTable;
