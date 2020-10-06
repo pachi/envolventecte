@@ -30,53 +30,49 @@ import imglogo from "./img/logo.svg";
 import iconhelp from "./img/outline-live_help-24px.svg";
 import iconinfo from "./img/outline-info-24px.svg";
 
-export default class NavBar extends React.Component {
-  static defaultProps = { projectName: "Envolvente CTE" };
+const NavBar = ({ projectName = "Envolvente CTE" }) => (
+  <Navbar bg="dark" variant="dark" fixed="top">
+    <Navbar.Brand>
+      <Link className="navbar-brand" to="/">
+        <img src={imglogo} height="40px" className="mr-2" alt="logo" />{" "}
+        {projectName}
+      </Link>
+    </Navbar.Brand>
+    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+    <Navbar.Collapse id="basic-navbar-nav">
+      <Nav>
+        <LinkContainer to="/meta" eventKey={1}>
+          <Nav.Link>Datos generales</Nav.Link>
+        </LinkContainer>
+        <LinkContainer to="/building" eventKey={2}>
+          <Nav.Link>Edificio</Nav.Link>
+        </LinkContainer>
+        <span
+          style={{ borderLeft: "1px solid gray", margin: "0px 25px" }}
+        ></span>
+        <LinkContainer to="/climate" eventKey={3}>
+          <Nav.Link>Clima</Nav.Link>
+        </LinkContainer>
+        <LinkContainer to="/elements" eventKey={4}>
+          <Nav.Link>Elementos</Nav.Link>
+        </LinkContainer>
+      </Nav>
+      <Nav className="ml-auto pr-3">
+        <LinkContainer to="/help" eventKey={5}>
+          <Nav.Link>
+            <img src={iconhelp} alt="Ayuda" /> Ayuda
+          </Nav.Link>
+        </LinkContainer>
+        <LinkContainer to="/about" eventKey={6}>
+          <Nav.Link>
+            <Nav.Item>
+              <img src={iconinfo} alt="Créditos" /> Créditos
+            </Nav.Item>
+          </Nav.Link>
+        </LinkContainer>
+      </Nav>
+    </Navbar.Collapse>
+  </Navbar>
+);
 
-  render() {
-    return (
-      <Navbar bg="dark" variant="dark" fixed="top">
-        <Navbar.Brand>
-          <Link className="navbar-brand" to="/">
-            <img src={imglogo} height="40px" className="mr-2" alt="logo" />{" "}
-            {this.props.projectName}
-          </Link>
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav>
-            <LinkContainer to="/meta" eventKey={1}>
-              <Nav.Link>Datos generales</Nav.Link>
-            </LinkContainer>
-            <LinkContainer to="/building" eventKey={2}>
-              <Nav.Link>Edificio</Nav.Link>
-            </LinkContainer>
-            <span
-              style={{ borderLeft: "1px solid gray", margin: "0px 25px" }}
-            ></span>
-            <LinkContainer to="/climate" eventKey={3}>
-              <Nav.Link>Clima</Nav.Link>
-            </LinkContainer>
-            <LinkContainer to="/elements" eventKey={4}>
-              <Nav.Link>Elementos</Nav.Link>
-            </LinkContainer>
-          </Nav>
-          <Nav className="ml-auto pr-3">
-            <LinkContainer to="/help" eventKey={5}>
-              <Nav.Link>
-                <img src={iconhelp} alt="Ayuda" /> Ayuda
-              </Nav.Link>
-            </LinkContainer>
-            <LinkContainer to="/about" eventKey={6}>
-              <Nav.Link>
-                <Nav.Item>
-                  <img src={iconinfo} alt="Créditos" /> Créditos
-                </Nav.Item>
-              </Nav.Link>
-            </LinkContainer>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-    );
-  }
-}
+export default NavBar;
