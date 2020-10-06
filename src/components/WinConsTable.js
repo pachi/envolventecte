@@ -21,209 +21,196 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer, inject } from "mobx-react";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 
+const Float2DigitsFormatter = (cell, _row) => (
+  <span>{Number(cell).toFixed(2)}</span>
+);
+
 const WinConsTable = inject("appstate")(
-  observer(
-    class WinConsTable extends Component {
-      constructor(props, context) {
-        super(props, context);
-        this.state = { selected: [] };
-      }
+  observer((props) => {
+    const [selected, setSelected] = useState([]);
+    const wincons = Object.values(props.appstate.wincons);
 
-      Float2DigitsFormatter = (cell, _row) => (
-        <span>{Number(cell).toFixed(2)}</span>
-      );
-
-      onRowSelect(row, isSelected) {
-        const name = row.name;
-        if (isSelected) {
-          this.setState({ selected: [...this.state.selected, name] });
-        } else {
-          this.setState({
-            selected: this.state.selected.filter((it) => it !== name),
-          });
-        }
-      }
-
-      render() {
-        const wincons = Object.values(this.props.appstate.wincons);
-
-        return (
+    return (
+      <Col>
+        <Row>
           <Col>
-            <Row>
-              <Col>
-                <h4>Construcciones de Huecos</h4>
-              </Col>
-              <Col md="auto">
-                <AddRemoveButtonGroup
-                  objects={wincons}
-                  newObj={this.props.appstate.newWinCons}
-                  selected={this.state.selected}
-                  clear={() => this.setState({ selected: [] })}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <BootstrapTable
-                  data={wincons}
-                  version="4"
-                  striped
-                  hover
-                  bordered={false}
-                  tableHeaderClass="text-light bg-secondary"
-                  cellEdit={{ mode: "dbclick", blurToSave: true }}
-                  selectRow={{
-                    mode: "checkbox",
-                    clickToSelectAndEditCell: true,
-                    selected: this.state.selected,
-                    onSelect: this.onRowSelect.bind(this),
-                    hideSelectColumn: true,
-                    bgColor: "lightgray",
-                  }}
-                >
-                  <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-                    - ID -{" "}
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="name"
-                    headerText="Nombre que identifica de forma única la construcción de hueco"
-                    width="30%"
-                  >
-                    Nombre
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="group"
-                    headerText="Grupo de soluciones al que pertenece la construcción (solo a efectos de clasificación)"
-                    headerAlign="center"
-                    dataAlign="center"
-                  >
-                    Grupo
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="U"
-                    dataFormat={this.Float2DigitsFormatter}
-                    headerText="Transmitancia térmica del hueco (W/m²K)"
-                    headerAlign="center"
-                    dataAlign="center"
-                  >
-                    U<sub>w</sub>
-                    <br />
-                    <span style={{ fontWeight: "normal" }}>
-                      <i>[W/m²K]</i>{" "}
-                    </span>
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="Ff"
-                    dataFormat={this.Float2DigitsFormatter}
-                    headerText="Fracción de marco de la construcción de hueco (-)"
-                    headerAlign="center"
-                    dataAlign="center"
-                  >
-                    F<sub>f</sub>
-                    <br />
-                    <span style={{ fontWeight: "normal" }}>
-                      <i>[-]</i>{" "}
-                    </span>
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="gglwi"
-                    dataFormat={this.Float2DigitsFormatter}
-                    headerText="Factor solar del hueco sin la protección solar activada (g_glwi = g_gln * 0.90) (-)"
-                    headerAlign="center"
-                    dataAlign="center"
-                  >
-                    g<sub>gl;wi</sub>
-                    <br />
-                    <span style={{ fontWeight: "normal" }}>
-                      <i>[-]</i>{" "}
-                    </span>
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="gglshwi"
-                    dataFormat={this.Float2DigitsFormatter}
-                    headerText="Factor solar del hueco con la protección solar activada (g_glwi = g_gln * 0.90) (-)"
-                    headerAlign="center"
-                    dataAlign="center"
-                  >
-                    g<sub>gl;sh;wi</sub>
-                    <br />
-                    <span style={{ fontWeight: "normal" }}>
-                      <i>[-]</i>{" "}
-                    </span>
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="C_100"
-                    dataFormat={this.Float2DigitsFormatter}
-                    headerText="Permeabilidad al aire a 100 Pa (m³/hm²)"
-                    headerAlign="center"
-                    dataAlign="center"
-                  >
-                    C<sub>h;100</sub>
-                    <br />
-                    <span style={{ fontWeight: "normal" }}>
-                      <i>[m³/h·m²]</i>{" "}
-                    </span>
-                  </TableHeaderColumn>
-                </BootstrapTable>
-              </Col>
-            </Row>
-            <Row className="text-info small mt-3">
-              <Col>
-                <p>Donde:</p>
-                <ul>
-                  <li>
-                    <b>Grupo</b>: grupo de clasificación de las construcciones
-                    de opacos
-                  </li>
-                  <li>
-                    <b>U</b>: Transmitancia térmica del hueco (W/m²K)
-                  </li>
-                  <li>
-                    <b>
-                      F<sub>f</sub>
-                    </b>
-                    : fracción de marco (-)
-                  </li>
-                  <li>
-                    <b>
-                      g<sub>gl;wi</sub>
-                    </b>
-                    : factor solar del hueco sin la protección solar activada
-                    (g_glwi = g_gln * 0.90) (-)
-                  </li>
-                  <li>
-                    <b>
-                      g<sub>gl;sh;wi</sub>
-                    </b>
-                    : factor solar del hueco con la protección solar activada
-                    (-)
-                  </li>
-                  <li>
-                    <b>
-                      C<sub>h;100</sub>
-                    </b>
-                    : Coeficiente de permeabilidad al aire del hueco a 100 Pa de
-                    diferencia de presión (m³/h·m²). La clase de permeabilidad
-                    al aire de los huecos, según la norma UNE EN 12207:2000 es:
-                    Clase 1: C<sub>w;100</sub> &le; 50m3/hm2, Clase 2: C
-                    <sub>w;100</sub> &le; 27 m³/hm², Clase 3: C<sub>w;100</sub>{" "}
-                    &le; 9 m³/hm², Clase 4: C<sub>w;100</sub> &le; 3 m³/hm².
-                  </li>
-                </ul>
-              </Col>
-            </Row>
+            <h4>Construcciones de Huecos</h4>
           </Col>
-        );
-      }
-    }
-  )
+          <Col md="auto">
+            <AddRemoveButtonGroup
+              objects={wincons}
+              newObj={props.appstate.newWinCons}
+              selected={selected}
+              clear={() => setSelected([])}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <BootstrapTable
+              data={wincons}
+              version="4"
+              striped
+              hover
+              bordered={false}
+              tableHeaderClass="text-light bg-secondary"
+              cellEdit={{ mode: "dbclick", blurToSave: true }}
+              selectRow={{
+                mode: "checkbox",
+                clickToSelectAndEditCell: true,
+                selected: selected,
+                onSelect: (row, isSelected) => {
+                  if (isSelected) {
+                    setSelected([...selected, row.name]);
+                  } else {
+                    setSelected(selected.filter((it) => it !== row.name));
+                  }
+                },
+                hideSelectColumn: true,
+                bgColor: "lightgray",
+              }}
+            >
+              {/* <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
+                    - ID -{" "}
+                  </TableHeaderColumn> */}
+              <TableHeaderColumn
+                dataField="name"
+                isKey={true}
+                headerText="Nombre que identifica de forma única la construcción de hueco"
+                width="30%"
+              >
+                Nombre
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="group"
+                headerText="Grupo de soluciones al que pertenece la construcción (solo a efectos de clasificación)"
+                headerAlign="center"
+                dataAlign="center"
+              >
+                Grupo
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="U"
+                dataFormat={Float2DigitsFormatter}
+                headerText="Transmitancia térmica del hueco (W/m²K)"
+                headerAlign="center"
+                dataAlign="center"
+              >
+                U<sub>w</sub>
+                <br />
+                <span style={{ fontWeight: "normal" }}>
+                  <i>[W/m²K]</i>{" "}
+                </span>
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="Ff"
+                dataFormat={Float2DigitsFormatter}
+                headerText="Fracción de marco de la construcción de hueco (-)"
+                headerAlign="center"
+                dataAlign="center"
+              >
+                F<sub>f</sub>
+                <br />
+                <span style={{ fontWeight: "normal" }}>
+                  <i>[-]</i>{" "}
+                </span>
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="gglwi"
+                dataFormat={Float2DigitsFormatter}
+                headerText="Factor solar del hueco sin la protección solar activada (g_glwi = g_gln * 0.90) (-)"
+                headerAlign="center"
+                dataAlign="center"
+              >
+                g<sub>gl;wi</sub>
+                <br />
+                <span style={{ fontWeight: "normal" }}>
+                  <i>[-]</i>{" "}
+                </span>
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="gglshwi"
+                dataFormat={Float2DigitsFormatter}
+                headerText="Factor solar del hueco con la protección solar activada (g_glwi = g_gln * 0.90) (-)"
+                headerAlign="center"
+                dataAlign="center"
+              >
+                g<sub>gl;sh;wi</sub>
+                <br />
+                <span style={{ fontWeight: "normal" }}>
+                  <i>[-]</i>{" "}
+                </span>
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="C_100"
+                dataFormat={Float2DigitsFormatter}
+                headerText="Permeabilidad al aire a 100 Pa (m³/hm²)"
+                headerAlign="center"
+                dataAlign="center"
+              >
+                C<sub>h;100</sub>
+                <br />
+                <span style={{ fontWeight: "normal" }}>
+                  <i>[m³/h·m²]</i>{" "}
+                </span>
+              </TableHeaderColumn>
+            </BootstrapTable>
+          </Col>
+        </Row>
+        <Row className="text-info small mt-3">
+          <Col>
+            <p>Donde:</p>
+            <ul>
+              <li>
+                <b>Grupo</b>: grupo de clasificación de las construcciones de
+                opacos
+              </li>
+              <li>
+                <b>U</b>: Transmitancia térmica del hueco (W/m²K)
+              </li>
+              <li>
+                <b>
+                  F<sub>f</sub>
+                </b>
+                : fracción de marco (-)
+              </li>
+              <li>
+                <b>
+                  g<sub>gl;wi</sub>
+                </b>
+                : factor solar del hueco sin la protección solar activada
+                (g_glwi = g_gln * 0.90) (-)
+              </li>
+              <li>
+                <b>
+                  g<sub>gl;sh;wi</sub>
+                </b>
+                : factor solar del hueco con la protección solar activada (-)
+              </li>
+              <li>
+                <b>
+                  C<sub>h;100</sub>
+                </b>
+                : Coeficiente de permeabilidad al aire del hueco a 100 Pa de
+                diferencia de presión (m³/h·m²). La clase de permeabilidad al
+                aire de los huecos, según la norma UNE EN 12207:2000 es: Clase
+                1: C<sub>w;100</sub> &le; 50m3/hm2, Clase 2: C<sub>w;100</sub>{" "}
+                &le; 27 m³/hm², Clase 3: C<sub>w;100</sub> &le; 9 m³/hm², Clase
+                4: C<sub>w;100</sub> &le; 3 m³/hm².
+              </li>
+            </ul>
+          </Col>
+        </Row>
+      </Col>
+    );
+  })
 );
 
 export default WinConsTable;
