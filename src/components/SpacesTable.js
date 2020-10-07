@@ -74,6 +74,7 @@ const BoolEditor = React.forwardRef((props, ref) => {
   );
 });
 
+// Custom editor para nivel de ventilación de los espacios n_v
 const NVEditor = React.forwardRef((props, ref) => {
   const { defaultValue, onUpdate } = props;
   const [value, setValue] = useState(defaultValue);
@@ -138,14 +139,19 @@ const SpacesTable = inject("appstate")(
               cellEdit={{
                 mode: "dbclick",
                 blurToSave: true,
-                // Corrige el valor de n_v de undefined a null
-                // o cambia a null cuando no son espacios no habitables
                 afterSaveCell: (row, cellName, cellValue) => {
                   if (
                     (cellName === "n_v" && cellValue === undefined) ||
                     (cellName === "type" && cellValue !== "UNINHABITED")
                   ) {
+                    // Corrige el valor de n_v de undefined a null
+                    // o cambia a null cuando no son espacios no habitables
                     row.n_v = null;
+                  } else if (
+                    !["name", "inside_tenv", "type"].includes(cellName)
+                  ) {
+                    // Convierte a número salvo en el caso del nombre o de inside_tenv
+                    row[cellName] = Number(cellValue);
                   }
                 },
               }}

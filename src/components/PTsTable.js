@@ -79,7 +79,16 @@ const PTsTable = inject("appstate")(
               hover
               bordered={false}
               tableHeaderClass="text-light bg-secondary"
-              cellEdit={{ mode: "dbclick", blurToSave: true }}
+              cellEdit={{
+                mode: "dbclick",
+                blurToSave: true,
+                afterSaveCell: (row, cellName, cellValue) => {
+                  if (["L", "psi"].includes(cellName)) {
+                    // Convierte a número campos numéricos
+                    row[cellName] = Number(cellValue);
+                  }
+                },
+              }}
               selectRow={{
                 mode: "checkbox",
                 clickToSelectAndEditCell: true,

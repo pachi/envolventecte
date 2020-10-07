@@ -127,6 +127,9 @@ const OpacosTable = inject("appstate")(
                 afterSaveCell: (row, cellName, cellValue) => {
                   if (cellName === "nextto" && cellValue !== "") {
                     row.nextto = null;
+                  } else if (["A", "azimuth", "tilt"].includes(cellName)) {
+                    // Convierte a número campos numéricos
+                    row[cellName] = Number(cellValue);
                   }
                 },
               }}
