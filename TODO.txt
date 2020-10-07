@@ -1,8 +1,9 @@
-- Convertir a componentes funcionales y migrar a mobx6
-- Dejar de usar id y usar name como id en todas las tablas:
+- Recuperar id y usar name como display_name en todas las tablas:
     - Al editar, antes de confirmar, comprobar si el nombre ya existe, y en ese caso añadir un número extra
+        - Ver hooks for cell edit (onBeforeSaveCell y afterSaveCell)
     - Al añadir fila, generar nombre con uuidv4() para no tener colisiones
     - ¿Al importar, comprobar que no se repiten nombres?
+- Comprobar si en qsoljul solo se usa la superficie de los espacios habitables.
 - Revisar acciones de agrupar opacos y huecos (y pensar qué significa con espacios)
 - Al editar nombres de elementos, actualizar referencias en otros elementos
 - Mostrar inclinación como icono (y también azimuth)

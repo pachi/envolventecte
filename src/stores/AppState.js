@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { action, observable, computed, decorate } from "mobx";
+import { action, observable, computed, makeObservable, configure } from "mobx";
 import { UserException, uuidv4 } from "../utils.js";
 import { he1_indicators } from "wasm-envolventecte";
 
@@ -36,6 +36,12 @@ import {
 
 import radiationdata from "../zcraddata.json";
 import example from "./example.json";
+
+// no obligamos a usar acciones para cambiar el estado. El default es "always".
+// Ver https://mobx.js.org/configuration.html#enforceactions
+configure({
+  enforceActions: "never",
+});
 
 // Añade id's a archivo de ejemplo
 const { spaces, walls, windows, thermal_bridges, wallcons, wincons } = example;
@@ -88,6 +94,42 @@ export default class AppState {
 
   // Lista de errores -------
   errors = [];
+
+  constructor() {
+    makeObservable(this, {
+      // Decorators
+      // title: observable can be omitted, its is the default when using observable.object
+      meta: observable,
+      Co100: observable,
+      spaces: observable,
+      walls: observable,
+      windows: observable,
+      thermal_bridges: observable,
+      wallcons: observable,
+      wincons: observable,
+      errors: observable,
+      // Valores calculados
+      he1_indicators: computed({ requiresReaction: true }),
+      zoneslist: computed,
+      orientations: computed,
+      // TODO: estos dos se podrían llegar a eliminar si cambiamos climas y usamos los del wasm
+      climatedata: computed({ requiresReaction: true }),
+      climateTotRadJul: computed({ requiresReaction: true }),
+      huecosA: computed,
+      huecosAU: computed,
+      opacosA: computed,
+      opacosAU: computed,
+      ptsL: computed,
+      ptsPsiL: computed,
+      totalA: computed,
+      totalAU: computed,
+      agrupaHuecos: action,
+      agrupaOpacos: action,
+      agrupaPts: action,
+      asJSON: computed,
+      loadJSON: action,
+    });
+  }
 
   // Propiedades de datos climáticos ----------------
   get zoneslist() {
@@ -363,37 +405,3 @@ export default class AppState {
     }
   }
 }
-
-decorate(AppState, {
-  // Decorators
-  // title: observable can be omitted, its is the default when using observable.object
-  meta: observable,
-  Co100: observable,
-  spaces: observable,
-  walls: observable,
-  windows: observable,
-  thermal_bridges: observable,
-  wallcons: observable,
-  wincons: observable,
-  errors: observable,
-  // Valores calculados
-  he1_indicators: computed({ requiresReaction: true }),
-  zoneslist: computed,
-  orientations: computed,
-  // TODO: estos dos se podrían llegar a eliminar si cambiamos climas y usamos los del wasm
-  climatedata: computed({ requiresReaction: true }),
-  climateTotRadJul: computed({ requiresReaction: true }),
-  huecosA: computed,
-  huecosAU: computed,
-  opacosA: computed,
-  opacosAU: computed,
-  ptsL: computed,
-  ptsPsiL: computed,
-  totalA: computed,
-  totalAU: computed,
-  agrupaHuecos: action,
-  agrupaOpacos: action,
-  agrupaPts: action,
-  asJSON: computed,
-  loadJSON: action,
-});

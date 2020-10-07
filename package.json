@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "bootstrap": "^4.5.2",
-    "mobx": "^5.15.6",
+    "mobx": "^6.0.1",
     "mobx-react": "^6.2.5",
     "mobx-react-devtools": "^6.1.1",
     "react": "^16.13.1",
@@ -48,7 +48,7 @@
     "react-router-dom": "^5.2.0",
     "soljs": "^6.0.0",
     "wasm-envolventecte": "file:./wasm/pkg",
-    "whatwg-fetch": "^3.4.0"
+    "whatwg-fetch": "^3.4.1"
   },
   "scripts": {
     "start": "react-app-rewired start",
