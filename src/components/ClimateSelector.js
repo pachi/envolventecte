@@ -32,7 +32,7 @@ const ClimateSelector = observer(
         <Col as={Form.Label} md={4} style={props.labelStyle}>
           Zona Climática
         </Col>
-        <Col md={4}>
+        <Col md={8}>
           <Form.Control
             value={meta.climate || ""}
             onChange={(e) => {
