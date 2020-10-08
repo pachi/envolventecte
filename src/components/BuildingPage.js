@@ -36,38 +36,38 @@ import OpacosTable from "./OpacosTable";
 import PTsTable from "./PTsTable";
 import SpacesTable from "./SpacesTable";
 
-const BuildingPage = (props) => (
+const BuildingPage = ({ appstate, route }) => (
   <Container fluid>
-    <NavBar route={props.route} />
+    <NavBar route={route} />
     <Row>
       <Col>
-        <IndicatorsPanel />
+        <IndicatorsPanel appstate={appstate} />
       </Col>
     </Row>
     <Row>
       <Col>
         <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
           <Tab eventKey={1} title="Espacios" className="pt-3">
-            <SpacesTable />
+            <SpacesTable appstate={appstate} />
           </Tab>
           <Tab eventKey={2} title="Opacos" className="pt-3">
-            <OpacosTable />
+            <OpacosTable appstate={appstate} />
           </Tab>
           <Tab eventKey={3} title="Huecos" className="pt-3">
-            <HuecosTable />
+            <HuecosTable appstate={appstate} />
           </Tab>
           <Tab eventKey={4} title="Puentes Térmicos" className="pt-3">
-            <PTsTable />
+            <PTsTable appstate={appstate} />
           </Tab>
           <Tab eventKey={5} title="Construcciones de opacos" className="pt-3">
-            <WallConsTable />
+            <WallConsTable appstate={appstate} />
           </Tab>
           <Tab eventKey={6} title="Construcciones de huecos" className="pt-3">
-            <WinConsTable />
+            <WinConsTable appstate={appstate} />
           </Tab>
 
           <Tab eventKey={7} title="Carga / descarga de datos" className="pt-3">
-            <DownloadUpload />
+            <DownloadUpload appstate={appstate} />
           </Tab>
         </Tabs>
       </Col>

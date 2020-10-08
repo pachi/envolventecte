@@ -22,12 +22,11 @@ SOFTWARE.
 */
 
 import React from "react";
-import { observer, inject } from "mobx-react";
+import { observer } from "mobx-react-lite";
 import { Form, Row, Col } from "react-bootstrap";
 
-const ClimateSelector = inject("appstate")(
-  observer((props) => {
-    const appstate = props.appstate;
+const ClimateSelector = observer(
+  ({ appstate: { meta, zoneslist }, ...props }) => {
     return (
       <Form.Group as={Row} controlId="formControlsClimateZone">
         <Col as={Form.Label} md={4} style={props.labelStyle}>
@@ -35,14 +34,14 @@ const ClimateSelector = inject("appstate")(
         </Col>
         <Col md={4}>
           <Form.Control
-            value={appstate.meta.climate || ""}
+            value={meta.climate || ""}
             onChange={(e) => {
-              appstate.meta.climate = e.target.value;
+              meta.climate = e.target.value;
             }}
             as="select"
             placeholder="select"
           >
-            {appstate.zoneslist.map((z) => (
+            {zoneslist.map((z) => (
               <option value={z} key={"zone_" + z}>
                 {z}
               </option>
@@ -51,7 +50,7 @@ const ClimateSelector = inject("appstate")(
         </Col>
       </Form.Group>
     );
-  })
+  }
 );
 
 export default ClimateSelector;

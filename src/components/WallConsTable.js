@@ -24,7 +24,7 @@ SOFTWARE.
 import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { observer, inject } from "mobx-react";
+import { observer } from "mobx-react-lite";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 
@@ -32,177 +32,173 @@ const Float2DigitsFormatter = (cell, _row) => (
   <span>{Number(cell).toFixed(2)}</span>
 );
 
-const WallConsTable = inject("appstate")(
-  observer((props) => {
-    const [selected, setSelected] = useState([]);
-    const wallcons = Object.values(props.appstate.wallcons);
+const WallConsTable = observer(({ appstate }) => {
+  const [selected, setSelected] = useState([]);
+  const wallcons = Object.values(appstate.wallcons);
 
-    return (
-      <Col>
-        <Row>
-          <Col>
-            <h4>Construcciones de Opacos</h4>
-          </Col>
-          <Col md="auto">
-            <AddRemoveButtonGroup
-              objects={wallcons}
-              newObj={props.appstate.newWallCons}
-              selected={selected}
-              clear={() => setSelected([])}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <BootstrapTable
-              data={wallcons}
-              version="4"
-              striped
-              hover
-              bordered={false}
-              tableHeaderClass="text-light bg-secondary"
-              cellEdit={{
-                mode: "dbclick",
-                blurToSave: true,
-                afterSaveCell: (row, cellName, cellValue) => {
-                  if (
-                    ["thickness", "R_intrinsic", "absorptance"].includes(
-                      cellName
-                    )
-                  ) {
-                    // Convierte a número campos numéricos
-                    row[cellName] = Number(cellValue);
-                  }
-                },
-              }}
-              selectRow={{
-                mode: "checkbox",
-                clickToSelectAndEditCell: true,
-                selected: selected,
-                onSelect: (row, isSelected) => {
-                  if (isSelected) {
-                    setSelected([...selected, row.name]);
-                  } else {
-                    setSelected(selected.filter((it) => it !== row.name));
-                  }
-                },
-                hideSelectColumn: true,
-                bgColor: "lightgray",
-              }}
-            >
-              {/* <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
+  return (
+    <Col>
+      <Row>
+        <Col>
+          <h4>Construcciones de Opacos</h4>
+        </Col>
+        <Col md="auto">
+          <AddRemoveButtonGroup
+            objects={wallcons}
+            newObj={appstate.newWallCons}
+            selected={selected}
+            clear={() => setSelected([])}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <BootstrapTable
+            data={wallcons}
+            version="4"
+            striped
+            hover
+            bordered={false}
+            tableHeaderClass="text-light bg-secondary"
+            cellEdit={{
+              mode: "dbclick",
+              blurToSave: true,
+              afterSaveCell: (row, cellName, cellValue) => {
+                if (
+                  ["thickness", "R_intrinsic", "absorptance"].includes(cellName)
+                ) {
+                  // Convierte a número campos numéricos
+                  row[cellName] = Number(cellValue);
+                }
+              },
+            }}
+            selectRow={{
+              mode: "checkbox",
+              clickToSelectAndEditCell: true,
+              selected: selected,
+              onSelect: (row, isSelected) => {
+                if (isSelected) {
+                  setSelected([...selected, row.name]);
+                } else {
+                  setSelected(selected.filter((it) => it !== row.name));
+                }
+              },
+              hideSelectColumn: true,
+              bgColor: "lightgray",
+            }}
+          >
+            {/* <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
                     - ID -{" "}
                   </TableHeaderColumn> */}
-              <TableHeaderColumn
-                dataField="name"
-                isKey={true}
-                headerText="Nombre que identifica de forma única la construcción de opaco"
-                width="30%"
-              >
-                Nombre
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataField="group"
-                headerText="Grupo de soluciones al que pertenece la construcción (solo a efectos de clasificación)"
-                headerAlign="center"
-                dataAlign="center"
-              >
-                Grupo
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataField="thickness"
-                dataFormat={Float2DigitsFormatter}
-                headerText="Grosor el elemento (m)"
-                headerAlign="center"
-                dataAlign="center"
-              >
-                e
-                <br />
-                <span style={{ fontWeight: "normal" }}>
-                  <i>[m]</i>{" "}
-                </span>
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataField="R_intrinsic"
-                dataFormat={Float2DigitsFormatter}
-                headerText="Resistencia intrínseca de la solución constructiva (solo capas, sin resistencias superficiales) (m²K/W)"
-                headerAlign="center"
-                dataAlign="center"
-              >
-                R<sub>e</sub>
-                <br />
-                <span style={{ fontWeight: "normal" }}>
-                  <i>[m²K/W]</i>{" "}
-                </span>
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataField="absorptance"
-                dataFormat={Float2DigitsFormatter}
-                headerText="Absortividad térmica de la solución constructiva (-)"
-                headerAlign="center"
-                dataAlign="center"
-              >
-                &alpha;
-                <br />
-                <span style={{ fontWeight: "normal" }}>
-                  <i>[-]</i>{" "}
-                </span>
-              </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField="name"
+              isKey={true}
+              headerText="Nombre que identifica de forma única la construcción de opaco"
+              width="30%"
+            >
+              Nombre
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField="group"
+              headerText="Grupo de soluciones al que pertenece la construcción (solo a efectos de clasificación)"
+              headerAlign="center"
+              dataAlign="center"
+            >
+              Grupo
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField="thickness"
+              dataFormat={Float2DigitsFormatter}
+              headerText="Grosor el elemento (m)"
+              headerAlign="center"
+              dataAlign="center"
+            >
+              e
+              <br />
+              <span style={{ fontWeight: "normal" }}>
+                <i>[m]</i>{" "}
+              </span>
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField="R_intrinsic"
+              dataFormat={Float2DigitsFormatter}
+              headerText="Resistencia intrínseca de la solución constructiva (solo capas, sin resistencias superficiales) (m²K/W)"
+              headerAlign="center"
+              dataAlign="center"
+            >
+              R<sub>e</sub>
+              <br />
+              <span style={{ fontWeight: "normal" }}>
+                <i>[m²K/W]</i>{" "}
+              </span>
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField="absorptance"
+              dataFormat={Float2DigitsFormatter}
+              headerText="Absortividad térmica de la solución constructiva (-)"
+              headerAlign="center"
+              dataAlign="center"
+            >
+              &alpha;
+              <br />
+              <span style={{ fontWeight: "normal" }}>
+                <i>[-]</i>{" "}
+              </span>
+            </TableHeaderColumn>
 
-              <TableHeaderColumn
-                datatField="name"
-                dataFormat={() => props.appstate.Co100}
-                headerText="Coeficiente de caudal de aire de la parte opaca de la envolvente
+            <TableHeaderColumn
+              datatField="name"
+              dataFormat={() => appstate.Co100}
+              headerText="Coeficiente de caudal de aire de la parte opaca de la envolvente
                 térmica (a 100 Pa). Varía según n50 de ensayo o tipo de edificio (nuevo / existente)"
-                editable={false}
-                columnClassName="td-column-readonly"
-                headerAlign="center"
-                dataAlign="center"
-              >
-                C<sub>o</sub>
-                <br />
-                <span style={{ fontWeight: "normal" }}>
-                  [m<sup>3</sup>/h·m<sup>2</sup>]
-                </span>
-              </TableHeaderColumn>
-            </BootstrapTable>
-          </Col>
-        </Row>
-        <Row className="text-info small mt-3">
-          <Col>
-            <p>Donde:</p>
-            <ul>
-              <li>
-                <b>Grupo</b>: grupo de clasificación de las construcciones de
-                opacos
-              </li>
-              <li>
-                <b>e</b>: grosor total del conjunto de capas de la construcción
-              </li>
-              <li>
-                <b>
-                  R<sub>e</sub>
-                </b>
-                : resistencia intrínseca (sin resistencias superficiales, solo
-                de las capas) del elemento (m²K/W)
-              </li>
-              <li>
-                <b>&alpha;</b>: absortividad térmica de la construcción [-]
-              </li>
-              <li>
-                <b>
-                  C<sub>o;100</sub>
-                </b>
-                : coeficiente de permeabilidad de opacos a 100Pa. Depende del
-                tipo de edificio (nuevo / existente) y de si existe ensayo de
-                permeabildad, n<sub>50</sub> (Blower-door) [m³/h·m²]
-              </li>
-            </ul>
-          </Col>
-        </Row>
-      </Col>
-    );
-  })
-);
+              editable={false}
+              columnClassName="td-column-readonly"
+              headerAlign="center"
+              dataAlign="center"
+            >
+              C<sub>o</sub>
+              <br />
+              <span style={{ fontWeight: "normal" }}>
+                [m<sup>3</sup>/h·m<sup>2</sup>]
+              </span>
+            </TableHeaderColumn>
+          </BootstrapTable>
+        </Col>
+      </Row>
+      <Row className="text-info small mt-3">
+        <Col>
+          <p>Donde:</p>
+          <ul>
+            <li>
+              <b>Grupo</b>: grupo de clasificación de las construcciones de
+              opacos
+            </li>
+            <li>
+              <b>e</b>: grosor total del conjunto de capas de la construcción
+            </li>
+            <li>
+              <b>
+                R<sub>e</sub>
+              </b>
+              : resistencia intrínseca (sin resistencias superficiales, solo de
+              las capas) del elemento (m²K/W)
+            </li>
+            <li>
+              <b>&alpha;</b>: absortividad térmica de la construcción [-]
+            </li>
+            <li>
+              <b>
+                C<sub>o;100</sub>
+              </b>
+              : coeficiente de permeabilidad de opacos a 100Pa. Depende del tipo
+              de edificio (nuevo / existente) y de si existe ensayo de
+              permeabildad, n<sub>50</sub> (Blower-door) [m³/h·m²]
+            </li>
+          </ul>
+        </Col>
+      </Row>
+    </Col>
+  );
+});
 
 export default WallConsTable;

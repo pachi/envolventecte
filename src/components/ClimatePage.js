@@ -24,8 +24,7 @@ SOFTWARE.
 import React from "react";
 import { Col, Container, Row, Tabs, Tab } from "react-bootstrap";
 
-import { observer, inject } from "mobx-react";
-// import mobx from 'mobx';
+import { observer } from "mobx-react-lite";
 // import DevTools from 'mobx-react-devtools';
 
 import Footer from "./Footer";
@@ -36,40 +35,38 @@ import ShadingFactorsTable from "./ShadingFactorsTable";
 import { OrientacionesSprite } from "./IconsOrientaciones";
 import { FshwithSprite } from "./IconsFshwith";
 
-const ClimatePage = inject("appstate")(
-  observer(({ appstate, route }) => {
-    const { climatedata } = appstate;
-    return (
-      <Container fluid>
-        <NavBar route={route} />
-        <OrientacionesSprite />
-        <FshwithSprite />
-        <Row>
-          <Col>
-            <Tabs defaultActiveKey={1} id="tabla-de-valores-radiacion">
-              <Tab
-                eventKey={1}
-                title="Radiación acumulada (H_sol;m)"
-                className="pt-3"
-              >
-                <JulyRadiationTable data={climatedata} />
-                <MonthlyRadiationTable data={climatedata} />
-              </Tab>
-              <Tab
-                eventKey={2}
-                title="Factores de reducción por sombras móviles (f_sh;with)"
-                className="pt-3"
-              >
-                <ShadingFactorsTable data={climatedata} />
-              </Tab>
-            </Tabs>
-          </Col>
-        </Row>
-        {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
-        <Footer />
-      </Container>
-    );
-  })
-);
+const ClimatePage = observer(({ appstate, route }) => {
+  const { climatedata } = appstate;
+  return (
+    <Container fluid>
+      <NavBar route={route} />
+      <OrientacionesSprite />
+      <FshwithSprite />
+      <Row>
+        <Col>
+          <Tabs defaultActiveKey={1} id="tabla-de-valores-radiacion">
+            <Tab
+              eventKey={1}
+              title="Radiación acumulada (H_sol;m)"
+              className="pt-3"
+            >
+              <JulyRadiationTable data={climatedata} />
+              <MonthlyRadiationTable data={climatedata} />
+            </Tab>
+            <Tab
+              eventKey={2}
+              title="Factores de reducción por sombras móviles (f_sh;with)"
+              className="pt-3"
+            >
+              <ShadingFactorsTable data={climatedata} />
+            </Tab>
+          </Tabs>
+        </Col>
+      </Row>
+      {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
+      <Footer />
+    </Container>
+  );
+});
 
 export default ClimatePage;

@@ -23,172 +23,174 @@ SOFTWARE.
 
 import React, { useRef } from "react";
 import { Col, Form, Container, Row } from "react-bootstrap";
-import { observer, inject } from "mobx-react";
+import { observer } from "mobx-react-lite";
 
 import Footer from "./Footer";
 import NavBar from "./Nav";
 import ClimateSelector from "./ClimateSelector";
 
-const MetaParams = inject("appstate")(
-  observer((props) => {
-    const hasblowerdoorref = useRef(null);
-    const { meta } = props.appstate;
-    return (
-      <>
-        <Row className="well">
-          <Col>
-            <h4>Datos generales</h4>
-            <Form>
-              <Form.Group controlId="formControlsName">
+const MetaParams = observer(({ appstate }) => {
+  const { meta } = appstate;
+  const hasblowerdoorref = useRef(null);
+  return (
+    <>
+      <Row className="well">
+        <Col>
+          <h4>Datos generales</h4>
+          <Form>
+            <Form.Group controlId="formControlsName">
+              <Col as={Form.Label} md={4}>
+                <b>Nombre del proyecto</b>
+              </Col>{" "}
+              <Col
+                as={Form.Control}
+                md={8}
+                value={meta.name}
+                onChange={(e) => (meta.name = e.target.value)}
+                placeholder="Nombre del proyecto"
+              />
+            </Form.Group>
+          </Form>
+          <h5>Clima</h5>
+          <ClimateSelector
+            appstate={appstate}
+            labelStyle={{ color: "inherit" }}
+            className="mr-auto"
+          />
+          <h5>Uso</h5>
+          <Form>
+            <Form.Check
+              checked={meta.is_new_building}
+              onChange={() => (meta.is_new_building = !meta.is_new_building)}
+              type="checkbox"
+              label="Es un edificio de nueva construcción"
+            />
+            <Form.Check
+              checked={meta.is_dwelling}
+              onChange={() => (meta.is_dwelling = !meta.is_dwelling)}
+              type="checkbox"
+              label="Es un edificio de uso residencial privado (vivienda)"
+            />
+            {meta.is_dwelling ? (
+              <Form.Group as={Row} controlId="formControlsNumberOfDwellings">
                 <Col as={Form.Label} md={4}>
-                  <b>Nombre del proyecto</b>
+                  Número de viviendas
                 </Col>{" "}
                 <Col
                   as={Form.Control}
-                  md={8}
-                  value={meta.name}
-                  onChange={(e) => (meta.name = e.target.value)}
-                  placeholder="Nombre del proyecto"
+                  md={4}
+                  type="number"
+                  value={meta.num_dwellings}
+                  onChange={(e) => (meta.num_dwellings = e.target.value)}
+                  placeholder="1"
                 />
               </Form.Group>
-            </Form>
-            <h5>Clima</h5>
-            <ClimateSelector labelColor="inherit" className="mr-auto" />
-            <h5>Uso</h5>
-            <Form>
-              <Form.Check
-                checked={meta.is_new_building}
-                onChange={() => (meta.is_new_building = !meta.is_new_building)}
-                type="checkbox"
-                label="Es un edificio de nueva construcción"
-              />
-              <Form.Check
-                checked={meta.is_dwelling}
-                onChange={() => (meta.is_dwelling = !meta.is_dwelling)}
-                type="checkbox"
-                label="Es un edificio de uso residencial privado (vivienda)"
-              />
-              {meta.is_dwelling ? (
-                <Form.Group as={Row} controlId="formControlsNumberOfDwellings">
-                  <Col as={Form.Label} md={4}>
-                    Número de viviendas
-                  </Col>{" "}
-                  <Col
-                    as={Form.Control}
-                    md={4}
-                    type="number"
-                    value={meta.num_dwellings}
-                    onChange={(e) => (meta.num_dwellings = e.target.value)}
-                    placeholder="1"
-                  />
-                </Form.Group>
-              ) : null}
-            </Form>
-            <h5>Ventilación e infiltraciones</h5>
-            <Form>
-              <Form.Check
-                defaultValue={meta.n50_test_ach}
-                onChange={(e) => {
-                  if (e.target.checked === false) {
-                    meta.n50_test_ach = null;
-                  } else {
-                    meta.n50_test_ach = 0.0;
-                  }
-                }}
-                type="checkbox"
-                label="¿Tiene ensayo de puerta soplante?"
-                ref={hasblowerdoorref}
-              />
-              {hasblowerdoorref.current && hasblowerdoorref.current.checked ? (
-                <Form.Group as={Row} controlId="formControlsn50">
-                  <Col as={Form.Label} md={4}>
-                    Tasa de intercambio de aire a 50 Pa (n<sub>50</sub>)
-                    obtenida de ensayo (renh)
-                  </Col>{" "}
-                  <Col
-                    as={Form.Control}
-                    md={4}
-                    type="number"
-                    defaultValue={meta.n50_test_ach}
-                    onChange={(e) => {
-                      if (hasblowerdoorref.current.checked === true) {
-                        meta.n50_test_ach = e.target.value;
-                      } else {
-                        meta.n50_test_ach = null;
-                      }
-                    }}
-                    placeholder="0.0"
-                    step="0.01"
-                  />
-                </Form.Group>
-              ) : null}
-              {meta.is_dwelling ? (
-                <Form.Group as={Row} controlId="formControlsGlobalVentilation">
-                  <Col as={Form.Label} md={4}>
-                    Ventilación global de diseño del edificio (l/s)
-                  </Col>{" "}
-                  <Col
-                    as={Form.Control}
-                    md={4}
-                    type="number"
-                    value={meta.global_ventilation_l_s}
-                    onChange={(e) =>
-                      (meta.global_ventilation_l_s = e.target.value)
+            ) : null}
+          </Form>
+          <h5>Ventilación e infiltraciones</h5>
+          <Form>
+            <Form.Check
+              defaultValue={meta.n50_test_ach}
+              onChange={(e) => {
+                if (e.target.checked === false) {
+                  meta.n50_test_ach = null;
+                } else {
+                  meta.n50_test_ach = 0.0;
+                }
+              }}
+              type="checkbox"
+              label="¿Tiene ensayo de puerta soplante?"
+              ref={hasblowerdoorref}
+            />
+            {hasblowerdoorref.current && hasblowerdoorref.current.checked ? (
+              <Form.Group as={Row} controlId="formControlsn50">
+                <Col as={Form.Label} md={4}>
+                  Tasa de intercambio de aire a 50 Pa (n<sub>50</sub>) obtenida
+                  de ensayo (renh)
+                </Col>{" "}
+                <Col
+                  as={Form.Control}
+                  md={4}
+                  type="number"
+                  defaultValue={meta.n50_test_ach}
+                  onChange={(e) => {
+                    if (hasblowerdoorref.current.checked === true) {
+                      meta.n50_test_ach = e.target.value;
+                    } else {
+                      meta.n50_test_ach = null;
                     }
-                    placeholder="0.0"
-                    step="0.1"
-                  />
-                </Form.Group>
-              ) : null}
-            </Form>
-
-            <h5>Aislamiento perimetral en soleras</h5>
-
-            <Form>
-              <Form.Group as={Row} controlId="formControlsd_perim_insulation">
-                <Col as={Form.Label} md={4}>
-                  Ancho del aislamiento perimetral (m)
-                </Col>{" "}
-                <Col
-                  as={Form.Control}
-                  md={4}
-                  type="number"
-                  value={meta.d_perim_insulation}
-                  onChange={(e) => {
-                    meta.d_perim_insulation = e.target.value;
                   }}
                   placeholder="0.0"
                   step="0.01"
                 />
               </Form.Group>
-              <Form.Group as={Row} controlId="formControlsd_perim_insulation">
+            ) : null}
+            {meta.is_dwelling ? (
+              <Form.Group as={Row} controlId="formControlsGlobalVentilation">
                 <Col as={Form.Label} md={4}>
-                  Resistencia térmica del aislamiento perimetral (m²K/W)
+                  Ventilación global de diseño del edificio (l/s)
                 </Col>{" "}
                 <Col
                   as={Form.Control}
                   md={4}
                   type="number"
-                  value={meta.rn_perim_insulation}
-                  onChange={(e) => {
-                    meta.rn_perim_insulation = e.target.value;
-                  }}
+                  value={meta.global_ventilation_l_s}
+                  onChange={(e) =>
+                    (meta.global_ventilation_l_s = e.target.value)
+                  }
                   placeholder="0.0"
-                  step="0.01"
+                  step="0.1"
                 />
               </Form.Group>
-            </Form>
-          </Col>
-        </Row>
-      </>
-    );
-  })
-);
+            ) : null}
+          </Form>
 
-const MetaPage = (props) => (
+          <h5>Aislamiento perimetral en soleras</h5>
+
+          <Form>
+            <Form.Group as={Row} controlId="formControlsd_perim_insulation">
+              <Col as={Form.Label} md={4}>
+                Ancho del aislamiento perimetral (m)
+              </Col>{" "}
+              <Col
+                as={Form.Control}
+                md={4}
+                type="number"
+                value={meta.d_perim_insulation}
+                onChange={(e) => {
+                  meta.d_perim_insulation = e.target.value;
+                }}
+                placeholder="0.0"
+                step="0.01"
+              />
+            </Form.Group>
+            <Form.Group as={Row} controlId="formControlsd_perim_insulation">
+              <Col as={Form.Label} md={4}>
+                Resistencia térmica del aislamiento perimetral (m²K/W)
+              </Col>{" "}
+              <Col
+                as={Form.Control}
+                md={4}
+                type="number"
+                value={meta.rn_perim_insulation}
+                onChange={(e) => {
+                  meta.rn_perim_insulation = e.target.value;
+                }}
+                placeholder="0.0"
+                step="0.01"
+              />
+            </Form.Group>
+          </Form>
+        </Col>
+      </Row>
+    </>
+  );
+});
+
+const MetaPage = ({ appstate, route }) => (
   <Container fluid>
-    <NavBar route={props.route} />
-    <MetaParams />
+    <NavBar route={route} />
+    <MetaParams appstate={appstate} />
     {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
     <Footer />
   </Container>

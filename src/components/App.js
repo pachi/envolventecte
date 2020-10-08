@@ -23,7 +23,6 @@ SOFTWARE.
 
 import React from "react";
 import { HashRouter, Redirect, Route, Switch } from "react-router-dom";
-import { Provider } from "mobx-react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "bootstrap/dist/css/bootstrap-theme.css";
@@ -39,26 +38,49 @@ import BuildingPage from "./BuildingPage";
 import HelpPage from "./HelpPage";
 import MainPage from "./MainPage";
 
-const stores = {
-  appstate: new AppState(),
-  // ...other stores
-};
+const appstate = new AppState();
 
 const App = (props) => (
-  <Provider {...stores}>
-    <HashRouter>
-      <Switch>
-        <Route exact path="/" component={MainPage} />
-        <Route exact path="/meta" component={MetaPage} />
-        <Route exact path="/building" component={BuildingPage} />
-        <Route exact path="/climate" component={ClimatePage} />
-        <Route exact path="/elements" component={ElementsPage} />
-        <Route exact path="/help" component={HelpPage} />
-        <Route exact path="/about" component={AboutPage} />
-        <Route path="*" render={() => <Redirect to="/" />} />
-      </Switch>
-    </HashRouter>
-  </Provider>
+  <HashRouter>
+    <Switch>
+      <Route
+        exact
+        path="/"
+        render={(props) => <MainPage appstate={appstate} {...props} />}
+      />
+      <Route
+        exact
+        path="/meta"
+        render={(props) => <MetaPage appstate={appstate} {...props} />}
+      />
+      <Route
+        exact
+        path="/building"
+        render={(props) => <BuildingPage appstate={appstate} {...props} />}
+      />
+      <Route
+        exact
+        path="/climate"
+        render={(props) => <ClimatePage appstate={appstate} {...props} />}
+      />
+      <Route
+        exact
+        path="/elements"
+        render={(props) => <ElementsPage appstate={appstate} {...props} />}
+      />
+      <Route
+        exact
+        path="/help"
+        render={(props) => <HelpPage appstate={appstate} {...props} />}
+      />
+      <Route
+        exact
+        path="/about"
+        render={(props) => <AboutPage appstate={appstate} {...props} />}
+      />
+      <Route path="*" render={() => <Redirect to="/" />} />
+    </Switch>
+  </HashRouter>
 );
 
 export default App;
