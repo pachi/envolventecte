@@ -57,11 +57,11 @@ const HuecosParams = (props) => {
   const vidrio = ACRISTALAMIENTOS.tipos.find((v) => v.name === tipovidrio);
   const F_w = ACRISTALAMIENTOS.propiedades.F_w;
   return (
-    <Col>
+    <>
       <Row className="well">
         <Col>
           <Form>
-            <Form.Group controlId="formControlsGlassType">
+            <Form.Group as={Row} controlId="formControlsGlassType">
               <Col as={Form.Label} md={4}>
                 Tipo de vidrio:
               </Col>{" "}
@@ -80,7 +80,7 @@ const HuecosParams = (props) => {
                 </Form.Control>
               </Col>
             </Form.Group>
-            <Form.Group controlId="formControlsHasShading">
+            <Form.Group as={Row} controlId="formControlsHasShading">
               <Col as={Form.Label} md={4}>
                 Dispositivo de protección solar móvil:
               </Col>{" "}
@@ -117,7 +117,7 @@ const HuecosParams = (props) => {
           />
         </Col>
       </Row>
-    </Col>
+    </>
   );
 };
 
@@ -145,12 +145,12 @@ const SombrasForm = ({ tau_e_B, setTau_e_B, rho_e_B, setRho_e_B }) => {
   }, [setTau_e_B, setRho_e_B, opacidad, color]);
 
   return (
-    <React.Fragment>
-      <Form.Group controlId="formControlsShadingTransparency">
-        <Col as={Form.Label} md={6}>
+    <>
+      <Form.Group as={Row} controlId="formControlsShadingTransparency">
+        <Form.Label column md={4}>
           Opacidad del dispositivo de sombra móvil:
-        </Col>{" "}
-        <Col md={4}>
+        </Form.Label>{" "}
+        <Col md={6}>
           <Form.Control
             value={opacidad}
             onChange={(e) => {
@@ -169,9 +169,9 @@ const SombrasForm = ({ tau_e_B, setTau_e_B, rho_e_B, setRho_e_B }) => {
             ))}
           </Form.Control>
         </Col>
-        <Col as={Form.Label} md={1}>
+        <Form.Label column md={1}>
           &tau;<sub>e,B</sub>:
-        </Col>
+        </Form.Label>
         <Col md={1}>
           <Form.Control
             readOnly
@@ -181,11 +181,11 @@ const SombrasForm = ({ tau_e_B, setTau_e_B, rho_e_B, setRho_e_B }) => {
           />
         </Col>
       </Form.Group>
-      <Form.Group controlId="formControlsShadingColor">
-        <Col as={Form.Label} md={6}>
+      <Form.Group as={Row} controlId="formControlsShadingColor">
+        <Form.Label column md={4}>
           Color del dispositivo de sombra móvil:
-        </Col>{" "}
-        <Col md={4}>
+        </Form.Label>{" "}
+        <Col md={6}>
           <Form.Control
             value={color}
             onChange={(e) => {
@@ -201,9 +201,9 @@ const SombrasForm = ({ tau_e_B, setTau_e_B, rho_e_B, setRho_e_B }) => {
             ))}
           </Form.Control>
         </Col>
-        <Col as={Form.Label} md={1}>
+        <Form.Label column md={1}>
           &rho;<sub>e,B</sub>:
-        </Col>
+        </Form.Label>
         <Col md={1}>
           <Form.Control
             readOnly
@@ -213,7 +213,7 @@ const SombrasForm = ({ tau_e_B, setTau_e_B, rho_e_B, setRho_e_B }) => {
           />
         </Col>
       </Form.Group>
-    </React.Fragment>
+    </>
   );
 };
 
