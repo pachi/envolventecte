@@ -22,11 +22,9 @@ SOFTWARE.
 */
 
 import React, { useRef } from "react";
-import { Col, Form, Container, Row } from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
-import Footer from "./Footer";
-import NavBar from "./Nav";
 import ClimateSelector from "./ClimateSelector";
 
 const MetaParams = observer(({ appstate }) => {
@@ -187,13 +185,4 @@ const MetaParams = observer(({ appstate }) => {
   );
 });
 
-const MetaPage = ({ appstate, route }) => (
-  <Container fluid>
-    <NavBar route={route} />
-    <MetaParams appstate={appstate} />
-    {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
-    <Footer />
-  </Container>
-);
-
-export default MetaPage;
+export default MetaParams;

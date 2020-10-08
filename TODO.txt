@@ -1,4 +1,3 @@
-- Mover datos generales a Edificio (BuildingPage)
 - Recuperar id y usar name como display_name en todas las tablas:
     - Al editar, antes de confirmar, comprobar si el nombre ya existe, y en ese caso añadir un número extra
         - Ver hooks for cell edit (onBeforeSaveCell y afterSaveCell)

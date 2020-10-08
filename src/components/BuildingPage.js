@@ -35,6 +35,7 @@ import NavBar from "./Nav";
 import OpacosTable from "./OpacosTable";
 import PTsTable from "./PTsTable";
 import SpacesTable from "./SpacesTable";
+import MetaParams from "./MetaParams";
 
 const BuildingPage = ({ appstate, route }) => (
   <Container fluid>
@@ -65,8 +66,10 @@ const BuildingPage = ({ appstate, route }) => (
           <Tab eventKey={6} title="Construcciones de huecos" className="pt-3">
             <WinConsTable appstate={appstate} />
           </Tab>
-
-          <Tab eventKey={7} title="Carga / descarga de datos" className="pt-3">
+          <Tab eventKey={7} title="Datos generales" className="pt-3">
+            <MetaParams appstate={appstate} />
+          </Tab>
+          <Tab eventKey={8} title="Carga / descarga de datos" className="pt-3">
             <DownloadUpload appstate={appstate} />
           </Tab>
         </Tabs>

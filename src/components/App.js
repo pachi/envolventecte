@@ -31,7 +31,6 @@ import "react-bootstrap-table/dist/react-bootstrap-table-all.min.css";
 import AppState from "../stores/AppState";
 
 import AboutPage from "./AboutPage";
-import MetaPage from "./MetaPage";
 import ClimatePage from "./ClimatePage";
 import ElementsPage from "./ElementsPage";
 import BuildingPage from "./BuildingPage";
@@ -47,11 +46,6 @@ const App = (props) => (
         exact
         path="/"
         render={(props) => <MainPage appstate={appstate} {...props} />}
-      />
-      <Route
-        exact
-        path="/meta"
-        render={(props) => <MetaPage appstate={appstate} {...props} />}
       />
       <Route
         exact

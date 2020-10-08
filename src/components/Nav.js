@@ -41,9 +41,6 @@ const NavBar = ({ projectName = "Envolvente CTE" }) => (
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav>
-        <LinkContainer to="/meta" eventKey={1}>
-          <Nav.Link>Datos generales</Nav.Link>
-        </LinkContainer>
         <LinkContainer to="/building" eventKey={2}>
           <Nav.Link>Edificio</Nav.Link>
         </LinkContainer>
