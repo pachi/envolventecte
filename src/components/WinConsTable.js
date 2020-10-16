@@ -34,7 +34,7 @@ const Float2DigitsFormatter = (cell, _row) => (
 
 const WinConsTable = observer(({ appstate }) => {
   const [selected, setSelected] = useState([]);
-  const wincons = Object.values(appstate.wincons);
+  const { wincons } = appstate;
 
   return (
     <Col>
@@ -78,21 +78,20 @@ const WinConsTable = observer(({ appstate }) => {
               selected: selected,
               onSelect: (row, isSelected) => {
                 if (isSelected) {
-                  setSelected([...selected, row.name]);
+                  setSelected([...selected, row.id]);
                 } else {
-                  setSelected(selected.filter((it) => it !== row.name));
+                  setSelected(selected.filter((it) => it !== row.id));
                 }
               },
               hideSelectColumn: true,
               bgColor: "lightgray",
             }}
           >
-            {/* <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-                    - ID -{" "}
-                  </TableHeaderColumn> */}
+            <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
+              - ID -{" "}
+            </TableHeaderColumn>
             <TableHeaderColumn
               dataField="name"
-              isKey={true}
               headerText="Nombre que identifica de forma única la construcción de hueco"
               width="30%"
             >

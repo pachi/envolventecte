@@ -1,10 +1,12 @@
-- Recuperar id y usar name como display_name en todas las tablas?
-- Revisar acciones de agrupar opacos y huecos (y pensar qué significa con espacios)
-- Revisar añadir, copiar y eliminar filas ahora que tenemos diccionarios y no listas
-- Al editar nombres de elementos, actualizar referencias en otros elementos
+- Arreglar eliminar, añadir y duplicar elementos
+    - Es necesario poder manejar referencias nulas (avisos) en elementos también en wasm
+    - Ver cómo se corrigen elementos a los que hay referencias (no dejar si hay referencias, p.e. y dar aviso)
+- Agrupar espacios
 - Mostrar inclinación como icono (y también azimuth)
 - Mover a utils.js diccionarios de tipos de condiciones de contorno, espacios, climas, orientaciones, etc.
 - Llevar a wasm:
+    - Comprobación de si un elemento está dentro o fuera de la ET
+    - Datos de clima?
     - U de elementos
     - valores parciales de A y AU de opacos y huecos, y Psi.L
 - comprobar resultados de edición con wasm y ver qué ocurre con caso vacío.

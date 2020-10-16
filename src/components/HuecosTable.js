@@ -28,7 +28,7 @@ import { observer } from "mobx-react-lite";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 import icongroup from "./img/outline-add_comment-24px.svg";
-import { azimuth_name, tilt_name } from "../utils";
+import { azimuth_name, tilt_name, wall_is_inside_tenv } from "../utils";
 
 const Float2DigitsFormatter = (cell, _row) => (
   <span>{Number(cell).toFixed(2)}</span>
@@ -36,46 +36,46 @@ const Float2DigitsFormatter = (cell, _row) => (
 
 const HuecosTable = observer(({ appstate }) => {
   const [selected, setSelected] = useState([]);
-  const {
-    spaces,
-    walls,
-    windows: windows_obj,
-    wincons,
-    huecosA,
-    huecosAU,
-  } = appstate;
-  const windows = Object.values(windows_obj);
+  const { spaces, walls, windows, wincons, huecosA, huecosAU } = appstate;
 
-  const WindowOrientationFormatter = (cell, _row) => (
-    <span>{azimuth_name(walls[cell].azimuth)}</span>
-  );
+  const WindowOrientationFormatter = (cell, _row) => {
+    const wall = walls.find((s) => s.id === cell);
+    return <span>{azimuth_name(wall.azimuth)}</span>;
+  };
 
-  const WindowTiltFormatter = (cell, _row) => (
-    <span>{tilt_name(walls[cell].tilt)}</span>
-  );
+  const WindowTiltFormatter = (cell, _row) => {
+    const wall = walls.find((s) => s.id === cell);
+    return <span>{tilt_name(wall.tilt)}</span>;
+  };
 
-  const is_outside_tenv = {};
+  // Diccionario para determinar si el hueco está o no dentro de la ET
+  const is_outside_tenv = new Map();
   windows.forEach((win) => {
-    const w = walls[win.wall];
-    // Identifica si el muro del hueco está en el interior de la envolvente térmica
-    if (w.bounds !== "INTERIOR" && spaces[w.space].inside_tenv !== true) {
-      is_outside_tenv[win.name] = "outsidetenv";
-    } else if (
-      w.bounds === "INTERIOR" &&
-      spaces[w.space].inside_tenv === spaces[w.nextto].inside_tenv
-    ) {
-      is_outside_tenv[win.name] = "outsidetenv";
+    const w = walls.find((w) => w.id === win.wall);
+    // 1. No tiene definido muro -> fuera
+    if (w === undefined) {
+      is_outside_tenv[win.id] = "outsidetenv";
     } else {
-      is_outside_tenv[win.name] = null;
+      const wall_inside_tenv = wall_is_inside_tenv(w, spaces);
+      is_outside_tenv[win.id] = wall_inside_tenv ? null : "outsidetenv";
     }
   });
 
-  const winconsOptions = [
-    ...new Set(Object.values(wincons).map((s) => s.name)),
-  ].sort();
-  const wallOptions = [
-    ...new Set(Object.values(walls).map((s) => s.name)),
-  ].sort();
+  // Formato y opciones de construcciones de huecos
+  const winconsMap = new Map();
+  wincons.map((s) => (winconsMap[s.id] = s.name));
+  const WinconsFormatter = (cell, _row) => <span>{winconsMap[cell]}</span>;
+  const WinconsOptions = Object.keys(winconsMap).map((k) => {
+    return { text: winconsMap[k], value: k };
+  });
+
+  // Formato y opciones de opacos
+  const wallsMap = new Map();
+  walls.map((s) => (wallsMap[s.id] = s.name));
+  const WallsFormatter = (cell, _row) => <span>{wallsMap[cell]}</span>;
+  const WallsOptions = Object.keys(wallsMap).map((k) => {
+    return { text: wallsMap[k], value: k };
+  });
 
   return (
     <Col>
@@ -129,22 +129,21 @@ const HuecosTable = observer(({ appstate }) => {
               selected: selected,
               onSelect: (row, isSelected) => {
                 if (isSelected) {
-                  setSelected([...selected, row.name]);
+                  setSelected([...selected, row.id]);
                 } else {
-                  setSelected(selected.filter((it) => it !== row.name));
+                  setSelected(selected.filter((it) => it !== row.id));
                 }
               },
               hideSelectColumn: true,
               bgColor: "lightgray",
             }}
-            trClassName={(row, rowIdx) => is_outside_tenv[row.name]}
+            trClassName={(row, rowIdx) => is_outside_tenv[row.id]}
           >
-            {/* <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-                    - ID -{" "}
-                  </TableHeaderColumn> */}
+            <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
+              - ID -{" "}
+            </TableHeaderColumn>
             <TableHeaderColumn
               dataField="name"
-              isKey={true}
               headerText="Nombre que identifica de forma única el hueco"
               width="30%"
             >
@@ -167,24 +166,26 @@ const HuecosTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="cons"
+              dataFormat={WinconsFormatter}
               headerText="Construcción del hueco"
               headerAlign="center"
               dataAlign="center"
               editable={{
                 type: "select",
-                options: { values: winconsOptions },
+                options: { values: WinconsOptions },
               }}
             >
               Construcción
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="wall"
+              dataFormat={WallsFormatter}
               headerText="Opaco al que pertenece el hueco"
               headerAlign="center"
               dataAlign="center"
               editable={{
                 type: "select",
-                options: { values: wallOptions },
+                options: { values: WallsOptions },
               }}
             >
               Opaco

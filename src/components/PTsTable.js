@@ -90,21 +90,20 @@ const PTsTable = observer(({ appstate }) => {
               selected: selected,
               onSelect: (row, isSelected) => {
                 if (isSelected) {
-                  setSelected([...selected, row.name]);
+                  setSelected([...selected, row.id]);
                 } else {
-                  setSelected(selected.filter((it) => it !== row.name));
+                  setSelected(selected.filter((it) => it !== row.id));
                 }
               },
               hideSelectColumn: true,
               bgColor: "lightgray",
             }}
           >
-            {/* <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-                    - ID -{" "}
-                  </TableHeaderColumn> */}
+            <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
+              - ID -{" "}
+            </TableHeaderColumn>
             <TableHeaderColumn
               dataField="name"
-              isKey={true}
               headerText="Nombre que identifica de forma única el puente térmico"
               width="30%"
             >

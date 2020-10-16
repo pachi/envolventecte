@@ -23,25 +23,38 @@ SOFTWARE.
 
 import { uuidv4 } from "../utils.js";
 
-export const DEFAULT_WINDOW = () => ({
+export const DEFAULT_SPACE = () => ({
   id: uuidv4(),
-  name: `Hueco_${uuidv4()}`,
-  cons: null,
-  wall: null,
-  A: 1.0,
-  Fshobst: 1.0,
+  name: `Espacio_${uuidv4()}`,
+  area: 1.0,
+  multiplier: 1.0,
+  type: "CONDITIONED",
+  inside_tenv: true,
+  height: 3.0,
+  n_v: null,
+  z: 0.0,
+  exposed_perimeter: 0.0,
 });
 
 export const DEFAULT_WALL = () => ({
   id: uuidv4(),
   name: `Elemento_opaco_${uuidv4()}`,
+  A: 1.0,
+  bounds: "EXTERIOR",
   cons: null,
   space: null,
   nextto: null,
-  bounds: "EXTERIOR",
-  A: 1.0,
   azimuth: 0.0,
   tilt: 90.0,
+});
+
+export const DEFAULT_WINDOW = () => ({
+  id: uuidv4(),
+  name: `Hueco_${uuidv4()}`,
+  A: 1.0,
+  cons: null,
+  wall: null,
+  fshobst: 1.0,
 });
 
 export const DEFAULT_TB = () => ({
@@ -49,20 +62,6 @@ export const DEFAULT_TB = () => ({
   name: `PT_${uuidv4()}`,
   L: 1.0,
   psi: 0.05,
-});
-
-export const DEFAULT_SPACE = () => ({
-  id: uuidv4(),
-  name: `Espacio_${uuidv4()}`,
-  area: 1.0,
-  z: 0.0,
-  exposed_perimeter: 0.0,
-  height_net: 2.7,
-  height_gross: 3.0,
-  inside_tenv: true,
-  multiplier: 1.0,
-  type: "CONDITIONED",
-  n_v: null,
 });
 
 export const DEFAULT_WALLCONS = () => ({

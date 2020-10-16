@@ -109,7 +109,6 @@ const NVEditor = React.forwardRef((props, ref) => {
 
 const SpacesTable = observer(({ appstate: { spaces, newSpace } }) => {
   const [selected, setSelected] = useState([]);
-  const spaces_values = Object.values(spaces);
 
   return (
     <Col>
@@ -119,7 +118,7 @@ const SpacesTable = observer(({ appstate: { spaces, newSpace } }) => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            objects={spaces_values}
+            objects={spaces}
             newObj={newSpace}
             selected={selected}
             clear={() => setSelected([])}
@@ -129,7 +128,7 @@ const SpacesTable = observer(({ appstate: { spaces, newSpace } }) => {
       <Row>
         <Col>
           <BootstrapTable
-            data={spaces_values}
+            data={spaces}
             version="4"
             striped
             hover
@@ -160,9 +159,9 @@ const SpacesTable = observer(({ appstate: { spaces, newSpace } }) => {
               selected: selected,
               onSelect: (row, isSelected) => {
                 if (isSelected) {
-                  setSelected([...selected, row.name]);
+                  setSelected([...selected, row.id]);
                 } else {
-                  setSelected(selected.filter((it) => it !== row.name));
+                  setSelected(selected.filter((it) => it !== row.id));
                 }
               },
               hideSelectColumn: true,
@@ -172,12 +171,11 @@ const SpacesTable = observer(({ appstate: { spaces, newSpace } }) => {
               row.inside_tenv ? null : "outsidetenv"
             }
           >
-            {/* <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-                - ID -{" "}
-              </TableHeaderColumn> */}
+            <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
+              - ID -{" "}
+            </TableHeaderColumn>
             <TableHeaderColumn
               dataField="name"
-              isKey={true}
               headerText="Nombre del espacio"
               width="30%"
             >

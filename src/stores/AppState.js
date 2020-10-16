@@ -43,29 +43,6 @@ configure({
   enforceActions: "never",
 });
 
-// Añade id's a archivo de ejemplo
-const { spaces, walls, windows, thermal_bridges, wallcons, wincons } = example;
-
-// Añade id's
-for (const win in windows) {
-  windows[win].id = uuidv4();
-}
-for (const wall in walls) {
-  walls[wall].id = uuidv4();
-}
-for (const tb in thermal_bridges) {
-  thermal_bridges[tb].id = uuidv4();
-}
-for (const sp in spaces) {
-  spaces[sp].id = uuidv4();
-}
-for (const c in wallcons) {
-  wallcons[c].id = uuidv4();
-}
-for (const c in wincons) {
-  wincons[c].id = uuidv4();
-}
-
 export default class AppState {
   // Datos climáticos --------
 
@@ -152,15 +129,15 @@ export default class AppState {
   }
 
   get he1_indicators() {
-    const { meta, thermal_bridges, walls, windows, spaces } = this;
-
-    // Eliminamos ids
-    Object.values(windows).forEach((e) => delete e.id);
-    Object.values(walls).forEach((e) => delete e.id);
-    Object.values(thermal_bridges).forEach((e) => delete e.id);
-    Object.values(spaces).forEach((e) => delete e.id);
-    Object.values(wallcons).forEach((e) => delete e.id);
-    Object.values(wincons).forEach((e) => delete e.id);
+    const {
+      meta,
+      thermal_bridges,
+      walls,
+      windows,
+      spaces,
+      wallcons,
+      wincons,
+    } = this;
 
     const model = {
       meta,
@@ -186,19 +163,17 @@ export default class AppState {
 
   // Propiedades de datos de envolvente ---------
   get huecosA() {
-    return Object.values(this.windows)
-      .map((h) => Number(h.A))
-      .reduce((a, b) => a + b, 0);
+    return this.windows.map((h) => Number(h.A)).reduce((a, b) => a + b, 0);
   }
 
   get huecosAU() {
-    return Object.values(this.windows)
+    return this.windows
       .map((h) => Number(h.A) * Number(h.U))
       .reduce((a, b) => a + b, 0);
   }
 
   get opacosA() {
-    return Object.values(this.walls)
+    return this.walls
       .map(
         (o) =>
           (o.bounds === "EXTERIOR" || o.bounds === "GROUND" ? 1.0 : 0.0) *
@@ -209,7 +184,7 @@ export default class AppState {
   }
 
   get opacosAU() {
-    return Object.values(this.walls)
+    return this.walls
       .map(
         (o) =>
           (o.bounds === "EXTERIOR" || o.bounds === "GROUND" ? 1.0 : 0.0) *
@@ -220,13 +195,13 @@ export default class AppState {
   }
 
   get ptsL() {
-    return Object.values(this.thermal_bridges)
+    return this.thermal_bridges
       .map((h) => Number(h.L))
       .reduce((a, b) => a + b, 0);
   }
 
   get ptsPsiL() {
-    return Object.values(this.thermal_bridges)
+    return this.thermal_bridges
       .map((h) => Number(h.L) * Number(h.psi))
       .reduce((a, b) => a + b, 0);
   }
@@ -243,19 +218,13 @@ export default class AppState {
 
   // Agrupa superficie de huecos por tipos
   agrupaHuecos() {
-    // TODO: esto no es correcto mientras no arreglemos los tipos
-    const isequal = (h1, h2) =>
-      h1.orientation === h2.orientation &&
-      Number(h1.Ff) === Number(h2.Ff) &&
-      Number(h1.U) === Number(h2.U) &&
-      Number(h1.gglshwi) === Number(h2.gglshwi) &&
-      Number(h1.gglwi) === Number(h2.gglwi);
+    const isequal = (h1, h2) => h1.cons === h2.cons && h1.wall === h2.wall;
     const huecosagrupados = [];
-    for (let hueco of Object.values(this.windows)) {
+    for (let hueco of this.windows) {
       const h = huecosagrupados.find((e) => isequal(hueco, e));
       if (h) {
-        h.Fshobst =
-          (1.0 * (h.Fshobst * h.A + hueco.Fshobst * hueco.A)) / (h.A + hueco.A);
+        h.fshobst =
+          (1.0 * (h.fshobst * h.A + hueco.fshobst * hueco.A)) / (h.A + hueco.A);
         h.A = 0.0 + h.A + hueco.A;
         h.name = h.name + ", " + hueco.name;
         h.id = uuidv4();
@@ -263,33 +232,45 @@ export default class AppState {
         huecosagrupados.push(hueco);
       }
     }
-    this.windows = Object.fromEntries(huecosagrupados.map((e) => [e.name, e]));
+    this.windows = huecosagrupados;
   }
 
-  // Agrupa superficie de opacos por tipos
+  // Agrupa superficie de opacos por tipos (y reescribimos referencias en huecos)
   agrupaOpacos() {
-    // TODO: esto no es correcto mientras no arreglemos los tipos
     const isequal = (o1, o2) =>
-      Number(o1.U) === Number(o2.U) && o1.bounds === o2.bounds;
+      o1.bounds === o2.bounds &&
+      o1.cons === o2.cons &&
+      o1.space === o2.space &&
+      o1.nextto === o2.nextto &&
+      o1.azimuth === o2.azimuth &&
+      o1.tilt === o2.tilt;
     const opacosagrupados = [];
-    for (let opaco of Object.values(this.walls)) {
+    for (let opaco of this.walls) {
       const o = opacosagrupados.find((e) => isequal(opaco, e));
       if (o) {
+        const oldid = o.id;
+        const newid = uuidv4();
         o.A = o.A + opaco.A;
         o.name = o.name + ", " + opaco.name;
-        o.id = uuidv4();
+        o.id = newid;
+        // Reescribimos referencias a los anteriores id
+        this.windows.forEach((w) => {
+          if (w.wall === oldid || w.wall === opaco.id) {
+            w.wall = newid;
+          }
+        });
       } else {
         opacosagrupados.push(opaco);
       }
     }
-    this.walls = Object.fromEntries(opacosagrupados.map((e) => [e.name, e]));
+    this.walls = opacosagrupados;
   }
 
   // Agrupa longitudes de puentes térmicos por tipos
   agrupaPts() {
     const isequal = (p1, p2) => Number(p1.psi) === Number(p2.psi);
     const ptsagrupados = [];
-    for (let pt of Object.values(this.thermal_bridges)) {
+    for (let pt of this.thermal_bridges) {
       const p = ptsagrupados.find((e) => isequal(pt, e));
       if (p) {
         p.A = p.L + pt.L;
@@ -299,24 +280,22 @@ export default class AppState {
         ptsagrupados.push(pt);
       }
     }
-    this.thermal_bridges = Object.fromEntries(
-      ptsagrupados.map((e) => [e.name, e])
-    );
+    this.thermal_bridges = ptsagrupados;
   }
 
   // Importación y exportación de datos -------------
 
   // Serialización de los datos
   get asJSON() {
-    const { meta, thermal_bridges, walls, windows, spaces } = this;
-
-    // Eliminamos ids
-    Object.values(windows).forEach((e) => delete e.id);
-    Object.values(walls).forEach((e) => delete e.id);
-    Object.values(thermal_bridges).forEach((e) => delete e.id);
-    Object.values(spaces).forEach((e) => delete e.id);
-    Object.values(wallcons).forEach((e) => delete e.id);
-    Object.values(wincons).forEach((e) => delete e.id);
+    const {
+      meta,
+      spaces,
+      walls,
+      windows,
+      thermal_bridges,
+      wallcons,
+      wincons,
+    } = this;
 
     return JSON.stringify(
       { meta, spaces, walls, windows, thermal_bridges, wallcons, wincons },
@@ -340,36 +319,16 @@ export default class AppState {
       } = JSON.parse(data);
       if (
         !(
-          typeof windows === "object" &&
-          typeof walls === "object" &&
-          typeof thermal_bridges === "object" &&
-          typeof spaces === "object" &&
-          typeof wallcons === "object" &&
-          typeof wincons === "object"
+          Array.isArray(windows) &&
+          Array.isArray(walls) &&
+          Array.isArray(thermal_bridges) &&
+          Array.isArray(spaces) &&
+          Array.isArray(wallcons) &&
+          Array.isArray(wincons)
         )
       ) {
         throw UserException("Formato incorrecto");
       }
-
-      // Añade id's
-      Object.values(windows).forEach((e) => {
-        e.id = uuidv4();
-      });
-      Object.values(walls).forEach((e) => {
-        e.id = uuidv4();
-      });
-      Object.values(thermal_bridges).forEach((e) => {
-        e.id = uuidv4();
-      });
-      Object.values(spaces).forEach((e) => {
-        e.id = uuidv4();
-      });
-      Object.values(wallcons).forEach((e) => {
-        e.id = uuidv4();
-      });
-      Object.values(wincons).forEach((e) => {
-        e.id = uuidv4();
-      });
 
       // Almacena en store datos
       this.meta = meta;
@@ -384,15 +343,7 @@ export default class AppState {
         { type: "SUCCESS", msg: "Datos cargados correctamente." },
         {
           type: "INFO",
-          msg: `Clima ${meta.climate}, Cargados ${
-            Object.values(spaces).length
-          } espacios, ${Object.values(walls).length} opacos, ${
-            Object.values(windows).length
-          } huecos, ${Object.values(thermal_bridges).length} PTs, ${
-            Object.values(wallcons).length
-          } construcciones de opacos y ${
-            Object.values(wincons).length
-          } construcciones de huecos`,
+          msg: `Clima ${meta.climate}, Cargados ${spaces.length} espacios, ${walls.length} opacos, ${windows.length} huecos, ${thermal_bridges.length} PTs, ${wallcons.length} construcciones de opacos y ${wincons.length} construcciones de huecos`,
         },
       ];
     } catch (err) {

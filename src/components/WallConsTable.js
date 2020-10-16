@@ -34,7 +34,7 @@ const Float2DigitsFormatter = (cell, _row) => (
 
 const WallConsTable = observer(({ appstate }) => {
   const [selected, setSelected] = useState([]);
-  const wallcons = Object.values(appstate.wallcons);
+  const { wallcons } = appstate;
 
   return (
     <Col>
@@ -78,21 +78,20 @@ const WallConsTable = observer(({ appstate }) => {
               selected: selected,
               onSelect: (row, isSelected) => {
                 if (isSelected) {
-                  setSelected([...selected, row.name]);
+                  setSelected([...selected, row.id]);
                 } else {
-                  setSelected(selected.filter((it) => it !== row.name));
+                  setSelected(selected.filter((it) => it !== row.id));
                 }
               },
               hideSelectColumn: true,
               bgColor: "lightgray",
             }}
           >
-            {/* <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-                    - ID -{" "}
-                  </TableHeaderColumn> */}
+            <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
+              - ID -{" "}
+            </TableHeaderColumn>
             <TableHeaderColumn
               dataField="name"
-              isKey={true}
               headerText="Nombre que identifica de forma única la construcción de opaco"
               width="30%"
             >

@@ -45,8 +45,8 @@ const AddRemoveButtonGroup = ({ objects, newObj, selected, clear }) => (
       size="sm"
       title="Duplicar filas seleccionadas de la tabla"
       onClick={() => {
-        selected.forEach((name) => {
-          const selectedIndex = objects.findIndex((h) => h.name === name);
+        selected.forEach((id) => {
+          const selectedIndex = objects.findIndex((h) => h.id === id);
           if (selectedIndex !== -1) {
             const idx = selectedIndex >= 0 ? selectedIndex : 0;
             const selectedObj = objects[idx];
@@ -67,8 +67,8 @@ const AddRemoveButtonGroup = ({ objects, newObj, selected, clear }) => (
       size="sm"
       title="Eliminar filas seleccionadas de la tabla"
       onClick={() => {
-        // https://mobx.js.org/refguide/array.html
-        objects.replace(objects.filter((h) => !selected.includes(h.name)));
+        // https://mobx.js.org/api.html#observablearray
+        objects.replace(objects.filter((h) => !selected.includes(h.id)));
         clear();
       }}
     >
