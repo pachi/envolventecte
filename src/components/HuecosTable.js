@@ -30,20 +30,18 @@ import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 import icongroup from "./img/outline-add_comment-24px.svg";
 import { azimuth_name, tilt_name, wall_is_inside_tenv } from "../utils";
 
-const Float2DigitsFormatter = (cell, _row) => (
-  <span>{Number(cell).toFixed(2)}</span>
-);
+const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 
 const HuecosTable = observer(({ appstate }) => {
   const [selected, setSelected] = useState([]);
   const { spaces, walls, windows, wincons, huecosA, huecosAU } = appstate;
 
-  const WindowOrientationFormatter = (cell, _row) => {
+  const WindowOrientationFmt = (cell, _row) => {
     const wall = walls.find((s) => s.id === cell);
     return <span>{azimuth_name(wall.azimuth)}</span>;
   };
 
-  const WindowTiltFormatter = (cell, _row) => {
+  const WindowTiltFmt = (cell, _row) => {
     const wall = walls.find((s) => s.id === cell);
     return <span>{tilt_name(wall.tilt)}</span>;
   };
@@ -64,16 +62,16 @@ const HuecosTable = observer(({ appstate }) => {
   // Formato y opciones de construcciones de huecos
   const winconsMap = new Map();
   wincons.map((s) => (winconsMap[s.id] = s.name));
-  const WinconsFormatter = (cell, _row) => <span>{winconsMap[cell]}</span>;
-  const WinconsOptions = Object.keys(winconsMap).map((k) => {
+  const WinconsFmt = (cell, _row) => <span>{winconsMap[cell]}</span>;
+  const WinconsOpts = Object.keys(winconsMap).map((k) => {
     return { text: winconsMap[k], value: k };
   });
 
   // Formato y opciones de opacos
   const wallsMap = new Map();
   walls.map((s) => (wallsMap[s.id] = s.name));
-  const WallsFormatter = (cell, _row) => <span>{wallsMap[cell]}</span>;
-  const WallsOptions = Object.keys(wallsMap).map((k) => {
+  const WallsFmt = (cell, _row) => <span>{wallsMap[cell]}</span>;
+  const WallsOpts = Object.keys(wallsMap).map((k) => {
     return { text: wallsMap[k], value: k };
   });
 
@@ -151,7 +149,7 @@ const HuecosTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="A"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               headerText="Área proyectada del hueco (m2)"
               headerAlign="center"
               dataAlign="center"
@@ -166,33 +164,33 @@ const HuecosTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="cons"
-              dataFormat={WinconsFormatter}
+              dataFormat={WinconsFmt}
               headerText="Construcción del hueco"
               headerAlign="center"
               dataAlign="center"
               editable={{
                 type: "select",
-                options: { values: WinconsOptions },
+                options: { values: WinconsOpts },
               }}
             >
               Construcción
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="wall"
-              dataFormat={WallsFormatter}
+              dataFormat={WallsFmt}
               headerText="Opaco al que pertenece el hueco"
               headerAlign="center"
               dataAlign="center"
               editable={{
                 type: "select",
-                options: { values: WallsOptions },
+                options: { values: WallsOpts },
               }}
             >
               Opaco
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="fshobst"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               headerText="Factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción). Este valor puede asimilarse al factor de sombra del hueco (FS). El Documento de Apoyo DA DB-HE/1 recoge valores del factor de sombra FS para considerar el efecto de voladizos, retranqueos, aletas laterales o lamas exteriores."
               headerAlign="center"
               dataAlign="center"
@@ -205,7 +203,7 @@ const HuecosTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="wall"
-              dataFormat={WindowOrientationFormatter}
+              dataFormat={WindowOrientationFmt}
               headerText="Orientación del hueco"
               editable={false}
               columnClassName="td-column-readonly"
@@ -216,7 +214,7 @@ const HuecosTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="wall"
-              dataFormat={WindowTiltFormatter}
+              dataFormat={WindowTiltFmt}
               headerText="Inclinación del hueco"
               editable={false}
               columnClassName="td-column-readonly"

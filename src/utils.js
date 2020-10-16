@@ -51,6 +51,20 @@ export function UserException(message, kind = "UserException") {
   this.kind = kind;
 }
 
+// Formato y opciones de condiciones de contorno
+export const BOUNDARYTYPESMAP = {
+  EXTERIOR: "EXTERIOR",
+  INTERIOR: "INTERIOR",
+  ADIABATIC: "ADIABÁTICO",
+  GROUND: "TERRENO",
+};
+
+export const SPACETYPESMAP = {
+  CONDITIONED: "ACONDICIONADO",
+  UNCONDITIONED: "NO ACONDICIONADO",
+  UNINHABITED: "NO HABITABLE",
+};
+
 // Conversión de orientación de ángulo a nombre
 export function azimuth_name(azimuth_angle) {
   const azimuth = normalize(azimuth_angle, 0.0, 360.0);

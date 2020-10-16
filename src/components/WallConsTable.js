@@ -28,9 +28,7 @@ import { observer } from "mobx-react-lite";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 
-const Float2DigitsFormatter = (cell, _row) => (
-  <span>{Number(cell).toFixed(2)}</span>
-);
+const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 
 const WallConsTable = observer(({ appstate }) => {
   const [selected, setSelected] = useState([]);
@@ -107,7 +105,7 @@ const WallConsTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="thickness"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               headerText="Grosor el elemento (m)"
               headerAlign="center"
               dataAlign="center"
@@ -120,7 +118,7 @@ const WallConsTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="R_intrinsic"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               headerText="Resistencia intrínseca de la solución constructiva (solo capas, sin resistencias superficiales) (m²K/W)"
               headerAlign="center"
               dataAlign="center"
@@ -133,7 +131,7 @@ const WallConsTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="absorptance"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               headerText="Absortividad térmica de la solución constructiva (-)"
               headerAlign="center"
               dataAlign="center"

@@ -29,9 +29,7 @@ import { observer } from "mobx-react-lite";
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 import icongroup from "./img/outline-add_comment-24px.svg";
 
-const Float2DigitsFormatter = (cell, _row) => (
-  <span>{Number(cell).toFixed(2)}</span>
-);
+const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 
 const PTsTable = observer(({ appstate }) => {
   const [selected, setSelected] = useState([]);
@@ -111,7 +109,7 @@ const PTsTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="L"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               headerText="Longitud del puente térmico (m)"
               headerAlign="center"
               dataAlign="center"
@@ -124,7 +122,7 @@ const PTsTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="psi"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               headerText="Transmitancia térmica lineal del puente térmico (W/mK)"
               headerAlign="center"
               dataAlign="center"

@@ -25,30 +25,25 @@ import React, { useState } from "react";
 import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer } from "mobx-react-lite";
-import { azimuth_name, tilt_name, wall_is_inside_tenv } from "../utils";
+import {
+  azimuth_name,
+  tilt_name,
+  wall_is_inside_tenv,
+  BOUNDARYTYPESMAP,
+} from "../utils";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 import icongroup from "./img/outline-add_comment-24px.svg";
 
 // Formato y opciones de condiciones de contorno
-const boundarytypesmap = {
-  EXTERIOR: "EXTERIOR",
-  INTERIOR: "INTERIOR",
-  ADIABATIC: "ADIABÁTICO",
-  GROUND: "TERRENO",
-};
-const BoundaryTypeFormatter = (cell, _row) => (
-  <span>{boundarytypesmap[cell]}</span>
-);
-const BoundaryTypesOptions = Object.keys(boundarytypesmap).map((k) => {
-  return { text: boundarytypesmap[k], value: k };
+const BoundaryFmt = (cell, _row) => <span>{BOUNDARYTYPESMAP[cell]}</span>;
+const BoundaryOpts = Object.keys(BOUNDARYTYPESMAP).map((k) => {
+  return { text: BOUNDARYTYPESMAP[k], value: k };
 });
 
-const Float2DigitsFormatter = (cell, _row) => (
-  <span>{Number(cell).toFixed(2)}</span>
-);
-const AzimuthFormatter = (cell, _row) => <span>{azimuth_name(cell)}</span>;
-const TiltFormatter = (cell, _row) => <span>{tilt_name(cell)}</span>;
+const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
+const AzimuthFmt = (cell, _row) => <span>{azimuth_name(cell)}</span>;
+const TiltFmt = (cell, _row) => <span>{tilt_name(cell)}</span>;
 
 // Tabla de elementos opacos
 const OpacosTable = observer(({ appstate }) => {
@@ -65,8 +60,8 @@ const OpacosTable = observer(({ appstate }) => {
   // Formato y opciones de construcciones de opacos
   const wallconsMap = new Map();
   wallcons.map((s) => (wallconsMap[s.id] = s.name));
-  const WallconsFormatter = (cell, _row) => <span>{wallconsMap[cell]}</span>;
-  const WallconsOptions = Object.keys(wallconsMap).map((k) => {
+  const WallconsFmt = (cell, _row) => <span>{wallconsMap[cell]}</span>;
+  const WallconsOpts = Object.keys(wallconsMap).map((k) => {
     return { text: wallconsMap[k], value: k };
   });
 
@@ -74,8 +69,8 @@ const OpacosTable = observer(({ appstate }) => {
   const spaceMap = new Map();
   spaceMap[""] = "";
   spaces.map((s) => (spaceMap[s.id] = s.name));
-  const SpaceFormatter = (cell, _row) => <span>{spaceMap[cell]}</span>;
-  const SpaceOptions = Object.keys(spaceMap).map((k) => {
+  const SpaceFmt = (cell, _row) => <span>{spaceMap[cell]}</span>;
+  const SpaceOpts = Object.keys(spaceMap).map((k) => {
     return { text: spaceMap[k], value: k };
   });
 
@@ -156,7 +151,7 @@ const OpacosTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="A"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               headerText="Superficie neta (sin huecos) del elemento opaco, en m²"
               headerAlign="center"
               dataAlign="center"
@@ -172,9 +167,9 @@ const OpacosTable = observer(({ appstate }) => {
               dataField="bounds"
               editable={{
                 type: "select",
-                options: { values: BoundaryTypesOptions },
+                options: { values: BoundaryOpts },
               }}
-              dataFormat={BoundaryTypeFormatter}
+              dataFormat={BoundaryFmt}
               headerText="Condición de contorno del elemento opaco (INTERIOR | EXTERIOR | GROUND | ADIABATIC)"
               headerAlign="center"
               dataAlign="center"
@@ -187,46 +182,46 @@ const OpacosTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="cons"
-              dataFormat={WallconsFormatter}
+              dataFormat={WallconsFmt}
               headerText="Construcción del opaco"
               headerAlign="center"
               dataAlign="center"
               editable={{
                 type: "select",
-                options: { values: WallconsOptions },
+                options: { values: WallconsOpts },
               }}
             >
               Construcción
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="space"
-              dataFormat={SpaceFormatter}
+              dataFormat={SpaceFmt}
               headerText="Espacio al que pertenece el elemento opaco"
               headerAlign="center"
               dataAlign="center"
               editable={{
                 type: "select",
-                options: { values: SpaceOptions },
+                options: { values: SpaceOpts },
               }}
             >
               Espacio
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="nextto"
-              dataFormat={SpaceFormatter}
+              dataFormat={SpaceFmt}
               headerText="Espacio adyacente con el que comunica el elemento opaco cuando es interior"
               headerAlign="center"
               dataAlign="center"
               editable={{
                 type: "select",
-                options: { values: SpaceOptions },
+                options: { values: SpaceOpts },
               }}
             >
               Espacio ady.
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="azimuth"
-              dataFormat={AzimuthFormatter}
+              dataFormat={AzimuthFmt}
               headerText="Orientación (gamma) [-180,+180] (S=0, E=+90, W=-90). Medido como azimuth geográfico de la proyección horizontal de la normal a la superficie"
               headerAlign="center"
               dataAlign="center"
@@ -239,7 +234,7 @@ const OpacosTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="tilt"
-              dataFormat={TiltFormatter}
+              dataFormat={TiltFmt}
               headerText="Inclinación (beta) [0, 180]. Medido respecto a la horizontal y normal hacia arriba (0 -> suelo, 180 -> techo)"
               headerAlign="center"
               dataAlign="center"

@@ -28,9 +28,7 @@ import { observer } from "mobx-react-lite";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 
-const Float2DigitsFormatter = (cell, _row) => (
-  <span>{Number(cell).toFixed(2)}</span>
-);
+const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 
 const WinConsTable = observer(({ appstate }) => {
   const [selected, setSelected] = useState([]);
@@ -107,7 +105,7 @@ const WinConsTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="U"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               headerText="Transmitancia térmica del hueco (W/m²K)"
               headerAlign="center"
               dataAlign="center"
@@ -120,7 +118,7 @@ const WinConsTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="Ff"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               headerText="Fracción de marco de la construcción de hueco (-)"
               headerAlign="center"
               dataAlign="center"
@@ -133,7 +131,7 @@ const WinConsTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="gglwi"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               headerText="Factor solar del hueco sin la protección solar activada (g_glwi = g_gln * 0.90) (-)"
               headerAlign="center"
               dataAlign="center"
@@ -146,7 +144,7 @@ const WinConsTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="gglshwi"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               headerText="Factor solar del hueco con la protección solar activada (g_glwi = g_gln * 0.90) (-)"
               headerAlign="center"
               dataAlign="center"
@@ -159,7 +157,7 @@ const WinConsTable = observer(({ appstate }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="C_100"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               headerText="Permeabilidad al aire a 100 Pa (m³/hm²)"
               headerAlign="center"
               dataAlign="center"

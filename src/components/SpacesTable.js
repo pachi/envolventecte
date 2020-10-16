@@ -25,32 +25,24 @@ import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer } from "mobx-react-lite";
+import { SPACETYPESMAP } from "../utils";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 
-const spacetypesmap = {
-  CONDITIONED: "ACONDICIONADO",
-  UNCONDITIONED: "NO ACONDICIONADO",
-  UNINHABITED: "NO HABITABLE",
-};
-const spaceTypesOptions = Object.keys(spacetypesmap).map((k) => {
-  return { text: spacetypesmap[k], value: k };
+const spaceTypesOpts = Object.keys(SPACETYPESMAP).map((k) => {
+  return { text: SPACETYPESMAP[k], value: k };
 });
 
-const Float1DigitsFormatter = (cell, _row) => (
-  <span>{Number(cell).toFixed(1)}</span>
-);
-const Float2DigitsFormatter = (cell, _row) => {
+const Float1DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(1)}</span>;
+const Float2DigitsFmt = (cell, _row) => {
   if (cell === null || cell === undefined) {
     return <span>-</span>;
   } else {
     return <span>{Number(cell).toFixed(2)}</span>;
   }
 };
-const BoolFormatter = (cell, _row) => (
-  <span>{cell === true ? "Sí" : "No"}</span>
-);
-const SpaceTypeFormatter = (cell, _row) => <span>{spacetypesmap[cell]}</span>;
+const BoolFmt = (cell, _row) => <span>{cell === true ? "Sí" : "No"}</span>;
+const SpaceTypeFmt = (cell, _row) => <span>{SPACETYPESMAP[cell]}</span>;
 
 // Custom editor para booleanos
 //
@@ -183,7 +175,7 @@ const SpacesTable = observer(({ appstate: { spaces, newSpace } }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="area"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               headerText="Superficie útil del espacio (m²)"
               headerAlign="center"
               dataAlign="center"
@@ -197,7 +189,7 @@ const SpacesTable = observer(({ appstate: { spaces, newSpace } }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="multiplier"
-              dataFormat={Float1DigitsFormatter}
+              dataFormat={Float1DigitsFmt}
               headerText="Multiplicador (-)"
               headerAlign="center"
               dataAlign="center"
@@ -212,9 +204,9 @@ const SpacesTable = observer(({ appstate: { spaces, newSpace } }) => {
               dataField="type"
               editable={{
                 type: "select",
-                options: { values: spaceTypesOptions },
+                options: { values: spaceTypesOpts },
               }}
-              dataFormat={SpaceTypeFormatter}
+              dataFormat={SpaceTypeFmt}
               headerText="Tipo de espacio: ACONDICIONADO, NO ACONDICIONADO, NO HABITABLE"
               headerAlign="center"
               dataAlign="center"
@@ -232,7 +224,7 @@ const SpacesTable = observer(({ appstate: { spaces, newSpace } }) => {
                   <BoolEditor onUpdate={onUpdate} {...props} />
                 ),
               }}
-              dataFormat={BoolFormatter}
+              dataFormat={BoolFmt}
               headerText="¿Pertenece a la envolvente térmica?"
               headerAlign="center"
               dataAlign="center"
@@ -241,7 +233,7 @@ const SpacesTable = observer(({ appstate: { spaces, newSpace } }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="height"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               headerText="Altura total, bruta, o suelo a suelo, del espacio (m)"
               headerAlign="center"
               dataAlign="center"
@@ -254,7 +246,7 @@ const SpacesTable = observer(({ appstate: { spaces, newSpace } }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="n_v"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               customEditor={{
                 getElement: (onUpdate, props) => (
                   <NVEditor
@@ -276,7 +268,7 @@ const SpacesTable = observer(({ appstate: { spaces, newSpace } }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="z"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               headerText="Cota de la planta, en m"
               headerAlign="center"
               dataAlign="center"
@@ -289,7 +281,7 @@ const SpacesTable = observer(({ appstate: { spaces, newSpace } }) => {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="exposed_perimeter"
-              dataFormat={Float2DigitsFormatter}
+              dataFormat={Float2DigitsFmt}
               headerText="Perímetro del espacio expuesto al exterior, en m. Excluye la que lo separa de otros espacios acondicionados. Es relevante en el caso de espacios en contacto con el terreno."
               headerAlign="center"
               dataAlign="center"
