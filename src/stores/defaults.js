@@ -41,8 +41,8 @@ export const DEFAULT_WALL = () => ({
   name: `Elemento_opaco_${uuidv4()}`,
   A: 1.0,
   bounds: "EXTERIOR",
-  cons: null,
-  space: null,
+  cons: "",
+  space: "",
   nextto: null,
   azimuth: 0.0,
   tilt: 90.0,
@@ -52,8 +52,8 @@ export const DEFAULT_WINDOW = () => ({
   id: uuidv4(),
   name: `Hueco_${uuidv4()}`,
   A: 1.0,
-  cons: null,
-  wall: null,
+  cons: "",
+  wall: "",
   fshobst: 1.0,
 });
 
