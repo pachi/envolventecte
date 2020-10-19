@@ -69,7 +69,9 @@ export default class AppState {
   // Puentes térmicos
   thermal_bridges = example.thermal_bridges;
 
-  // Lista de errores -------
+  // Lista de errores y avisos -------
+  // Contiene objetos  { type: mytype, msg: "my msg" }
+  // donde mytype puede ser: SUCCESS | DANGER | WARNING | INFO (y corresponden a clases Bootstrap en minúsculas)
   errors = [];
 
   constructor() {

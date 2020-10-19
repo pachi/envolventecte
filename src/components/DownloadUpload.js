@@ -68,12 +68,6 @@ const DownloadUpload = observer(({ appstate }) => {
     reader.readAsText(file);
   };
 
-  const errordisplay = appstate.errors.map((e, idx) => (
-    <Alert variant={e.type.toLowerCase()} key={`AlertId${idx}`}>
-      {e.msg}
-    </Alert>
-  ));
-
   const fileInput = React.createRef();
   const fileDownload = React.createRef();
 
@@ -144,9 +138,6 @@ const DownloadUpload = observer(({ appstate }) => {
             Descargar datos de envolvente
           </Button>
         </Col>
-      </Row>
-      <Row>
-        <Col>{errordisplay}</Col>
       </Row>
     </Col>
   );
