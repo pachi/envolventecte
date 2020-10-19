@@ -38,23 +38,31 @@ const HuecosTable = observer(({ appstate }) => {
 
   const WindowOrientationFmt = (cell, _row) => {
     const wall = walls.find((s) => s.id === cell);
-    return <span>{azimuth_name(wall.azimuth)}</span>;
+    if (wall === undefined) {
+      return <span>-</span>;
+    } else {
+      return <span>{azimuth_name(wall.azimuth)}</span>;
+    }
   };
 
   const WindowTiltFmt = (cell, _row) => {
     const wall = walls.find((s) => s.id === cell);
-    return <span>{tilt_name(wall.tilt)}</span>;
+    if (wall === undefined) {
+      return <span>-</span>;
+    } else {
+      return <span>{tilt_name(wall.tilt)}</span>;
+    }
   };
 
   // Diccionario para determinar si el hueco está o no dentro de la ET
   const is_outside_tenv = new Map();
   windows.forEach((win) => {
-    const w = walls.find((w) => w.id === win.wall);
+    const wall = walls.find((w) => w.id === win.wall);
     // 1. No tiene definido muro -> fuera
-    if (w === undefined) {
+    if (wall === undefined) {
       is_outside_tenv[win.id] = "outsidetenv";
     } else {
-      const wall_inside_tenv = wall_is_inside_tenv(w, spaces);
+      const wall_inside_tenv = wall_is_inside_tenv(wall, spaces);
       is_outside_tenv[win.id] = wall_inside_tenv ? null : "outsidetenv";
     }
   });
