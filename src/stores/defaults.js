@@ -68,6 +68,7 @@ export const DEFAULT_WALLCONS = () => ({
   id: uuidv4(),
   name: `Cons_opacos_${uuidv4()}`,
   group: "Fachada",
+  thickness: 0.3,
   R_intrinsic: 2.0,
   absorptance: 0.6,
 });
