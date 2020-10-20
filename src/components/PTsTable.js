@@ -33,8 +33,7 @@ const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 
 const PTsTable = observer(({ appstate }) => {
   const [selected, setSelected] = useState([]);
-  const { thermal_bridges: thermal_bridges_obj, ptsL, ptsPsiL } = appstate;
-  const thermal_bridges = Object.values(thermal_bridges_obj);
+  const { thermal_bridges, ptsL, ptsPsiL } = appstate;
 
   return (
     <Col>
