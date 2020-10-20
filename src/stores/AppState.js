@@ -70,8 +70,8 @@ export default class AppState {
   thermal_bridges = example.thermal_bridges;
 
   // Lista de errores y avisos -------
-  // Contiene objetos  { type: mytype, msg: "my msg" }
-  // donde mytype puede ser: SUCCESS | DANGER | WARNING | INFO (y corresponden a clases Bootstrap en minúsculas)
+  // Contiene objetos  { level: warninglevel, id: "element_id", msg: "my msg" }
+  // donde warninglevel puede ser: SUCCESS | DANGER | WARNING | INFO (y corresponden a clases Bootstrap en minúsculas)
   errors = [];
 
   constructor() {
@@ -141,7 +141,7 @@ export default class AppState {
       wincons,
     } = this;
 
-    const model = {
+    return he1_indicators({
       meta,
       spaces,
       walls,
@@ -149,8 +149,7 @@ export default class AppState {
       thermal_bridges,
       wallcons,
       wincons,
-    };
-    return he1_indicators(model);
+    });
   }
 
   // Constructores --------
@@ -342,16 +341,18 @@ export default class AppState {
       this.wincons = wincons;
 
       this.errors = [
-        { type: "SUCCESS", msg: "Datos cargados correctamente." },
+        { level: "SUCCESS", id: null, msg: "Datos cargados correctamente." },
         {
-          type: "INFO",
+          level: "INFO",
+          id: null,
           msg: `Clima ${meta.climate}, Cargados ${spaces.length} espacios, ${walls.length} opacos, ${windows.length} huecos, ${thermal_bridges.length} PTs, ${wallcons.length} construcciones de opacos y ${wincons.length} construcciones de huecos`,
         },
       ];
     } catch (err) {
       this.errors = [
         {
-          type: "DANGER",
+          level: "DANGER",
+          id: null,
           msg: `El archivo no contiene datos con un formato adecuado. ${err}`,
         },
       ];

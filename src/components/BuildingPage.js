@@ -48,7 +48,9 @@ import SpacesTable from "./SpacesTable";
 import MetaParams from "./MetaParams";
 
 const AvisosDisplay = observer(({ appstate }) => {
-  const errors = appstate.errors;
+  const errors = appstate.errors
+    .slice()
+    .concat(appstate.he1_indicators.warnings);
   const numavisos = errors.length;
   const [show, setShow] = useState(false);
 
@@ -57,13 +59,16 @@ const AvisosDisplay = observer(({ appstate }) => {
       <Alert show={show} variant="info">
         <Alert.Heading>Avisos</Alert.Heading>
         {errors.map((e, idx) => (
-          <Alert variant={e.type.toLowerCase()} key={`AlertId${idx}`}>
+          <Alert variant={e.level.toLowerCase()} key={`AlertId${idx}`}>
             {e.msg}
           </Alert>
         ))}
         <hr />
         <div className="d-flex justify-content-end">
-          <Button onClick={() => errors.clear()} variant="outline-info">
+          <Button
+            onClick={() => appstate.errors.clear()}
+            variant="outline-info"
+          >
             Limpiar avisos
           </Button>
           <Button onClick={() => setShow(false)} variant="outline-info">

@@ -49,6 +49,7 @@ const IndicatorsPanel = observer(({ appstate }) => {
       n50_he2019,
       C_o,
       C_o_he2019,
+      warnings,
     },
   } = appstate;
 

@@ -1,6 +1,6 @@
+use anyhow::Error;
 use hulc2envolventecte::{self, cte, cte::Model, VERSION};
 use serde::{Deserialize, Serialize};
-use anyhow::Error;
 use wasm_bindgen::prelude::*;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -40,6 +40,7 @@ struct IndicatorsReport {
     C_o_he2019: f32,
     vol_env_net: f32,
     vol_env_gross: f32,
+    warnings: Vec<cte::Warning>,
 }
 
 /// Calcula indicadores usando funciones de hulc2envolventecte y prepara una estructura para enviar a JS
@@ -58,6 +59,7 @@ fn compute_indicators(model: &Model) -> Result<IndicatorsReport, Error> {
         C_o_he2019: model.C_o_he2019(),
         vol_env_net: model.vol_env_net(),
         vol_env_gross: model.vol_env_gross(),
+        warnings: model.check_model(),
     };
     Ok(report)
 }
@@ -65,12 +67,9 @@ fn compute_indicators(model: &Model) -> Result<IndicatorsReport, Error> {
 /// Calcula indicadores de HE1
 ///
 #[wasm_bindgen]
-pub fn he1_indicators(
-    model_js: &JsValue,
-) -> Result<JsValue, JsValue> {
+pub fn he1_indicators(model_js: &JsValue) -> Result<JsValue, JsValue> {
     let model: Model = model_js.into_serde().map_err(|e| e.to_string())?;
-    let indicators: IndicatorsReport = compute_indicators(&model)
-        .map_err(|e| e.to_string())?;
+    let indicators: IndicatorsReport = compute_indicators(&model).map_err(|e| e.to_string())?;
     let js_indicators = JsValue::from_serde(&indicators).map_err(|e| e.to_string())?;
     Ok(js_indicators)
 }
