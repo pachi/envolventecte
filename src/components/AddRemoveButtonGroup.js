@@ -23,58 +23,63 @@ SOFTWARE.
 
 import React from "react";
 import { Button, ButtonGroup } from "react-bootstrap";
+import { observer } from "mobx-react-lite";
+
 import iconplus from "./img/baseline-add-24px.svg";
 import iconless from "./img/baseline-remove-24px.svg";
 import iconduplicate from "./img/outline-file_copy-24px.svg";
 import { uuidv4 } from "../utils";
 
-const AddRemoveButtonGroup = ({ objects, newObj, selected, clear }) => (
-  <ButtonGroup>
-    <Button
-      variant="primary"
-      size="sm"
-      title="Añadir una fila al final de la tabla"
-      onClick={() => {
-        objects.push(newObj());
-      }}
-    >
-      <img src={iconplus} alt="Añadir fila" />
-    </Button>
-    <Button
-      variant="primary"
-      size="sm"
-      title="Duplicar filas seleccionadas de la tabla"
-      onClick={() => {
-        selected.forEach((id) => {
-          const selectedIndex = objects.findIndex((h) => h.id === id);
-          if (selectedIndex !== -1) {
-            const idx = selectedIndex >= 0 ? selectedIndex : 0;
-            const selectedObj = objects[idx];
-            const dupObj = {
-              ...selectedObj,
-              name: selectedObj.name + " (dup.)",
-              id: uuidv4(),
-            };
-            objects.splice(idx + 1, 0, dupObj);
-          }
-        });
-      }}
-    >
-      <img src={iconduplicate} alt="Duplicar fila" />
-    </Button>
-    <Button
-      variant="primary"
-      size="sm"
-      title="Eliminar filas seleccionadas de la tabla"
-      onClick={() => {
-        // https://mobx.js.org/api.html#observablearray
-        objects.replace(objects.filter((h) => !selected.includes(h.id)));
-        clear();
-      }}
-    >
-      <img src={iconless} alt="Eliminar fila" />
-    </Button>
-  </ButtonGroup>
+const AddRemoveButtonGroup = observer(
+  ({ objects, newObj, selected, clear }) => (
+    <ButtonGroup>
+      <Button
+        variant="primary"
+        size="sm"
+        title="Añadir una fila al final de la tabla"
+        onClick={() => {
+          objects.push(newObj());
+        }}
+      >
+        <img src={iconplus} alt="Añadir fila" />
+      </Button>
+      <Button
+        variant="primary"
+        size="sm"
+        title="Duplicar filas seleccionadas de la tabla"
+        onClick={() => {
+          selected.forEach((id) => {
+            const selectedIndex = objects.findIndex((h) => h.id === id);
+            if (selectedIndex !== -1) {
+              const idx = selectedIndex >= 0 ? selectedIndex : 0;
+              const selectedObj = objects[idx];
+              const dupObj = {
+                ...selectedObj,
+                name: selectedObj.name + " (dup.)",
+                id: uuidv4(),
+              };
+              objects.splice(idx + 1, 0, dupObj);
+            }
+          });
+        }}
+      >
+        <img src={iconduplicate} alt="Duplicar fila" />
+      </Button>
+      <Button
+        variant="primary"
+        size="sm"
+        title="Eliminar filas seleccionadas de la tabla"
+        onClick={() => {
+          // https://mobx.js.org/api.html#observablearray
+          const filtered = objects.filter((h) => !selected.includes(h.id));
+          objects.replace(filtered);
+          clear();
+        }}
+      >
+        <img src={iconless} alt="Eliminar fila" />
+      </Button>
+    </ButtonGroup>
+  )
 );
 
 export default AddRemoveButtonGroup;

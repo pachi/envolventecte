@@ -86,7 +86,7 @@ const AvisosDisplay = observer(({ appstate }) => {
   );
 });
 
-const BuildingPage = ({ appstate, route }) => {
+const BuildingPage = observer(({ appstate, route }) => {
   return (
     <Container fluid>
       <NavBar route={route} />
@@ -138,6 +138,6 @@ const BuildingPage = ({ appstate, route }) => {
       <Footer />
     </Container>
   );
-};
+});
 
 export default BuildingPage;
