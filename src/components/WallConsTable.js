@@ -32,7 +32,6 @@ const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 
 const WallConsTable = observer(({ appstate }) => {
   const [selected, setSelected] = useState([]);
-  const { wallcons } = appstate;
 
   return (
     <Col>
@@ -42,7 +41,7 @@ const WallConsTable = observer(({ appstate }) => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            objects={wallcons}
+            objects={appstate.wallcons}
             newObj={appstate.newWallCons}
             selected={selected}
             clear={() => setSelected([])}
@@ -52,7 +51,7 @@ const WallConsTable = observer(({ appstate }) => {
       <Row>
         <Col>
           <BootstrapTable
-            data={wallcons}
+            data={appstate.wallcons}
             version="4"
             striped
             hover
