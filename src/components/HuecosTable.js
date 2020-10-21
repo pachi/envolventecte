@@ -102,8 +102,9 @@ const HuecosTable = observer(({ appstate }) => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            objects={appstate.windows}
-            newObj={appstate.newHueco}
+            appstate={appstate}
+            elements="windows"
+            newobj="newHueco"
             selected={selected}
             clear={() => setSelected([])}
           />

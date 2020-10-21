@@ -41,8 +41,9 @@ const WinConsTable = observer(({ appstate }) => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            objects={appstate.wincons}
-            newObj={appstate.newWinCons}
+            appstate={appstate}
+            elements="wincons"
+            newobj="newWinCons"
             selected={selected}
             clear={() => setSelected([])}
           />

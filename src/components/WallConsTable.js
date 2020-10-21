@@ -41,8 +41,9 @@ const WallConsTable = observer(({ appstate }) => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            objects={appstate.wallcons}
-            newObj={appstate.newWallCons}
+            appstate={appstate}
+            elements="wallcons"
+            newobj="newWallCons"
             selected={selected}
             clear={() => setSelected([])}
           />

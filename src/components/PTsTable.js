@@ -54,8 +54,9 @@ const PTsTable = observer(({ appstate }) => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            objects={appstate.thermal_bridges}
-            newObj={appstate.newPT}
+            appstate={appstate}
+            elements="thermal_bridges"
+            newobj="newPT"
             selected={selected}
             clear={() => setSelected([])}
           />

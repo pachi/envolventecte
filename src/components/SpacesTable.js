@@ -110,8 +110,9 @@ const SpacesTable = observer(({ appstate }) => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            objects={appstate.spaces}
-            newObj={appstate.newSpace}
+            appstate={appstate}
+            elements="spaces"
+            newobj="newSpace"
             selected={selected}
             clear={() => setSelected([])}
           />

@@ -93,8 +93,9 @@ const OpacosTable = observer(({ appstate }) => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            objects={appstate.walls}
-            newObj={appstate.newOpaco}
+            appstate={appstate}
+            elements="walls"
+            newobj="newOpaco"
             selected={selected}
             clear={() => setSelected([])}
           />

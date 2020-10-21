@@ -28,6 +28,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import "bootstrap/dist/css/bootstrap-theme.css";
 import "react-bootstrap-table/dist/react-bootstrap-table-all.min.css";
 
+import { observer } from "mobx-react-lite";
+
 import AppState from "../stores/AppState";
 
 import AboutPage from "./AboutPage";
@@ -39,7 +41,7 @@ import MainPage from "./MainPage";
 
 const appstate = new AppState();
 
-const App = (props) => (
+const App = observer((props) => (
   <HashRouter>
     <Switch>
       <Route
@@ -75,6 +77,6 @@ const App = (props) => (
       <Route path="*" render={() => <Redirect to="/" />} />
     </Switch>
   </HashRouter>
-);
+));
 
 export default App;
