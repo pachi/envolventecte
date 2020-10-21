@@ -36,7 +36,6 @@ import { OrientacionesSprite } from "./IconsOrientaciones";
 import { FshwithSprite } from "./IconsFshwith";
 
 const ClimatePage = observer(({ appstate, route }) => {
-  const { climatedata } = appstate;
   return (
     <Container fluid>
       <NavBar route={route} />
@@ -50,15 +49,15 @@ const ClimatePage = observer(({ appstate, route }) => {
               title="Radiación acumulada (H_sol;m)"
               className="pt-3"
             >
-              <JulyRadiationTable data={climatedata} />
-              <MonthlyRadiationTable data={climatedata} />
+              <JulyRadiationTable data={appstate.climatedata} />
+              <MonthlyRadiationTable data={appstate.climatedata} />
             </Tab>
             <Tab
               eventKey={2}
               title="Factores de reducción por sombras móviles (f_sh;with)"
               className="pt-3"
             >
-              <ShadingFactorsTable data={climatedata} />
+              <ShadingFactorsTable data={appstate.climatedata} />
             </Tab>
           </Tabs>
         </Col>

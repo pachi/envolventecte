@@ -48,18 +48,17 @@ const TiltFmt = (cell, _row) => <span>{tilt_name(cell)}</span>;
 // Tabla de elementos opacos
 const OpacosTable = observer(({ appstate }) => {
   const [selected, setSelected] = useState([]);
-  const { walls, spaces, wallcons, opacosA, opacosAU } = appstate;
 
   // Diccionario para determinar si el opaco está o no dentro de la ET
   const is_outside_tenv = new Map();
-  walls.forEach((w) => {
-    const wall_inside_tenv = wall_is_inside_tenv(w, spaces);
+  appstate.walls.forEach((w) => {
+    const wall_inside_tenv = wall_is_inside_tenv(w, appstate.spaces);
     is_outside_tenv[w.id] = wall_inside_tenv ? null : "outsidetenv";
   });
 
   // Formato y opciones de construcciones de opacos
   const wallconsMap = new Map();
-  wallcons.map((s) => (wallconsMap[s.id] = s.name));
+  appstate.wallcons.map((s) => (wallconsMap[s.id] = s.name));
   const WallconsFmt = (cell, _row) => <span>{wallconsMap[cell]}</span>;
   const WallconsOpts = Object.keys(wallconsMap).map((k) => {
     return { text: wallconsMap[k], value: k };
@@ -68,7 +67,7 @@ const OpacosTable = observer(({ appstate }) => {
   // Formato y opciones de espacios y espacios adyacentes
   const spaceMap = new Map();
   spaceMap[""] = "";
-  spaces.map((s) => (spaceMap[s.id] = s.name));
+  appstate.spaces.map((s) => (spaceMap[s.id] = s.name));
   const SpaceFmt = (cell, _row) => <span>{spaceMap[cell]}</span>;
   const SpaceOpts = Object.keys(spaceMap).map((k) => {
     return { text: spaceMap[k], value: k };
@@ -94,7 +93,7 @@ const OpacosTable = observer(({ appstate }) => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            objects={walls}
+            objects={appstate.walls}
             newObj={appstate.newOpaco}
             selected={selected}
             clear={() => setSelected([])}
@@ -104,7 +103,7 @@ const OpacosTable = observer(({ appstate }) => {
       <Row>
         <Col>
           <BootstrapTable
-            data={walls}
+            data={appstate.walls}
             version="4"
             striped
             hover
@@ -250,13 +249,13 @@ const OpacosTable = observer(({ appstate }) => {
       </Row>
       <Row>
         <Col>
-          &sum;b<sub>tr,x</sub>·A<sub>x</sub> = {opacosA.toFixed(2)} m²
+          &sum;b<sub>tr,x</sub>·A<sub>x</sub> = {appstate.opacosA.toFixed(2)} m²
         </Col>
       </Row>
       <Row>
         <Col md="auto">
           &sum;b<sub>tr,x</sub>·&sum;<sub>i</sub>A<sub>i</sub>·U
-          <sub>i</sub> = {opacosAU.toFixed(2)} W/K
+          <sub>i</sub> = {appstate.opacosAU.toFixed(2)} W/K
         </Col>
       </Row>
       <Row className="text-info small mt-3">

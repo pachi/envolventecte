@@ -28,7 +28,6 @@ import { observer } from "mobx-react-lite";
 import ClimateSelector from "./ClimateSelector";
 
 const MetaParams = observer(({ appstate }) => {
-  const { meta } = appstate;
   const hasblowerdoorref = useRef(null);
   return (
     <Row className="well">
@@ -41,8 +40,8 @@ const MetaParams = observer(({ appstate }) => {
             </Form.Label>{" "}
             <Col md={8}>
               <Form.Control
-                value={meta.name}
-                onChange={(e) => (meta.name = e.target.value)}
+                value={appstate.meta.name}
+                onChange={(e) => (appstate.meta.name = e.target.value)}
                 placeholder="Nombre del proyecto"
               />
             </Col>
@@ -57,18 +56,22 @@ const MetaParams = observer(({ appstate }) => {
         <h5>Uso</h5>
         <Form>
           <Form.Check
-            checked={meta.is_new_building}
-            onChange={() => (meta.is_new_building = !meta.is_new_building)}
+            checked={appstate.meta.is_new_building}
+            onChange={() =>
+              (appstate.meta.is_new_building = !appstate.meta.is_new_building)
+            }
             type="checkbox"
             label="Nueva construcción"
           />
           <Form.Check
-            checked={meta.is_dwelling}
-            onChange={() => (meta.is_dwelling = !meta.is_dwelling)}
+            checked={appstate.meta.is_dwelling}
+            onChange={() =>
+              (appstate.meta.is_dwelling = !appstate.meta.is_dwelling)
+            }
             type="checkbox"
             label="Uso residencial privado (vivienda)"
           />
-          {meta.is_dwelling ? (
+          {appstate.meta.is_dwelling ? (
             <Form.Group as={Row} controlId="formControlsNumberOfDwellings">
               <Form.Label column md={4}>
                 Número de viviendas
@@ -76,8 +79,10 @@ const MetaParams = observer(({ appstate }) => {
               <Col md={8}>
                 <Form.Control
                   type="number"
-                  value={meta.num_dwellings}
-                  onChange={(e) => (meta.num_dwellings = e.target.value)}
+                  value={appstate.meta.num_dwellings}
+                  onChange={(e) =>
+                    (appstate.meta.num_dwellings = e.target.value)
+                  }
                   placeholder="1"
                 />
               </Col>
@@ -87,12 +92,12 @@ const MetaParams = observer(({ appstate }) => {
         <h5>Ventilación e infiltraciones</h5>
         <Form>
           <Form.Check
-            defaultValue={meta.n50_test_ach}
+            defaultValue={appstate.meta.n50_test_ach}
             onChange={(e) => {
               if (e.target.checked === false) {
-                meta.n50_test_ach = null;
+                appstate.meta.n50_test_ach = null;
               } else {
-                meta.n50_test_ach = 0.0;
+                appstate.meta.n50_test_ach = 0.0;
               }
             }}
             type="checkbox"
@@ -108,12 +113,12 @@ const MetaParams = observer(({ appstate }) => {
               <Col md={8}>
                 <Form.Control
                   type="number"
-                  defaultValue={meta.n50_test_ach}
+                  defaultValue={appstate.meta.n50_test_ach}
                   onChange={(e) => {
                     if (hasblowerdoorref.current.checked === true) {
-                      meta.n50_test_ach = e.target.value;
+                      appstate.meta.n50_test_ach = e.target.value;
                     } else {
-                      meta.n50_test_ach = null;
+                      appstate.meta.n50_test_ach = null;
                     }
                   }}
                   placeholder="0.0"
@@ -122,7 +127,7 @@ const MetaParams = observer(({ appstate }) => {
               </Col>
             </Form.Group>
           ) : null}
-          {meta.is_dwelling ? (
+          {appstate.meta.is_dwelling ? (
             <Form.Group as={Row} controlId="formControlsGlobalVentilation">
               <Form.Label column md={4}>
                 Ventilación global de diseño del edificio (l/s)
@@ -130,9 +135,9 @@ const MetaParams = observer(({ appstate }) => {
               <Col md={8}>
                 <Form.Control
                   type="number"
-                  value={meta.global_ventilation_l_s}
+                  value={appstate.meta.global_ventilation_l_s}
                   onChange={(e) =>
-                    (meta.global_ventilation_l_s = e.target.value)
+                    (appstate.meta.global_ventilation_l_s = e.target.value)
                   }
                   placeholder="0.0"
                   step="0.1"
@@ -152,9 +157,9 @@ const MetaParams = observer(({ appstate }) => {
             <Col md={8}>
               <Form.Control
                 type="number"
-                value={meta.d_perim_insulation}
+                value={appstate.meta.d_perim_insulation}
                 onChange={(e) => {
-                  meta.d_perim_insulation = e.target.value;
+                  appstate.meta.d_perim_insulation = e.target.value;
                 }}
                 placeholder="0.0"
                 step="0.01"
@@ -168,9 +173,9 @@ const MetaParams = observer(({ appstate }) => {
             <Col md={8}>
               <Form.Control
                 type="number"
-                value={meta.rn_perim_insulation}
+                value={appstate.meta.rn_perim_insulation}
                 onChange={(e) => {
-                  meta.rn_perim_insulation = e.target.value;
+                  appstate.meta.rn_perim_insulation = e.target.value;
                 }}
                 placeholder="0.0"
                 step="0.01"

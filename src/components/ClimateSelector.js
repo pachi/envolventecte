@@ -25,32 +25,30 @@ import React from "react";
 import { observer } from "mobx-react-lite";
 import { Form, Row, Col } from "react-bootstrap";
 
-const ClimateSelector = observer(
-  ({ appstate: { meta, zoneslist }, ...props }) => {
-    return (
-      <Form.Group as={Row} controlId="formControlsClimateZone">
-        <Col as={Form.Label} md={4} style={props.labelStyle}>
-          Zona Climática
-        </Col>
-        <Col md={8}>
-          <Form.Control
-            value={meta.climate || ""}
-            onChange={(e) => {
-              meta.climate = e.target.value;
-            }}
-            as="select"
-            placeholder="select"
-          >
-            {zoneslist.map((z) => (
-              <option value={z} key={"zone_" + z}>
-                {z}
-              </option>
-            ))}
-          </Form.Control>
-        </Col>
-      </Form.Group>
-    );
-  }
-);
+const ClimateSelector = observer(({ appstate, ...props }) => {
+  return (
+    <Form.Group as={Row} controlId="formControlsClimateZone">
+      <Col as={Form.Label} md={4} style={props.labelStyle}>
+        Zona Climática
+      </Col>
+      <Col md={8}>
+        <Form.Control
+          value={appstate.meta.climate || ""}
+          onChange={(e) => {
+            appstate.meta.climate = e.target.value;
+          }}
+          as="select"
+          placeholder="select"
+        >
+          {appstate.zoneslist.map((z) => (
+            <option value={z} key={"zone_" + z}>
+              {z}
+            </option>
+          ))}
+        </Form.Control>
+      </Col>
+    </Form.Group>
+  );
+});
 
 export default ClimateSelector;

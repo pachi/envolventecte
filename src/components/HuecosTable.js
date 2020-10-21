@@ -34,10 +34,9 @@ const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 
 const HuecosTable = observer(({ appstate }) => {
   const [selected, setSelected] = useState([]);
-  const { spaces, walls, windows, wincons, huecosA, huecosAU } = appstate;
 
   const WindowOrientationFmt = (cell, _row) => {
-    const wall = walls.find((s) => s.id === cell);
+    const wall = appstate.walls.find((s) => s.id === cell);
     if (wall === undefined) {
       return <span>-</span>;
     } else {
@@ -46,7 +45,7 @@ const HuecosTable = observer(({ appstate }) => {
   };
 
   const WindowTiltFmt = (cell, _row) => {
-    const wall = walls.find((s) => s.id === cell);
+    const wall = appstate.walls.find((s) => s.id === cell);
     if (wall === undefined) {
       return <span>-</span>;
     } else {
@@ -56,20 +55,20 @@ const HuecosTable = observer(({ appstate }) => {
 
   // Diccionario para determinar si el hueco está o no dentro de la ET
   const is_outside_tenv = new Map();
-  windows.forEach((win) => {
-    const wall = walls.find((w) => w.id === win.wall);
+  appstate.windows.forEach((win) => {
+    const wall = appstate.walls.find((w) => w.id === win.wall);
     // 1. No tiene definido muro -> fuera
     if (wall === undefined) {
       is_outside_tenv[win.id] = "outsidetenv";
     } else {
-      const wall_inside_tenv = wall_is_inside_tenv(wall, spaces);
+      const wall_inside_tenv = wall_is_inside_tenv(wall, appstate.spaces);
       is_outside_tenv[win.id] = wall_inside_tenv ? null : "outsidetenv";
     }
   });
 
   // Formato y opciones de construcciones de huecos
   const winconsMap = new Map();
-  wincons.map((s) => (winconsMap[s.id] = s.name));
+  appstate.wincons.map((s) => (winconsMap[s.id] = s.name));
   const WinconsFmt = (cell, _row) => <span>{winconsMap[cell]}</span>;
   const WinconsOpts = Object.keys(winconsMap).map((k) => {
     return { text: winconsMap[k], value: k };
@@ -77,7 +76,7 @@ const HuecosTable = observer(({ appstate }) => {
 
   // Formato y opciones de opacos
   const wallsMap = new Map();
-  walls.map((s) => (wallsMap[s.id] = s.name));
+  appstate.walls.map((s) => (wallsMap[s.id] = s.name));
   const WallsFmt = (cell, _row) => <span>{wallsMap[cell]}</span>;
   const WallsOpts = Object.keys(wallsMap).map((k) => {
     return { text: wallsMap[k], value: k };
@@ -103,7 +102,7 @@ const HuecosTable = observer(({ appstate }) => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            objects={windows}
+            objects={appstate.windows}
             newObj={appstate.newHueco}
             selected={selected}
             clear={() => setSelected([])}
@@ -113,7 +112,7 @@ const HuecosTable = observer(({ appstate }) => {
       <Row>
         <Col>
           <BootstrapTable
-            data={windows}
+            data={appstate.windows}
             version="4"
             striped
             hover
@@ -235,10 +234,10 @@ const HuecosTable = observer(({ appstate }) => {
         </Col>
       </Row>
       <Row>
-        <Col>&sum;A = {huecosA.toFixed(2)} m²</Col>
+        <Col>&sum;A = {appstate.huecosA.toFixed(2)} m²</Col>
       </Row>
       <Row>
-        <Col md="auto">&sum;A·U = {huecosAU.toFixed(2)} W/K</Col>
+        <Col md="auto">&sum;A·U = {appstate.huecosAU.toFixed(2)} W/K</Col>
       </Row>
       <Row className="text-info small mt-3">
         <Col>

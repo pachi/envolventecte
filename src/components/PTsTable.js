@@ -33,7 +33,6 @@ const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 
 const PTsTable = observer(({ appstate }) => {
   const [selected, setSelected] = useState([]);
-  const { thermal_bridges, ptsL, ptsPsiL } = appstate;
 
   return (
     <Col>
@@ -55,7 +54,7 @@ const PTsTable = observer(({ appstate }) => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            objects={thermal_bridges}
+            objects={appstate.thermal_bridges}
             newObj={appstate.newPT}
             selected={selected}
             clear={() => setSelected([])}
@@ -65,7 +64,7 @@ const PTsTable = observer(({ appstate }) => {
       <Row>
         <Col>
           <BootstrapTable
-            data={thermal_bridges}
+            data={appstate.thermal_bridges}
             version="4"
             striped
             hover
@@ -136,10 +135,10 @@ const PTsTable = observer(({ appstate }) => {
         </Col>
       </Row>
       <Row>
-        <Col>&sum;L = {ptsL.toFixed(2)} m</Col>
+        <Col>&sum;L = {appstate.ptsL.toFixed(2)} m</Col>
       </Row>
       <Row>
-        <Col md="auto">&sum;L·&psi; = {ptsPsiL.toFixed(2)} W/K</Col>
+        <Col md="auto">&sum;L·&psi; = {appstate.ptsPsiL.toFixed(2)} W/K</Col>
       </Row>
       <Row className="text-info small mt-3">
         <Col>

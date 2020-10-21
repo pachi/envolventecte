@@ -99,7 +99,7 @@ const NVEditor = React.forwardRef((props, ref) => {
   );
 });
 
-const SpacesTable = observer(({ appstate: { spaces, newSpace } }) => {
+const SpacesTable = observer(({ appstate }) => {
   const [selected, setSelected] = useState([]);
 
   return (
@@ -110,8 +110,8 @@ const SpacesTable = observer(({ appstate: { spaces, newSpace } }) => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            objects={spaces}
-            newObj={newSpace}
+            objects={appstate.spaces}
+            newObj={appstate.newSpace}
             selected={selected}
             clear={() => setSelected([])}
           />
@@ -120,7 +120,7 @@ const SpacesTable = observer(({ appstate: { spaces, newSpace } }) => {
       <Row>
         <Col>
           <BootstrapTable
-            data={spaces}
+            data={appstate.spaces}
             version="4"
             striped
             hover

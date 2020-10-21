@@ -32,7 +32,6 @@ const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 
 const WinConsTable = observer(({ appstate }) => {
   const [selected, setSelected] = useState([]);
-  const { wincons } = appstate;
 
   return (
     <Col>
@@ -42,7 +41,7 @@ const WinConsTable = observer(({ appstate }) => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            objects={wincons}
+            objects={appstate.wincons}
             newObj={appstate.newWinCons}
             selected={selected}
             clear={() => setSelected([])}
@@ -52,7 +51,7 @@ const WinConsTable = observer(({ appstate }) => {
       <Row>
         <Col>
           <BootstrapTable
-            data={wincons}
+            data={appstate.wincons}
             version="4"
             striped
             hover

@@ -30,30 +30,8 @@ import iconplus from "./img/baseline-add-24px.svg";
 const IndicatorsPanel = observer(({ appstate }) => {
   const [open, setOpen] = useState(false);
 
-  const {
-    huecosA,
-    huecosAU,
-    opacosA,
-    opacosAU,
-    ptsPsiL,
-    totalA,
-    totalAU,
-    he1_indicators: {
-      A_ref,
-      qsoljul,
-      K,
-      vol_env_net,
-      vol_env_gross,
-      compacity,
-      n50,
-      n50_he2019,
-      C_o,
-      C_o_he2019,
-      warnings,
-    },
-  } = appstate;
-
-  const Qsoljul = qsoljul * A_ref;
+  const Qsoljul =
+    appstate.he1_indicators.qsoljul * appstate.he1_indicators.A_ref;
 
   return (
     <Card body bg="light" className="mb-3">
@@ -65,7 +43,7 @@ const IndicatorsPanel = observer(({ appstate }) => {
         </Col>
         <Col md={2} title="Transmitancia térmica global del edificio">
           <b>
-            <i>K</i> = {K.toFixed(2)} <i>W/m²K</i>
+            <i>K</i> = {appstate.he1_indicators.K.toFixed(2)} <i>W/m²K</i>
           </b>
         </Col>
         <Col md={2} title="Indicador de control solar">
@@ -73,7 +51,11 @@ const IndicatorsPanel = observer(({ appstate }) => {
             <i>
               q<sub>sol;jul</sub>
             </i>{" "}
-            = {A_ref !== 0 ? qsoljul.toFixed(2) : "-"} <i>kWh/m²/mes</i>
+            ={" "}
+            {appstate.he1_indicators.A_ref !== 0
+              ? appstate.he1_indicators.qsoljul.toFixed(2)
+              : "-"}{" "}
+            <i>kWh/m²/mes</i>
           </b>
         </Col>
         <Col md={2} title="Transmitancia térmica global del edificio">
@@ -81,9 +63,10 @@ const IndicatorsPanel = observer(({ appstate }) => {
             <i>
               n<sub>50</sub>
             </i>{" "}
-            = {n50.toFixed(2)} <i>renh</i>
+            = {appstate.he1_indicators.n50.toFixed(2)} <i>renh</i>
           </b>{" "}
-          (n<sub>50,ref</sub> = {n50_he2019.toFixed(2)} renh)
+          (n<sub>50,ref</sub> = {appstate.he1_indicators.n50_he2019.toFixed(2)}{" "}
+          renh)
         </Col>
         <Col
           md={2}
@@ -93,7 +76,7 @@ const IndicatorsPanel = observer(({ appstate }) => {
           <b>
             A<sub>util</sub>
           </b>{" "}
-          = {A_ref.toFixed(2)} m²
+          = {appstate.he1_indicators.A_ref.toFixed(2)} m²
         </Col>
         <Col
           md={1}
@@ -103,14 +86,14 @@ const IndicatorsPanel = observer(({ appstate }) => {
           <b>
             V<sub>tot</sub>
           </b>{" "}
-          = {vol_env_gross.toFixed(2)} m³
+          = {appstate.he1_indicators.vol_env_gross.toFixed(2)} m³
         </Col>
         <Col
           md={1}
           className="text-right"
           title="Compacidad de la envolvente térmica (V_tot / A) [m³/m²]"
         >
-          <b>V/A</b> = {compacity.toFixed(2)} m³
+          <b>V/A</b> = {appstate.he1_indicators.compacity.toFixed(2)} m³
         </Col>
         <Col
           md={1}
@@ -120,7 +103,7 @@ const IndicatorsPanel = observer(({ appstate }) => {
           <b>
             V<sub>int</sub>
           </b>{" "}
-          = {vol_env_net.toFixed(2)} m³
+          = {appstate.he1_indicators.vol_env_net.toFixed(2)} m³
         </Col>
       </Row>
       <Collapse in={open}>
@@ -136,23 +119,25 @@ const IndicatorsPanel = observer(({ appstate }) => {
                 H<sub>tr,adj</sub> &asymp; &sum;<sub>x</sub> b<sub>tr,x</sub> ·
                 [&sum;<sub>i</sub> A<sub>x,i</sub> · U<sub>x,i</sub> (huecos +
                 opacos) + &sum;<sub>k</sub> l<sub>x,k</sub> · ψ<sub>x,k</sub>{" "}
-                (PTs)] = {huecosAU.toFixed(2)} W/K (huecos) +{" "}
-                {opacosAU.toFixed(2)} W/K (opacos) + {ptsPsiL.toFixed(2)} W/K
-                (PTs) = {(totalAU + ptsPsiL).toFixed(2)} W/K{" "}
+                (PTs)] = {appstate.huecosAU.toFixed(2)} W/K (huecos) +{" "}
+                {appstate.opacosAU.toFixed(2)} W/K (opacos) +{" "}
+                {appstate.ptsPsiL.toFixed(2)} W/K (PTs) ={" "}
+                {(appstate.totalAU + appstate.ptsPsiL).toFixed(2)} W/K{" "}
               </p>
               <p>Superficie de intercambio de la envolvente térmica</p>
               <p>
                 &sum;A = &sum; b<sub>tr,x</sub> · A<sub>x</sub> ={" "}
-                {Number(huecosA).toFixed(2)} m² (huecos) +{" "}
-                {Number(opacosA).toFixed(2)} m² (opacos) ={" "}
-                {Number(totalA).toFixed(2)} m²
+                {Number(appstate.huecosA).toFixed(2)} m² (huecos) +{" "}
+                {Number(appstate.opacosA).toFixed(2)} m² (opacos) ={" "}
+                {Number(appstate.totalA).toFixed(2)} m²
               </p>
               <p>Valor del indicador:</p>
               <p>
                 <b>K</b> = H<sub>tr,adj</sub> / &sum;A &asymp;{" "}
-                {(totalAU + ptsPsiL).toFixed(2)} / {totalA.toFixed(2)} ={" "}
+                {(appstate.totalAU + appstate.ptsPsiL).toFixed(2)} /{" "}
+                {appstate.totalA.toFixed(2)} ={" "}
                 <b>
-                  {Number(K).toFixed(2)} <i>W/m²K</i>
+                  {Number(appstate.he1_indicators.K).toFixed(2)} <i>W/m²K</i>
                 </b>
               </p>
             </Col>
@@ -172,7 +157,7 @@ const IndicatorsPanel = observer(({ appstate }) => {
               </p>
               <p>Superficie útil</p>
               <p>
-                A<sub>util</sub> = {A_ref.toFixed(2)} m²
+                A<sub>util</sub> = {appstate.he1_indicators.A_ref.toFixed(2)} m²
               </p>
               <p>Valor del indicador:</p>
               <p>
@@ -180,9 +165,14 @@ const IndicatorsPanel = observer(({ appstate }) => {
                   q<sub>sol;jul</sub>
                 </b>{" "}
                 = Q<sub>sol;jul</sub> / A<sub>util</sub> ={Qsoljul.toFixed(2)} /{" "}
-                {A_ref.toFixed(2)} ={" "}
+                {appstate.he1_indicators.A_ref.toFixed(2)} ={" "}
                 <b>
-                  <i>{A_ref !== 0 ? qsoljul.toFixed(2) : "-"} kWh/m²/mes</i>
+                  <i>
+                    {appstate.he1_indicators.A_ref !== 0
+                      ? appstate.he1_indicators.qsoljul.toFixed(2)
+                      : "-"}{" "}
+                    kWh/m²/mes
+                  </i>
                 </b>
               </p>
             </Col>
