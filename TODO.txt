@@ -1,16 +1,11 @@
-- Arreglar eliminar, añadir y duplicar elementos
-    - Es necesario poder manejar referencias nulas (avisos) en elementos también en wasm
-    - Ver cómo se corrigen elementos a los que hay referencias (no dejar si hay referencias, p.e. y dar aviso)
-- Agrupar espacios
 - Mostrar inclinación como icono (y también azimuth)
-- Mover a utils.js diccionarios de tipos de condiciones de contorno, espacios, climas, orientaciones, etc.
+- Mover a utils.js diccionarios de tipos de climas, orientaciones, etc.
 - Llevar a wasm:
-    - Comprobación de si un elemento está dentro o fuera de la ET
+    - ¿Comprobación de si un elemento está dentro o fuera de la ET?
+    - Agrupar espacios en wasm
     - Datos de clima?
     - U de elementos
     - valores parciales de A y AU de opacos y huecos, y Psi.L
-- comprobar resultados de edición con wasm y ver qué ocurre con caso vacío.
-
 - Cálculo de valores de acristalamientos con sombras móviles usando parámetros U_gl, g_gl_n, tau_e_B y ro_e_B directamente
 - Añadir cálculo de F_sh;obst
 - Mostrar indicación de que se está en proceso de cálculo o carga de datos
