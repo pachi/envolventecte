@@ -21,13 +21,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Card, Col, Collapse, Row } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
+import AppState from "../stores/AppState";
+
 import iconplus from "./img/baseline-add-24px.svg";
 
-const IndicatorsPanel = observer(({ appstate }) => {
+const IndicatorsPanel = observer(() => {
+  const appstate = useContext(AppState);
   const [open, setOpen] = useState(false);
 
   const Qsoljul =

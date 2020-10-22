@@ -21,11 +21,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React from "react";
+import React, { useContext } from "react";
 import { observer } from "mobx-react-lite";
 import { Form, Row, Col } from "react-bootstrap";
 
-const ClimateSelector = observer(({ appstate, ...props }) => {
+import AppState from "../stores/AppState";
+
+const ClimateSelector = observer(({ ...props }) => {
+  const appstate = useContext(AppState);
   return (
     <Form.Group as={Row} controlId="formControlsClimateZone">
       <Col as={Form.Label} md={4} style={props.labelStyle}>

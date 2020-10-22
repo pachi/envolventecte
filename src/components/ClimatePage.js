@@ -21,11 +21,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React from "react";
+import React, { useContext } from "react";
 import { Col, Container, Row, Tabs, Tab } from "react-bootstrap";
 
 import { observer } from "mobx-react-lite";
 // import DevTools from 'mobx-react-devtools';
+
+import AppState from "../stores/AppState";
 
 import Footer from "./Footer";
 import JulyRadiationTable from "./JulyRadiationTable";
@@ -35,7 +37,8 @@ import ShadingFactorsTable from "./ShadingFactorsTable";
 import { OrientacionesSprite } from "./IconsOrientaciones";
 import { FshwithSprite } from "./IconsFshwith";
 
-const ClimatePage = observer(({ appstate, route }) => {
+const ClimatePage = observer(({ route }) => {
+  const appstate = useContext(AppState);
   return (
     <Container fluid>
       <NavBar route={route} />

@@ -21,7 +21,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+import { createContext } from "react";
 import { action, observable, computed, makeObservable, configure } from "mobx";
+
 import { UserException, uuidv4 } from "../utils.js";
 import { he1_indicators } from "wasm-envolventecte";
 
@@ -43,7 +45,7 @@ configure({
   enforceActions: "never",
 });
 
-export default class AppState {
+class AppState {
   // Datos climáticos --------
 
   // Valores de radiación
@@ -359,3 +361,5 @@ export default class AppState {
     }
   }
 }
+
+export default createContext(new AppState());

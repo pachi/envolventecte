@@ -21,10 +21,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer } from "mobx-react-lite";
+
+import AppState from "../stores/AppState";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 import icongroup from "./img/outline-add_comment-24px.svg";
@@ -32,8 +34,8 @@ import { azimuth_name, tilt_name, wall_is_inside_tenv } from "../utils";
 
 const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 
-const HuecosTable = observer(({ appstate }) => {
-  const [selected, setSelected] = useState([]);
+const HuecosTable = observer(({ selected, setSelected }) => {
+  const appstate = useContext(AppState);
 
   const WindowOrientationFmt = (cell, _row) => {
     const wall = appstate.walls.find((s) => s.id === cell);
@@ -83,10 +85,141 @@ const HuecosTable = observer(({ appstate }) => {
   });
 
   return (
+    <BootstrapTable
+      data={appstate.windows}
+      version="4"
+      striped
+      hover
+      bordered={false}
+      tableHeaderClass="text-light bg-secondary"
+      cellEdit={{
+        mode: "dbclick",
+        blurToSave: true,
+        afterSaveCell: (row, cellName, cellValue) => {
+          if (["A", "fshobst"].includes(cellName)) {
+            // Convierte a número campos numéricos
+            row[cellName] = Number(cellValue);
+          }
+        },
+      }}
+      selectRow={{
+        mode: "checkbox",
+        clickToSelectAndEditCell: true,
+        selected: selected,
+        onSelect: (row, isSelected) => {
+          if (isSelected) {
+            setSelected([...selected, row.id]);
+          } else {
+            setSelected(selected.filter((it) => it !== row.id));
+          }
+        },
+        hideSelectColumn: true,
+        bgColor: "lightgray",
+      }}
+      trClassName={(row, rowIdx) => is_outside_tenv[row.id]}
+    >
+      <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
+        - ID -{" "}
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="name"
+        headerText="Nombre que identifica de forma única el hueco"
+        width="30%"
+      >
+        Nombre
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="A"
+        dataFormat={Float2DigitsFmt}
+        headerText="Área proyectada del hueco (m2)"
+        headerAlign="center"
+        dataAlign="center"
+      >
+        A<sub>w,p</sub>
+        <br />
+        <span style={{ fontWeight: "normal" }}>
+          <i>
+            [m<sup>2</sup>]
+          </i>
+        </span>
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="cons"
+        dataFormat={WinconsFmt}
+        headerText="Construcción del hueco"
+        headerAlign="center"
+        dataAlign="center"
+        editable={{
+          type: "select",
+          options: { values: WinconsOpts },
+        }}
+      >
+        Construcción
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="wall"
+        dataFormat={WallsFmt}
+        headerText="Opaco al que pertenece el hueco"
+        headerAlign="center"
+        dataAlign="center"
+        editable={{
+          type: "select",
+          options: { values: WallsOpts },
+        }}
+      >
+        Opaco
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="fshobst"
+        dataFormat={Float2DigitsFmt}
+        headerText="Factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción). Este valor puede asimilarse al factor de sombra del hueco (FS). El Documento de Apoyo DA DB-HE/1 recoge valores del factor de sombra FS para considerar el efecto de voladizos, retranqueos, aletas laterales o lamas exteriores."
+        headerAlign="center"
+        dataAlign="center"
+      >
+        F<sub>sh;obst</sub>
+        <br />
+        <span style={{ fontWeight: "normal" }}>
+          <i>[-]</i>
+        </span>
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="wall"
+        dataFormat={WindowOrientationFmt}
+        headerText="Orientación del hueco"
+        editable={false}
+        columnClassName="td-column-readonly"
+        headerAlign="center"
+        dataAlign="center"
+      >
+        Orientación
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="wall"
+        dataFormat={WindowTiltFmt}
+        headerText="Inclinación del hueco"
+        editable={false}
+        columnClassName="td-column-readonly"
+        headerAlign="center"
+        dataAlign="center"
+      >
+        Inclinación
+      </TableHeaderColumn>
+    </BootstrapTable>
+  );
+});
+
+const HuecosView = observer(() => {
+  const appstate = useContext(AppState);
+  const [selected, setSelected] = useState([]);
+
+  return (
     <Col>
       <Row>
         <Col>
-          <h4>Huecos del edificio</h4>
+          <h4>
+            Huecos del edificio{" "}
+            <small className="text-muted">({appstate.windows.length})</small>
+          </h4>
         </Col>
         <Col md="auto">
           <ButtonGroup>
@@ -102,136 +235,16 @@ const HuecosTable = observer(({ appstate }) => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            appstate={appstate}
             elements="windows"
             newobj="newHueco"
             selected={selected}
-            clear={() => setSelected([])}
+            setSelected={setSelected}
           />
         </Col>
       </Row>
       <Row>
         <Col>
-          <BootstrapTable
-            data={appstate.windows}
-            version="4"
-            striped
-            hover
-            bordered={false}
-            tableHeaderClass="text-light bg-secondary"
-            cellEdit={{
-              mode: "dbclick",
-              blurToSave: true,
-              afterSaveCell: (row, cellName, cellValue) => {
-                if (["A", "fshobst"].includes(cellName)) {
-                  // Convierte a número campos numéricos
-                  row[cellName] = Number(cellValue);
-                }
-              },
-            }}
-            selectRow={{
-              mode: "checkbox",
-              clickToSelectAndEditCell: true,
-              selected: selected,
-              onSelect: (row, isSelected) => {
-                if (isSelected) {
-                  setSelected([...selected, row.id]);
-                } else {
-                  setSelected(selected.filter((it) => it !== row.id));
-                }
-              },
-              hideSelectColumn: true,
-              bgColor: "lightgray",
-            }}
-            trClassName={(row, rowIdx) => is_outside_tenv[row.id]}
-          >
-            <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-              - ID -{" "}
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="name"
-              headerText="Nombre que identifica de forma única el hueco"
-              width="30%"
-            >
-              Nombre
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="A"
-              dataFormat={Float2DigitsFmt}
-              headerText="Área proyectada del hueco (m2)"
-              headerAlign="center"
-              dataAlign="center"
-            >
-              A<sub>w,p</sub>
-              <br />
-              <span style={{ fontWeight: "normal" }}>
-                <i>
-                  [m<sup>2</sup>]
-                </i>
-              </span>
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="cons"
-              dataFormat={WinconsFmt}
-              headerText="Construcción del hueco"
-              headerAlign="center"
-              dataAlign="center"
-              editable={{
-                type: "select",
-                options: { values: WinconsOpts },
-              }}
-            >
-              Construcción
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="wall"
-              dataFormat={WallsFmt}
-              headerText="Opaco al que pertenece el hueco"
-              headerAlign="center"
-              dataAlign="center"
-              editable={{
-                type: "select",
-                options: { values: WallsOpts },
-              }}
-            >
-              Opaco
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="fshobst"
-              dataFormat={Float2DigitsFmt}
-              headerText="Factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción). Este valor puede asimilarse al factor de sombra del hueco (FS). El Documento de Apoyo DA DB-HE/1 recoge valores del factor de sombra FS para considerar el efecto de voladizos, retranqueos, aletas laterales o lamas exteriores."
-              headerAlign="center"
-              dataAlign="center"
-            >
-              F<sub>sh;obst</sub>
-              <br />
-              <span style={{ fontWeight: "normal" }}>
-                <i>[-]</i>
-              </span>
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="wall"
-              dataFormat={WindowOrientationFmt}
-              headerText="Orientación del hueco"
-              editable={false}
-              columnClassName="td-column-readonly"
-              headerAlign="center"
-              dataAlign="center"
-            >
-              Orientación
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="wall"
-              dataFormat={WindowTiltFmt}
-              headerText="Inclinación del hueco"
-              editable={false}
-              columnClassName="td-column-readonly"
-              headerAlign="center"
-              dataAlign="center"
-            >
-              Inclinación
-            </TableHeaderColumn>
-          </BootstrapTable>
+          <HuecosTable selected={selected} setSelected={setSelected} />
         </Col>
       </Row>
       <Row>
@@ -303,4 +316,4 @@ const HuecosTable = observer(({ appstate }) => {
   );
 });
 
-export default HuecosTable;
+export default HuecosView;

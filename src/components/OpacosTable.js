@@ -21,10 +21,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer } from "mobx-react-lite";
+
+import AppState from "../stores/AppState";
+
 import {
   azimuth_name,
   tilt_name,
@@ -45,9 +48,8 @@ const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 const AzimuthFmt = (cell, _row) => <span>{azimuth_name(cell)}</span>;
 const TiltFmt = (cell, _row) => <span>{tilt_name(cell)}</span>;
 
-// Tabla de elementos opacos
-const OpacosTable = observer(({ appstate }) => {
-  const [selected, setSelected] = useState([]);
+const OpacosTable = observer(({ selected, setSelected }) => {
+  const appstate = useContext(AppState);
 
   // Diccionario para determinar si el opaco está o no dentro de la ET
   const is_outside_tenv = new Map();
@@ -74,10 +76,165 @@ const OpacosTable = observer(({ appstate }) => {
   });
 
   return (
+    <BootstrapTable
+      data={appstate.walls}
+      version="4"
+      striped
+      hover
+      bordered={false}
+      tableHeaderClass="text-light bg-secondary"
+      cellEdit={{
+        mode: "dbclick",
+        blurToSave: true,
+        // Corrige el valor del espacio adyacente de "" a null
+        afterSaveCell: (row, cellName, cellValue) => {
+          if (cellName === "nextto" && cellValue !== "") {
+            row.nextto = null;
+          } else if (["A", "azimuth", "tilt"].includes(cellName)) {
+            // Convierte a número campos numéricos
+            row[cellName] = Number(cellValue);
+          }
+        },
+      }}
+      selectRow={{
+        mode: "checkbox",
+        clickToSelectAndEditCell: true,
+        selected: selected,
+        onSelect: (row, isSelected) => {
+          if (isSelected) {
+            setSelected([...selected, row.id]);
+          } else {
+            setSelected(selected.filter((it) => it !== row.id));
+          }
+        },
+        hideSelectColumn: true,
+        bgColor: "lightgray",
+      }}
+      trClassName={(row, rowIdx) => is_outside_tenv[row.id]}
+    >
+      <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
+        - ID -{" "}
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="name"
+        headerText="Nombre que identifica de forma única el elemento opaco"
+        width="30%"
+      >
+        Nombre
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="A"
+        dataFormat={Float2DigitsFmt}
+        headerText="Superficie neta (sin huecos) del elemento opaco, en m²"
+        headerAlign="center"
+        dataAlign="center"
+      >
+        A<br />
+        <span style={{ fontWeight: "normal" }}>
+          <i>
+            [m<sup>2</sup>]
+          </i>{" "}
+        </span>
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="bounds"
+        editable={{
+          type: "select",
+          options: { values: BoundaryOpts },
+        }}
+        dataFormat={BoundaryFmt}
+        headerText="Condición de contorno del elemento opaco (INTERIOR | EXTERIOR | GROUND | ADIABATIC)"
+        headerAlign="center"
+        dataAlign="center"
+      >
+        Tipo
+        <br />
+        <span style={{ fontWeight: "normal" }}>
+          <i>[-]</i>{" "}
+        </span>
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="cons"
+        dataFormat={WallconsFmt}
+        headerText="Construcción del opaco"
+        headerAlign="center"
+        dataAlign="center"
+        editable={{
+          type: "select",
+          options: { values: WallconsOpts },
+        }}
+      >
+        Construcción
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="space"
+        dataFormat={SpaceFmt}
+        headerText="Espacio al que pertenece el elemento opaco"
+        headerAlign="center"
+        dataAlign="center"
+        editable={{
+          type: "select",
+          options: { values: SpaceOpts },
+        }}
+      >
+        Espacio
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="nextto"
+        dataFormat={SpaceFmt}
+        headerText="Espacio adyacente con el que comunica el elemento opaco cuando es interior"
+        headerAlign="center"
+        dataAlign="center"
+        editable={{
+          type: "select",
+          options: { values: SpaceOpts },
+        }}
+      >
+        Espacio ady.
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="azimuth"
+        dataFormat={AzimuthFmt}
+        headerText="Orientación (gamma) [-180,+180] (S=0, E=+90, W=-90). Medido como azimuth geográfico de la proyección horizontal de la normal a la superficie"
+        headerAlign="center"
+        dataAlign="center"
+      >
+        Orientación
+        <br />
+        <span style={{ fontWeight: "normal" }}>
+          <i>[-]</i>{" "}
+        </span>
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="tilt"
+        dataFormat={TiltFmt}
+        headerText="Inclinación (beta) [0, 180]. Medido respecto a la horizontal y normal hacia arriba (0 -> suelo, 180 -> techo)"
+        headerAlign="center"
+        dataAlign="center"
+      >
+        Inclinación
+        <br />
+        <span style={{ fontWeight: "normal" }}>
+          <i>[-]</i>{" "}
+        </span>
+      </TableHeaderColumn>
+    </BootstrapTable>
+  );
+});
+
+// Tabla de elementos opacos
+const OpacosView = observer(() => {
+  const appstate = useContext(AppState);
+  const [selected, setSelected] = useState([]);
+
+  return (
     <Col>
       <Row>
         <Col>
-          <h4>Elementos opacos del edificio</h4>
+          <h4>
+            Elementos opacos del edificio{" "}
+            <small className="text-muted">({appstate.walls.length})</small>
+          </h4>
         </Col>
         <Col md="auto">
           <ButtonGroup>
@@ -93,159 +250,16 @@ const OpacosTable = observer(({ appstate }) => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            appstate={appstate}
             elements="walls"
             newobj="newOpaco"
             selected={selected}
-            clear={() => setSelected([])}
+            setSelected={setSelected}
           />
         </Col>
       </Row>
       <Row>
         <Col>
-          <BootstrapTable
-            data={appstate.walls}
-            version="4"
-            striped
-            hover
-            bordered={false}
-            tableHeaderClass="text-light bg-secondary"
-            cellEdit={{
-              mode: "dbclick",
-              blurToSave: true,
-              // Corrige el valor del espacio adyacente de "" a null
-              afterSaveCell: (row, cellName, cellValue) => {
-                if (cellName === "nextto" && cellValue !== "") {
-                  row.nextto = null;
-                } else if (["A", "azimuth", "tilt"].includes(cellName)) {
-                  // Convierte a número campos numéricos
-                  row[cellName] = Number(cellValue);
-                }
-              },
-            }}
-            selectRow={{
-              mode: "checkbox",
-              clickToSelectAndEditCell: true,
-              selected: selected,
-              onSelect: (row, isSelected) => {
-                if (isSelected) {
-                  setSelected([...selected, row.id]);
-                } else {
-                  setSelected(selected.filter((it) => it !== row.id));
-                }
-              },
-              hideSelectColumn: true,
-              bgColor: "lightgray",
-            }}
-            trClassName={(row, rowIdx) => is_outside_tenv[row.id]}
-          >
-            <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-              - ID -{" "}
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="name"
-              headerText="Nombre que identifica de forma única el elemento opaco"
-              width="30%"
-            >
-              Nombre
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="A"
-              dataFormat={Float2DigitsFmt}
-              headerText="Superficie neta (sin huecos) del elemento opaco, en m²"
-              headerAlign="center"
-              dataAlign="center"
-            >
-              A<br />
-              <span style={{ fontWeight: "normal" }}>
-                <i>
-                  [m<sup>2</sup>]
-                </i>{" "}
-              </span>
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="bounds"
-              editable={{
-                type: "select",
-                options: { values: BoundaryOpts },
-              }}
-              dataFormat={BoundaryFmt}
-              headerText="Condición de contorno del elemento opaco (INTERIOR | EXTERIOR | GROUND | ADIABATIC)"
-              headerAlign="center"
-              dataAlign="center"
-            >
-              Tipo
-              <br />
-              <span style={{ fontWeight: "normal" }}>
-                <i>[-]</i>{" "}
-              </span>
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="cons"
-              dataFormat={WallconsFmt}
-              headerText="Construcción del opaco"
-              headerAlign="center"
-              dataAlign="center"
-              editable={{
-                type: "select",
-                options: { values: WallconsOpts },
-              }}
-            >
-              Construcción
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="space"
-              dataFormat={SpaceFmt}
-              headerText="Espacio al que pertenece el elemento opaco"
-              headerAlign="center"
-              dataAlign="center"
-              editable={{
-                type: "select",
-                options: { values: SpaceOpts },
-              }}
-            >
-              Espacio
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="nextto"
-              dataFormat={SpaceFmt}
-              headerText="Espacio adyacente con el que comunica el elemento opaco cuando es interior"
-              headerAlign="center"
-              dataAlign="center"
-              editable={{
-                type: "select",
-                options: { values: SpaceOpts },
-              }}
-            >
-              Espacio ady.
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="azimuth"
-              dataFormat={AzimuthFmt}
-              headerText="Orientación (gamma) [-180,+180] (S=0, E=+90, W=-90). Medido como azimuth geográfico de la proyección horizontal de la normal a la superficie"
-              headerAlign="center"
-              dataAlign="center"
-            >
-              Orientación
-              <br />
-              <span style={{ fontWeight: "normal" }}>
-                <i>[-]</i>{" "}
-              </span>
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="tilt"
-              dataFormat={TiltFmt}
-              headerText="Inclinación (beta) [0, 180]. Medido respecto a la horizontal y normal hacia arriba (0 -> suelo, 180 -> techo)"
-              headerAlign="center"
-              dataAlign="center"
-            >
-              Inclinación
-              <br />
-              <span style={{ fontWeight: "normal" }}>
-                <i>[-]</i>{" "}
-              </span>
-            </TableHeaderColumn>
-          </BootstrapTable>
+          <OpacosTable selected={selected} setSelected={setSelected} />
         </Col>
       </Row>
       <Row>
@@ -313,4 +327,4 @@ const OpacosTable = observer(({ appstate }) => {
   );
 });
 
-export default OpacosTable;
+export default OpacosView;

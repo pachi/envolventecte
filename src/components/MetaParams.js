@@ -21,13 +21,16 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useRef } from "react";
+import React, { useRef, useContext } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
+import AppState from "../stores/AppState";
+
 import ClimateSelector from "./ClimateSelector";
 
-const MetaParams = observer(({ appstate }) => {
+const MetaParams = observer(() => {
+  const appstate = useContext(AppState);
   const hasblowerdoorref = useRef(null);
   return (
     <Row className="well">
@@ -49,7 +52,6 @@ const MetaParams = observer(({ appstate }) => {
         </Form>
         <h5>Clima</h5>
         <ClimateSelector
-          appstate={appstate}
           labelStyle={{ color: "inherit" }}
           className="mr-auto"
         />

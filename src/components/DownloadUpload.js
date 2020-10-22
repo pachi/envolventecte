@@ -21,16 +21,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React from "react";
+import React, { useContext } from "react";
 import { Alert, Button, Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 // import DevTools from 'mobx-react-devtools';
 
 import { hash } from "../utils.js";
 
+import AppState from "../stores/AppState";
+
 import icondownload from "./img/baseline-archive-24px.svg";
 
-const DownloadUpload = observer(({ appstate }) => {
+const DownloadUpload = observer(() => {
+  const appstate = useContext(AppState);
+
   const handleDownload = (e) => {
     const contents = appstate.asJSON;
     const contenthash = hash(contents).toString(16);

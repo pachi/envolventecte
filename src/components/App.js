@@ -28,10 +28,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import "bootstrap/dist/css/bootstrap-theme.css";
 import "react-bootstrap-table/dist/react-bootstrap-table-all.min.css";
 
-import { observer } from "mobx-react-lite";
-
-import AppState from "../stores/AppState";
-
 import AboutPage from "./AboutPage";
 import ClimatePage from "./ClimatePage";
 import ElementsPage from "./ElementsPage";
@@ -39,44 +35,20 @@ import BuildingPage from "./BuildingPage";
 import HelpPage from "./HelpPage";
 import MainPage from "./MainPage";
 
-const appstate = new AppState();
-
-const App = observer((props) => (
-  <HashRouter>
-    <Switch>
-      <Route
-        exact
-        path="/"
-        render={(props) => <MainPage appstate={appstate} {...props} />}
-      />
-      <Route
-        exact
-        path="/building"
-        render={(props) => <BuildingPage appstate={appstate} {...props} />}
-      />
-      <Route
-        exact
-        path="/climate"
-        render={(props) => <ClimatePage appstate={appstate} {...props} />}
-      />
-      <Route
-        exact
-        path="/elements"
-        render={(props) => <ElementsPage appstate={appstate} {...props} />}
-      />
-      <Route
-        exact
-        path="/help"
-        render={(props) => <HelpPage appstate={appstate} {...props} />}
-      />
-      <Route
-        exact
-        path="/about"
-        render={(props) => <AboutPage appstate={appstate} {...props} />}
-      />
-      <Route path="*" render={() => <Redirect to="/" />} />
-    </Switch>
-  </HashRouter>
-));
+const App = () => {
+  return (
+    <HashRouter>
+      <Switch>
+        <Route exact path="/" render={(props) => <MainPage {...props} />} />
+        <Route exact path="/building" component={BuildingPage} />
+        <Route exact path="/climate" component={ClimatePage} />
+        <Route exact path="/elements" component={ElementsPage} />
+        <Route exact path="/help" render={(props) => <HelpPage {...props} />} />
+        <Route exact path="/about" component={AboutPage} />
+        <Route path="*" render={() => <Redirect to="/" />} />
+      </Switch>
+    </HashRouter>
+  );
+};
 
 export default App;
