@@ -26,7 +26,7 @@ import { uuidv4 } from "../utils.js";
 export const DEFAULT_SPACE = () => ({
   id: uuidv4(),
   name: `Espacio_${uuidv4()}`,
-  area: 1.0,
+  area: 100.0,
   multiplier: 1.0,
   type: "CONDITIONED",
   inside_tenv: true,
@@ -39,7 +39,7 @@ export const DEFAULT_SPACE = () => ({
 export const DEFAULT_WALL = () => ({
   id: uuidv4(),
   name: `Elemento_opaco_${uuidv4()}`,
-  A: 1.0,
+  A: 10.0,
   bounds: "EXTERIOR",
   cons: "",
   space: "",
