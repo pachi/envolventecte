@@ -23,91 +23,15 @@ SOFTWARE.
 
 import React, { useState, useContext } from "react";
 import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../stores/AppState";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
+import PTsTable from "./PTsTable";
 import icongroup from "./img/outline-add_comment-24px.svg";
 
-const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
-
-const PTsTable = observer(({ selected, setSelected }) => {
-  const appstate = useContext(AppState);
-  return (
-    <BootstrapTable
-      data={appstate.thermal_bridges}
-      version="4"
-      striped
-      hover
-      bordered={false}
-      tableHeaderClass="text-light bg-secondary"
-      cellEdit={{
-        mode: "dbclick",
-        blurToSave: true,
-        afterSaveCell: (row, cellName, cellValue) => {
-          if (["L", "psi"].includes(cellName)) {
-            // Convierte a número campos numéricos
-            row[cellName] = Number(cellValue);
-          }
-        },
-      }}
-      selectRow={{
-        mode: "checkbox",
-        clickToSelectAndEditCell: true,
-        selected: selected,
-        onSelect: (row, isSelected) => {
-          if (isSelected) {
-            setSelected([...selected, row.id]);
-          } else {
-            setSelected(selected.filter((it) => it !== row.id));
-          }
-        },
-        hideSelectColumn: true,
-        bgColor: "lightgray",
-      }}
-    >
-      <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-        - ID -{" "}
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="name"
-        headerText="Nombre que identifica de forma única el puente térmico"
-        width="30%"
-      >
-        Nombre
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="L"
-        dataFormat={Float2DigitsFmt}
-        headerText="Longitud del puente térmico (m)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        Longitud
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[m]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="psi"
-        dataFormat={Float2DigitsFmt}
-        headerText="Transmitancia térmica lineal del puente térmico (W/mK)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        &psi;
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[W/mK]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-    </BootstrapTable>
-  );
-});
-
+// Vista de puentes térmicos del edificio
 const PTsView = observer(() => {
   const appstate = useContext(AppState);
   const [selected, setSelected] = useState([]);
