@@ -26,7 +26,6 @@ import { Col, Container, Row, Tabs, Tab } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 // import DevTools from 'mobx-react-devtools';
 
-import AvisosDisplay from "./AvisosDisplay";
 import DownloadUpload from "./DownloadUpload";
 import Footer from "./Footer";
 import HuecosView from "./HuecosView";
@@ -45,11 +44,6 @@ const BuildingPage = ({ route }) => (
     <Row>
       <Col>
         <IndicatorsPanel />
-      </Col>
-    </Row>
-    <Row>
-      <Col>
-        <AvisosDisplay />
       </Col>
     </Row>
     <Row>
