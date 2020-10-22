@@ -51,85 +51,75 @@ const IndicatorsPanel = () => {
 
   return (
     <>
-      <Card bg="light">
-        <Card.Body>
-          <Row>
-            <Col md={3} title="Transmitancia térmica global del edificio">
-              <b>
-                <i>K</i> = {appstate.he1_indicators.K.toFixed(2)} <i>W/m²K</i>
-              </b>
-            </Col>
-            <Col md={3} title="Indicador de control solar">
-              <b>
-                <i>
-                  q<sub>sol;jul</sub>
-                </i>{" "}
-                ={" "}
-                {appstate.he1_indicators.A_ref !== 0
-                  ? appstate.he1_indicators.qsoljul.toFixed(2)
-                  : "-"}{" "}
-                <i>kWh/m²/mes</i>
-              </b>
-            </Col>
-            <Col md={3} title="Tasa de renovación de aire a 50 Pa">
-              <b>
-                <i>
-                  n<sub>50</sub>
-                </i>{" "}
-                = {appstate.he1_indicators.n50.toFixed(2)}{" "}
-                <i>
-                  h<sup>-1</sup>
-                </i>
-              </b>
-            </Col>
-            <Col md={3} title="Tasa de renovación de aire teórica a 50 Pa">
+      <Card body bg="light" id="indicatorscard">
+        <Row>
+          <Col md={3} title="Transmitancia térmica global del edificio">
+            <b>
+              <i>K</i> = {appstate.he1_indicators.K.toFixed(2)} <i>W/m²K</i>
+            </b>
+          </Col>
+          <Col md={3} title="Indicador de control solar">
+            <b>
               <i>
-                n<sub>50,ref</sub>
+                q<sub>sol;jul</sub>
               </i>{" "}
-              = {appstate.he1_indicators.n50_he2019.toFixed(2)}{" "}
+              ={" "}
+              {appstate.he1_indicators.A_ref !== 0
+                ? appstate.he1_indicators.qsoljul.toFixed(2)
+                : "-"}{" "}
+              <i>kWh/m²/mes</i>
+            </b>
+          </Col>
+          <Col md={3} title="Tasa de renovación de aire a 50 Pa">
+            <b>
+              <i>
+                n<sub>50</sub>
+              </i>{" "}
+              = {appstate.he1_indicators.n50.toFixed(2)}{" "}
               <i>
                 h<sup>-1</sup>
               </i>
-            </Col>
-          </Row>
-          <Row>
-            <Col
-              md={3}
-              title="Superficie útil de los espacios habitables del edificio o parte del edificio [m²]"
-            >
-              <b>
-                A<sub>util</sub>
-              </b>{" "}
-              = {appstate.he1_indicators.A_ref.toFixed(2)} m²
-            </Col>
-            <Col
-              md={3}
-              title="Volumen bruto de la envolvente térmica (volumen bruto s-s) [m³]"
-            >
-              <b>
-                V<sub>tot</sub>
-              </b>{" "}
-              = {appstate.he1_indicators.vol_env_gross.toFixed(2)} m³
-            </Col>
-            <Col
-              md={3}
-              title="Compacidad de la envolvente térmica (V_tot / A) [m³/m²]"
-            >
-              <b>V/A</b> = {appstate.he1_indicators.compacity.toFixed(2)} m³
-            </Col>
-            <Col
-              md={3}
-              title="Volumen habitable interior de la envolvente térmica (volumen neto s-t) [m³]"
-            >
-              <b>
-                V<sub>int</sub>
-              </b>{" "}
-              = {appstate.he1_indicators.vol_env_net.toFixed(2)} m³
-            </Col>
-          </Row>
-        </Card.Body>
+            </b>
+          </Col>
+          <Col md={3} title="Tasa de renovación de aire teórica a 50 Pa">
+            <i>
+              n<sub>50,ref</sub>
+            </i>{" "}
+            = {appstate.he1_indicators.n50_he2019.toFixed(2)}{" "}
+            <i>
+              h<sup>-1</sup>
+            </i>
+          </Col>
+        </Row>
+        <Row>
+          <Col
+            md={3}
+            title="Superficie útil de los espacios habitables del edificio o parte del edificio [m²]"
+          >
+            A<sub>util</sub> = {appstate.he1_indicators.A_ref.toFixed(2)} m²
+          </Col>
+          <Col
+            md={3}
+            title="Compacidad de la envolvente térmica (V_tot / A) [m³/m²]"
+          >
+            V/A = {appstate.he1_indicators.compacity.toFixed(2)} m³
+          </Col>
+          <Col
+            md={3}
+            title="Volumen bruto de la envolvente térmica (volumen bruto s-s) [m³]"
+          >
+            V = {appstate.he1_indicators.vol_env_gross.toFixed(2)} m³
+          </Col>
+          <Col
+            md={3}
+            title="Volumen habitable interior de la envolvente térmica (volumen neto s-t) [m³]"
+          >
+            V<sub>int</sub> = {appstate.he1_indicators.vol_env_net.toFixed(2)}{" "}
+            m³
+          </Col>
+        </Row>
       </Card>
-      <ButtonGroup>
+      <ButtonGroup className="mb-3">
         <Button size="sm" variant="light" onClick={() => setDetails(!details)}>
           Detalles
         </Button>
@@ -152,7 +142,7 @@ const IndicatorsPanel = () => {
         ) : null}
       </ButtonGroup>
       <Collapse in={warnings}>
-        <Card body bg="light" border="info" className="mt-3">
+        <Card body bg="light" border="info" className="mb-3">
           <Row>
             <Col>
               {errors.map((e, idx) => (
@@ -165,7 +155,7 @@ const IndicatorsPanel = () => {
         </Card>
       </Collapse>
       <Collapse in={details}>
-        <Card body bg="light" border="info" className="mt-3">
+        <Card body bg="light" border="info" className="mb-3">
           <Row>
             <Col>
               <h3>Transmitancia térmica global</h3>
