@@ -2,11 +2,8 @@
 - Mover a utils.js diccionarios de tipos de climas, orientaciones, etc.
 - Llevar a wasm:
     - ¿Comprobación de si un elemento está dentro o fuera de la ET?
-    - Agrupar espacios en wasm
+    - Agrupar elementos (espacios, muros, huecos, PTs)
     - Datos de clima?
-    - U de elementos
-    - valores parciales de A y AU de opacos y huecos, y Psi.L
 - Cálculo de valores de acristalamientos con sombras móviles usando parámetros U_gl, g_gl_n, tau_e_B y ro_e_B directamente
 - Añadir cálculo de F_sh;obst
-- Mostrar indicación de que se está en proceso de cálculo o carga de datos
 - Trasladar datos a public/data? (usando luego fetch o direcciones como <a href={process.env.PUBLIC_URL + "/data/zcraddata.json"}>Enlace</a>)

@@ -71,12 +71,6 @@ const HuecosView = observer(() => {
           <HuecosTable selected={selected} setSelected={setSelected} />
         </Col>
       </Row>
-      <Row>
-        <Col>&sum;A = {appstate.huecosA.toFixed(2)} m²</Col>
-      </Row>
-      <Row>
-        <Col md="auto">&sum;A·U = {appstate.huecosAU.toFixed(2)} W/K</Col>
-      </Row>
       <Row className="text-info small mt-3">
         <Col>
           <p>

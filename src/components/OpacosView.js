@@ -71,17 +71,6 @@ const OpacosView = observer(() => {
           <OpacosTable selected={selected} setSelected={setSelected} />
         </Col>
       </Row>
-      <Row>
-        <Col>
-          &sum;b<sub>tr,x</sub>·A<sub>x</sub> = {appstate.opacosA.toFixed(2)} m²
-        </Col>
-      </Row>
-      <Row>
-        <Col md="auto">
-          &sum;b<sub>tr,x</sub>·&sum;<sub>i</sub>A<sub>i</sub>·U
-          <sub>i</sub> = {appstate.opacosAU.toFixed(2)} W/K
-        </Col>
-      </Row>
       <Row className="text-info small mt-3">
         <Col>
           <p>

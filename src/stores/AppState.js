@@ -96,14 +96,6 @@ class AppState {
       // TODO: estos dos se podrían llegar a eliminar si cambiamos climas y usamos los del wasm
       climatedata: computed({ requiresReaction: true }),
       climateTotRadJul: computed({ requiresReaction: true }),
-      huecosA: computed,
-      huecosAU: computed,
-      opacosA: computed,
-      opacosAU: computed,
-      ptsL: computed,
-      ptsPsiL: computed,
-      totalA: computed,
-      totalAU: computed,
       agrupaHuecos: action,
       agrupaOpacos: action,
       agrupaPts: action,
@@ -161,61 +153,6 @@ class AppState {
   newSpace = DEFAULT_SPACE;
   newWallCons = DEFAULT_WALLCONS;
   newWinCons = DEFAULT_WINCONS;
-
-  // Propiedades de datos de espacios ------------
-
-  // Propiedades de datos de envolvente ---------
-  get huecosA() {
-    return this.windows.map((h) => Number(h.A)).reduce((a, b) => a + b, 0);
-  }
-
-  get huecosAU() {
-    return this.windows
-      .map((h) => Number(h.A) * Number(h.U))
-      .reduce((a, b) => a + b, 0);
-  }
-
-  get opacosA() {
-    return this.walls
-      .map(
-        (o) =>
-          (o.bounds === "EXTERIOR" || o.bounds === "GROUND" ? 1.0 : 0.0) *
-          (o.U === 0.0 ? 0.0 : 1.0) * // XXX: Elementos adiabáticos y no pertenecientes a la ET desde HULC (con 0.0 al no estar en KyG)
-          Number(o.A)
-      )
-      .reduce((a, b) => a + b, 0);
-  }
-
-  get opacosAU() {
-    return this.walls
-      .map(
-        (o) =>
-          (o.bounds === "EXTERIOR" || o.bounds === "GROUND" ? 1.0 : 0.0) *
-          Number(o.A) *
-          Number(o.U)
-      )
-      .reduce((a, b) => a + b, 0);
-  }
-
-  get ptsL() {
-    return this.thermal_bridges
-      .map((h) => Number(h.L))
-      .reduce((a, b) => a + b, 0);
-  }
-
-  get ptsPsiL() {
-    return this.thermal_bridges
-      .map((h) => Number(h.L) * Number(h.psi))
-      .reduce((a, b) => a + b, 0);
-  }
-
-  get totalA() {
-    return this.huecosA + this.opacosA;
-  }
-
-  get totalAU() {
-    return this.huecosAU + this.opacosAU;
-  }
 
   // Acciones --------
 

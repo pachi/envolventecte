@@ -32,7 +32,7 @@ pub fn set_panic_hook() {
 struct IndicatorsReport {
     A_ref: f32,
     compacity: f32,
-    K: f32,
+    K: cte::KDetail,
     qsoljul: f32,
     n50: f32,
     n50_he2019: f32,
