@@ -1,31 +1,39 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e91c3a0f71b134e8641e521dce1645ca",
+    "revision": "2dd7d5bfbfaa0c71bdab",
+    "url": "/envolventecte/d3b8c325d01cd3463450.module.wasm"
+  },
+  {
+    "revision": "3bbf8aba8f61bdb8ac439965a4101988",
     "url": "/envolventecte/index.html"
   },
   {
-    "revision": "8658bcb5454e7432f98a",
+    "revision": "e9f81bbcf1ba94dea7c3",
     "url": "/envolventecte/static/css/2.41076024.chunk.css"
   },
   {
-    "revision": "f9f3e575902524ce7766",
-    "url": "/envolventecte/static/css/main.87ed6282.chunk.css"
+    "revision": "2dd7d5bfbfaa0c71bdab",
+    "url": "/envolventecte/static/css/3.b6302ee1.chunk.css"
   },
   {
-    "revision": "8658bcb5454e7432f98a",
-    "url": "/envolventecte/static/js/2.79893a45.chunk.js"
+    "revision": "e9f81bbcf1ba94dea7c3",
+    "url": "/envolventecte/static/js/2.3ca04eaf.chunk.js"
   },
   {
-    "revision": "bf2ebf32675cc9ea6b583af48978e9c0",
-    "url": "/envolventecte/static/js/2.79893a45.chunk.js.LICENSE.txt"
+    "revision": "4029a758a54e2df0c867407e4535db9e",
+    "url": "/envolventecte/static/js/2.3ca04eaf.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "f9f3e575902524ce7766",
-    "url": "/envolventecte/static/js/main.09704132.chunk.js"
+    "revision": "2dd7d5bfbfaa0c71bdab",
+    "url": "/envolventecte/static/js/3.bb963dca.chunk.js"
   },
   {
-    "revision": "e2c6407a43413afec331",
-    "url": "/envolventecte/static/js/runtime-main.54f747ff.js"
+    "revision": "b059e20453bb44a38159",
+    "url": "/envolventecte/static/js/main.ef452b7a.chunk.js"
+  },
+  {
+    "revision": "5110162bb32734f0d8b6",
+    "url": "/envolventecte/static/js/runtime-main.1b2bd7f6.js"
   },
   {
     "revision": "5774dbba5adbee596edee2d0de9039e5",
@@ -74,5 +82,13 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "e6acfc69d88b054557de6de28526b7a6",
     "url": "/envolventecte/static/media/outline-live_help-24px.e6acfc69.svg"
+  },
+  {
+    "revision": "b9afc4ffd4030006be2923d8d93b746a",
+    "url": "/envolventecte/static/media/select-rows.b9afc4ff.svg"
+  },
+  {
+    "revision": "33cdd0492a3b6d436ddeb7640525b40e",
+    "url": "/envolventecte/static/media/unselect-rows.33cdd049.svg"
   }
 ]);
