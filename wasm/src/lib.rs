@@ -35,7 +35,7 @@ struct IndicatorsReport {
     K: cte::KDetail,
     qsoljul: f32,
     n50: f32,
-    n50_he2019: f32,
+    n50_he2019: cte::N50HEDetail,
     C_o: f32,
     C_o_he2019: f32,
     vol_env_net: f32,
