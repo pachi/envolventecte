@@ -105,11 +105,11 @@ const DownloadUpload = observer(() => {
             <p>
               Para generar dicho archivo, descargue en su equipo la aplicación{" "}
               <i>hulc2envolventecte</i> (
-              <a href="https://github.com/pachi/hulc2envolventecte/releases/download/v2.0.0/hulc2envolventecte.exe">
+              <a href="https://github.com/pachi/hulc2envolventecte/releases/download/v2.1.0/hulc2envolventecte.exe">
                 ejecutable para MS-Windows
               </a>
               ,{" "}
-              <a href="https://github.com/pachi/hulc2envolventecte/releases/download/v2.0.0/hulc2envolventecte">
+              <a href="https://github.com/pachi/hulc2envolventecte/releases/download/v2.1.0/hulc2envolventecte">
                 ejecutable para GNU/Linux
               </a>
               ) y úsela desde la consola de comandos (terminal), indicando como
