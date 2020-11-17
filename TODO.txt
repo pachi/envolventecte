@@ -1,5 +1,8 @@
+- Comprobar por qué se carga un n50 inicialmente que no está en el archivo (no hay ensayo pero se coge uno que no es el n50_ref).
 - Mostrar inclinación como icono (y también azimuth)
+- Mostrar tooltip en los elementos con avisos
 - Mover a utils.js diccionarios de tipos de climas, orientaciones, etc.
+- ¿Función model_to_state(JSONmodel) que descomponga el modelo y lo lleve a appstate?
 - Llevar a wasm:
     - ¿Comprobación de si un elemento está dentro o fuera de la ET?
     - Agrupar elementos (espacios, muros, huecos, PTs)
