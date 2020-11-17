@@ -72,6 +72,7 @@ const WallConsTable = ({ selected, setSelected }) => {
         dataField="name"
         headerText="Nombre que identifica de forma única la construcción de opaco"
         width="30%"
+        columnTitle={(cell, row) => `Construcción de opaco id: ${row.id}`}
       >
         Nombre
       </TableHeaderColumn>

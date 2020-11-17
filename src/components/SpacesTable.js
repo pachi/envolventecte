@@ -163,6 +163,7 @@ const SpacesTable = ({ selected, setSelected }) => {
         dataField="name"
         headerText="Nombre del espacio"
         width="30%"
+        columnTitle={(cell, row) => `Espacio id: ${row.id}`}
       >
         Nombre
       </TableHeaderColumn>

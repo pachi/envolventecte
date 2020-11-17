@@ -143,6 +143,13 @@ const OpacosTable = ({ selected, setSelected }) => {
         dataField="name"
         headerText="Nombre que identifica de forma única el elemento opaco"
         width="30%"
+        columnTitle={(cell, row) => {
+          const u_value_wall = appstate.he1_indicators.u_values.walls[row.id];
+          const u_wall = !isNaN(u_value_wall)
+            ? Number(u_value_wall).toFixed(2)
+            : "-";
+          return `Opaco id: ${row.id}, U: ${u_wall} W/m²K`;
+        }}
       >
         Nombre
       </TableHeaderColumn>

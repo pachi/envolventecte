@@ -72,6 +72,7 @@ const WinConsTable = ({ selected, setSelected }) => {
         dataField="name"
         headerText="Nombre que identifica de forma única la construcción de hueco"
         width="30%"
+        columnTitle={(cell, row) => `Construcción de hueco id: ${row.id}`}
       >
         Nombre
       </TableHeaderColumn>

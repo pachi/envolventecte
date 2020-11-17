@@ -72,6 +72,7 @@ const PTsTable = ({ selected, setSelected }) => {
         dataField="name"
         headerText="Nombre que identifica de forma única el puente térmico"
         width="30%"
+        columnTitle={(cell, row) => `Puente térmico id: ${row.id}`}
       >
         Nombre
       </TableHeaderColumn>
