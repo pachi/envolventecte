@@ -51,14 +51,18 @@ const SpaceTypeFmt = (cell, _row) => <span>{SPACETYPESMAP[cell]}</span>;
 // Usamos forwardRef para poder tener referencias en componentes funcionales
 // ver: https://github.com/reactjs/reactjs.org/issues/2120
 const BoolEditor = React.forwardRef((props, ref) => {
-  const { defaultValue, onKeyDown, onUpdate } = props;
+  const { defaultValue, onUpdate } = props;
   const [value, setValue] = useState(defaultValue);
 
   return (
     <input
       type="checkbox"
       checked={value}
-      onKeyDown={onKeyDown}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          onUpdate(value);
+        }
+      }}
       onChange={(e) => setValue(!value)}
       onBlur={(e) => onUpdate(value)}
     />
