@@ -89,6 +89,7 @@ class AppState {
       he1_indicators: computed({ requiresReaction: true }),
       zoneslist: computed,
       orientations: computed,
+      warnings: computed,
       // TODO: estos dos se podrían llegar a eliminar si cambiamos climas y usamos los del wasm
       climatedata: computed({ requiresReaction: true }),
       climateTotRadJul: computed({ requiresReaction: true }),
@@ -140,6 +141,11 @@ class AppState {
       wallcons,
       wincons,
     });
+  }
+
+  // Acumula errores de la app y avisos de los cálculos
+  get warnings() {
+    return this.errors.concat(this.he1_indicators.warnings);
   }
 
   // Constructores --------

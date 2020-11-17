@@ -61,9 +61,7 @@ const IndicatorsPanel = () => {
     thermal_bridges_psi_l,
   } = appstate.he1_indicators.K;
 
-  const errors = appstate.errors
-    .slice()
-    .concat(appstate.he1_indicators.warnings);
+  const errors = appstate.warnings;
   const numavisos = errors.length;
 
   const Qsoljul = qsoljul * area_ref;

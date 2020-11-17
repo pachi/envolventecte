@@ -36,9 +36,7 @@ const HuecosTable = ({ selected, setSelected }) => {
   const appstate = useContext(AppState);
 
   // Lista de IDs con errores
-  const errors = appstate.errors
-    .slice()
-    .concat(appstate.he1_indicators.warnings);
+  const errors = appstate.warnings;
   const error_ids_warning = errors
     .filter((e) => e.level === "WARNING")
     .map((e) => e.id);
