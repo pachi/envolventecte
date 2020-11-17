@@ -1,5 +1,5 @@
 use anyhow::Error;
-use hulc2envolventecte::{self, cte, cte::Model, VERSION};
+use bemodel::{self, climatedata, KDetail, Model, N50HEDetail, UValues, Warning, VERSION};
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
@@ -8,6 +8,14 @@ use wasm_bindgen::prelude::*;
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+
+#[wasm_bindgen]
+extern "C" {
+    // Use `js_namespace` here to bind `console.log(..)` instead of just
+    // `log(..)`
+    #[wasm_bindgen(js_namespace = console)]
+    fn log(s: &str);
+}
 
 #[wasm_bindgen]
 pub fn get_version() -> String {
@@ -30,28 +38,29 @@ pub fn set_panic_hook() {
 #[allow(non_snake_case)]
 #[derive(Debug, Serialize, Deserialize, Default)]
 struct IndicatorsReport {
-    A_ref: f32,
+    area_ref: f32,
     compacity: f32,
-    K: cte::KDetail,
+    K: KDetail,
+    u_values: UValues,
     qsoljul: f32,
     n50: f32,
-    n50_he2019: cte::N50HEDetail,
+    n50_he2019: N50HEDetail,
     C_o: f32,
     C_o_he2019: f32,
     vol_env_net: f32,
     vol_env_gross: f32,
-    warnings: Vec<cte::Warning>,
+    warnings: Vec<Warning>,
 }
 
 /// Calcula indicadores usando funciones de hulc2envolventecte y prepara una estructura para enviar a JS
 fn compute_indicators(model: &Model) -> Result<IndicatorsReport, Error> {
     let climatezone = model.meta.climate;
-    let totradjul = cte::climatedata::total_radiation_in_july_by_orientation(&climatezone);
-    // TODO: calcular U de elementos y valores parciales de A y AU de opacos y huecos, y Psi.L
+    let totradjul = climatedata::total_radiation_in_july_by_orientation(&climatezone);
     let report = IndicatorsReport {
-        A_ref: model.a_ref(),
+        area_ref: model.a_ref(),
         compacity: model.compacity(),
         K: model.K_he2019(),
+        u_values: model.u_values(),
         qsoljul: model.q_soljul(&totradjul),
         n50: model.n50(),
         n50_he2019: model.n50_he2019(),
@@ -72,4 +81,12 @@ pub fn he1_indicators(model_js: &JsValue) -> Result<JsValue, JsValue> {
     let indicators: IndicatorsReport = compute_indicators(&model).map_err(|e| e.to_string())?;
     let js_indicators = JsValue::from_serde(&indicators).map_err(|e| e.to_string())?;
     Ok(js_indicators)
+}
+
+/// Carga datos como JSON desde cadena de texto
+#[wasm_bindgen]
+pub fn load_data(data: &str) -> Result<JsValue, JsValue> {
+    let model = Model::from_json(data).map_err(|e| e.to_string())?;
+    let res = JsValue::from_serde(&model).map_err(|e| e.to_string())?;
+    Ok(res)
 }

@@ -41,7 +41,7 @@ const IndicatorsPanel = () => {
   const [details, setDetails] = useState(false);
   const [warnings, setWarnings] = useState(false);
   const {
-    A_ref,
+    area_ref,
     qsoljul,
     vol_env_net,
     vol_env_gross,
@@ -66,7 +66,7 @@ const IndicatorsPanel = () => {
     .concat(appstate.he1_indicators.warnings);
   const numavisos = errors.length;
 
-  const Qsoljul = qsoljul * A_ref;
+  const Qsoljul = qsoljul * area_ref;
 
   return (
     <>
@@ -82,7 +82,7 @@ const IndicatorsPanel = () => {
               <i>
                 q<sub>sol;jul</sub>
               </i>{" "}
-              = {A_ref !== 0 ? qsoljul.toFixed(2) : "-"} <i>kWh/m²/mes</i>
+              = {area_ref !== 0 ? qsoljul.toFixed(2) : "-"} <i>kWh/m²/mes</i>
             </b>
           </Col>
           <Col md={3} title="Tasa de renovación de aire a 50 Pa">
@@ -111,7 +111,7 @@ const IndicatorsPanel = () => {
             md={3}
             title="Superficie útil de los espacios habitables del edificio o parte del edificio [m²]"
           >
-            A<sub>util</sub> = {A_ref.toFixed(2)} m²
+            A<sub>util</sub> = {area_ref.toFixed(2)} m²
           </Col>
           <Col
             md={3}
@@ -221,7 +221,7 @@ const IndicatorsPanel = () => {
               </p>
               <p>Superficie útil</p>
               <p>
-                A<sub>util</sub> = {A_ref.toFixed(2)} m²
+                A<sub>util</sub> = {area_ref.toFixed(2)} m²
               </p>
               <p>Valor del indicador:</p>
               <p>
@@ -229,9 +229,9 @@ const IndicatorsPanel = () => {
                   q<sub>sol;jul</sub>
                 </b>{" "}
                 = Q<sub>sol;jul</sub> / A<sub>util</sub> ={Qsoljul.toFixed(2)} /{" "}
-                {A_ref.toFixed(2)} ={" "}
+                {area_ref.toFixed(2)} ={" "}
                 <b>
-                  {A_ref !== 0 ? qsoljul.toFixed(2) : "-"} <i>kWh/m²/mes</i>
+                  {area_ref !== 0 ? qsoljul.toFixed(2) : "-"} <i>kWh/m²/mes</i>
                 </b>
               </p>
             </Col>

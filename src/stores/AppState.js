@@ -25,7 +25,7 @@ import { createContext } from "react";
 import { action, observable, computed, makeObservable, configure } from "mobx";
 
 import { UserException, uuidv4 } from "../utils.js";
-import { he1_indicators } from "wasm-envolventecte";
+import { he1_indicators, load_data } from "wasm-envolventecte";
 
 import {
   DEFAULT_SPACE,
@@ -256,21 +256,9 @@ class AppState {
         thermal_bridges,
         wallcons,
         wincons,
-      } = JSON.parse(data);
-      if (
-        !(
-          Array.isArray(windows) &&
-          Array.isArray(walls) &&
-          Array.isArray(thermal_bridges) &&
-          Array.isArray(spaces) &&
-          Array.isArray(wallcons) &&
-          Array.isArray(wincons)
-        )
-      ) {
-        throw UserException("Formato incorrecto");
-      }
+      } = load_data(data);
 
-      // Almacena en store datos
+      // Carga datos en el store
       this.meta = meta;
       this.thermal_bridges = thermal_bridges;
       this.walls = walls;
