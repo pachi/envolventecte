@@ -46,7 +46,7 @@ const WinConsTable = ({ selected, setSelected }) => {
         afterSaveCell: (row, cellName, cellValue) => {
           if (["U", "Ff", "gglwi", "gglshwi", "C_100"].includes(cellName)) {
             // Convierte a número campos numéricos
-            row[cellName] = Number(cellValue);
+            row[cellName] = Number(cellValue.replace(",", "."));
           }
         },
       }}

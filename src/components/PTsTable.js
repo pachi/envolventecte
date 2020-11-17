@@ -46,7 +46,7 @@ const PTsTable = ({ selected, setSelected }) => {
         afterSaveCell: (row, cellName, cellValue) => {
           if (["L", "psi"].includes(cellName)) {
             // Convierte a número campos numéricos
-            row[cellName] = Number(cellValue);
+            row[cellName] = Number(cellValue.replace(",", "."));
           }
         },
       }}

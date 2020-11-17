@@ -89,7 +89,7 @@ const OpacosTable = ({ selected, setSelected }) => {
             row.nextto = null;
           } else if (["A", "azimuth", "tilt"].includes(cellName)) {
             // Convierte a número campos numéricos
-            row[cellName] = Number(cellValue);
+            row[cellName] = Number(cellValue.replace(",", "."));
           }
         },
       }}

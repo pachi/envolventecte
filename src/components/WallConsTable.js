@@ -46,7 +46,7 @@ const WallConsTable = ({ selected, setSelected }) => {
         afterSaveCell: (row, cellName, cellValue) => {
           if (["thickness", "R_intrinsic", "absorptance"].includes(cellName)) {
             // Convierte a número campos numéricos
-            row[cellName] = Number(cellValue);
+            row[cellName] = Number(cellValue.replace(",", "."));
           }
         },
       }}

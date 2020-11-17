@@ -96,7 +96,7 @@ const HuecosTable = ({ selected, setSelected }) => {
         afterSaveCell: (row, cellName, cellValue) => {
           if (["A", "fshobst"].includes(cellName)) {
             // Convierte a número campos numéricos
-            row[cellName] = Number(cellValue);
+            row[cellName] = Number(cellValue.replace(",", "."));
           }
         },
       }}

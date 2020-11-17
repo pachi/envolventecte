@@ -118,7 +118,9 @@ const MetaParams = observer(() => {
                   defaultValue={appstate.meta.n50_test_ach}
                   onChange={(e) => {
                     if (hasblowerdoorref.current.checked === true) {
-                      appstate.meta.n50_test_ach = Number(e.target.value);
+                      appstate.meta.n50_test_ach = Number(
+                        e.target.value.replace(",", ".")
+                      );
                     } else {
                       appstate.meta.n50_test_ach = null;
                     }

@@ -76,7 +76,10 @@ const NVEditor = React.forwardRef((props, ref) => {
   const updateData = () => {
     // onUpdate cancela la edición si se pasa null así que usamos undefined en ese caso
     // en BootstrapTable usamos cellEdit.afterSaveCell para cambiar undefined por null
-    const res = value === null || value === "" ? undefined : Number(value);
+    const res =
+      value === null || value === ""
+        ? undefined
+        : Number(value.replace(",", "."));
     onUpdate(res);
   };
 
@@ -93,7 +96,11 @@ const NVEditor = React.forwardRef((props, ref) => {
         onChange={(e) => {
           let val = e.currentTarget.value;
           val =
-            val === "" || val === null || Number.isNaN(Number(val)) ? "" : val;
+            val === "" ||
+            val === null ||
+            Number.isNaN(Number(val.replace(",", ".")))
+              ? ""
+              : val;
           setValue(val);
         }}
         onBlur={(e) => updateData()}
@@ -126,7 +133,7 @@ const SpacesTable = ({ selected, setSelected }) => {
             row.n_v = null;
           } else if (!["name", "inside_tenv", "type"].includes(cellName)) {
             // Convierte a número salvo en el caso del nombre o de inside_tenv
-            row[cellName] = Number(cellValue);
+            row[cellName] = Number(cellValue.replace(",", "."));
           }
         },
       }}
