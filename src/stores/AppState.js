@@ -54,9 +54,6 @@ class AppState {
   meta = example.meta;
 
   // Datos geométricos y constructivos -----------
-
-  // Coeficiente de caudal de aire de la parte opaca de la envolvente térmica a 100 Pa (m3/h/m2)
-  Co100 = 16;
   // Espacios de la envolvente térmica
   spaces = example.spaces;
   // Opacos
@@ -81,7 +78,6 @@ class AppState {
       // Decorators
       // title: observable can be omitted, its is the default when using observable.object
       meta: observable,
-      Co100: observable,
       spaces: observable,
       walls: observable,
       windows: observable,

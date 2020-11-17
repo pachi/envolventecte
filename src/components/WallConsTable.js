@@ -32,6 +32,7 @@ const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 // Tabla de opacos del edificio
 const WallConsTable = ({ selected, setSelected }) => {
   const appstate = useContext(AppState);
+  const walls_Co100 = appstate.he1_indicators.C_o;
   return (
     <BootstrapTable
       data={appstate.wallcons}
@@ -126,7 +127,7 @@ const WallConsTable = ({ selected, setSelected }) => {
 
       <TableHeaderColumn
         datatField="name"
-        dataFormat={() => appstate.Co100}
+        dataFormat={() => walls_Co100}
         headerText="Coeficiente de caudal de aire de la parte opaca de la envolvente
     térmica (a 100 Pa). Varía según n50 de ensayo o tipo de edificio (nuevo / existente)"
         editable={false}
