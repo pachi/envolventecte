@@ -117,7 +117,7 @@ const IndicatorsPanel = () => {
             md={3}
             title="Compacidad de la envolvente térmica (V_tot / A) [m³/m²]"
           >
-            V/A = {compacity.toFixed(2)} m³
+            V/A = {compacity.toFixed(2)} m³/m²
           </Col>
           <Col
             md={3}
