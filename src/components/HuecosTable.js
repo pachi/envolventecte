@@ -35,6 +35,17 @@ const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 const HuecosTable = ({ selected, setSelected }) => {
   const appstate = useContext(AppState);
 
+  // Lista de IDs con errores
+  const errors = appstate.errors
+    .slice()
+    .concat(appstate.he1_indicators.warnings);
+  const error_ids_warning = errors
+    .filter((e) => e.level === "WARNING")
+    .map((e) => e.id);
+  const error_ids_danger = errors
+    .filter((e) => e.level === "DANGER")
+    .map((e) => e.id);
+
   const WindowOrientationFmt = (cell, _row) => {
     const wall = appstate.walls.find((s) => s.id === cell);
     if (wall === undefined) {
@@ -114,7 +125,23 @@ const HuecosTable = ({ selected, setSelected }) => {
         hideSelectColumn: true,
         bgColor: "lightgray",
       }}
-      trClassName={(row, rowIdx) => is_outside_tenv[row.id]}
+      trClassName={(row, rowIdx) => {
+        const classes = [];
+        // Errores
+        if (error_ids_danger.includes(row.id)) {
+          classes.push("id_error_danger");
+        }
+        // Avisos
+        if (error_ids_warning.includes(row.id)) {
+          classes.push("id_error_warning");
+        }
+        // clase para elementos fuera de la ET
+        const outside = is_outside_tenv[row.id];
+        if (outside !== null) {
+          classes.push(outside);
+        }
+        return classes.join(" ");
+      }}
     >
       <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
         - ID -{" "}

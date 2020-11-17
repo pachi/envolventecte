@@ -151,7 +151,10 @@ const SpacesTable = ({ selected, setSelected }) => {
         hideSelectColumn: true,
         bgColor: "lightgray",
       }}
-      trClassName={(row, rowIdx) => (row.inside_tenv ? null : "outsidetenv")}
+      trClassName={(row, rowIdx) => {
+        // clase para elementos fuera de la ET
+        return row.inside_tenv ? null : "outsidetenv";
+      }}
     >
       <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
         - ID -{" "}

@@ -27,6 +27,14 @@ tr.outsidetenv td {
   opacity: 0.5;
 }
 
+tr.id_error_warning td {
+  color: rgb(180, 80, 0);
+}
+
+tr.id_error_danger {
+  color: rgb(180, 0, 0);
+}
+
 td.td-column-readonly {
   opacity: 0.6;
 }

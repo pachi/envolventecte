@@ -48,6 +48,17 @@ const TiltFmt = (cell, _row) => <span>{tilt_name(cell)}</span>;
 const OpacosTable = ({ selected, setSelected }) => {
   const appstate = useContext(AppState);
 
+  // Lista de IDs con errores
+  const errors = appstate.errors
+    .slice()
+    .concat(appstate.he1_indicators.warnings);
+  const error_ids_warning = errors
+    .filter((e) => e.level === "WARNING")
+    .map((e) => e.id);
+  const error_ids_danger = errors
+    .filter((e) => e.level === "DANGER")
+    .map((e) => e.id);
+
   // Diccionario para determinar si el opaco está o no dentro de la ET
   const is_outside_tenv = new Map();
   appstate.walls.forEach((w) => {
@@ -107,7 +118,23 @@ const OpacosTable = ({ selected, setSelected }) => {
         hideSelectColumn: true,
         bgColor: "lightgray",
       }}
-      trClassName={(row, rowIdx) => is_outside_tenv[row.id]}
+      trClassName={(row, rowIdx) => {
+        const classes = [];
+        // Errores
+        if (error_ids_danger.includes(row.id)) {
+          classes.push("id_error_danger");
+        }
+        // Avisos
+        if (error_ids_warning.includes(row.id)) {
+          classes.push("id_error_warning");
+        }
+        // clase para elementos fuera de la ET
+        const outside = is_outside_tenv[row.id];
+        if (outside !== null) {
+          classes.push(outside);
+        }
+        return classes.join(" ");
+      }}
     >
       <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
         - ID -{" "}
