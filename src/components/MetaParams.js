@@ -31,7 +31,6 @@ import ClimateSelector from "./ClimateSelector";
 
 const MetaParams = observer(() => {
   const appstate = useContext(AppState);
-  const hasblowerdoorref = useRef(null);
   const meta = appstate.meta;
   return (
     <Row className="well">
@@ -65,12 +64,12 @@ const MetaParams = observer(() => {
             label="Nueva construcción"
           />
           <Form.Check
-            checked={appstate.meta.is_dwelling}
+            checked={meta.is_dwelling}
             onChange={() => (meta.is_dwelling = !meta.is_dwelling)}
             type="checkbox"
             label="Uso residencial privado (vivienda)"
           />
-          {appstate.meta.is_dwelling ? (
+          {meta.is_dwelling ? (
             <Form.Group as={Row} controlId="formControlsNumberOfDwellings">
               <Form.Label column md={4}>
                 Número de viviendas
@@ -89,7 +88,7 @@ const MetaParams = observer(() => {
         <h5>Ventilación e infiltraciones</h5>
         <Form>
           <Form.Check
-            defaultValue={meta.n50_test_ach}
+            checked={meta.n50_test_ach != null}
             onChange={(e) => {
               if (e.target.checked === false) {
                 meta.n50_test_ach = null;
@@ -99,9 +98,8 @@ const MetaParams = observer(() => {
             }}
             type="checkbox"
             label="Ensayo de puerta soplante disponible"
-            ref={hasblowerdoorref}
           />
-          {hasblowerdoorref.current && hasblowerdoorref.current.checked ? (
+          {meta.n50_test_ach != null ? (
             <Form.Group as={Row} controlId="formControlsn50">
               <Form.Label column md={4}>
                 Tasa de intercambio de aire a 50 Pa (n<sub>50</sub>) obtenida de
@@ -112,13 +110,9 @@ const MetaParams = observer(() => {
                   type="number"
                   defaultValue={meta.n50_test_ach}
                   onChange={(e) => {
-                    if (hasblowerdoorref.current.checked === true) {
-                      meta.n50_test_ach = Number(
-                        e.target.value.replace(",", ".")
-                      );
-                    } else {
-                      meta.n50_test_ach = null;
-                    }
+                    meta.n50_test_ach = Number(
+                      e.target.value.replace(",", ".")
+                    );
                   }}
                   placeholder="0.0"
                   step="0.01"
