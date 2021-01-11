@@ -4,7 +4,7 @@
 - Mover a utils.js diccionarios de tipos de climas, orientaciones, etc.
 - ¿Función model_to_state(JSONmodel) que descomponga el modelo y lo lleve a appstate?
 - Llevar a wasm:
-    - ¿Comprobación de si un elemento está dentro o fuera de la ET?
+    - Comprobación de si un elemento está dentro o fuera de la ET: wall_inside_tenv de utils.js
     - Agrupar elementos (espacios, muros, huecos, PTs)
     - Datos de clima?
 - Cálculo de valores de acristalamientos con sombras móviles usando parámetros U_gl, g_gl_n, tau_e_B y ro_e_B directamente
