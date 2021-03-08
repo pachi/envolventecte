@@ -37,6 +37,7 @@ import OpacosView from "./OpacosView";
 import PTsView from "./PTsView";
 import SpacesView from "./SpacesView";
 import MetaParams from "./MetaParams";
+import ThreeView from "./three/ThreeView";
 
 const BuildingPage = ({ route }) => (
   <Container fluid>
@@ -70,7 +71,10 @@ const BuildingPage = ({ route }) => (
           <Tab eventKey={7} title="Datos generales" className="pt-3">
             <MetaParams />
           </Tab>
-          <Tab eventKey={8} title="Carga / descarga de datos" className="pt-3">
+          <Tab eventKey={8} title="Vista" className="pt-3">
+            <ThreeView />
+          </Tab>
+          <Tab eventKey={9} title="Carga / descarga de datos" className="pt-3">
             <DownloadUpload />
           </Tab>
         </Tabs>

@@ -38,3 +38,7 @@ tr.id_error_danger {
 td.td-column-readonly {
   opacity: 0.6;
 }
+
+canvas { 
+  flex: 1 1 100%;
+}

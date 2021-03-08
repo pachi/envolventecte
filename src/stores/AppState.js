@@ -24,7 +24,7 @@ SOFTWARE.
 import { createContext } from "react";
 import { action, observable, computed, makeObservable, configure } from "mobx";
 
-import { UserException, uuidv4 } from "../utils.js";
+import { uuidv4 } from "../utils.js";
 import { he1_indicators, load_data } from "wasm-envolventecte";
 
 import {
