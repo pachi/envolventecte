@@ -143,7 +143,7 @@ const MetaParams = observer(() => {
         <h5>Aislamiento perimetral en soleras</h5>
 
         <Form>
-          <Form.Group as={Row} controlId="formControlsd_perim_insulation">
+          <Form.Group as={Row} controlId="formControls_d_perim_insulation">
             <Form.Label column md={4}>
               Ancho del aislamiento perimetral (m)
             </Form.Label>{" "}
@@ -159,7 +159,7 @@ const MetaParams = observer(() => {
               />
             </Col>
           </Form.Group>
-          <Form.Group as={Row} controlId="formControlsd_perim_insulation">
+          <Form.Group as={Row} controlId="formControls_rn_perim_insulation">
             <Form.Label column md={4}>
               Resistencia térmica del aislamiento perimetral (m²K/W)
             </Form.Label>{" "}
