@@ -49,6 +49,7 @@
     "soljs": "^6.0.0",
     "three": "^0.126.1",
     "tweakpane": "^2.0.1",
+    "wasm-envolventecte": "file:./wasm/pkg",
     "whatwg-fetch": "^3.6.2"
   },
   "scripts": {

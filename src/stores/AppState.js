@@ -60,6 +60,8 @@ class AppState {
   walls = example.walls;
   // Huecos
   windows = example.windows;
+  // Sombras
+  shades = example.shades;
   // Construcciones de opacos
   wallcons = example.wallcons;
   // Construcciones de huecos
@@ -81,6 +83,7 @@ class AppState {
       spaces: observable,
       walls: observable,
       windows: observable,
+      shades: observable,
       thermal_bridges: observable,
       wallcons: observable,
       wincons: observable,
@@ -234,13 +237,14 @@ class AppState {
       spaces,
       walls,
       windows,
+      shades,
       thermal_bridges,
       wallcons,
       wincons,
     } = this;
 
     return JSON.stringify(
-      { meta, spaces, walls, windows, thermal_bridges, wallcons, wincons },
+      { meta, spaces, walls, windows, shades, thermal_bridges, wallcons, wincons },
       null,
       2
     );
@@ -255,6 +259,7 @@ class AppState {
         spaces,
         walls,
         windows,
+        shades,
         thermal_bridges,
         wallcons,
         wincons,
@@ -266,6 +271,7 @@ class AppState {
       this.walls = walls;
       this.windows = windows;
       this.spaces = spaces;
+      this.shades = shades;
       this.wallcons = wallcons;
       this.wincons = wincons;
 
@@ -274,7 +280,7 @@ class AppState {
         {
           level: "INFO",
           id: null,
-          msg: `Clima ${meta.climate}, Cargados ${spaces.length} espacios, ${walls.length} opacos, ${windows.length} huecos, ${thermal_bridges.length} PTs, ${wallcons.length} construcciones de opacos y ${wincons.length} construcciones de huecos`,
+          msg: `Clima ${meta.climate}, Cargados ${spaces.length} espacios, ${walls.length} opacos, ${windows.length} huecos, ${thermal_bridges.length} PTs, ${shades.length} elementos de sombra, ${wallcons.length} construcciones de opacos y ${wincons.length} construcciones de huecos`,
         },
       ];
     } catch (err) {
