@@ -47,6 +47,9 @@ export function initObjectsFromModel(model, scene) {
 
   for (const wall of model.walls) {
     const { tilt, azimuth, geometry } = wall;
+    if (!geometry) {
+      continue;
+    }
     const { position, polygon } = geometry;
 
     const wallSubtype = getWallSubtype(wall); // FLOOR | ROOF | WALL
