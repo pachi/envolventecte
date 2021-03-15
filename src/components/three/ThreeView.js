@@ -1,13 +1,13 @@
-import React, { Component, useContext, useEffect } from "react";
+import React, { Component, useContext } from "react";
 import { observer } from "mobx-react-lite";
 
 import * as THREE from "three";
 import {
   AmbientLight,
   AxesHelper,
-  CameraHelper,
+  // CameraHelper,
   DirectionalLight,
-  DirectionalLightHelper,
+  // DirectionalLightHelper,
   GridHelper,
   Group,
   Mesh,
