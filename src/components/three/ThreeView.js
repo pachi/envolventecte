@@ -320,26 +320,18 @@ function getTextElement(document) {
 const ThreeView = observer(() => {
   const appstate = useContext(AppState);
   const {
-    meta,
-    spaces,
+    // meta,
     walls,
     windows,
     shades,
-    thermal_bridges,
-    wallcons,
-    wincons,
   } = appstate;
   return (
     <Viewport
       model={{
-        meta,
-        spaces,
-        walls,
-        windows,
-        shades,
-        thermal_bridges,
-        wallcons,
-        wincons,
+        // meta: {...meta},
+        walls: walls.slice(),
+        windows: windows.slice(),
+        shades: shades.slice(),
       }}
     />
   );
