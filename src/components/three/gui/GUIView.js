@@ -32,8 +32,8 @@ export default class GUIView {
 
   initPane(container) {
     this.pane = new Tweakpane({
-      title: "VisorEnvolventeCTE v1.0",
-      expanded: true,
+      title: "Visor EnvolventeCTE",
+      expanded: false,
       container,
     });
 
