@@ -29,6 +29,7 @@ import { observer } from "mobx-react-lite";
 import { hash } from "../utils.js";
 
 import AppState from "../stores/AppState";
+import Dropzone from "./DropZone.js";
 
 import icondownload from "./img/baseline-archive-24px.svg";
 
@@ -57,22 +58,25 @@ const DownloadUpload = observer(() => {
     }
   };
 
-  const handleUpload = (e) => {
-    let file;
-    if (e.dataTransfer) {
-      file = e.dataTransfer.files[0];
-    } else if (e.target) {
-      file = e.target.files[0];
+  const handleUpload = (acceptedFiles, rejectedFiles, event) => {
+    console.log(
+      "Aceptados: ",
+      acceptedFiles,
+      ", Rechazados: ",
+      rejectedFiles,
+      ", evento: ",
+      event
+    );
+    if (acceptedFiles.length > 0) {
+      const file = acceptedFiles[0];
+      const reader = new FileReader();
+      reader.onload = (rawdata) => {
+        appstate.loadJSON(rawdata.target.result);
+      };
+      reader.readAsText(file);
     }
-
-    const reader = new FileReader();
-    reader.onload = (rawdata) => {
-      appstate.loadJSON(rawdata.target.result);
-    };
-    reader.readAsText(file);
   };
 
-  const fileInput = React.createRef();
   const fileDownload = React.createRef();
 
   return (
@@ -81,13 +85,10 @@ const DownloadUpload = observer(() => {
         <Col>
           <p>
             Si ha descargado con anterioridad datos de esta aplicación, puede
-            cargarlos de nuevo seleccionando el archivo:
+            cargarlos de nuevo arranstrando el archivo o pulsando para
+            seleccionarlo:
           </p>
-          <input
-            ref={fileInput}
-            type="file"
-            onChange={(e) => handleUpload(e)}
-          />
+          <Dropzone onDrop={handleUpload} />
         </Col>
       </Row>
       <Row className="mt-3">
