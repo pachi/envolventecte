@@ -9,9 +9,12 @@
     - Datos de clima?
 - Cálculo de valores de acristalamientos con sombras móviles usando parámetros U_gl, g_gl_n, tau_e_B y ro_e_B directamente
 - Añadir cálculo de F_sh;obst
+- Mostrar valores de U de elementos
+- Detallar con gráficas cálculo de K (desglose por tipos de elementos, etc)
 - Trasladar datos a public/data? (usando luego fetch o direcciones como <a href={process.env.PUBLIC_URL + "/data/zcraddata.json"}>Enlace</a>)
+- Revisar compatibilidad en Chrome: en particular los cambios en datos generales
 - ThreeView
     - Convertir a componente funcional
-    - Arreglar actualización de modelo (p.e. eliminar muro)
 - Migrar a React-bootstrap-table nueva
 - Convertir a Redux?
+- Importar directamente desde .ctehexml (ctehexml::parse(); Model::from...())
