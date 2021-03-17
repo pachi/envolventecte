@@ -85,7 +85,7 @@ pub fn he1_indicators(model_js: &JsValue) -> Result<JsValue, JsValue> {
 
 /// Carga datos como JSON desde cadena de texto
 #[wasm_bindgen]
-pub fn load_data(data: &str) -> Result<JsValue, JsValue> {
+pub fn load_data_from_json(data: &str) -> Result<JsValue, JsValue> {
     let model = Model::from_json(data).map_err(|e| e.to_string())?;
     let res = JsValue::from_serde(&model).map_err(|e| e.to_string())?;
     Ok(res)

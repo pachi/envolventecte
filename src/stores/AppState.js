@@ -25,7 +25,7 @@ import { createContext } from "react";
 import { action, observable, computed, makeObservable, configure } from "mobx";
 
 import { uuidv4 } from "../utils.js";
-import { he1_indicators, load_data } from "wasm-envolventecte";
+import { he1_indicators, load_data_from_json } from "wasm-envolventecte";
 
 import {
   DEFAULT_SPACE,
@@ -263,7 +263,7 @@ class AppState {
         thermal_bridges,
         wallcons,
         wincons,
-      } = load_data(data);
+      } = load_data_from_json(data);
 
       // Carga datos en el store
       this.meta = meta;
