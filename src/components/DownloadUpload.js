@@ -71,7 +71,19 @@ const DownloadUpload = observer(() => {
       const file = acceptedFiles[0];
       const reader = new FileReader();
       reader.onload = (rawdata) => {
-        appstate.loadJSON(rawdata.target.result);
+        if (
+          file.name.includes("KyGananciasSolares.txt") ||
+          file.path.includes("KyGananciasSolares.txt")
+        ) {
+          console.log("Archivo de KyGananciasSolares.txt");
+        } else if (
+          file.name.toLowerCase().includes(".ctehexml") ||
+          file.path.toLowerCase().includes(".ctehexml")
+        ) {
+          appstate.loadData(rawdata.target.result, "CTEHEXML");
+        } else {
+          appstate.loadData(rawdata.target.result, "JSON");
+        }
       };
       reader.readAsText(file);
     }
@@ -84,10 +96,20 @@ const DownloadUpload = observer(() => {
       <Row>
         <Col>
           <p>
-            Si ha descargado con anterioridad datos de esta aplicación, puede
-            cargarlos de nuevo arranstrando el archivo o pulsando para
-            seleccionarlo:
+            Arrastre y suelte en el área inferior o pulse para importar datos:
           </p>
+          <ul>
+            <li>
+              desde un archivo <b>.json</b> generado por EnvolventeCTE
+            </li>
+            <li>
+              desde un archivo <b>.ctehexml</b> de HULC
+            </li>
+            <li>
+              desde un archivo <b>KyGananciasSolares.txt</b> de HULC
+              (importación de factores de sombras remotas de los huecos).
+            </li>
+          </ul>
           <Dropzone onDrop={handleUpload} />
         </Col>
       </Row>

@@ -63,7 +63,7 @@ export default function StyledDropzone(props) {
     isDragAccept,
     isDragReject,
   } = useDropzone({
-    accept: "application/json, .json, .ctehexml",
+    accept: "application/json, .json, .ctehexml, .txt",
     maxFiles: 1,
     onDrop: props.onDrop,
   });
@@ -94,7 +94,7 @@ export default function StyledDropzone(props) {
       <div {...getRootProps({ style })}>
         <input {...getInputProps()} />
         <p>
-          Arrastre y suelte aquí su archivo .json o pulse para seleccionarlo del
+          Arrastre y suelte aquí el archivo o pulse para seleccionarlo del
           equipo
         </p>
       </div>

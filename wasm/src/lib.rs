@@ -1,5 +1,8 @@
+use std::convert::TryFrom;
+
 use anyhow::Error;
 use bemodel::{self, climatedata, KDetail, Model, N50HEDetail, UValues, Warning, VERSION};
+use hulc::ctehexml;
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
@@ -83,10 +86,19 @@ pub fn he1_indicators(model_js: &JsValue) -> Result<JsValue, JsValue> {
     Ok(js_indicators)
 }
 
-/// Carga datos como JSON desde cadena de texto
+/// Carga datos desde cadena de texto JSON
 #[wasm_bindgen]
 pub fn load_data_from_json(data: &str) -> Result<JsValue, JsValue> {
     let model = Model::from_json(data).map_err(|e| e.to_string())?;
+    let res = JsValue::from_serde(&model).map_err(|e| e.to_string())?;
+    Ok(res)
+}
+
+/// Carga datos desde cadena de texto .ctehexml
+#[wasm_bindgen]
+pub fn load_data_from_ctehexml(data: &str) -> Result<JsValue, JsValue> {
+    let ctehexmldata = ctehexml::parse_with_catalog(data).map_err(|e| e.to_string())?;
+    let model = Model::try_from(&ctehexmldata).map_err(|e| e.to_string())?;
     let res = JsValue::from_serde(&model).map_err(|e| e.to_string())?;
     Ok(res)
 }

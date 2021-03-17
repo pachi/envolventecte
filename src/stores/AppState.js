@@ -25,7 +25,11 @@ import { createContext } from "react";
 import { action, observable, computed, makeObservable, configure } from "mobx";
 
 import { uuidv4 } from "../utils.js";
-import { he1_indicators, load_data_from_json } from "wasm-envolventecte";
+import {
+  he1_indicators,
+  load_data_from_json,
+  load_data_from_ctehexml,
+} from "wasm-envolventecte";
 
 import {
   DEFAULT_SPACE,
@@ -100,7 +104,7 @@ class AppState {
       agrupaOpacos: action,
       agrupaPts: action,
       asJSON: computed,
-      loadJSON: action,
+      loadData: action,
     });
   }
 
@@ -244,16 +248,31 @@ class AppState {
     } = this;
 
     return JSON.stringify(
-      { meta, spaces, walls, windows, shades, thermal_bridges, wallcons, wincons },
+      {
+        meta,
+        spaces,
+        walls,
+        windows,
+        shades,
+        thermal_bridges,
+        wallcons,
+        wincons,
+      },
       null,
       2
     );
   }
 
-  // Deserialización de datos desde JSON
-  loadJSON(data) {
+  // Deserialización de datos desde JSON (mode = "JSON") o CTEHEXML (mode="CTEHEXML")
+  loadData(data, mode) {
     // Lee datos
     try {
+      let model;
+      if (mode === "CTEHEXML") {
+        model = load_data_from_ctehexml(data);
+      } else {
+        model = load_data_from_json(data);
+      }
       const {
         meta = { climate: "D3" },
         spaces,
@@ -263,7 +282,7 @@ class AppState {
         thermal_bridges,
         wallcons,
         wincons,
-      } = load_data_from_json(data);
+      } = model;
 
       // Carga datos en el store
       this.meta = meta;
