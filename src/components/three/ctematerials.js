@@ -86,6 +86,13 @@ export const material_floors_ground = new MeshLambertMaterial({
 });
 
 // Elige material en función del tipo de objeto
+//
+// Ahora mismo el material depende del tipo de elemento (Muro, cubierta, suelo, Window) y sus condiciones de contorno (ADIABATIC vs GROUND)
+//
+// TODO: Admitir más modos de representación:
+// - matizar la selección actual para elementos con condiciones de contorno INTERIOR
+// - en función de si el elemento pertenece o no a la envolvente térmica
+// - en función de la U del elemento
 export function chooseMaterial(obj) {
   const { type, bounds, subtype } = obj.userData;
   let material;
