@@ -1,8 +1,8 @@
-use std::convert::TryFrom;
+use std::{collections::BTreeMap, convert::TryFrom};
 
 use anyhow::Error;
 use bemodel::{self, climatedata, KDetail, Model, N50HEDetail, UValues, Warning, VERSION};
-use hulc::ctehexml;
+use hulc::{ctehexml, kyg};
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
@@ -100,5 +100,18 @@ pub fn load_data_from_ctehexml(data: &str) -> Result<JsValue, JsValue> {
     let ctehexmldata = ctehexml::parse_with_catalog(data).map_err(|e| e.to_string())?;
     let model = Model::try_from(&ctehexmldata).map_err(|e| e.to_string())?;
     let res = JsValue::from_serde(&model).map_err(|e| e.to_string())?;
+    Ok(res)
+}
+
+/// Carga datos desde cadena de texto .ctehexml
+#[wasm_bindgen]
+pub fn load_fshobst_data_from_kyg(data: &str) -> Result<JsValue, JsValue> {
+    let kygdata = kyg::parse(data).map_err(|e| e.to_string())?;
+    let fshobst: BTreeMap<String, f32> = kygdata
+        .windows
+        .iter()
+        .map(|(name, win)| (name.clone(), win.fshobst))
+        .collect();
+    let res = JsValue::from_serde(&fshobst).map_err(|e| e.to_string())?;
     Ok(res)
 }

@@ -29,6 +29,7 @@ import {
   he1_indicators,
   load_data_from_json,
   load_data_from_ctehexml,
+  load_fshobst_data_from_kyg,
 } from "wasm-envolventecte";
 
 import {
@@ -263,45 +264,83 @@ class AppState {
     );
   }
 
-  // Deserialización de datos desde JSON (mode = "JSON") o CTEHEXML (mode="CTEHEXML")
+  // Deserialización de datos desde
+  // - JSON (mode = "JSON")
+  // - CTEHEXML (mode="CTEHEXML")
+  // - KyGananciasSolares.txt (mode="FSHOBST")
   loadData(data, mode) {
     // Lee datos
     try {
-      let model;
-      if (mode === "CTEHEXML") {
-        model = load_data_from_ctehexml(data);
+      let inputData;
+      if (mode === "FSHOBST") {
+        inputData = load_fshobst_data_from_kyg(data);
+      } else if (mode === "CTEHEXML") {
+        inputData = load_data_from_ctehexml(data);
       } else {
-        model = load_data_from_json(data);
+        inputData = load_data_from_json(data);
       }
-      const {
-        meta = { climate: "D3" },
-        spaces,
-        walls,
-        windows,
-        shades,
-        thermal_bridges,
-        wallcons,
-        wincons,
-      } = model;
 
-      // Carga datos en el store
-      this.meta = meta;
-      this.thermal_bridges = thermal_bridges;
-      this.walls = walls;
-      this.windows = windows;
-      this.spaces = spaces;
-      this.shades = shades;
-      this.wallcons = wallcons;
-      this.wincons = wincons;
+      if (mode === "CTEHEXML" || mode === "JSON") {
+        const {
+          meta = { climate: "D3" },
+          spaces,
+          walls,
+          windows,
+          shades,
+          thermal_bridges,
+          wallcons,
+          wincons,
+        } = inputData;
 
-      this.errors = [
-        { level: "SUCCESS", id: null, msg: "Datos cargados correctamente." },
-        {
-          level: "INFO",
-          id: null,
-          msg: `Clima ${meta.climate}, Cargados ${spaces.length} espacios, ${walls.length} opacos, ${windows.length} huecos, ${thermal_bridges.length} PTs, ${shades.length} elementos de sombra, ${wallcons.length} construcciones de opacos y ${wincons.length} construcciones de huecos`,
-        },
-      ];
+        // Carga datos en el store
+        this.meta = meta;
+        this.thermal_bridges = thermal_bridges;
+        this.walls = walls;
+        this.windows = windows;
+        this.spaces = spaces;
+        this.shades = shades;
+        this.wallcons = wallcons;
+        this.wincons = wincons;
+
+        this.errors = [
+          { level: "SUCCESS", id: null, msg: "Datos cargados correctamente." },
+          {
+            level: "INFO",
+            id: null,
+            msg: `Clima ${meta.climate}, Cargados ${spaces.length} espacios, ${walls.length} opacos, ${windows.length} huecos, ${thermal_bridges.length} PTs, ${shades.length} elementos de sombra, ${wallcons.length} construcciones de opacos y ${wincons.length} construcciones de huecos`,
+          },
+        ];
+      } else if (mode === "FSHOBST") {
+        this.errors = [
+          { level: "SUCCESS", id: null, msg: "Datos cargados correctamente." },
+          {
+            level: "INFO",
+            id: null,
+            msg: `Cargados ${inputData.length} factores de sombra de obstáculos remotos (F_shobst) de huecos`,
+          },
+        ];
+
+        for (let window of this.windows) {
+          let fshobst = inputData[window.name];
+          if (fshobst === undefined || isNaN(fshobst)) {
+            this.errors.push({
+              level: "INFO:",
+              id: null,
+              msg: `Hueco ${window.name} sin datos de factor reductor por sombreamiento de obstáculos remotos F_sh;obst`,
+            });
+          } else {
+            window.fshobst = fshobst;
+          }
+        }
+      } else {
+        this.errors = [
+          {
+            level: "INFO",
+            id: null,
+            msg: `No se han encontrado datos de modelo en el archivo.`,
+          },
+        ];
+      }
     } catch (err) {
       this.errors = [
         {

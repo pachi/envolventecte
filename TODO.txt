@@ -17,4 +17,3 @@
     - Convertir a componente funcional
 - Migrar a React-bootstrap-table nueva
 - Convertir a Redux?
-- Importar directamente desde .ctehexml (ctehexml::parse(); Model::from...())
