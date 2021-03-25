@@ -81,6 +81,17 @@ const OpacosTable = ({ selected, setSelected }) => {
     return { text: spaceMap[k], value: k };
   });
 
+  const he1_indicators = appstate.he1_indicators;
+  const WallUFmt = (cell, _row) => {
+    // cell == id
+    const uvalue = he1_indicators.u_values.walls[cell];
+    if (uvalue === undefined) {
+      return <span>-</span>;
+    } else {
+      return <span>{uvalue.toFixed(2)}</span>;
+    }
+  };
+  
   return (
     <BootstrapTable
       data={appstate.walls}
@@ -245,6 +256,21 @@ const OpacosTable = ({ selected, setSelected }) => {
         <br />
         <span style={{ fontWeight: "normal" }}>
           <i>[-]</i>{" "}
+        </span>
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="id"
+        dataFormat={WallUFmt}
+        headerText="Transmitancia térmica del elemento opaco [W/m²K]"
+        editable={false}
+        columnClassName="td-column-computed-readonly"
+        headerAlign="center"
+        dataAlign="center"
+      >
+        U
+        <br />
+        <span style={{ fontWeight: "normal" }}>
+          <i>[W/m²K]</i>{" "}
         </span>
       </TableHeaderColumn>
     </BootstrapTable>

@@ -91,6 +91,18 @@ const HuecosTable = ({ selected, setSelected }) => {
     return { text: wallsMap[k], value: k };
   });
 
+  // Transmitancias de huecos
+  const he1_indicators = appstate.he1_indicators;
+  const WindowUFmt = (cell, _row) => {
+    // cell == id
+    const uvalue = he1_indicators.u_values.windows[cell];
+    if (uvalue === undefined) {
+      return <span>-</span>;
+    } else {
+      return <span>{uvalue.toFixed(2)}</span>;
+    }
+  };
+
   return (
     <BootstrapTable
       data={appstate.windows}
@@ -233,6 +245,21 @@ const HuecosTable = ({ selected, setSelected }) => {
         dataAlign="center"
       >
         Inclinación
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="id"
+        dataFormat={WindowUFmt}
+        headerText="Transmitancia térmica del hueco [W/m²K]"
+        editable={false}
+        columnClassName="td-column-computed-readonly"
+        headerAlign="center"
+        dataAlign="center"
+      >
+        U
+        <br />
+        <span style={{ fontWeight: "normal" }}>
+          <i>[W/m²K]</i>{" "}
+        </span>
       </TableHeaderColumn>
     </BootstrapTable>
   );

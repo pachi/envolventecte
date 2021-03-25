@@ -37,6 +37,13 @@ tr.id_error_danger {
 
 td.td-column-readonly {
   opacity: 0.6;
+  background-color: rgb(220,220,220)
+}
+
+td.td-column-computed-readonly {
+  opacity: 0.8;
+  background-color: rgb(220,220,220);
+  color: navy;
 }
 
 canvas { 
