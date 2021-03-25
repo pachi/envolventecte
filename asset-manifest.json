@@ -2,17 +2,17 @@
   "files": {
     "main.js": "/envolventecte/static/js/main.ea74dbbe.chunk.js",
     "main.js.map": "/envolventecte/static/js/main.ea74dbbe.chunk.js.map",
-    "runtime-main.js": "/envolventecte/static/js/runtime-main.3da8805a.js",
-    "runtime-main.js.map": "/envolventecte/static/js/runtime-main.3da8805a.js.map",
+    "runtime-main.js": "/envolventecte/static/js/runtime-main.674100bc.js",
+    "runtime-main.js.map": "/envolventecte/static/js/runtime-main.674100bc.js.map",
     "static/css/2.10c45292.chunk.css": "/envolventecte/static/css/2.10c45292.chunk.css",
     "static/js/2.8a8a5dfd.chunk.js": "/envolventecte/static/js/2.8a8a5dfd.chunk.js",
     "static/js/2.8a8a5dfd.chunk.js.map": "/envolventecte/static/js/2.8a8a5dfd.chunk.js.map",
     "static/css/3.63c46a3b.chunk.css": "/envolventecte/static/css/3.63c46a3b.chunk.css",
-    "static/js/3.26d49ba8.chunk.js": "/envolventecte/static/js/3.26d49ba8.chunk.js",
-    "93bdca9f2c7250c5d1fb.module.wasm": "/envolventecte/93bdca9f2c7250c5d1fb.module.wasm",
-    "static/js/3.26d49ba8.chunk.js.map": "/envolventecte/static/js/3.26d49ba8.chunk.js.map",
+    "static/js/3.d9a69534.chunk.js": "/envolventecte/static/js/3.d9a69534.chunk.js",
+    "1c74a7aa22a7da9d69af.module.wasm": "/envolventecte/1c74a7aa22a7da9d69af.module.wasm",
+    "static/js/3.d9a69534.chunk.js.map": "/envolventecte/static/js/3.d9a69534.chunk.js.map",
     "index.html": "/envolventecte/index.html",
-    "precache-manifest.1e548ef7cd9759af212cc1839e975e20.js": "/envolventecte/precache-manifest.1e548ef7cd9759af212cc1839e975e20.js",
+    "precache-manifest.a9d1d53c3a23a7617d60cec2dc8c4e16.js": "/envolventecte/precache-manifest.a9d1d53c3a23a7617d60cec2dc8c4e16.js",
     "service-worker.js": "/envolventecte/service-worker.js",
     "static/css/2.10c45292.chunk.css.map": "/envolventecte/static/css/2.10c45292.chunk.css.map",
     "static/css/3.63c46a3b.chunk.css.map": "/envolventecte/static/css/3.63c46a3b.chunk.css.map",
@@ -33,7 +33,7 @@
     "static/media/unselect-rows.svg": "/envolventecte/static/media/unselect-rows.33cdd049.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.3da8805a.js",
+    "static/js/runtime-main.674100bc.js",
     "static/js/main.ea74dbbe.chunk.js"
   ]
 }
