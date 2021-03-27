@@ -85,7 +85,7 @@ const OpacosTable = ({ selected, setSelected }) => {
   const WallUFmt = (cell, _row) => {
     // cell == id
     const uvalue = he1_indicators.u_values.walls[cell];
-    if (uvalue === undefined) {
+    if (uvalue === undefined || uvalue === null || isNaN(uvalue)) {
       return <span>-</span>;
     } else {
       return <span>{uvalue.toFixed(2)}</span>;
