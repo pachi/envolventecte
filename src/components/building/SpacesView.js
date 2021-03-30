@@ -25,13 +25,13 @@ import React, { useState, useContext } from "react";
 import { Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
-import AppState from "../stores/AppState";
+import AppState from "../../stores/AppState";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
-import WallConsTable from "./WallConsTable";
+import SpacesTable from "./SpacesTable";
 
-// Vista de construcciones de opacos del edificio
-const WallConsView = observer(() => {
+// Vista de espacios del edificio
+const SpacesView = observer(() => {
   const appstate = useContext(AppState);
   const [selected, setSelected] = useState([]);
 
@@ -40,14 +40,14 @@ const WallConsView = observer(() => {
       <Row>
         <Col>
           <h4>
-            Construcciones de Opacos{" "}
-            <small className="text-muted">({appstate.wallcons.length})</small>
+            Espacios del edificio{" "}
+            <small className="text-muted">({appstate.spaces.length})</small>
           </h4>
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elements="wallcons"
-            newobj="newWallCons"
+            elements="spaces"
+            newobj="newSpace"
             selected={selected}
             setSelected={setSelected}
           />
@@ -55,43 +55,19 @@ const WallConsView = observer(() => {
       </Row>
       <Row>
         <Col>
-          <WallConsTable selected={selected} setSelected={setSelected} />
+          <SpacesTable selected={selected} setSelected={setSelected} />
         </Col>
       </Row>
       <Row className="text-info small mt-3">
         <Col>
-          <p>Donde:</p>
-          <ul>
-            <li>
-              <b>Grupo</b>: grupo de clasificación de las construcciones de
-              opacos
-            </li>
-            <li>
-              <b>e</b>: grosor total del conjunto de capas de la construcción
-            </li>
-            <li>
-              <b>
-                R<sub>e</sub>
-              </b>
-              : resistencia intrínseca (sin resistencias superficiales, solo de
-              las capas) del elemento (m²K/W)
-            </li>
-            <li>
-              <b>&alpha;</b>: absortividad térmica de la construcción [-]
-            </li>
-            <li>
-              <b>
-                C<sub>o;100</sub>
-              </b>
-              : coeficiente de permeabilidad de opacos a 100Pa. Depende del tipo
-              de edificio (nuevo / existente) y de si existe ensayo de
-              permeabildad, n<sub>50</sub> (Blower-door) [m³/h·m²]
-            </li>
-          </ul>
+          <p>
+            <b>NOTA:</b>Se marcan en color más claro aquellos elementos que no
+            pertenecen a la ET.
+          </p>
         </Col>
       </Row>
     </Col>
   );
 });
 
-export default WallConsView;
+export default SpacesView;

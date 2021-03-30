@@ -22,16 +22,17 @@ SOFTWARE.
 */
 
 import React, { useState, useContext } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
-import AppState from "../stores/AppState";
+import AppState from "../../stores/AppState";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
-import SpacesTable from "./SpacesTable";
+import PTsTable from "./PTsTable";
+import icongroup from "../img/outline-add_comment-24px.svg";
 
-// Vista de espacios del edificio
-const SpacesView = observer(() => {
+// Vista de puentes térmicos del edificio
+const PTsView = observer(() => {
   const appstate = useContext(AppState);
   const [selected, setSelected] = useState([]);
 
@@ -40,14 +41,28 @@ const SpacesView = observer(() => {
       <Row>
         <Col>
           <h4>
-            Espacios del edificio{" "}
-            <small className="text-muted">({appstate.spaces.length})</small>
+            Puentes térmicos{" "}
+            <small className="text-muted">
+              ({appstate.thermal_bridges.length})
+            </small>
           </h4>
         </Col>
         <Col md="auto">
+          <ButtonGroup>
+            <Button
+              variant="default"
+              size="sm"
+              title="Agrupa puentes térmicos, sumando longitudes de igual transmitancia térmica lineal."
+              onClick={() => appstate.agrupaPts()}
+            >
+              <img src={icongroup} alt="Agrupar PTs" /> Agrupar PTs
+            </Button>
+          </ButtonGroup>
+        </Col>
+        <Col md="auto">
           <AddRemoveButtonGroup
-            elements="spaces"
-            newobj="newSpace"
+            elements="thermal_bridges"
+            newobj="newPT"
             selected={selected}
             setSelected={setSelected}
           />
@@ -55,14 +70,29 @@ const SpacesView = observer(() => {
       </Row>
       <Row>
         <Col>
-          <SpacesTable selected={selected} setSelected={setSelected} />
+          <PTsTable selected={selected} setSelected={setSelected} />
         </Col>
       </Row>
       <Row className="text-info small mt-3">
         <Col>
+          <p>Donde:</p>
+          <ul>
+            <li>
+              <b>Longitud</b>: longitud del puente térmico (m)
+            </li>
+            <li>
+              <b>&psi;</b>: transmitancia térmica lineal del puente térmico
+              (W/mK)
+            </li>
+          </ul>
           <p>
-            <b>NOTA:</b>Se marcan en color más claro aquellos elementos que no
-            pertenecen a la ET.
+            <b>NOTA</b>: Para los puentes térmicos definidos en la tabla se
+            considera, a efectos del cálculo de K, un factor de ajuste{" "}
+            <i>
+              b<sub>tr,x</sub> = 1.0
+            </i>
+            , de modo que solo deben incluirse aquellos pertenecientes a
+            elementos con un factor de ajuste no nulo.
           </p>
         </Col>
       </Row>
@@ -70,4 +100,4 @@ const SpacesView = observer(() => {
   );
 });
 
-export default SpacesView;
+export default PTsView;

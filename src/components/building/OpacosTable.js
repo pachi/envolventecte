@@ -25,14 +25,14 @@ import React, { useContext } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer } from "mobx-react-lite";
 
-import AppState from "../stores/AppState";
+import AppState from "../../stores/AppState";
 
 import {
   azimuth_name,
   tilt_name,
   wall_is_inside_tenv,
   BOUNDARYTYPESMAP,
-} from "../utils";
+} from "../../utils";
 
 // Formato y opciones de condiciones de contorno
 const BoundaryFmt = (cell, _row) => <span>{BOUNDARYTYPESMAP[cell]}</span>;

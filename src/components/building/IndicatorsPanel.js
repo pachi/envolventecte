@@ -34,7 +34,7 @@ import {
 } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
-import AppState from "../stores/AppState";
+import AppState from "../../stores/AppState";
 
 const IndicatorsPanel = () => {
   const appstate = useContext(AppState);

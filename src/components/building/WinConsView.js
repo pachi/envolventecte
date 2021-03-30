@@ -22,17 +22,16 @@ SOFTWARE.
 */
 
 import React, { useState, useContext } from "react";
-import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
-import AppState from "../stores/AppState";
+import AppState from "../../stores/AppState";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
-import PTsTable from "./PTsTable";
-import icongroup from "./img/outline-add_comment-24px.svg";
+import WinConsTable from "./WinConsTable";
 
-// Vista de puentes térmicos del edificio
-const PTsView = observer(() => {
+// Vista de construcciones de huecos del edificio
+const WinConsView = () => {
   const appstate = useContext(AppState);
   const [selected, setSelected] = useState([]);
 
@@ -41,28 +40,14 @@ const PTsView = observer(() => {
       <Row>
         <Col>
           <h4>
-            Puentes térmicos{" "}
-            <small className="text-muted">
-              ({appstate.thermal_bridges.length})
-            </small>
+            Construcciones de Huecos{" "}
+            <small className="text-muted">({appstate.wincons.length})</small>
           </h4>
         </Col>
         <Col md="auto">
-          <ButtonGroup>
-            <Button
-              variant="default"
-              size="sm"
-              title="Agrupa puentes térmicos, sumando longitudes de igual transmitancia térmica lineal."
-              onClick={() => appstate.agrupaPts()}
-            >
-              <img src={icongroup} alt="Agrupar PTs" /> Agrupar PTs
-            </Button>
-          </ButtonGroup>
-        </Col>
-        <Col md="auto">
           <AddRemoveButtonGroup
-            elements="thermal_bridges"
-            newobj="newPT"
+            elements="wincons"
+            newobj="newWinCons"
             selected={selected}
             setSelected={setSelected}
           />
@@ -70,7 +55,7 @@ const PTsView = observer(() => {
       </Row>
       <Row>
         <Col>
-          <PTsTable selected={selected} setSelected={setSelected} />
+          <WinConsTable selected={selected} setSelected={setSelected} />
         </Col>
       </Row>
       <Row className="text-info small mt-3">
@@ -78,26 +63,47 @@ const PTsView = observer(() => {
           <p>Donde:</p>
           <ul>
             <li>
-              <b>Longitud</b>: longitud del puente térmico (m)
+              <b>Grupo</b>: grupo de clasificación de las construcciones de
+              opacos
             </li>
             <li>
-              <b>&psi;</b>: transmitancia térmica lineal del puente térmico
-              (W/mK)
+              <b>U</b>: Transmitancia térmica del hueco (W/m²K)
+            </li>
+            <li>
+              <b>
+                F<sub>f</sub>
+              </b>
+              : fracción de marco (-)
+            </li>
+            <li>
+              <b>
+                g<sub>gl;wi</sub>
+              </b>
+              : factor solar del hueco sin la protección solar activada (g_glwi
+              = g_gln * 0.90) (-)
+            </li>
+            <li>
+              <b>
+                g<sub>gl;sh;wi</sub>
+              </b>
+              : factor solar del hueco con la protección solar activada (-)
+            </li>
+            <li>
+              <b>
+                C<sub>h;100</sub>
+              </b>
+              : Coeficiente de permeabilidad al aire del hueco a 100 Pa de
+              diferencia de presión (m³/h·m²). La clase de permeabilidad al aire
+              de los huecos, según la norma UNE EN 12207:2000 es: Clase 1: C
+              <sub>w;100</sub> &le; 50m3/hm2, Clase 2: C<sub>w;100</sub> &le; 27
+              m³/hm², Clase 3: C<sub>w;100</sub> &le; 9 m³/hm², Clase 4: C
+              <sub>w;100</sub> &le; 3 m³/hm².
             </li>
           </ul>
-          <p>
-            <b>NOTA</b>: Para los puentes térmicos definidos en la tabla se
-            considera, a efectos del cálculo de K, un factor de ajuste{" "}
-            <i>
-              b<sub>tr,x</sub> = 1.0
-            </i>
-            , de modo que solo deben incluirse aquellos pertenecientes a
-            elementos con un factor de ajuste no nulo.
-          </p>
         </Col>
       </Row>
     </Col>
   );
-});
+};
 
-export default PTsView;
+export default observer(WinConsView);

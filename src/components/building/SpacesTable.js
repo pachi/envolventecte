@@ -24,9 +24,9 @@ SOFTWARE.
 import React, { useState, useContext } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer } from "mobx-react-lite";
-import { SPACETYPESMAP } from "../utils";
+import { SPACETYPESMAP } from "../../utils";
 
-import AppState from "../stores/AppState";
+import AppState from "../../stores/AppState";
 
 const spaceTypesOpts = Object.keys(SPACETYPESMAP).map((k) => {
   return { text: SPACETYPESMAP[k], value: k };

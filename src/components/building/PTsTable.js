@@ -24,9 +24,9 @@ SOFTWARE.
 import React, { useContext } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer } from "mobx-react-lite";
-import { THERMALBRIDGETYPESMAP } from "../utils";
+import { THERMALBRIDGETYPESMAP } from "../../utils";
 
-import AppState from "../stores/AppState";
+import AppState from "../../stores/AppState";
 
 const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 

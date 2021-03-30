@@ -25,16 +25,17 @@ import React, { useContext } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer } from "mobx-react-lite";
 
-import AppState from "../stores/AppState";
+import AppState from "../../stores/AppState";
 
 const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 
-// Tabla de construcciones de huecos del edificio
-const WinConsTable = ({ selected, setSelected }) => {
+// Tabla de opacos del edificio
+const WallConsTable = ({ selected, setSelected }) => {
   const appstate = useContext(AppState);
+  const walls_Co100 = appstate.he1_indicators.C_o;
   return (
     <BootstrapTable
-      data={appstate.wincons}
+      data={appstate.wallcons}
       version="4"
       striped
       hover
@@ -44,7 +45,7 @@ const WinConsTable = ({ selected, setSelected }) => {
         mode: "dbclick",
         blurToSave: true,
         afterSaveCell: (row, cellName, cellValue) => {
-          if (["U", "Ff", "gglwi", "gglshwi", "C_100"].includes(cellName)) {
+          if (["thickness", "R_intrinsic", "absorptance"].includes(cellName)) {
             // Convierte a número campos numéricos
             row[cellName] = Number(cellValue.replace(",", "."));
           }
@@ -70,9 +71,9 @@ const WinConsTable = ({ selected, setSelected }) => {
       </TableHeaderColumn>
       <TableHeaderColumn
         dataField="name"
-        headerText="Nombre que identifica de forma única la construcción de hueco"
+        headerText="Nombre que identifica de forma única la construcción de opaco"
         width="30%"
-        columnTitle={(cell, row) => `Construcción de hueco id: ${row.id}`}
+        columnTitle={(cell, row) => `Construcción de opaco id: ${row.id}`}
       >
         Nombre
       </TableHeaderColumn>
@@ -85,72 +86,63 @@ const WinConsTable = ({ selected, setSelected }) => {
         Grupo
       </TableHeaderColumn>
       <TableHeaderColumn
-        dataField="U"
+        dataField="thickness"
         dataFormat={Float2DigitsFmt}
-        headerText="Transmitancia térmica del hueco (W/m²K)"
+        headerText="Grosor el elemento (m)"
         headerAlign="center"
         dataAlign="center"
       >
-        U<sub>w</sub>
+        e
         <br />
         <span style={{ fontWeight: "normal" }}>
-          <i>[W/m²K]</i>{" "}
+          <i>[m]</i>{" "}
         </span>
       </TableHeaderColumn>
       <TableHeaderColumn
-        dataField="Ff"
+        dataField="R_intrinsic"
         dataFormat={Float2DigitsFmt}
-        headerText="Fracción de marco de la construcción de hueco (-)"
+        headerText="Resistencia intrínseca de la solución constructiva (solo capas, sin resistencias superficiales) (m²K/W)"
         headerAlign="center"
         dataAlign="center"
       >
-        F<sub>f</sub>
+        R<sub>e</sub>
+        <br />
+        <span style={{ fontWeight: "normal" }}>
+          <i>[m²K/W]</i>{" "}
+        </span>
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="absorptance"
+        dataFormat={Float2DigitsFmt}
+        headerText="Absortividad térmica de la solución constructiva (-)"
+        headerAlign="center"
+        dataAlign="center"
+      >
+        &alpha;
         <br />
         <span style={{ fontWeight: "normal" }}>
           <i>[-]</i>{" "}
         </span>
       </TableHeaderColumn>
+
       <TableHeaderColumn
-        dataField="gglwi"
-        dataFormat={Float2DigitsFmt}
-        headerText="Factor solar del hueco sin la protección solar activada (g_glwi = g_gln * 0.90) (-)"
+        datatField="name"
+        dataFormat={() => walls_Co100}
+        headerText="Coeficiente de caudal de aire de la parte opaca de la envolvente
+    térmica (a 100 Pa). Varía según n50 de ensayo o tipo de edificio (nuevo / existente)"
+        editable={false}
+        columnClassName="td-column-readonly"
         headerAlign="center"
         dataAlign="center"
       >
-        g<sub>gl;wi</sub>
+        C<sub>o</sub>
         <br />
         <span style={{ fontWeight: "normal" }}>
-          <i>[-]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="gglshwi"
-        dataFormat={Float2DigitsFmt}
-        headerText="Factor solar del hueco con la protección solar activada (g_glwi = g_gln * 0.90) (-)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        g<sub>gl;sh;wi</sub>
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[-]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="C_100"
-        dataFormat={Float2DigitsFmt}
-        headerText="Permeabilidad al aire a 100 Pa (m³/hm²)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        C<sub>h;100</sub>
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[m³/h·m²]</i>{" "}
+          [m<sup>3</sup>/h·m<sup>2</sup>]
         </span>
       </TableHeaderColumn>
     </BootstrapTable>
   );
 };
 
-export default observer(WinConsTable);
+export default observer(WallConsTable);

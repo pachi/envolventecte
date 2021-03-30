@@ -30,12 +30,12 @@ import { observer } from "mobx-react-lite";
 import AppState from "../stores/AppState";
 
 import Footer from "./Footer";
-import JulyRadiationTable from "./JulyRadiationTable";
+import JulyRadiationTable from "./climate/JulyRadiationTable";
 import NavBar from "./Nav";
-import MonthlyRadiationTable from "./MonthlyRadiationTable";
-import ShadingFactorsTable from "./ShadingFactorsTable";
-import { OrientacionesSprite } from "./IconsOrientaciones";
-import { FshwithSprite } from "./IconsFshwith";
+import MonthlyRadiationTable from "./climate/MonthlyRadiationTable";
+import ShadingFactorsTable from "./climate/ShadingFactorsTable";
+import { OrientacionesSprite } from "./climate/IconsOrientaciones";
+import { FshwithSprite } from "./climate/IconsFshwith";
 
 const ClimatePage = observer(({ route }) => {
   const appstate = useContext(AppState);

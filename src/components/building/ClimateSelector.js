@@ -25,7 +25,7 @@ import React, { useContext } from "react";
 import { observer } from "mobx-react-lite";
 import { Form, Row, Col } from "react-bootstrap";
 
-import AppState from "../stores/AppState";
+import AppState from "../../stores/AppState";
 
 const ClimateSelector = observer(({ ...props }) => {
   const appstate = useContext(AppState);

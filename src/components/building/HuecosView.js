@@ -25,11 +25,11 @@ import React, { useState, useContext } from "react";
 import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
-import AppState from "../stores/AppState";
+import AppState from "../../stores/AppState";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 import HuecosTable from "./HuecosTable";
-import icongroup from "./img/outline-add_comment-24px.svg";
+import icongroup from "../img/outline-add_comment-24px.svg";
 
 // Vista de huecos del edificio
 const HuecosView = observer(() => {

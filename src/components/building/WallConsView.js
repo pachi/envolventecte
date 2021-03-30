@@ -25,13 +25,13 @@ import React, { useState, useContext } from "react";
 import { Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
-import AppState from "../stores/AppState";
+import AppState from "../../stores/AppState";
 
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
-import WinConsTable from "./WinConsTable";
+import WallConsTable from "./WallConsTable";
 
-// Vista de construcciones de huecos del edificio
-const WinConsView = () => {
+// Vista de construcciones de opacos del edificio
+const WallConsView = observer(() => {
   const appstate = useContext(AppState);
   const [selected, setSelected] = useState([]);
 
@@ -40,14 +40,14 @@ const WinConsView = () => {
       <Row>
         <Col>
           <h4>
-            Construcciones de Huecos{" "}
-            <small className="text-muted">({appstate.wincons.length})</small>
+            Construcciones de Opacos{" "}
+            <small className="text-muted">({appstate.wallcons.length})</small>
           </h4>
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elements="wincons"
-            newobj="newWinCons"
+            elements="wallcons"
+            newobj="newWallCons"
             selected={selected}
             setSelected={setSelected}
           />
@@ -55,7 +55,7 @@ const WinConsView = () => {
       </Row>
       <Row>
         <Col>
-          <WinConsTable selected={selected} setSelected={setSelected} />
+          <WallConsTable selected={selected} setSelected={setSelected} />
         </Col>
       </Row>
       <Row className="text-info small mt-3">
@@ -67,43 +67,31 @@ const WinConsView = () => {
               opacos
             </li>
             <li>
-              <b>U</b>: Transmitancia térmica del hueco (W/m²K)
+              <b>e</b>: grosor total del conjunto de capas de la construcción
             </li>
             <li>
               <b>
-                F<sub>f</sub>
+                R<sub>e</sub>
               </b>
-              : fracción de marco (-)
+              : resistencia intrínseca (sin resistencias superficiales, solo de
+              las capas) del elemento (m²K/W)
+            </li>
+            <li>
+              <b>&alpha;</b>: absortividad térmica de la construcción [-]
             </li>
             <li>
               <b>
-                g<sub>gl;wi</sub>
+                C<sub>o;100</sub>
               </b>
-              : factor solar del hueco sin la protección solar activada (g_glwi
-              = g_gln * 0.90) (-)
-            </li>
-            <li>
-              <b>
-                g<sub>gl;sh;wi</sub>
-              </b>
-              : factor solar del hueco con la protección solar activada (-)
-            </li>
-            <li>
-              <b>
-                C<sub>h;100</sub>
-              </b>
-              : Coeficiente de permeabilidad al aire del hueco a 100 Pa de
-              diferencia de presión (m³/h·m²). La clase de permeabilidad al aire
-              de los huecos, según la norma UNE EN 12207:2000 es: Clase 1: C
-              <sub>w;100</sub> &le; 50m3/hm2, Clase 2: C<sub>w;100</sub> &le; 27
-              m³/hm², Clase 3: C<sub>w;100</sub> &le; 9 m³/hm², Clase 4: C
-              <sub>w;100</sub> &le; 3 m³/hm².
+              : coeficiente de permeabilidad de opacos a 100Pa. Depende del tipo
+              de edificio (nuevo / existente) y de si existe ensayo de
+              permeabildad, n<sub>50</sub> (Blower-door) [m³/h·m²]
             </li>
           </ul>
         </Col>
       </Row>
     </Col>
   );
-};
+});
 
-export default observer(WinConsView);
+export default WallConsView;

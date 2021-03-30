@@ -25,14 +25,14 @@ import React, { useContext } from "react";
 import { Button, ButtonGroup, ButtonToolbar } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
-import AppState from "../stores/AppState";
+import AppState from "../../stores/AppState";
 
-import iconplus from "./img/baseline-add-24px.svg";
-import iconless from "./img/baseline-remove-24px.svg";
-import iconselectall from "./img/select-rows.svg";
-import iconselectnone from "./img/unselect-rows.svg";
-import iconduplicate from "./img/outline-file_copy-24px.svg";
-import { uuidv4 } from "../utils";
+import iconplus from "../img/baseline-add-24px.svg";
+import iconless from "../img/baseline-remove-24px.svg";
+import iconselectall from "../img/select-rows.svg";
+import iconselectnone from "../img/unselect-rows.svg";
+import iconduplicate from "../img/outline-file_copy-24px.svg";
+import { uuidv4 } from "../../utils";
 
 const AddRemoveButtonGroup = observer(
   ({ elements, newobj, selected, setSelected }) => {

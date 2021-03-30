@@ -28,15 +28,15 @@ import { observer } from "mobx-react-lite";
 
 import DownloadUpload from "./DownloadUpload";
 import Footer from "./Footer";
-import HuecosView from "./HuecosView";
-import WinConsView from "./WinConsView";
-import WallConsView from "./WallConsView";
-import IndicatorsPanel from "./IndicatorsPanel";
+import HuecosView from "./building/HuecosView";
+import WinConsView from "./building/WinConsView";
+import WallConsView from "./building/WallConsView";
+import IndicatorsPanel from "./building/IndicatorsPanel";
 import NavBar from "./Nav";
-import OpacosView from "./OpacosView";
-import PTsView from "./PTsView";
-import SpacesView from "./SpacesView";
-import MetaParams from "./MetaParams";
+import OpacosView from "./building/OpacosView";
+import PTsView from "./building/PTsView";
+import SpacesView from "./building/SpacesView";
+import MetaParams from "./building/MetaParams";
 import ThreeView from "./three/ThreeView";
 
 const BuildingPage = ({ route }) => (
