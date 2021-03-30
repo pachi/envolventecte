@@ -9,11 +9,12 @@
     - Datos de clima?
 - Cálculo de valores de acristalamientos con sombras móviles usando parámetros U_gl, g_gl_n, tau_e_B y ro_e_B directamente
 - Añadir cálculo de F_sh;obst
-- Mostrar valores de U de elementos
 - Detallar con gráficas cálculo de K (desglose por tipos de elementos, etc)
+    - Desglosar el A y UA por subtipos y no solo separar PTs, huecos, opacos
 - Trasladar datos a public/data? (usando luego fetch o direcciones como <a href={process.env.PUBLIC_URL + "/data/zcraddata.json"}>Enlace</a>)
 - Revisar compatibilidad en Chrome: en particular los cambios en datos generales
 - ThreeView
     - Convertir a componente funcional
 - Migrar a React-bootstrap-table nueva
 - Convertir a Redux?
+- Clipping plane: https://github.com/agviegas/IFC.js/commit/9be223de323e6acd936d9493eda5753a4ffe8183

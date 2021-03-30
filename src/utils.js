@@ -65,6 +65,18 @@ export const SPACETYPESMAP = {
   UNINHABITED: "NO HABITABLE",
 };
 
+export const THERMALBRIDGETYPESMAP = {
+  ROOF: "CUBIERTA",
+  BALCONY: "BALCÓN",
+  CORNER: "ESQUINA",
+  INTERMEDIATEFLOOR: "FORJADO",
+  INTERNALWALL: "PARTICIÓN",
+  GROUNDFLOOR: "SOLERA",
+  PILLAR: "PILAR",
+  WINDOW: "HUECO",
+  GENERIC: "GENÉRICO"
+}
+
 // Conversión de orientación de ángulo a nombre
 export function azimuth_name(azimuth_angle) {
   const azimuth = normalize(azimuth_angle, 0.0, 360.0);

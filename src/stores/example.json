@@ -6628,60 +6628,70 @@
     {
       "id": "bb3e424e-2ea5-f7a4-a084-d56082c0cd2e",
       "name": "FRENTE_FORJADO",
+      "kind": "INTERMEDIATEFLOOR",
       "L": 195.78,
       "psi": 0.1
     },
     {
       "id": "2cc442c1-56ae-eaaa-9ae7-1cfee517ef7f",
       "name": "UNION_CUBIERTA",
+      "kind": "ROOF",
       "L": 111.51,
       "psi": 0.24
     },
     {
       "id": "bea70674-7901-ca9b-0ed2-c945c81608b8",
       "name": "ESQUINA_CONVEXA_FORJADO",
+      "kind": "ROOF",
       "L": 0.0,
       "psi": 0.23
     },
     {
       "id": "0fbfc34b-4604-618f-f896-75ff3612d032",
       "name": "ESQUINA_CONCAVA",
+      "kind": "CORNER",
       "L": 50.0,
       "psi": -0.16
     },
     {
       "id": "81fe23db-ff71-b16c-4c1c-056426c531b4",
       "name": "ESQUINA_CONVEXA",
+      "kind": "CORNER",
       "L": 0.0,
       "psi": 0.11
     },
     {
       "id": "ac671a0c-bfe0-b69a-867d-744e18eae77e",
       "name": "PILAR",
+      "kind": "PILLAR",
       "L": 1.0,
       "psi": 1.2
     },
     {
       "id": "b9643c94-1718-485a-bfa6-fcd7238e4a1e",
       "name": "HUECO_CAPIALZADO",
+      "kind": "WINDOW",
       "L": 140.25,
       "psi": 0.05
     },
     {
       "id": "16b7fdce-b4fc-95fe-658e-537c5add8cf8",
       "name": "HUECO_JAMBA",
+      "kind": "WINDOW",
       "L": 255.0,
       "psi": 0.05
     },
     {
       "id": "6314e5b7-7aa3-c7c5-335f-f449dff26f5a",
       "name": "HUECO_ALFEIZAR",
+      "kind": "WINDOW",
       "L": 140.25,
       "psi": 0.05
     },
     {
       "id": "e240f5b2-8c4b-b548-2e2b-a5f3b338d420",
       "name": "UNION_SOLERA_PAREDEXT",
+      "kind": "GROUNDFLOOR",
       "L": 50.63,
       "psi": 0.28
     }

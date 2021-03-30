@@ -24,10 +24,17 @@ SOFTWARE.
 import React, { useContext } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer } from "mobx-react-lite";
+import { THERMALBRIDGETYPESMAP } from "../utils";
 
 import AppState from "../stores/AppState";
 
 const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
+
+// Formato y opciones de tipos de puentes térmicos
+const ThermalBridgeTypesFmt = (cell, _row) => <span>{THERMALBRIDGETYPESMAP[cell]}</span>;
+const ThermalBridgeTypesOpts = Object.keys(THERMALBRIDGETYPESMAP).map((k) => {
+  return { text: THERMALBRIDGETYPESMAP[k], value: k };
+});
 
 // Tabla de puentes térmicos del edificio
 const PTsTable = ({ selected, setSelected }) => {
@@ -87,6 +94,23 @@ const PTsTable = ({ selected, setSelected }) => {
         <br />
         <span style={{ fontWeight: "normal" }}>
           <i>[m]</i>{" "}
+        </span>
+      </TableHeaderColumn>
+      <TableHeaderColumn
+        dataField="kind"
+        editable={{
+          type: "select",
+          options: { values: ThermalBridgeTypesOpts },
+        }}
+        dataFormat={ThermalBridgeTypesFmt}
+        headerText="Tipo del puente térmico: CUBIERTA (encuentro de cubierta o suelo con fachada) | BALCÓN (suelo en vuelo exterior) | ESQUINA (encuentro de cerramientos verticales) | FORJADO (encuentro forjado-fachada) | PARTICIÓN (encuentro de partición interior con fachada, cubierta o suelo) | SOLERA (encuentra de solera o cámara ventilada con fachada) | PILAR (pilar en fachada, cubierta o suelo) | HUECO (contorno de hueco)  | GENÉRICO (puente térmico genérico))"
+        headerAlign="center"
+        dataAlign="center"
+      >
+        Tipo
+        <br />
+        <span style={{ fontWeight: "normal" }}>
+          <i>-</i>{" "}
         </span>
       </TableHeaderColumn>
       <TableHeaderColumn

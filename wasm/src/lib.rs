@@ -1,7 +1,7 @@
 use std::{collections::BTreeMap, convert::TryFrom};
 
 use anyhow::Error;
-use bemodel::{self, climatedata, KDetail, Model, N50HEDetail, UValues, Warning, VERSION};
+use bemodel::{self, climatedata, KData, Model, N50HEDetail, UValues, Warning, VERSION};
 use hulc::{ctehexml, kyg};
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
@@ -43,7 +43,7 @@ pub fn set_panic_hook() {
 struct IndicatorsReport {
     area_ref: f32,
     compacity: f32,
-    K: KDetail,
+    K: KData,
     u_values: UValues,
     qsoljul: f32,
     n50: f32,

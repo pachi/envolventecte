@@ -54,12 +54,25 @@ const IndicatorsPanel = () => {
 
   const {
     K,
-    walls_a,
-    walls_a_u,
-    windows_a,
-    windows_a_u,
-    thermal_bridges_psi_l,
+    summary,
+    // roofs,
+    // floors,
+    // walls,
+    // windows,
+    // ground,
+    // tbs,
   } = appstate.he1_indicators.K;
+
+  const {
+    a,
+    au,
+    opaques_a,
+    opaques_au,
+    windows_a,
+    windows_au,
+    // tbs_l,
+    tbs_psil,
+  } = summary;
 
   const errors = appstate.warnings;
   const numavisos = errors.length;
@@ -179,23 +192,21 @@ const IndicatorsPanel = () => {
                 H<sub>tr,adj</sub> &asymp; &sum;<sub>x</sub> b<sub>tr,x</sub> ·
                 [&sum;<sub>i</sub> A<sub>x,i</sub> · U<sub>x,i</sub> (huecos +
                 opacos) + &sum;<sub>k</sub> l<sub>x,k</sub> · ψ<sub>x,k</sub>{" "}
-                (PTs)] = {windows_a_u.toFixed(2)} W/K (huecos) +{" "}
-                {walls_a_u.toFixed(2)} W/K (opacos) +{" "}
-                {thermal_bridges_psi_l.toFixed(2)} W/K (PTs) ={" "}
-                {(walls_a_u + windows_a_u + thermal_bridges_psi_l).toFixed(2)}{" "}
+                (PTs)] = {windows_au.toFixed(2)} W/K (huecos) +{" "}
+                {opaques_au.toFixed(2)} W/K (opacos) +{" "}
+                {tbs_psil.toFixed(2)} W/K (PTs) = {au.toFixed(2)}{" "}
                 W/K{" "}
               </p>
               <p>Superficie de intercambio de la envolvente térmica</p>
               <p>
                 &sum;A = &sum; b<sub>tr,x</sub> · A<sub>x</sub> ={" "}
-                {windows_a.toFixed(2)} m² (huecos) + {walls_a.toFixed(2)} m²
-                (opacos) = {(walls_a + windows_a).toFixed(2)} m²
+                {windows_a.toFixed(2)} m² (huecos) + {opaques_a.toFixed(2)} m²
+                (opacos) = {a.toFixed(2)} m²
               </p>
               <p>Valor del indicador:</p>
               <p>
-                <b>K</b> = H<sub>tr,adj</sub> / &sum;A &asymp;{" "}
-                {(walls_a_u + windows_a_u + thermal_bridges_psi_l).toFixed(2)} /{" "}
-                {(walls_a + windows_a).toFixed(2)} ={" "}
+                <b>K</b> = H<sub>tr,adj</sub> / &sum;A &asymp; {au.toFixed(2)} /{" "}
+                {a.toFixed(2)} ={" "}
                 <b>
                   {K.toFixed(2)} <i>W/m²K</i>
                 </b>
