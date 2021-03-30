@@ -48,36 +48,12 @@ const IndicatorsPanel = () => {
     compacity,
     n50_he2019,
     n50,
-    C_o,
-    C_o_he2019,
   } = appstate.he1_indicators;
 
-  const {
-    K,
-    summary,
-    // roofs,
-    // floors,
-    // walls,
-    // windows,
-    // ground,
-    // tbs,
-  } = appstate.he1_indicators.K;
-
-  const {
-    a,
-    au,
-    opaques_a,
-    opaques_au,
-    windows_a,
-    windows_au,
-    // tbs_l,
-    tbs_psil,
-  } = summary;
+  const { K } = appstate.he1_indicators.K;
 
   const errors = appstate.warnings;
   const numavisos = errors.length;
-
-  const Qsoljul = qsoljul * area_ref;
 
   return (
     <>
@@ -181,128 +157,167 @@ const IndicatorsPanel = () => {
       </Collapse>
       <Collapse in={details}>
         <Card body bg="light" border="info" className="mb-3">
-          <Row>
-            <Col>
-              <h3>Transmitancia térmica global (K)</h3>
-              <p>
-                Transmisión de calor a través de la envolvente térmica (huecos,
-                opacos y puentes térmicos)
-              </p>
-              <p>
-                H<sub>tr,adj</sub> &asymp; &sum;<sub>x</sub> b<sub>tr,x</sub> ·
-                [&sum;<sub>i</sub> A<sub>x,i</sub> · U<sub>x,i</sub> (huecos +
-                opacos) + &sum;<sub>k</sub> l<sub>x,k</sub> · ψ<sub>x,k</sub>{" "}
-                (PTs)] = {windows_au.toFixed(2)} W/K (huecos) +{" "}
-                {opaques_au.toFixed(2)} W/K (opacos) +{" "}
-                {tbs_psil.toFixed(2)} W/K (PTs) = {au.toFixed(2)}{" "}
-                W/K{" "}
-              </p>
-              <p>Superficie de intercambio de la envolvente térmica</p>
-              <p>
-                &sum;A = &sum; b<sub>tr,x</sub> · A<sub>x</sub> ={" "}
-                {windows_a.toFixed(2)} m² (huecos) + {opaques_a.toFixed(2)} m²
-                (opacos) = {a.toFixed(2)} m²
-              </p>
-              <p>Valor del indicador:</p>
-              <p>
-                <b>K</b> = H<sub>tr,adj</sub> / &sum;A &asymp; {au.toFixed(2)} /{" "}
-                {a.toFixed(2)} ={" "}
-                <b>
-                  {K.toFixed(2)} <i>W/m²K</i>
-                </b>
-              </p>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <h3>
-                Control solar de los huecos (q<sub>sol;jul</sub>)
-              </h3>
-              <p>
-                Ganancias solares en el mes de julio con los dispositivos de
-                sombra de los huecos activados
-              </p>
-              <p>
-                Q<sub>sol;jul</sub> = &sum;<sub>k</sub>(F
-                <sub>sh,obst</sub> · g<sub>gl;sh;wi</sub> · (1 − F<sub>F</sub>)
-                · A<sub>w,p</sub> · H<sub>sol;jul</sub>) = {Qsoljul.toFixed(2)}{" "}
-                kWh/mes
-              </p>
-              <p>Superficie útil</p>
-              <p>
-                A<sub>util</sub> = {area_ref.toFixed(2)} m²
-              </p>
-              <p>Valor del indicador:</p>
-              <p>
-                <b>
-                  q<sub>sol;jul</sub>
-                </b>{" "}
-                = Q<sub>sol;jul</sub> / A<sub>util</sub> ={Qsoljul.toFixed(2)} /{" "}
-                {area_ref.toFixed(2)} ={" "}
-                <b>
-                  {area_ref !== 0 ? qsoljul.toFixed(2) : "-"} <i>kWh/m²/mes</i>
-                </b>
-              </p>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <h3>
-                Tasa de renovación de aire a 50 Pa (n<sub>50</sub>)
-              </h3>
-              <p>
-                <b>Tasa de renovación de aire a 50 Pa (teórica)</b>
-              </p>
-              <p>Permeabilidad de opacos calculada según criterio de DB-HE:</p>
-              <p>
-                C<sub>o, ref</sub> = {C_o_he2019.toFixed(2)} m³/h·m²
-              </p>
-              <p>
-                <b>
-                  n<sub>50, ref</sub>
-                </b>{" "}
-                = 0.629 · (&sum;C<sub>o</sub> · A<sub>o</sub>+ &sum;C
-                <sub>h</sub>· A<sub>h</sub>) / V<sub>int</sub> = 0.629 · (
-                {n50_he2019.walls_c_a.toFixed(2)} +{" "}
-                {n50_he2019.windows_c_a.toFixed(2)}) /{" "}
-                {n50_he2019.vol.toFixed(2)} ={" "}
-                <b>
-                  {n50_he2019.n50.toFixed(2)}{" "}
-                  <i>
-                    h<sup>-1</sup>
-                  </i>
-                </b>
-              </p>
-              <p>
-                <b>Tasa de renovación de aire a 50 Pa</b>
-              </p>
-              <p>
-                Permeabilidad de opacos obtenida mediante ensayo, si está
-                disponible, o según criterio del DB-HE:
-              </p>
-              <p>
-                C<sub>o</sub> = {C_o.toFixed(2)} m³/h·m²
-              </p>
-              <p>
-                <b>
-                  n<sub>50</sub>
-                </b>{" "}
-                = 0.629 · (&sum;C<sub>o</sub> · A<sub>o</sub>+ &sum;C
-                <sub>h</sub>· A<sub>h</sub>) / V<sub>int</sub> = 0.629 · (
-                {((n50_he2019.walls_c_a * C_o) / C_o_he2019).toFixed(2)} +{" "}
-                {n50_he2019.windows_c_a.toFixed(2)}) /{" "}
-                {n50_he2019.vol.toFixed(2)} ={" "}
-                <b>
-                  {n50.toFixed(2)}{" "}
-                  <i>
-                    h<sup>-1</sup>
-                  </i>
-                </b>
-              </p>
-            </Col>
-          </Row>
+          <KDetails />
         </Card>
       </Collapse>
+    </>
+  );
+};
+
+const KDetails = () => {
+  const appstate = useContext(AppState);
+
+  const {
+    area_ref,
+    qsoljul,
+    n50_he2019,
+    n50,
+    C_o,
+    C_o_he2019,
+  } = appstate.he1_indicators;
+
+  const {
+    K,
+    summary,
+    // roofs,
+    // floors,
+    // walls,
+    // windows,
+    // ground,
+    // tbs,
+  } = appstate.he1_indicators.K;
+
+  const {
+    a,
+    au,
+    opaques_a,
+    opaques_au,
+    windows_a,
+    windows_au,
+    // tbs_l,
+    tbs_psil,
+  } = summary;
+
+  const Qsoljul = qsoljul * area_ref;
+
+  return (
+    <>
+      <Row>
+        <Col>
+          <h3>Transmitancia térmica global (K)</h3>
+          <p>
+            Transmisión de calor a través de la envolvente térmica (huecos,
+            opacos y puentes térmicos)
+          </p>
+          <p>
+            H<sub>tr,adj</sub> &asymp; &sum;<sub>x</sub> b<sub>tr,x</sub> ·
+            [&sum;
+            <sub>i</sub> A<sub>x,i</sub> · U<sub>x,i</sub> (huecos + opacos) +
+            &sum;<sub>k</sub> l<sub>x,k</sub> · ψ<sub>x,k</sub> (PTs)] ={" "}
+            {windows_au.toFixed(2)} W/K (huecos) + {opaques_au.toFixed(2)} W/K
+            (opacos) + {tbs_psil.toFixed(2)} W/K (PTs) = {au.toFixed(2)} W/K{" "}
+          </p>
+          <p>Superficie de intercambio de la envolvente térmica</p>
+          <p>
+            &sum;A = &sum; b<sub>tr,x</sub> · A<sub>x</sub> ={" "}
+            {windows_a.toFixed(2)} m² (huecos) + {opaques_a.toFixed(2)} m²
+            (opacos) = {a.toFixed(2)} m²
+          </p>
+          <p>Valor del indicador:</p>
+          <p>
+            <b>K</b> = H<sub>tr,adj</sub> / &sum;A &asymp; {au.toFixed(2)} /{" "}
+            {a.toFixed(2)} ={" "}
+            <b>
+              {K.toFixed(2)} <i>W/m²K</i>
+            </b>
+          </p>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <h3>
+            Control solar de los huecos (q<sub>sol;jul</sub>)
+          </h3>
+          <p>
+            Ganancias solares en el mes de julio con los dispositivos de sombra
+            de los huecos activados
+          </p>
+          <p>
+            Q<sub>sol;jul</sub> = &sum;<sub>k</sub>(F
+            <sub>sh,obst</sub> · g<sub>gl;sh;wi</sub> · (1 − F<sub>F</sub>) · A
+            <sub>w,p</sub> · H<sub>sol;jul</sub>) = {Qsoljul.toFixed(2)} kWh/mes
+          </p>
+          <p>Superficie útil</p>
+          <p>
+            A<sub>util</sub> = {area_ref.toFixed(2)} m²
+          </p>
+          <p>Valor del indicador:</p>
+          <p>
+            <b>
+              q<sub>sol;jul</sub>
+            </b>{" "}
+            = Q<sub>sol;jul</sub> / A<sub>util</sub> ={Qsoljul.toFixed(2)} /{" "}
+            {area_ref.toFixed(2)} ={" "}
+            <b>
+              {area_ref !== 0 ? qsoljul.toFixed(2) : "-"} <i>kWh/m²/mes</i>
+            </b>
+          </p>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <h3>
+            Tasa de renovación de aire a 50 Pa (n<sub>50</sub>)
+          </h3>
+          <p>
+            <b>Tasa de renovación de aire a 50 Pa (teórica)</b>
+          </p>
+          <p>Permeabilidad de opacos calculada según criterio de DB-HE:</p>
+          <p>
+            C<sub>o, ref</sub> = {C_o_he2019.toFixed(2)} m³/h·m²
+          </p>
+          <p>
+            <b>
+              n<sub>50, ref</sub>
+            </b>{" "}
+            = 0.629 · (&sum;C<sub>o</sub> · A<sub>o</sub>+ &sum;C
+            <sub>h</sub>· A<sub>h</sub>) / V<sub>int</sub> = 0.629 · (
+            {n50_he2019.walls_c_a.toFixed(2)} +{" "}
+            {n50_he2019.windows_c_a.toFixed(2)}) / {n50_he2019.vol.toFixed(2)} ={" "}
+            <b>
+              {n50_he2019.n50.toFixed(2)}{" "}
+              <i>
+                h<sup>-1</sup>
+              </i>
+            </b>
+          </p>
+          <p>
+            <b>Tasa de renovación de aire a 50 Pa</b>
+          </p>
+          <p>
+            Permeabilidad de opacos obtenida mediante ensayo, si está
+            disponible, o según criterio del DB-HE:
+          </p>
+          <p>
+            C<sub>o</sub> = {C_o.toFixed(2)} m³/h·m²
+          </p>
+          <p>
+            <b>
+              n<sub>50</sub>
+            </b>{" "}
+            = 0.629 · (&sum;C<sub>o</sub> · A<sub>o</sub>+ &sum;C
+            <sub>h</sub>· A<sub>h</sub>) / V<sub>int</sub> = 0.629 · (
+            {((n50_he2019.walls_c_a * C_o) / C_o_he2019).toFixed(2)} +{" "}
+            {n50_he2019.windows_c_a.toFixed(2)}) / {n50_he2019.vol.toFixed(2)} ={" "}
+            <b>
+              {n50.toFixed(2)}{" "}
+              <i>
+                h<sup>-1</sup>
+              </i>
+            </b>
+          </p>
+        </Col>
+      </Row>
     </>
   );
 };
