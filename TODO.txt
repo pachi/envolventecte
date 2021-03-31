@@ -15,6 +15,8 @@
 - Revisar compatibilidad en Chrome: en particular los cambios en datos generales
 - ThreeView
     - Convertir a componente funcional
+    - Activar / desactivar plano y rejilla de suelo
+    - Clipping plane: https://github.com/agviegas/IFC.js/commit/9be223de323e6acd936d9493eda5753a4ffe8183
+    - Seleccionar elemento activo en las tablas del modelo (y, al revés, mostrar elementos seleccionados en 3D), selecciones múltiples
 - Migrar a React-bootstrap-table nueva
 - Convertir a Redux?
-- Clipping plane: https://github.com/agviegas/IFC.js/commit/9be223de323e6acd936d9493eda5753a4ffe8183
