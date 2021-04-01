@@ -158,7 +158,7 @@ const IndicatorsPanel = () => {
       </Collapse>
       <Collapse in={details}>
         <Card body bg="light" border="info" className="mb-3">
-          <KDetail />
+          <KDetail isShown={details} />
         </Card>
       </Collapse>
     </>

@@ -26,10 +26,11 @@ import { Col, Row, Table } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
+import KElementsChart from "./IndicatorsKChart";
 
 const formatted = (elem, bold = false) => (bold ? <b>{elem}</b> : <>{elem}</>);
 
-const KDetail = () => {
+const KDetail = ({isShown}) => {
   const appstate = useContext(AppState);
   const {
     area_ref,
@@ -63,46 +64,46 @@ const KDetail = () => {
 
   // Elementos detallados: título, a, au, tipo, ¿con formato especial?
   const all_elements = [
-    ["Huecos", windows.a, windows.au, "Tipo", true],
-    ["Opacos", opaques_a, opaques_au, "Tipo", true],
-    ["- Fachadas (aire)", walls.a, walls.au, "TipoOpaco", false],
-    ["- Cubiertas (aire)", roofs.a, roofs.au, "TipoOpaco", false],
-    ["- Suelos (aire)", floors.a, floors.au, "TipoOpaco", false],
-    ["- Elementos contra el terreno", ground.a, ground.au, "TipoOpaco", false],
-    ["Puentes térmicos", tbs_l, tbs_psil, "Tipo", true],
+    ["Huecos","Huecos", windows.a, windows.au, "Tipo", true],
+    ["Opacos", "Opacos", opaques_a, opaques_au, "Tipo", true],
+    ["- Fachadas (W)", "Opacos (W)",  walls.a, walls.au, "TipoOpaco", false],
+    ["- Cubiertas (R)", "Opacos (R)", roofs.a, roofs.au, "TipoOpaco", false],
+    ["- Suelos (F)", "Opacos (F)", floors.a, floors.au, "TipoOpaco", false],
+    ["- Cerramientos en contacto con el terreno (G)", "Opacos (G)", ground.a, ground.au, "TipoOpaco", false],
+    ["Puentes térmicos", "PTs", tbs_l, tbs_psil, "Tipo", true],
     [
-      "- Cubierta o suelo con fachada",
+      "- Cubierta o suelo con fachada (R)", "PTs (R)",
       tbs.roof.l,
       tbs.roof.psil,
       "TipoPT",
       false,
     ],
-    ["- Balcón", tbs.balcony.l, tbs.balcony.psil, "TipoPT", false],
-    ["- Esquina de fachadas", tbs.corner.l, tbs.corner.psil, "TipoPT", false],
+    ["- Balcón (B)", "PTs (B)", tbs.balcony.l, tbs.balcony.psil, "TipoPT", false],
+    ["- Esquina de fachadas (C)", "PTs (C)", tbs.corner.l, tbs.corner.psil, "TipoPT", false],
     [
-      "- Frente de forjado",
+      "- Frente de forjado (IF)", "PTs (IF)",
       tbs.intermediate_floor.l,
       tbs.intermediate_floor.psil,
       "TipoPT",
       false,
     ],
     [
-      "- Partición interior con envolvente",
+      "- Partición interior con envolvente (IW)", "PTs (IW)",
       tbs.internal_wall.l,
       tbs.internal_wall.psil,
       "TipoPT",
       false,
     ],
     [
-      "- Elementos contra el terreno con fachada",
+      "- Elementos contra el terreno con fachada (GF)", "PTs (GF)",
       tbs.ground_floor.l,
       tbs.ground_floor.psil,
       "TipoPT",
       false,
     ],
-    ["- Pilar", tbs.pillar.l, tbs.pillar.psil, "TipoPT", false],
-    ["- Contorno de huecos", tbs.window.l, tbs.window.psil, "TipoPT", false],
-    ["- Genérico", tbs.generic.l, tbs.generic.psil, "TipoPT", false],
+    ["- Pilar (P)", "PTs (P)", tbs.pillar.l, tbs.pillar.psil, "TipoPT", false],
+    ["- Contorno de huecos (W)", "PTs (W)", tbs.window.l, tbs.window.psil, "TipoPT", false],
+    ["- Genérico (G)", "PTs (G)", tbs.generic.l, tbs.generic.psil, "TipoPT", false],
   ];
 
   const data = build_data(K, a, all_elements);
@@ -144,6 +145,11 @@ const KDetail = () => {
       <Row>
         <Col>
           <KElementsTable K={K} data={filtered_data} />
+        </Col>
+      </Row>
+      <Row>
+        <Col className="text-center">
+          <KElementsChart data={filtered_data} width={1200} />
         </Col>
       </Row>
       <Row>
@@ -329,8 +335,9 @@ const build_data = (K, a, data) => {
       return (100 * elem_au) / a / K;
     } else return null;
   };
-  return data.map(([title, a, au, type, format]) => ({
+  return data.map(([title, short_title, a, au, type, format]) => ({
     title,
+    short_title,
     a,
     au,
     type,
