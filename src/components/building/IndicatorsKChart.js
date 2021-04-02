@@ -27,7 +27,7 @@ import * as d3 from "d3";
 // Tabla de desglose de K
 // https://embed.plnkr.co/plunk/MV01Dl
 // https://medium.com/@jeffbutsch/using-d3-in-react-with-hooks-4a6c61f1d102
-// Elementos de data: { title, a, au, type, u_mean, k_contrib, k_pct, format = false },
+// Elementos de data: { title, a, au, type, u_mean, k_contrib, k_pct, format = false, color },
 const KElementsChart = ({
   data,
   format,
@@ -41,7 +41,7 @@ const KElementsChart = ({
   useEffect(
     () => {
       const container = d3Container.current;
-      const margin = { top: 30, right: 30, bottom: 70, left: 60 },
+      const margin = { top: 30, right: 30, bottom: 30, left: 60 },
         chart_width = width - margin.left - margin.right,
         chart_height = height - margin.top - margin.bottom;
 
@@ -72,15 +72,19 @@ const KElementsChart = ({
           .scaleBand()
           .range([0, chart_width])
           .domain(data.map((d) => d.short_title))
-          .padding(0.15);
+          .padding(0.1);
 
+        const areSubtype = data.map((d) => d.type !== "Tipo");
+        // X ticks
         svg
           .append("g")
+          .style("font-size", "12px")
           .attr("transform", `translate(0, ${chart_height})`)
           .call(d3.axisBottom(x))
           .selectAll("text")
-          .attr("transform", "translate(-10,0)rotate(-45)")
-          .style("text-anchor", "end");
+          .attr("transform", "translate(0,5)")
+          .attr("font-weight", (_, i) => (areSubtype[i] ? "normal" : "bold"))
+          .style("text-anchor", "middle");
 
         // Y axis
         const y = d3
@@ -118,31 +122,29 @@ const KElementsChart = ({
 
         bar
           .append("rect")
-          .attr("x", (d) => x(d.short_title))
+          .attr(
+            "x",
+            (d) =>
+              x(d.short_title) +
+              x.bandwidth() * (d.type === "Tipo" ? 0.0 : 0.25)
+          )
           .attr("y", (d) => y(Math.max(0, d.k_pct)))
-          .attr("width", x.bandwidth())
+          .attr("width", (d) => x.bandwidth() * (d.type === "Tipo" ? 1.0 : 0.5))
           .attr("height", (d) => Math.abs(y(d.k_pct) - y(0)))
-          .attr("fill", (d) => {
-            if (d.short_title.startsWith("Huecos")) {
-              return d.type === "Tipo" ? "#2250a0" : "#a7edfd";
-            } else if (d.short_title.startsWith("Opacos")) {
-              return d.type === "Tipo" ? "#a0401a" : "#cbb163";
-            } else if (d.short_title.startsWith("PTs")) {
-              return d.type === "Tipo" ? "#4e8e33" : "#98de7b";
-            }
-          });
+          .attr("fill", (d) => d.color);
 
         bar
           .append("text")
           .attr("x", (d) => x(d.short_title) + x.bandwidth() / 2)
           .attr("y", (d) => y(Math.max(0, d.k_pct)) - bar_value_padding)
           .attr("text-anchor", "middle")
+          .attr("font-weight", (_, i) => (areSubtype[i] ? "normal" : "bold"))
           .text((d) => format(d.k_pct));
       }
     },
     // Array de dependencias.
     // El bloque se ejecuta cuando cambia cualquiera de estas variables
-    [data, height, width]
+    [data, height, width, bar_value_padding, format]
   );
 
   return (

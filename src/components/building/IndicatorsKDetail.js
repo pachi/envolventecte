@@ -30,7 +30,7 @@ import KElementsChart from "./IndicatorsKChart";
 
 const formatted = (elem, bold = false) => (bold ? <b>{elem}</b> : <>{elem}</>);
 
-const KDetail = ({isShown}) => {
+const KDetail = ({ isShown }) => {
   const appstate = useContext(AppState);
   const {
     area_ref,
@@ -64,46 +64,126 @@ const KDetail = ({isShown}) => {
 
   // Elementos detallados: título, a, au, tipo, ¿con formato especial?
   const all_elements = [
-    ["Huecos","Huecos", windows.a, windows.au, "Tipo", true],
-    ["Opacos", "Opacos", opaques_a, opaques_au, "Tipo", true],
-    ["- Fachadas (W)", "Opacos (W)",  walls.a, walls.au, "TipoOpaco", false],
-    ["- Cubiertas (R)", "Opacos (R)", roofs.a, roofs.au, "TipoOpaco", false],
-    ["- Suelos (F)", "Opacos (F)", floors.a, floors.au, "TipoOpaco", false],
-    ["- Cerramientos en contacto con el terreno (G)", "Opacos (G)", ground.a, ground.au, "TipoOpaco", false],
-    ["Puentes térmicos", "PTs", tbs_l, tbs_psil, "Tipo", true],
+    ["Huecos", "Huecos", windows.a, windows.au, "Tipo", true, "#0096e1"],
+    ["Opacos", "Opacos", opaques_a, opaques_au, "Tipo", true, "#a0401a"],
     [
-      "- Cubierta o suelo con fachada (R)", "PTs (R)",
+      "- Fachadas (O-W)",
+      "O-W",
+      walls.a,
+      walls.au,
+      "TipoOpaco",
+      false,
+      "#eedaa3",
+    ],
+    [
+      "- Cubiertas (O-R)",
+      "O-R",
+      roofs.a,
+      roofs.au,
+      "TipoOpaco",
+      false,
+      "#c28586",
+    ],
+    [
+      "- Suelos (O-F)",
+      "O-F",
+      floors.a,
+      floors.au,
+      "TipoOpaco",
+      false,
+      "#c99fde",
+    ],
+    [
+      "- Cerramientos en contacto con el terreno (O-G)",
+      "O-G",
+      ground.a,
+      ground.au,
+      "TipoOpaco",
+      false,
+      "#d3aa86",
+    ],
+    ["Puentes térmicos", "PTs", tbs_l, tbs_psil, "Tipo", true, "#447c2c"],
+    [
+      "- Cubierta o suelo con fachada (R)",
+      "TB-R",
       tbs.roof.l,
       tbs.roof.psil,
       "TipoPT",
       false,
+      "#c281ac",
     ],
-    ["- Balcón (B)", "PTs (B)", tbs.balcony.l, tbs.balcony.psil, "TipoPT", false],
-    ["- Esquina de fachadas (C)", "PTs (C)", tbs.corner.l, tbs.corner.psil, "TipoPT", false],
     [
-      "- Frente de forjado (IF)", "PTs (IF)",
+      "- Balcón (B)",
+      "TB-B",
+      tbs.balcony.l,
+      tbs.balcony.psil,
+      "TipoPT",
+      false,
+      "#c28bb5",
+    ],
+    [
+      "- Esquina de fachadas (C)",
+      "TB-C",
+      tbs.corner.l,
+      tbs.corner.psil,
+      "TipoPT",
+      false,
+      "#eee8a4",
+    ],
+    [
+      "- Frente de forjado (IF)",
+      "TB-IF",
       tbs.intermediate_floor.l,
       tbs.intermediate_floor.psil,
       "TipoPT",
       false,
+      "#bda7de",
     ],
     [
-      "- Partición interior con envolvente (IW)", "PTs (IW)",
+      "- Partición interior con envolvente (IW)",
+      "TB-IW",
       tbs.internal_wall.l,
       tbs.internal_wall.psil,
       "TipoPT",
       false,
+      "#d8eea8",
     ],
     [
-      "- Elementos contra el terreno con fachada (GF)", "PTs (GF)",
+      "- Elementos contra el terreno con fachada (GF)",
+      "TB-GF",
       tbs.ground_floor.l,
       tbs.ground_floor.psil,
       "TipoPT",
       false,
+      "#d3ca86",
     ],
-    ["- Pilar (P)", "PTs (P)", tbs.pillar.l, tbs.pillar.psil, "TipoPT", false],
-    ["- Contorno de huecos (W)", "PTs (W)", tbs.window.l, tbs.window.psil, "TipoPT", false],
-    ["- Genérico (G)", "PTs (G)", tbs.generic.l, tbs.generic.psil, "TipoPT", false],
+    [
+      "- Pilar (P)",
+      "TB-P",
+      tbs.pillar.l,
+      tbs.pillar.psil,
+      "TipoPT",
+      false,
+      "#98de7b",
+    ],
+    [
+      "- Contorno de huecos (W)",
+      "TB-W",
+      tbs.window.l,
+      tbs.window.psil,
+      "TipoPT",
+      false,
+      "#91decf",
+    ],
+    [
+      "- Genérico (G)",
+      "TB-G",
+      tbs.generic.l,
+      tbs.generic.psil,
+      "TipoPT",
+      false,
+      "#a200ff",
+    ],
   ];
 
   const data = build_data(K, a, all_elements);
@@ -243,12 +323,14 @@ const KDetail = ({isShown}) => {
 
 // Tabla de desglose de K
 const KElementsTable = ({ K, data }) => {
-  const round_or_dash = (val) => (val !== null ? val.toFixed(2) : "-");
+  const round_or_dash = (val, numDecimals = 2) =>
+    val !== null ? val.toFixed(numDecimals) : "-";
   const elem_tr = (
-    { title, a, au, type, u_mean, k_contrib, k_pct, format = false },
+    { title, a, au, type, u_mean, k_contrib, k_pct, color, format = false },
     key = null
   ) => (
     <tr key={key}>
+      <td style={{ width: "2em", background: `${color}` }}></td>
       <td>{formatted(title, format)}</td>
       <td className="text-center">{formatted(round_or_dash(a), format)}</td>
       <td className="text-center">{formatted(round_or_dash(au), format)}</td>
@@ -258,7 +340,9 @@ const KElementsTable = ({ K, data }) => {
       <td className="text-center">
         {formatted(round_or_dash(k_contrib), format)}
       </td>
-      <td className="text-center">{formatted(round_or_dash(k_pct), format)}</td>
+      <td className="text-center">
+        {formatted(round_or_dash(k_pct, 1), format)}
+      </td>
     </tr>
   );
 
@@ -266,7 +350,7 @@ const KElementsTable = ({ K, data }) => {
     <Table striped bordered hover size="sm" className="small">
       <thead style={{ background: "lightGray" }}>
         <tr>
-          <th>Elemento</th>
+          <th colSpan="2">Elemento</th>
           <th className="text-center">
             A o L<br />
             [m² o m]
@@ -296,7 +380,7 @@ const KElementsTable = ({ K, data }) => {
       <tbody>
         {data.map((e, idx) => elem_tr(e, idx))}
         <tr>
-          <td>
+          <td colSpan="2">
             <b>TOTAL</b>
           </td>
           <td></td>
@@ -308,7 +392,7 @@ const KElementsTable = ({ K, data }) => {
             <b>{K.toFixed(2)}</b>
           </td>
           <td className="text-center">
-            <b>100.00</b>
+            <b>100.0</b>
           </td>
         </tr>
       </tbody>
@@ -317,35 +401,37 @@ const KElementsTable = ({ K, data }) => {
 };
 
 // Genera datos a partir de lista
-const build_data = (K, a, data) => {
-  const U_mean = (elem_au, elem_a) => {
-    if (elem_a && elem_a > 0.0001) {
-      return elem_au / elem_a;
-    } else return null;
-  };
-
-  const K_contrib = (elem_au) => {
-    if (a && a > 0.0001) {
-      return elem_au / a;
-    } else return null;
-  };
-
-  const K_pct = (elem_au) => {
-    if (a && a > 0.0001 && K && K > 0.0001) {
-      return (100 * elem_au) / a / K;
-    } else return null;
-  };
-  return data.map(([title, short_title, a, au, type, format]) => ({
+const build_data = (K, total_a, data) => {
+  return data.map(([title, short_title, a, au, type, format, color]) => ({
     title,
     short_title,
     a,
     au,
     type,
     format,
+    color,
     u_mean: U_mean(au, a),
-    k_contrib: K_contrib(au),
-    k_pct: K_pct(au),
+    k_contrib: K_contrib(au, total_a),
+    k_pct: K_pct(au, total_a, K),
   }));
+};
+
+const U_mean = (elem_au, elem_a) => {
+  if (elem_a && elem_a > 0.0001) {
+    return elem_au / elem_a;
+  } else return null;
+};
+
+const K_contrib = (elem_au, a) => {
+  if (a && a > 0.0001) {
+    return elem_au / a;
+  } else return null;
+};
+
+const K_pct = (elem_au, a, K) => {
+  if (a && a > 0.0001 && K && K > 0.0001) {
+    return (100 * elem_au) / a / K;
+  } else return null;
 };
 
 export default observer(KDetail);
