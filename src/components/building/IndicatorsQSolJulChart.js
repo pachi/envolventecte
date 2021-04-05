@@ -28,7 +28,7 @@ import * as d3 from "d3";
 // https://embed.plnkr.co/plunk/MV01Dl
 // https://medium.com/@jeffbutsch/using-d3-in-react-with-hooks-4a6c61f1d102
 // Elementos de data: { title, a, au, type, u_mean, k_contrib, k_pct, format = false, color },
-const KElementsChart = ({
+const QSolJulChart = ({
   data,
   format,
   width = 800,
@@ -68,16 +68,15 @@ const KElementsChart = ({
           .attr("text-anchor", "middle")
           .style("font-size", "16px")
           .style("text-decoration", "underline")
-          .text("Descomposición de K por elementos y tipos [%]");
+          .text("Descomposición de q_sol;jul por orientaciones [%]");
 
         // X axis
         const x = d3
           .scaleBand()
           .range([0, chart_width])
-          .domain(data.map((d) => d.short_title))
+          .domain(data.map((d) => d.orient))
           .padding(0.1);
 
-        const areSubtype = data.map((d) => d.type !== "Tipo");
         // X ticks
         svg
           .append("g")
@@ -86,11 +85,10 @@ const KElementsChart = ({
           .call(d3.axisBottom(x))
           .selectAll("text")
           .attr("transform", "translate(0,5)")
-          .attr("font-weight", (_, i) => (areSubtype[i] ? "normal" : "bold"))
           .style("text-anchor", "middle");
 
         // Y axis
-        const [min, max] = d3.extent(data, (d) => d.k_pct);
+        const [min, max] = d3.extent(data, (d) => d.q_pct);
         const y = d3
           .scaleLinear()
           .domain([Math.min(0, min), max])
@@ -107,43 +105,25 @@ const KElementsChart = ({
           .attr("x", 0 - height / 2)
           .attr("dy", "1em")
           .style("text-anchor", "middle")
-          .text("K [%]");
-
-        // Y = 0
-        svg
-          .append("g")
-          .attr("class", "baseline")
-          .attr("transform", `translate(0, ${y(0)})`)
-          .call(d3.axisBottom(x).tickSize(0).tickFormat(""));
+          .text("q_sol;jul [%]");
 
         // Bars
-        const bar = svg
-          .selectAll("mybar")
-          .data(data)
-          .enter()
-          .append("g")
-          .attr("class", (d) => `bar ${d.k_pct < 0 ? "negative" : "positive"}`);
+        const bar = svg.selectAll("mybar").data(data).enter().append("g");
 
         bar
           .append("rect")
-          .attr(
-            "x",
-            (d) =>
-              x(d.short_title) +
-              x.bandwidth() * (d.type === "Tipo" ? 0.0 : 0.25)
-          )
-          .attr("y", (d) => y(Math.max(0, d.k_pct)))
-          .attr("width", (d) => x.bandwidth() * (d.type === "Tipo" ? 1.0 : 0.5))
-          .attr("height", (d) => Math.abs(y(d.k_pct) - y(0)))
+          .attr("x", (d) => x(d.orient))
+          .attr("y", (d) => y(d.q_pct))
+          .attr("width", (d) => x.bandwidth())
+          .attr("height", (d) => y(0) - y(d.q_pct))
           .attr("fill", (d) => d.color);
 
         bar
           .append("text")
-          .attr("x", (d) => x(d.short_title) + x.bandwidth() / 2)
-          .attr("y", (d) => y(Math.max(0, d.k_pct)) - bar_value_padding)
+          .attr("x", (d) => x(d.orient) + x.bandwidth() / 2)
+          .attr("y", (d) => y(Math.max(0, d.q_pct)) - bar_value_padding)
           .attr("text-anchor", "middle")
-          .attr("font-weight", (_, i) => (areSubtype[i] ? "normal" : "bold"))
-          .text((d) => format(d.k_pct));
+          .text((d) => format(d.q_pct));
       }
     },
     // Array de dependencias.
@@ -161,4 +141,4 @@ const KElementsChart = ({
   );
 };
 
-export default KElementsChart;
+export default QSolJulChart;

@@ -35,7 +35,7 @@ import {
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import KDetail from "./IndicatorsKDetail";
+import IndicatorsDetail from "./IndicatorsKDetail";
 
 const IndicatorsPanel = () => {
   const appstate = useContext(AppState);
@@ -43,7 +43,7 @@ const IndicatorsPanel = () => {
   const [warnings, setWarnings] = useState(false);
   const {
     area_ref,
-    qsoljul,
+    q_soljul: q_soljul_data,
     vol_env_net,
     vol_env_gross,
     compacity,
@@ -52,6 +52,7 @@ const IndicatorsPanel = () => {
   } = appstate.he1_indicators;
 
   const { K } = appstate.he1_indicators.K;
+  const { q_soljul } = q_soljul_data;
 
   const errors = appstate.warnings;
   const numavisos = errors.length;
@@ -70,7 +71,7 @@ const IndicatorsPanel = () => {
               <i>
                 q<sub>sol;jul</sub>
               </i>{" "}
-              = {area_ref !== 0 ? qsoljul.toFixed(2) : "-"} <i>kWh/m²/mes</i>
+              = {area_ref !== 0 ? q_soljul.toFixed(2) : "-"} <i>kWh/m²/mes</i>
             </b>
           </Col>
           <Col md={3} title="Tasa de renovación de aire a 50 Pa">
@@ -158,7 +159,7 @@ const IndicatorsPanel = () => {
       </Collapse>
       <Collapse in={details}>
         <Card body bg="light" border="info" className="mb-3">
-          <KDetail isShown={details} />
+          <IndicatorsDetail isShown={details} />
         </Card>
       </Collapse>
     </>

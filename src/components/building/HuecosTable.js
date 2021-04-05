@@ -96,7 +96,7 @@ const HuecosTable = ({ selected, setSelected }) => {
   const WindowUFmt = (cell, _row) => {
     // cell == id
     const uvalue = he1_indicators.u_values.windows[cell];
-    if (uvalue === undefined) {
+    if (uvalue === undefined || uvalue === null) {
       return <span>-</span>;
     } else {
       return <span>{uvalue.toFixed(2)}</span>;
