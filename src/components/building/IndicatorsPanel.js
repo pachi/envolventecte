@@ -35,7 +35,9 @@ import {
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import IndicatorsDetail from "./IndicatorsKDetail";
+import KDetail from "./IndicatorsKDetail";
+import QSolJulDetail from "./IndicatorsQSolJulDetail";
+import N50Detail from "./IndicatorsN50Detail";
 
 const IndicatorsPanel = () => {
   const appstate = useContext(AppState);
@@ -159,7 +161,11 @@ const IndicatorsPanel = () => {
       </Collapse>
       <Collapse in={details}>
         <Card body bg="light" border="info" className="mb-3">
-          <IndicatorsDetail isShown={details} />
+          <KDetail isShown={details} />
+          <hr />
+          <QSolJulDetail isShown={details} />
+          <hr />
+          <N50Detail isShown={details} />
         </Card>
       </Collapse>
     </>
