@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) 2018-2020 Rafael Villar Burke <pachi@ietcc.csic.es>,
+Copyright (c) 2018-2021 Rafael Villar Burke <pachi@ietcc.csic.es>,
     Daniel Jiménez González <danielj@ietcc.csic.es>,
     Marta Sorribes Gil <msorribes@ietcc.csic.es>
 
