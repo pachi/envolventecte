@@ -135,6 +135,9 @@ const KElementsChart = ({
           .attr("y", (d) => y(Math.max(0, d.k_pct)))
           .attr("width", (d) => x.bandwidth() * (d.type === "Tipo" ? 1.0 : 0.5))
           .attr("height", (d) => Math.abs(y(d.k_pct) - y(0)))
+          .attr("mask", (d) =>
+            d.type === "Tipo" ? null : "url(#mask-diagonal)"
+          )
           .attr("fill", (d) => d.color);
 
         bar
@@ -152,12 +155,30 @@ const KElementsChart = ({
   );
 
   return (
-    <svg
-      className="d3-component"
-      width={width}
-      height={height}
-      ref={d3Container}
-    />
+    <>
+      <svg>
+        <defs>
+          <pattern
+            id="pattern-diagonal"
+            width="10"
+            height="10"
+            patternUnits="userSpaceOnUse"
+            patternTransform="rotate(45)"
+          >
+            <rect x="0" y="0" width="8" height="15" fill="white" />
+          </pattern>
+          <mask id="mask-diagonal">
+            <rect width="2000" height="500" fill="url(#pattern-diagonal)" />
+          </mask>
+        </defs>
+      </svg>
+      <svg
+        className="d3-component"
+        width={width}
+        height={height}
+        ref={d3Container}
+      />
+    </>
   );
 };
 
