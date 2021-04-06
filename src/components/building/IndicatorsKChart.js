@@ -63,7 +63,7 @@ const KElementsChart = ({
         // Título
         svg
           .append("text")
-          .attr("x", width / 2)
+          .attr("x", chart_width / 2)
           .attr("y", 0 - margin.top / 2)
           .attr("text-anchor", "middle")
           .style("font-size", "16px")
@@ -155,30 +155,12 @@ const KElementsChart = ({
   );
 
   return (
-    <>
-      <svg>
-        <defs>
-          <pattern
-            id="pattern-diagonal"
-            width="10"
-            height="10"
-            patternUnits="userSpaceOnUse"
-            patternTransform="rotate(45)"
-          >
-            <rect x="0" y="0" width="8" height="15" fill="white" />
-          </pattern>
-          <mask id="mask-diagonal">
-            <rect width="2000" height="500" fill="url(#pattern-diagonal)" />
-          </mask>
-        </defs>
-      </svg>
-      <svg
-        className="d3-component"
-        width={width}
-        height={height}
-        ref={d3Container}
-      />
-    </>
+    <svg
+      className="d3-component"
+      width={width}
+      height={height}
+      ref={d3Container}
+    />
   );
 };
 

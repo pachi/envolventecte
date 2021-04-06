@@ -213,6 +213,22 @@ const IndicatorsKDetail = ({ isShown }) => {
           </p>
         </Col>
       </Row>
+      <svg>
+        <defs>
+          <pattern
+            id="pattern-diagonal"
+            width="10"
+            height="10"
+            patternUnits="userSpaceOnUse"
+            patternTransform="rotate(45)"
+          >
+            <rect x="0" y="0" width="8" height="15" fill="white" />
+          </pattern>
+          <mask id="mask-diagonal">
+            <rect width="2000" height="500" fill="url(#pattern-diagonal)" />
+          </mask>
+        </defs>
+      </svg>
       <Row>
         <Col>
           {k_data.length > 0 ? <KElementsTable K={K} data={k_data} /> : null}
