@@ -1,4 +1,3 @@
-- Tabla y gráfica de n50
 - Pestaña de elementos de sombra
 - Permitir editar geometría
 - Migrar a React-bootstrap-table nueva

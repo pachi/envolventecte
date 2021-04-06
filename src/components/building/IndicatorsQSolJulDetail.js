@@ -27,26 +27,21 @@ import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
 import QSolJulChart from "./IndicatorsQSolJulChart";
-
-const round_or_dash = (val, numDecimals = 2) =>
-  val === null || val === undefined || isNaN(val)
-    ? "-"
-    : val.toFixed(numDecimals);
+import { round_or_dash } from "../../utils";
 
 const QSolJulDetail = ({ isShown }) => {
   const appstate = useContext(AppState);
-  const { area_ref } = appstate.he1_indicators;
-  const { q_soljul, Q_soljul } = appstate.he1_indicators.q_soljul;
+  const { area_ref, q_soljul_data } = appstate.he1_indicators;
+  const { q_soljul, Q_soljul, detail } = q_soljul_data;
 
-  const det = appstate.he1_indicators.q_soljul.detail;
   const q_soljul_detail = Orientations.map(([orient, color]) => [
     orient,
     color,
-    det[orient],
+    detail[orient],
   ])
     .filter(
-      ([_orient, _color, detail]) =>
-        detail !== undefined && !isNaN(detail.gains)
+      ([_orient, _color, det]) =>
+        det !== undefined && !isNaN(det.gains)
     )
     .map(
       ([
@@ -108,7 +103,7 @@ const QSolJulDetail = ({ isShown }) => {
           {q_soljul_detail.length > 0 ? (
             <QSolJulTable
               area_ref={area_ref}
-              data={appstate.he1_indicators.q_soljul}
+              data={q_soljul_data}
               detail_data={q_soljul_detail}
             />
           ) : null}

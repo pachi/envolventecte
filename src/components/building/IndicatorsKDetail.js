@@ -27,11 +27,7 @@ import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
 import KElementsChart from "./IndicatorsKChart";
-
-const round_or_dash = (val, numDecimals = 2) =>
-  val === null || val === undefined || isNaN(val)
-    ? "-"
-    : val.toFixed(numDecimals);
+import { round_or_dash } from "../../utils";
 
 const formatted = (elem, bold = false) => (bold ? <b>{elem}</b> : <>{elem}</>);
 
@@ -46,7 +42,7 @@ const IndicatorsKDetail = ({ isShown }) => {
     windows,
     ground,
     tbs,
-  } = appstate.he1_indicators.K;
+  } = appstate.he1_indicators.K_data;
   const {
     a,
     au,

@@ -125,6 +125,12 @@ export function tilt_name(tilt_angle) {
   }
 }
 
+// Cadena con valor redondeado si el valor es un número y está definido o, si no, guión
+export const round_or_dash = (val, numDecimals = 2) =>
+  val === null || val === undefined || isNaN(val)
+    ? "-"
+    : val.toFixed(numDecimals);
+
 // Normaliza número a un intervalo arbitrario (wrapping)
 export function normalize(value, start, end) {
   // ancho del intervalo

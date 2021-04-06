@@ -24,8 +24,8 @@ SOFTWARE.
 import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 
-// Tabla de desglose de q_soljul
-const QSolJulChart = ({
+// Gráfica de desglose de n50
+const N50Chart = ({
   data,
   format,
   width = 800,
@@ -65,13 +65,13 @@ const QSolJulChart = ({
           .attr("text-anchor", "middle")
           .style("font-size", "16px")
           .style("text-decoration", "underline")
-          .text("Descomposición de q_sol;jul por orientaciones [%]");
+          .text("Descomposición de n50 por orientaciones [%]");
 
         // X axis
         const x = d3
           .scaleBand()
           .range([0, chart_width])
-          .domain(data.map((d) => d.orient))
+          .domain(data.map((d) => d.name))
           .padding(0.1);
 
         // X ticks
@@ -85,7 +85,7 @@ const QSolJulChart = ({
           .style("text-anchor", "middle");
 
         // Y axis
-        const [min, max] = d3.extent(data, (d) => d.q_pct);
+        const [min, max] = d3.extent(data, (d) => d.pct);
         const y = d3
           .scaleLinear()
           .domain([Math.min(0, min), max])
@@ -109,18 +109,18 @@ const QSolJulChart = ({
 
         bar
           .append("rect")
-          .attr("x", (d) => x(d.orient))
-          .attr("y", (d) => y(d.q_pct))
+          .attr("x", (d) => x(d.name))
+          .attr("y", (d) => y(d.pct))
           .attr("width", x.bandwidth())
-          .attr("height", (d) => y(0) - y(d.q_pct))
+          .attr("height", (d) => y(0) - y(d.pct))
           .attr("fill", (d) => d.color);
 
         bar
           .append("text")
-          .attr("x", (d) => x(d.orient) + x.bandwidth() / 2)
-          .attr("y", (d) => y(Math.max(0, d.q_pct)) - bar_value_padding)
+          .attr("x", (d) => x(d.name) + x.bandwidth() / 2)
+          .attr("y", (d) => y(Math.max(0, d.pct)) - bar_value_padding)
           .attr("text-anchor", "middle")
-          .text((d) => format(d.q_pct));
+          .text((d) => format(d.pct));
       }
     },
     // Array de dependencias.
@@ -138,4 +138,4 @@ const QSolJulChart = ({
   );
 };
 
-export default QSolJulChart;
+export default N50Chart;

@@ -45,16 +45,17 @@ const IndicatorsPanel = () => {
   const [warnings, setWarnings] = useState(false);
   const {
     area_ref,
-    q_soljul: q_soljul_data,
     vol_env_net,
     vol_env_gross,
     compacity,
-    n50_he2019,
-    n50,
+    q_soljul_data,
+    n50_data,
+    K_data,
   } = appstate.he1_indicators;
 
-  const { K } = appstate.he1_indicators.K;
+  const { K } = K_data;
   const { q_soljul } = q_soljul_data;
+  const { n50, n50_ref } = n50_data;
 
   const errors = appstate.warnings;
   const numavisos = errors.length;
@@ -87,14 +88,11 @@ const IndicatorsPanel = () => {
               </i>
             </b>
           </Col>
-          <Col md={3} title="Tasa de renovación de aire teórica a 50 Pa">
-            <i>
-              n<sub>50,ref</sub>
-            </i>{" "}
-            = {n50_he2019.n50.toFixed(2)}{" "}
-            <i>
-              h<sup>-1</sup>
-            </i>
+          <Col
+            md={3}
+            title="Volumen bruto de la envolvente térmica (volumen bruto s-s) [m³]"
+          >
+            V = {vol_env_gross.toFixed(2)} m³
           </Col>
         </Row>
         <Row>
@@ -110,11 +108,14 @@ const IndicatorsPanel = () => {
           >
             V/A = {compacity.toFixed(2)} m³/m²
           </Col>
-          <Col
-            md={3}
-            title="Volumen bruto de la envolvente térmica (volumen bruto s-s) [m³]"
-          >
-            V = {vol_env_gross.toFixed(2)} m³
+          <Col md={3} title="Tasa de renovación de aire teórica a 50 Pa">
+            <i>
+              n<sub>50,ref</sub>
+            </i>{" "}
+            = {n50_ref.toFixed(2)}{" "}
+            <i>
+              h<sup>-1</sup>
+            </i>
           </Col>
           <Col
             md={3}

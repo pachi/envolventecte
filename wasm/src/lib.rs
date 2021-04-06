@@ -1,6 +1,6 @@
 use std::{collections::BTreeMap, convert::TryFrom};
 
-use bemodel::{self, climatedata, KData, Model, N50HeData, QSolJulData, UValues, Warning, VERSION};
+use bemodel::{self, climatedata, KData, Model, N50Data, QSolJulData, UValues, Warning, VERSION};
 use hulc::{ctehexml, kyg};
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
@@ -42,15 +42,12 @@ pub fn set_panic_hook() {
 struct IndicatorsReport {
     area_ref: f32,
     compacity: f32,
-    u_values: UValues,
-    K: KData,
-    q_soljul: QSolJulData,
-    n50: f32,
-    n50_he2019: N50HeData,
-    C_o: f32,
-    C_o_he2019: f32,
     vol_env_net: f32,
     vol_env_gross: f32,
+    u_values: UValues,
+    K_data: KData,
+    q_soljul_data: QSolJulData,
+    n50_data: N50Data,
     warnings: Vec<Warning>,
 }
 
@@ -62,12 +59,9 @@ fn compute_indicators(model: &Model) -> IndicatorsReport {
         area_ref: model.a_ref(),
         compacity: model.compacity(),
         u_values: model.u_values(),
-        K: model.K_he2019(),
-        q_soljul: model.q_soljul(&totradjul),
-        n50: model.n50(),
-        n50_he2019: model.n50_he2019(),
-        C_o: model.C_o(),
-        C_o_he2019: model.C_o_he2019(),
+        K_data: model.K(),
+        q_soljul_data: model.q_soljul(&totradjul),
+        n50_data: model.n50(),
         vol_env_net: model.vol_env_net(),
         vol_env_gross: model.vol_env_gross(),
         warnings: model.check_model(),
