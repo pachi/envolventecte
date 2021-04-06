@@ -26,7 +26,8 @@ import { Col, Row, Table } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import QSolJulChart from "./IndicatorsQSolJulChart";
+import { QSolJulChartWindRose as QSolJulChart } from "./IndicatorsQSolJulChart";
+// import { QSolJulChartBar as QSolJulChart } from "./IndicatorsQSolJulChart";
 import { round_or_dash } from "../../utils";
 
 const QSolJulDetail = ({ isShown }) => {
@@ -39,10 +40,7 @@ const QSolJulDetail = ({ isShown }) => {
     color,
     detail[orient],
   ])
-    .filter(
-      ([_orient, _color, det]) =>
-        det !== undefined && !isNaN(det.gains)
-    )
+    .filter(([_orient, _color, det]) => det !== undefined && !isNaN(det.gains))
     .map(
       ([
         orient,

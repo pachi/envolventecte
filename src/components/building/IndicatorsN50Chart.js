@@ -25,7 +25,7 @@ import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 
 // Gráfica de desglose de n50
-const N50Chart = ({
+export const N50ChartBar = ({
   data,
   format,
   width = 800,
@@ -138,4 +138,167 @@ const N50Chart = ({
   );
 };
 
-export default N50Chart;
+// Gráfica de desglose de n50
+export const N50ChartPie = ({
+  data,
+  format,
+  width = 800,
+  height = 400,
+  bar_value_padding = 4,
+}) => {
+  const d3Container = useRef();
+  format =
+    format ||
+    ((d) =>
+      d === null || d === undefined || isNaN(d) ? "-" : `${d.toFixed(1)}%`);
+
+  useEffect(
+    () => {
+      const container = d3Container.current;
+      const margin = { top: 30, right: 30, bottom: 30, left: 30 },
+        chart_width = width - margin.left - margin.right,
+        chart_height = height - margin.top - margin.bottom;
+      const cx = chart_width / 2;
+      const cy = chart_height / 2;
+      const radius = Math.min(chart_width, chart_height) / 2;
+
+      if (data && container) {
+        // Limpia imagen preexistente
+        d3.select(container).selectChildren().remove();
+
+        // Genera imagen
+        const svg = d3
+          .select(container)
+          .attr("class", "canvas")
+          .append("g")
+          .style("font-size", "12px")
+          .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+        // Título
+        svg
+          .append("text")
+          .attr("x", chart_width / 2)
+          .attr("y", 0)
+          .attr("text-anchor", "middle")
+          .style("font-size", "16px")
+          .style("text-decoration", "underline")
+          .text("Descomposición de n50 por orientaciones [%]");
+
+        const chart = svg.append("g");
+        chart.attr("transform", `translate(${cx}, ${cy})`);
+
+        chart.append("g").attr("class", "slices");
+        chart.append("g").attr("class", "labels");
+        chart.append("g").attr("class", "lines");
+
+        const pie = d3
+          .pie()
+          .sort(null)
+          .value((d) => d.pct);
+        const arc = d3
+          .arc()
+          .outerRadius(radius * 0.8)
+          .innerRadius(radius * 0.4);
+        var outerArc = d3
+          .arc()
+          .outerRadius(radius * 0.9)
+          .innerRadius(radius * 0.9);
+
+        // Sectores
+        const slice = svg
+          .select(".slices")
+          .selectAll("path.slice")
+          .data(pie(data));
+
+        slice
+          .enter()
+          .insert("path")
+          .attr("d", (d) => arc(d))
+          .attr("fill", (d) => d.data.color)
+          .attr("stroke", "white")
+          .attr("class", "slice")
+          .style("stroke-width", "2px")
+          .style("opacity", 0.7);
+
+        // Etiqueta central
+        slice
+          .enter()
+          .append("text")
+          .text("n50")
+          .attr("dy", "0.5em")
+          .attr("font-weight", "bold")
+          .attr("text-anchor", "middle")
+          .style("font-size", "24px");
+
+        slice.exit().remove();
+
+        // Etiquetas
+        const midAngle = (d) => d.startAngle + (d.endAngle - d.startAngle) / 2;
+
+        const text = svg.select(".labels").selectAll("text").data(pie(data));
+
+        const txt = text
+          .enter()
+          .append("text")
+          .attr("transform", (d) => {
+            const pos = outerArc.centroid(d);
+            pos[0] = radius * (midAngle(d) < Math.PI ? 1 : -1);
+            return `translate(${pos[0]}, ${pos[1]})`;
+          })
+          .attr("dy", ".35em")
+          .style("text-anchor", (d) =>
+            midAngle(d) < Math.PI ? "start" : "end"
+          );
+
+        // Primera línea de texto - elemento
+        txt
+          .append("tspan")
+          .attr("font-weight", "bold")
+          .attr("x", "0")
+          .text((d) => d.data.name);
+        // segundo texto - pct
+        txt
+          .append("tspan")
+          .attr("x", "0")
+          .attr("dy", "1.5em")
+          .text((d) => format(d.data.pct));
+
+        text.exit().remove();
+
+        // Polilíneas de conexión
+        const polyline = svg
+          .select(".lines")
+          .selectAll("polyline")
+          .data(pie(data));
+
+        polyline
+          .enter()
+          .append("polyline")
+          .attr("stroke", "black")
+          .style("fill", "none")
+          .attr("stroke-width", 1)
+          .attr("points", (d) => {
+            const posA = arc.centroid(d); // inserción en la cuña
+            const posB = outerArc.centroid(d); // ángulo de la línea
+            const posC = outerArc.centroid(d); // posición de la etiqueta, un poco movida de B
+            posC[0] = radius * 0.95 * (midAngle(d) < Math.PI ? 1 : -1);
+            return [posA, posB, posC];
+          });
+
+        polyline.exit().remove();
+      }
+    },
+    // Array de dependencias.
+    // El bloque se ejecuta cuando cambia cualquiera de estas variables
+    [data, height, width, bar_value_padding, format]
+  );
+
+  return (
+    <svg
+      className="d3-component"
+      width={width}
+      height={height}
+      ref={d3Container}
+    />
+  );
+};
