@@ -32,6 +32,7 @@ import AppState from "../stores/AppState";
 import Dropzone from "./DropZone.js";
 
 import icondownload from "./img/baseline-archive-24px.svg";
+import iconclearmodel from "./img/outline-new_document-24px.svg";
 
 const DownloadUpload = observer(() => {
   const appstate = useContext(AppState);
@@ -120,6 +121,21 @@ const DownloadUpload = observer(() => {
             >
               <img src={icondownload} alt="Descargar datos de envolvente" />{" "}
               Descargar datos de envolvente
+            </Button>
+          </p>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <p>Para empezar con un modelo vacío pulse en el botón:</p>
+          <p>
+            <Button
+              variant="secondary"
+              block
+              onClick={(_e) => appstate.clearModel()}
+            >
+              <img src={iconclearmodel} alt="Limpiar modelo" /> Comenzar con
+              modelo vacío
             </Button>
           </p>
         </Col>

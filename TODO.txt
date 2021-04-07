@@ -16,7 +16,6 @@
 
 # Nueva funcionalidad
 
-- Modelo "limpio" en carga/descarga
 - Permitir editar geometría
 - Añadir cálculo de F_sh;obst
 - Cálculo de valores de acristalamientos con sombras móviles usando parámetros U_gl, g_gl_n, tau_e_B y ro_e_B directamente

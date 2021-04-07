@@ -105,6 +105,7 @@ class AppState {
       agrupaHuecos: action,
       agrupaOpacos: action,
       agrupaPts: action,
+      clearModel: action,
       asJSON: computed,
       loadData: action,
     });
@@ -233,6 +234,28 @@ class AppState {
       }
     }
     this.thermal_bridges = ptsagrupados;
+  }
+
+  // Deja modelo limpio
+  clearModel() {
+    this.meta = {
+      name: "Modelo vacío",
+      is_new_building: true,
+      is_dwelling: true,
+      num_dwellings: 1,
+      climate: "D3",
+      global_ventilation_l_s: 0,
+      n50_test_ach: null,
+      d_perim_insulation: 0,
+      rn_perim_insulation: 0,
+    };
+    this.spaces = [];
+    this.walls = [];
+    this.windows = [];
+    this.shades = [];
+    this.thermal_bridges = [];
+    this.wallcons = [];
+    this.wincons = [];
   }
 
   // Importación y exportación de datos -------------
