@@ -1,11 +1,29 @@
-- Pestaña de elementos de sombra
-- Permitir editar geometría
-- Migrar a React-bootstrap-table nueva
-- Añadir cálculo de F_sh;obst
+# Bugs
+
+- Al renombrar un elemento (p.e. sombra) no se selecciona con el nuevo nombre en la vista 3D
 - Revisar compatibilidad en Chrome: en particular los cambios en datos generales
 - Comprobar por qué se carga un n50 inicialmente que no está en el archivo (no hay ensayo pero se coge uno que no es el n50_ref).
+
+# Mejoras
+
 - Mostrar inclinación como icono (y también azimuth)?
 - Mostrar tooltip en los elementos con avisos
+- ThreeView
+    - Activar / desactivar plano y rejilla de suelo
+    - Clipping plane: https://github.com/agviegas/IFC.js/commit/9be223de323e6acd936d9493eda5753a4ffe8183
+    - Seleccionar elemento activo en las tablas del modelo (y, al revés, mostrar elementos seleccionados en 3D), selecciones múltiples
+
+# Nueva funcionalidad
+
+- Pestaña de elementos de sombra
+- Permitir editar geometría
+- Añadir cálculo de F_sh;obst
+- Cálculo de valores de acristalamientos con sombras móviles usando parámetros U_gl, g_gl_n, tau_e_B y ro_e_B directamente
+
+# Reorganizaciones
+
+- Ver si es posible llevar la salida del logging de Rust a los avisos de wasm
+- Migrar a React-bootstrap-table nueva
 - Mover a utils.js diccionarios de tipos de climas, orientaciones, etc.
 - ¿Función model_to_state(JSONmodel) que descomponga el modelo y lo lleve a appstate?
 - Llevar a wasm:
@@ -14,10 +32,6 @@
     - Comprobación de si un elemento está dentro o fuera de la ET: wall_inside_tenv de utils.js
     - Agrupar elementos (espacios, muros, huecos, PTs)
     - Datos de clima?
-- Cálculo de valores de acristalamientos con sombras móviles usando parámetros U_gl, g_gl_n, tau_e_B y ro_e_B directamente
 - Trasladar datos a public/data? (usando luego fetch o direcciones como <a href={process.env.PUBLIC_URL + "/data/zcraddata.json"}>Enlace</a>)
-- ThreeView
-    - Convertir a componente funcional
-    - Activar / desactivar plano y rejilla de suelo
-    - Clipping plane: https://github.com/agviegas/IFC.js/commit/9be223de323e6acd936d9493eda5753a4ffe8183
-    - Seleccionar elemento activo en las tablas del modelo (y, al revés, mostrar elementos seleccionados en 3D), selecciones múltiples
+- ThreeView, convertir a componente funcional
+
