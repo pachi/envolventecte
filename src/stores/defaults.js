@@ -23,6 +23,12 @@ SOFTWARE.
 
 import { uuidv4 } from "../utils.js";
 
+
+export const DEFAULT_SHADE = () => ({
+  id: uuidv4(),
+  name: `Sombra_${uuidv4()}`
+});
+
 export const DEFAULT_SPACE = () => ({
   id: uuidv4(),
   name: `Espacio_${uuidv4()}`,

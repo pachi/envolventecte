@@ -33,6 +33,7 @@ import {
 } from "wasm-envolventecte";
 
 import {
+  DEFAULT_SHADE,
   DEFAULT_SPACE,
   DEFAULT_TB,
   DEFAULT_WALL,
@@ -160,6 +161,7 @@ class AppState {
   newHueco = DEFAULT_WINDOW;
   newOpaco = DEFAULT_WALL;
   newPT = DEFAULT_TB;
+  newShade = DEFAULT_SHADE;
   newSpace = DEFAULT_SPACE;
   newWallCons = DEFAULT_WALLCONS;
   newWinCons = DEFAULT_WINCONS;

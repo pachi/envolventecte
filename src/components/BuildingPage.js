@@ -29,15 +29,16 @@ import { observer } from "mobx-react-lite";
 import DownloadUpload from "./DownloadUpload";
 import Footer from "./Footer";
 import HuecosView from "./building/HuecosView";
-import WinConsView from "./building/WinConsView";
-import WallConsView from "./building/WallConsView";
 import IndicatorsPanel from "./building/IndicatorsPanel";
+import MetaParams from "./building/MetaParams";
 import NavBar from "./Nav";
 import OpacosView from "./building/OpacosView";
 import PTsView from "./building/PTsView";
+import ShadesView from "./building/ShadesView";
 import SpacesView from "./building/SpacesView";
-import MetaParams from "./building/MetaParams";
 import ThreeView from "./three/ThreeView";
+import WallConsView from "./building/WallConsView";
+import WinConsView from "./building/WinConsView";
 
 const BuildingPage = ({ route }) => (
   <Container fluid>
@@ -62,19 +63,22 @@ const BuildingPage = ({ route }) => (
           <Tab eventKey={4} title="Puentes Térmicos" className="pt-3">
             <PTsView />
           </Tab>
-          <Tab eventKey={5} title="Construcciones de opacos" className="pt-3">
+          <Tab eventKey={5} title="Constr. opacos" className="pt-3">
             <WallConsView />
           </Tab>
-          <Tab eventKey={6} title="Construcciones de huecos" className="pt-3">
+          <Tab eventKey={6} title="Constr. huecos" className="pt-3">
             <WinConsView />
           </Tab>
-          <Tab eventKey={7} title="Datos generales" className="pt-3">
+          <Tab eventKey={7} title="Sombras" className="pt-3">
+            <ShadesView />
+          </Tab>
+          <Tab eventKey={8} title="Datos generales" className="pt-3">
             <MetaParams />
           </Tab>
-          <Tab eventKey={8} title="Vista" className="pt-3">
+          <Tab eventKey={9} title="Vista" className="pt-3">
             <ThreeView />
           </Tab>
-          <Tab eventKey={9} title="Carga / descarga de datos" className="pt-3">
+          <Tab eventKey={0} title="Carga / descarga de datos" className="pt-3">
             <DownloadUpload />
           </Tab>
         </Tabs>

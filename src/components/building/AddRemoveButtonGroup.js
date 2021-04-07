@@ -43,6 +43,7 @@ const AddRemoveButtonGroup = observer(
         "walls",
         "windows",
         "thermal_bridges",
+        "shades",
         "wallcons",
         "wincons",
       ].includes(elements)

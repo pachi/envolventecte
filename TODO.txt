@@ -16,7 +16,6 @@
 
 # Nueva funcionalidad
 
-- Pestaña de elementos de sombra
 - Modelo "limpio" en carga/descarga
 - Permitir editar geometría
 - Añadir cálculo de F_sh;obst
