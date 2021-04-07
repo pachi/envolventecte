@@ -63,6 +63,13 @@ const HelpPage = (props) => (
             )
           </li>
           <li>
+            <b>Relación de cambio de aire a 50Pa</b> (
+            <b>
+              n<sub>50</sub>
+            </b>
+            )
+          </li>
+          <li>
             <b>
               Parámetros descriptivos de los elementos de la envolvente térmica
             </b>{" "}
@@ -102,7 +109,7 @@ const HelpPage = (props) => (
                 <ul>
                   <li>
                     <p>
-                      El indicador de{" "}
+                      La{" "}
                       <b>
                         transmitancia térmica global (<i>K</i>)
                       </b>{" "}
@@ -124,7 +131,7 @@ const HelpPage = (props) => (
                   </li>
                   <li>
                     <p>
-                      El indicador de{" "}
+                      El parámetro de{" "}
                       <b>
                         control solar (q<sub>sol;jul</sub>)
                       </b>{" "}
@@ -146,6 +153,25 @@ const HelpPage = (props) => (
                       </b>{" "}
                       (incluyendo el uso de dispositivos solares móviles y el
                       efecto de otros obstáculos fijos o remotos).
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      La{" "}
+                      <b>
+                        relación de cambio de aire a 50 Pa (n<sub>50</sub>)
+                      </b>{" "}
+                      evalúa la permeabilidad de la envolvente al paso del aire,
+                      considerando una diferencia de presiones entre el interior
+                      y el exterior de 50 Pa. El programa realiza el cálculo del
+                      valor teórico de referencia del <i>CTE DB-HE</i> de
+                      acuerdo al Anejo H (determinación teórica o en base a
+                      ensayo de la norma <i>UNE EN ISO 13829:2002)</i>.
+                    </p>
+                    <p>
+                      <b>Mide la permeabilidad al aire</b> y, por tanto, se
+                      relaciona con el intercambio de calor por infiltración o
+                      exfiltración de aire.
                     </p>
                   </li>
                 </ul>
