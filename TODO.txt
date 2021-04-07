@@ -6,22 +6,25 @@
 
 # Mejoras
 
-- Mostrar inclinación como icono (y también azimuth)?
+- Mostrar inclinación como icono (y también azimuth)? Igual algo así, con flechas indicando la normal... |> _^
 - Mostrar tooltip en los elementos con avisos
 - ThreeView
     - Activar / desactivar plano y rejilla de suelo
     - Clipping plane: https://github.com/agviegas/IFC.js/commit/9be223de323e6acd936d9493eda5753a4ffe8183
     - Seleccionar elemento activo en las tablas del modelo (y, al revés, mostrar elementos seleccionados en 3D), selecciones múltiples
+- Añadir definición geométrica en todos los constructores de elementos del modelo (ahora mismo no se añade geometry en huecos / opacos, ni position, polygon en sombras)
 
 # Nueva funcionalidad
 
 - Pestaña de elementos de sombra
+- Modelo "limpio" en carga/descarga
 - Permitir editar geometría
 - Añadir cálculo de F_sh;obst
 - Cálculo de valores de acristalamientos con sombras móviles usando parámetros U_gl, g_gl_n, tau_e_B y ro_e_B directamente
 
 # Reorganizaciones
 
+- Cambiar estructura de datos para que todos los elementos con definición geométrica tengan campo geometry: {tilt, azimuth, position, polygon}, también las sombras
 - Ver si es posible llevar la salida del logging de Rust a los avisos de wasm
 - Migrar a React-bootstrap-table nueva
 - Mover a utils.js diccionarios de tipos de climas, orientaciones, etc.
