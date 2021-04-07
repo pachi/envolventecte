@@ -1,38 +1,44 @@
-# Bugs
+# Bugs ES
 
 - Al renombrar un elemento (p.e. sombra) no se selecciona con el nuevo nombre en la vista 3D
 - Revisar compatibilidad en Chrome: en particular los cambios en datos generales
 - Comprobar por qué se carga un n50 inicialmente que no está en el archivo (no hay ensayo pero se coge uno que no es el n50_ref).
 
-# Mejoras
+# Mejoras ES
 
-- Mostrar inclinación como icono (y también azimuth)? Igual algo así, con flechas indicando la normal... |> _^
+- Mostrar inclinación como icono (una barra con una flecha indicando la normal)
+- Mostrar azimuth como icono (igual que en climas)
+- Añadir definición geométrica en todos los constructores de elementos del modelo (ahora mismo no se añade geometry en huecos / opacos, ni position, polygon en sombras)
 - Mostrar tooltip en los elementos con avisos
 - ThreeView
     - Activar / desactivar plano y rejilla de suelo
     - Clipping plane: https://github.com/agviegas/IFC.js/commit/9be223de323e6acd936d9493eda5753a4ffe8183
     - Seleccionar elemento activo en las tablas del modelo (y, al revés, mostrar elementos seleccionados en 3D), selecciones múltiples
-- Añadir definición geométrica en todos los constructores de elementos del modelo (ahora mismo no se añade geometry en huecos / opacos, ni position, polygon en sombras)
 
 # Nueva funcionalidad
 
-- Permitir editar geometría
+- Editor de geometría
 - Añadir cálculo de F_sh;obst
-- Cálculo de valores de acristalamientos con sombras móviles usando parámetros U_gl, g_gl_n, tau_e_B y ro_e_B directamente
+- Elementos: calcular acristalamientos con sombras móviles usando directamente parámetros U_gl, g_gl_n, tau_e_B y ro_e_B
+- Construcciones de opacos definidas por capas + editor de capas
+- Trasladar construcción a modelo desde "Elementos" o... editor de elemento
 
 # Reorganizaciones
 
-- Cambiar estructura de datos para que todos los elementos con definición geométrica tengan campo geometry: {tilt, azimuth, position, polygon}, también las sombras
+## Rust + ES
+- Cambiar datos para que todos los elementos con definición geométrica tengan la misma estructura
+    - geometry: {tilt, azimuth, position, polygon}, también las sombras
+- Cambiar estructura de datos de elementos: ElementData (antes Uvalues):
+    - U_mean? -> en KSummary y en UValues (cambiar a ElementData)
+    - Comprobación de si un elemento está dentro o fuera de la ET: wall_inside_tenv de utils.js -> llevarlo a UValues -> ElementData
 - Ver si es posible llevar la salida del logging de Rust a los avisos de wasm
+- Llevar a wasm:
+    - Agrupar elementos (espacios, muros, huecos, PTs)
+    - Datos de clima?
+
+## ES
 - Migrar a React-bootstrap-table nueva
 - Mover a utils.js diccionarios de tipos de climas, orientaciones, etc.
 - ¿Función model_to_state(JSONmodel) que descomponga el modelo y lo lleve a appstate?
-- Llevar a wasm:
-    - U_mean?
-    - K_contrib?
-    - Comprobación de si un elemento está dentro o fuera de la ET: wall_inside_tenv de utils.js
-    - Agrupar elementos (espacios, muros, huecos, PTs)
-    - Datos de clima?
 - Trasladar datos a public/data? (usando luego fetch o direcciones como <a href={process.env.PUBLIC_URL + "/data/zcraddata.json"}>Enlace</a>)
 - ThreeView, convertir a componente funcional
-
