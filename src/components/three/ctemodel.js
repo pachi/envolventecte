@@ -114,6 +114,10 @@ export function initObjectsFromModel(model, scene) {
   const shades = model.shades || [];
   for (let shade of shades) {
     const { tilt, azimuth, position, polygon } = shade;
+    // Detecta sombras sin definición geométrica completa
+    if (!position || !polygon || tilt === undefined || azimuth === undefined) {
+      continue;
+    }
     const shadeTransform = transformMatrix(tilt, azimuth, position);
     const shadeShape = new Shape(polygon.map((p) => new Vector2(p[0], p[1])));
     const shadeMesh = meshFromShape(shadeShape, shadeTransform);
