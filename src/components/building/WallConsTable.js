@@ -32,7 +32,7 @@ const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 // Tabla de opacos del edificio
 const WallConsTable = ({ selected, setSelected }) => {
   const appstate = useContext(AppState);
-  const walls_Co100 = appstate.he1_indicators.C_o;
+  const walls_Co100 = appstate.he1_indicators.n50_data.walls_c;
   return (
     <BootstrapTable
       data={appstate.wallcons}
