@@ -32,9 +32,11 @@
     - U_mean? -> en KSummary y en UValues (cambiar a ElementData)
     - Comprobación de si un elemento está dentro o fuera de la ET: wall_inside_tenv de utils.js -> llevarlo a UValues -> ElementData
 - Ver si es posible llevar la salida del logging de Rust a los avisos de wasm
+    - Guardar en cada bloque de hulc los avisos y recolectarlos en la conversión a objetos y luego trasladarlos a wasm
 - Llevar a wasm:
     - Agrupar elementos (espacios, muros, huecos, PTs)
     - Datos de clima?
+    - Default de elementos (constructor), con implementaciones manuales (ver uuid)
 
 ## ES
 - Migrar a React-bootstrap-table nueva
