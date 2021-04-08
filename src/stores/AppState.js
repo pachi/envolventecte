@@ -195,8 +195,10 @@ class AppState {
       o1.cons === o2.cons &&
       o1.space === o2.space &&
       o1.nextto === o2.nextto &&
-      o1.azimuth === o2.azimuth &&
-      o1.tilt === o2.tilt;
+      o1.geometry.azimuth === o2.geometry.azimuth &&
+      o1.geometry.tilt === o2.geometry.tilt &&
+      o1.geometry.position === o2.geometry.position &&
+      o1.geometry.polygon === o2.geometry.polygon;
     const opacosagrupados = [];
     for (let opaco of this.walls) {
       const o = opacosagrupados.find((e) => isequal(opaco, e));

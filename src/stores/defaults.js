@@ -26,7 +26,13 @@ import { uuidv4 } from "../utils.js";
 
 export const DEFAULT_SHADE = () => ({
   id: uuidv4(),
-  name: `Sombra_${uuidv4()}`
+  name: `Sombra_${uuidv4()}`,
+  geometry: {
+    azimuth: 0.0,
+    tilt: 90.0,
+    position: null,
+    polygon: []
+  }
 });
 
 export const DEFAULT_SPACE = () => ({
@@ -50,8 +56,12 @@ export const DEFAULT_WALL = () => ({
   cons: "",
   space: "",
   nextto: null,
-  azimuth: 0.0,
-  tilt: 90.0,
+  geometry: {
+    azimuth: 0.0,
+    tilt: 90.0,
+    position: null,
+    polygon: []
+  }
 });
 
 export const DEFAULT_WINDOW = () => ({
@@ -61,11 +71,18 @@ export const DEFAULT_WINDOW = () => ({
   cons: "",
   wall: "",
   fshobst: 1.0,
+  geometry: {
+    position: null,
+    height: 1.0,
+    width: 1.0,
+    setback: 0.2
+  }
 });
 
 export const DEFAULT_TB = () => ({
   id: uuidv4(),
   name: `PT_${uuidv4()}`,
+  kind: "GENERIC",
   L: 1.0,
   psi: 0.05,
 });

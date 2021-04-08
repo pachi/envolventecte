@@ -26,6 +26,7 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
+import { GeometryFloatEditor } from "./GeometryEditor";
 
 import {
   azimuth_name,
@@ -41,8 +42,8 @@ const BoundaryOpts = Object.keys(BOUNDARYTYPESMAP).map((k) => {
 });
 
 const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
-const AzimuthFmt = (cell, _row) => <span>{azimuth_name(cell)}</span>;
-const TiltFmt = (cell, _row) => <span>{tilt_name(cell)}</span>;
+const AzimuthFmt = (cell, _row) => <span>{azimuth_name(cell.azimuth)}</span>;
+const TiltFmt = (cell, _row) => <span>{tilt_name(cell.tilt)}</span>;
 
 // Tabla de elementos opacos
 const OpacosTable = ({ selected, setSelected }) => {
@@ -91,7 +92,6 @@ const OpacosTable = ({ selected, setSelected }) => {
       return <span>{uvalue.toFixed(2)}</span>;
     }
   };
-  
   return (
     <BootstrapTable
       data={appstate.walls}
@@ -107,7 +107,7 @@ const OpacosTable = ({ selected, setSelected }) => {
         afterSaveCell: (row, cellName, cellValue) => {
           if (cellName === "nextto" && cellValue !== "") {
             row.nextto = null;
-          } else if (["A", "azimuth", "tilt"].includes(cellName)) {
+          } else if (cellName === "A") {
             // Convierte a número campos numéricos
             row[cellName] = Number(cellValue.replace(",", "."));
           }
@@ -233,11 +233,17 @@ const OpacosTable = ({ selected, setSelected }) => {
         Espacio ady.
       </TableHeaderColumn>
       <TableHeaderColumn
-        dataField="azimuth"
+        dataField="geometry"
         dataFormat={AzimuthFmt}
         headerText="Orientación (gamma) [-180,+180] (S=0, E=+90, W=-90). Medido como azimuth geográfico de la proyección horizontal de la normal a la superficie"
         headerAlign="center"
         dataAlign="center"
+        customEditor={{
+          getElement: (onUpdate, props) => (
+            <GeometryFloatEditor onUpdate={onUpdate} {...props} />
+          ),
+          customEditorParameters: { prop: "azimuth" },
+        }}
       >
         Orientación
         <br />
@@ -246,11 +252,17 @@ const OpacosTable = ({ selected, setSelected }) => {
         </span>
       </TableHeaderColumn>
       <TableHeaderColumn
-        dataField="tilt"
+        dataField="geometry"
         dataFormat={TiltFmt}
         headerText="Inclinación (beta) [0, 180]. Medido respecto a la horizontal y normal hacia arriba (0 -> suelo, 180 -> techo)"
         headerAlign="center"
         dataAlign="center"
+        customEditor={{
+          getElement: (onUpdate, props) => (
+            <GeometryFloatEditor onUpdate={onUpdate} {...props} />
+          ),
+          customEditorParameters: { prop: "tilt" },
+        }}
       >
         Inclinación
         <br />

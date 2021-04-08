@@ -49,7 +49,7 @@ const HuecosTable = ({ selected, setSelected }) => {
     if (wall === undefined) {
       return <span>-</span>;
     } else {
-      return <span>{azimuth_name(wall.azimuth)}</span>;
+      return <span>{azimuth_name(wall.geometry.azimuth)}</span>;
     }
   };
 
@@ -58,7 +58,7 @@ const HuecosTable = ({ selected, setSelected }) => {
     if (wall === undefined) {
       return <span>-</span>;
     } else {
-      return <span>{tilt_name(wall.tilt)}</span>;
+      return <span>{tilt_name(wall.geometry.tilt)}</span>;
     }
   };
 

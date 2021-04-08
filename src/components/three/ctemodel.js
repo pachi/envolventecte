@@ -46,11 +46,11 @@ export function initObjectsFromModel(model, scene) {
   }
 
   for (const wall of model.walls) {
-    const { tilt, azimuth, geometry } = wall;
-    if (!geometry) {
+    const { geometry } = wall;
+    const { tilt, azimuth, position, polygon } = geometry;
+    if (!position) {
       continue;
     }
-    const { position, polygon } = geometry;
 
     const wallSubtype = getWallSubtype(wall); // FLOOR | ROOF | WALL
     const wallBounds = wall.bounds; // ADIABATIC | GROUND | EXTERIOR | INTERIOR
@@ -69,6 +69,7 @@ export function initObjectsFromModel(model, scene) {
     const wallWindows = model.windows.filter((w) => w.wall === wall.id);
 
     for (const window of wallWindows) {
+      if (window.geometry.position === null || window.geometry.height * window.geometry.width === 0) continue;
       const winShape = windowShape(window);
       const winMesh = meshFromShape(winShape, wallTransform);
       winMesh.name = window.name;
@@ -113,7 +114,7 @@ export function initObjectsFromModel(model, scene) {
   // Sombras
   const shades = model.shades || [];
   for (let shade of shades) {
-    const { tilt, azimuth, position, polygon } = shade;
+    const { tilt, azimuth, position, polygon } = shade.geometry;
     // Detecta sombras sin definición geométrica completa
     if (!position || !polygon || tilt === undefined || azimuth === undefined) {
       continue;
@@ -191,9 +192,9 @@ function transformMatrix(tilt, azimuth, position) {
 
 // Devuelve subtipo de muro según inclinación: ROOF | FLOOR | WALL
 function getWallSubtype(wall) {
-  if (Math.abs(Math.abs(wall.tilt) - 180) < 1e-3) {
+  if (Math.abs(Math.abs(wall.geometry.tilt) - 180) < 1e-3) {
     return "FLOOR";
-  } else if (Math.abs(wall.tilt) < 1e-3) {
+  } else if (Math.abs(wall.geometry.tilt) < 1e-3) {
     return "ROOF";
   } else {
     return "WALL";

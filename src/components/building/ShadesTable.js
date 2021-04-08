@@ -26,13 +26,11 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import {
-  azimuth_name,
-  tilt_name,
-} from "../../utils";
+import { GeometryFloatEditor } from "./GeometryEditor";
+import { azimuth_name, tilt_name } from "../../utils";
 
-const AzimuthFmt = (cell, _row) => <span>{azimuth_name(cell)}</span>;
-const TiltFmt = (cell, _row) => <span>{tilt_name(cell)}</span>;
+const AzimuthFmt = (cell, _row) => <span>{azimuth_name(cell.azimuth)}</span>;
+const TiltFmt = (cell, _row) => <span>{tilt_name(cell.tilt)}</span>;
 
 // Tabla de elementos de sombra del edificio
 const ShadesTable = ({ selected, setSelected }) => {
@@ -48,12 +46,6 @@ const ShadesTable = ({ selected, setSelected }) => {
       cellEdit={{
         mode: "dbclick",
         blurToSave: true,
-        afterSaveCell: (row, cellName, cellValue) => {
-          if (["azimuth", "tilt"].includes(cellName)) {
-            // Convierte a número campos numéricos
-            row[cellName] = Number(cellValue.replace(",", "."));
-          }
-        },
       }}
       selectRow={{
         mode: "checkbox",
@@ -82,11 +74,17 @@ const ShadesTable = ({ selected, setSelected }) => {
         Nombre
       </TableHeaderColumn>
       <TableHeaderColumn
-        dataField="azimuth"
+        dataField="geometry"
         dataFormat={AzimuthFmt}
         headerText="Orientación (gamma) [-180,+180] (S=0, E=+90, W=-90). Medido como azimuth geográfico de la proyección horizontal de la normal a la superficie"
         headerAlign="center"
         dataAlign="center"
+        customEditor={{
+          getElement: (onUpdate, props) => (
+            <GeometryFloatEditor onUpdate={onUpdate} {...props} />
+          ),
+          customEditorParameters: { prop: "azimuth" },
+        }}
       >
         Orientación
         <br />
@@ -95,11 +93,17 @@ const ShadesTable = ({ selected, setSelected }) => {
         </span>
       </TableHeaderColumn>
       <TableHeaderColumn
-        dataField="tilt"
+        dataField="geometry"
         dataFormat={TiltFmt}
         headerText="Inclinación (beta) [0, 180]. Medido respecto a la horizontal y normal hacia arriba (0 -> suelo, 180 -> techo)"
         headerAlign="center"
         dataAlign="center"
+        customEditor={{
+          getElement: (onUpdate, props) => (
+            <GeometryFloatEditor onUpdate={onUpdate} {...props} />
+          ),
+          customEditorParameters: { prop: "tilt" },
+        }}
       >
         Inclinación
         <br />
