@@ -26,7 +26,7 @@ import { HashRouter, Redirect, Route, Switch } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "bootstrap/dist/css/bootstrap-theme.css";
-import "react-bootstrap-table/dist/react-bootstrap-table-all.min.css";
+import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 
 import AboutPage from "./AboutPage";
 import ClimatePage from "./ClimatePage";

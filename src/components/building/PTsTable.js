@@ -22,44 +22,132 @@ SOFTWARE.
 */
 
 import React, { useContext } from "react";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import BootstrapTable from "react-bootstrap-table-next";
+import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
+
 import { observer } from "mobx-react-lite";
-import { THERMALBRIDGETYPESMAP } from "../../utils";
 
 import AppState from "../../stores/AppState";
+import { THERMALBRIDGETYPESMAP } from "../../utils";
 
-const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
+const Float2DigitsFmt = (cell, _row, _rowIndex, _formatExtraData) => (
+  <span>{Number(cell).toFixed(2)}</span>
+);
 
 // Formato y opciones de tipos de puentes térmicos
-const ThermalBridgeTypesFmt = (cell, _row) => <span>{THERMALBRIDGETYPESMAP[cell]}</span>;
+const ThermalBridgeTypesFmt = (cell, _row) => (
+  <span>{THERMALBRIDGETYPESMAP[cell]}</span>
+);
 const ThermalBridgeTypesOpts = Object.keys(THERMALBRIDGETYPESMAP).map((k) => {
-  return { text: THERMALBRIDGETYPESMAP[k], value: k };
+  return { value: k, label: THERMALBRIDGETYPESMAP[k] };
 });
 
 // Tabla de puentes térmicos del edificio
 const PTsTable = ({ selected, setSelected }) => {
   const appstate = useContext(AppState);
+  const columns = [
+    { dataField: "id", isKey: true, hidden: true },
+    {
+      dataField: "name",
+      text: "Nombre",
+      width: "30%",
+      headerTitle: (_col, _colIndex) =>
+        "Nombre que identifica de forma única el puente térmico",
+      headerClasses: "text-light bg-secondary",
+      headerFormatter: () => (
+        <>
+          Nombre
+          <br />{" "}
+        </>
+      ),
+      title: (_cell, row) => `Puente térmico id: ${row.id}`,
+    },
+    {
+      dataField: "L",
+      formatter: Float2DigitsFmt,
+      text: "Longitud",
+      align: "center",
+      headerTitle: (_col, _colIndex) => "Longitud del puente térmico (m)",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          Longitud
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[m]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "kind",
+      text: "Tipo",
+      align: "center",
+      editor: {
+        type: Type.SELECT,
+        options: ThermalBridgeTypesOpts,
+      },
+      formatter: ThermalBridgeTypesFmt,
+      headerTitle: (_col, _colIndex) =>
+        "Tipo del puente térmico: CUBIERTA (encuentro de cubierta o suelo con fachada) | BALCÓN (suelo en vuelo exterior) | ESQUINA (encuentro de cerramientos verticales) | FORJADO (encuentro forjado-fachada) | PARTICIÓN (encuentro de partición interior con fachada, cubierta o suelo) | SOLERA (encuentra de solera o cámara ventilada con fachada) | PILAR (pilar en fachada, cubierta o suelo) | HUECO (contorno de hueco)  | GENÉRICO (puente térmico genérico))",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          Tipo
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>-</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "psi",
+      text: "Transmitancia",
+      align: "center",
+      formatter: Float2DigitsFmt,
+      headerClasses: "text-light bg-secondary",
+      headerAttrs: {
+        title: "Transmitancia térmica lineal del puente térmico (W/mK)",
+        "text-align": "center",
+      },
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          &psi;
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[W/mK]</i>
+          </span>
+        </>
+      ),
+    },
+  ];
+
   return (
     <BootstrapTable
       data={appstate.thermal_bridges}
-      version="4"
+      keyField="id"
       striped
       hover
       bordered={false}
-      tableHeaderClass="text-light bg-secondary"
-      cellEdit={{
+      cellEdit={cellEditFactory({
         mode: "dbclick",
         blurToSave: true,
-        afterSaveCell: (row, cellName, cellValue) => {
-          if (["L", "psi"].includes(cellName)) {
-            // Convierte a número campos numéricos
-            row[cellName] = Number(cellValue.replace(",", "."));
+        afterSaveCell: (oldValue, newValue, row, column) => {
+          // Convierte a número campos numéricos
+          if (["L", "psi"].includes(column.dataField)) {
+            const value = parseFloat(newValue.replace(",", "."));
+            row[column.dataField] = isNaN(value) ? oldValue : value;
           }
         },
-      }}
+      })}
       selectRow={{
         mode: "checkbox",
-        clickToSelectAndEditCell: true,
+        clickToSelect: true,
+        clickToEdit: true,
         selected: selected,
         onSelect: (row, isSelected) => {
           if (isSelected) {
@@ -71,62 +159,8 @@ const PTsTable = ({ selected, setSelected }) => {
         hideSelectColumn: true,
         bgColor: "lightgray",
       }}
-    >
-      <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-        - ID -{" "}
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="name"
-        headerText="Nombre que identifica de forma única el puente térmico"
-        width="30%"
-        columnTitle={(cell, row) => `Puente térmico id: ${row.id}`}
-      >
-        Nombre
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="L"
-        dataFormat={Float2DigitsFmt}
-        headerText="Longitud del puente térmico (m)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        Longitud
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[m]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="kind"
-        editable={{
-          type: "select",
-          options: { values: ThermalBridgeTypesOpts },
-        }}
-        dataFormat={ThermalBridgeTypesFmt}
-        headerText="Tipo del puente térmico: CUBIERTA (encuentro de cubierta o suelo con fachada) | BALCÓN (suelo en vuelo exterior) | ESQUINA (encuentro de cerramientos verticales) | FORJADO (encuentro forjado-fachada) | PARTICIÓN (encuentro de partición interior con fachada, cubierta o suelo) | SOLERA (encuentra de solera o cámara ventilada con fachada) | PILAR (pilar en fachada, cubierta o suelo) | HUECO (contorno de hueco)  | GENÉRICO (puente térmico genérico))"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        Tipo
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>-</i>{" "}
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="psi"
-        dataFormat={Float2DigitsFmt}
-        headerText="Transmitancia térmica lineal del puente térmico (W/mK)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        &psi;
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[W/mK]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-    </BootstrapTable>
+      columns={columns}
+    />
   );
 };
 

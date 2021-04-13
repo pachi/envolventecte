@@ -22,38 +22,146 @@ SOFTWARE.
 */
 
 import React, { useContext } from "react";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import BootstrapTable from "react-bootstrap-table-next";
+import cellEditFactory from "react-bootstrap-table2-editor";
+
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
 
-const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
+const Float2DigitsFmt = (cell, _row, _rowIndex, _formatExtraData) => (
+  <span>{Number(cell).toFixed(2)}</span>
+);
 
 // Tabla de opacos del edificio
 const WallConsTable = ({ selected, setSelected }) => {
   const appstate = useContext(AppState);
-  const walls_Co100 = appstate.he1_indicators.n50_data.walls_c;
+  const walls_Co100 = appstate.he1_indicators.n50_data.walls_c.toFixed(2);
+  const columns = [
+    { dataField: "id", isKey: true, hidden: true },
+    {
+      dataField: "name",
+      text: "Nombre",
+      width: "30%",
+      headerTitle: () =>
+        "Nombre que identifica de forma única la construcción de opaco",
+      headerClasses: "text-light bg-secondary",
+      title: (_cell, row) => `Construcción de opaco id: ${row.id}`,
+    },
+    {
+      dataField: "group",
+      text: "Grupo",
+      align: "center",
+      headerTitle: (_col, _colIndex) =>
+        "Grupo de soluciones al que pertenece la construcción (solo a efectos de clasificación)",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+    },
+    {
+      dataField: "thickness",
+      text: "Grosor",
+      align: "center",
+      formatter: Float2DigitsFmt,
+      headerTitle: () => "Grosor el elemento (m)",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          e<br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[m]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "R_intrinsic",
+      text: "Resistencia intrínseca",
+      align: "center",
+      formatter: Float2DigitsFmt,
+      headerTitle: () =>
+        "Resistencia intrínseca de la solución constructiva (solo capas, sin resistencias superficiales) (m²K/W)",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          R<sub>e</sub>
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[m²K/W]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "absorptance",
+      text: "Absortividad",
+      align: "center",
+      formatter: Float2DigitsFmt,
+      headerTitle: () => "Absortividad térmica de la solución constructiva (-)",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          &alpha;
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[-]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "C_o",
+      isDummyField: true,
+      text: "C_o",
+      editable: false,
+      align: "center",
+      classes: "td-column-readonly",
+      formatter: () => walls_Co100,
+      formatExtraData: walls_Co100,
+      headerTitle: () =>
+        "Coeficiente de caudal de aire de la parte opaca de la envolvente térmica (a 100 Pa). Varía según n50 de ensayo o tipo de edificio (nuevo / existente)",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          C<sub>o</sub>
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            [m<sup>3</sup>/h·m<sup>2</sup>]
+          </span>
+        </>
+      ),
+    },
+  ];
+
   return (
     <BootstrapTable
       data={appstate.wallcons}
-      version="4"
+      keyField="id"
       striped
       hover
       bordered={false}
-      tableHeaderClass="text-light bg-secondary"
-      cellEdit={{
+      cellEdit={cellEditFactory({
         mode: "dbclick",
         blurToSave: true,
-        afterSaveCell: (row, cellName, cellValue) => {
-          if (["thickness", "R_intrinsic", "absorptance"].includes(cellName)) {
-            // Convierte a número campos numéricos
-            row[cellName] = Number(cellValue.replace(",", "."));
+        afterSaveCell: (oldValue, newValue, row, column) => {
+          // Convierte a número campos numéricos
+          if (
+            ["thickness", "R_intrinsic", "absorptance"].includes(
+              column.dataField
+            )
+          ) {
+            const value = parseFloat(newValue.replace(",", "."));
+            row[column.dataField] = isNaN(value) ? oldValue : value;
           }
         },
-      }}
+      })}
       selectRow={{
         mode: "checkbox",
-        clickToSelectAndEditCell: true,
+        clickToSelect: true,
+        clickToEdit: true,
         selected: selected,
         onSelect: (row, isSelected) => {
           if (isSelected) {
@@ -65,83 +173,8 @@ const WallConsTable = ({ selected, setSelected }) => {
         hideSelectColumn: true,
         bgColor: "lightgray",
       }}
-    >
-      <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-        - ID -{" "}
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="name"
-        headerText="Nombre que identifica de forma única la construcción de opaco"
-        width="30%"
-        columnTitle={(cell, row) => `Construcción de opaco id: ${row.id}`}
-      >
-        Nombre
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="group"
-        headerText="Grupo de soluciones al que pertenece la construcción (solo a efectos de clasificación)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        Grupo
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="thickness"
-        dataFormat={Float2DigitsFmt}
-        headerText="Grosor el elemento (m)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        e
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[m]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="R_intrinsic"
-        dataFormat={Float2DigitsFmt}
-        headerText="Resistencia intrínseca de la solución constructiva (solo capas, sin resistencias superficiales) (m²K/W)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        R<sub>e</sub>
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[m²K/W]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="absorptance"
-        dataFormat={Float2DigitsFmt}
-        headerText="Absortividad térmica de la solución constructiva (-)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        &alpha;
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[-]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-
-      <TableHeaderColumn
-        datatField="name"
-        dataFormat={() => walls_Co100}
-        headerText="Coeficiente de caudal de aire de la parte opaca de la envolvente
-    térmica (a 100 Pa). Varía según n50 de ensayo o tipo de edificio (nuevo / existente)"
-        editable={false}
-        columnClassName="td-column-readonly"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        C<sub>o</sub>
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          [m<sup>3</sup>/h·m<sup>2</sup>]
-        </span>
-      </TableHeaderColumn>
-    </BootstrapTable>
+      columns={columns}
+    />
   );
 };
 

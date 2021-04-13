@@ -22,13 +22,14 @@ SOFTWARE.
 */
 
 import React, { useContext } from "react";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import BootstrapTable from "react-bootstrap-table-next";
+import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
+
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import { GeometryFloatEditor } from "./GeometryEditor";
-
 import {
+  getFloatOrOld,
   azimuth_name,
   tilt_name,
   wall_is_inside_tenv,
@@ -38,12 +39,14 @@ import {
 // Formato y opciones de condiciones de contorno
 const BoundaryFmt = (cell, _row) => <span>{BOUNDARYTYPESMAP[cell]}</span>;
 const BoundaryOpts = Object.keys(BOUNDARYTYPESMAP).map((k) => {
-  return { text: BOUNDARYTYPESMAP[k], value: k };
+  return { value: k, label: BOUNDARYTYPESMAP[k] };
 });
 
 const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
-const AzimuthFmt = (cell, _row) => <span>{azimuth_name(cell.azimuth)}</span>;
-const TiltFmt = (cell, _row) => <span>{tilt_name(cell.tilt)}</span>;
+const AzimuthFmt = (cell, _row) => (
+  <span>{azimuth_name(parseFloat(cell))}</span>
+);
+const TiltFmt = (cell, _row) => <span>{tilt_name(parseFloat(cell))}</span>;
 
 // Tabla de elementos opacos
 const OpacosTable = ({ selected, setSelected }) => {
@@ -70,7 +73,7 @@ const OpacosTable = ({ selected, setSelected }) => {
   appstate.wallcons.map((s) => (wallconsMap[s.id] = s.name));
   const WallconsFmt = (cell, _row) => <span>{wallconsMap[cell]}</span>;
   const WallconsOpts = Object.keys(wallconsMap).map((k) => {
-    return { text: wallconsMap[k], value: k };
+    return { value: k, label: wallconsMap[k] };
   });
 
   // Formato y opciones de espacios y espacios adyacentes
@@ -79,43 +82,213 @@ const OpacosTable = ({ selected, setSelected }) => {
   appstate.spaces.map((s) => (spaceMap[s.id] = s.name));
   const SpaceFmt = (cell, _row) => <span>{spaceMap[cell]}</span>;
   const SpaceOpts = Object.keys(spaceMap).map((k) => {
-    return { text: spaceMap[k], value: k };
+    return { value: k, label: spaceMap[k] };
   });
 
-  const he1_indicators = appstate.he1_indicators;
-  const WallUFmt = (cell, _row) => {
+  const wallUValuesMap = appstate.he1_indicators.u_values.walls;
+  const WallUFmt = (_cell, row) => {
     // cell == id
-    const uvalue = he1_indicators.u_values.walls[cell];
+    const uvalue = wallUValuesMap[row.id];
     if (uvalue === undefined || uvalue === null || isNaN(uvalue)) {
       return <span>-</span>;
     } else {
       return <span>{uvalue.toFixed(2)}</span>;
     }
   };
+
+  const columns = [
+    { dataField: "id", isKey: true, hidden: true, text: "ID" },
+    {
+      dataField: "name",
+      text: "Nombre",
+      width: "30%",
+      headerTitle: () =>
+        "Nombre que identifica de forma única el elemento opaco",
+      headerClasses: "text-light bg-secondary",
+      title: (_cell, row) => {
+        const u_value_wall = wallUValuesMap[row.id];
+        const u_value = !isNaN(u_value_wall)
+          ? Number(u_value_wall).toFixed(2)
+          : "-";
+        return `Opaco id: ${row.id}, U: ${u_value} W/m²K`;
+      },
+    },
+    {
+      dataField: "A",
+      text: "A",
+      align: "center",
+      formatter: Float2DigitsFmt,
+      headerTitle: () =>
+        "Superficie neta (sin huecos) del elemento opaco, en m²",
+      headerAlign: "center",
+      headerClasses: "text-light bg-secondary",
+      headerFormatter: () => (
+        <>
+          A<br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>
+              [m<sup>2</sup>]
+            </i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "bounds",
+      text: "Tipo",
+      editor: {
+        type: Type.SELECT,
+        options: BoundaryOpts,
+      },
+      align: "center",
+      formatter: BoundaryFmt,
+      headerTitle: () =>
+        "Condición de contorno del elemento opaco (INTERIOR | EXTERIOR | GROUND | ADIABATIC)",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          Tipo
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[-]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "cons",
+      text: "Construcción",
+      editor: {
+        type: Type.SELECT,
+        options: WallconsOpts,
+      },
+      align: "center",
+      formatter: WallconsFmt,
+      headerTitle: () => "Construcción del opaco",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+    },
+    {
+      dataField: "space",
+      text: "Espacio",
+      editor: {
+        type: Type.SELECT,
+        options: SpaceOpts,
+      },
+      align: "center",
+      formatter: SpaceFmt,
+      headerTitle: () => "Espacio al que pertenece el elemento opaco",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+    },
+    {
+      dataField: "nextto",
+      text: "Espacio ady.",
+      editor: {
+        type: Type.SELECT,
+        options: SpaceOpts,
+      },
+      align: "center",
+      formatter: SpaceFmt,
+      headerTitle: () =>
+        "Espacio adyacente con el que comunica el elemento opaco cuando es interior",
+      headerAlign: "center",
+      headerClasses: "text-light bg-secondary",
+    },
+    {
+      dataField: "geometry.azimuth",
+      text: "Orientación",
+      align: "center",
+      formatter: AzimuthFmt,
+      headerTitle: () =>
+        "Orientación (gamma) [-180,+180] (S=0, E=+90, W=-90). Medido como azimuth geográfico de la proyección horizontal de la normal a la superficie",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          Orientación
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[-]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "geometry.tilt",
+      text: "Inclinación",
+      align: "center",
+      formatter: TiltFmt,
+      headerTitle: () =>
+        "Inclinación (beta) [0, 180]. Medido respecto a la horizontal y normal hacia arriba (0 -> suelo, 180 -> techo)",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          Inclinación
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[-]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "wall_u",
+      text: "wall_u",
+      isDummyField: true,
+      editable: false,
+      align: "center",
+      classes: "td-column-computed-readonly",
+      formatter: WallUFmt,
+      formatExtraData: appstate.he1_indicators.u_values.walls,
+      headerTitle: () => "Transmitancia térmica del elemento opaco [W/m²K]",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          U
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[W/m²K]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+  ];
+
   return (
     <BootstrapTable
       data={appstate.walls}
-      version="4"
+      keyField="id"
       striped
       hover
       bordered={false}
-      tableHeaderClass="text-light bg-secondary"
-      cellEdit={{
+      cellEdit={cellEditFactory({
         mode: "dbclick",
         blurToSave: true,
         // Corrige el valor del espacio adyacente de "" a null
-        afterSaveCell: (row, cellName, cellValue) => {
-          if (cellName === "nextto" && cellValue !== "") {
+        afterSaveCell: (oldValue, newValue, row, column) => {
+          if (column.dataField === "nextto" && newValue !== "") {
             row.nextto = null;
-          } else if (cellName === "A") {
+          } else if (column.dataField === "A" && newValue !== "") {
             // Convierte a número campos numéricos
-            row[cellName] = Number(cellValue.replace(",", "."));
+            row.A = getFloatOrOld(newValue, oldValue);
+          } else if (column.dataField === "geometry.tilt" && newValue !== "") {
+            row.geometry.tilt = getFloatOrOld(newValue, oldValue);
+          } else if (
+            column.dataField === "geometry.azimuth" &&
+            newValue !== ""
+          ) {
+            row.geometry.azimuth = getFloatOrOld(newValue, oldValue);
           }
         },
-      }}
+      })}
       selectRow={{
         mode: "checkbox",
-        clickToSelectAndEditCell: true,
+        clickToSelect: true,
+        clickToEdit: true,
         selected: selected,
         onSelect: (row, isSelected) => {
           if (isSelected) {
@@ -127,7 +300,7 @@ const OpacosTable = ({ selected, setSelected }) => {
         hideSelectColumn: true,
         bgColor: "lightgray",
       }}
-      trClassName={(row, rowIdx) => {
+      rowClasses={(row, _rowIdx) => {
         const classes = [];
         // Errores
         if (error_ids_danger.includes(row.id)) {
@@ -144,148 +317,8 @@ const OpacosTable = ({ selected, setSelected }) => {
         }
         return classes.join(" ");
       }}
-    >
-      <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-        - ID -{" "}
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="name"
-        headerText="Nombre que identifica de forma única el elemento opaco"
-        width="30%"
-        columnTitle={(cell, row) => {
-          const u_value_wall = appstate.he1_indicators.u_values.walls[row.id];
-          const u_wall = !isNaN(u_value_wall)
-            ? Number(u_value_wall).toFixed(2)
-            : "-";
-          return `Opaco id: ${row.id}, U: ${u_wall} W/m²K`;
-        }}
-      >
-        Nombre
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="A"
-        dataFormat={Float2DigitsFmt}
-        headerText="Superficie neta (sin huecos) del elemento opaco, en m²"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        A<br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>
-            [m<sup>2</sup>]
-          </i>{" "}
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="bounds"
-        editable={{
-          type: "select",
-          options: { values: BoundaryOpts },
-        }}
-        dataFormat={BoundaryFmt}
-        headerText="Condición de contorno del elemento opaco (INTERIOR | EXTERIOR | GROUND | ADIABATIC)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        Tipo
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[-]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="cons"
-        dataFormat={WallconsFmt}
-        headerText="Construcción del opaco"
-        headerAlign="center"
-        dataAlign="center"
-        editable={{
-          type: "select",
-          options: { values: WallconsOpts },
-        }}
-      >
-        Construcción
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="space"
-        dataFormat={SpaceFmt}
-        headerText="Espacio al que pertenece el elemento opaco"
-        headerAlign="center"
-        dataAlign="center"
-        editable={{
-          type: "select",
-          options: { values: SpaceOpts },
-        }}
-      >
-        Espacio
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="nextto"
-        dataFormat={SpaceFmt}
-        headerText="Espacio adyacente con el que comunica el elemento opaco cuando es interior"
-        headerAlign="center"
-        dataAlign="center"
-        editable={{
-          type: "select",
-          options: { values: SpaceOpts },
-        }}
-      >
-        Espacio ady.
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="geometry"
-        dataFormat={AzimuthFmt}
-        headerText="Orientación (gamma) [-180,+180] (S=0, E=+90, W=-90). Medido como azimuth geográfico de la proyección horizontal de la normal a la superficie"
-        headerAlign="center"
-        dataAlign="center"
-        customEditor={{
-          getElement: (onUpdate, props) => (
-            <GeometryFloatEditor onUpdate={onUpdate} {...props} />
-          ),
-          customEditorParameters: { prop: "azimuth" },
-        }}
-      >
-        Orientación
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[-]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="geometry"
-        dataFormat={TiltFmt}
-        headerText="Inclinación (beta) [0, 180]. Medido respecto a la horizontal y normal hacia arriba (0 -> suelo, 180 -> techo)"
-        headerAlign="center"
-        dataAlign="center"
-        customEditor={{
-          getElement: (onUpdate, props) => (
-            <GeometryFloatEditor onUpdate={onUpdate} {...props} />
-          ),
-          customEditorParameters: { prop: "tilt" },
-        }}
-      >
-        Inclinación
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[-]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="id"
-        dataFormat={WallUFmt}
-        headerText="Transmitancia térmica del elemento opaco [W/m²K]"
-        editable={false}
-        columnClassName="td-column-computed-readonly"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        U
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[W/m²K]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-    </BootstrapTable>
+      columns={columns}
+    />
   );
 };
 

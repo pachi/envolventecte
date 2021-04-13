@@ -22,7 +22,6 @@ SOFTWARE.
 */
 
 import React, { useEffect, useState, useRef } from "react";
-// import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 
 /*
   The getElement function from customEditor takes two arguments,
@@ -65,6 +64,12 @@ export const GeometryFloatEditor = (props) => {
           setValue(parseFloat(ev.currentTarget.value.replace(",", ".")));
         }}
       />
+      {/* <select
+          value={ this.state.tilt }
+          onKeyDown={ this.props.onKeyDown }
+          onChange={ (ev) => { this.setState({ tilt: ev.currentTarget.value }); } } >
+          { tilt.map(tilt => (<option key={ tilt } value={ tilt }>{ tilt }</option>)) }
+        </select> */}
     </span>
   );
 };

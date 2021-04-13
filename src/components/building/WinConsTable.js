@@ -22,7 +22,9 @@ SOFTWARE.
 */
 
 import React, { useContext } from "react";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import BootstrapTable from "react-bootstrap-table-next";
+import cellEditFactory from "react-bootstrap-table2-editor";
+
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
@@ -32,27 +34,130 @@ const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 // Tabla de construcciones de huecos del edificio
 const WinConsTable = ({ selected, setSelected }) => {
   const appstate = useContext(AppState);
+  const columns = [
+    { dataField: "id", isKey: true, hidden: true },
+    {
+      dataField: "name",
+      text: "Nombre",
+      width: "30%",
+      headerTitle: () =>
+        "Nombre que identifica de forma única la construcción de hueco",
+      headerClasses: "text-light bg-secondary",
+      title: (_cell, row) => `Construcción de hueco id: ${row.id}`,
+    },
+    {
+      dataField: "group",
+      text: "Grupo",
+      align: "center",
+      headerTitle: (_col, _colIndex) =>
+        "Grupo de soluciones al que pertenece la construcción (solo a efectos de clasificación)",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+    },
+    {
+        dataField: "U",
+        text: "U_w",
+        align: "center",
+        formatter: Float2DigitsFmt,
+        headerTitle: () => "Transmitancia térmica del hueco (W/m²K)",
+        headerClasses: "text-light bg-secondary",
+        headerAlign: "center",
+        headerFormatter: () => (
+          <>
+        U<sub>w</sub>
+        <br />
+        <span style={{ fontWeight: "normal" }}>
+          <i>[W/m²K]</i>{" "}
+        </span></>)
+      },
+      {
+        dataField: "Ff",
+        text: "F_f",
+        align: "center",
+        formatter: Float2DigitsFmt,
+        headerTitle: () => "Fracción de marco de la construcción de hueco (-)",
+        headerClasses: "text-light bg-secondary",
+        headerAlign: "center",
+        headerFormatter: () => (
+          <>
+        F<sub>f</sub>
+        <br />
+        <span style={{ fontWeight: "normal" }}>
+          <i>[-]</i>{" "}
+        </span></>)
+      },
+      {
+        dataField: "gglwi",
+        text: "g_gl;wi",
+        align: "center",
+        formatter: Float2DigitsFmt,
+        headerTitle: () => "Factor solar del hueco sin la protección solar activada (g_glwi = g_gln * 0.90) (-)",
+        headerClasses: "text-light bg-secondary",
+        headerAlign: "center",
+        headerFormatter: () => (
+          <>
+        g<sub>gl;wi</sub>
+        <br />
+        <span style={{ fontWeight: "normal" }}>
+          <i>[-]</i>{" "}
+        </span></>)
+      },
+      {
+        dataField: "gglshwi",
+        text: "g_gl;sh;wi",
+        align: "center",
+        formatter: Float2DigitsFmt,
+        headerTitle: () => "Factor solar del hueco con la protección solar activada (g_glwi = g_gln * 0.90) (-)",
+        headerClasses: "text-light bg-secondary",
+        headerAlign: "center",
+        headerFormatter: () => (
+          <>
+        g<sub>gl;sh;wi</sub>
+        <br />
+        <span style={{ fontWeight: "normal" }}>
+          <i>[-]</i>{" "}
+        </span></>)
+      },
+      {
+        dataField: "C_100",
+        text: "C_100",
+        align: "center",
+        formatter: Float2DigitsFmt,
+        headerTitle: () => "Permeabilidad al aire a 100 Pa (m³/hm²)",
+        headerClasses: "text-light bg-secondary",
+        headerAlign: "center",
+        headerFormatter: () => (
+          <>
+        C<sub>h;100</sub>
+        <br />
+        <span style={{ fontWeight: "normal" }}>
+          <i>[m³/h·m²]</i>{" "}
+        </span></>)
+      },
+  ];
+
   return (
     <BootstrapTable
       data={appstate.wincons}
-      version="4"
+      keyField="id"
       striped
       hover
       bordered={false}
-      tableHeaderClass="text-light bg-secondary"
-      cellEdit={{
+      cellEdit={cellEditFactory({
         mode: "dbclick",
         blurToSave: true,
-        afterSaveCell: (row, cellName, cellValue) => {
-          if (["U", "Ff", "gglwi", "gglshwi", "C_100"].includes(cellName)) {
+        afterSaveCell: (oldValue, newValue, row, column) => {
+          if (["U", "Ff", "gglwi", "gglshwi", "C_100"].includes(column.dataField)) {
             // Convierte a número campos numéricos
-            row[cellName] = Number(cellValue.replace(",", "."));
+            const value = parseFloat(newValue.replace(",", "."));
+            row[column.dataField] = isNaN(value) ? oldValue : value;
           }
         },
-      }}
+      })}
       selectRow={{
         mode: "checkbox",
-        clickToSelectAndEditCell: true,
+        clickToSelect: true,
+        clickToEdit: true,
         selected: selected,
         onSelect: (row, isSelected) => {
           if (isSelected) {
@@ -64,92 +169,8 @@ const WinConsTable = ({ selected, setSelected }) => {
         hideSelectColumn: true,
         bgColor: "lightgray",
       }}
-    >
-      <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-        - ID -{" "}
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="name"
-        headerText="Nombre que identifica de forma única la construcción de hueco"
-        width="30%"
-        columnTitle={(cell, row) => `Construcción de hueco id: ${row.id}`}
-      >
-        Nombre
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="group"
-        headerText="Grupo de soluciones al que pertenece la construcción (solo a efectos de clasificación)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        Grupo
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="U"
-        dataFormat={Float2DigitsFmt}
-        headerText="Transmitancia térmica del hueco (W/m²K)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        U<sub>w</sub>
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[W/m²K]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="Ff"
-        dataFormat={Float2DigitsFmt}
-        headerText="Fracción de marco de la construcción de hueco (-)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        F<sub>f</sub>
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[-]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="gglwi"
-        dataFormat={Float2DigitsFmt}
-        headerText="Factor solar del hueco sin la protección solar activada (g_glwi = g_gln * 0.90) (-)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        g<sub>gl;wi</sub>
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[-]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="gglshwi"
-        dataFormat={Float2DigitsFmt}
-        headerText="Factor solar del hueco con la protección solar activada (g_glwi = g_gln * 0.90) (-)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        g<sub>gl;sh;wi</sub>
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[-]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="C_100"
-        dataFormat={Float2DigitsFmt}
-        headerText="Permeabilidad al aire a 100 Pa (m³/hm²)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        C<sub>h;100</sub>
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[m³/h·m²]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-    </BootstrapTable>
+      columns = {columns}
+    />
   );
 };
 

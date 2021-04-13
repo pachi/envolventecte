@@ -22,34 +22,86 @@ SOFTWARE.
 */
 
 import React, { useContext } from "react";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import BootstrapTable from "react-bootstrap-table-next";
+import cellEditFactory from "react-bootstrap-table2-editor";
+
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import { GeometryFloatEditor } from "./GeometryEditor";
 import { azimuth_name, tilt_name } from "../../utils";
 
-const AzimuthFmt = (cell, _row) => <span>{azimuth_name(cell.azimuth)}</span>;
-const TiltFmt = (cell, _row) => <span>{tilt_name(cell.tilt)}</span>;
+const AzimuthFmt = (cell, _row) => <span>{azimuth_name(cell)}</span>;
+const TiltFmt = (cell, _row) => <span>{tilt_name(cell)}</span>;
 
 // Tabla de elementos de sombra del edificio
 const ShadesTable = ({ selected, setSelected }) => {
   const appstate = useContext(AppState);
+  const columns = [
+    { dataField: "id", isKey: true, hidden: true },
+    {
+      dataField: "name",
+      text: "Nombre",
+      width: "30%",
+      headerTitle: () =>
+        "Nombre que identifica de forma única el elemento de sombra",
+      headerClasses: "text-light bg-secondary",
+      title: (_cell, row) => `Elemento de sombra id: ${row.id}`,
+    },
+    {
+      dataField: "geometry.azimuth",
+      text: "Orientación",
+      align: "center",
+      formatter: AzimuthFmt,
+      headerTitle: () =>
+        "Orientación (gamma) [-180,+180] (S=0, E=+90, W=-90). Medido como azimuth geográfico de la proyección horizontal de la normal a la superficie",
+      headerAlign: "center",
+      headerClasses: "text-light bg-secondary",
+      headerFormatter: () => (
+        <>
+          Orientación
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[-]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "geometry.tilt",
+      text: "Inclinación",
+      align: "center",
+      formatter: TiltFmt,
+      headerTitle: () =>
+        "Inclinación (beta) [0, 180]. Medido respecto a la horizontal y normal hacia arriba (0 -> suelo, 180 -> techo)",
+      headerAlign: "center",
+      headerClasses: "text-light bg-secondary",
+      headerFormatter: () => (
+        <>
+          Inclinación
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[-]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+  ];
   return (
     <BootstrapTable
       data={appstate.shades}
-      version="4"
+      keyField="id"
       striped
       hover
       bordered={false}
       tableHeaderClass="text-light bg-secondary"
-      cellEdit={{
+      cellEdit={cellEditFactory({
         mode: "dbclick",
         blurToSave: true,
-      }}
+      })}
       selectRow={{
         mode: "checkbox",
-        clickToSelectAndEditCell: true,
+        clickToSelect: true,
+        clickToEdit: true,
         selected: selected,
         onSelect: (row, isSelected) => {
           if (isSelected) {
@@ -61,57 +113,8 @@ const ShadesTable = ({ selected, setSelected }) => {
         hideSelectColumn: true,
         bgColor: "lightgray",
       }}
-    >
-      <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-        - ID -{" "}
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="name"
-        headerText="Nombre que identifica de forma única el elemento de sombra"
-        width="30%"
-        columnTitle={(_cell, row) => `Elemento de sombra id: ${row.id}`}
-      >
-        Nombre
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="geometry"
-        dataFormat={AzimuthFmt}
-        headerText="Orientación (gamma) [-180,+180] (S=0, E=+90, W=-90). Medido como azimuth geográfico de la proyección horizontal de la normal a la superficie"
-        headerAlign="center"
-        dataAlign="center"
-        customEditor={{
-          getElement: (onUpdate, props) => (
-            <GeometryFloatEditor onUpdate={onUpdate} {...props} />
-          ),
-          customEditorParameters: { prop: "azimuth" },
-        }}
-      >
-        Orientación
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[-]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="geometry"
-        dataFormat={TiltFmt}
-        headerText="Inclinación (beta) [0, 180]. Medido respecto a la horizontal y normal hacia arriba (0 -> suelo, 180 -> techo)"
-        headerAlign="center"
-        dataAlign="center"
-        customEditor={{
-          getElement: (onUpdate, props) => (
-            <GeometryFloatEditor onUpdate={onUpdate} {...props} />
-          ),
-          customEditorParameters: { prop: "tilt" },
-        }}
-      >
-        Inclinación
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[-]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-    </BootstrapTable>
+      columns={columns}
+    />
   );
 };
 

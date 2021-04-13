@@ -125,6 +125,12 @@ export function tilt_name(tilt_angle) {
   }
 }
 
+// Devuelve el valor numérico o un valor previo
+export const getFloatOrOld = (newValue, oldValue) => {
+  const value = parseFloat(newValue.replace(",", "."));
+  return isNaN(value) ? oldValue : value
+};
+
 // Cadena con valor redondeado si el valor es un número y está definido o, si no, guión
 export const round_or_dash = (val, numDecimals = 2) =>
   val === null || val === undefined || isNaN(val)

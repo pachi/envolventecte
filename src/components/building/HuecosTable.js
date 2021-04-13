@@ -22,18 +22,21 @@ SOFTWARE.
 */
 
 import React, { useContext } from "react";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import BootstrapTable from "react-bootstrap-table-next";
+import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
+
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-
-import { azimuth_name, tilt_name, wall_is_inside_tenv } from "../../utils";
+import { azimuth_name, tilt_name, wall_is_inside_tenv, getFloatOrOld } from "../../utils";
 
 const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 
 // Tabla de huecos del edificio
 const HuecosTable = ({ selected, setSelected }) => {
   const appstate = useContext(AppState);
+  const he1_indicators = appstate.he1_indicators;
+  const winUValuesMap = he1_indicators.u_values.windows;
 
   // Lista de IDs con errores
   const errors = appstate.warnings;
@@ -44,17 +47,18 @@ const HuecosTable = ({ selected, setSelected }) => {
     .filter((e) => e.level === "DANGER")
     .map((e) => e.id);
 
-  const WindowOrientationFmt = (cell, _row) => {
-    const wall = appstate.walls.find((s) => s.id === cell);
-    if (wall === undefined) {
+  const wallOrientMap = Object.fromEntries(appstate.walls.map(w => [w.id, w.geometry.azimuth]));
+  const WindowOrientationFmt = (_cell, row, _rowIndex, _formatExtraData) => {
+    const azimuth = wallOrientMap[row.wall];
+    if (azimuth === undefined) {
       return <span>-</span>;
     } else {
-      return <span>{azimuth_name(wall.geometry.azimuth)}</span>;
+      return <span>{azimuth_name(azimuth)}</span>;
     }
   };
 
-  const WindowTiltFmt = (cell, _row) => {
-    const wall = appstate.walls.find((s) => s.id === cell);
+  const WindowTiltFmt = (_cell, row, _rowIndex, _formatExtraData) => {
+    const wall = appstate.walls.find((s) => s.id === row.wall);
     if (wall === undefined) {
       return <span>-</span>;
     } else {
@@ -80,7 +84,7 @@ const HuecosTable = ({ selected, setSelected }) => {
   appstate.wincons.map((s) => (winconsMap[s.id] = s.name));
   const WinconsFmt = (cell, _row) => <span>{winconsMap[cell]}</span>;
   const WinconsOpts = Object.keys(winconsMap).map((k) => {
-    return { text: winconsMap[k], value: k };
+    return { value: k, label: winconsMap[k], };
   });
 
   // Formato y opciones de opacos
@@ -88,14 +92,12 @@ const HuecosTable = ({ selected, setSelected }) => {
   appstate.walls.map((s) => (wallsMap[s.id] = s.name));
   const WallsFmt = (cell, _row) => <span>{wallsMap[cell]}</span>;
   const WallsOpts = Object.keys(wallsMap).map((k) => {
-    return { text: wallsMap[k], value: k };
+    return { value: k, label: wallsMap[k] };
   });
 
   // Transmitancias de huecos
-  const he1_indicators = appstate.he1_indicators;
-  const WindowUFmt = (cell, _row) => {
-    // cell == id
-    const uvalue = he1_indicators.u_values.windows[cell];
+  const WindowUFmt = (_cell, row, _rowIndex, _formatExtraData) => {
+    const uvalue = winUValuesMap[row.id];
     if (uvalue === undefined || uvalue === null) {
       return <span>-</span>;
     } else {
@@ -103,27 +105,158 @@ const HuecosTable = ({ selected, setSelected }) => {
     }
   };
 
+  const columns = [
+    { dataField: "id", isKey: true, hidden: true, text: "ID" },
+    {
+      dataField: "name",
+      text: "Nombre",
+      width: "30%",
+      headerTitle: () => "Nombre que identifica de forma única el hueco",
+      headerClasses: "text-light bg-secondary",
+      title: (_cell, row) => {
+        const u_value_window = winUValuesMap[row.id];
+        const u_value = !isNaN(u_value_window)
+          ? Number(u_value_window).toFixed(2)
+          : "-";
+        return `Hueco id: ${row.id}, U: ${u_value} W/m²K`;
+      },
+    },
+    {
+      dataField: "A",
+      text: "A",
+      align: "center",
+      formatter: Float2DigitsFmt,
+      headerTitle: () => "Área proyectada del hueco (m2)",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          A<sub>w,p</sub>
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>
+              [m<sup>2</sup>]
+            </i>
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "cons",
+      text: "Construcción",
+      align: "center",
+      formatter: WinconsFmt,
+      headerTitle: () => "Construcción del hueco",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      editor: {
+        type: Type.SELECT,
+        options: WinconsOpts,
+      },
+    },
+    {
+      dataField: "wall",
+      text: "Opaco",
+      align: "center",
+      editor: {
+        type: Type.SELECT,
+        options: WallsOpts,
+      },
+      formatter: WallsFmt,
+      headerTitle: () => "Opaco al que pertenece el hueco",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+    },
+    {
+      dataField: "fshobst",
+      text: "fshobst",
+      align: "center",
+      formatter: Float2DigitsFmt,
+      headerTitle: () =>
+        "Factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción). Este valor puede asimilarse al factor de sombra del hueco (FS). El Documento de Apoyo DA DB-HE/1 recoge valores del factor de sombra FS para considerar el efecto de voladizos, retranqueos, aletas laterales o lamas exteriores.",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          F<sub>sh;obst</sub>
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[-]</i>
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "wall_azimuth",
+      isDummyField: true,
+      editable: false,
+      text: "Orientación",
+      align: "center",
+      classes: "td-column-readonly",
+      formatter: WindowOrientationFmt,
+      formatExtraData: appstate.windows.map(w=> w.wall),
+      headerTitle: () => "Orientación del hueco",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+    },
+    {
+      dataField: "wall_tilt",
+      isDummyField: true,
+      editable: false,
+      text: "Inclinación",
+      align: "center",
+      classes: "td-column-readonly",
+      formatter: WindowTiltFmt,
+      formatExtraData: appstate.windows.map(w => w.wall),
+      headerTitle: () => "Inclinación del hueco",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+    },
+    {
+      dataField: "window_u",
+      isDummyField: true,
+      editable: false,
+      text: "window U",
+      align: "center",
+      classes: "td-column-computed-readonly",
+      formatter: WindowUFmt,
+      formatExtraData: appstate.he1_indicators.u_values.windows,
+      headerTitle: () => "Transmitancia térmica del hueco [W/m²K]",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          U
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[W/m²K]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+  ];
+
   return (
     <BootstrapTable
       data={appstate.windows}
-      version="4"
+      keyField="id"
       striped
       hover
       bordered={false}
-      tableHeaderClass="text-light bg-secondary"
-      cellEdit={{
+      cellEdit={cellEditFactory({
         mode: "dbclick",
         blurToSave: true,
-        afterSaveCell: (row, cellName, cellValue) => {
-          if (["A", "fshobst"].includes(cellName)) {
-            // Convierte a número campos numéricos
-            row[cellName] = Number(cellValue.replace(",", "."));
+        afterSaveCell: (oldValue, newValue, row, column) => {
+          // Convierte a número campos numéricos
+          if (["A", "fshobst"].includes(column.dataField)) {
+            row[column.dataField] = getFloatOrOld(newValue, oldValue);
           }
         },
-      }}
+      })}
       selectRow={{
         mode: "checkbox",
-        clickToSelectAndEditCell: true,
+        clickToSelect: true,
+        clickToEdit: true,
         selected: selected,
         onSelect: (row, isSelected) => {
           if (isSelected) {
@@ -135,7 +268,7 @@ const HuecosTable = ({ selected, setSelected }) => {
         hideSelectColumn: true,
         bgColor: "lightgray",
       }}
-      trClassName={(row, rowIdx) => {
+      rowClasses={(row, _rowIdx) => {
         const classes = [];
         // Errores
         if (error_ids_danger.includes(row.id)) {
@@ -152,116 +285,8 @@ const HuecosTable = ({ selected, setSelected }) => {
         }
         return classes.join(" ");
       }}
-    >
-      <TableHeaderColumn dataField="id" isKey={true} hidden={true}>
-        - ID -{" "}
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="name"
-        headerText="Nombre que identifica de forma única el hueco"
-        width="30%"
-        columnTitle={(cell, row) => {
-          const u_value_wall = appstate.he1_indicators.u_values.windows[row.id];
-          const u_wall = !isNaN(u_value_wall)
-            ? Number(u_value_wall).toFixed(2)
-            : "-";
-          return `Hueco id: ${row.id}, U: ${u_wall} W/m²K`;
-        }}
-      >
-        Nombre
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="A"
-        dataFormat={Float2DigitsFmt}
-        headerText="Área proyectada del hueco (m2)"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        A<sub>w,p</sub>
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>
-            [m<sup>2</sup>]
-          </i>
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="cons"
-        dataFormat={WinconsFmt}
-        headerText="Construcción del hueco"
-        headerAlign="center"
-        dataAlign="center"
-        editable={{
-          type: "select",
-          options: { values: WinconsOpts },
-        }}
-      >
-        Construcción
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="wall"
-        dataFormat={WallsFmt}
-        headerText="Opaco al que pertenece el hueco"
-        headerAlign="center"
-        dataAlign="center"
-        editable={{
-          type: "select",
-          options: { values: WallsOpts },
-        }}
-      >
-        Opaco
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="fshobst"
-        dataFormat={Float2DigitsFmt}
-        headerText="Factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción). Este valor puede asimilarse al factor de sombra del hueco (FS). El Documento de Apoyo DA DB-HE/1 recoge valores del factor de sombra FS para considerar el efecto de voladizos, retranqueos, aletas laterales o lamas exteriores."
-        headerAlign="center"
-        dataAlign="center"
-      >
-        F<sub>sh;obst</sub>
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[-]</i>
-        </span>
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="wall"
-        dataFormat={WindowOrientationFmt}
-        headerText="Orientación del hueco"
-        editable={false}
-        columnClassName="td-column-readonly"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        Orientación
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="wall"
-        dataFormat={WindowTiltFmt}
-        headerText="Inclinación del hueco"
-        editable={false}
-        columnClassName="td-column-readonly"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        Inclinación
-      </TableHeaderColumn>
-      <TableHeaderColumn
-        dataField="id"
-        dataFormat={WindowUFmt}
-        headerText="Transmitancia térmica del hueco [W/m²K]"
-        editable={false}
-        columnClassName="td-column-computed-readonly"
-        headerAlign="center"
-        dataAlign="center"
-      >
-        U
-        <br />
-        <span style={{ fontWeight: "normal" }}>
-          <i>[W/m²K]</i>{" "}
-        </span>
-      </TableHeaderColumn>
-    </BootstrapTable>
+      columns={columns}
+    />
   );
 };
 
