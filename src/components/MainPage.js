@@ -54,12 +54,21 @@ const HelpPage = (props) => (
         <p>
           El apartado <Link to="/building">Edificio</Link> muestra en un panel
           el valor actualizado y el desglose del cálculo de la{" "}
-          <b>transmitancia térmica global</b> (<b>K</b>) y del{" "}
-          <b>parámetro de control solar</b> (
+          <b>transmitancia térmica global</b> (<b>K</b>), la tasa de renovación
+          de aire a 50 Pa (
+          <b>
+            n<sub>50</sub>
+          </b>
+          ) y del <b>parámetro de control solar</b> (
           <b>
             q<sub>sol;jul</sub>
           </b>
-          ) de la envolvente definida.
+          ) de la envolvente definida. También muestra datos como la compacidad
+          (<b>V/A</b>) y el volumen bruto (<b>V</b>) y neto (
+          <b>
+            V<sub>int</sub>
+          </b>
+          ) del edificio.
         </p>
         <p>
           Como ayuda para completar la descripción de la envolvente térmica
