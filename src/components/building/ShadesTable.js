@@ -29,9 +29,78 @@ import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
 import { azimuth_name, tilt_name } from "../../utils";
+import { GeometryPosEditor } from "./GeometryEditor";
 
 const AzimuthFmt = (cell, _row) => <span>{azimuth_name(cell)}</span>;
 const TiltFmt = (cell, _row) => <span>{tilt_name(cell)}</span>;
+const PosFmt = (pos, _row) => {
+  if (pos !== null) {
+    const [x, y, z] = pos;
+    return `[${x.toFixed(2)}, ${y.toFixed(2)}, ${z.toFixed(2)}]`;
+  } else {
+    return "-";
+  }
+};
+const PosIconFmt = (pos, _row) => (pos !== null ? validPosIcon : nullPosIcon);
+
+const validPosIcon = (
+  <svg
+    width="1.2em"
+    height="1.2em"
+    style={{ verticalAlign: "middle" }}
+    viewBox="0 0 100 100"
+  >
+    <ellipse
+      cx="50.0"
+      cy="50.0"
+      fill="none"
+      stroke="#000"
+      strokeWidth="5"
+      color="#000"
+      rx="47"
+      ry="47"
+    />
+    <ellipse
+      cx="50"
+      cy="50"
+      fill="#F007"
+      rx="20"
+      ry="20"
+      stroke="#000"
+      strokeWidth="3"
+      color="#000"
+    />
+  </svg>
+);
+const nullPosIcon = (
+  <svg
+    width="1.2em"
+    height="1.2em"
+    style={{ verticalAlign: "middle" }}
+    viewBox="0 0 100 100"
+  >
+    <ellipse
+      cx="50.0"
+      cy="50.0"
+      fill="none"
+      stroke="#666"
+      strokeWidth="5"
+      color="#666"
+      rx="47"
+      ry="47"
+    />
+    <ellipse
+      cx="50"
+      cy="50"
+      fill="#3337"
+      rx="20"
+      ry="20"
+      stroke="#666"
+      strokeWidth="3"
+      color="#666"
+    />
+  </svg>
+);
 
 // Tabla de elementos de sombra del edificio
 const ShadesTable = ({ selected, setSelected }) => {
@@ -85,6 +154,29 @@ const ShadesTable = ({ selected, setSelected }) => {
         </>
       ),
     },
+    {
+      dataField: "geometry.position",
+      text: "Posicion",
+      align: "center",
+      formatter: PosIconFmt,
+      title: PosFmt,
+      headerTitle: () =>
+        "Posición del polígono en coordenadas globales [x, y, z]. Para elementos sin definición geométrica completa no se define este elemento.",
+      editorRenderer: (editorProps, value) => (
+        <GeometryPosEditor {...editorProps} value={value} />
+      ),
+      headerAlign: "center",
+      headerClasses: "text-light bg-secondary",
+      headerFormatter: () => (
+        <>
+          Posición
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[x, y, z]</i>{" "}
+          </span>
+        </>
+      ),
+    },
   ];
   return (
     <BootstrapTable
@@ -97,6 +189,15 @@ const ShadesTable = ({ selected, setSelected }) => {
       cellEdit={cellEditFactory({
         mode: "dbclick",
         blurToSave: true,
+        afterSaveCell: (oldValue, newValue, row, column) => {
+          if (
+            column.dataField === "geometry.position" &&
+            newValue === undefined
+          ) {
+            // Corrige el valor de position de undefined a null
+            row.geometry.position = null;
+          }
+        },
       })}
       selectRow={{
         mode: "checkbox",
