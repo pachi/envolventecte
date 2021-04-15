@@ -65,7 +65,7 @@ export const N50ChartBar = ({
           .attr("text-anchor", "middle")
           .style("font-size", "16px")
           .style("text-decoration", "underline")
-          .text("Descomposición de n50 por orientaciones [%]");
+          .text("Descomposición de n50 por elemento [%]");
 
         // X axis
         const x = d3
