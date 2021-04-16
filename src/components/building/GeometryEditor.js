@@ -45,6 +45,7 @@ export const GeometryPosEditor = React.forwardRef(
       y = value[1];
       z = value[2];
     }
+    const [isFirstRender, setIsFirstRender] = useState(true);
     const [isNull, setIsNull] = useState(posIsNull);
     const [show, setShow] = useState(true);
     const [xPos, setXPos] = useState(x);
@@ -55,8 +56,11 @@ export const GeometryPosEditor = React.forwardRef(
     const inputZRef = useRef(null);
 
     useEffect(() => {
-      inputXRef.current.focus();
-    });
+      if (isFirstRender) {
+        inputXRef.current.focus();
+        setIsFirstRender(false);
+      }
+    }, [isFirstRender]);
 
     const updateData = () => {
       if (isNull) {
