@@ -49,4 +49,3 @@
 - Mover a utils.js diccionarios de tipos de climas, orientaciones, etc.
 - ¿Función model_to_state(JSONmodel) que descomponga el modelo y lo lleve a appstate?
 - Trasladar datos a public/data? (usando luego fetch o direcciones como <a href={process.env.PUBLIC_URL + "/data/zcraddata.json"}>Enlace</a>)
-- ThreeView, convertir a componente funcional

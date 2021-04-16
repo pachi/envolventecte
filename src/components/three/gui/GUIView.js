@@ -8,8 +8,8 @@ const material_select = new MeshLambertMaterial({
 });
 
 export default class GUIView {
-  constructor(app, container) {
-    this.app = app;
+  constructor(scene, containerRef) {
+    this.scene = scene;
 
     this.params = {
       inspectMode: false,
@@ -26,7 +26,7 @@ export default class GUIView {
     };
     this.lastSelected = null;
 
-    this.initPane(container);
+    this.initPane(containerRef.current);
     this.pane.hidden = false;
   }
 
@@ -122,7 +122,7 @@ export default class GUIView {
   }
 
   onOpacityChange(event) {
-    const buildingObjects = this.app.scene.getObjectByName("BuildingGroup");
+    const buildingObjects = this.scene.getObjectByName("BuildingGroup");
     buildingObjects.traverse((child) => {
       if (child.material && child.userData.type !== "Window") {
         child.material.opacity = event.value;
@@ -136,7 +136,7 @@ export default class GUIView {
       this.lastSelected.material = this.lastSelected.userData.oldMaterial;
     }
     // Selecciona nuevo elemento
-    const element = this.app.scene
+    const element = this.scene
       .getObjectByName("BuildingGroup")
       .getObjectByName(event.value);
     if (element) {
@@ -173,7 +173,7 @@ export default class GUIView {
     } else {
       return;
     }
-    const buildingObjects = this.app.scene.getObjectByName("BuildingGroup");
+    const buildingObjects = this.scene.getObjectByName("BuildingGroup");
     buildingObjects.traverse((child) => {
       const {
         userData: { bounds, type, subtype },
