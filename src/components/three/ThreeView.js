@@ -1,5 +1,6 @@
 import React, { useContext, useRef, useEffect } from "react";
 import { observer } from "mobx-react-lite";
+import { autorun } from "mobx";
 
 import * as THREE from "three";
 import {
@@ -42,25 +43,31 @@ const ThreeView = () => {
     shades: appstate.shades,
   };
 
+  // Incializa ThreeJS
+  const scene = new Scene();
+  const renderer = new WebGLRenderer({
+    antialias: true,
+    alpha: true,
+  });
+  const camera = new PerspectiveCamera(
+    50,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
+  // Introduce suelo y luces
+  initGround(scene);
+  initLights(scene);
+
   useEffect(() => {
     const ref = mountRef.current;
 
     // Incializa ThreeJS
-    const scene = new Scene();
-    const camera = new PerspectiveCamera(
-      50,
-      ref.clientWidth / ref.clientHeight,
-      0.1,
-      1000
-    );
+    camera.aspect = ref.clientWidth / ref.clientHeight;
     camera.position.set(10, 30, 50);
     camera.lookAt(new Vector3(0, 0, 0));
 
     // Renderer
-    const renderer = new WebGLRenderer({
-      antialias: true,
-      alpha: true,
-    });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(ref.clientWidth, ref.clientHeight, false);
     renderer.shadowMap.enabled = true;
@@ -76,12 +83,6 @@ const ThreeView = () => {
 
     // Monta elemento en el DOM
     ref.appendChild(renderer.domElement);
-
-    // Incorpora geometría
-    initGround(scene);
-    initObjectsFromModel(model, scene);
-    updateCamera(scene, camera);
-    initLights(scene);
 
     // Conecta eventos del panel de control
     mountRef.current.addEventListener("keydown", (e) =>
@@ -105,9 +106,19 @@ const ThreeView = () => {
     return () => {
       window.cancelAnimationFrame(requestID);
       if (control) control.dispose();
+      if (gui) gui.dispose();
       ref.removeChild(renderer.domElement);
     };
-  }, [model, appstate.walls, appstate.windows, appstate.shades]);
+  }, [scene, camera, renderer]);
+
+  useEffect(
+    () =>
+      autorun(() => {
+        initObjectsFromModel(model, scene);
+        updateCamera(scene, camera);
+      }),
+    [model, scene, camera]
+  );
 
   return (
     <div style={{ position: "relative" }}>

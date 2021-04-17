@@ -1,7 +1,5 @@
 # Bugs ES
 
-- Creo que no se actualizan los elementos de la vista3D. Por ejemplo, no lo hacen al cambiar la posición de un elemento de sombra.
-- Al renombrar un elemento (p.e. sombra) no se selecciona con el nuevo nombre en la vista 3D
 - Revisar compatibilidad en Chrome: en particular los cambios en datos generales
 - Comprobar por qué se carga un n50 inicialmente que no está en el archivo (no hay ensayo pero se coge uno que no es el n50_ref).
 - En la gráfica de K eliminar espacio blanco antes de tabla viendo cómo se oculta el display="none" del svg con los defs en IconsOrientaciones.js de climas.
