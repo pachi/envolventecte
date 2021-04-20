@@ -30,6 +30,10 @@ export default class GUIView {
     this.pane.hidden = false;
   }
 
+  dispose() {
+    this.pane.dispose();
+  }
+
   initPane(container) {
     this.pane = new Tweakpane({
       title: "Visor EnvolventeCTE",
