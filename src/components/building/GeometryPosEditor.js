@@ -65,7 +65,7 @@ export const GeometryPosEditor = React.forwardRef(
     const updateData = () => {
       if (isNull) {
         // NOTE: al acabar de editar es necesario convertir el valor dado aquí por null en afterSaveCell
-        // NOTE: no podemos usar null directamente porque lo usa para indicar que se cancela la edición
+        // NOTE: no podemos usar null directamente porque se usa para indicar la cancelación de la edición
         return onUpdate(undefined);
       } else {
         return onUpdate([parseFloat(xPos), parseFloat(yPos), parseFloat(zPos)]);

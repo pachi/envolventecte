@@ -29,7 +29,7 @@ import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
 import { azimuth_name, tilt_name } from "../../utils";
-import { GeometryPosEditor } from "./GeometryEditor";
+import { GeometryPosEditor } from "./GeometryPosEditor";
 
 const AzimuthFmt = (cell, _row) => <span>{azimuth_name(cell)}</span>;
 const TiltFmt = (cell, _row) => <span>{tilt_name(cell)}</span>;
