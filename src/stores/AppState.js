@@ -132,15 +132,8 @@ class AppState {
   }
 
   get he1_indicators() {
-    const {
-      meta,
-      thermal_bridges,
-      walls,
-      windows,
-      spaces,
-      wallcons,
-      wincons,
-    } = this;
+    const { meta, thermal_bridges, walls, windows, spaces, wallcons, wincons } =
+      this;
 
     return he1_indicators({
       meta,
