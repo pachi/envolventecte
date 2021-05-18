@@ -120,7 +120,12 @@ export function initObjectsFromModel(model, scene) {
       continue;
     }
     const shadeTransform = transformMatrix(tilt, azimuth, position);
-    const shadeShape = new Shape(polygon.map((p) => new Vector2(p[0], p[1])));
+    const points = polygon.map((p) => new Vector2(p[0], p[1]));
+    // Lista vacía de puntos - No hay polígono definido
+    if (points.length < 3) {
+      continue;
+    }
+    const shadeShape = new Shape(points);
     const shadeMesh = meshFromShape(shadeShape, shadeTransform);
     shadeMesh.name = shade.name;
     shadeMesh.material = material_shades;
