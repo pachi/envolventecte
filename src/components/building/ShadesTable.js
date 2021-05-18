@@ -30,77 +30,36 @@ import { observer } from "mobx-react-lite";
 import AppState from "../../stores/AppState";
 import { azimuth_name, tilt_name } from "../../utils";
 import { GeometryPosEditor } from "./GeometryPosEditor";
+import { GeometryPolyEditor } from "./GeometryPolyEditor";
+import nullPosIcon from "../img/null_pos_icon.svg";
+import validPosIcon from "../img/valid_pos_icon.svg";
+import validPolyIcon from "../img/valid_poly_icon.svg";
+import nullPolyIcon from "../img/null_poly_icon.svg";
 
 const AzimuthFmt = (cell, _row) => <span>{azimuth_name(cell)}</span>;
 const TiltFmt = (cell, _row) => <span>{tilt_name(cell)}</span>;
-const PosFmt = (pos, _row) => {
-  if (pos !== null) {
-    const [x, y, z] = pos;
-    return `[${x.toFixed(2)}, ${y.toFixed(2)}, ${z.toFixed(2)}]`;
-  } else {
-    return "-";
-  }
-};
-const PosIconFmt = (pos, _row) => (pos !== null ? validPosIcon : nullPosIcon);
-
-const validPosIcon = (
-  <svg
-    width="1.2em"
-    height="1.2em"
-    style={{ verticalAlign: "middle" }}
-    viewBox="0 0 100 100"
-  >
-    <ellipse
-      cx="50.0"
-      cy="50.0"
-      fill="none"
-      stroke="#000"
-      strokeWidth="5"
-      color="#000"
-      rx="47"
-      ry="47"
-    />
-    <ellipse
-      cx="50"
-      cy="50"
-      fill="#F007"
-      rx="20"
-      ry="20"
-      stroke="#000"
-      strokeWidth="3"
-      color="#000"
-    />
-  </svg>
-);
-const nullPosIcon = (
-  <svg
-    width="1.2em"
-    height="1.2em"
-    style={{ verticalAlign: "middle" }}
-    viewBox="0 0 100 100"
-  >
-    <ellipse
-      cx="50.0"
-      cy="50.0"
-      fill="none"
-      stroke="#666"
-      strokeWidth="5"
-      color="#666"
-      rx="47"
-      ry="47"
-    />
-    <ellipse
-      cx="50"
-      cy="50"
-      fill="#3337"
-      rx="20"
-      ry="20"
-      stroke="#666"
-      strokeWidth="3"
-      color="#666"
-    />
-  </svg>
-);
+const PosFmt = (pos, _row) =>
+  pos !== null
+    ? `[${pos[0].toFixed(2)}, ${pos[1].toFixed(2)}, ${pos[2].toFixed(2)}]`
+    : "-";
+const PolyFmt = (poly, _row) =>
+  poly !== null && poly.length !== 0
+    ? `[${poly
+        .map((point) => `[${point[0].toFixed(2)}, ${point[1].toFixed(2)}]`)
+        .join(", ")}]`
+    : "-";
+const PosIconFmt = (pos, _row) =>
+  pos !== null ? (
+    <img src={validPosIcon} alt="+" />
+  ) : (
+    <img src={nullPosIcon} alt="-" />
+  );
+const PolyIconFmt = (poly, _row) =>
+  poly !== null && poly.length !== 0 ? (
+    <img src={validPolyIcon} alt="+" />
+  ) : (
+    <img src={nullPolyIcon} alt="-" />
+  );
 
 // Tabla de elementos de sombra del edificio
 const ShadesTable = ({ selected, setSelected }) => {
@@ -173,6 +132,29 @@ const ShadesTable = ({ selected, setSelected }) => {
           <br />
           <span style={{ fontWeight: "normal" }}>
             <i>[x, y, z]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "geometry.polygon",
+      text: "Polígono",
+      align: "center",
+      formatter: PolyIconFmt,
+      title: PolyFmt,
+      headerTitle: () =>
+        "Lista de puntos 2D que configuran el polígono del elemento: [[x, y]...]. Para elementos sin definición geométrica completa no se define este elemento.",
+      editorRenderer: (editorProps, value) => (
+        <GeometryPolyEditor {...editorProps} value={value} />
+      ),
+      headerAlign: "center",
+      headerClasses: "text-light bg-secondary",
+      headerFormatter: () => (
+        <>
+          Polígono
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[[x, y]...]</i>{" "}
           </span>
         </>
       ),
