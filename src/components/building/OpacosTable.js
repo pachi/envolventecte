@@ -28,9 +28,6 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import {
-  wall_is_inside_tenv,
-} from "../../utils";
 import { AzimuthFmt, TiltFmt, Float2DigitsFmt, BoundaryFmt, BoundaryOpts, getFloatOrOld } from "./TableHelpers";
 
 // Tabla de elementos opacos
@@ -49,7 +46,7 @@ const OpacosTable = ({ selected, setSelected }) => {
   // Diccionario para determinar si el opaco está o no dentro de la ET
   const is_outside_tenv = new Map();
   appstate.walls.forEach((w) => {
-    const wall_inside_tenv = wall_is_inside_tenv(w, appstate.spaces);
+    const wall_inside_tenv = appstate.wall_is_inside_tenv(w);
     is_outside_tenv[w.id] = wall_inside_tenv ? null : "outsidetenv";
   });
 

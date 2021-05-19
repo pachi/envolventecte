@@ -56,32 +56,3 @@ export const round_or_dash = (val, numDecimals = 2) =>
   val === null || val === undefined || isNaN(val)
     ? "-"
     : val.toFixed(numDecimals);
-
-// Pertenencia de un muro a la envolvente térmica
-export const wall_is_inside_tenv = (wall, spaces_list) => {
-  const space = spaces_list.find((s) => s.id === wall.space);
-  // 1. El muro no pertenece a ningún espacio -> fuera
-  if (space === undefined) {
-    return false;
-  }
-
-  const spacenxt = spaces_list.find((s) => s.id === wall.nextto);
-  // 2. Muro que no es interior en un espacio exterior -> fuera
-  if (wall.bounds !== "INTERIOR" && space.inside_tenv === false) {
-    return false;
-  }
-  // 3. Muro interior que separa dos espacios o exteriores o interiores -> fuera
-  if (
-    wall.bounds === "INTERIOR" &&
-    spacenxt !== undefined &&
-    space.inside_tenv === spacenxt.inside_tenv
-  ) {
-    return false;
-  }
-  // 4. Caso mal definido con space !== null y spacenxt === null -> fuera
-  if (wall.bounds === "INTERIOR" && spacenxt === undefined) {
-    return false;
-  }
-  // 5. Resto de casos
-  return true;
-};

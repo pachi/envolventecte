@@ -28,7 +28,6 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import { wall_is_inside_tenv } from "../../utils";
 import { Float2DigitsFmt, getFloatOrOld, TiltFmt, AzimuthFmt } from "./TableHelpers";
 
 // Tabla de huecos del edificio
@@ -69,7 +68,7 @@ const HuecosTable = ({ selected, setSelected }) => {
     if (wall === undefined) {
       is_outside_tenv[win.id] = "outsidetenv";
     } else {
-      const wall_inside_tenv = wall_is_inside_tenv(wall, appstate.spaces);
+      const wall_inside_tenv = appstate.wall_is_inside_tenv(wall);
       is_outside_tenv[win.id] = wall_inside_tenv ? null : "outsidetenv";
     }
   });
