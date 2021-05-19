@@ -182,7 +182,7 @@ export const N50ChartPie = ({
           .attr("text-anchor", "middle")
           .style("font-size", "16px")
           .style("text-decoration", "underline")
-          .text("Descomposición de n50 por orientaciones [%]");
+          .text("Descomposición de n50 por elementos [%]");
 
         const chart = svg.append("g");
         chart.attr("transform", `translate(${cx}, ${cy})`);
