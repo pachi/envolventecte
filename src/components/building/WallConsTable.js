@@ -28,10 +28,8 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
+import {  Float2DigitsFmt, getFloatOrOld } from "./TableHelpers";
 
-const Float2DigitsFmt = (cell, _row, _rowIndex, _formatExtraData) => (
-  <span>{Number(cell).toFixed(2)}</span>
-);
 
 // Tabla de opacos del edificio
 const WallConsTable = ({ selected, setSelected }) => {
@@ -153,8 +151,7 @@ const WallConsTable = ({ selected, setSelected }) => {
               column.dataField
             )
           ) {
-            const value = parseFloat(newValue.replace(",", "."));
-            row[column.dataField] = isNaN(value) ? oldValue : value;
+            row[column.dataField] = getFloatOrOld(newValue, oldValue);
           }
         },
       })}

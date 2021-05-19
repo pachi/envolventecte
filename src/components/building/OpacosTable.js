@@ -29,24 +29,9 @@ import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
 import {
-  getFloatOrOld,
-  azimuth_name,
-  tilt_name,
   wall_is_inside_tenv,
-  BOUNDARYTYPESMAP,
 } from "../../utils";
-
-// Formato y opciones de condiciones de contorno
-const BoundaryFmt = (cell, _row) => <span>{BOUNDARYTYPESMAP[cell]}</span>;
-const BoundaryOpts = Object.keys(BOUNDARYTYPESMAP).map((k) => {
-  return { value: k, label: BOUNDARYTYPESMAP[k] };
-});
-
-const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
-const AzimuthFmt = (cell, _row) => (
-  <span>{azimuth_name(parseFloat(cell))}</span>
-);
-const TiltFmt = (cell, _row) => <span>{tilt_name(parseFloat(cell))}</span>;
+import { AzimuthFmt, TiltFmt, Float2DigitsFmt, BoundaryFmt, BoundaryOpts, getFloatOrOld } from "./TableHelpers";
 
 // Tabla de elementos opacos
 const OpacosTable = ({ selected, setSelected }) => {

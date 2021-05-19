@@ -28,28 +28,8 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import { SPACETYPESMAP } from "../../utils";
+import { Float1DigitsFmt, Float2DigitsFmt, BoolFmt, SpaceTypeFmt, spaceTypesOpts, getFloatOrOld } from "./TableHelpers";
 
-const spaceTypesOpts = Object.keys(SPACETYPESMAP).map((k) => {
-  return { value: k, label: SPACETYPESMAP[k] };
-});
-
-const Float1DigitsFmt = (cell, _row, _rowIndex, _formatExtraData) => (
-  <span>{Number(cell).toFixed(1)}</span>
-);
-const Float2DigitsFmt = (cell, _row, _rowIndex, _formatExtraData) => {
-  if (cell === null || cell === undefined) {
-    return <span>-</span>;
-  } else {
-    return <span>{Number(cell).toFixed(2)}</span>;
-  }
-};
-const BoolFmt = (cell, _row, _rowIndex, _formatExtraData) => (
-  <span>{cell === true ? "Sí" : "No"}</span>
-);
-const SpaceTypeFmt = (cell, _row, _rowIndex, _formatExtraData) => (
-  <span>{SPACETYPESMAP[cell]}</span>
-);
 
 // Custom editor para booleanos
 //
@@ -316,8 +296,7 @@ const SpacesTable = ({ selected, setSelected }) => {
             !["name", "inside_tenv", "type"].includes(column.dataField)
           ) {
             // Convierte a número salvo en el caso del nombre o de inside_tenv
-            const value = parseFloat(newValue.replace(",", "."));
-            row[column.dataField] = isNaN(value) ? oldValue : value;
+            row[column.dataField] = getFloatOrOld(newValue, oldValue);
           }
         },
       })}

@@ -51,101 +51,11 @@ export function UserException(message, kind = "UserException") {
   this.kind = kind;
 }
 
-// Formato y opciones de condiciones de contorno
-export const BOUNDARYTYPESMAP = {
-  EXTERIOR: "EXTERIOR",
-  INTERIOR: "INTERIOR",
-  ADIABATIC: "ADIABÁTICO",
-  GROUND: "TERRENO",
-};
-
-export const SPACETYPESMAP = {
-  CONDITIONED: "ACONDICIONADO",
-  UNCONDITIONED: "NO ACONDICIONADO",
-  UNINHABITED: "NO HABITABLE",
-};
-
-export const THERMALBRIDGETYPESMAP = {
-  ROOF: "CUBIERTA",
-  BALCONY: "BALCÓN",
-  CORNER: "ESQUINA",
-  INTERMEDIATEFLOOR: "FORJADO",
-  INTERNALWALL: "PARTICIÓN",
-  GROUNDFLOOR: "SOLERA",
-  PILLAR: "PILAR",
-  WINDOW: "HUECO",
-  GENERIC: "GENÉRICO"
-}
-
-// Conversión de orientación de ángulo a nombre
-export function azimuth_name(azimuth_angle) {
-  const azimuth = normalize(azimuth_angle, 0.0, 360.0);
-  if (azimuth < 18.0) {
-    return "S";
-  } else if (azimuth < 69.0) {
-    return "SE";
-  } else if (azimuth < 120.0) {
-    return "E";
-  } else if (azimuth < 157.5) {
-    return "NE";
-  } else if (azimuth < 202.5) {
-    return "N";
-  }
-  // 202.5 = 360 - 157.5
-  else if (azimuth < 240.0) {
-    return "NW";
-  }
-  // 240 = 360 - 120
-  else if (azimuth < 291.0) {
-    return "W";
-  }
-  // 291 = 360 - 69
-  else if (azimuth < 342.0) {
-    return "SW";
-  }
-  // 342 = 360 - 18
-  else {
-    return "S";
-  }
-}
-
-// Conversión de inclinación de ángulo a nombre
-export function tilt_name(tilt_angle) {
-  const tilt = normalize(tilt_angle, 0.0, 360.0);
-  if (tilt <= 60.0) {
-    return "TECHO";
-  } else if (tilt < 120.0) {
-    return "PARED";
-  } else if (tilt < 240.0) {
-    return "SUELO";
-  } else if (tilt < 300.0) {
-    return "PARED";
-  } else {
-    return "TECHO";
-  }
-}
-
-// Devuelve el valor numérico o un valor previo
-export const getFloatOrOld = (newValue, oldValue) => {
-  const value = parseFloat(newValue.replace(",", "."));
-  return isNaN(value) ? oldValue : value
-};
-
 // Cadena con valor redondeado si el valor es un número y está definido o, si no, guión
 export const round_or_dash = (val, numDecimals = 2) =>
   val === null || val === undefined || isNaN(val)
     ? "-"
     : val.toFixed(numDecimals);
-
-// Normaliza número a un intervalo arbitrario (wrapping)
-export function normalize(value, start, end) {
-  // ancho del intervalo
-  const width = end - start;
-  // convertimos el intervalo a [0, ancho] restando el valor inicial
-  const offset = value - start;
-  // volvemos a sumar el valor incial para volver al intervalo [start, end]
-  return offset - Math.floor(offset / width) * width + start;
-}
 
 // Pertenencia de un muro a la envolvente térmica
 export const wall_is_inside_tenv = (wall, spaces_list) => {

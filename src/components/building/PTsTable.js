@@ -28,19 +28,8 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import { THERMALBRIDGETYPESMAP } from "../../utils";
+import { Float2DigitsFmt, ThermalBridgeTypesFmt, ThermalBridgeTypesOpts, getFloatOrOld } from "./TableHelpers";
 
-const Float2DigitsFmt = (cell, _row, _rowIndex, _formatExtraData) => (
-  <span>{Number(cell).toFixed(2)}</span>
-);
-
-// Formato y opciones de tipos de puentes térmicos
-const ThermalBridgeTypesFmt = (cell, _row) => (
-  <span>{THERMALBRIDGETYPESMAP[cell]}</span>
-);
-const ThermalBridgeTypesOpts = Object.keys(THERMALBRIDGETYPESMAP).map((k) => {
-  return { value: k, label: THERMALBRIDGETYPESMAP[k] };
-});
 
 // Tabla de puentes térmicos del edificio
 const PTsTable = ({ selected, setSelected }) => {
@@ -139,8 +128,7 @@ const PTsTable = ({ selected, setSelected }) => {
         afterSaveCell: (oldValue, newValue, row, column) => {
           // Convierte a número campos numéricos
           if (["L", "psi"].includes(column.dataField)) {
-            const value = parseFloat(newValue.replace(",", "."));
-            row[column.dataField] = isNaN(value) ? oldValue : value;
+            row[column.dataField] = getFloatOrOld(newValue, oldValue);
           }
         },
       })}

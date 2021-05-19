@@ -28,9 +28,8 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import { azimuth_name, tilt_name, wall_is_inside_tenv, getFloatOrOld } from "../../utils";
-
-const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
+import { wall_is_inside_tenv } from "../../utils";
+import { Float2DigitsFmt, getFloatOrOld, TiltFmt, AzimuthFmt } from "./TableHelpers";
 
 // Tabla de huecos del edificio
 const HuecosTable = ({ selected, setSelected }) => {
@@ -50,11 +49,7 @@ const HuecosTable = ({ selected, setSelected }) => {
   const wallOrientMap = Object.fromEntries(appstate.walls.map(w => [w.id, w.geometry.azimuth]));
   const WindowOrientationFmt = (_cell, row, _rowIndex, _formatExtraData) => {
     const azimuth = wallOrientMap[row.wall];
-    if (azimuth === undefined) {
-      return <span>-</span>;
-    } else {
-      return <span>{azimuth_name(azimuth)}</span>;
-    }
+    return AzimuthFmt(azimuth)
   };
 
   const WindowTiltFmt = (_cell, row, _rowIndex, _formatExtraData) => {
@@ -62,7 +57,7 @@ const HuecosTable = ({ selected, setSelected }) => {
     if (wall === undefined) {
       return <span>-</span>;
     } else {
-      return <span>{tilt_name(wall.geometry.tilt)}</span>;
+      return TiltFmt(wall.geometry.tilt);
     }
   };
 

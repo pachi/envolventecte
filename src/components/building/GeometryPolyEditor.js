@@ -33,9 +33,7 @@ import iconselectnone from "../img/unselect-rows.svg";
 import iconduplicate from "../img/outline-file_copy-24px.svg";
 import { uuidv4 } from "../../utils";
 
-const Float2DigitsFmt = (cell, _row, _rowIndex, _formatExtraData) => (
-  <span>{Number(cell).toFixed(2)}</span>
-);
+import { Float2DigitsFmt, getFloatOrOld } from "./TableHelpers";
 
 /*
   The getElement function from customEditor takes two arguments,
@@ -149,8 +147,7 @@ const CoordsTable = ({ poly, setPoly }) => {
           afterSaveCell: (oldValue, newValue, row, column) => {
             // Convierte a número campos numéricos
             if (["X", "Y"].includes(column.dataField)) {
-              const value = parseFloat(newValue.replace(",", "."));
-              row[column.dataField] = isNaN(value) ? oldValue : value;
+              row[column.dataField] = getFloatOrOld(newValue, oldValue);
             }
           },
         })}

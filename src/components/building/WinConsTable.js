@@ -28,8 +28,8 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
+import { Float2DigitsFmt, getFloatOrOld } from "./TableHelpers";
 
-const Float2DigitsFmt = (cell, _row) => <span>{Number(cell).toFixed(2)}</span>;
 
 // Tabla de construcciones de huecos del edificio
 const WinConsTable = ({ selected, setSelected }) => {
@@ -148,9 +148,7 @@ const WinConsTable = ({ selected, setSelected }) => {
         blurToSave: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
           if (["U", "Ff", "gglwi", "gglshwi", "C_100"].includes(column.dataField)) {
-            // Convierte a número campos numéricos
-            const value = parseFloat(newValue.replace(",", "."));
-            row[column.dataField] = isNaN(value) ? oldValue : value;
+            row[column.dataField] = getFloatOrOld(newValue, oldValue);
           }
         },
       })}

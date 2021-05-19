@@ -28,38 +28,9 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import { azimuth_name, tilt_name } from "../../utils";
 import { GeometryPosEditor } from "./GeometryPosEditor";
 import { GeometryPolyEditor } from "./GeometryPolyEditor";
-import nullPosIcon from "../img/null_pos_icon.svg";
-import validPosIcon from "../img/valid_pos_icon.svg";
-import validPolyIcon from "../img/valid_poly_icon.svg";
-import nullPolyIcon from "../img/null_poly_icon.svg";
-
-const AzimuthFmt = (cell, _row) => <span>{azimuth_name(cell)}</span>;
-const TiltFmt = (cell, _row) => <span>{tilt_name(cell)}</span>;
-const PosFmt = (pos, _row) =>
-  pos !== null
-    ? `[${pos[0].toFixed(2)}, ${pos[1].toFixed(2)}, ${pos[2].toFixed(2)}]`
-    : "-";
-const PolyFmt = (poly, _row) =>
-  poly !== null && poly.length !== 0
-    ? `[${poly
-        .map((point) => `[${point[0].toFixed(2)}, ${point[1].toFixed(2)}]`)
-        .join(", ")}]`
-    : "-";
-const PosIconFmt = (pos, _row) =>
-  pos !== null ? (
-    <img src={validPosIcon} alt="+" />
-  ) : (
-    <img src={nullPosIcon} alt="-" />
-  );
-const PolyIconFmt = (poly, _row) =>
-  poly !== null && poly.length !== 0 ? (
-    <img src={validPolyIcon} alt="+" />
-  ) : (
-    <img src={nullPolyIcon} alt="-" />
-  );
+import { AzimuthFmt, TiltFmt, PosFmt, PolyFmt, PosIconFmt, PolyIconFmt } from "./TableHelpers";
 
 // Tabla de elementos de sombra del edificio
 const ShadesTable = ({ selected, setSelected }) => {
