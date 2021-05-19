@@ -60,17 +60,17 @@ const BuildingPage = ({ route }) => (
           <Tab eventKey={3} title="Huecos" className="pt-3">
             <HuecosView />
           </Tab>
-          <Tab eventKey={4} title="Puentes Térmicos" className="pt-3">
+          <Tab eventKey={4} title="Sombras" className="pt-3">
+            <ShadesView />
+          </Tab>
+          <Tab eventKey={5} title="Puentes Térmicos" className="pt-3">
             <PTsView />
           </Tab>
-          <Tab eventKey={5} title="Constr. opacos" className="pt-3">
+          <Tab eventKey={6} title="Constr. opacos" className="pt-3">
             <WallConsView />
           </Tab>
-          <Tab eventKey={6} title="Constr. huecos" className="pt-3">
+          <Tab eventKey={7} title="Constr. huecos" className="pt-3">
             <WinConsView />
-          </Tab>
-          <Tab eventKey={7} title="Sombras" className="pt-3">
-            <ShadesView />
           </Tab>
           <Tab eventKey={8} title="Datos generales" className="pt-3">
             <MetaParams />
