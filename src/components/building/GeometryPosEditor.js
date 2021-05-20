@@ -36,7 +36,7 @@ import { Modal, Button, ButtonGroup, ToggleButton } from "react-bootstrap";
 // No podemos devolver null porque es el valor que usan los editores para marcar que se cancela la edición
 export const GeometryPosEditor = React.forwardRef(
   ({ onUpdate, value, ...rest }, ref) => {
-    const posIsNull = value == null;
+    const posIsNull = value == null || value.length === 0;
     let x = 0.0,
       y = 0.0,
       z = 0.0;
@@ -78,16 +78,7 @@ export const GeometryPosEditor = React.forwardRef(
     };
 
     return (
-      <Modal
-        role="dialog"
-        show={show}
-        centered
-        onHide={() => handleClose()} // Evitar enviar acciones a la tabla posterior
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-        }}
-      >
+      <Modal role="dialog" show={show} centered onHide={() => handleClose()}>
         <Modal.Header closeButton>
           <Modal.Title>Posición del elemento</Modal.Title>
         </Modal.Header>
