@@ -78,7 +78,16 @@ export const GeometryPosEditor = React.forwardRef(
     };
 
     return (
-      <Modal role="dialog" show={show} centered onHide={() => handleClose()}>
+      <Modal
+        role="dialog"
+        show={show}
+        centered
+        onHide={() => handleClose()} // Evitar enviar acciones a la tabla posterior
+        onClick={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+        }}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Posición del elemento</Modal.Title>
         </Modal.Header>
