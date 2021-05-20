@@ -48,7 +48,8 @@ export function initObjectsFromModel(model, scene) {
   for (const wall of model.walls) {
     const { geometry } = wall;
     const { tilt, azimuth, position, polygon } = geometry;
-    if (!position) {
+    // Detecta muros sin definición geométrica completa
+    if (!position || !polygon || tilt === undefined || azimuth === undefined) {
       continue;
     }
 
@@ -69,7 +70,7 @@ export function initObjectsFromModel(model, scene) {
     const wallWindows = model.windows.filter((w) => w.wall === wall.id);
 
     for (const window of wallWindows) {
-      if (window.geometry.position === null || window.geometry.height * window.geometry.width === 0) continue;
+      if (!window.geometry.position || window.geometry.height * window.geometry.width === 0) continue;
       const winShape = windowShape(window);
       const winMesh = meshFromShape(winShape, wallTransform);
       winMesh.name = window.name;
