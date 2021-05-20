@@ -28,7 +28,20 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import { AzimuthFmt, TiltFmt, Float2DigitsFmt, BoundaryFmt, BoundaryOpts, getFloatOrOld } from "./TableHelpers";
+import {
+  AzimuthFmt,
+  TiltFmt,
+  Float2DigitsFmt,
+  BoundaryFmt,
+  BoundaryOpts,
+  getFloatOrOld,
+  PosIconFmt,
+  PosFmt,
+  PolyIconFmt,
+  PolyFmt,
+} from "./TableHelpers";
+import { GeometryPosEditor } from "./GeometryPosEditor";
+import { GeometryPolyEditor } from "./GeometryPolyEditor";
 
 // Tabla de elementos opacos
 const OpacosTable = ({ selected, setSelected }) => {
@@ -212,6 +225,52 @@ const OpacosTable = ({ selected, setSelected }) => {
           <br />
           <span style={{ fontWeight: "normal" }}>
             <i>[-]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "geometry.position",
+      text: "Posicion",
+      align: "center",
+      formatter: PosIconFmt,
+      title: PosFmt,
+      headerTitle: () =>
+        "Posición del polígono en coordenadas globales [x, y, z]. Para elementos sin definición geométrica completa no se define este elemento.",
+      editorRenderer: (editorProps, value) => (
+        <GeometryPosEditor {...editorProps} value={value} />
+      ),
+      headerAlign: "center",
+      headerClasses: "text-light bg-secondary",
+      headerFormatter: () => (
+        <>
+          Posición
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[x, y, z]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "geometry.polygon",
+      text: "Polígono",
+      align: "center",
+      formatter: PolyIconFmt,
+      title: PolyFmt,
+      headerTitle: () =>
+        "Lista de puntos 2D que configuran el polígono del elemento: [[x, y]...]. Para elementos sin definición geométrica completa no se define este elemento.",
+      editorRenderer: (editorProps, value) => (
+        <GeometryPolyEditor {...editorProps} value={value} />
+      ),
+      headerAlign: "center",
+      headerClasses: "text-light bg-secondary",
+      headerFormatter: () => (
+        <>
+          Polígono
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[[x, y]...]</i>{" "}
           </span>
         </>
       ),
