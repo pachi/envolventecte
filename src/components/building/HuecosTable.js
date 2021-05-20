@@ -28,7 +28,8 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import { Float2DigitsFmt, getFloatOrOld, TiltFmt, AzimuthFmt } from "./TableHelpers";
+import { Float2DigitsFmt, getFloatOrOld, TiltFmt, AzimuthFmt, WindowGeomIconFmt } from "./TableHelpers";
+import { GeometryWindowEditor } from "./GeometryWindowEditor";
 
 // Tabla de huecos del edificio
 const HuecosTable = ({ selected, setSelected }) => {
@@ -179,6 +180,20 @@ const HuecosTable = ({ selected, setSelected }) => {
           </span>
         </>
       ),
+    },
+    {
+      dataField: "geometry",
+      text: "Geometría",
+      align: "center",
+      formatter: WindowGeomIconFmt,
+      title: (v) => `posición: ${v.position}, ancho: ${v.width.toFixed(2)}, alto: ${v.height.toFixed(2)}, retranqueo: ${v.setback.toFixed(2)}`,
+      headerTitle: () =>
+        "Descripción geométrica del hueco (posición, ancho, alto, retranqueo). Posición en coordenadas de muro [x, y]. Para elementos sin definición geométrica completa la posición es una lista vacía.",
+      editorRenderer: (editorProps, value) => (
+        <GeometryWindowEditor {...editorProps} value={value} />
+      ),
+      headerAlign: "center",
+      headerClasses: "text-light bg-secondary",
     },
     {
       dataField: "wall_azimuth",

@@ -27,7 +27,8 @@ import nullPosIcon from "../img/null_pos_icon.svg";
 import validPosIcon from "../img/valid_pos_icon.svg";
 import validPolyIcon from "../img/valid_poly_icon.svg";
 import nullPolyIcon from "../img/null_poly_icon.svg";
-
+import fullWindowGeometryIcon from "../img/full_geom_icon.svg";
+import partialWindowGeometryIcon from "../img/partial_geom_icon.svg";
 
 // Formato y opciones de condiciones de contorno
 export const BOUNDARYTYPESMAP = {
@@ -130,6 +131,14 @@ export const PolyIconFmt = (poly, _row) =>
     <img src={validPolyIcon} alt="+" />
   ) : (
     <img src={nullPolyIcon} alt="-" />
+  );
+
+// Convierte geometría de hueco a icono según tenga o no punto de inserción
+export const WindowGeomIconFmt = (geometry, _row) =>
+  geometry.position ? (
+    <img src={fullWindowGeometryIcon} alt="+" />
+  ) : (
+    <img src={partialWindowGeometryIcon} alt="-" />
   );
 
 // Formato y opciones de condiciones de contorno
