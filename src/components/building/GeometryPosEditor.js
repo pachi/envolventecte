@@ -122,11 +122,9 @@ export const GeometryPosEditor = React.forwardRef(
               className={
                 (rest.editorClass || "") + " form-control editor edit-text"
               }
-              // style={{ display: "inline", width: "100%" }}
               type="text"
               size="7"
               value={xPos}
-              // onBlur={updateData}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   inputYRef.current.focus();
@@ -145,11 +143,9 @@ export const GeometryPosEditor = React.forwardRef(
               className={
                 (rest.editorClass || "") + " form-control editor edit-text"
               }
-              // style={{ display: "inline", width: "100%" }}
               type="text"
               size="7"
               value={yPos}
-              // onBlur={updateData}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   inputZRef.current.focus();
@@ -168,11 +164,9 @@ export const GeometryPosEditor = React.forwardRef(
               className={
                 (rest.editorClass || "") + " form-control editor edit-text"
               }
-              // style={{ display: "inline", width: "100%" }}
               type="text"
               size="7"
               value={zPos}
-              // onBlur={updateData}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   updateData();
