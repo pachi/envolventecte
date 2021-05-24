@@ -348,7 +348,7 @@ const K_contrib = (elem_au, a) => {
 };
 
 const K_pct = (elem_au, a, K) => {
-  if (a && a > 0.0001 && K && K > 0.0001) {
+  if (a && a > 0.0001 && K && Math.abs(K) > 0.0001) {
     return (100 * elem_au) / a / K;
   } else return null;
 };
