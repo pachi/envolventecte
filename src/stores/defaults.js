@@ -24,17 +24,6 @@ SOFTWARE.
 import { uuidv4 } from "../utils.js";
 
 
-export const DEFAULT_SHADE = () => ({
-  id: uuidv4(),
-  name: `Sombra_${uuidv4()}`,
-  geometry: {
-    azimuth: 0.0,
-    tilt: 90.0,
-    position: null,
-    polygon: []
-  }
-});
-
 export const DEFAULT_SPACE = () => ({
   id: uuidv4(),
   name: `Espacio_${uuidv4()}`,
@@ -76,6 +65,17 @@ export const DEFAULT_WINDOW = () => ({
     height: 1.0,
     width: 1.0,
     setback: 0.2
+  }
+});
+
+export const DEFAULT_SHADE = () => ({
+  id: uuidv4(),
+  name: `Sombra_${uuidv4()}`,
+  geometry: {
+    azimuth: 0.0,
+    tilt: 90.0,
+    position: null,
+    polygon: []
   }
 });
 
