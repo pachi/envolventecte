@@ -33,16 +33,8 @@ const formatted = (elem, bold = false) => (bold ? <b>{elem}</b> : <>{elem}</>);
 
 const IndicatorsKDetail = ({ isShown }) => {
   const appstate = useContext(AppState);
-  const {
-    K,
-    summary,
-    roofs,
-    floors,
-    walls,
-    windows,
-    ground,
-    tbs,
-  } = appstate.he1_indicators.K_data;
+  const { K, summary, roofs, floors, walls, windows, ground, tbs } =
+    appstate.he1_indicators.K_data;
   const {
     a,
     au,
@@ -213,7 +205,12 @@ const IndicatorsKDetail = ({ isShown }) => {
           </p>
         </Col>
       </Row>
-      <svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="0"
+        height="0"
+        style={ {position:"absolute"}}
+      >
         <defs>
           <pattern
             id="pattern-diagonal"
