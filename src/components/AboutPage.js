@@ -24,11 +24,13 @@ SOFTWARE.
 import React from "react";
 import { Alert, Col, Container, Image, Row } from "react-bootstrap";
 
+import { version } from "../../package.json";
 import Footer from "./Footer";
 import NavBar from "./Nav";
 import FotoPachi from "./img/FotoPachi.jpg";
 import FotoDani from "./img/FotoDani.jpg";
 import FotoMarta from "./img/FotoMarta.jpg";
+import { get_version } from "wasm-envolventecte";
 
 const AboutPage = (props) => (
   <Container fluid>
@@ -73,6 +75,12 @@ const AboutPage = (props) => (
         <p>
           Marta Sorribes Gil, <i>msorribes@ietcc.csic.es</i>
         </p>
+      </Col>
+    </Row>
+    <Row>
+      <Col>
+        <h2>Versión:</h2>
+        <p>EnvolventeCTE: {version} (BEModel: { get_version() })</p>
       </Col>
     </Row>
     <Row>
