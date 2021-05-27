@@ -36,6 +36,7 @@ import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
 import KDetail from "./IndicatorsKDetail";
+import UDetail from "./IndicatorsUDetail";
 import QSolJulDetail from "./IndicatorsQSolJulDetail";
 import N50Detail from "./IndicatorsN50Detail";
 
@@ -162,7 +163,10 @@ const IndicatorsPanel = () => {
       </Collapse>
       <Collapse in={details}>
         <Card body bg="light" border="info" className="mb-3">
+          {/* isShown se podría eliminar para todos estos controles */}
           <KDetail isShown={details} />
+          <hr />
+          <UDetail isShown={details} />
           <hr />
           <QSolJulDetail isShown={details} />
           <hr />
