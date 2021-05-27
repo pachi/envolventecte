@@ -25,7 +25,7 @@ import React, { useContext } from "react";
 import { Col, Row, Table } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
-import {N50ChartPie as N50Chart} from "./IndicatorsN50Chart";
+import { N50ChartPie as N50Chart } from "./IndicatorsN50Chart";
 // import {N50ChartBar as N50Chart} from "./IndicatorsN50Chart";
 import AppState from "../../stores/AppState";
 import { round_or_dash } from "../../utils";
@@ -92,9 +92,16 @@ const IndicatorsN50Detail = ({ isShown }) => {
           <p>
             <b>Tasa de renovación de aire a 50 Pa (teórica)</b>
           </p>
-          <p>Permeabilidad de opacos calculada según criterio de DB-HE:</p>
+          <p>
+            Permeabilidad al aire de referencia de los opacos, obtenida según
+            criterio de DB-HE:
+          </p>
           <p>
             C<sub>o, ref</sub> = {walls_c_ref.toFixed(2)} m³/h·m²
+          </p>
+          <p>
+            Permeabilidad al aire de referencia del conjunto de la envolvente
+            térmica a partir de valores de referencia:
           </p>
           <p>
             <b>
@@ -115,11 +122,15 @@ const IndicatorsN50Detail = ({ isShown }) => {
             <b>Tasa de renovación de aire a 50 Pa</b>
           </p>
           <p>
-            Permeabilidad de opacos obtenida mediante ensayo, si está
-            disponible, o según criterio del DB-HE:
+            Permeabilidad al aire de los opacos obtenida mediante ensayo, si
+            está disponible, o según criterio del DB-HE:
           </p>
           <p>
             C<sub>o</sub> = {walls_c.toFixed(2)} m³/h·m²
+          </p>
+          <p>
+            Permeabilidad al aire del conjunto de la envolvente térmica obtenida
+            mediante ensayo, si está disponible, o según criterio del DB-HE:
           </p>
           <p>
             <b>

@@ -178,8 +178,8 @@ const IndicatorsKDetail = ({ isShown }) => {
         <Col>
           <h3>Transmitancia térmica global (K)</h3>
           <p>
-            Transmisión de calor a través de la envolvente térmica (huecos,
-            opacos y puentes térmicos)
+            Indicador relativo a la transmisión de calor por conducción a través
+            de la envolvente térmica (huecos, opacos y puentes térmicos)
           </p>
           <p>
             H<sub>tr,adj</sub> &asymp; &sum;<sub>x</sub> b<sub>tr,x</sub> ·
@@ -209,7 +209,7 @@ const IndicatorsKDetail = ({ isShown }) => {
         xmlns="http://www.w3.org/2000/svg"
         width="0"
         height="0"
-        style={ {position:"absolute"}}
+        style={{ position: "absolute" }}
       >
         <defs>
           <pattern
