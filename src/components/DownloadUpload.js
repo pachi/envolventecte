@@ -26,38 +26,13 @@ import { Button, Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 // import DevTools from 'mobx-react-devtools';
 
-import { hash } from "../utils.js";
-
 import AppState from "../stores/AppState";
 import Dropzone from "./DropZone.js";
 
-import icondownload from "./img/baseline-archive-24px.svg";
 import iconclearmodel from "./img/outline-new_document-24px.svg";
 
 const DownloadUpload = observer(() => {
   const appstate = useContext(AppState);
-
-  const handleDownload = (e) => {
-    const contents = appstate.asJSON;
-    const contenthash = hash(contents).toString(16);
-    const filename = `EnvolventeCTE-${contenthash}.json`;
-    const blob = new Blob([contents], { type: "application/json" });
-    const uri = URL.createObjectURL(blob);
-    // from http://stackoverflow.com/questions/283956/
-    const link = document.createElement("a");
-    if (typeof link.download === "string") {
-      link.href = uri;
-      link.download = filename;
-      // Firefox requires the link to be in the body
-      document.body.appendChild(link);
-      // Simulate click
-      link.click();
-      // Remove the link when done
-      document.body.removeChild(link);
-    } else {
-      window.open(uri);
-    }
-  };
 
   const handleUpload = (acceptedFiles, rejectedFiles, event) => {
     if (acceptedFiles.length > 0) {
@@ -82,8 +57,6 @@ const DownloadUpload = observer(() => {
     }
   };
 
-  const fileDownload = React.createRef();
-
   return (
     <Col>
       <Row>
@@ -104,25 +77,6 @@ const DownloadUpload = observer(() => {
             </li>
           </ul>
           <Dropzone onDrop={handleUpload} />
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <p>
-            También puede descargar un archivos con los datos del proyecto
-            actual, para volver a cargarlos más adelante, pulsando en el botón:
-          </p>
-          <p>
-            <Button
-              variant="primary"
-              block
-              ref={fileDownload}
-              onClick={(e) => handleDownload(e)}
-            >
-              <img src={icondownload} alt="Descargar datos de envolvente" />{" "}
-              Descargar datos de envolvente
-            </Button>
-          </p>
         </Col>
       </Row>
       <Row>
