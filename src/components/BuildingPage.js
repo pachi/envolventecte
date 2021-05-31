@@ -26,7 +26,6 @@ import { Col, Container, Row, Tabs, Tab } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 // import DevTools from 'mobx-react-devtools';
 
-import DownloadUpload from "./DownloadUpload";
 import Footer from "./Footer";
 import HuecosView from "./building/HuecosView";
 import IndicatorsPanel from "./building/IndicatorsPanel";
@@ -77,9 +76,6 @@ const BuildingPage = ({ route }) => (
           </Tab>
           <Tab eventKey={9} title="Vista" className="pt-3">
             <ThreeView />
-          </Tab>
-          <Tab eventKey={0} title="Carga / descarga de datos" className="pt-3">
-            <DownloadUpload />
           </Tab>
         </Tabs>
       </Col>

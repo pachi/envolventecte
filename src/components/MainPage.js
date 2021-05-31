@@ -21,80 +21,214 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React from "react";
-import { Alert, Col, Container, Row, Image } from "react-bootstrap";
+import { version } from "../../package.json";
+import { observer } from "mobx-react-lite";
+import React, { useContext } from "react";
+import { Alert, Button, Col, Container, Image, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
+import AppState from "../stores/AppState";
+import IndicatorsPanel from "./building/IndicatorsPanel";
+import Dropzone from "./DropZone.js";
 import Footer from "./Footer";
+import imglogo from "./img/logo.svg";
+import iconclearmodel from "./img/outline-new_document-24px.svg";
 import NavBar from "./Nav";
 
-import imglogo from "./img/logo.svg";
+const HelpPage = observer((props) => {
+  const appstate = useContext(AppState);
 
-const HelpPage = (props) => (
-  <Container fluid>
-    <NavBar route={props.route} />
-    <Row>
-      <Col md={3}>
-        <Image src={imglogo} width="90%" />
-      </Col>
-      <Col md={9}>
-        <h1>Envolvente CTE</h1>
-        <h3>Parámetros de eficiencia energética de la envolvente térmica</h3>
-        <p>
-          Esta aplicación facilita el cálculo de indicadores de calidad y
-          parámetros descriptivos de la envolvente térmica de los edificios para
-          su evaluación energética y para la aplicación del CTE DB-HE (2019).
-        </p>
-        <p>
-          Puede comenzar introduciendo la{" "}
-          <b>descripción de la envolvente térmica y sus elementos</b> en el
-          apartado <Link to="/building">Edificio</Link> y seleccionando la{" "}
-          <b>zona climática</b> en el desplegable del menú superior.
-        </p>
-        <p>
-          El apartado <Link to="/building">Edificio</Link> muestra en un panel
-          el valor actualizado y el desglose del cálculo de la{" "}
-          <b>transmitancia térmica global</b> (<b>K</b>), la tasa de renovación
-          de aire a 50 Pa (
-          <b>
-            n<sub>50</sub>
-          </b>
-          ) y del <b>parámetro de control solar</b> (
-          <b>
-            q<sub>sol;jul</sub>
-          </b>
-          ) de la envolvente definida. También muestra datos como la compacidad
-          (<b>V/A</b>) y el volumen bruto (<b>V</b>) y neto (
-          <b>
-            V<sub>int</sub>
-          </b>
-          ) del edificio.
-        </p>
-        <p>
-          Como ayuda para completar la descripción de la envolvente térmica
-          puede consultar:
-        </p>
-        <ul>
-          <li>
-            el apartado <Link to="/climate">Clima</Link>, para aquellos
-            parámetros relacionados con el clima exterior del edificio.
-          </li>
-          <li>
-            el apartado <Link to="/elements">Elementos</Link>, para parámetros
-            de elementos de la envolvente térmica que se pueden obtener a partir
-            de otros parámetros básicos.
-          </li>
-        </ul>
-      </Col>
-    </Row>
-    <Row>
-      <Alert variant="warning">
-        <b>NOTA:</b> Esta aplicación y la información contenida en ella no tiene
-        valor reglamentario.
-      </Alert>
-    </Row>
-    <Footer />
-  </Container>
-);
+  const handleUpload = (acceptedFiles, rejectedFiles, event) => {
+    if (acceptedFiles.length > 0) {
+      const file = acceptedFiles[0];
+      const reader = new FileReader();
+      reader.onload = (rawdata) => {
+        if (
+          file.name.includes("KyGananciasSolares.txt") ||
+          file.path.includes("KyGananciasSolares.txt")
+        ) {
+          appstate.loadData(rawdata.target.result, "FSHOBST");
+        } else if (
+          file.name.toLowerCase().includes(".ctehexml") ||
+          file.path.toLowerCase().includes(".ctehexml")
+        ) {
+          appstate.loadData(rawdata.target.result, "CTEHEXML");
+        } else {
+          appstate.loadData(rawdata.target.result, "JSON");
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  const dropHeight = "150px";
+  return (
+    <Container fluid>
+      <NavBar route={props.route} />
+      <Row>
+        <Col md={3} className="text-center">
+          <Image src={imglogo} width="90%" />
+          <Alert variant="warning">
+            <b>NOTA:</b> Esta aplicación y la información contenida en ella{" "}
+            <b>no tienen valor reglamentario</b>.
+          </Alert>
+        </Col>
+        <Col md={9}>
+          <Row>
+            <Col>
+              <h1>
+                EnvolventeCTE <small>(v.{version})</small>
+              </h1>
+              <p>
+                Aplicación para el cálculo de indicadores de calidad y
+                parámetros descriptivos de la envolvente térmica de los
+                edificios para la evaluación energética y aplicación del CTE
+                DB-HE (2019):
+              </p>
+              <ul>
+                <li>
+                  <b>transmitancia térmica global</b> (<b>K</b>)
+                </li>
+                <li>
+                  <b>tasa de renovación de aire a 50 Pa</b> (
+                  <b>
+                    n<sub>50</sub>
+                  </b>
+                  ) y valor de referencia (n<sub>50,ref</sub>)
+                </li>
+                <li>
+                  <b>parámetro de control solar</b> (
+                  <b>
+                    q<sub>sol;jul</sub>
+                  </b>
+                  )
+                </li>
+                <li>
+                  área útil a efectos del cálculo de indicadores energéticos (A
+                  <sub>util</sub>), compacidad (<b>V/A</b>) , volumen bruto (
+                  <b>V</b>) , volumen neto (
+                  <b>
+                    V<sub>int</sub>
+                  </b>
+                  ), ...
+                </li>
+              </ul>
+
+              <p>Los distintos apartados del programa permiten:</p>
+              <ul>
+                <li>
+                  <Link to="/building">Edificio</Link>: visualizar, introducir,
+                  editar los componentes de la envolvente térmica del edificio.
+                </li>
+                <li>
+                  <Link to="/climate">Clima</Link>: explorar diversos parámetros
+                  relacionados con el clima exterior del edificio.
+                </li>
+                <li>
+                  <Link to="/elements">Elementos</Link>: ayudas para el cálculo
+                  de parámetros descriptivos de algunos elementos de la
+                  envolvente térmica.
+                </li>
+              </ul>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <h3>
+                Parámetros de eficiencia energética de la envolvente térmica
+              </h3>
+              <p>Resultados obtenidos para el modelo actual:</p>
+              <IndicatorsPanel />
+              <Alert variant="info">
+                Pulse en el botón de "Detalles" para más información.
+              </Alert>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <h3>Carga de datos</h3>
+              <p>
+                Pulse este botón para generar un modelo vacío e introducir de
+                cero los elementos de la envolvente térmica:
+              </p>
+
+              <Button
+                variant="secondary"
+                block
+                onClick={(_e) => appstate.clearModel()}
+                title="Pulse para dejar el modelo actual vacío, sin elementos definidos"
+                style={{
+                  fontSize: 20,
+                  height: 50,
+                  marginTop: 20,
+                  marginBottom: 20,
+                }}
+              >
+                <img src={iconclearmodel} alt="Limpiar modelo" /> Modelo vacío
+              </Button>
+              <p>
+                Arrastre y suelte en el área inferior o pulse para importar
+                datos desde: un archivo <b>.json</b> generado por EnvolventeCTE,
+                un archivo <b>.ctehexml</b> de HULC, un archivo{" "}
+                <b>KyGananciasSolares.txt</b> de HULC (importación de factores
+                de sombras remotas de los huecos).
+              </p>
+            </Col>
+          </Row>
+          <Row style={{ fontSize: 18, height: dropHeight }}>
+            <Col>
+              <Dropzone
+                onDrop={handleUpload}
+                accept={"application/json, .json"}
+                message={
+                  <>
+                    <h3>EnvolventeCTE</h3>
+                    <p>
+                      Importar modelo desde archivo <i>.json</i> de{" "}
+                    </p>
+                  </>
+                }
+                containerHeight={dropHeight}
+              />
+            </Col>
+          </Row>
+          <Row style={{ paddingTop: 20, fontSize: 18, height: dropHeight }}>
+            <Col>
+              <Dropzone
+                onDrop={handleUpload}
+                accept={"application/octet-stream, .ctehexml"}
+                message={
+                  <>
+                    <h3>HULC</h3>
+                    <p>
+                      Importar modelo desde archivo <i>.ctehexml</i>
+                    </p>
+                  </>
+                }
+                containerHeight={dropHeight}
+              />
+            </Col>
+            <Col>
+              <Dropzone
+                onDrop={handleUpload}
+                accept={"text/plain, .txt"}
+                message={
+                  <>
+                    <h3>HULC</h3>
+                    <p>
+                      Importar factores de sombras remotas de los huecos desde
+                      archivo <i>KyGananciasSolares.txt</i>
+                    </p>
+                  </>
+                }
+                containerHeight={dropHeight}
+              />
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+      <Footer />
+    </Container>
+  );
+});
 
 export default HelpPage;
