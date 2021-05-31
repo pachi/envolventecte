@@ -66,7 +66,11 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
   return (
     <Navbar bg="dark" variant="dark" fixed="top">
       <Navbar.Brand>
-        <Link className="navbar-brand" to="/">
+        <Link
+          className="navbar-brand"
+          to="/"
+          title="EnvolventeCTE. Aplicación para el cálculo de indicadores de calidad y parámetros descriptivos de la envolvente térmica de los edificios para su evaluación energética y para la aplicación del CTE DB-HE (2019)"
+        >
           <img src={imglogo} height="40px" className="mr-2" alt="logo" />{" "}
           {projectName}
         </Link>
@@ -75,20 +79,26 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav>
           <LinkContainer to="/building" eventKey={2}>
-            <Nav.Link>Edificio</Nav.Link>
+            <Nav.Link title="Visualización, introducción y edición de los componentes de la envolvente térmica del edificio.">
+              Edificio
+            </Nav.Link>
           </LinkContainer>
           <span
             style={{ borderLeft: "1px solid gray", margin: "0px 25px" }}
           ></span>
           <LinkContainer to="/climate" eventKey={3}>
-            <Nav.Link>Clima</Nav.Link>
+            <Nav.Link title="Visualización y obtención de parámetros relacionados con el clima exterior del edificio.">
+              Clima
+            </Nav.Link>
           </LinkContainer>
           <LinkContainer to="/elements" eventKey={4}>
-            <Nav.Link>Elementos</Nav.Link>
+            <Nav.Link title="Ayudas para el cálculo de parámetros descriptivos de algunos elementos de la envolvente térmica del edificio.">
+              Elementos
+            </Nav.Link>
           </LinkContainer>
         </Nav>
         <Nav className="ml-auto pr-3">
-          <Nav.Link title="Descargar archivo de datos del modelo actual">
+          <Nav.Link title="Descarga del archivo de datos con la información del modelo actual.">
             <img
               src={icondownload}
               alt="Descargar datos de envolvente"
@@ -98,13 +108,13 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
             Descarga
           </Nav.Link>
           <LinkContainer to="/help" eventKey={5}>
-            <Nav.Link>
+            <Nav.Link title="Ayuda de la aplicación">
               <img src={iconhelp} alt="Ayuda" /> Ayuda
             </Nav.Link>
           </LinkContainer>
           <LinkContainer to="/about" eventKey={6}>
             <Nav.Link>
-              <Nav.Item>
+              <Nav.Item title="Infomración sobre autoría, licencia, etc de la aplicación">
                 <img src={iconinfo} alt="Créditos" /> Créditos
               </Nav.Item>
             </Nav.Link>
