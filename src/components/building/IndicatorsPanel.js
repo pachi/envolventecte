@@ -120,7 +120,7 @@ const IndicatorsPanel = () => {
           </Col>
           <Col
             md={3}
-            title="Volumen habitable interior de la envolvente térmica (volumen neto s-t) [m³]"
+            title="Volumen interior de la envolvente térmica (volumen neto s-t) [m³]"
           >
             V<sub>int</sub> = {vol_env_net.toFixed(2)} m³
           </Col>
