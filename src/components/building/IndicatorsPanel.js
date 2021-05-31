@@ -65,12 +65,12 @@ const IndicatorsPanel = () => {
     <>
       <Card body bg="light" id="indicatorscard">
         <Row>
-          <Col md={3} title="Transmitancia térmica global del edificio">
+          <Col md={3} title="Transmitancia térmica global del edificio [W/m²K]">
             <b>
               <i>K</i> = {K.toFixed(2)} <i>W/m²K</i>
             </b>
           </Col>
-          <Col md={3} title="Indicador de control solar">
+          <Col md={3} title="Indicador de control solar [kWh/m²·mes]">
             <b>
               <i>
                 q<sub>sol;jul</sub>
@@ -78,7 +78,7 @@ const IndicatorsPanel = () => {
               = {area_ref !== 0 ? q_soljul.toFixed(2) : "-"} <i>kWh/m²/mes</i>
             </b>
           </Col>
-          <Col md={3} title="Tasa de renovación de aire a 50 Pa">
+          <Col md={3} title="Tasa de renovación de aire a 50 Pa [1/h]">
             <b>
               <i>
                 n<sub>50</sub>
@@ -109,7 +109,7 @@ const IndicatorsPanel = () => {
           >
             V/A = {compacity.toFixed(2)} m³/m²
           </Col>
-          <Col md={3} title="Tasa de renovación de aire teórica a 50 Pa">
+          <Col md={3} title="Tasa de renovación de aire teórica a 50 Pa [1/h]">
             <i>
               n<sub>50,ref</sub>
             </i>{" "}
