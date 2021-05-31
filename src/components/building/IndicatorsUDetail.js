@@ -36,19 +36,6 @@ const IndicatorsUDetail = ({ isShown }) => {
   const { K, roofs, floors, walls, windows, ground } =
     appstate.he1_indicators.K_data;
 
-  console.log(
-    "techos: ",
-    roofs,
-    "\nsuelos: ",
-    floors,
-    "\nterreno: ",
-    ground,
-    "\nmuros: ",
-    walls,
-    "\nventanas: ",
-    windows
-  );
-
   // Elementos detallados: título, a, au, tipo, ¿con formato especial?
   const all_elements = [
     ["Huecos", windows, "#0096e1"],
@@ -68,7 +55,6 @@ const IndicatorsUDetail = ({ isShown }) => {
       u_min,
       u_max,
     }));
-    // .filter((d) => d.a > 0);
 
   return (
     <>
