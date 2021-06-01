@@ -1,18 +1,16 @@
 # Bugs ES
 
 - Revisar compatibilidad en Chrome: en particular los cambios en datos generales
-- Comprobar por qué se carga un n50 inicialmente que no está en el archivo (no hay ensayo pero se coge uno que no es el n50_ref).
-- En la gráfica de K eliminar espacio blanco antes de tabla viendo cómo se oculta el display="none" del svg con los defs en IconsOrientaciones.js de climas.
+- ¿Comprobar por qué se carga un n50 inicialmente que no está en el archivo (no hay ensayo pero se coge uno que no es el n50_ref).?
+- Comprobar que se calcula bien el volumen de espacios con techos inclinados (suma de volúmenes con signo de los tetraedros https://stackoverflow.com/questions/1406029/how-to-calculate-the-volume-of-a-3d-mesh-object-the-surface-of-which-is-made-up-t )
 
 # Mejoras ES
 
-- Replantear pantalla de entrada
-    - Logo + información general
-    - Panel de indicadores para el archivo cargado
-    - Área de carga de datos
-- Mostrar inclinación como icono (una barra con una flecha indicando la normal)
-- Mostrar azimuth como icono (igual que en climas)
-- Añadir definición geométrica en todos los constructores de elementos del modelo (ahora mismo no se añade geometry en huecos / opacos, ni position, polygon en sombras)
+- Agrupar edición de geometría en opacos y sombras para que tenga inserción y polígono, parecido a los huecos
+    - Ponemos varias filas: posición y un notebook de: polígono | alto + ancho | area | alto + area
+- Mostrar inclinación como icono (una barra con una flecha indicando la normal)?
+- Mostrar azimuth como icono (igual que en climas)?
+- Añadir valores de referencia HE nuevos y existentes, apéndice E, etc a gráficas
 - Mostrar tooltip en los elementos con avisos
 - ThreeView
     - Roseta de norte
@@ -22,20 +20,26 @@
 
 # Nueva funcionalidad
 
-- Editor de geometría
-- Añadir cálculo de F_sh;obst
+- Huecos no rectangulares
+- Muros con puntos 3D
+- Definición de lamas en huecos
+- Conversión de aletas y viseras de huecos en HULC a sombras independientes (pensar interacción con Fshobst).
+- A partir de la información geométrica, añadir:
+    - cálculo de F_sh;obst
+    - estimación de longitudes de PTs
 - Elementos: calcular acristalamientos con sombras móviles usando directamente parámetros U_gl, g_gl_n, tau_e_B y ro_e_B
-- Construcciones de opacos definidas por capas + editor de capas
-- Trasladar construcción a modelo desde "Elementos" o... editor de elemento
+- Elementos: añadir nueva construcción de hueco a partir de pestaña de elementos
+- Elementos: Construcciones de opacos definidas por capas + editor de capas
+- Construcciones de opacos: posibilidad de usar definición actual o por capas
 
 # Reorganizaciones
 
 ## Rust + ES
-- Cambiar datos para que todos los elementos con definición geométrica tengan la misma estructura
-    - geometry: {tilt, azimuth, position, polygon}, también las sombras
 - Cambiar estructura de datos de elementos: ElementData (antes Uvalues):
     - U_mean? -> en KSummary y en UValues (cambiar a ElementData)
-    - Comprobación de si un elemento está dentro o fuera de la ET: wall_inside_tenv de utils.js -> llevarlo a UValues -> ElementData
+    - Comprobación de si un elemento está dentro o fuera de la ET:
+        - wall_inside_tenv de utils.js -> llevarlo a UValues -> ElementData
+        - o tener un apartado con ids de elementos dentro de la ET
 - Ver si es posible llevar la salida del logging de Rust a los avisos de wasm
     - Guardar en cada bloque de hulc los avisos y recolectarlos en la conversión a objetos y luego trasladarlos a wasm
 - Llevar a wasm:
@@ -44,6 +48,5 @@
     - Default de elementos (constructor), con implementaciones manuales (ver uuid)
 
 ## ES
-- Mover a utils.js diccionarios de tipos de climas, orientaciones, etc.
 - ¿Función model_to_state(JSONmodel) que descomponga el modelo y lo lleve a appstate?
 - Trasladar datos a public/data? (usando luego fetch o direcciones como <a href={process.env.PUBLIC_URL + "/data/zcraddata.json"}>Enlace</a>)
