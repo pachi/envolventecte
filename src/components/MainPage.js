@@ -146,9 +146,14 @@ const HelpPage = observer((props) => {
           <Row>
             <Col>
               <h3>Carga de datos</h3>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <h4>Opción 1: modelo nuevo</h4>
               <p>
-                Pulse este botón para generar un modelo vacío e introducir de
-                cero los elementos de la envolvente térmica:
+                Pulse este botón para partir de un modelo vacío en el que
+                introducir de cero los elementos de la envolvente térmica:
               </p>
 
               <Button
@@ -165,12 +170,15 @@ const HelpPage = observer((props) => {
               >
                 <img src={iconclearmodel} alt="Limpiar modelo" /> Modelo vacío
               </Button>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <h4>Opción 2: cargar modelo desde archivo de EnvolventeCTE</h4>
               <p>
                 Arrastre y suelte en el área inferior o pulse para importar
-                datos desde: un archivo <b>.json</b> generado por EnvolventeCTE,
-                un archivo <b>.ctehexml</b> de HULC, un archivo{" "}
-                <b>KyGananciasSolares.txt</b> de HULC (importación de factores
-                de sombras remotas de los huecos).
+                datos desde un archivo <b>.json</b> generado anteriormente por
+                EnvolventeCTE.
               </p>
             </Col>
           </Row>
@@ -182,8 +190,8 @@ const HelpPage = observer((props) => {
                 message={
                   <>
                     <h3>EnvolventeCTE</h3>
-                    <p>
-                      Importar modelo desde archivo <i>.json</i> de{" "}
+                    <p className="text-center">
+                      Importar modelo nuevo desde archivo <i>.json</i>
                     </p>
                   </>
                 }
@@ -191,32 +199,57 @@ const HelpPage = observer((props) => {
               />
             </Col>
           </Row>
-          <Row style={{ paddingTop: 20, fontSize: 18, height: dropHeight }}>
+          <Row>
             <Col>
+              <h4>
+                Opción 3: importar modelo y/o factores de sombras remotas desde
+                archivo de HULC
+              </h4>
+              <p>
+                Arrastre y suelte en el área inferior o pulse para importar
+                datos desde un archivo <b>.ctehexml</b> o un archivo{" "}
+                <b>KyGananciasSolares.txt</b> de HULC. Este último solo importa
+                los factores de sombras remotas al modelo ya cargado,
+                modificando la propiedad correspondiente de los huecos.
+              </p>
+            </Col>
+          </Row>
+          <Row style={{ paddingTop: 20, fontSize: 18, height: dropHeight }}>
+            <Col md={8}>
               <Dropzone
                 onDrop={handleUpload}
                 accept={"application/octet-stream, .ctehexml"}
                 message={
                   <>
                     <h3>HULC</h3>
-                    <p>
-                      Importar modelo desde archivo <i>.ctehexml</i>
+                    <p className="text-center">
+                      Importar modelo nuevo desde archivo <i>.ctehexml</i>
                     </p>
                   </>
                 }
                 containerHeight={dropHeight}
               />
             </Col>
-            <Col>
+            <Col
+              style={{
+                textAlign: "center",
+                verticalAlign: "middle",
+                fontSize: 40,
+              }}
+            >
+              +
+            </Col>
+            <Col md={3}>
               <Dropzone
                 onDrop={handleUpload}
                 accept={"text/plain, .txt"}
                 message={
                   <>
                     <h3>HULC</h3>
-                    <p>
-                      Importar factores de sombras remotas de los huecos desde
-                      archivo <i>KyGananciasSolares.txt</i>
+                    <p className="text-center">
+                      Importar al modelo existente <b>solo</b> los factores de
+                      sombras remotas de los huecos desde archivo{" "}
+                      <i>KyGananciasSolares.txt</i>
                     </p>
                   </>
                 }
