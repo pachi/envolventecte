@@ -4,7 +4,7 @@
 
 <p style="text-align: center"><img src="./docs/img/edificio_vista.png" width="400px" /></p>
 
-[`EnvolventeCTE`](http://pachi.github.io/envolventecte) es software libre, y se distribuye bajo las condiciones de la [licencia MIT](./LICENSE.txt). Ha sido desarrollada por el equipo de energía del [*Instituto Eduardo Torroja de Ciencias de la Construcción (IETcc-CSIC)*](https://www.ietcc.csic.es):
+[`EnvolventeCTE`](http://pachi.github.io/envolventecte) es software libre, y se distribuye bajo las condiciones de la [licencia MIT](./LICENSE.txt). Ha sido desarrollada por el equipo de energía del [_Instituto Eduardo Torroja de Ciencias de la Construcción (IETcc-CSIC)_](https://www.ietcc.csic.es):
 
 - Rafael Villar Burke
 - Daniel Jiménez González
@@ -12,7 +12,7 @@
 
 ## Funcionamiento del programa
 
-[`EnvolventeCTE` está disponible online  pulsando este enlace](http://pachi.github.io/envolventecte). Es necesario el uso de un navegador reciente y se recomienda el uso de [Mozilla Firefox](https://www.mozilla.org/es-ES/firefox/new/) para máxima compatibilidad.
+[`EnvolventeCTE` está disponible online pulsando este enlace](http://pachi.github.io/envolventecte). Es necesario el uso de un navegador reciente y se recomienda el uso de [Mozilla Firefox](https://www.mozilla.org/es-ES/firefox/new/) para máxima compatibilidad.
 
 A partir de una descripción de la envolvente (de sus parámetros energéticos básicos) y la zona climática del edificio (datos generales), la aplicación calcula diversos indicadores de eficiencia energética de la envolvente térmica, entre ellos los definidos en el CTE DB-HE (2019):
 
@@ -46,11 +46,12 @@ Todos los datos son fácilmente editables haciendo doble click sobre la celda co
 
 <p style="text-align: center"><img src="./docs/img/edificio_opacos.png" width="400px" /></p>
 
-Para la introducción de datos puede también importar archivos `.ctehexml` de la *Herramienta Unificada LIDER/CALENER (HULC)*, arrastrándolo en el área de importación de datos de la pestaña de carga y descarga de datos.
+Para la introducción de datos puede también importar archivos `.ctehexml` de la _Herramienta Unificada LIDER/CALENER (HULC)_, arrastrándolo en el área de importación de datos de la pestaña de carga y descarga de datos.
 
 <p style="text-align: center"><img src="./docs/img/edificio_cargadescarga.png" width="400px" /></p>
 
 En ese mismo apartado puede descargar el modelo introducido, y sus modificaciones, en formato `JSON`, pudiéndolo volver a cargar en otro momento.
+
 ## Obtención de indicadores
 
 Al introducir o modificar datos del edificio, la aplicación actualiza en tiempo real los indicadores de eficiencia y, en el apartado de `Detalles`, se puede consultar un informe sobre la composición de los mismos, como ayuda al diagnóstico y diseño.
@@ -88,6 +89,15 @@ La aplicación permite obtener algunos parámetros descriptivos del comportamien
 Por ejemplo, para los huecos se puede obtener: la transmitancia térmica (U), el factor solar del vidrio a incidencia normal (g<sub>gl;n</sub>), el factor solar del hueco (g<sub>gl;wi</sub>), el factor solar del hueco teniendo en cuenta los sombreamientos solares móviles (g<sub>gl;sh;wi</sub>).
 
 <p style="text-align: center"><img src="./docs/img/elementos_acristalamiento.png" width="400px" /></p>
+
+## Limitaciones del programa
+
+### Importación de archivos HULC
+
+- no se importan las lamas, aleros y aletas definidos en los huecos
+- no se calculan correctamente los volúmenes de espacios con cubiertas inclinadas
+- no se importan muros definidos con puntos 3D ni huecos que no sean rectangulares
+- el factor de sombras remotas de los huecos debe importarse de forma separada, usando el archivo KyGananciasSolares.txt
 
 ## Licencia
 
