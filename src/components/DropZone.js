@@ -101,7 +101,7 @@ export default function StyledDropzone(props) {
   return (
     <div
       className="container"
-      style={{ height: containerHeight }}
+      style={{ minHeight: containerHeight }}
       title={title}
     >
       <div {...getRootProps({ style })}>
