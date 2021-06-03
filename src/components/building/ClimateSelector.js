@@ -42,6 +42,7 @@ const ClimateSelector = observer(({ ...props }) => {
           }}
           as="select"
           placeholder="select"
+          custom
         >
           {appstate.zoneslist.map((z) => (
             <option value={z} key={"zone_" + z}>
