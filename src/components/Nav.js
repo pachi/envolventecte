@@ -24,7 +24,7 @@ SOFTWARE.
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { Nav, Navbar } from "react-bootstrap";
+import { Form, Nav, Navbar, Col } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
 import { hash } from "../utils.js";
@@ -83,9 +83,7 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
               Edificio
             </Nav.Link>
           </LinkContainer>
-          <span
-            style={{ borderLeft: "1px solid gray", margin: "0px 25px" }}
-          ></span>
+          <span style={{ borderLeft: "1px solid gray", margin: "0px 25px" }} />
           <LinkContainer to="/climate" eventKey={3}>
             <Nav.Link title="Visualización y obtención de parámetros relacionados con el clima exterior del edificio.">
               Clima
@@ -98,6 +96,33 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
           </LinkContainer>
         </Nav>
         <Nav className="ml-auto pr-3">
+          <Nav.Link md={4} title="Zona climática, de acuerdo al DB-HE 2019, en la que se sitúa el edificio.">
+            <Form.Row>
+              <Form.Label htmlFor="climateselector" className="mr-2">
+                Zona Climática
+              </Form.Label>
+              <Col>
+                <Form.Control
+                  id="climateselector"
+                  size="sm"
+                  value={appstate.meta.climate || ""}
+                  onChange={(e) => {
+                    appstate.meta.climate = e.target.value;
+                  }}
+                  as="select"
+                  placeholder="Zona climática"
+                  custom
+                >
+                  {appstate.zoneslist.map((z) => (
+                    <option value={z} key={"zone_" + z}>
+                      {z}
+                    </option>
+                  ))}
+                </Form.Control>
+              </Col>
+            </Form.Row>
+          </Nav.Link>
+          <span style={{ borderLeft: "1px solid gray", margin: "0px 25px" }} />
           <Nav.Link title="Descarga del archivo de datos con la información del modelo actual.">
             <img
               src={icondownload}
