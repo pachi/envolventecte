@@ -78,9 +78,14 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav>
-          <LinkContainer to="/building" eventKey={2}>
+          <LinkContainer to="/building" eventKey={1}>
             <Nav.Link title="Visualización, introducción y edición de los componentes de la envolvente térmica del edificio.">
               Edificio
+            </Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/3d" eventKey={2}>
+            <Nav.Link title="Visualización tridimensional del modelo del edificio.">
+              Vista3D
             </Nav.Link>
           </LinkContainer>
           <span style={{ borderLeft: "1px solid gray", margin: "0px 25px" }} />
@@ -96,7 +101,10 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
           </LinkContainer>
         </Nav>
         <Nav className="ml-auto pr-3">
-          <Nav.Link md={4} title="Zona climática, de acuerdo al DB-HE 2019, en la que se sitúa el edificio.">
+          <Nav.Link
+            md={4}
+            title="Zona climática, de acuerdo al DB-HE 2019, en la que se sitúa el edificio."
+          >
             <Form.Row>
               <Form.Label htmlFor="climateselector" className="mr-2">
                 Zona Climática

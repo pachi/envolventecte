@@ -21,26 +21,40 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React from "react";
+import React, { useState } from "react";
 import { HashRouter, Redirect, Route, Switch } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "bootstrap/dist/css/bootstrap-theme.css";
-import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 
 import AboutPage from "./AboutPage";
+import BuildingPage from "./BuildingPage";
+import ThreeDPage from "./ThreeDPage";
 import ClimatePage from "./ClimatePage";
 import ElementsPage from "./ElementsPage";
-import BuildingPage from "./BuildingPage";
 import HelpPage from "./HelpPage";
 import MainPage from "./MainPage";
 
 const App = () => {
+  const [activeKey, setActiveKey] = useState("spaces");
+
   return (
     <HashRouter>
       <Switch>
         <Route exact path="/" render={(props) => <MainPage {...props} />} />
-        <Route exact path="/building" component={BuildingPage} />
+        <Route
+          exact
+          path="/building"
+          render={(props) => (
+            <BuildingPage
+              {...props}
+              activeKey={activeKey}
+              setActiveKey={setActiveKey}
+            />
+          )}
+        />
+        <Route exact path="/3d" component={ThreeDPage} />
         <Route exact path="/climate" component={ClimatePage} />
         <Route exact path="/elements" component={ElementsPage} />
         <Route exact path="/help" render={(props) => <HelpPage {...props} />} />

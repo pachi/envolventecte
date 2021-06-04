@@ -35,54 +35,60 @@ import OpacosView from "./building/OpacosView";
 import PTsView from "./building/PTsView";
 import ShadesView from "./building/ShadesView";
 import SpacesView from "./building/SpacesView";
-import ThreeView from "./three/ThreeView";
 import WallConsView from "./building/WallConsView";
 import WinConsView from "./building/WinConsView";
 
-const BuildingPage = ({ route }) => (
-  <Container fluid>
-    <NavBar route={route} />
-    <Row>
-      <Col>
-        <IndicatorsPanel />
-      </Col>
-    </Row>
-    <Row>
-      <Col>
-        <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-          <Tab eventKey={1} title="Espacios" className="pt-3">
-            <SpacesView />
-          </Tab>
-          <Tab eventKey={2} title="Opacos" className="pt-3">
-            <OpacosView />
-          </Tab>
-          <Tab eventKey={3} title="Huecos" className="pt-3">
-            <HuecosView />
-          </Tab>
-          <Tab eventKey={4} title="Sombras" className="pt-3">
-            <ShadesView />
-          </Tab>
-          <Tab eventKey={5} title="Puentes Térmicos" className="pt-3">
-            <PTsView />
-          </Tab>
-          <Tab eventKey={6} title="Constr. opacos" className="pt-3">
-            <WallConsView />
-          </Tab>
-          <Tab eventKey={7} title="Constr. huecos" className="pt-3">
-            <WinConsView />
-          </Tab>
-          <Tab eventKey={8} title="Datos generales" className="pt-3">
-            <MetaParams />
-          </Tab>
-          <Tab eventKey={9} title="Vista" className="pt-3">
-            <ThreeView />
-          </Tab>
-        </Tabs>
-      </Col>
-    </Row>
-    {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
-    <Footer />
-  </Container>
-);
+const BuildingPage = ({ route, activeKey, setActiveKey }) => {
+  return (
+    <Container fluid>
+      <NavBar route={route} />
+      <Row>
+        <Col>
+          <IndicatorsPanel />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Tabs
+            activeKey={activeKey}
+            onSelect={setActiveKey}
+            id="building_element_tabs"
+          >
+            <Tab eventKey="spaces" title="Espacios" className="pt-3">
+              <SpacesView />
+            </Tab>
+            <Tab eventKey="walls" title="Opacos" className="pt-3">
+              <OpacosView />
+            </Tab>
+            <Tab eventKey="windows" title="Huecos" className="pt-3">
+              <HuecosView />
+            </Tab>
+            <Tab eventKey="shadows" title="Sombras" className="pt-3">
+              <ShadesView />
+            </Tab>
+            <Tab
+              eventKey="thermal_bridges"
+              title="Puentes Térmicos"
+              className="pt-3"
+            >
+              <PTsView />
+            </Tab>
+            <Tab eventKey="wallcons" title="Constr. opacos" className="pt-3">
+              <WallConsView />
+            </Tab>
+            <Tab eventKey="windowcons" title="Constr. huecos" className="pt-3">
+              <WinConsView />
+            </Tab>
+            <Tab eventKey="metadata" title="Datos generales" className="pt-3">
+              <MetaParams />
+            </Tab>
+          </Tabs>
+        </Col>
+      </Row>
+      {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
+      <Footer />
+    </Container>
+  );
+};
 
 export default observer(BuildingPage);
