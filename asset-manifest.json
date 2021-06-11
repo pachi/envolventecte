@@ -2,17 +2,17 @@
   "files": {
     "main.js": "/envolventecte/static/js/main.ea74dbbe.chunk.js",
     "main.js.map": "/envolventecte/static/js/main.ea74dbbe.chunk.js.map",
-    "runtime-main.js": "/envolventecte/static/js/runtime-main.192e8dfd.js",
-    "runtime-main.js.map": "/envolventecte/static/js/runtime-main.192e8dfd.js.map",
+    "runtime-main.js": "/envolventecte/static/js/runtime-main.fb9360d0.js",
+    "runtime-main.js.map": "/envolventecte/static/js/runtime-main.fb9360d0.js.map",
     "static/css/2.eaadcd84.chunk.css": "/envolventecte/static/css/2.eaadcd84.chunk.css",
     "static/js/2.fd8a9849.chunk.js": "/envolventecte/static/js/2.fd8a9849.chunk.js",
     "static/js/2.fd8a9849.chunk.js.map": "/envolventecte/static/js/2.fd8a9849.chunk.js.map",
     "static/css/3.ee5f3a1b.chunk.css": "/envolventecte/static/css/3.ee5f3a1b.chunk.css",
-    "static/js/3.bd5b99ba.chunk.js": "/envolventecte/static/js/3.bd5b99ba.chunk.js",
-    "bf2533d6fe5417a8b967.module.wasm": "/envolventecte/bf2533d6fe5417a8b967.module.wasm",
-    "static/js/3.bd5b99ba.chunk.js.map": "/envolventecte/static/js/3.bd5b99ba.chunk.js.map",
+    "static/js/3.17f4ffe3.chunk.js": "/envolventecte/static/js/3.17f4ffe3.chunk.js",
+    "00b0234f241dd955698a.module.wasm": "/envolventecte/00b0234f241dd955698a.module.wasm",
+    "static/js/3.17f4ffe3.chunk.js.map": "/envolventecte/static/js/3.17f4ffe3.chunk.js.map",
     "index.html": "/envolventecte/index.html",
-    "precache-manifest.f2aed941143ff2c2f5166127e14b7b51.js": "/envolventecte/precache-manifest.f2aed941143ff2c2f5166127e14b7b51.js",
+    "precache-manifest.f2564a29c7be83cd4f33e3e45090a625.js": "/envolventecte/precache-manifest.f2564a29c7be83cd4f33e3e45090a625.js",
     "service-worker.js": "/envolventecte/service-worker.js",
     "static/css/2.eaadcd84.chunk.css.map": "/envolventecte/static/css/2.eaadcd84.chunk.css.map",
     "static/css/3.ee5f3a1b.chunk.css.map": "/envolventecte/static/css/3.ee5f3a1b.chunk.css.map",
@@ -40,7 +40,7 @@
     "static/media/valid_pos_icon.svg": "/envolventecte/static/media/valid_pos_icon.45a75049.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.192e8dfd.js",
+    "static/js/runtime-main.fb9360d0.js",
     "static/js/main.ea74dbbe.chunk.js"
   ]
 }
