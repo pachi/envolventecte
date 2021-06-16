@@ -152,7 +152,11 @@ const ShadingFactorsTable = ({ data }) => {
                 {MESES.map((m) => (
                   <th key={m}>{m}</th>
                 ))}
-                <th>Media<br/>estacional</th>
+                <th>
+                  Media
+                  <br />
+                  estacional
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -177,7 +181,14 @@ const ShadingFactorsTable = ({ data }) => {
                         {v.toFixed(2)} <FshwithIcon fsh={v} />
                       </td>
                     ))}
-                    <td key={`fshwith_mean_${surfidx}`} style={{ textAlign: "center", fontWeight: "bold", backgroundColor: "rgba(0.0, 0.0, 0.0, 0.15)" }}>
+                    <td
+                      key={`fshwith_mean_${surfidx}`}
+                      style={{
+                        textAlign: "center",
+                        fontWeight: "bold",
+                        backgroundColor: "rgba(0.0, 0.0, 0.0, 0.15)",
+                      }}
+                    >
                       {meanVals[surfidx].toFixed(2)}{" "}
                       <FshwithIcon fsh={meanVals[surfidx]} />
                     </td>
@@ -193,7 +204,8 @@ const ShadingFactorsTable = ({ data }) => {
           <div className="text-info">
             <p>
               La tabla anterior recoge la fracción del tiempo (mensual) que el
-              dispositivo de sombra móvil está conectado.
+              dispositivo de sombra móvil está conectado (se supera el nivel de
+              irradiación indicado).
             </p>
             <p>
               Estos valores pueden resultar útiles para obtener el factor solar
