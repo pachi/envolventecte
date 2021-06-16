@@ -22,20 +22,21 @@ SOFTWARE.
 */
 
 import React, { useState } from "react";
-import {
-  Col,
-  FormLabel,
-  Form,
-  FormControl,
-  FormGroup,
-  Row,
-} from "react-bootstrap";
+import { Col, Form, Row } from "react-bootstrap";
 
 import { OrientaIcon } from "./IconsOrientaciones";
 import { FshwithIcon } from "./IconsFshwith";
 
 const LEVELS = ["200", "300", "500"];
 const MESES = "ENE,FEB,MAR,ABR,MAY,JUN,JUL,AGO,SET,OCT,NOV,DIC".split(",");
+const DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+const selectedMonths = (start, end) => {
+  const startIdx = MESES.indexOf(start);
+  const endIdx = MESES.indexOf(end);
+  // console.log(MESES.slice(startIdx, endIdx + 1));
+  return [startIdx, endIdx];
+};
 
 // Tabla de factores de reducción para dispositivos solares móviles
 //
@@ -45,6 +46,21 @@ const MESES = "ENE,FEB,MAR,ABR,MAY,JUN,JUL,AGO,SET,OCT,NOV,DIC".split(",");
 // import { FshwithSprite } from "./IconsFshwith"; -> <FshwithSprite/>
 const ShadingFactorsTable = ({ data }) => {
   const [showlevel, setShowlevel] = useState("500");
+  const [startMonth, setStartMonth] = useState("JUN");
+  const [endMonth, setEndMonth] = useState("SET");
+  const [selStart, selEnd] = selectedMonths(startMonth, endMonth);
+
+  const meanVals = data.map((d) => {
+    const vals = d[`f_shwith${showlevel}`].slice(selStart, selEnd + 1);
+    const days = DAYS.slice(selStart, selEnd + 1);
+    return (
+      vals
+        .map((val, idx) => [val, days[idx]])
+        .map(([val, days]) => val * days)
+        .reduce((sum, x) => sum + x) / days.reduce((sum, x) => sum + x)
+    );
+  });
+
   return (
     <Col>
       <Row>
@@ -54,30 +70,73 @@ const ShadingFactorsTable = ({ data }) => {
           </h4>
         </Col>
       </Row>
+      <Form>
+        <Form.Group as={Row} controlId="formControlsIrradiationLevel">
+          <Form.Label column md={6}>
+            Nivel de irradiación de activación / desactivación del sombreamiento
+            solar móvil (W/m²):
+          </Form.Label>
+          <Col>
+            <Form.Control
+              value={showlevel}
+              onChange={(e) => setShowlevel(e.target.value)}
+              as="select"
+              placeholder="select"
+            >
+              {LEVELS.map((z) => (
+                <option value={z} key={"f_shwith" + z}>
+                  {z}
+                </option>
+              ))}
+            </Form.Control>
+          </Col>
+        </Form.Group>
+      </Form>
       <Row>
         <Col>
-          <Form inline>
-            <FormGroup controlId="formControlsIrradiationLevel">
-              <FormLabel>
-                Nivel de irradiación de activación / desactivación del
-                sombreamiento solar móvil (W/m²):
-              </FormLabel>{" "}
-              <FormControl
-                value={showlevel}
-                onChange={(e) => setShowlevel(e.target.value)}
-                as="select"
-                placeholder="select"
-              >
-                {LEVELS.map((z) => (
-                  <option value={z} key={"f_shwith" + z}>
-                    {z}
-                  </option>
-                ))}
-              </FormControl>
-            </FormGroup>
-          </Form>
+          <p>Activación de elementos de sombra estacionales:</p>
         </Col>
       </Row>
+      <Form>
+        <Form.Group as={Row} controlId="formControlsSummerMonths">
+          <Form.Label column md={6}>
+            Mes de inicio:
+          </Form.Label>
+          <Col>
+            <Form.Control
+              value={startMonth}
+              onChange={(e) => setStartMonth(e.target.value)}
+              as="select"
+              placeholder="select"
+            >
+              {MESES.map((z) => (
+                <option value={z} key={"start_month_" + z}>
+                  {z}
+                </option>
+              ))}
+            </Form.Control>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} controlId="formControlsSummerMonths">
+          <Form.Label column md={6}>
+            Mes de finalización:
+          </Form.Label>
+          <Col>
+            <Form.Control
+              value={endMonth}
+              onChange={(e) => setEndMonth(e.target.value)}
+              as="select"
+              placeholder="select"
+            >
+              {MESES.map((z) => (
+                <option value={z} key={"end_month_" + z}>
+                  {z}
+                </option>
+              ))}
+            </Form.Control>
+          </Col>
+        </Form.Group>
+      </Form>
       <Row style={{ marginTop: "2em" }}>
         <Col>
           <table
@@ -93,10 +152,11 @@ const ShadingFactorsTable = ({ data }) => {
                 {MESES.map((m) => (
                   <th key={m}>{m}</th>
                 ))}
+                <th>Media<br/>estacional</th>
               </tr>
             </thead>
             <tbody>
-              {data.map((d) => {
+              {data.map((d, surfidx) => {
                 const level = showlevel;
                 return (
                   <tr key={"f_shwith200_" + d.surfname}>
@@ -106,10 +166,21 @@ const ShadingFactorsTable = ({ data }) => {
                     </td>
                     <td style={{ textAlign: "center" }}>I &gt; {level}</td>
                     {d[`f_shwith${level}`].map((v, i) => (
-                      <td key={`fshwith${level}_${i}`}>
+                      <td
+                        key={`fshwith${level}_${i}`}
+                        style={
+                          i >= selStart && i <= selEnd
+                            ? { backgroundColor: "rgba(0.0, 0.0, 0.0, 0.15)" }
+                            : null
+                        }
+                      >
                         {v.toFixed(2)} <FshwithIcon fsh={v} />
                       </td>
                     ))}
+                    <td key={`fshwith_mean_${surfidx}`} style={{ textAlign: "center", fontWeight: "bold", backgroundColor: "rgba(0.0, 0.0, 0.0, 0.15)" }}>
+                      {meanVals[surfidx].toFixed(2)}{" "}
+                      <FshwithIcon fsh={meanVals[surfidx]} />
+                    </td>
                   </tr>
                 );
               })}
