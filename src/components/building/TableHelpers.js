@@ -55,8 +55,8 @@ export const THERMALBRIDGETYPESMAP = {
   GROUNDFLOOR: "SOLERA",
   PILLAR: "PILAR",
   WINDOW: "HUECO",
-  GENERIC: "GENÉRICO"
-}
+  GENERIC: "GENÉRICO",
+};
 
 // Devuelve el campo convertido a valor numérico o el valor previo
 export const getFloatOrOld = (newValue, oldValue) => {
