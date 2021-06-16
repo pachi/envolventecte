@@ -28,7 +28,11 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import { Float2DigitsFmt, getFloatOrOld, TiltFmt, AzimuthFmt, WindowGeomIconFmt } from "./TableHelpers";
+import {
+  Float2DigitsFmt,
+  getFloatOrOld,
+  WindowGeomIconFmt,
+} from "./TableHelpers";
 import { GeometryWindowEditor } from "./GeometryWindowEditor";
 
 // Tabla de huecos del edificio
@@ -46,20 +50,12 @@ const HuecosTable = ({ selected, setSelected }) => {
     .filter((e) => e.level === "DANGER")
     .map((e) => e.id);
 
-  const wallOrientMap = Object.fromEntries(appstate.walls.map(w => [w.id, w.geometry.azimuth]));
-  const WindowOrientationFmt = (_cell, row, _rowIndex, _formatExtraData) => {
-    const azimuth = wallOrientMap[row.wall];
-    return AzimuthFmt(azimuth)
-  };
-
-  const WindowTiltFmt = (_cell, row, _rowIndex, _formatExtraData) => {
-    const wall = appstate.walls.find((s) => s.id === row.wall);
-    if (wall === undefined) {
-      return <span>-</span>;
-    } else {
-      return TiltFmt(wall.geometry.tilt);
-    }
-  };
+  const wallData = Object.fromEntries(
+    appstate.walls.map((w) => [
+      w.id,
+      { azimuth: w.geometry.azimuth, tilt: w.geometry.tilt, name: w.name },
+    ])
+  );
 
   // Diccionario para determinar si el hueco está o no dentro de la ET
   const is_outside_tenv = new Map();
@@ -79,15 +75,13 @@ const HuecosTable = ({ selected, setSelected }) => {
   appstate.wincons.map((s) => (winconsMap[s.id] = s.name));
   const WinconsFmt = (cell, _row) => <span>{winconsMap[cell]}</span>;
   const WinconsOpts = Object.keys(winconsMap).map((k) => {
-    return { value: k, label: winconsMap[k], };
+    return { value: k, label: winconsMap[k] };
   });
 
   // Formato y opciones de opacos
-  const wallsMap = new Map();
-  appstate.walls.map((s) => (wallsMap[s.id] = s.name));
-  const WallsFmt = (cell, _row) => <span>{wallsMap[cell]}</span>;
-  const WallsOpts = Object.keys(wallsMap).map((k) => {
-    return { value: k, label: wallsMap[k] };
+  const WallsFmt = (cell, _row) => <span>{wallData[cell].name}</span>;
+  const WallsOpts = Object.keys(wallData).map((k) => {
+    return { value: k, label: wallData[k].name };
   });
 
   // Transmitancias de huecos
@@ -186,7 +180,11 @@ const HuecosTable = ({ selected, setSelected }) => {
       text: "Geometría",
       align: "center",
       formatter: WindowGeomIconFmt,
-      title: (v) => `posición: ${v.position}, ancho: ${v.width.toFixed(2)}, alto: ${v.height.toFixed(2)}, retranqueo: ${v.setback.toFixed(2)}`,
+      formatExtraData: { wallData },
+      title: (v) =>
+        `posición: ${v.position}, ancho: ${v.width.toFixed(
+          2
+        )}, alto: ${v.height.toFixed(2)}, retranqueo: ${v.setback.toFixed(2)}`,
       headerTitle: () =>
         "Descripción geométrica del hueco (posición, ancho, alto, retranqueo). Posición en coordenadas de muro [x, y]. Para elementos sin definición geométrica completa la posición es una lista vacía.",
       editorRenderer: (editorProps, value) => (
@@ -194,32 +192,6 @@ const HuecosTable = ({ selected, setSelected }) => {
       ),
       headerAlign: "center",
       headerClasses: "text-light bg-secondary",
-    },
-    {
-      dataField: "wall_azimuth",
-      isDummyField: true,
-      editable: false,
-      text: "Orientación",
-      align: "center",
-      classes: "td-column-readonly",
-      formatter: WindowOrientationFmt,
-      formatExtraData: appstate.windows.map(w=> w.wall),
-      headerTitle: () => "Orientación del hueco",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-    },
-    {
-      dataField: "wall_tilt",
-      isDummyField: true,
-      editable: false,
-      text: "Inclinación",
-      align: "center",
-      classes: "td-column-readonly",
-      formatter: WindowTiltFmt,
-      formatExtraData: appstate.windows.map(w => w.wall),
-      headerTitle: () => "Inclinación del hueco",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
     },
     {
       dataField: "window_u",

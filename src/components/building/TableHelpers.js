@@ -134,12 +134,23 @@ export const PolyIconFmt = (poly, _row) =>
   );
 
 // Convierte geometría de hueco a icono según tenga o no punto de inserción
-export const WindowGeomIconFmt = (geometry, _row) =>
-  geometry.position ? (
+export const WindowGeomIconFmt = (
+  geometry,
+  row,
+  _rowIndex,
+  formatExtraData
+) => {
+  const { wallData } = formatExtraData;
+  const wall = wallData[row.wall];
+  const azimuth = AzimuthFmt(wall.azimuth);
+  const tilt = TiltFmt(wall.tilt);
+  const position = geometry.position ? (
     <img src={fullWindowGeometryIcon} alt="+" />
   ) : (
     <img src={partialWindowGeometryIcon} alt="-" />
   );
+  return <>{position} | {azimuth} | {tilt} </>;
+};
 
 // Formato y opciones de condiciones de contorno
 export const BoundaryFmt = (cell, _row) => (
