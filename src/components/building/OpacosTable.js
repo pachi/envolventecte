@@ -29,19 +29,13 @@ import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
 import {
-  AzimuthFmt,
-  TiltFmt,
   Float2DigitsFmt,
   BoundaryFmt,
   BoundaryOpts,
   getFloatOrOld,
-  PosIconFmt,
-  PosFmt,
-  PolyIconFmt,
-  PolyFmt,
 } from "./TableHelpers";
-import { GeometryPosEditor } from "./GeometryPosEditor";
-import { GeometryPolyEditor } from "./GeometryPolyEditor";
+import { GeometryOpaquesEditor } from "./GeometryOpaquesEditor";
+import { OpaqueGeomIconFmt } from "./TableHelpers";
 
 // Tabla de elementos opacos
 const OpacosTable = ({ selected, setSelected }) => {
@@ -192,88 +186,19 @@ const OpacosTable = ({ selected, setSelected }) => {
       headerClasses: "text-light bg-secondary",
     },
     {
-      dataField: "geometry.azimuth",
-      text: "Orientación",
+      dataField: "geometry",
+      text: "Geometría",
       align: "center",
-      formatter: AzimuthFmt,
+      formatter: OpaqueGeomIconFmt,
+      // title: PolyFmt,
       headerTitle: () =>
-        "Orientación (gamma) [-180,+180] (S=0, E=+90, W=-90). Medido como azimuth geográfico de la proyección horizontal de la normal a la superficie",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          Orientación
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[-]</i>{" "}
-          </span>
-        </>
-      ),
-    },
-    {
-      dataField: "geometry.tilt",
-      text: "Inclinación",
-      align: "center",
-      formatter: TiltFmt,
-      headerTitle: () =>
-        "Inclinación (beta) [0, 180]. Medido respecto a la horizontal y normal hacia arriba (0 -> suelo, 180 -> techo)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          Inclinación
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[-]</i>{" "}
-          </span>
-        </>
-      ),
-    },
-    {
-      dataField: "geometry.position",
-      text: "Posicion",
-      align: "center",
-      formatter: PosIconFmt,
-      title: PosFmt,
-      headerTitle: () =>
-        "Posición del polígono en coordenadas globales [x, y, z]. Para elementos sin definición geométrica completa no se define este elemento.",
+        "Geometría (parámetros, punto de inserción y polígono).",
       editorRenderer: (editorProps, value) => (
-        <GeometryPosEditor {...editorProps} value={value} />
+        <GeometryOpaquesEditor {...editorProps} value={value} />
       ),
       headerAlign: "center",
       headerClasses: "text-light bg-secondary",
-      headerFormatter: () => (
-        <>
-          Posición
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[x, y, z]</i>{" "}
-          </span>
-        </>
-      ),
-    },
-    {
-      dataField: "geometry.polygon",
-      text: "Polígono",
-      align: "center",
-      formatter: PolyIconFmt,
-      title: PolyFmt,
-      headerTitle: () =>
-        "Lista de puntos 2D que configuran el polígono del elemento: [[x, y]...]. Para elementos sin definición geométrica completa no se define este elemento.",
-      editorRenderer: (editorProps, value) => (
-        <GeometryPolyEditor {...editorProps} value={value} />
-      ),
-      headerAlign: "center",
-      headerClasses: "text-light bg-secondary",
-      headerFormatter: () => (
-        <>
-          Polígono
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[[x, y]...]</i>{" "}
-          </span>
-        </>
-      ),
+      headerFormatter: () => <>Geometría</>,
     },
     {
       dataField: "wall_u",
