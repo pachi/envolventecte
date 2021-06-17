@@ -31,6 +31,7 @@ import AppState from "../../stores/AppState";
 import {
   Float2DigitsFmt,
   getFloatOrOld,
+  WindowGeomFmt,
   WindowGeomIconFmt,
 } from "./TableHelpers";
 import { GeometryWindowEditor } from "./GeometryEditors";
@@ -181,10 +182,7 @@ const HuecosTable = ({ selected, setSelected }) => {
       align: "center",
       formatter: WindowGeomIconFmt,
       formatExtraData: { wallData },
-      title: (v) =>
-        `posición: ${v.position}, ancho: ${v.width.toFixed(
-          2
-        )}, alto: ${v.height.toFixed(2)}, retranqueo: ${v.setback.toFixed(2)}`,
+      title: WindowGeomFmt,
       headerTitle: () =>
         "Descripción geométrica del hueco (posición, ancho, alto, retranqueo). Posición en coordenadas de muro [x, y]. Para elementos sin definición geométrica completa la posición es una lista vacía.",
       editorRenderer: (editorProps, value) => (
