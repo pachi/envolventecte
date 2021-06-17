@@ -1,15 +1,12 @@
-# Bugs ES
+# Bugs
 
 - Revisar compatibilidad en Chrome: en particular los cambios en datos generales
 - ¿Comprobar por qué se carga un n50 inicialmente que no está en el archivo (no hay ensayo pero se coge uno que no es el n50_ref).?
 - Comprobar que se calcula bien el volumen de espacios con techos inclinados (suma de volúmenes con signo de los tetraedros https://stackoverflow.com/questions/1406029/how-to-calculate-the-volume-of-a-3d-mesh-object-the-surface-of-which-is-made-up-t )
 
-# Mejoras ES
+# Mejoras
 
-- Agrupar edición de geometría en opacos y sombras para que tenga inserción y polígono, parecido a los huecos
-    - Ponemos varias filas: posición y un notebook de: polígono | alto + ancho | area | alto + area
-- Mostrar inclinación como icono (una barra con una flecha indicando la normal)?
-- Mostrar azimuth como icono (igual que en climas)?
+- Añadir en editor de geometría una imagen del polígono (hacer versión en SVG).
 - Añadir valores de referencia HE nuevos y existentes, apéndice E, etc a gráficas
 - Mostrar tooltip en los elementos con avisos
 - ThreeView
@@ -20,10 +17,7 @@
 
 # Nueva funcionalidad
 
-- Huecos no rectangulares
-- Muros con puntos 3D
 - Definición de lamas en huecos
-- Conversión de aletas y viseras de huecos en HULC a sombras independientes (pensar interacción con Fshobst).
 - A partir de la información geométrica, añadir:
     - cálculo de F_sh;obst
     - estimación de longitudes de PTs
@@ -31,6 +25,7 @@
 - Elementos: añadir nueva construcción de hueco a partir de pestaña de elementos
 - Elementos: Construcciones de opacos definidas por capas + editor de capas
 - Construcciones de opacos: posibilidad de usar definición actual o por capas
+- Gráfica de radiación y fshwi por orientaciones en clima
 
 # Reorganizaciones
 
