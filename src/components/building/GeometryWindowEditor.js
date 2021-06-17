@@ -21,8 +21,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useEffect, useState, useRef } from "react";
-import { Modal, Button, ButtonGroup, ToggleButton } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Col, Form, Modal, Row } from "react-bootstrap";
+import { PositionEditor } from "./GeometryOpaquesEditor";
 
 /*
   The getElement function from customEditor takes two arguments,
@@ -41,24 +42,16 @@ export const GeometryWindowEditor = React.forwardRef(
       x = value.position[0];
       y = value.position[1];
     }
-    const [isFirstRender, setIsFirstRender] = useState(true);
     const [isNull, setIsNull] = useState(posIsNull);
     const [show, setShow] = useState(true);
+    // Posición
     const [xPos, setXPos] = useState(x);
     const [yPos, setYPos] = useState(y);
-    const inputXRef = useRef(null);
-    const inputYRef = useRef(null);
 
+    // Propiedades del hueco
     const [width, setWidth] = useState(value.width);
     const [height, setHeight] = useState(value.height);
     const [setback, setSetback] = useState(value.setback);
-
-    useEffect(() => {
-      if (isFirstRender) {
-        inputXRef.current.focus();
-        setIsFirstRender(false);
-      }
-    }, [isFirstRender]);
 
     const updateData = () => {
       if (isNull) {
@@ -83,158 +76,114 @@ export const GeometryWindowEditor = React.forwardRef(
       updateData();
     };
 
+    const handleCancel = () => {
+      setShow(false);
+      return onUpdate(value);
+    };
+
     return (
       <Modal
         role="dialog"
         show={show}
         centered
-        onHide={() => handleClose()} // Evitar enviar acciones a la tabla posterior
+        size="lg"
+        onHide={() => handleCancel()} // Evitar enviar acciones a la tabla posterior
       >
         <Modal.Header closeButton>
           <Modal.Title>Definición geométrica del hueco</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div>
-            <label htmlFor="width">Ancho [m]:</label>
-            <input
-              id="width"
-              className={
-                (rest.editorClass || "") + " form-control editor edit-text"
-              }
-              type="text"
-              size="7"
-              value={width}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  updateData();
-                } else {
-                  rest.onKeyDown(e);
-                }
-              }}
-              onChange={(ev) => {
-                setWidth(ev.currentTarget.value.replace(",", "."));
-              }}
-            />
-            <label htmlFor="height">Alto [m]:</label>
-            <input
-              id="height"
-              className={
-                (rest.editorClass || "") + " form-control editor edit-text"
-              }
-              type="text"
-              size="7"
-              value={height}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  updateData();
-                } else {
-                  rest.onKeyDown(e);
-                }
-              }}
-              onChange={(ev) => {
-                setHeight(ev.currentTarget.value.replace(",", "."));
-              }}
-            />
-            <label htmlFor="setback">Retranqueo [m]:</label>
-            <input
-              id="width"
-              className={
-                (rest.editorClass || "") + " form-control editor edit-text"
-              }
-              type="text"
-              size="7"
-              value={setback}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  updateData();
-                } else {
-                  rest.onKeyDown(e);
-                }
-              }}
-              onChange={(ev) => {
-                setSetback(ev.currentTarget.value.replace(",", "."));
-              }}
-            />
-          </div>
-          <div id="position">
-            <label htmlFor="position">
-              Punto de inserción del hueco (coordenadas de muro):
-            </label>
-            <ButtonGroup toggle className="mb-2">
-              <ToggleButton
-                type="radio"
-                variant="secondary"
-                name="nullPos"
-                value="isNull"
-                checked={isNull}
-                onChange={(e) => {
-                  console.log("Pulsado botón de nulo");
-                  setIsNull(e.currentTarget.checked);
-                }}
-              >
-                Sin posición definida
-              </ToggleButton>
-              <ToggleButton
-                type="radio"
-                variant="secondary"
-                name="validPos"
-                value="notNull"
-                checked={!isNull}
-                onChange={(e) => setIsNull(!e.currentTarget.checked)}
-              >
-                Posición definida por coordenadas
-              </ToggleButton>
-            </ButtonGroup>
-            <div hidden={isNull}>
-              <label htmlFor="xInput">X:</label>
-              <input
-                ref={inputXRef}
-                id="xInput"
-                className={
-                  (rest.editorClass || "") + " form-control editor edit-text"
-                }
-                type="text"
-                size="7"
-                value={xPos}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    inputYRef.current.focus();
-                  } else {
-                    rest.onKeyDown(e);
-                  }
-                }}
-                onChange={(ev) => {
-                  setXPos(ev.currentTarget.value.replace(",", "."));
-                }}
-              />
-              <label htmlFor="yInput">Y:</label>
-              <input
-                ref={inputYRef}
-                id="yInput"
-                className={
-                  (rest.editorClass || "") + " form-control editor edit-text"
-                }
-                type="text"
-                size="7"
-                value={yPos}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    updateData();
-                  } else {
-                    rest.onKeyDown(e);
-                  }
-                }}
-                onChange={(ev) => {
-                  setYPos(ev.currentTarget.value.replace(",", "."));
-                }}
-              />
-            </div>
-          </div>
+          <WidthHeightSetbackEditor
+            width={width}
+            setWidth={setWidth}
+            height={height}
+            setHeight={setHeight}
+            setback={setback}
+            setSetback={setSetback}
+          />
+          <PositionEditor
+            isNull={isNull}
+            setIsNull={setIsNull}
+            xPos={xPos}
+            setXPos={setXPos}
+            yPos={yPos}
+            setYPos={setYPos}
+          />
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={updateData}>Aceptar</Button>
+          <Button variant="secondary" onClick={handleCancel}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Aceptar
+          </Button>
         </Modal.Footer>
       </Modal>
     );
   }
 );
+
+const WidthHeightSetbackEditor = ({
+  width,
+  setWidth,
+  height,
+  setHeight,
+  setback,
+  setSetback,
+}) => {
+  return (
+    <>
+      <Row>
+        <Form.Label as={Col} htmlFor="width">
+          Ancho [m]:
+        </Form.Label>
+        <Col>
+          <input
+            id="width"
+            className="form-control editor edit-text"
+            type="text"
+            size="7"
+            value={width}
+            onChange={(ev) => {
+              setWidth(ev.currentTarget.value.replace(",", "."));
+            }}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Form.Label as={Col} htmlFor="height">
+          Alto [m]:
+        </Form.Label>
+        <Col>
+          <input
+            id="height"
+            className="form-control editor edit-text"
+            type="text"
+            size="7"
+            value={height}
+            onChange={(ev) => {
+              setHeight(ev.currentTarget.value.replace(",", "."));
+            }}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Form.Label as={Col} htmlFor="setback">
+          Retranqueo [m]:
+        </Form.Label>
+        <Col>
+          <input
+            id="setback"
+            className="form-control editor edit-text"
+            type="text"
+            size="7"
+            value={setback}
+            onChange={(ev) => {
+              setSetback(ev.currentTarget.value.replace(",", "."));
+            }}
+          />
+        </Col>
+      </Row>
+    </>
+  );
+};
