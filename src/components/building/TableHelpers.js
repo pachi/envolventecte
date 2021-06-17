@@ -30,7 +30,7 @@ import nullPolyIcon from "../img/null_poly_icon.svg";
 import fullGeometryIcon from "../img/full_geom_icon.svg";
 import partialGeometryIcon from "../img/partial_geom_icon.svg";
 
-import { OrientaIcon } from "../climate/IconsOrientaciones";
+import { OrientaIcon, TiltIcon } from "../climate/IconsOrientaciones";
 
 // Formato y opciones de condiciones de contorno
 export const BOUNDARYTYPESMAP = {
@@ -156,7 +156,8 @@ export const WindowGeomIconFmt = (
   const wall = wallData[row.wall];
   const azimuth_dir = AzimuthFmt(wall.azimuth);
   const azimuth = <OrientaIcon dir={azimuth_dir} />;
-  const tilt = TiltFmt(wall.tilt);
+  const tilt_dir = TiltFmt(wall.tilt);
+  const tilt = <TiltIcon dir={tilt_dir} />;
   const position = geometry.position ? (
     <img src={fullGeometryIcon} alt="+" />
   ) : (
@@ -164,7 +165,7 @@ export const WindowGeomIconFmt = (
   );
   return (
     <>
-      {position} | {azimuth} {azimuth_dir} | {tilt}
+      {position} | {azimuth} {azimuth_dir} | {tilt} {tilt_dir[0]}
     </>
   );
 };
@@ -178,7 +179,8 @@ export const OpaqueGeomIconFmt = (
 ) => {
   const azimuth_dir = AzimuthFmt(geometry.azimuth);
   const azimuth = <OrientaIcon dir={azimuth_dir} />;
-  const tilt = TiltFmt(geometry.tilt);
+  const tilt_dir = TiltFmt(geometry.tilt);
+  const tilt = <TiltIcon dir={tilt_dir} />;
   const position = geometry.position ? (
     <img src={fullGeometryIcon} alt="+" />
   ) : (
@@ -186,7 +188,7 @@ export const OpaqueGeomIconFmt = (
   );
   return (
     <>
-      {position} | {azimuth} {azimuth_dir} | {tilt}
+      {position} | {azimuth} {azimuth_dir} | {tilt} {tilt_dir[0]}
     </>
   );
 };

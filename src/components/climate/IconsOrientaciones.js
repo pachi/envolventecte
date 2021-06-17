@@ -103,6 +103,36 @@ const OrientacionesSprite = () => (
           ry="53"
         />
       </symbol>
+      <symbol id="cuadrado" viewBox="0 0 112 112">
+        <rect
+          width="112"
+          height="112"
+          fill="#ffaaaa"
+        />
+      </symbol>
+      <symbol id="TECHO" viewBox="0 0 112 112">
+        <rect
+          width="112"
+          height="40"
+          fill="#777"
+        />
+      </symbol>
+      <symbol id="SUELO" viewBox="0 0 112 112">
+        <rect
+          y="72"
+          width="112"
+          height="40"
+          fill="#777"
+        />
+      </symbol>
+      <symbol id="PARED" viewBox="0 0 112 112">
+        <rect
+          x="72"
+          width="42"
+          height="112"
+          fill="#777"
+        />
+      </symbol>
     </defs>
   </svg>
 );
@@ -123,4 +153,20 @@ const OrientaIcon = ({ dir, width = "1.2em", height = "1.2em" }) => {
   );
 };
 
-export { OrientacionesSprite, OrientaIcon };
+const TiltIcon = ({ dir, width = "1.2em", height = "1.2em" }) => {
+  if (["PARED", "SUELO", "TECHO"].includes(dir)) {
+    return (
+      <svg width={width} height={height} style={{ verticalAlign: "middle" }}>
+        <use xlinkHref="#cuadrado" />
+        <use xlinkHref={`#${dir}`} />
+      </svg>
+    );
+  }
+  return (
+    <svg width={width} height={height}>
+      <use xlinkHref="#cuadrado" />
+    </svg>
+  );
+};
+
+export { OrientacionesSprite, OrientaIcon, TiltIcon };
