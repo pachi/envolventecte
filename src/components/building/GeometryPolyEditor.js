@@ -22,7 +22,14 @@ SOFTWARE.
 */
 
 import React, { useState } from "react";
-import { Modal, Button, ButtonGroup, ButtonToolbar } from "react-bootstrap";
+import {
+  Button,
+  ButtonGroup,
+  ButtonToolbar,
+  Col,
+  Modal,
+  Row,
+} from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory from "react-bootstrap-table2-editor";
 
@@ -128,47 +135,50 @@ const CoordsTable = ({ poly, setPoly }) => {
   ];
 
   return (
-    <>
-      <AddRemoveButtonGroup
-        poly={poly}
-        setPoly={setPoly}
-        selected={selected}
-        setSelected={setSelected}
-      />
-      <BootstrapTable
-        data={poly}
-        keyField="id"
-        striped
-        hover
-        bordered={false}
-        cellEdit={cellEditFactory({
-          mode: "dbclick",
-          blurToSave: true,
-          afterSaveCell: (oldValue, newValue, row, column) => {
-            // Convierte a número campos numéricos
-            if (["X", "Y"].includes(column.dataField)) {
-              row[column.dataField] = getFloatOrOld(newValue, oldValue);
-            }
-          },
-        })}
-        selectRow={{
-          mode: "checkbox",
-          clickToSelect: true,
-          clickToEdit: true,
-          selected: selected,
-          onSelect: (row, isSelected, _rowIndex, e) => {
-            if (isSelected) {
-              setSelected([...selected, row.id]);
-            } else {
-              setSelected(selected.filter((it) => it !== row.id));
-            }
-          },
-          hideSelectColumn: true,
-          bgColor: "lightgray",
-        }}
-        columns={columns}
-      />
-    </>
+    <Row id="ctable">
+      <Col>
+        <label htmlFor="ctable">Polígono:</label>
+        <AddRemoveButtonGroup
+          poly={poly}
+          setPoly={setPoly}
+          selected={selected}
+          setSelected={setSelected}
+        />
+        <BootstrapTable
+          data={poly}
+          keyField="id"
+          striped
+          hover
+          bordered={false}
+          cellEdit={cellEditFactory({
+            mode: "dbclick",
+            blurToSave: true,
+            afterSaveCell: (oldValue, newValue, row, column) => {
+              // Convierte a número campos numéricos
+              if (["X", "Y"].includes(column.dataField)) {
+                row[column.dataField] = getFloatOrOld(newValue, oldValue);
+              }
+            },
+          })}
+          selectRow={{
+            mode: "checkbox",
+            clickToSelect: true,
+            clickToEdit: true,
+            selected: selected,
+            onSelect: (row, isSelected, _rowIndex, e) => {
+              if (isSelected) {
+                setSelected([...selected, row.id]);
+              } else {
+                setSelected(selected.filter((it) => it !== row.id));
+              }
+            },
+            hideSelectColumn: true,
+            bgColor: "lightgray",
+          }}
+          columns={columns}
+        />
+      </Col>
+    </Row>
   );
 };
 
