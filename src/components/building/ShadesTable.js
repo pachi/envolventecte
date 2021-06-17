@@ -28,7 +28,7 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import { GeometryOpaquesEditor } from "./GeometryOpaquesEditor";
+import { GeometryOpaquesEditor } from "./GeometryEditors";
 import { OpaqueGeomFmt, OpaqueGeomIconFmt } from "./TableHelpers";
 
 // Tabla de elementos de sombra del edificio

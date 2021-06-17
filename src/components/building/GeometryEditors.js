@@ -207,7 +207,7 @@ const AzimuthTiltEditor = ({ azimuth, setAzimuth, tilt, setTilt }) => (
   </>
 );
 
-export const PositionEditor = ({
+const PositionEditor = ({
   isNull,
   setIsNull,
   xPos,
@@ -497,5 +497,169 @@ const AddRemoveButtonGroup = ({ poly, setPoly, selected, setSelected }) => {
         </Button>
       </ButtonGroup>
     </ButtonToolbar>
+  );
+};
+
+
+/*
+  The getElement function from customEditor takes two arguments,
+  1. onUpdate: if you want to apply the modified data, call this function
+  2. props: contains alls customEditorParameters, "row" with whole row data, "defaultValue" with the received object, and attrs
+*/
+// Editor de datos geométricos de huecos
+// Recibe la geometría de un hueco {position: [f32, f32], height: f32, width: f32, setback: f32}
+// No se comprueba la coherencia de la definición geométrica con la superficie
+export const GeometryWindowEditor = React.forwardRef(
+  ({ onUpdate, value, ...rest }, ref) => {
+    const posIsNull = value.position === null || value.position.length === 0;
+    let x = 0.0,
+      y = 0.0;
+    if (!posIsNull) {
+      x = value.position[0];
+      y = value.position[1];
+    }
+    const [isNull, setIsNull] = useState(posIsNull);
+    const [show, setShow] = useState(true);
+    // Posición
+    const [xPos, setXPos] = useState(x);
+    const [yPos, setYPos] = useState(y);
+
+    // Propiedades del hueco
+    const [width, setWidth] = useState(value.width);
+    const [height, setHeight] = useState(value.height);
+    const [setback, setSetback] = useState(value.setback);
+
+    const updateData = () => {
+      if (isNull) {
+        return onUpdate({
+          width: parseFloat(width),
+          height: parseFloat(height),
+          setback: parseFloat(setback),
+          position: null,
+        });
+      } else {
+        return onUpdate({
+          width: parseFloat(width),
+          height: parseFloat(height),
+          setback: parseFloat(setback),
+          position: [parseFloat(xPos), parseFloat(yPos)],
+        });
+      }
+    };
+
+    const handleClose = () => {
+      setShow(false);
+      updateData();
+    };
+
+    const handleCancel = () => {
+      setShow(false);
+      return onUpdate(value);
+    };
+
+    return (
+      <Modal
+        role="dialog"
+        show={show}
+        centered
+        size="lg"
+        onHide={() => handleCancel()} // Evitar enviar acciones a la tabla posterior
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Definición geométrica del hueco</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <WidthHeightSetbackEditor
+            width={width}
+            setWidth={setWidth}
+            height={height}
+            setHeight={setHeight}
+            setback={setback}
+            setSetback={setSetback}
+          />
+          <PositionEditor
+            isNull={isNull}
+            setIsNull={setIsNull}
+            xPos={xPos}
+            setXPos={setXPos}
+            yPos={yPos}
+            setYPos={setYPos}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCancel}>
+            Cancelar
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Aceptar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+);
+
+const WidthHeightSetbackEditor = ({
+  width,
+  setWidth,
+  height,
+  setHeight,
+  setback,
+  setSetback,
+}) => {
+  return (
+    <>
+      <Row>
+        <Form.Label as={Col} htmlFor="width">
+          Ancho [m]:
+        </Form.Label>
+        <Col>
+          <input
+            id="width"
+            className="form-control editor edit-text"
+            type="text"
+            size="7"
+            value={width}
+            onChange={(ev) => {
+              setWidth(ev.currentTarget.value.replace(",", "."));
+            }}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Form.Label as={Col} htmlFor="height">
+          Alto [m]:
+        </Form.Label>
+        <Col>
+          <input
+            id="height"
+            className="form-control editor edit-text"
+            type="text"
+            size="7"
+            value={height}
+            onChange={(ev) => {
+              setHeight(ev.currentTarget.value.replace(",", "."));
+            }}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Form.Label as={Col} htmlFor="setback">
+          Retranqueo [m]:
+        </Form.Label>
+        <Col>
+          <input
+            id="setback"
+            className="form-control editor edit-text"
+            type="text"
+            size="7"
+            value={setback}
+            onChange={(ev) => {
+              setSetback(ev.currentTarget.value.replace(",", "."));
+            }}
+          />
+        </Col>
+      </Row>
+    </>
   );
 };

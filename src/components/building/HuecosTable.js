@@ -33,7 +33,7 @@ import {
   getFloatOrOld,
   WindowGeomIconFmt,
 } from "./TableHelpers";
-import { GeometryWindowEditor } from "./GeometryWindowEditor";
+import { GeometryWindowEditor } from "./GeometryEditors";
 
 // Tabla de huecos del edificio
 const HuecosTable = ({ selected, setSelected }) => {

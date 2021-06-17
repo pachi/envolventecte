@@ -35,7 +35,7 @@ import {
   getFloatOrOld,
   OpaqueGeomFmt,
 } from "./TableHelpers";
-import { GeometryOpaquesEditor } from "./GeometryOpaquesEditor";
+import { GeometryOpaquesEditor } from "./GeometryEditors";
 import { OpaqueGeomIconFmt } from "./TableHelpers";
 
 // Tabla de elementos opacos
