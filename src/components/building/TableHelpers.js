@@ -88,29 +88,23 @@ export const BoolFmt = (cell, _row, _rowIndex, _formatExtraData) => (
 );
 
 // Convierte ángulo de azimuth a nombre
-export const AzimuthFmt = (azimuth_angle, _row) =>
-  azimuth_angle === undefined ? (
-    <span>-</span>
-  ) : (
-    <span>{azimuth_name(azimuth_angle)}</span>
-  );
+export const AzimuthFmt = (azimuth_angle) =>
+  azimuth_angle === undefined ? "-" : azimuth_name(azimuth_angle);
 
 // Convierte ángulo de inclinación a nombre
-export const TiltFmt = (tilt_angle, _row) =>
-  tilt_angle === undefined ? (
-    <span>-</span>
-  ) : (
-    <span>{tilt_name(tilt_angle)}</span>
-  );
+export const TiltFmt = (tilt_angle) =>
+  tilt_angle === undefined ? "-" : tilt_name(tilt_angle);
 
 // Convierte punto 3D de posición a cadena de coordenadas
-export const PosFmt = (pos, _row) =>
-  pos !== null
-    ? `[${pos[0].toFixed(2)}, ${pos[1].toFixed(2)}, ${pos[2].toFixed(2)}]`
-    : "-";
+export const PosFmt = (pos) => {
+  if (pos.length === 3)
+    return `[${pos[0].toFixed(2)}, ${pos[1].toFixed(2)}, ${pos[2].toFixed(2)}]`;
+  if (pos.length === 2) return `[${pos[0].toFixed(2)}, ${pos[1].toFixed(2)}]`;
+  return "-";
+};
 
 // Convierte vector de puntos 2D de polígono a cadena de lista de coordenadas
-export const PolyFmt = (poly, _row) =>
+export const PolyFmt = (poly) =>
   poly !== null && poly.length !== 0
     ? `[${poly
         .map((point) => `[${point[0].toFixed(2)}, ${point[1].toFixed(2)}]`)
@@ -133,6 +127,15 @@ export const PolyIconFmt = (poly, _row) =>
     <img src={nullPolyIcon} alt="-" />
   );
 
+// Línea descriptiva de geometría
+export const OpaqueGeomFmt = (geom, _row) => {
+  return `azimuth: ${geom.azimuth.toFixed(
+    2
+  )},\ninclinación: (${geom.tilt.toFixed(2)}),\nposición: ${PosFmt(
+    geom.position
+  )},\npolígono: ${PolyFmt(geom.polygon)}`;
+};
+
 // Convierte geometría de hueco a icono según tenga o no punto de inserción
 export const WindowGeomIconFmt = (
   geometry,
@@ -149,7 +152,11 @@ export const WindowGeomIconFmt = (
   ) : (
     <img src={partialGeometryIcon} alt="-" />
   );
-  return <>{position} | {azimuth} | {tilt} </>;
+  return (
+    <>
+      {position} | {azimuth} | {tilt}{" "}
+    </>
+  );
 };
 
 // Convierte geometría de hueco a icono según tenga o no punto de inserción
@@ -166,7 +173,11 @@ export const OpaqueGeomIconFmt = (
   ) : (
     <img src={partialGeometryIcon} alt="-" />
   );
-  return <>{position} | {azimuth} | {tilt} </>;
+  return (
+    <>
+      {position} | {azimuth} | {tilt}{" "}
+    </>
+  );
 };
 
 // Formato y opciones de condiciones de contorno

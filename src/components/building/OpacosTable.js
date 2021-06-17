@@ -33,6 +33,7 @@ import {
   BoundaryFmt,
   BoundaryOpts,
   getFloatOrOld,
+  OpaqueGeomFmt,
 } from "./TableHelpers";
 import { GeometryOpaquesEditor } from "./GeometryOpaquesEditor";
 import { OpaqueGeomIconFmt } from "./TableHelpers";
@@ -190,7 +191,7 @@ const OpacosTable = ({ selected, setSelected }) => {
       text: "Geometría",
       align: "center",
       formatter: OpaqueGeomIconFmt,
-      // title: PolyFmt,
+      title: OpaqueGeomFmt,
       headerTitle: () =>
         "Geometría (parámetros, punto de inserción y polígono).",
       editorRenderer: (editorProps, value) => (

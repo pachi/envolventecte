@@ -29,7 +29,7 @@ import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
 import { GeometryOpaquesEditor } from "./GeometryOpaquesEditor";
-import { OpaqueGeomIconFmt } from "./TableHelpers";
+import { OpaqueGeomFmt, OpaqueGeomIconFmt } from "./TableHelpers";
 
 // Tabla de elementos de sombra del edificio
 const ShadesTable = ({ selected, setSelected }) => {
@@ -50,7 +50,7 @@ const ShadesTable = ({ selected, setSelected }) => {
       text: "Geometría",
       align: "center",
       formatter: OpaqueGeomIconFmt,
-      // title: PolyFmt,
+      title: OpaqueGeomFmt,
       headerTitle: () =>
         "Lista de puntos 2D que configuran el polígono del elemento: [[x, y]...]. Para elementos sin definición geométrica completa no se define este elemento.",
       editorRenderer: (editorProps, value) => (
