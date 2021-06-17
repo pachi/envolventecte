@@ -30,6 +30,8 @@ import nullPolyIcon from "../img/null_poly_icon.svg";
 import fullGeometryIcon from "../img/full_geom_icon.svg";
 import partialGeometryIcon from "../img/partial_geom_icon.svg";
 
+import { OrientaIcon } from "../climate/IconsOrientaciones";
+
 // Formato y opciones de condiciones de contorno
 export const BOUNDARYTYPESMAP = {
   EXTERIOR: "EXTERIOR",
@@ -152,7 +154,8 @@ export const WindowGeomIconFmt = (
 ) => {
   const { wallData } = formatExtraData;
   const wall = wallData[row.wall];
-  const azimuth = AzimuthFmt(wall.azimuth);
+  const azimuth_dir = AzimuthFmt(wall.azimuth);
+  const azimuth = <OrientaIcon dir={azimuth_dir} />;
   const tilt = TiltFmt(wall.tilt);
   const position = geometry.position ? (
     <img src={fullGeometryIcon} alt="+" />
@@ -161,7 +164,7 @@ export const WindowGeomIconFmt = (
   );
   return (
     <>
-      {position} | {azimuth} | {tilt}{" "}
+      {position} | {azimuth} {azimuth_dir} | {tilt}
     </>
   );
 };
@@ -173,7 +176,8 @@ export const OpaqueGeomIconFmt = (
   _rowIndex,
   _formatExtraData
 ) => {
-  const azimuth = AzimuthFmt(geometry.azimuth);
+  const azimuth_dir = AzimuthFmt(geometry.azimuth);
+  const azimuth = <OrientaIcon dir={azimuth_dir} />;
   const tilt = TiltFmt(geometry.tilt);
   const position = geometry.position ? (
     <img src={fullGeometryIcon} alt="+" />
@@ -182,7 +186,7 @@ export const OpaqueGeomIconFmt = (
   );
   return (
     <>
-      {position} | {azimuth} | {tilt}{" "}
+      {position} | {azimuth} {azimuth_dir} | {tilt}
     </>
   );
 };

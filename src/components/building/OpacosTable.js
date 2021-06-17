@@ -37,6 +37,7 @@ import {
 } from "./TableHelpers";
 import { GeometryOpaquesEditor } from "./GeometryEditors";
 import { OpaqueGeomIconFmt } from "./TableHelpers";
+import { OrientacionesSprite } from "../climate/IconsOrientaciones";
 
 // Tabla de elementos opacos
 const OpacosTable = ({ selected, setSelected }) => {
@@ -226,66 +227,72 @@ const OpacosTable = ({ selected, setSelected }) => {
   ];
 
   return (
-    <BootstrapTable
-      data={appstate.walls}
-      keyField="id"
-      striped
-      hover
-      bordered={false}
-      cellEdit={cellEditFactory({
-        mode: "dbclick",
-        blurToSave: true,
-        // Corrige el valor del espacio adyacente de "" a null
-        afterSaveCell: (oldValue, newValue, row, column) => {
-          if (column.dataField === "nextto" && newValue !== "") {
-            row.nextto = null;
-          } else if (column.dataField === "A" && newValue !== "") {
-            // Convierte a número campos numéricos
-            row.A = getFloatOrOld(newValue, oldValue);
-          } else if (column.dataField === "geometry.tilt" && newValue !== "") {
-            row.geometry.tilt = getFloatOrOld(newValue, oldValue);
-          } else if (
-            column.dataField === "geometry.azimuth" &&
-            newValue !== ""
-          ) {
-            row.geometry.azimuth = getFloatOrOld(newValue, oldValue);
+    <>
+      <OrientacionesSprite />
+      <BootstrapTable
+        data={appstate.walls}
+        keyField="id"
+        striped
+        hover
+        bordered={false}
+        cellEdit={cellEditFactory({
+          mode: "dbclick",
+          blurToSave: true,
+          // Corrige el valor del espacio adyacente de "" a null
+          afterSaveCell: (oldValue, newValue, row, column) => {
+            if (column.dataField === "nextto" && newValue !== "") {
+              row.nextto = null;
+            } else if (column.dataField === "A" && newValue !== "") {
+              // Convierte a número campos numéricos
+              row.A = getFloatOrOld(newValue, oldValue);
+            } else if (
+              column.dataField === "geometry.tilt" &&
+              newValue !== ""
+            ) {
+              row.geometry.tilt = getFloatOrOld(newValue, oldValue);
+            } else if (
+              column.dataField === "geometry.azimuth" &&
+              newValue !== ""
+            ) {
+              row.geometry.azimuth = getFloatOrOld(newValue, oldValue);
+            }
+          },
+        })}
+        selectRow={{
+          mode: "checkbox",
+          clickToSelect: true,
+          clickToEdit: true,
+          selected: selected,
+          onSelect: (row, isSelected) => {
+            if (isSelected) {
+              setSelected([...selected, row.id]);
+            } else {
+              setSelected(selected.filter((it) => it !== row.id));
+            }
+          },
+          hideSelectColumn: true,
+          bgColor: "lightgray",
+        }}
+        rowClasses={(row, _rowIdx) => {
+          const classes = [];
+          // Errores
+          if (error_ids_danger.includes(row.id)) {
+            classes.push("id_error_danger");
           }
-        },
-      })}
-      selectRow={{
-        mode: "checkbox",
-        clickToSelect: true,
-        clickToEdit: true,
-        selected: selected,
-        onSelect: (row, isSelected) => {
-          if (isSelected) {
-            setSelected([...selected, row.id]);
-          } else {
-            setSelected(selected.filter((it) => it !== row.id));
+          // Avisos
+          if (error_ids_warning.includes(row.id)) {
+            classes.push("id_error_warning");
           }
-        },
-        hideSelectColumn: true,
-        bgColor: "lightgray",
-      }}
-      rowClasses={(row, _rowIdx) => {
-        const classes = [];
-        // Errores
-        if (error_ids_danger.includes(row.id)) {
-          classes.push("id_error_danger");
-        }
-        // Avisos
-        if (error_ids_warning.includes(row.id)) {
-          classes.push("id_error_warning");
-        }
-        // clase para elementos fuera de la ET
-        const outside = is_outside_tenv[row.id];
-        if (outside !== null) {
-          classes.push(outside);
-        }
-        return classes.join(" ");
-      }}
-      columns={columns}
-    />
+          // clase para elementos fuera de la ET
+          const outside = is_outside_tenv[row.id];
+          if (outside !== null) {
+            classes.push(outside);
+          }
+          return classes.join(" ");
+        }}
+        columns={columns}
+      />
+    </>
   );
 };
 
