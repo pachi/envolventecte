@@ -28,9 +28,8 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import { GeometryPosEditor } from "./GeometryPosEditor";
-import { GeometryPolyEditor } from "./GeometryPolyEditor";
-import { AzimuthFmt, TiltFmt, PosFmt, PolyFmt, PosIconFmt, PolyIconFmt } from "./TableHelpers";
+import { GeometryOpaquesEditor } from "./GeometryOpaquesEditor";
+import { OpaqueGeomIconFmt } from "./TableHelpers";
 
 // Tabla de elementos de sombra del edificio
 const ShadesTable = ({ selected, setSelected }) => {
@@ -47,88 +46,19 @@ const ShadesTable = ({ selected, setSelected }) => {
       title: (_cell, row) => `Elemento de sombra id: ${row.id}`,
     },
     {
-      dataField: "geometry.azimuth",
-      text: "Orientación",
+      dataField: "geometry",
+      text: "Geometría",
       align: "center",
-      formatter: AzimuthFmt,
-      headerTitle: () =>
-        "Orientación (gamma) [-180,+180] (S=0, E=+90, W=-90). Medido como azimuth geográfico de la proyección horizontal de la normal a la superficie",
-      headerAlign: "center",
-      headerClasses: "text-light bg-secondary",
-      headerFormatter: () => (
-        <>
-          Orientación
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[-]</i>{" "}
-          </span>
-        </>
-      ),
-    },
-    {
-      dataField: "geometry.tilt",
-      text: "Inclinación",
-      align: "center",
-      formatter: TiltFmt,
-      headerTitle: () =>
-        "Inclinación (beta) [0, 180]. Medido respecto a la horizontal y normal hacia arriba (0 -> suelo, 180 -> techo)",
-      headerAlign: "center",
-      headerClasses: "text-light bg-secondary",
-      headerFormatter: () => (
-        <>
-          Inclinación
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[-]</i>{" "}
-          </span>
-        </>
-      ),
-    },
-    {
-      dataField: "geometry.position",
-      text: "Posicion",
-      align: "center",
-      formatter: PosIconFmt,
-      title: PosFmt,
-      headerTitle: () =>
-        "Posición del polígono en coordenadas globales [x, y, z]. Para elementos sin definición geométrica completa no se define este elemento.",
-      editorRenderer: (editorProps, value) => (
-        <GeometryPosEditor {...editorProps} value={value} />
-      ),
-      headerAlign: "center",
-      headerClasses: "text-light bg-secondary",
-      headerFormatter: () => (
-        <>
-          Posición
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[x, y, z]</i>{" "}
-          </span>
-        </>
-      ),
-    },
-    {
-      dataField: "geometry.polygon",
-      text: "Polígono",
-      align: "center",
-      formatter: PolyIconFmt,
-      title: PolyFmt,
+      formatter: OpaqueGeomIconFmt,
+      // title: PolyFmt,
       headerTitle: () =>
         "Lista de puntos 2D que configuran el polígono del elemento: [[x, y]...]. Para elementos sin definición geométrica completa no se define este elemento.",
       editorRenderer: (editorProps, value) => (
-        <GeometryPolyEditor {...editorProps} value={value} />
+        <GeometryOpaquesEditor {...editorProps} value={value} />
       ),
       headerAlign: "center",
       headerClasses: "text-light bg-secondary",
-      headerFormatter: () => (
-        <>
-          Polígono
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[[x, y]...]</i>{" "}
-          </span>
-        </>
-      ),
+      headerFormatter: () => <>Geometría</>,
     },
   ];
   return (

@@ -27,8 +27,8 @@ import nullPosIcon from "../img/null_pos_icon.svg";
 import validPosIcon from "../img/valid_pos_icon.svg";
 import validPolyIcon from "../img/valid_poly_icon.svg";
 import nullPolyIcon from "../img/null_poly_icon.svg";
-import fullWindowGeometryIcon from "../img/full_geom_icon.svg";
-import partialWindowGeometryIcon from "../img/partial_geom_icon.svg";
+import fullGeometryIcon from "../img/full_geom_icon.svg";
+import partialGeometryIcon from "../img/partial_geom_icon.svg";
 
 // Formato y opciones de condiciones de contorno
 export const BOUNDARYTYPESMAP = {
@@ -145,9 +145,26 @@ export const WindowGeomIconFmt = (
   const azimuth = AzimuthFmt(wall.azimuth);
   const tilt = TiltFmt(wall.tilt);
   const position = geometry.position ? (
-    <img src={fullWindowGeometryIcon} alt="+" />
+    <img src={fullGeometryIcon} alt="+" />
   ) : (
-    <img src={partialWindowGeometryIcon} alt="-" />
+    <img src={partialGeometryIcon} alt="-" />
+  );
+  return <>{position} | {azimuth} | {tilt} </>;
+};
+
+// Convierte geometría de hueco a icono según tenga o no punto de inserción
+export const OpaqueGeomIconFmt = (
+  geometry,
+  _row,
+  _rowIndex,
+  _formatExtraData
+) => {
+  const azimuth = AzimuthFmt(geometry.azimuth);
+  const tilt = TiltFmt(geometry.tilt);
+  const position = geometry.position ? (
+    <img src={fullGeometryIcon} alt="+" />
+  ) : (
+    <img src={partialGeometryIcon} alt="-" />
   );
   return <>{position} | {azimuth} | {tilt} </>;
 };
