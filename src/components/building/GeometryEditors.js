@@ -253,7 +253,7 @@ const PositionEditor = ({
           </ButtonGroup>
         </Col>
       </Row>
-      <Form.Group as={Row} controlId="formControlsPosition">
+      <Form.Group as={Row}>
         <Form.Label as={Col} md={1} htmlFor="xInput" className="mr-3">
           X:
         </Form.Label>
