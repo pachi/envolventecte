@@ -34,7 +34,7 @@ import imglogo from "./img/logo.svg";
 import iconclearmodel from "./img/outline-new_document-24px.svg";
 import NavBar from "./Nav";
 
-const HelpPage = observer((props) => {
+const MainPage = observer((props) => {
   const appstate = useContext(AppState);
 
   const handleUpload = (acceptedFiles, rejectedFiles, event) => {
@@ -264,4 +264,4 @@ const HelpPage = observer((props) => {
   );
 });
 
-export default HelpPage;
+export default MainPage;
