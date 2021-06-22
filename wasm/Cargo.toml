@@ -27,6 +27,10 @@ hulc = { version="1.0", path = "../../cteenergymodel/hulc" }
 # code size when deploying.
 console_error_panic_hook = { version = "0.1.6", optional = true }
 
+# Log to console from rust. Use (activate) feature with wasm-pack build -- --features console_log
+log = "0.4"
+console_log = { version = "0.2", optional = true }
+
 [dev-dependencies]
 wasm-bindgen-test = "0.3"
 

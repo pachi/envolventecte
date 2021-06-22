@@ -36,6 +36,25 @@ pub fn set_panic_hook() {
     console_error_panic_hook::set_once();
 }
 
+#[wasm_bindgen]
+pub fn set_log_hook(level: &str) {
+    // When the `console_log` feature is enabled, we can call the
+    // `set_log_hook` function at least once during initialization, and then
+    // we will get our log messages redirected to the console..
+    //
+    // For more details see
+    // https://crates.io/crates/console_log
+    #[cfg(feature = "console_log")]
+    console_log::init_with_level(match level {
+        "trace" => log::Level::Trace,
+        "debug" => log::Level::Debug,
+        "info" => log::Level::Info,
+        "warn" => log::Level::Warn,
+        _ => log::Level::Error,
+    })
+    .expect("error initializing log");
+}
+
 /// Estructura que contiene los resultados del cálculo
 #[allow(non_snake_case)]
 #[derive(Debug, Serialize, Deserialize, Default)]

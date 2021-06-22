@@ -63,6 +63,7 @@
     "predeploy": "npm run build",
     "deploy": "npx gh-pages -d build",
     "buildwasm": "cd wasm && wasm-pack build",
+    "buildwasmdebug": "cd wasm && wasm-pack build -- --features console_log",
     "publishwasm": "cd wasm && wasm-pack publish"
   },
   "browserslist": [
