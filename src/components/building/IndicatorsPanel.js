@@ -53,6 +53,7 @@ const IndicatorsPanel = () => {
     n50_data,
     K_data,
   } = appstate.he1_indicators;
+  const { climate, name } = appstate.meta;
 
   const { K } = K_data;
   const { q_soljul } = q_soljul_data;
@@ -64,6 +65,10 @@ const IndicatorsPanel = () => {
   return (
     <>
       <Card body bg="light" id="indicatorscard">
+        <Row>
+          <Col md={9}>Proyecto: <i>{name}</i></Col>
+          <Col md={3}><b>ZC: {climate}</b></Col>
+        </Row>
         <Row>
           <Col md={3} title="Transmitancia térmica global del edificio [W/m²K]">
             <b>
