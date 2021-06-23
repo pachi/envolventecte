@@ -45,6 +45,14 @@ import {
 import radiationdata from "../zcraddata.json";
 import example from "./example.json";
 
+// DEBUG:
+/* eslint import/no-webpack-loader-syntax: off */
+// import test_ctehexml from '!raw-loader!../test/casopracticof21_ventanas_cubierta_raras_rot45.ctehexml';
+// import test_ctehexml from '!raw-loader!../test/casopracticof21_ventanas_cubierta_raras.ctehexml';
+// import test_ctehexml from '!raw-loader!../test/prueba_cub_rotada.ctehexml';
+// import test_ctehexml from '!raw-loader!../test/ventanas_cubierta.ctehexml';
+// import test_ctehexml from '!raw-loader!../test/ventanas_cubierta_reducido.ctehexml';
+
 // no obligamos a usar acciones para cambiar el estado. El default es "always".
 // Ver https://mobx.js.org/configuration.html#enforceactions
 configure({
@@ -404,4 +412,9 @@ class AppState {
   }
 }
 
-export default createContext(new AppState());
+const appstate = new AppState();
+
+// // DEBUG: carga este caso para depurar
+// appstate.loadData(test_ctehexml, "CTEHEXML");
+
+export default createContext(appstate);
