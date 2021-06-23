@@ -3,6 +3,7 @@ import {
   Group,
   LineSegments,
   MathUtils,
+  Matrix3,
   Matrix4,
   Mesh,
   Shape,
@@ -69,9 +70,17 @@ export function initObjectsFromModel(model, scene) {
     const wallShape = new Shape(polygon.map((p) => new Vector2(p[0], p[1])));
     const wallWindows = model.windows.filter((w) => w.wall === wall.id);
 
+    // Conversión a coordenadas de muro
+    const toWallLocalAxis = getWallLocalAxisTransform(polygon);
+
     for (const window of wallWindows) {
-      if (!window.geometry.position || window.geometry.height * window.geometry.width === 0) continue;
-      const winShape = windowShape(window);
+      if (
+        !window.geometry.position ||
+        window.geometry.height * window.geometry.width === 0
+      )
+        continue;
+
+      const winShape = windowShape(window, toWallLocalAxis);
       const winMesh = meshFromShape(winShape, wallTransform);
       winMesh.name = window.name;
       winMesh.userData = {
@@ -165,18 +174,32 @@ function buffergeometryNormal(geometry, idx = 0) {
 
 // Generar el Shape de un hueco a partir de los datos de posición, ancho y alto
 // La forma se genera en coordenadas de muro
-function windowShape(window) {
+function windowShape(window, wallLocal) {
   const {
     position: [x, y],
     width,
     height,
   } = window.geometry;
-  return new Shape([
-    new Vector2(x, y),
-    new Vector2(x + width, y),
-    new Vector2(x + width, y + height),
-    new Vector2(x, y + height),
+  // Generamos el hueco transformando las coordenadas a ejes locales de muro
+  const shape = new Shape([
+    new Vector2(x, y).applyMatrix3(wallLocal),
+    new Vector2(x + width, y).applyMatrix3(wallLocal),
+    new Vector2(x + width, y + height).applyMatrix3(wallLocal),
+    new Vector2(x, y + height).applyMatrix3(wallLocal),
   ]);
+  return shape;
+}
+
+// Matriz de transformación de coordenadas globales a ejes locales del muro con polígono polygon
+// Se gira el eje X en la dirección del polígono de muro p1 - p0 y se traslada p0
+function getWallLocalAxisTransform(wall_polygon) {
+  const v0 = wall_polygon[0];
+  const v1 = wall_polygon[1];
+  const dirX = new Vector2(v1[0] - v0[0], v1[1] - v0[1]);
+  const angleX = dirX.angle();
+  const c = Math.cos(angleX);
+  const s = Math.sin(angleX);
+  return new Matrix3().set(c, -s, v0[0], s, c, v0[1], 0, 0, 1);
 }
 
 // Matriz de transformación de los elementos del edificio
