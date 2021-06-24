@@ -62,7 +62,7 @@ const ThreeView = () => {
   useEffect(() => {
     const ref = mountRef.current;
 
-    // Incializa ThreeJS
+    // Incializa cámara
     camera.aspect = ref.clientWidth / ref.clientHeight;
     camera.position.set(10, 30, 50);
     camera.lookAt(new Vector3(0, 0, 0));
@@ -116,6 +116,7 @@ const ThreeView = () => {
       autorun(() => {
         initObjectsFromModel(model, scene);
         updateCamera(scene, camera);
+        updateGround(scene);
       }),
     [model, scene, camera]
   );
@@ -141,8 +142,8 @@ const initGround = (scene) => {
 
   // Suelo de soporte transparente
   const ground = new Mesh(
-    new PlaneGeometry(200, 200, 100, 100),
-    new ShadowMaterial({ color: 0x6c6c6c })
+    new PlaneGeometry(200, 200),
+    new ShadowMaterial({ color: 0x6c6c6c, opacity: 0.75 })
   );
   ground.name = "World_Ground";
   ground.rotation.x = -Math.PI / 2;
@@ -150,8 +151,9 @@ const initGround = (scene) => {
   ground.receiveShadow = true;
   groundGroup.add(ground);
 
-  // Grid helper
+  // Grid helper con 40 divisiones de 1m
   const gridHelper = new GridHelper(40, 40, 0x0000ff, 0x808080);
+  gridHelper.name = "GridHelper";
   gridHelper.position.set(0, 0, 0);
   // @ts-ignore
   gridHelper.material.setValues({ opacity: 0.25, transparent: true });
@@ -162,6 +164,42 @@ const initGround = (scene) => {
 
   // Añade elementos a la escena
   scene.add(groundGroup);
+};
+
+// Actualiza elemento de suelo en función del tamaño del modelo cargado
+const updateGround = (scene) => {
+  const buildingGroup = scene.getObjectByName("BuildingGroup");
+  const groundGroup = scene.getObjectByName("GroundGroup");
+  const bbox = new THREE.Box3().setFromObject(buildingGroup);
+  const bbmin = bbox.min;
+  const bbmax = bbox.max;
+  const bbcen = bbox.getCenter();
+  const xdim = Math.round(Math.max(Math.abs(bbmin.x), Math.abs(bbmax.x)));
+  const zdim = Math.round(Math.max(Math.abs(bbmin.z), Math.abs(bbmax.z)));
+
+  // Suelo de soporte transparente
+  const ground = new Mesh(
+    new PlaneGeometry(2.5 * xdim, 2.5 * zdim),
+    new ShadowMaterial({ color: 0x6c6c6c, opacity: 0.75 })
+  );
+  ground.name = "World_Ground";
+  ground.rotation.x = -Math.PI / 2;
+  ground.position.y = -0.01;
+  ground.receiveShadow = true;
+
+  groundGroup.remove(scene.getObjectByName("World_Ground"));
+  groundGroup.add(ground);
+
+  // Grid helper
+  const maxSize = Math.max(xdim + 2, zdim + 2);
+  const gridHelper = new GridHelper(maxSize, maxSize, 0x0000ff, 0x808080);
+  gridHelper.name = "GridHelper";
+  gridHelper.position.set(Math.round(bbcen.x), 0, Math.round(bbcen.z));
+  // @ts-ignore
+  gridHelper.material.setValues({ opacity: 0.25, transparent: true });
+
+  groundGroup.remove(scene.getObjectByName("GridHelper"));
+  groundGroup.add(gridHelper);
 };
 
 const initLights = (scene) => {
