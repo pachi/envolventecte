@@ -199,7 +199,7 @@ export const N50ChartPie = ({
           .arc()
           .outerRadius(radius * 0.8)
           .innerRadius(radius * 0.4);
-        var outerArc = d3
+        const outerArc = d3
           .arc()
           .outerRadius(radius * 0.9)
           .innerRadius(radius * 0.9);

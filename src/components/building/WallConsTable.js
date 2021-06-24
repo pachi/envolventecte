@@ -28,8 +28,7 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import {  Float2DigitsFmt, getFloatOrOld } from "./TableHelpers";
-
+import { Float2DigitsFmt, getFloatOrOld } from "./TableHelpers";
 
 // Tabla de opacos del edificio
 const WallConsTable = ({ selected, setSelected }) => {

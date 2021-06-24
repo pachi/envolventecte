@@ -59,7 +59,7 @@ import {
 // Recibe la geometría de un opaco {tilt: f32, azimuth: f32, position: null | [f32, f32, f32], polygon: [[f32, f32], ...]}
 // No se comprueba la coherencia de la definición geométrica con la superficie
 export const GeometryOpaquesEditor = React.forwardRef(
-  ({ onUpdate, value }, ref) => {
+  ({ onUpdate, value }, _ref) => {
     const posIsNull = value.position === null || value.position.length === 0;
     let x = 0.0,
       y = 0.0,
@@ -384,7 +384,7 @@ const CoordsTable = ({ poly, setPoly }) => {
             clickToSelect: true,
             clickToEdit: true,
             selected: selected,
-            onSelect: (row, isSelected, _rowIndex, e) => {
+            onSelect: (row, isSelected, _rowIndex, _e) => {
               if (isSelected) {
                 setSelected([...selected, row.id]);
               } else {
@@ -500,7 +500,6 @@ const AddRemoveButtonGroup = ({ poly, setPoly, selected, setSelected }) => {
   );
 };
 
-
 /*
   The getElement function from customEditor takes two arguments,
   1. onUpdate: if you want to apply the modified data, call this function
@@ -510,7 +509,7 @@ const AddRemoveButtonGroup = ({ poly, setPoly, selected, setSelected }) => {
 // Recibe la geometría de un hueco {position: [f32, f32], height: f32, width: f32, setback: f32}
 // No se comprueba la coherencia de la definición geométrica con la superficie
 export const GeometryWindowEditor = React.forwardRef(
-  ({ onUpdate, value, ...rest }, ref) => {
+  ({ onUpdate, value, ..._rest }, _ref) => {
     const posIsNull = value.position === null || value.position.length === 0;
     let x = 0.0,
       y = 0.0;
@@ -537,14 +536,14 @@ export const GeometryWindowEditor = React.forwardRef(
           setback: parseFloat(setback),
           position: null,
         });
-      } else {
-        return onUpdate({
-          width: parseFloat(width),
-          height: parseFloat(height),
-          setback: parseFloat(setback),
-          position: [parseFloat(xPos), parseFloat(yPos)],
-        });
       }
+
+      return onUpdate({
+        width: parseFloat(width),
+        height: parseFloat(height),
+        setback: parseFloat(setback),
+        position: [parseFloat(xPos), parseFloat(yPos)],
+      });
     };
 
     const handleClose = () => {

@@ -122,12 +122,12 @@ const UElementsChart = ({
             .style("left", e.pageX + 30 + "px")
             .style("top", e.pageY + "px");
         };
-        const mousemove = (e, d) => {
+        const mousemove = (e, _d) => {
           tooltip
             .style("left", e.pageX + 30 + "px")
             .style("top", e.pageY + "px");
         };
-        const mouseleave = (e, d) => {
+        const mouseleave = (_e, _d) => {
           tooltip.transition().duration(200).style("opacity", 0);
         };
 

@@ -37,7 +37,7 @@ import NavBar from "./Nav";
 const MainPage = observer((props) => {
   const appstate = useContext(AppState);
 
-  const handleUpload = (acceptedFiles, rejectedFiles, event) => {
+  const handleUpload = (acceptedFiles, _rejectedFiles, _event) => {
     if (acceptedFiles.length > 0) {
       const file = acceptedFiles[0];
       const reader = new FileReader();

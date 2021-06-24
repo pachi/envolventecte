@@ -30,7 +30,7 @@ import { QSolJulChartWindRose as QSolJulChart } from "./IndicatorsQSolJulChart";
 // import { QSolJulChartBar as QSolJulChart } from "./IndicatorsQSolJulChart";
 import { round_or_dash } from "../../utils";
 
-const QSolJulDetail = ({ isShown }) => {
+const QSolJulDetail = () => {
   const appstate = useContext(AppState);
   const { area_ref, q_soljul_data } = appstate.he1_indicators;
   const { q_soljul, Q_soljul, detail } = q_soljul_data;
@@ -162,7 +162,7 @@ const QSolJulTable = (props) => {
     key = null
   ) => (
     <tr key={key}>
-      <td style={{ width: "2em", background: `${color}` }}></td>
+      <td style={{ width: "2em", background: `${color}` }} />
       <td>{orient}</td>
       <td className="text-center">{round_or_dash(fshobst_mean)}</td>
       <td className="text-center">{round_or_dash(gglshwi_mean)}</td>

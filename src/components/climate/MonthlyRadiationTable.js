@@ -43,7 +43,7 @@ const MonthlyRadiationTable = ({ data }) => {
           <Form inline>
             <Form.Check
               checked={showDetail}
-              onChange={(e) => setShowDetail(!showDetail)}
+              onChange={(_e) => setShowDetail(!showDetail)}
               label="¿Mostrar detalle de irradiación directa y difusa?"
             />
           </Form>

@@ -206,7 +206,7 @@ export const QSolJulChartWindRose = ({
           .domain(dataOrientations)
           .align(0);
 
-        //Arc for pie chart
+        // Arc for pie chart
         const arc = d3
           .arc()
           .innerRadius(innerRadius)
@@ -218,7 +218,7 @@ export const QSolJulChartWindRose = ({
         const pie = d3
           .pie()
           .sort(null)
-          .value((d) => 1);
+          .value((_d) => 1);
 
         const g = chart
           .selectAll(".arc")
@@ -290,7 +290,7 @@ export const QSolJulChartWindRose = ({
           .attr("font-size", 14);
 
         // Círculos de 10%
-        const yAxis = (g) =>
+        const yAxis = (_g) =>
           chart
             .append("g")
             .attr("class", "yAxis")

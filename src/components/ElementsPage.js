@@ -34,7 +34,7 @@ const SOMBREAMIENTOS = ELEMENTOS.huecos.sombreamientos;
 const TIPOSVIDRIO = ACRISTALAMIENTOS.tipos.map((v) => v.name);
 const TIPOSSOMBRA = SOMBREAMIENTOS.tipos.map((v) => v.name);
 
-const HuecosParams = (props) => {
+const HuecosParams = (_props) => {
   const [tipovidrio, setTipovidrio] = useState(TIPOSVIDRIO[0]);
   const [tiposombra, setTiposombra] = useState(TIPOSSOMBRA[0]);
   const [tau_e_B, setTau_e_B] = useState(1);

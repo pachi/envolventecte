@@ -88,7 +88,7 @@ const MetaParams = observer(() => {
         <h5>Ventilación e infiltraciones</h5>
         <Form>
           <Form.Check
-            checked={meta.n50_test_ach != null}
+            checked={meta.n50_test_ach !== null}
             onChange={(e) => {
               if (e.target.checked === false) {
                 meta.n50_test_ach = null;
@@ -99,7 +99,7 @@ const MetaParams = observer(() => {
             type="checkbox"
             label="Ensayo de puerta soplante disponible"
           />
-          {meta.n50_test_ach != null ? (
+          {meta.n50_test_ach !== null ? (
             <Form.Group as={Row} controlId="formControlsn50">
               <Form.Label column md={4}>
                 Tasa de intercambio de aire a 50 Pa (n<sub>50</sub>) obtenida de

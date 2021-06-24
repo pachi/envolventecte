@@ -70,18 +70,17 @@ export const getFloatOrOld = (newValue, oldValue) => {
 export const Float1DigitsFmt = (cell, _row, _rowIndex, _formatExtraData) => {
   if (cell === null || cell === undefined) {
     return <span>-</span>;
-  } else {
-    return <span>{Number(cell).toFixed(1)}</span>;
   }
+  return <span>{Number(cell).toFixed(1)}</span>;
 };
 
 // Muestra número con 2 decimales
 export const Float2DigitsFmt = (cell, _row) => {
   if (cell === null || cell === undefined) {
     return <span>-</span>;
-  } else {
-    return <span>{Number(cell).toFixed(2)}</span>;
   }
+
+  return <span>{Number(cell).toFixed(2)}</span>;
 };
 
 // Muestra valor booleano
@@ -99,9 +98,12 @@ export const TiltFmt = (tilt_angle) =>
 
 // Convierte punto 3D de posición a cadena de coordenadas
 export const PosFmt = (pos) => {
-  if (pos.length === 3)
+  if (pos.length === 3) {
     return `[${pos[0].toFixed(2)}, ${pos[1].toFixed(2)}, ${pos[2].toFixed(2)}]`;
-  if (pos.length === 2) return `[${pos[0].toFixed(2)}, ${pos[1].toFixed(2)}]`;
+  }
+  if (pos.length === 2) {
+    return `[${pos[0].toFixed(2)}, ${pos[1].toFixed(2)}]`;
+  }
   return "-";
 };
 
@@ -245,23 +247,19 @@ export function azimuth_name(azimuth_angle) {
     return "NE";
   } else if (azimuth < 202.5) {
     return "N";
-  }
-  // 202.5 = 360 - 157.5
-  else if (azimuth < 240.0) {
+  } else if (azimuth < 240.0) {
+    // 202.5 = 360 - 157.5
     return "NW";
-  }
-  // 240 = 360 - 120
-  else if (azimuth < 291.0) {
+  } else if (azimuth < 291.0) {
+    // 240 = 360 - 120
     return "W";
-  }
-  // 291 = 360 - 69
-  else if (azimuth < 342.0) {
+  } else if (azimuth < 342.0) {
+    // 291 = 360 - 69
     return "SW";
   }
+
   // 342 = 360 - 18
-  else {
-    return "S";
-  }
+  return "S";
 }
 
 // Conversión de inclinación de ángulo a nombre
@@ -275,7 +273,7 @@ export function tilt_name(tilt_angle) {
     return "SUELO";
   } else if (tilt < 300.0) {
     return "PARED";
-  } else {
-    return "TECHO";
   }
+
+  return "TECHO";
 }

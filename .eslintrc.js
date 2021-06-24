@@ -115,7 +115,6 @@ module.exports = {
     "no-new-wrappers": 2, // disallows creating new instances of String,Number, and Boolean
     "no-octal": 2, // disallow use of octal literals
     "no-octal-escape": 2, // disallow use of octal escape sequences in string literals, such as var foo = "Copyright \251";
-    "no-param-reassign": [2, { "props": true }], // disallow reassignment of function parameters (off by default)
     "no-process-env": 0, // disallow use of process.env (off by default)
     "no-proto": 2, // disallow usage of __proto__ property
     "no-redeclare": 2, // disallow declaring the same variable more then once
@@ -151,13 +150,9 @@ module.exports = {
     "no-implicit-globals": 0, // disallow var and named functions in global scope
     "no-label-var": 0, // disallow labels that share a name with a variable
     "no-self-assign": 2, // disallow self assignment
-    "no-shadow-restricted-names": 2, // disallow shadowing of names such as arguments
-    "no-shadow": 2, // disallow declaration of variables already declared in the outer scope
     "no-undef": 2, // disallow use of undeclared variables unless mentioned in a /*global */ block
     "no-undef-init": 0, // disallow use of undefined when initializing variables
-    "no-undefined": 1, // disallow use of undefined variable (off by default)
     "no-unused-vars": ["warn", { "vars": "local", "args": "after-used", "argsIgnorePattern": "^_" }], // disallow declaration of variables that are not used in the code
-    "no-use-before-define": 2, // disallow use of variables before they are defined
 
     //
     //Stylistic Issues
@@ -268,7 +263,6 @@ module.exports = {
     // While the names of the rules may not match up with the JSHint/JSLint counterpart,
     // the functionality is the same.
     //
-    "comma-dangle": [2, "never"], // disallow trailing commas in object literals
     "max-depth": [0, 4], // specify the maximum depth that blocks can be nested (off by default)
     "max-params": [0, 3], // limits the number of parameters that can be used in the function declaration. (off by default)
     "max-statements": [0, 10], // specify the maximum number of statement allowed in a function (off by default)

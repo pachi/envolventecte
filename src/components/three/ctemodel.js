@@ -18,13 +18,13 @@ import {
 } from "./ctematerials.js";
 
 const { degToRad } = MathUtils;
-
 // Genera geometría del modelo
 //
 // El modelo maneja dos espacios de coordenadas, el global y el local de muro
 // Además, los ejes del modelo son en X,Y (inclinación, azimuth)
 // pero en ThreeJS usamos X,-Z
 // ThreeJS: ejes X rojo, Y verde, Z azul
+/* eslint-disable no-undefined */
 export function initObjectsFromModel(model, scene) {
   let buildingGroup;
   const bGroup = scene.getObjectByName("BuildingGroup");
@@ -77,8 +77,9 @@ export function initObjectsFromModel(model, scene) {
       if (
         !window.geometry.position ||
         window.geometry.height * window.geometry.width === 0
-      )
+      ) {
         continue;
+      }
 
       const winShape = windowShape(window, toWallLocalAxis);
       const winMesh = meshFromShape(winShape, wallTransform);
@@ -225,7 +226,7 @@ function getWallSubtype(wall) {
     return "FLOOR";
   } else if (Math.abs(wall.geometry.tilt) < 1e-3) {
     return "ROOF";
-  } else {
-    return "WALL";
   }
+
+  return "WALL";
 }

@@ -46,7 +46,7 @@ import radiationdata from "../zcraddata.json";
 import example from "./example.json";
 
 // DEBUG:
-/* eslint import/no-webpack-loader-syntax: off */
+/* lint import/no-webpack-loader-syntax: off */
 // import test_ctehexml from '!raw-loader!../test/casopracticof21_ventanas_cubierta_raras_rot45.ctehexml';
 // import test_ctehexml from '!raw-loader!../test/casopracticof21_ventanas_cubierta_raras.ctehexml';
 // import test_ctehexml from '!raw-loader!../test/prueba_cub_rotada.ctehexml';
@@ -161,6 +161,7 @@ class AppState {
 
   // Pertenencia de un muro a la envolvente térmica
   // TODO: llevar a wasm, que devolvería lista de ids de muros en la ET y solamente comprobaríamos si está en esa lista el id.
+  /* eslint-disable no-undefined */
   wall_is_inside_tenv(wall) {
     const spaces_list = this.spaces;
     const space = spaces_list.find((s) => s.id === wall.space);
@@ -241,11 +242,11 @@ class AppState {
         o.name = o.name + ", " + opaco.name;
         o.id = newid;
         // Reescribimos referencias a los anteriores id
-        this.windows.forEach((w) => {
+        for (let w of this.windows) {
           if (w.wall === oldid || w.wall === opaco.id) {
             w.wall = newid;
           }
-        });
+        }
       } else {
         opacosagrupados.push(opaco);
       }

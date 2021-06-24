@@ -30,7 +30,7 @@ import { N50ChartPie as N50Chart } from "./IndicatorsN50Chart";
 import AppState from "../../stores/AppState";
 import { round_or_dash } from "../../utils";
 
-const IndicatorsN50Detail = ({ isShown }) => {
+const IndicatorsN50Detail = () => {
   const appstate = useContext(AppState);
   const {
     n50_ref,
@@ -72,7 +72,7 @@ const IndicatorsN50Detail = ({ isShown }) => {
 
   const elem_tr = ([name, color, ca, c, a, pct], key = null) => (
     <tr key={key}>
-      <td style={{ width: "2em", background: `${color}` }}></td>
+      <td style={{ width: "2em", background: `${color}` }} />
       <td>{name}</td>
       <td className="text-center">{round_or_dash(c)}</td>
       <td className="text-center">{round_or_dash(a)}</td>
@@ -217,7 +217,7 @@ const IndicatorsN50Detail = ({ isShown }) => {
         <Col className="text-center">
           {n50 > 0 ? (
             <N50Chart
-              data={n50_info.map(([name, color, ca, c, a, pct]) => ({
+              data={n50_info.map(([name, color, _ca, _c, _a, pct]) => ({
                 name,
                 color,
                 pct,

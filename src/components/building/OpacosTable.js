@@ -82,9 +82,8 @@ const OpacosTable = ({ selected, setSelected }) => {
     const uvalue = wallUValuesMap[row.id];
     if (uvalue === undefined || uvalue === null || isNaN(uvalue)) {
       return <span>-</span>;
-    } else {
-      return <span>{uvalue.toFixed(2)}</span>;
     }
+    return <span>{uvalue.toFixed(2)}</span>;
   };
 
   const columns = [

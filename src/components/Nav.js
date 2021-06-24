@@ -39,7 +39,7 @@ import icondownload from "./img/baseline-archive-24px.svg";
 const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
   const appstate = useContext(AppState);
 
-  const handleDownload = (e) => {
+  const handleDownload = (_e) => {
     const contents = appstate.asJSON;
     const contenthash = hash(contents).toString(16);
     const filename = `EnvolventeCTE-${contenthash}.json`;

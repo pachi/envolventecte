@@ -31,7 +31,7 @@ import { round_or_dash } from "../../utils";
 
 const formatted = (elem, bold = false) => (bold ? <b>{elem}</b> : <>{elem}</>);
 
-const IndicatorsKDetail = ({ isShown }) => {
+const IndicatorsKDetail = () => {
   const appstate = useContext(AppState);
   const { K, summary, roofs, floors, walls, windows, ground, tbs } =
     appstate.he1_indicators.K_data;
@@ -249,7 +249,7 @@ const KElementsTable = ({ K, data }) => {
     key = null
   ) => (
     <tr key={key}>
-      <td style={{ width: "2em", background: `${color}` }}></td>
+      <td style={{ width: "2em", background: `${color}` }} />
       <td>{formatted(title, format)}</td>
       <td className="text-center">{formatted(round_or_dash(a), format)}</td>
       <td className="text-center">{formatted(round_or_dash(au), format)}</td>
@@ -302,8 +302,8 @@ const KElementsTable = ({ K, data }) => {
           <td colSpan="2">
             <b>TOTAL</b>
           </td>
-          <td></td>
-          <td></td>
+          <td />
+          <td />
           <td className="text-center">
             <b>{K.toFixed(2)}</b>
           </td>
@@ -338,19 +338,22 @@ const build_k_data = (K, total_a, data) => {
 const U_mean = (elem_au, elem_a) => {
   if (elem_a && elem_a > 0.0001) {
     return elem_au / elem_a;
-  } else return null;
+  }
+  return null;
 };
 
 const K_contrib = (elem_au, a) => {
   if (a && a > 0.0001) {
     return elem_au / a;
-  } else return null;
+  }
+  return null;
 };
 
 const K_pct = (elem_au, a, K) => {
   if (a && a > 0.0001 && K && Math.abs(K) > 0.0001) {
     return (100 * elem_au) / a / K;
-  } else return null;
+  }
+  return null;
 };
 
 export default observer(IndicatorsKDetail);

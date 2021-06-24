@@ -38,7 +38,7 @@ import { Float1DigitsFmt, Float2DigitsFmt, BoolFmt, SpaceTypeFmt, spaceTypesOpts
 //  - props: contain customEditorParameters, whole row data, defaultValue and attrs
 // Usamos forwardRef para poder tener referencias en componentes funcionales
 // ver: https://github.com/reactjs/reactjs.org/issues/2120
-const BoolEditor = React.forwardRef((props, ref) => {
+const BoolEditor = React.forwardRef((props, _ref) => {
   const { value: defaultValue, onUpdate } = props;
   const [value, setValue] = useState(defaultValue);
 
@@ -51,14 +51,14 @@ const BoolEditor = React.forwardRef((props, ref) => {
           onUpdate(value);
         }
       }}
-      onChange={(e) => setValue(!value)}
-      onBlur={(e) => onUpdate(value)}
+      onChange={(_e) => setValue(!value)}
+      onBlur={(_e) => onUpdate(value)}
     />
   );
 });
 
 // Custom editor para nivel de ventilación de los espacios n_v
-const NVEditor = React.forwardRef((props, ref) => {
+const NVEditor = React.forwardRef((props, _ref) => {
   const { defaultValue, onUpdate } = props;
   const [value, setValue] = useState(defaultValue);
   const updateData = () => {
@@ -91,7 +91,7 @@ const NVEditor = React.forwardRef((props, ref) => {
               : val;
           setValue(val);
         }}
-        onBlur={(e) => updateData()}
+        onBlur={(_e) => updateData()}
       />
     </span>
   );

@@ -31,7 +31,7 @@ import { round_or_dash } from "../../utils";
 
 const formatted = (elem, bold = false) => (bold ? <b>{elem}</b> : <>{elem}</>);
 
-const IndicatorsUDetail = ({ isShown }) => {
+const IndicatorsUDetail = () => {
   const appstate = useContext(AppState);
   const { K, roofs, floors, walls, windows, ground } =
     appstate.he1_indicators.K_data;
@@ -45,8 +45,8 @@ const IndicatorsUDetail = ({ isShown }) => {
     ["Elem. contacto con terreno (O-G)", ground, "#d3aa86"],
   ];
 
-  const k_data = all_elements
-    .map(([element, { a, au, u_mean, u_min, u_max }, color]) => ({
+  const k_data = all_elements.map(
+    ([element, { a, au, u_mean, u_min, u_max }, color]) => ({
       element,
       color,
       a,
@@ -54,7 +54,8 @@ const IndicatorsUDetail = ({ isShown }) => {
       u_mean,
       u_min,
       u_max,
-    }));
+    })
+  );
 
   return (
     <>
@@ -142,7 +143,7 @@ const UElementsTable = ({ data }) => (
           key
         ) => (
           <tr key={key}>
-            <td style={{ width: "2em", background: `${color}` }}></td>
+            <td style={{ width: "2em", background: `${color}` }} />
             <td>{formatted(element, format)}</td>
             <td className="text-center">
               {formatted(round_or_dash(a), format)}

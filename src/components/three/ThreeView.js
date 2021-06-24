@@ -101,7 +101,7 @@ const ThreeView = () => {
     );
 
     // Bucle de animación
-    var animate = function () {
+    const animate = () => {
       if (control) control.update();
       resizeToDisplaySize(renderer, camera);
       renderer.render(scene, camera);
@@ -142,6 +142,55 @@ const ThreeView = () => {
   );
 };
 
+// Materiales para símbolo de norte y plano del suelo
+const northSymbolCircleMaterial = new THREE.MeshLambertMaterial({
+  color: 0x884444,
+  side: THREE.DoubleSide,
+  transparent: true,
+  opacity: 0.5,
+});
+
+const northSymbolArrowMaterial = new THREE.MeshLambertMaterial({
+  color: 0x333333,
+  side: THREE.DoubleSide,
+});
+
+const groundPlaneMaterial = new ShadowMaterial({
+  color: 0x6c6c6c,
+  opacity: 0.75,
+});
+
+// Crea símbolo de norte
+const createNorthSymbol = (x, y) => {
+  const radius = 1;
+  const symbolGroup = new Group();
+  symbolGroup.name = "NorthSymbol";
+
+  const circle = new Mesh(
+    new THREE.CircleGeometry(radius, 64),
+    northSymbolCircleMaterial
+  );
+  symbolGroup.add(circle);
+
+  const arrowShape = new Shape();
+  arrowShape.moveTo(radius, 0);
+  arrowShape.lineTo(0, radius);
+  arrowShape.lineTo(-radius, 0);
+  arrowShape.closePath();
+
+  const arrow = new Mesh(
+    new ShapeGeometry(arrowShape),
+    northSymbolArrowMaterial
+  );
+  arrow.position.set(0, 0, 0.05);
+  symbolGroup.add(arrow);
+
+  symbolGroup.rotation.x = -Math.PI / 2;
+  symbolGroup.position.set(x - 1, 0, y + 1);
+
+  return symbolGroup;
+};
+
 // Genera elemento de suelo y rejilla
 //
 // ThreeJS: ejes X rojo, Y verde, Z azul
@@ -174,11 +223,6 @@ const initGround = (scene) => {
   // Añade elementos a la escena
   scene.add(groundGroup);
 };
-
-const groundPlaneMaterial = new ShadowMaterial({
-  color: 0x6c6c6c,
-  opacity: 0.75,
-});
 
 // Actualiza elemento de suelo en función del tamaño del modelo cargado
 const updateGround = (scene) => {
@@ -221,49 +265,6 @@ const updateGround = (scene) => {
 
   groundGroup.remove(scene.getObjectByName("NorthSymbol"));
   groundGroup.add(createNorthSymbol(bbox.min.x, bbox.max.z));
-};
-
-const northSymbolCircleMaterial = new THREE.MeshLambertMaterial({
-  color: 0x884444,
-  side: THREE.DoubleSide,
-  transparent: true,
-  opacity: 0.5,
-});
-
-const northSymbolArrowMaterial = new THREE.MeshLambertMaterial({
-  color: 0x333333,
-  side: THREE.DoubleSide,
-});
-
-// Crea símbolo de norte
-const createNorthSymbol = (x, y) => {
-  const radius = 1;
-  const symbolGroup = new Group();
-  symbolGroup.name = "NorthSymbol";
-
-  const circle = new Mesh(
-    new THREE.CircleGeometry(radius, 64),
-    northSymbolCircleMaterial
-  );
-  symbolGroup.add(circle);
-
-  const arrowShape = new Shape();
-  arrowShape.moveTo(radius, 0);
-  arrowShape.lineTo(0, radius);
-  arrowShape.lineTo(-radius, 0);
-  arrowShape.closePath();
-
-  const arrow = new Mesh(
-    new ShapeGeometry(arrowShape),
-    northSymbolArrowMaterial
-  );
-  arrow.position.set(0, 0, 0.05);
-  symbolGroup.add(arrow);
-
-  symbolGroup.rotation.x = -Math.PI / 2;
-  symbolGroup.position.set(x - 1, 0, y + 1);
-
-  return symbolGroup;
 };
 
 const initLights = (scene) => {
@@ -363,11 +364,12 @@ const onKeyDown = (e, gui, control) => {
     if (control) control.reset();
   }
   // CTRL + ALT + i
-  if (e.ctrlKey && e.altKey && e.code === "KeyI")
+  if (e.ctrlKey && e.altKey && e.code === "KeyI") {
     if (gui) {
       gui.params.inspectMode = !gui.params.inspectMode;
       gui.pane.refresh();
     }
+  }
 };
 
 // Muestra, en modo de inspección, una lista con los objetos bajo la localización del puntero
@@ -375,7 +377,7 @@ const onPointerDown = (e, ref, scene, camera, gui) => {
   const currentRef = ref.current;
   if (!gui || gui.params.inspectMode === false || !currentRef) return;
   // Rectángulo del elemento
-  var rect = currentRef.getBoundingClientRect();
+  const rect = currentRef.getBoundingClientRect();
   // Coordenadas dentro del elemento X: [0, rect.width], Y: [0, rect.height]
   const xCoord = e.clientX - rect.left;
   const yCoord = e.clientY - rect.top;
@@ -448,20 +450,19 @@ function getTextElement(document) {
   const el = document.getElementById("inspect_dom_element");
   if (el) {
     return el;
-  } else {
-    const el = document.createElement("ul");
-    el.id = "inspect_dom_element";
-    el.style.margin = "0";
-    el.style.padding = "0";
-    el.style.position = "absolute";
-    el.style.color = "black";
-    el.style.background = "#ffffffAA";
-    el.style.font = "13px Arial, Verdana, sans-serif";
-    el.style.zIndex = "100";
-    el.style.display = "block";
-    document.body.appendChild(el);
-    return el;
   }
+  const ll = document.createElement("ul");
+  ll.id = "inspect_dom_element";
+  ll.style.margin = "0";
+  ll.style.padding = "0";
+  ll.style.position = "absolute";
+  ll.style.color = "black";
+  ll.style.background = "#ffffffAA";
+  ll.style.font = "13px Arial, Verdana, sans-serif";
+  ll.style.zIndex = "100";
+  ll.style.display = "block";
+  document.body.appendChild(ll);
+  return ll;
 }
 
 export default observer(ThreeView);

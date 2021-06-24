@@ -90,9 +90,8 @@ const HuecosTable = ({ selected, setSelected }) => {
     const uvalue = winUValuesMap[row.id];
     if (uvalue === undefined || uvalue === null) {
       return <span>-</span>;
-    } else {
-      return <span>{uvalue.toFixed(2)}</span>;
     }
+    return <span>{uvalue.toFixed(2)}</span>;
   };
 
   const columns = [
