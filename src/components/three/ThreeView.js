@@ -185,8 +185,10 @@ const updateGround = (scene) => {
   const buildingGroup = scene.getObjectByName("BuildingGroup");
   const groundGroup = scene.getObjectByName("GroundGroup");
   const bbox = new THREE.Box3().setFromObject(buildingGroup);
-  const bbcen = bbox.getCenter();
-  const size = bbox.getSize();
+  const size = new THREE.Vector3();
+  const center = new THREE.Vector3();
+  bbox.getSize(size);
+  bbox.getCenter(center);
   const maxSize = Math.max(size.x, size.z);
 
   // Suelo de soporte transparente
@@ -210,7 +212,7 @@ const updateGround = (scene) => {
     0x808080
   );
   gridHelper.name = "GridHelper";
-  gridHelper.position.set(Math.round(bbcen.x), 0, Math.round(bbcen.z));
+  gridHelper.position.set(Math.round(center.x), 0, Math.round(center.z));
   // @ts-ignore
   gridHelper.material.setValues({ opacity: 0.25, transparent: true });
 
@@ -294,16 +296,16 @@ const initLights = (scene) => {
 const updateCamera = (scene, camera, control) => {
   const obj = scene.getObjectByName("BuildingGroup");
   const bbox = new THREE.Box3().setFromObject(obj);
-  const size = bbox.getSize();
-  const center = bbox.getCenter(new THREE.Vector3());
+  const size = new THREE.Vector3();
+  const center = new THREE.Vector3();
+  bbox.getSize(size);
+  bbox.getCenter(center);
   const maxSize = Math.max(size.x, size.z);
 
   // Mira hacia el edificio
-  let target;
+  const target = new Vector3(0, 0, 0);
   if (obj) {
-    target = new THREE.Box3().setFromObject(obj).getCenter();
-  } else {
-    target = new Vector3(0, 0, 0);
+    new THREE.Box3().setFromObject(obj).getCenter(target);
   }
   camera.lookAt(target);
 
