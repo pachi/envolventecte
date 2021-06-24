@@ -51,12 +51,18 @@ const ThreeView = () => {
     antialias: true,
     alpha: true,
   });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.shadowMap.enabled = true;
+  // Cámara
   const camera = new PerspectiveCamera(
     50,
     window.innerWidth / window.innerHeight,
     0.1,
     1000
   );
+  camera.position.set(10, 30, 50);
+  camera.lookAt(new Vector3(0, 0, 0));
+
   // Introduce suelo y luces
   initGround(scene);
   initLights(scene);
@@ -66,13 +72,9 @@ const ThreeView = () => {
 
     // Incializa cámara
     camera.aspect = ref.clientWidth / ref.clientHeight;
-    camera.position.set(10, 30, 50);
-    camera.lookAt(new Vector3(0, 0, 0));
 
     // Renderer
-    renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(ref.clientWidth, ref.clientHeight, false);
-    renderer.shadowMap.enabled = true;
 
     // Controles
     const control = new OrbitControls(camera, ref);
@@ -178,15 +180,13 @@ const updateGround = (scene) => {
   const buildingGroup = scene.getObjectByName("BuildingGroup");
   const groundGroup = scene.getObjectByName("GroundGroup");
   const bbox = new THREE.Box3().setFromObject(buildingGroup);
-  const bbmin = bbox.min;
-  const bbmax = bbox.max;
   const bbcen = bbox.getCenter();
-  const xdim = Math.round(Math.max(Math.abs(bbmin.x), Math.abs(bbmax.x)));
-  const zdim = Math.round(Math.max(Math.abs(bbmin.z), Math.abs(bbmax.z)));
+  const size = bbox.getSize();
+  const maxSize = Math.max(size.x, size.z);
 
   // Suelo de soporte transparente
   const ground = new Mesh(
-    new PlaneGeometry(2.5 * xdim, 2.5 * zdim),
+    new PlaneGeometry(2.5 * size.x, 2.5 * size.z),
     groundPlaneMaterial
   );
   ground.name = "World_Ground";
@@ -198,8 +198,12 @@ const updateGround = (scene) => {
   groundGroup.add(ground);
 
   // Grid helper
-  const maxSize = Math.max(xdim + 2, zdim + 2);
-  const gridHelper = new GridHelper(maxSize, maxSize, 0x0000ff, 0x808080);
+  const gridHelper = new GridHelper(
+    maxSize + 2,
+    maxSize + 2,
+    0x0000ff,
+    0x808080
+  );
   gridHelper.name = "GridHelper";
   gridHelper.position.set(Math.round(bbcen.x), 0, Math.round(bbcen.z));
   // @ts-ignore
@@ -209,7 +213,7 @@ const updateGround = (scene) => {
   groundGroup.add(gridHelper);
 
   groundGroup.remove(scene.getObjectByName("NorthSymbol"));
-  groundGroup.add(createNorthSymbol(bbmin.x, bbmax.z));
+  groundGroup.add(createNorthSymbol(bbox.min.x, bbox.max.z));
 };
 
 const northSymbolCircleMaterial = new THREE.MeshLambertMaterial({
