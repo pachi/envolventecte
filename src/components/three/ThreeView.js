@@ -17,6 +17,8 @@ import {
   Raycaster,
   Scene,
   ShadowMaterial,
+  Shape,
+  ShapeGeometry,
   Vector3,
   WebGLRenderer,
 } from "three";
@@ -141,10 +143,7 @@ const initGround = (scene) => {
   groundGroup.name = "GroundGroup";
 
   // Suelo de soporte transparente
-  const ground = new Mesh(
-    new PlaneGeometry(200, 200),
-    new ShadowMaterial({ color: 0x6c6c6c, opacity: 0.75 })
-  );
+  const ground = new Mesh(new PlaneGeometry(200, 200), groundPlaneMaterial);
   ground.name = "World_Ground";
   ground.rotation.x = -Math.PI / 2;
   ground.position.y = -0.01;
@@ -162,9 +161,17 @@ const initGround = (scene) => {
   // Axes helper
   groundGroup.add(new AxesHelper(10)); // X rojo, Y verde, Z azul
 
+  // Símbolo de norte
+  groundGroup.add(createNorthSymbol(0, 0));
+
   // Añade elementos a la escena
   scene.add(groundGroup);
 };
+
+const groundPlaneMaterial = new ShadowMaterial({
+  color: 0x6c6c6c,
+  opacity: 0.75,
+});
 
 // Actualiza elemento de suelo en función del tamaño del modelo cargado
 const updateGround = (scene) => {
@@ -180,7 +187,7 @@ const updateGround = (scene) => {
   // Suelo de soporte transparente
   const ground = new Mesh(
     new PlaneGeometry(2.5 * xdim, 2.5 * zdim),
-    new ShadowMaterial({ color: 0x6c6c6c, opacity: 0.75 })
+    groundPlaneMaterial
   );
   ground.name = "World_Ground";
   ground.rotation.x = -Math.PI / 2;
@@ -200,6 +207,52 @@ const updateGround = (scene) => {
 
   groundGroup.remove(scene.getObjectByName("GridHelper"));
   groundGroup.add(gridHelper);
+
+  groundGroup.remove(scene.getObjectByName("NorthSymbol"));
+  groundGroup.add(createNorthSymbol(bbmin.x, bbmax.z));
+};
+
+const northSymbolCircleMaterial = new THREE.MeshLambertMaterial({
+  color: 0x884444,
+  side: THREE.DoubleSide,
+  transparent: true,
+  opacity: 0.5,
+});
+
+const northSymbolArrowMaterial = new THREE.MeshLambertMaterial({
+  color: 0x333333,
+  side: THREE.DoubleSide,
+});
+
+// Crea símbolo de norte
+const createNorthSymbol = (x, y) => {
+  const radius = 1;
+  const symbolGroup = new Group();
+  symbolGroup.name = "NorthSymbol";
+
+  const circle = new Mesh(
+    new THREE.CircleGeometry(radius, 64),
+    northSymbolCircleMaterial
+  );
+  symbolGroup.add(circle);
+
+  const arrowShape = new Shape();
+  arrowShape.moveTo(radius, 0);
+  arrowShape.lineTo(0, radius);
+  arrowShape.lineTo(-radius, 0);
+  arrowShape.closePath();
+
+  const arrow = new Mesh(
+    new ShapeGeometry(arrowShape),
+    northSymbolArrowMaterial
+  );
+  arrow.position.set(0, 0, 0.05);
+  symbolGroup.add(arrow);
+
+  symbolGroup.rotation.x = -Math.PI / 2;
+  symbolGroup.position.set(x - 1, 0, y + 1);
+
+  return symbolGroup;
 };
 
 const initLights = (scene) => {
