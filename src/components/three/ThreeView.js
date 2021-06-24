@@ -63,6 +63,9 @@ const ThreeView = () => {
   camera.position.set(10, 30, 50);
   camera.lookAt(new Vector3(0, 0, 0));
 
+  // Controles
+  const cameraControl = useRef();
+
   // Introduce suelo y luces
   initGround(scene);
   initLights(scene);
@@ -81,6 +84,7 @@ const ThreeView = () => {
     control.enableDamping = true;
     control.enabled = true;
     control.update();
+    cameraControl.current = control;
 
     // Panel de control
     const gui = new GUIView(scene, guiPaneRef);
@@ -118,8 +122,9 @@ const ThreeView = () => {
   useEffect(
     () =>
       autorun(() => {
+        const control = cameraControl.current;
         initObjectsFromModel(model, scene);
-        updateCamera(scene, camera);
+        updateCamera(scene, camera, control);
         updateGround(scene);
       }),
     [model, scene, camera]
@@ -286,15 +291,46 @@ const initLights = (scene) => {
   // scene.add(new DirectionalLightHelper(light));
 };
 
-const updateCamera = (scene, camera) => {
+const updateCamera = (scene, camera, control) => {
   const obj = scene.getObjectByName("BuildingGroup");
+  const bbox = new THREE.Box3().setFromObject(obj);
+  const size = bbox.getSize();
+  const center = bbox.getCenter(new THREE.Vector3());
+  const maxSize = Math.max(size.x, size.z);
+
+  // Mira hacia el edificio
   let target;
   if (obj) {
-    target = new THREE.Box3().setFromObject(obj);
+    target = new THREE.Box3().setFromObject(obj).getCenter();
   } else {
     target = new Vector3(0, 0, 0);
   }
   camera.lookAt(target);
+
+  // Ajusta distancia para ajustarse a la pantalla
+  const fitOffset = 1.2;
+  const fitHeightDistance =
+    maxSize / (2 * Math.atan((Math.PI * camera.fov) / 360));
+  const fitWidthDistance = fitHeightDistance / camera.aspect;
+  const distance = fitOffset * Math.max(fitHeightDistance, fitWidthDistance);
+
+  const direction = control.target
+    .clone()
+    .sub(camera.position)
+    .normalize()
+    .multiplyScalar(distance);
+  control.maxDistance = distance * 10;
+  control.target.copy(center);
+
+  camera.near = distance / 100;
+  camera.far = distance * 100;
+  camera.updateProjectionMatrix();
+
+  // Copia la posición del control
+  camera.position.copy(control.target).sub(direction);
+
+  // Actualiza cámara y control
+  control.update();
 };
 
 const resizeToDisplaySize = (renderer, camera) => {
