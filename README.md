@@ -92,11 +92,14 @@ Por ejemplo, para los huecos se puede obtener: la transmitancia térmica (U), el
 
 ## Limitaciones del programa
 
+- los volúmenes de los espacios se calculan como producto de la superficie del espacio y de su altura, independientemente de la configuración geométrica de sus cerramientos
+- los huecos solamente pueden definirse de forma rectangular
+- la resistencia y profundidad del aislamiento perimetral de soleras son únicos para todo el proyecto
+
 ### Importación de archivos HULC
 
-- no se importan las lamas, aleros y aletas definidos en los huecos
-- no se calculan correctamente los volúmenes de espacios con cubiertas inclinadas
-- no se importan muros definidos con puntos 3D ni huecos que no sean rectangulares
+- no se importan las lamas (horizontales o verticales) definidas en los huecos
+- no se importan muros definidos con puntos 3D
 - el factor de sombras remotas de los huecos debe importarse de forma separada, usando el archivo KyGananciasSolares.txt
 
 ## Licencia
