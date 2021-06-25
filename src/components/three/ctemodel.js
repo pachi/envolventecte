@@ -182,13 +182,13 @@ function windowShape(window, wallLocal) {
     height,
   } = window.geometry;
   // Generamos el hueco transformando las coordenadas a ejes locales de muro
-  const shape = new Shape([
-    new Vector2(x, y).applyMatrix3(wallLocal),
-    new Vector2(x + width, y).applyMatrix3(wallLocal),
-    new Vector2(x + width, y + height).applyMatrix3(wallLocal),
-    new Vector2(x, y + height).applyMatrix3(wallLocal),
-  ]);
-  return shape;
+  const coords = [
+    new Vector2(x, y),
+    new Vector2(x + width, y),
+    new Vector2(x + width, y + height),
+    new Vector2(x, y + height),
+  ].map((x) => x.applyMatrix3(wallLocal));
+  return new Shape().setFromPoints(coords);
 }
 
 // Matriz de transformación de coordenadas globales a ejes locales del muro con polígono polygon
