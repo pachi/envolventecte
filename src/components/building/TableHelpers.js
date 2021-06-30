@@ -98,7 +98,9 @@ export const TiltFmt = (tilt_angle) =>
 
 // Convierte punto 3D de posición a cadena de coordenadas
 export const PosFmt = (pos) => {
-  if (pos.length === 3) {
+  if (pos === null) {
+    return "-";
+  } else if (pos.length === 3) {
     return `[${pos[0].toFixed(2)}, ${pos[1].toFixed(2)}, ${pos[2].toFixed(2)}]`;
   }
   if (pos.length === 2) {
