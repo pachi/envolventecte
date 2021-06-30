@@ -40,6 +40,10 @@ module.exports = {
   },
 
   "rules": {
+    "react/prop-types": "off",
+    "react/no-unescaped-entities": "warn",
+    "react/display-name": "off",
+
   //   //
   //   //Possible Errors
   //   //
