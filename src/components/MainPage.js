@@ -139,7 +139,7 @@ const MainPage = observer((props) => {
               <p>Resultados obtenidos para el modelo actual:</p>
               <IndicatorsPanel />
               <Alert variant="info">
-                Pulse en el botón de "Detalles" para más información.
+                Pulse en el botón de &quot;Detalles&quot; para más información.
               </Alert>
             </Col>
           </Row>
