@@ -1,17 +1,17 @@
 # Bugs
 
 - Revisar compatibilidad en Chrome: en particular los cambios en datos generales
-- ¿Comprobar por qué se carga un n50 inicialmente que no está en el archivo (no hay ensayo pero se coge uno que no es el n50_ref).?
 - Comprobar que se calcula bien el volumen de espacios con techos inclinados (suma de volúmenes con signo de los tetraedros https://stackoverflow.com/questions/1406029/how-to-calculate-the-volume-of-a-3d-mesh-object-the-surface-of-which-is-made-up-t )
 
 # Mejoras
 
+- Añadir en editor de geometría el nombre del elemento que se está editando
 - Añadir en editor de geometría una imagen del polígono (hacer versión en SVG).
 - Añadir valores de referencia HE nuevos y existentes, apéndice E, etc a gráficas
 - Mostrar tooltip en los elementos con avisos
 - ThreeView
-    - Roseta de norte
-    - Activar / desactivar plano y rejilla de suelo
+    - Posición del sol a partir de mes, día y hora
+    - Opacidad aclarando elementos ocultos
     - Clipping plane: https://github.com/agviegas/IFC.js/commit/9be223de323e6acd936d9493eda5753a4ffe8183
     - Seleccionar elemento activo en las tablas del modelo (y, al revés, mostrar elementos seleccionados en 3D), selecciones múltiples
 
@@ -38,6 +38,7 @@
 - Ver si es posible llevar la salida del logging de Rust a los avisos de wasm
     - Guardar en cada bloque de hulc los avisos y recolectarlos en la conversión a objetos y luego trasladarlos a wasm
 - Llevar a wasm:
+    - Generar coordenadas 3D de los elementos (opacos, huecos), exceptuando cambio global de ejes.
     - Agrupar elementos (espacios, muros, huecos, PTs)
     - Datos de clima?
     - Default de elementos (constructor), con implementaciones manuales (ver uuid)
