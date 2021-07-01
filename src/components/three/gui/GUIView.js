@@ -1,4 +1,4 @@
-import Tweakpane from "tweakpane";
+import {Pane} from "tweakpane";
 import { MeshLambertMaterial, DoubleSide } from "three";
 
 // Material doble cara - azul
@@ -35,7 +35,7 @@ export default class GUIView {
   }
 
   initPane(container) {
-    this.pane = new Tweakpane({
+    this.pane = new Pane({
       title: "Visor EnvolventeCTE",
       expanded: false,
       container,
