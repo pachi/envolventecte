@@ -8,7 +8,7 @@ import {
   AxesHelper,
   // CameraHelper,
   DirectionalLight,
-  // DirectionalLightHelper,
+  DirectionalLightHelper,
   GridHelper,
   Group,
   Mesh,
@@ -267,6 +267,16 @@ const updateGround = (scene) => {
   groundGroup.add(createNorthSymbol(bbox.min.x, bbox.max.z));
 };
 
+// Posición solar para un azimuth y altura solar dados
+// - azimuth (S=0, E=90, W=-90)
+// - altura solar (Horiz=0, vert=90), en grados
+// Usa una posición con distancia = 100m
+const sunPos = (azimuth, altitude, dist=100) => {
+  const azim = azimuth * Math.PI / 180;
+  const alt = altitude * Math.PI / 180;
+  return new Vector3(Math.cos(alt) * Math.sin(azim), Math.sin(alt), Math.cos(alt) * Math.cos(azim)).multiplyScalar(dist);
+};
+
 const initLights = (scene) => {
   // Luz ambiente
   const light_amb = new AmbientLight(0xffffff, 0.6);
@@ -275,23 +285,25 @@ const initLights = (scene) => {
   // Luz direccional. Ajustamos el tamaño para que cubra la escena
   // y ajustamos el punto de cálculo de sombras para evitar aliasing
   const light = new DirectionalLight(0xffffff, 1);
-  // light.shadow.normalBias = 0.05;
-  light.shadow.bias = -0.0005;
+  light.name = "Sun";
+  light.shadow.normalBias = 0.05;
+  light.shadow.bias = -0.00025;
   const d = 50;
   light.shadow.camera.left = -d;
   light.shadow.camera.right = d;
   light.shadow.camera.top = d;
   light.shadow.camera.bottom = -d;
-  light.shadow.camera.far = 200; // Default 2000
+  light.shadow.camera.far = 300; // Default 2000
   light.shadow.mapSize.width = 2048; // Default 512
   light.shadow.mapSize.height = 2048;
-  light.position.set(60, 100, 40);
+  // Coordenadas altura solar es sistema levógiro y con Y=arriba, X=Este, Z=Sur
+  light.position.copy(sunPos(0, 73));
   light.castShadow = true;
   scene.add(light);
 
   // Helpers for shadow camera and directional light
   // scene.add(new CameraHelper(light.shadow.camera));
-  // scene.add(new DirectionalLightHelper(light));
+  scene.add(new DirectionalLightHelper(light, 1, "red"));
 };
 
 const updateCamera = (scene, camera, control) => {
