@@ -35,6 +35,7 @@ export function initObjectsFromModel(model, scene) {
     buildingGroup = new Group();
     buildingGroup.name = "BuildingGroup";
   }
+  buildingGroup.rotation.x = -Math.PI / 2;
 
   let wireframeGroup;
   const wfGroup = scene.getObjectByName("WireframeGroup");
@@ -45,6 +46,7 @@ export function initObjectsFromModel(model, scene) {
     wireframeGroup = new Group();
     wireframeGroup.name = "WireframeGroup";
   }
+  wireframeGroup.rotation.x = -Math.PI / 2;
 
   for (const wall of model.walls) {
     const { geometry } = wall;
@@ -214,10 +216,8 @@ function transformMatrix(tilt, azimuth, position) {
   const mazim = new Matrix4().makeRotationZ(degToRad(azimuth));
   // Aplicamos la traslación en coordenadas globales
   const mtran = new Matrix4().makeTranslation(x, y, z);
-  // Cambiamos la disposición de ejes de X,Y a X,-Z
-  const mflipz = new Matrix4().makeRotationX(-Math.PI / 2);
 
-  return mflipz.multiply(mtran).multiply(mazim).multiply(mtilt);
+  return mtran.multiply(mazim).multiply(mtilt);
 }
 
 // Devuelve subtipo de muro según inclinación: ROOF | FLOOR | WALL
