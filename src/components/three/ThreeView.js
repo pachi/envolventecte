@@ -53,6 +53,7 @@ const ThreeView = () => {
   });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.shadowMap.enabled = true;
+  renderer.physicallyCorrectLights = true;
   // Cámara
   const camera = new PerspectiveCamera(
     50,
@@ -294,8 +295,8 @@ const initLights = (scene) => {
   light.shadow.camera.top = d;
   light.shadow.camera.bottom = -d;
   light.shadow.camera.far = 300; // Default 2000
-  light.shadow.mapSize.width = 2048; // Default 512
-  light.shadow.mapSize.height = 2048;
+  light.shadow.mapSize.width = 512 * 4; // Default 512
+  light.shadow.mapSize.height = 512 * 4;
   // Coordenadas altura solar es sistema levógiro y con Y=arriba, X=Este, Z=Sur
   light.position.copy(sunPos(0, 73));
   light.castShadow = true;
@@ -309,10 +310,8 @@ const initLights = (scene) => {
 const updateCamera = (scene, camera, control) => {
   const obj = scene.getObjectByName("BuildingGroup");
   const bbox = new THREE.Box3().setFromObject(obj);
-  const size = new THREE.Vector3();
-  const center = new THREE.Vector3();
-  bbox.getSize(size);
-  bbox.getCenter(center);
+  const size = bbox.getSize(new THREE.Vector3());
+  const center = bbox.getCenter(new THREE.Vector3());
   const maxSize = Math.max(size.x, size.z);
 
   // Mira hacia el edificio

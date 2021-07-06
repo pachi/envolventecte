@@ -66,14 +66,14 @@ export function initObjectsFromModel(model, scene) {
       subtype: wallSubtype,
     };
 
+    // Conversión a coordenadas globales
     const wallTransform = transformMatrix(tilt, azimuth, position);
+    // Conversión de coordenadas locales de muro a coordenadas de polígono de muro
+    const wallLocal2WallPolyTransform = wallLocal2WallPolygon(polygon);
 
     // Muro
     const wallShape = new Shape(polygon.map((p) => new Vector2(p[0], p[1])));
     const wallWindows = model.windows.filter((w) => w.wall === wall.id);
-
-    // Conversión de coordenadas locales de muro a coordenadas de polígono de muro
-    const wallLocal2WallPolyTransform = getWallLocalTo2DPolygonTransform(polygon);
 
     for (const window of wallWindows) {
       if (
@@ -178,6 +178,7 @@ function buffergeometryNormal(geometry, idx = 0) {
 // Generar el Shape de un hueco a partir de los datos de posición, ancho y alto
 // Los datos de hueco están en coordenadas locales de muro y se transforman en
 // coordenadas de polígono de muro
+// La posición se refiere a la esquina inferior izquierda.
 function windowShape(window, wallLocal2WallPolyTransform) {
   const {
     position: [x, y],
@@ -197,7 +198,7 @@ function windowShape(window, wallLocal2WallPolyTransform) {
 // Matriz de transformación de coordenadas locales de muro a coordenadas de su polígono 2D
 // Nos sirve para pasar de las coordenadas locales del muro a las coordenadas del polígono de muro en 2D
 // Se gira el eje X en la dirección del polígono de muro p1 - p0 y se traslada a p0 el origen
-function getWallLocalTo2DPolygonTransform(wall_polygon) {
+function wallLocal2WallPolygon(wall_polygon) {
   const v0 = wall_polygon[0];
   const v1 = wall_polygon[1];
   const dirX = new Vector2(v1[0] - v0[0], v1[1] - v0[1]);
