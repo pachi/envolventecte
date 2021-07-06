@@ -279,9 +279,12 @@ const sunPos = (azimuth, altitude, dist=100) => {
 };
 
 const initLights = (scene) => {
+  const group = new Group();
+  group.name = "LightsGroup";
+
   // Luz ambiente
   const light_amb = new AmbientLight(0xffffff, 0.6);
-  scene.add(light_amb);
+  group.add(light_amb);
 
   // Luz direccional. Ajustamos el tamaño para que cubra la escena
   // y ajustamos el punto de cálculo de sombras para evitar aliasing
@@ -300,11 +303,12 @@ const initLights = (scene) => {
   // Coordenadas altura solar es sistema levógiro y con Y=arriba, X=Este, Z=Sur
   light.position.copy(sunPos(0, 73));
   light.castShadow = true;
-  scene.add(light);
-
+  group.add(light);
   // Helpers for shadow camera and directional light
   // scene.add(new CameraHelper(light.shadow.camera));
-  scene.add(new DirectionalLightHelper(light, 1, "red"));
+  group.add(new DirectionalLightHelper(light, 1, "red"));
+
+  scene.add(group);
 };
 
 const updateCamera = (scene, camera, control) => {
@@ -345,6 +349,12 @@ const updateCamera = (scene, camera, control) => {
 
   // Actualiza cámara y control
   control.update();
+
+  // Coloca luces desde el centro del edificio
+  const lights = scene.getObjectByName("LightsGroup");
+  lights.position.x = center.x / 2;
+  lights.position.y = center.y / 2;
+  lights.position.z = center.z / 2;
 };
 
 const resizeToDisplaySize = (renderer, camera) => {
