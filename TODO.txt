@@ -26,6 +26,7 @@
 - Elementos: Construcciones de opacos definidas por capas + editor de capas
 - Construcciones de opacos: posibilidad de usar definición actual o por capas
 - Gráfica de radiación y fshwi por orientaciones en clima
+- Dibujar trayectorias solares en el espacio, para algunos meses y poder mostrar u ocultar.
 
 # Reorganizaciones
 
