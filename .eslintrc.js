@@ -17,7 +17,6 @@ module.exports = {
     classes: true,
     defaultParams: true,
     destructuring: true,
-    experimentalObjectRestSpread: true,
     forOf: true,
     generators: true,
     modules: true,
@@ -36,10 +35,10 @@ module.exports = {
     jsx: true,
   },
   parserOptions: {
-    sourceType: "module",
+    "ecmaVersion": 9,
+    "sourceType": "module",
   },
-
-  "rules": {
+  rules: {
     "react/prop-types": "off",
     "react/no-unescaped-entities": "warn",
     "react/display-name": "off",
@@ -326,5 +325,10 @@ module.exports = {
   //   // "react/no-unknown-property": 1,
   //   // "react/react-in-jsx-scope": 1,
   //   // "react/self-closing-comp": 1
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 };
