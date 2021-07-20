@@ -51,7 +51,7 @@ const JulyRadiationTable = ({ data }) => (
               <th className="col-md-1">kWh/m²/mes</th>
               {data.map((d, i) => (
                 <th key={"hr" + i}>
-                  {d.surfname} <OrientaIcon dir={d.surfname} />
+                  {d.orientation} <OrientaIcon dir={d.orientation} />
                 </th>
               ))}
             </tr>
@@ -59,10 +59,10 @@ const JulyRadiationTable = ({ data }) => (
           <tbody>
             <tr>
               <td>
-                <b className="pull-left">{data[0].zc}</b>
+                <b className="pull-left">{data[0].zone}</b>
               </td>
               {data.map((d, i) => (
-                <td key={"tot_" + i}>{d.tot[6].toFixed(2)}</td>
+                <td key={"tot_" + i}>{(d.dir[6] + d.dif[6]).toFixed(2)}</td>
               ))}
             </tr>
           </tbody>

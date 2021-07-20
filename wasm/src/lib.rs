@@ -55,6 +55,14 @@ pub fn set_log_hook(level: &str) {
     .expect("error initializing log");
 }
 
+/// Carga datos de radiación acumulada mensual
+#[wasm_bindgen]
+pub fn get_radiationdata() -> Result<JsValue, JsValue> {
+    let data = climatedata::RADDATA.lock().unwrap().clone();
+    let res = JsValue::from_serde(&data).map_err(|e| e.to_string())?;
+    Ok(res)
+}
+
 /// Estructura que contiene los resultados del cálculo
 #[allow(non_snake_case)]
 #[derive(Debug, Serialize, Deserialize, Default)]

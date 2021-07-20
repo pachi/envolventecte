@@ -69,7 +69,7 @@ const MonthlyRadiationTable = ({ data }) => {
                 return (
                   <React.Fragment key={idx}>
                     <tr
-                      key={"tot_" + d.surfname}
+                      key={"tot_" + d.orientation}
                       style={
                         showDetail
                           ? {
@@ -80,16 +80,16 @@ const MonthlyRadiationTable = ({ data }) => {
                       }
                     >
                       <td rowSpan={showDetail ? "3" : null}>
-                        <b className="pull-left">{d.surfname}</b>
-                        <OrientaIcon dir={d.surfname} />
+                        <b className="pull-left">{d.orientation}</b>
+                        <OrientaIcon dir={d.orientation} />
                       </td>
                       <td>Dir. + Dif.</td>
-                      {d.tot.map((v, i) => (
-                        <td key={"tot_" + i}>{v.toFixed(2)}</td>
+                      {d.dir.map((v, i) => (
+                        <td key={"tot_" + i}>{(v + d.dif[i]).toFixed(2)}</td>
                       ))}
                     </tr>
                     {showDetail ? (
-                      <tr key={"dir_" + d.surfname}>
+                      <tr key={"dir_" + d.orientation}>
                         <td>Dir.</td>
                         {d.dir.map((v, i) => (
                           <td key={"dir_" + i}>{v.toFixed(2)}</td>
@@ -97,7 +97,7 @@ const MonthlyRadiationTable = ({ data }) => {
                       </tr>
                     ) : null}
                     {showDetail ? (
-                      <tr key={"dif_" + d.surfname}>
+                      <tr key={"dif_" + d.orientation}>
                         <td>Dif.</td>
                         {d.dif.map((v, i) => (
                           <td key={"dif_" + i}>{v.toFixed(2)}</td>

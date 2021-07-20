@@ -30,6 +30,7 @@ import {
   load_data_from_json,
   load_data_from_ctehexml,
   load_fshobst_data_from_kyg,
+  get_radiationdata,
 } from "wasm-envolventecte";
 
 import {
@@ -42,7 +43,7 @@ import {
   DEFAULT_WINCONS,
 } from "./defaults";
 
-import radiationdata from "../zcraddata.json";
+// import radiationdata from "../zcraddata.json";
 import example from "./example.json";
 
 // DEBUG:
@@ -59,11 +60,12 @@ configure({
   enforceActions: "never",
 });
 
+// Valores de radiación
+const RADIATIONDATA = get_radiationdata();
+
 class AppState {
   // Datos climáticos --------
 
-  // Valores de radiación
-  radiationdata = radiationdata;
   // Zona climática y otros metadatos
   meta = example.meta;
 
@@ -121,20 +123,20 @@ class AppState {
 
   // Propiedades de datos climáticos ----------------
   get zoneslist() {
-    return [...new Set(this.radiationdata.map((v) => v.zc))];
+    return [...new Set(RADIATIONDATA.map((v) => v.zone))];
   }
 
   get orientations() {
-    return [...new Set(this.radiationdata.map((v) => v.surfname))];
+    return [...new Set(RADIATIONDATA.map((v) => v.orientation))];
   }
 
   get climatedata() {
-    return this.radiationdata.filter((v) => v.zc === this.meta.climate);
+    return RADIATIONDATA.filter((v) => v.zone === this.meta.climate);
   }
 
   get climateTotRadJul() {
     return this.climatedata.reduce(
-      (acc, v) => ({ ...acc, [v.surfname]: v.tot[6] }),
+      (acc, v) => ({ ...acc, [v.orientation]: v.dir[6] + v.dif[6] }),
       {}
     );
   }

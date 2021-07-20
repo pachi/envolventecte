@@ -163,10 +163,10 @@ const ShadingFactorsTable = ({ data }) => {
               {data.map((d, surfidx) => {
                 const level = showlevel;
                 return (
-                  <tr key={"f_shwith200_" + d.surfname}>
+                  <tr key={"f_shwith200_" + d.orientation}>
                     <td>
-                      <b className="pull-left">{d.surfname}</b>
-                      <OrientaIcon dir={d.surfname} />
+                      <b className="pull-left">{d.orientation}</b>
+                      <OrientaIcon dir={d.orientation} />
                     </td>
                     <td style={{ textAlign: "center" }}>I &gt; {level}</td>
                     {d[`f_shwith${level}`].map((v, i) => (
