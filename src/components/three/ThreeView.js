@@ -272,6 +272,7 @@ const updateGround = (scene) => {
 // - azimuth (S=0, E=90, W=-90)
 // - altura solar (Horiz=0, vert=90), en grados
 // Usa una posición con distancia = 100m
+// Coordenadas altura solar es sistema levógiro y con Y=arriba, X=Este, Z=Sur
 const sunPos = (azimuth, altitude, dist=100) => {
   const azim = azimuth * Math.PI / 180;
   const alt = altitude * Math.PI / 180;
