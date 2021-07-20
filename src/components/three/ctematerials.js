@@ -1,5 +1,12 @@
 import { DoubleSide, LineBasicMaterial, MeshLambertMaterial } from "three";
 
+// Material genérico de líneas
+export const material_generic_lines = new LineBasicMaterial({
+  name: "generic_lines",
+  color: 0x0000ff,
+  linewidth: 1,
+});
+
 // Material de bordes
 export const material_lines = new LineBasicMaterial({
   name: "lines",
