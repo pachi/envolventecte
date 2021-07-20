@@ -30,7 +30,8 @@ import {
   load_data_from_json,
   load_data_from_ctehexml,
   load_fshobst_data_from_kyg,
-  get_radiationdata,
+  get_monthly_radiation_data,
+  get_july_radiation_data,
 } from "wasm-envolventecte";
 
 import {
@@ -61,7 +62,8 @@ configure({
 });
 
 // Valores de radiación
-const RADIATIONDATA = get_radiationdata();
+const MONTHLYRADIATIONDATA = get_monthly_radiation_data();
+const JULYRADIATIONDATA = get_july_radiation_data();
 
 class AppState {
   // Datos climáticos --------
@@ -123,15 +125,15 @@ class AppState {
 
   // Propiedades de datos climáticos ----------------
   get zoneslist() {
-    return [...new Set(RADIATIONDATA.map((v) => v.zone))];
+    return [...new Set(MONTHLYRADIATIONDATA.map((v) => v.zone))];
   }
 
   get orientations() {
-    return [...new Set(RADIATIONDATA.map((v) => v.orientation))];
+    return [...new Set(MONTHLYRADIATIONDATA.map((v) => v.orientation))];
   }
 
   get climatedata() {
-    return RADIATIONDATA.filter((v) => v.zone === this.meta.climate);
+    return MONTHLYRADIATIONDATA.filter((v) => v.zone === this.meta.climate);
   }
 
   get climateTotRadJul() {

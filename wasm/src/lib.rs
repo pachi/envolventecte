@@ -57,8 +57,16 @@ pub fn set_log_hook(level: &str) {
 
 /// Carga datos de radiación acumulada mensual
 #[wasm_bindgen]
-pub fn get_radiationdata() -> Result<JsValue, JsValue> {
+pub fn get_monthly_radiation_data() -> Result<JsValue, JsValue> {
     let data = climatedata::RADDATA.lock().unwrap().clone();
+    let res = JsValue::from_serde(&data).map_err(|e| e.to_string())?;
+    Ok(res)
+}
+
+/// Carga datos de radiación acumulada mensual
+#[wasm_bindgen]
+pub fn get_july_radiation_data() -> Result<JsValue, JsValue> {
+    let data = climatedata::JULYRADDATA.lock().unwrap().clone();
     let res = JsValue::from_serde(&data).map_err(|e| e.to_string())?;
     Ok(res)
 }
