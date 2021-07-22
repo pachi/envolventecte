@@ -1,4 +1,4 @@
-use std::{collections::BTreeMap, convert::TryFrom};
+use std::{collections::{BTreeMap, HashMap}, convert::TryFrom};
 
 use bemodel::{self, climatedata, KData, Model, N50Data, QSolJulData, UValues, Warning, VERSION};
 use hulc::{ctehexml, kyg};
@@ -58,7 +58,7 @@ pub fn set_log_hook(level: &str) {
 /// Carga datos de radiación acumulada mensual
 #[wasm_bindgen]
 pub fn get_monthly_radiation_data() -> Result<JsValue, JsValue> {
-    let data = climatedata::RADDATA.lock().unwrap().clone();
+    let data = climatedata::MONTHLYRADDATA.lock().unwrap().clone();
     let res = JsValue::from_serde(&data).map_err(|e| e.to_string())?;
     Ok(res)
 }
@@ -86,11 +86,13 @@ struct IndicatorsReport {
     warnings: Vec<Warning>,
 }
 
-/// Calcula indicadores usando funciones de hulc2envolventecte y prepara una estructura para enviar a JS
-fn compute_indicators(model: &Model) -> IndicatorsReport {
+/// Calcula indicadores de HE1
+#[wasm_bindgen]
+pub fn he1_indicators(model_js: &JsValue) -> Result<JsValue, JsValue> {
+    let model: Model = model_js.into_serde().map_err(|e| e.to_string())?;
     let climatezone = model.meta.climate;
     let totradjul = climatedata::total_radiation_in_july_by_orientation(&climatezone);
-    IndicatorsReport {
+    let indicators: IndicatorsReport = IndicatorsReport {
         area_ref: model.a_ref(),
         compacity: model.compacity(),
         u_values: model.u_values(),
@@ -100,17 +102,18 @@ fn compute_indicators(model: &Model) -> IndicatorsReport {
         vol_env_net: model.vol_env_net(),
         vol_env_gross: model.vol_env_gross(),
         warnings: model.check_model(),
-    }
-}
-
-/// Calcula indicadores de HE1
-///
-#[wasm_bindgen]
-pub fn he1_indicators(model_js: &JsValue) -> Result<JsValue, JsValue> {
-    let model: Model = model_js.into_serde().map_err(|e| e.to_string())?;
-    let indicators: IndicatorsReport = compute_indicators(&model);
+    };
     let js_indicators = JsValue::from_serde(&indicators).map_err(|e| e.to_string())?;
     Ok(js_indicators)
+}
+
+/// Calcula factor de reducción por obstáculos remotos
+#[wasm_bindgen]
+pub fn compute_fshobst(model_js: &JsValue) -> Result<JsValue, JsValue> {
+    let model: Model = model_js.into_serde().map_err(|e| e.to_string())?;
+    let fshobst: HashMap<String, f32> = model.fshobst();
+    let res = JsValue::from_serde(&fshobst).map_err(|e| e.to_string())?;
+    Ok(res)
 }
 
 /// Carga datos desde cadena de texto JSON
