@@ -1,7 +1,6 @@
 # Bugs
 
-- Revisar compatibilidad en Chrome: en particular los cambios en datos generales
-- Comprobar que se calcula bien el volumen de espacios con techos inclinados (suma de volúmenes con signo de los tetraedros https://stackoverflow.com/questions/1406029/how-to-calculate-the-volume-of-a-3d-mesh-object-the-surface-of-which-is-made-up-t )
+- Al poner un nombre de elemento en la selección no se selecciona (¿siempre?).
 
 # Mejoras
 
@@ -17,16 +16,19 @@
 
 # Nueva funcionalidad
 
+- Integrar cálculo de F_sh;obst en el programa
+- Estimación de longitudes de PTs
 - Definición de lamas en huecos
-- A partir de la información geométrica, añadir:
-    - cálculo de F_sh;obst
-    - estimación de longitudes de PTs
 - Elementos: calcular acristalamientos con sombras móviles usando directamente parámetros U_gl, g_gl_n, tau_e_B y ro_e_B
 - Elementos: añadir nueva construcción de hueco a partir de pestaña de elementos
 - Elementos: Construcciones de opacos definidas por capas + editor de capas
 - Construcciones de opacos: posibilidad de usar definición actual o por capas
 - Gráfica de radiación y fshwi por orientaciones en clima
 - Dibujar trayectorias solares en el espacio, para algunos meses y poder mostrar u ocultar.
+    - https://drajmarsh.bitbucket.io/sunpath3d.html
+    - http://andrewmarsh.com/software/sunpath2d-web/
+    - ver http://andrewmarsh.com/software/
+    - http://andrewmarsh.com/software/psychro-chart-web/
 
 # Reorganizaciones
 
@@ -39,9 +41,7 @@
 - Ver si es posible llevar la salida del logging de Rust a los avisos de wasm
     - Guardar en cada bloque de hulc los avisos y recolectarlos en la conversión a objetos y luego trasladarlos a wasm
 - Llevar a wasm:
-    - Generar coordenadas 3D de los elementos (opacos, huecos), exceptuando cambio global de ejes.
     - Agrupar elementos (espacios, muros, huecos, PTs)
-    - Datos de clima?
     - Default de elementos (constructor), con implementaciones manuales (ver uuid)
 
 ## ES
