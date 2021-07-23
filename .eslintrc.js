@@ -4,8 +4,16 @@ module.exports = {
     browser: true,
     node: true,
   },
-
-  plugins: ["react"],
+  parser: "@babel/eslint-parser",
+  parserOptions: {
+    "ecmaVersion": 9,
+    "sourceType": "module",
+    requireConfigFile: false,
+    babelOptions: {
+      presets: ["@babel/preset-react"]
+    }
+  },
+  plugins: ["react", "jsx"],
 
   extends: ["eslint:recommended", "plugin:react/recommended", "prettier"],
   // "parser": "babel-eslint",
@@ -33,10 +41,6 @@ module.exports = {
     unicodeCodePointEscapes: true,
     globalReturn: true,
     jsx: true,
-  },
-  parserOptions: {
-    "ecmaVersion": 9,
-    "sourceType": "module",
   },
   rules: {
     "react/prop-types": "off",
