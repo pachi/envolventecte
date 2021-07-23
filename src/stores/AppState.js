@@ -126,6 +126,7 @@ class AppState {
       agrupaHuecos: action,
       agrupaOpacos: action,
       agrupaPts: action,
+      loadModel: action,
       clearModel: action,
       asJSON: computed,
       loadData: action,
