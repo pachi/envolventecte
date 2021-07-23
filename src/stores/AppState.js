@@ -31,7 +31,6 @@ import {
   load_data_from_ctehexml,
   load_fshobst_data_from_kyg,
   get_monthly_radiation_data,
-  get_july_radiation_data,
 } from "wasm-envolventecte";
 
 import {
@@ -63,7 +62,6 @@ configure({
 
 // Valores de radiación
 const MONTHLYRADIATIONDATA = get_monthly_radiation_data();
-const JULYRADIATIONDATA = get_july_radiation_data();
 
 class AppState {
   // Datos climáticos --------
