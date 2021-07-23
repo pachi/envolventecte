@@ -30,6 +30,7 @@ import AppState from "../../stores/AppState";
 import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
 import HuecosTable from "./HuecosTable";
 import icongroup from "../img/outline-add_comment-24px.svg";
+import { update_fshobst } from "wasm-envolventecte";
 
 // Vista de huecos del edificio
 const HuecosView = observer(() => {
@@ -47,6 +48,17 @@ const HuecosView = observer(() => {
         </Col>
         <Col md="auto">
           <ButtonGroup>
+            {/* TODO: Esta operación de actualizar los Fshobst lleva mucho tiempo deberíamos usar algo que indique que se está procesando */}
+            <Button
+              variant="default"
+              size="sm"
+              title="Recalcular F_sh;obst"
+              onClick={(_) =>
+                appstate.loadModel(update_fshobst(appstate.getModel()))
+              }
+            >
+              Calcula F<sub>sh;obst</sub>
+            </Button>
             <Button
               variant="default"
               size="sm"
