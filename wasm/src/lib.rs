@@ -1,4 +1,4 @@
-use std::{collections::{BTreeMap, HashMap}, convert::TryFrom};
+use std::{collections::BTreeMap, convert::TryFrom};
 
 use bemodel::{self, climatedata, KData, Model, N50Data, QSolJulData, UValues, Warning, VERSION};
 use hulc::{ctehexml, kyg};
@@ -37,6 +37,7 @@ pub fn set_panic_hook() {
 }
 
 #[wasm_bindgen]
+#[allow(unused_variables)]
 pub fn set_log_hook(level: &str) {
     // When the `console_log` feature is enabled, we can call the
     // `set_log_hook` function at least once during initialization, and then
@@ -59,14 +60,6 @@ pub fn set_log_hook(level: &str) {
 #[wasm_bindgen]
 pub fn get_monthly_radiation_data() -> Result<JsValue, JsValue> {
     let data = climatedata::MONTHLYRADDATA.lock().unwrap().clone();
-    let res = JsValue::from_serde(&data).map_err(|e| e.to_string())?;
-    Ok(res)
-}
-
-/// Carga datos de radiación acumulada mensual
-#[wasm_bindgen]
-pub fn get_july_radiation_data() -> Result<JsValue, JsValue> {
-    let data = climatedata::JULYRADDATA.lock().unwrap().clone();
     let res = JsValue::from_serde(&data).map_err(|e| e.to_string())?;
     Ok(res)
 }
