@@ -107,12 +107,12 @@ pub fn he1_indicators(model_js: &JsValue) -> Result<JsValue, JsValue> {
     Ok(js_indicators)
 }
 
-/// Calcula factor de reducción por obstáculos remotos
+/// Actualiza factor de reducción por obstáculos remotos
 #[wasm_bindgen]
-pub fn compute_fshobst(model_js: &JsValue) -> Result<JsValue, JsValue> {
-    let model: Model = model_js.into_serde().map_err(|e| e.to_string())?;
-    let fshobst: HashMap<String, f32> = model.fshobst();
-    let res = JsValue::from_serde(&fshobst).map_err(|e| e.to_string())?;
+pub fn update_fshobst(model_js: &JsValue) -> Result<JsValue, JsValue> {
+    let mut model: Model = model_js.into_serde().map_err(|e| e.to_string())?;
+    model.update_fshobst();
+    let res = JsValue::from_serde(&model).map_err(|e| e.to_string())?;
     Ok(res)
 }
 
