@@ -78,24 +78,24 @@ class AppState {
   // Datos climáticos --------
 
   // Zona climática y otros metadatos
-  meta = example.meta;
+  meta = DEFAULT_META;
 
   // Datos geométricos y constructivos -----------
   // Espacios de la envolvente térmica
-  spaces = example.spaces;
+  spaces = [];
   // Opacos
-  walls = example.walls;
+  walls = [];
   // Huecos
-  windows = example.windows;
+  windows = [];
   // Sombras
-  shades = example.shades;
+  shades = [];
   // Construcciones de opacos
-  wallcons = example.wallcons;
+  wallcons = [];
   // Construcciones de huecos
-  wincons = example.wincons;
+  wincons = [];
 
   // Puentes térmicos
-  thermal_bridges = example.thermal_bridges;
+  thermal_bridges = [];
 
   // Lista de errores y avisos -------
   // Contiene objetos  { level: warninglevel, id: "element_id", msg: "my msg" }
@@ -296,6 +296,30 @@ class AppState {
     this.wincons = [];
   }
 
+  // Carga modelo JSON en el appstate
+  loadModel(inputData) {
+    const {
+      meta = { climate: "D3" },
+      spaces,
+      walls,
+      windows,
+      shades,
+      thermal_bridges,
+      wallcons,
+      wincons,
+    } = inputData;
+
+    // Carga datos en el store
+    this.meta = meta;
+    this.thermal_bridges = thermal_bridges;
+    this.walls = walls;
+    this.windows = windows;
+    this.spaces = spaces;
+    this.shades = shades;
+    this.wallcons = wallcons;
+    this.wincons = wincons;
+  }
+
   // Importación y exportación de datos -------------
 
   // Serialización de los datos
@@ -344,33 +368,13 @@ class AppState {
       }
 
       if (mode === "CTEHEXML" || mode === "JSON") {
-        const {
-          meta = { climate: "D3" },
-          spaces,
-          walls,
-          windows,
-          shades,
-          thermal_bridges,
-          wallcons,
-          wincons,
-        } = inputData;
-
-        // Carga datos en el store
-        this.meta = meta;
-        this.thermal_bridges = thermal_bridges;
-        this.walls = walls;
-        this.windows = windows;
-        this.spaces = spaces;
-        this.shades = shades;
-        this.wallcons = wallcons;
-        this.wincons = wincons;
-
+        this.loadModel(inputData)
         this.errors = [
           { level: "SUCCESS", id: null, msg: "Datos cargados correctamente." },
           {
             level: "INFO",
             id: null,
-            msg: `Clima ${meta.climate}, Cargados ${spaces.length} espacios, ${walls.length} opacos, ${windows.length} huecos, ${thermal_bridges.length} PTs, ${shades.length} elementos de sombra, ${wallcons.length} construcciones de opacos y ${wincons.length} construcciones de huecos`,
+            msg: `Clima ${this.meta.climate}, Cargados ${this.spaces.length} espacios, ${this.walls.length} opacos, ${this.windows.length} huecos, ${this.thermal_bridges.length} PTs, ${this.shades.length} elementos de sombra, ${this.wallcons.length} construcciones de opacos y ${this.wincons.length} construcciones de huecos`,
           },
         ];
       } else if (mode === "FSHOBST") {
@@ -420,5 +424,6 @@ const appstate = new AppState();
 
 // // DEBUG: carga este caso para depurar
 // appstate.loadData(test_ctehexml, "CTEHEXML");
+appstate.loadModel(example);
 
 export default createContext(appstate);
