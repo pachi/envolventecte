@@ -1,6 +1,8 @@
 import {
+  BufferGeometry,
   EdgesGeometry,
   Group,
+  Line,
   LineSegments,
   MathUtils,
   Matrix3,
@@ -13,11 +15,15 @@ import {
 } from "three";
 import {
   chooseMaterial,
+  material_generic_lines,
   material_lines,
   material_shades,
 } from "./ctematerials.js";
 
+import { getWindowPoints, sunlitFraction } from "../../stores/temputils.js";
+
 const { degToRad } = MathUtils;
+
 // Genera geometría del modelo
 //
 // El modelo maneja dos espacios de coordenadas, el global y el local de muro
@@ -82,6 +88,18 @@ export function initObjectsFromModel(model, scene) {
       ) {
         continue;
       }
+
+      // Compute and draw ray origins for window shading tests
+      const points = getWindowPoints(window)
+        .map((p) => p.applyMatrix3(wallLocal2WallPolyTransform))
+        .map((p) =>
+          new Vector3(p.x, p.y, -window.geometry.setback).applyMatrix4(
+            wallTransform
+          )
+        );
+      const geometry = new BufferGeometry().setFromPoints(points);
+      const line = new Line(geometry, material_generic_lines);
+      wireframeGroup.add(line);
 
       const winShape = windowShape(window, wallLocal2WallPolyTransform);
       const winMesh = meshFromShape(winShape, wallTransform);
