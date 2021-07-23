@@ -62,6 +62,17 @@ configure({
 
 // Valores de radiación
 const MONTHLYRADIATIONDATA = get_monthly_radiation_data();
+const DEFAULT_META = {
+  name: "Modelo vacío",
+  is_new_building: true,
+  is_dwelling: true,
+  num_dwellings: 1,
+  climate: "D3",
+  global_ventilation_l_s: 0,
+  n50_test_ach: null,
+  d_perim_insulation: 0,
+  rn_perim_insulation: 0,
+};
 
 class AppState {
   // Datos climáticos --------
@@ -275,17 +286,7 @@ class AppState {
 
   // Deja modelo limpio
   clearModel() {
-    this.meta = {
-      name: "Modelo vacío",
-      is_new_building: true,
-      is_dwelling: true,
-      num_dwellings: 1,
-      climate: "D3",
-      global_ventilation_l_s: 0,
-      n50_test_ach: null,
-      d_perim_insulation: 0,
-      rn_perim_insulation: 0,
-    };
+    this.meta = DEFAULT_META;
     this.spaces = [];
     this.walls = [];
     this.windows = [];

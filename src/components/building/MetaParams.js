@@ -43,7 +43,7 @@ const MetaParams = observer(() => {
             </Form.Label>{" "}
             <Col md={8}>
               <Form.Control
-                value={meta.name}
+                value={meta.name || "Edificio"}
                 onChange={(e) => (meta.name = e.target.value)}
                 placeholder="Nombre del proyecto"
               />

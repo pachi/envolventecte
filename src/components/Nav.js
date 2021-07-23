@@ -113,7 +113,7 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
                 <Form.Control
                   id="climateselector"
                   size="sm"
-                  value={appstate.meta.climate || ""}
+                  value={appstate.meta ? appstate.meta.climate || "": ""}
                   onChange={(e) => {
                     appstate.meta.climate = e.target.value;
                   }}
