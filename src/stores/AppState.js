@@ -154,18 +154,7 @@ class AppState {
   }
 
   get he1_indicators() {
-    const { meta, thermal_bridges, walls, windows, spaces, wallcons, wincons } =
-      this;
-
-    return he1_indicators({
-      meta,
-      spaces,
-      walls,
-      windows,
-      thermal_bridges,
-      wallcons,
-      wincons,
-    });
+    return he1_indicators(this.getModel());
   }
 
   // Acumula errores de la app y avisos de los cálculos
@@ -285,6 +274,13 @@ class AppState {
     this.thermal_bridges = ptsagrupados;
   }
 
+  // Recopila modelo desde el appstate
+  getModel() {
+    const { meta, thermal_bridges, walls, windows, spaces, wallcons, wincons } =
+      this;
+    return { meta, spaces, walls, windows, thermal_bridges, wallcons, wincons };
+  };
+
   // Deja modelo limpio
   clearModel() {
     this.meta = DEFAULT_META;
@@ -369,7 +365,7 @@ class AppState {
       }
 
       if (mode === "CTEHEXML" || mode === "JSON") {
-        this.loadModel(inputData)
+        this.loadModel(inputData);
         this.errors = [
           { level: "SUCCESS", id: null, msg: "Datos cargados correctamente." },
           {
