@@ -133,7 +133,7 @@ pub fn load_data_from_ctehexml(data: &str) -> Result<JsValue, JsValue> {
     Ok(res)
 }
 
-/// Carga datos desde cadena de texto .ctehexml
+/// Carga datos desde cadena de texto KyGananciasSolares.txt
 #[wasm_bindgen]
 pub fn load_fshobst_data_from_kyg(data: &str) -> Result<JsValue, JsValue> {
     let kygdata = kyg::parse(data).map_err(|e| e.to_string())?;
