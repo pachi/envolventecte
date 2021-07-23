@@ -17,6 +17,7 @@
 # Nueva funcionalidad
 
 - Integrar cálculo de F_sh;obst en el programa
+    - Añadir en vista de huecos un botón para calcular F_sh;obst y otro para cargar datos externos (KyGananciasSolares.txt)
 - Estimación de longitudes de PTs
 - Definición de lamas en huecos
 - Elementos: calcular acristalamientos con sombras móviles usando directamente parámetros U_gl, g_gl_n, tau_e_B y ro_e_B
@@ -45,5 +46,4 @@
     - Default de elementos (constructor), con implementaciones manuales (ver uuid)
 
 ## ES
-- ¿Función model_to_state(JSONmodel) que descomponga el modelo y lo lleve a appstate?
 - Trasladar datos a public/data? (usando luego fetch o direcciones como <a href={process.env.PUBLIC_URL + "/data/zcraddata.json"}>Enlace</a>)
