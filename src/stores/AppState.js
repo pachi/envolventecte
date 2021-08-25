@@ -276,9 +276,9 @@ class AppState {
 
   // Recopila modelo desde el appstate
   getModel() {
-    const { meta, thermal_bridges, walls, windows, spaces, wallcons, wincons } =
+    const { meta, thermal_bridges, walls, windows, shades, spaces, wallcons, wincons } =
       this;
-    return { meta, spaces, walls, windows, thermal_bridges, wallcons, wincons };
+    return { meta, spaces, walls, windows, shades, thermal_bridges, wallcons, wincons };
   };
 
   // Deja modelo limpio
