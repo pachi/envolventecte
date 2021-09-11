@@ -78,7 +78,11 @@ const MetaParams = observer(() => {
                 <Form.Control
                   type="number"
                   value={meta.num_dwellings}
-                  onChange={(e) => (meta.num_dwellings = e.target.value)}
+                  onChange={(e) =>
+                    (meta.num_dwellings = Number(
+                      e.target.value.replace(",", ".")
+                    ))
+                  }
                   placeholder="1"
                 />
               </Col>
@@ -130,7 +134,9 @@ const MetaParams = observer(() => {
                   type="number"
                   value={meta.global_ventilation_l_s}
                   onChange={(e) =>
-                    (meta.global_ventilation_l_s = e.target.value)
+                    (meta.global_ventilation_l_s = Number(
+                      e.target.value.replace(",", ".")
+                    ))
                   }
                   placeholder="0.0"
                   step="0.1"
@@ -152,7 +158,9 @@ const MetaParams = observer(() => {
                 type="number"
                 value={meta.d_perim_insulation}
                 onChange={(e) => {
-                  meta.d_perim_insulation = e.target.value;
+                  meta.d_perim_insulation = Number(
+                    e.target.value.replace(",", ".")
+                  );
                 }}
                 placeholder="0.0"
                 step="0.01"
@@ -168,7 +176,9 @@ const MetaParams = observer(() => {
                 type="number"
                 value={meta.rn_perim_insulation}
                 onChange={(e) => {
-                  meta.rn_perim_insulation = e.target.value;
+                  meta.rn_perim_insulation = Number(
+                    e.target.value.replace(",", ".")
+                  );
                 }}
                 placeholder="0.0"
                 step="0.01"
