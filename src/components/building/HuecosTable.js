@@ -80,7 +80,7 @@ const HuecosTable = ({ selected, setSelected }) => {
   });
 
   // Formato y opciones de opacos
-  const WallsFmt = (cell, _row) => <span>{wallData[cell].name}</span>;
+  const WallsFmt = (cell, _row) => <span>{wallData[cell]?.name}</span>;
   const WallsOpts = Object.keys(wallData).map((k) => {
     return { value: k, label: wallData[k].name };
   });

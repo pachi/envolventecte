@@ -158,10 +158,11 @@ export const WindowGeomIconFmt = (
 ) => {
   const { wallData } = formatExtraData;
   const wall = wallData[row.wall];
-  const azimuth_dir = AzimuthFmt(wall.azimuth);
-  const azimuth = <OrientaIcon dir={azimuth_dir} />;
-  const tilt_dir = TiltFmt(wall.tilt);
-  const tilt = <TiltIcon dir={tilt_dir} />;
+  const has_wall = wall !== undefined;
+  const azimuth_dir = has_wall ? AzimuthFmt(wall.azimuth): "-";
+  const azimuth = has_wall ? <OrientaIcon dir={azimuth_dir} />: "-";
+  const tilt_dir = has_wall ? TiltFmt(wall.tilt): "-";
+  const tilt = has_wall ? <TiltIcon dir={tilt_dir} />: "-";
   const position = geometry.position ? (
     <img src={fullGeometryIcon} alt="+" />
   ) : (
