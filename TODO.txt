@@ -4,7 +4,7 @@
 
 # Mejoras
 
-- Añadir en editor de geometría el nombre del elemento que se está editando
+- Evitar edición de n_v en espacios que no sean no habitables
 - Añadir en editor de geometría una imagen del polígono (hacer versión en SVG).
 - Añadir valores de referencia HE nuevos y existentes, apéndice E, etc a gráficas
 - Mostrar tooltip en los elementos con avisos

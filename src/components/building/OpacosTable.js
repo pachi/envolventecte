@@ -194,8 +194,8 @@ const OpacosTable = ({ selected, setSelected }) => {
       title: OpaqueGeomFmt,
       headerTitle: () =>
         "Geometría (parámetros, punto de inserción y polígono).",
-      editorRenderer: (editorProps, value) => (
-        <GeometryOpaquesEditor {...editorProps} value={value} />
+      editorRenderer: (editorProps, value, row) => (
+        <GeometryOpaquesEditor {...editorProps} value={value} name={row.name} />
       ),
       headerAlign: "center",
       headerClasses: "text-light bg-secondary",

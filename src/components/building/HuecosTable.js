@@ -184,8 +184,8 @@ const HuecosTable = ({ selected, setSelected }) => {
       title: WindowGeomFmt,
       headerTitle: () =>
         "Descripción geométrica del hueco (posición, ancho, alto, retranqueo). Posición en coordenadas de muro [x, y]. Para elementos sin definición geométrica completa la posición es una lista vacía.",
-      editorRenderer: (editorProps, value) => (
-        <GeometryWindowEditor {...editorProps} value={value} />
+      editorRenderer: (editorProps, value, row) => (
+        <GeometryWindowEditor {...editorProps} value={value} name={row.name} />
       ),
       headerAlign: "center",
       headerClasses: "text-light bg-secondary",

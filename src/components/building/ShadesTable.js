@@ -53,8 +53,8 @@ const ShadesTable = ({ selected, setSelected }) => {
       title: OpaqueGeomFmt,
       headerTitle: () =>
         "Lista de puntos 2D que configuran el polígono del elemento: [[x, y]...]. Para elementos sin definición geométrica completa no se define este elemento.",
-      editorRenderer: (editorProps, value) => (
-        <GeometryOpaquesEditor {...editorProps} value={value} />
+      editorRenderer: (editorProps, value, row) => (
+        <GeometryOpaquesEditor {...editorProps} value={value} name={row.name} />
       ),
       headerAlign: "center",
       headerClasses: "text-light bg-secondary",

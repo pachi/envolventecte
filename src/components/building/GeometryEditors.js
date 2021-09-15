@@ -59,7 +59,7 @@ import {
 // Recibe la geometría de un opaco {tilt: f32, azimuth: f32, position: null | [f32, f32, f32], polygon: [[f32, f32], ...]}
 // No se comprueba la coherencia de la definición geométrica con la superficie
 export const GeometryOpaquesEditor = React.forwardRef(
-  ({ onUpdate, value }, _ref) => {
+  ({ onUpdate, value, name }, _ref) => {
     const posIsNull = value.position === null || value.position.length === 0;
     let x = 0.0,
       y = 0.0,
@@ -115,7 +115,7 @@ export const GeometryOpaquesEditor = React.forwardRef(
         onHide={() => handleCancel()}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Definición geométrica de opaco o sombra</Modal.Title>
+          <Modal.Title>Definición geométrica de opaco o sombra ({name})</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
@@ -509,7 +509,7 @@ const AddRemoveButtonGroup = ({ poly, setPoly, selected, setSelected }) => {
 // Recibe la geometría de un hueco {position: [f32, f32], height: f32, width: f32, setback: f32}
 // No se comprueba la coherencia de la definición geométrica con la superficie
 export const GeometryWindowEditor = React.forwardRef(
-  ({ onUpdate, value, ..._rest }, _ref) => {
+  ({ onUpdate, value, name, ..._rest }, _ref) => {
     const posIsNull = value.position === null || value.position.length === 0;
     let x = 0.0,
       y = 0.0;
@@ -565,7 +565,7 @@ export const GeometryWindowEditor = React.forwardRef(
         onHide={() => handleCancel()} // Evitar enviar acciones a la tabla posterior
       >
         <Modal.Header closeButton>
-          <Modal.Title>Definición geométrica del hueco</Modal.Title>
+          <Modal.Title>Definición geométrica del hueco ({name})</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <WidthHeightSetbackEditor
