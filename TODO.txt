@@ -4,6 +4,7 @@
 
 # Mejoras
 
+- Eliminar A en huecos y opacos, ya que se puede deducir de la geometría (y evitamos desincronización)
 - Evitar edición de n_v en espacios que no sean no habitables
 - Añadir en editor de geometría una imagen del polígono (hacer versión en SVG).
 - Añadir valores de referencia HE nuevos y existentes, apéndice E, etc a gráficas
@@ -42,7 +43,7 @@
 - Ver si es posible llevar la salida del logging de Rust a los avisos de wasm
     - Guardar en cada bloque de hulc los avisos y recolectarlos en la conversión a objetos y luego trasladarlos a wasm
 - Llevar a wasm:
-    - Agrupar elementos (espacios, muros, huecos, PTs)
+    - Agrupar elementos (espacios, muros, huecos, PTs). ¿Tiene sentido agrupar cuando hay posición de elementos geométricos?
     - Default de elementos (constructor), con implementaciones manuales (ver uuid)
 
 ## ES
