@@ -136,7 +136,7 @@ export const PolyIconFmt = (poly, _row) =>
 // Línea descriptiva de geometría
 export const OpaqueGeomFmt = (geom, _row) => {
   return `azimuth: ${geom.azimuth.toFixed(2)},
-inclinación: (${geom.tilt.toFixed(2)}),
+inclinación: ${geom.tilt.toFixed(2)},
 posición: ${PosFmt(geom.position)},
 polígono: ${PolyFmt(geom.polygon)}`;
 };
@@ -144,8 +144,8 @@ polígono: ${PolyFmt(geom.polygon)}`;
 // Línea descriptiva de huecos
 export const WindowGeomFmt = (geom, _row) => {
   return `ancho: ${geom.width.toFixed(2)},
-alto: (${geom.height.toFixed(2)}),
-retranqueo: (${geom.setback.toFixed(2)}),
+alto: ${geom.height.toFixed(2)},
+retranqueo: ${geom.setback.toFixed(2)},
 posición: ${PosFmt(geom.position)}`;
 };
 
