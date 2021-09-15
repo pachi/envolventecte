@@ -61,8 +61,6 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
     }
   };
 
-  const fileDownload = React.createRef();
-
   return (
     <Navbar bg="dark" variant="dark" fixed="top">
       <Navbar.Brand>
@@ -113,7 +111,7 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
                 <Form.Control
                   id="climateselector"
                   size="sm"
-                  value={appstate.meta ? appstate.meta.climate || "": ""}
+                  value={appstate.meta ? appstate.meta.climate || "" : ""}
                   onChange={(e) => {
                     appstate.meta.climate = e.target.value;
                   }}
@@ -131,13 +129,11 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
             </Form.Row>
           </Nav.Link>
           <span style={{ borderLeft: "1px solid gray", margin: "0px 25px" }} />
-          <Nav.Link title="Descarga del archivo de datos con la información del modelo actual.">
-            <img
-              src={icondownload}
-              alt="Descargar datos de envolvente"
-              ref={fileDownload}
-              onClick={(e) => handleDownload(e)}
-            />{" "}
+          <Nav.Link
+            title="Descarga del archivo de datos con la información del modelo actual."
+            onClick={(e) => handleDownload(e)}
+          >
+            <img src={icondownload} alt="Descargar datos de envolvente" />{" "}
             Descarga
           </Nav.Link>
           <LinkContainer to="/help" eventKey={5}>
