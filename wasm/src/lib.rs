@@ -1,8 +1,7 @@
 use std::{collections::BTreeMap, convert::TryFrom};
 
-use bemodel::{self, climatedata, KData, Model, N50Data, QSolJulData, UValues, Warning, VERSION};
+use bemodel::{self, climatedata, energy_indicators, Model, VERSION};
 use hulc::{ctehexml, kyg};
-use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -64,38 +63,11 @@ pub fn get_monthly_radiation_data() -> Result<JsValue, JsValue> {
     Ok(res)
 }
 
-/// Estructura que contiene los resultados del cálculo
-#[allow(non_snake_case)]
-#[derive(Debug, Serialize, Deserialize, Default)]
-struct IndicatorsReport {
-    area_ref: f32,
-    compacity: f32,
-    vol_env_net: f32,
-    vol_env_gross: f32,
-    u_values: UValues,
-    K_data: KData,
-    q_soljul_data: QSolJulData,
-    n50_data: N50Data,
-    warnings: Vec<Warning>,
-}
-
 /// Calcula indicadores de HE1
 #[wasm_bindgen]
 pub fn he1_indicators(model_js: &JsValue) -> Result<JsValue, JsValue> {
     let model: Model = model_js.into_serde().map_err(|e| e.to_string())?;
-    let climatezone = model.meta.climate;
-    let totradjul = climatedata::total_radiation_in_july_by_orientation(&climatezone);
-    let indicators: IndicatorsReport = IndicatorsReport {
-        area_ref: model.a_ref(),
-        compacity: model.compacity(),
-        u_values: model.u_values(),
-        K_data: model.K(),
-        q_soljul_data: model.q_soljul(&totradjul),
-        n50_data: model.n50(),
-        vol_env_net: model.vol_env_net(),
-        vol_env_gross: model.vol_env_gross(),
-        warnings: model.check_model(),
-    };
+    let indicators = energy_indicators(&model);
     let js_indicators = JsValue::from_serde(&indicators).map_err(|e| e.to_string())?;
     Ok(js_indicators)
 }
