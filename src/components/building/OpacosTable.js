@@ -239,7 +239,7 @@ const OpacosTable = ({ selected, setSelected }) => {
           blurToSave: true,
           // Corrige el valor del espacio adyacente de "" a null
           afterSaveCell: (oldValue, newValue, row, column) => {
-            if (column.dataField === "nextto" && newValue !== "") {
+            if (column.dataField === "nextto" && newValue === "") {
               row.nextto = null;
             } else if (column.dataField === "A" && newValue !== "") {
               // Convierte a número campos numéricos
