@@ -175,6 +175,9 @@ const OpacosTable = ({ selected, setSelected }) => {
     {
       dataField: "nextto",
       text: "Espacio ady.",
+      editable: (cell, row) => {
+        return row.bounds === "INTERIOR";
+      },
       editor: {
         type: Type.SELECT,
         options: SpaceOpts,
