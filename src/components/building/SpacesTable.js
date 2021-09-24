@@ -28,8 +28,14 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import { Float1DigitsFmt, Float2DigitsFmt, BoolFmt, SpaceTypeFmt, spaceTypesOpts, getFloatOrOld } from "./TableHelpers";
-
+import {
+  Float1DigitsFmt,
+  Float2DigitsFmt,
+  BoolFmt,
+  SpaceTypeFmt,
+  spaceTypesOpts,
+  getFloatOrOld,
+} from "./TableHelpers";
 
 // Custom editor para booleanos
 //
