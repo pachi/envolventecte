@@ -216,6 +216,9 @@ const SpacesTable = ({ selected, setSelected }) => {
       text: "Ventilación ren/h",
       align: "center",
       formatter: Float2DigitsFmt,
+      editable: (cell, row) => {
+        return row.type === "UNINHABITED";
+      },
       customEditor: {
         getElement: (onUpdate, props) => (
           <NVEditor onUpdate={onUpdate} defaultValue={null} {...props} />

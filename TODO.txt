@@ -5,7 +5,6 @@
 # Mejoras
 
 - Eliminar A en huecos y opacos, ya que se puede deducir de la geometría (y evitamos desincronización)
-- Evitar edición de n_v en espacios que no sean no habitables
 - Añadir en editor de geometría una imagen del polígono (hacer versión en SVG).
 - Añadir valores de referencia HE nuevos y existentes, apéndice E, etc a gráficas
 - Mostrar tooltip en los elementos con avisos
