@@ -284,12 +284,12 @@ const initLights = (scene) => {
   group.name = "LightsGroup";
 
   // Luz ambiente
-  const light_amb = new AmbientLight(0xffffff, 0.6);
+  const light_amb = new AmbientLight(0xffffff, 2.0);
   group.add(light_amb);
 
   // Luz direccional. Ajustamos el tamaño para que cubra la escena
   // y ajustamos el punto de cálculo de sombras para evitar aliasing
-  const light = new DirectionalLight(0xffffff, 1);
+  const light = new DirectionalLight(0xffffff, 3.5);
   light.name = "Sun";
   light.shadow.normalBias = 0.05;
   light.shadow.bias = -0.00025;
