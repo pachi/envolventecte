@@ -225,7 +225,7 @@ const PositionEditor = ({
       <Row id="position">
         <Col>
           <label htmlFor="position">
-            Punto de inserción del elemento (coordenadas globales):
+            Punto de inserción del elemento:
           </label>
           <ButtonGroup toggle className="mb-2 btn-block">
             <ToggleButton
