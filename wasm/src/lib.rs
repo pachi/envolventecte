@@ -1,6 +1,6 @@
 use std::{collections::BTreeMap, convert::TryFrom};
 
-use bemodel::{self, climatedata, energy_indicators, Model, VERSION};
+use bemodel::{self, climatedata, energy::energy_indicators, Model, VERSION};
 use hulc::{ctehexml, kyg};
 use wasm_bindgen::prelude::*;
 
