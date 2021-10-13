@@ -182,7 +182,7 @@ const AzimuthTiltEditor = ({ azimuth, setAzimuth, tilt, setTilt }) => (
     <Row>
       <Col>
         <Form.Label htmlFor="tilt">
-          Inclinación, β [º] [0-+180] (0=suelo, 180=techo)
+          Inclinación, β [º] [0, -+180] (0=techo, 90=pared vert., 180=suelo)
         </Form.Label>
         <Row>
           <Col md={6}>
