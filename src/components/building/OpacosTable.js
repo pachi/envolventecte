@@ -244,10 +244,10 @@ const OpacosTable = ({ selected, setSelected }) => {
           afterSaveCell: (oldValue, newValue, row, column) => {
             if (
               (column.dataField === "nextto" && newValue === "") ||
-              row.bounds !== "INTERIOR"
+              (column.dataField === "bounds" && row.bounds !== "INTERIOR")
             ) {
               row.nextto = null;
-            } else if (column.dataField === "A" && newValue !== "") {
+            } else if (column.dataField === "A") {
               // Convierte a número campos numéricos
               row.A = getFloatOrOld(newValue, oldValue);
             } else if (
