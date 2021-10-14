@@ -301,8 +301,7 @@ const initLights = (scene) => {
   light.shadow.camera.far = 300; // Default 2000
   light.shadow.mapSize.width = 512 * 4; // Default 512
   light.shadow.mapSize.height = 512 * 4;
-  // Coordenadas altura solar es sistema levógiro y con Y=arriba, X=Este, Z=Sur
-  light.position.copy(sunPos(0, 73));
+  light.position.copy(sunPos(19.5, 68.8));
   light.castShadow = true;
   group.add(light);
   // Helpers for shadow camera and directional light
