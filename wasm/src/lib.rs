@@ -1,6 +1,6 @@
 use std::{collections::BTreeMap, convert::TryFrom};
 
-use bemodel::{self, climatedata, energy::energy_indicators, Model, VERSION};
+use bemodel::{self, climatedata, energy, Model, VERSION};
 use hulc::{ctehexml, kyg};
 use wasm_bindgen::prelude::*;
 
@@ -67,7 +67,7 @@ pub fn get_monthly_radiation_data() -> Result<JsValue, JsValue> {
 #[wasm_bindgen]
 pub fn he1_indicators(model_js: &JsValue) -> Result<JsValue, JsValue> {
     let model: Model = model_js.into_serde().map_err(|e| e.to_string())?;
-    let indicators = energy_indicators(&model);
+    let indicators = energy::indicators(&model);
     let js_indicators = JsValue::from_serde(&indicators).map_err(|e| e.to_string())?;
     Ok(js_indicators)
 }
