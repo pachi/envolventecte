@@ -12,6 +12,7 @@
     - Posición del sol a partir de mes, día y hora
     - Opacidad aclarando elementos ocultos
     - Clipping plane: https://github.com/agviegas/IFC.js/commit/9be223de323e6acd936d9493eda5753a4ffe8183
+    - Activar postproceso para mejorar calidad de imagen: https://github.com/IFCjs/web-ifc-viewer/blob/master/viewer/src/components/context/renderer/postproduction.ts
     - Seleccionar elemento activo en las tablas del modelo (y, al revés, mostrar elementos seleccionados en 3D), selecciones múltiples
 
 # Nueva funcionalidad
