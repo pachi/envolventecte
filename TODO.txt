@@ -3,7 +3,7 @@
 - Al poner un nombre de elemento en la selección no se selecciona (¿siempre?).
 
 # Mejoras
-
+- Eliminar exposed_perimeter de space, ya que se puede deducir a partir de suelos y muros asignados al espacio
 - Eliminar A en huecos y opacos, ya que se puede deducir de la geometría (y evitamos desincronización)
 - Añadir en editor de geometría una imagen del polígono (hacer versión en SVG).
 - Añadir valores de referencia HE nuevos y existentes, apéndice E, etc a gráficas
