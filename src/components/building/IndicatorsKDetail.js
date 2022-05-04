@@ -34,7 +34,7 @@ const formatted = (elem, bold = false) => (bold ? <b>{elem}</b> : <>{elem}</>);
 const IndicatorsKDetail = () => {
   const appstate = useContext(AppState);
   const { K, summary, roofs, floors, walls, windows, ground, tbs } =
-    appstate.he1_indicators.K_data;
+    appstate.energy_indicators.K_data;
   const {
     a,
     au,

@@ -29,24 +29,25 @@ import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
 import {
-  Float1DigitsFmt,
   Float2DigitsFmt,
-  BoolFmt,
   SpaceTypeFmt,
   spaceTypesOpts,
   getFloatOrOld,
+  MultiplierFmt,
+  InsideTeFmt,
+  ZFmt,
 } from "./TableHelpers";
 
-// Custom editor para booleanos
+// Custom editor para pertenencia a la ET
 //
 // The getElement function returns a JSX value and takes two arguments:
 //  - onUpdate: if you want to apply the modified data, call this function
 //  - props: contain customEditorParameters, whole row data, defaultValue and attrs
 // Usamos forwardRef para poder tener referencias en componentes funcionales
 // ver: https://github.com/reactjs/reactjs.org/issues/2120
-const BoolEditor = React.forwardRef((props, _ref) => {
-  const { value: defaultValue, onUpdate } = props;
-  const [value, setValue] = useState(defaultValue);
+const InsideTeEditor = React.forwardRef((props, _ref) => {
+  const { value: cellValue, onUpdate } = props;
+  const [value, setValue] = useState(cellValue);
 
   return (
     <input
@@ -103,9 +104,33 @@ const NVEditor = React.forwardRef((props, _ref) => {
   );
 });
 
+// Formato de area de espacio (id -> area)
+const SpaceAreaFmt = (_cell, row, _rowIndex, spacePropsMap) => {
+  // cell == id
+  const props = spacePropsMap[row.id];
+  const area = props.area * props.multiplier;
+  if (area === undefined || area === null || isNaN(area)) {
+    return <span>-</span>;
+  }
+  return <span>{area.toFixed(2)}</span>;
+};
+
+// Formato de volumen neto de espacio (id -> volume_net)
+const SpaceVolumeFmt = (_cell, row, _rowIndex, spacePropsMap) => {
+  // cell == id
+  const props = spacePropsMap[row.id];
+  const volume_net = props.volume_net * props.multiplier;
+  if (volume_net === undefined || volume_net === null || isNaN(volume_net)) {
+    return <span>-</span>;
+  }
+  return <span>{volume_net.toFixed(2)}</span>;
+};
+
 // Tabla de espacios del edificio
 const SpacesTable = ({ selected, setSelected }) => {
   const appstate = useContext(AppState);
+  const spacePropsMap = appstate.energy_indicators.props.spaces;
+
   const columns = [
     { dataField: "id", isKey: true, hidden: true },
     {
@@ -117,29 +142,10 @@ const SpacesTable = ({ selected, setSelected }) => {
       title: (_cell, row) => `Espacio id: ${row.id}`,
     },
     {
-      dataField: "area",
-      text: "A",
-      align: "center",
-      formatter: Float2DigitsFmt,
-      headerTitle: () => "Superficie útil del espacio (m²)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          A<br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>
-              [m<sup>2</sup>]
-            </i>{" "}
-          </span>
-        </>
-      ),
-    },
-    {
       dataField: "multiplier",
       text: "Multiplicador",
       align: "center",
-      formatter: Float1DigitsFmt,
+      formatter: MultiplierFmt,
       headerTitle: () => "Multiplicador (-)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
@@ -154,7 +160,7 @@ const SpacesTable = ({ selected, setSelected }) => {
       ),
     },
     {
-      dataField: "type",
+      dataField: "kind",
       text: "Tipo",
       align: "center",
       formatter: SpaceTypeFmt,
@@ -180,7 +186,7 @@ const SpacesTable = ({ selected, setSelected }) => {
       dataField: "inside_tenv",
       text: "Interior a ET",
       align: "center",
-      formatter: BoolFmt,
+      formatter: InsideTeFmt,
       editorRenderer: (
         editorProps,
         value,
@@ -188,7 +194,7 @@ const SpacesTable = ({ selected, setSelected }) => {
         _column,
         _rowIndex,
         _columnIndex
-      ) => <BoolEditor value={value} {...editorProps} />,
+      ) => <InsideTeEditor value={value} {...editorProps} />,
       headerTitle: () => "¿Pertenece a la envolvente térmica?",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
@@ -248,7 +254,7 @@ const SpacesTable = ({ selected, setSelected }) => {
       dataField: "z",
       text: "z",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: ZFmt,
       headerTitle: () => "Cota de la planta, en m",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
@@ -263,20 +269,48 @@ const SpacesTable = ({ selected, setSelected }) => {
       ),
     },
     {
-      dataField: "exposed_perimeter",
-      text: "Perímetro expuesto",
+      dataField: "area",
+      text: "A",
+      isDummyField: true,
+      editable: false,
       align: "center",
-      formatter: Float2DigitsFmt,
-      headerTitle: () =>
-        "Perímetro del espacio expuesto al exterior, en m. Excluye la que lo separa de otros espacios acondicionados. Es relevante en el caso de espacios en contacto con el terreno.",
+      classes: "td-column-computed-readonly",
+      formatter: SpaceAreaFmt,
+      formatExtraData: spacePropsMap,
+      headerTitle: () => "Superficie útil del espacio (m²)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
         <>
-          p<sub>ext</sub>
+          A<br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>
+              [m<sup>2</sup>]
+            </i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "volume_net",
+      text: "Volumen neto",
+      isDummyField: true,
+      editable: false,
+      align: "center",
+      classes: "td-column-computed-readonly",
+      formatter: SpaceVolumeFmt,
+      formatExtraData: spacePropsMap,
+      headerTitle: () => "Volumen neto del espacio, en m³",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          V<sub>net</sub>
           <br />
           <span style={{ fontWeight: "normal" }}>
-            <i>[m]</i>{" "}
+            <i>
+              [m<sup>3</sup>]
+            </i>{" "}
           </span>
         </>
       ),
@@ -296,13 +330,13 @@ const SpacesTable = ({ selected, setSelected }) => {
         afterSaveCell: (oldValue, newValue, row, column) => {
           if (
             (column.dataField === "n_v" && newValue === undefined) ||
-            (column.dataField === "type" && newValue !== "UNINHABITED")
+            (column.dataField === "kind" && newValue !== "UNINHABITED")
           ) {
             // Corrige el valor de n_v de undefined a null
             // o cambia a null cuando no son espacios no habitables
             row.n_v = null;
           } else if (
-            !["name", "inside_tenv", "type"].includes(column.dataField)
+            !["name", "inside_tenv", "kind"].includes(column.dataField)
           ) {
             // Convierte a número salvo en el caso del nombre o de inside_tenv
             row[column.dataField] = getFloatOrOld(newValue, oldValue);
@@ -324,10 +358,8 @@ const SpacesTable = ({ selected, setSelected }) => {
         hideSelectColumn: true,
         bgColor: "lightgray",
       }}
-      rowClasses={(row, _rowIndex) => {
-        // clase para elementos fuera de la ET
-        return row.inside_tenv ? null : "outsidetenv";
-      }}
+      // clase para elementos fuera de la ET
+      rowClasses={(row, _rowIndex) => (row.inside_tenv ? null : "outsidetenv")}
       columns={columns}
     />
   );

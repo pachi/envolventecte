@@ -41,7 +41,7 @@ const WinConsView = () => {
         <Col>
           <h4>
             Construcciones de Huecos{" "}
-            <small className="text-muted">({appstate.wincons.length})</small>
+            <small className="text-muted">({appstate.cons.wincons.length})</small>
           </h4>
         </Col>
         <Col md="auto">

@@ -44,7 +44,7 @@ const IndicatorsN50Detail = () => {
     windows_c,
     windows_c_a,
     vol,
-  } = appstate.he1_indicators.n50_data;
+  } = appstate.energy_indicators.n50_data;
   // Paso de n50 (1/h) a CA (m³/h a 100Pa)
   const factor_n50_to_ca = vol / 0.629;
   const factor_ca_to_n50 = 1 / factor_n50_to_ca;

@@ -29,7 +29,6 @@ import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
 import {
-  Float2DigitsFmt,
   BoundaryFmt,
   BoundaryOpts,
   getFloatOrOld,
@@ -39,9 +38,36 @@ import { GeometryOpaquesEditor } from "./GeometryEditors";
 import { OpaqueGeomIconFmt } from "./TableHelpers";
 import { OrientacionesSprite } from "../climate/IconsOrientaciones";
 
+/// Formato de espacio (id -> nombre espacio)
+const SpaceFmt = (cell, _row, _rowIndex, spaceMap) => (
+  <span>{spaceMap[cell]}</span>
+);
+
+/// Formato de area de opaco (id -> area)
+const WallAreaFmt = (_cell, row, _rowIndex, wallPropsMap) => {
+  // cell == id
+  const props = wallPropsMap[row.id];
+  const p = props.area_net * props.multiplier;
+  if (p === undefined || p === null || isNaN(p)) {
+    return <span>-</span>;
+  }
+  return <span>{p.toFixed(2)}</span>;
+};
+
+/// Fromato de U de opaco (id -> U_value)
+const WallUFmt = (_cell, row, _rowIndex, wallPropsMap) => {
+  // cell == id
+  const uvalue = wallPropsMap[row.id].u_value;
+  if (uvalue === undefined || uvalue === null || isNaN(uvalue)) {
+    return <span>-</span>;
+  }
+  return <span>{uvalue.toFixed(2)}</span>;
+};
+
 // Tabla de elementos opacos
 const OpacosTable = ({ selected, setSelected }) => {
   const appstate = useContext(AppState);
+  const wallPropsMap = appstate.energy_indicators.props.walls;
 
   // Lista de IDs con errores
   const errors = appstate.warnings;
@@ -52,16 +78,9 @@ const OpacosTable = ({ selected, setSelected }) => {
     .filter((e) => e.level === "DANGER")
     .map((e) => e.id);
 
-  // Diccionario para determinar si el opaco está o no dentro de la ET
-  const is_outside_tenv = new Map();
-  appstate.walls.forEach((w) => {
-    const wall_inside_tenv = appstate.wall_is_inside_tenv(w);
-    is_outside_tenv[w.id] = wall_inside_tenv ? null : "outsidetenv";
-  });
-
   // Formato y opciones de construcciones de opacos
   const wallconsMap = new Map();
-  appstate.wallcons.map((s) => (wallconsMap[s.id] = s.name));
+  appstate.cons.wallcons.map((s) => (wallconsMap[s.id] = s.name));
   const WallconsFmt = (cell, _row) => <span>{wallconsMap[cell]}</span>;
   const WallconsOpts = Object.keys(wallconsMap).map((k) => {
     return { value: k, label: wallconsMap[k] };
@@ -71,20 +90,11 @@ const OpacosTable = ({ selected, setSelected }) => {
   const spaceMap = new Map();
   spaceMap[""] = "";
   appstate.spaces.map((s) => (spaceMap[s.id] = s.name));
-  const SpaceFmt = (cell, _row) => <span>{spaceMap[cell]}</span>;
+
   const SpaceOpts = Object.keys(spaceMap).map((k) => {
     return { value: k, label: spaceMap[k] };
   });
 
-  const wallUValuesMap = appstate.he1_indicators.u_values.walls;
-  const WallUFmt = (_cell, row) => {
-    // cell == id
-    const uvalue = wallUValuesMap[row.id];
-    if (uvalue === undefined || uvalue === null || isNaN(uvalue)) {
-      return <span>-</span>;
-    }
-    return <span>{uvalue.toFixed(2)}</span>;
-  };
 
   const columns = [
     { dataField: "id", isKey: true, hidden: true, text: "ID" },
@@ -96,32 +106,12 @@ const OpacosTable = ({ selected, setSelected }) => {
         "Nombre que identifica de forma única el elemento opaco",
       headerClasses: "text-light bg-secondary",
       title: (_cell, row) => {
-        const u_value_wall = wallUValuesMap[row.id];
+        const u_value_wall = wallPropsMap[row.id].u_value;
         const u_value = !isNaN(u_value_wall)
           ? Number(u_value_wall).toFixed(2)
           : "-";
         return `Opaco id: ${row.id}, U: ${u_value} W/m²K`;
       },
-    },
-    {
-      dataField: "A",
-      text: "A",
-      align: "center",
-      formatter: Float2DigitsFmt,
-      headerTitle: () =>
-        "Superficie neta (sin huecos) del elemento opaco, en m²",
-      headerAlign: "center",
-      headerClasses: "text-light bg-secondary",
-      headerFormatter: () => (
-        <>
-          A<br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>
-              [m<sup>2</sup>]
-            </i>{" "}
-          </span>
-        </>
-      ),
     },
     {
       dataField: "bounds",
@@ -168,6 +158,7 @@ const OpacosTable = ({ selected, setSelected }) => {
       },
       align: "center",
       formatter: SpaceFmt,
+      formatExtraData: spaceMap,
       headerTitle: () => "Espacio al que pertenece el elemento opaco",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
@@ -184,6 +175,7 @@ const OpacosTable = ({ selected, setSelected }) => {
       },
       align: "center",
       formatter: SpaceFmt,
+      formatExtraData: spaceMap,
       headerTitle: () =>
         "Espacio adyacente con el que comunica el elemento opaco cuando es interior",
       headerAlign: "center",
@@ -205,6 +197,30 @@ const OpacosTable = ({ selected, setSelected }) => {
       headerFormatter: () => <>Geometría</>,
     },
     {
+      dataField: "area",
+      text: "A",
+      isDummyField: true,
+      editable: false,
+      align: "center",
+      classes: "td-column-computed-readonly",
+      formatter: WallAreaFmt,
+      formatExtraData: wallPropsMap,
+      headerTitle: () =>
+        "Superficie neta (sin huecos) del elemento opaco, en m²",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          A<br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>
+              [m<sup>2</sup>]
+            </i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
       dataField: "wall_u",
       text: "wall_u",
       isDummyField: true,
@@ -212,7 +228,7 @@ const OpacosTable = ({ selected, setSelected }) => {
       align: "center",
       classes: "td-column-computed-readonly",
       formatter: WallUFmt,
-      formatExtraData: appstate.he1_indicators.u_values.walls,
+      formatExtraData: wallPropsMap,
       headerTitle: () => "Transmitancia térmica del elemento opaco [W/m²K]",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
@@ -289,9 +305,8 @@ const OpacosTable = ({ selected, setSelected }) => {
             classes.push("id_error_warning");
           }
           // clase para elementos fuera de la ET
-          const outside = is_outside_tenv[row.id];
-          if (outside !== null) {
-            classes.push(outside);
+          if (!wallPropsMap[row.id].is_tenv) {
+            classes.push("outsidetenv");
           }
           return classes.join(" ");
         }}

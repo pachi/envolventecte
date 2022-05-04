@@ -3,6 +3,12 @@
 - Al poner un nombre de elemento en la selección no se selecciona (¿siempre?).
 
 # Mejoras
+
+- Introducir overrides de huecos y muros...
+- En capas de constucciones de opacos, mostrar imagen de capas con grosores relativos
+- Editor de capas en construcciones de opacos
+- Seguir con WinConsTable
+
 - Eliminar exposed_perimeter de space, ya que se puede deducir a partir de suelos y muros asignados al espacio
 - Eliminar A en huecos y opacos, ya que se puede deducir de la geometría (y evitamos desincronización)
 - Añadir en editor de geometría una imagen del polígono (hacer versión en SVG).

@@ -41,7 +41,7 @@ const WallConsView = observer(() => {
         <Col>
           <h4>
             Construcciones de Opacos{" "}
-            <small className="text-muted">({appstate.wallcons.length})</small>
+            <small className="text-muted">({appstate.cons.wallcons.length})</small>
           </h4>
         </Col>
         <Col md="auto">

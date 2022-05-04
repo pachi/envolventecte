@@ -88,6 +88,27 @@ export const BoolFmt = (cell, _row, _rowIndex, _formatExtraData) => (
   <span>{cell === true ? "Sí" : "No"}</span>
 );
 
+// Multiplier (por defecto es 1.0)
+export const MultiplierFmt = (cell, _row, _rowIndex, _formatExtraData) =>
+  cell === null || cell === undefined ? (
+    <span>1.0</span>
+  ) : (
+    <span>{Number(cell).toFixed(1)}</span>
+  );
+
+// Muestra pertenencia a la ET (por defecto es sí)
+export const InsideTeFmt = (cell, _row, _rowIndex, _formatExtraData) => (
+  <span>{cell !== false ? "Sí" : "No"}</span>
+);
+
+// Cota (por defecto es 0.00)
+export const ZFmt = (cell, _row, _rowIndex, _formatExtraData) =>
+  cell === null || cell === undefined ? (
+    <span>0.00</span>
+  ) : (
+    <span>{Number(cell).toFixed(2)}</span>
+  );
+
 // Convierte ángulo de azimuth a nombre
 export const AzimuthFmt = (azimuth_angle) =>
   azimuth_angle === undefined ? "-" : azimuth_name(azimuth_angle);
@@ -154,15 +175,14 @@ export const WindowGeomIconFmt = (
   geometry,
   row,
   _rowIndex,
-  formatExtraData
+  wallData
 ) => {
-  const { wallData } = formatExtraData;
   const wall = wallData[row.wall];
   const has_wall = wall !== undefined;
-  const azimuth_dir = has_wall ? AzimuthFmt(wall.azimuth): "-";
-  const azimuth = has_wall ? <OrientaIcon dir={azimuth_dir} />: "-";
-  const tilt_dir = has_wall ? TiltFmt(wall.tilt): "-";
-  const tilt = has_wall ? <TiltIcon dir={tilt_dir} />: "-";
+  const azimuth_dir = has_wall ? AzimuthFmt(wall.azimuth) : "-";
+  const azimuth = has_wall ? <OrientaIcon dir={azimuth_dir} /> : "-";
+  const tilt_dir = has_wall ? TiltFmt(wall.tilt) : "-";
+  const tilt = has_wall ? <TiltIcon dir={tilt_dir} /> : "-";
   const position = geometry.position ? (
     <img src={fullGeometryIcon} alt="+" />
   ) : (
@@ -218,9 +238,12 @@ export const ThermalBridgeTypesOpts = Object.keys(THERMALBRIDGETYPESMAP).map(
 );
 
 // Muestra tipo de espacio
-export const SpaceTypeFmt = (cell, _row, _rowIndex, _formatExtraData) => (
-  <span>{SPACETYPESMAP[cell]}</span>
-);
+export const SpaceTypeFmt = (cell, _row, _rowIndex, _formatExtraData) =>
+  cell === null || cell === undefined ? (
+    <span>ACONDICIONADO</span>
+  ) : (
+    <span>{SPACETYPESMAP[cell]}</span>
+  );
 
 // Opciones de tipo de espacio
 export const spaceTypesOpts = Object.keys(SPACETYPESMAP).map((k) => {

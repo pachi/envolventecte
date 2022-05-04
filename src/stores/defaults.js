@@ -21,88 +21,140 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { uuidv4 } from "../utils.js";
+import {
+  new_glass,
+  new_frame,
+  new_material,
+  new_shade,
+  new_space,
+  new_thermalbridge,
+  new_wall,
+  new_wallcons,
+  new_wincons,
+  new_window,
+  new_meta,
+} from "wasm-envolventecte";
 
+export const newSpace = () => ({
+  ...new_space(),
+  ...defaultsSpace,
+});
 
-export const DEFAULT_SPACE = () => ({
-  id: uuidv4(),
-  name: `Espacio_${uuidv4()}`,
-  area: 100.0,
+export const defaultsSpace = {
+  kind: "CONDITIONED",
+  name: "Espacio",
   multiplier: 1.0,
-  type: "CONDITIONED",
   inside_tenv: true,
-  height: 3.0,
   n_v: null,
   z: 0.0,
-  exposed_perimeter: 0.0,
+};
+
+export const newWall = () => {
+  let w = { ...new_wall(), ...defaultsWall };
+  let geom = { ...w.geometry, ...defaultsWallgeom };
+  w.geometry = geom;
+
+  return w;
+};
+
+export const defaultsWall = {
+  name: "Opaco",
+  next_to: null,
+};
+
+export const defaultsWallgeom = {
+  position: null,
+  polygon: [],
+};
+
+export const newWindow = () => {
+  let w = { ...new_window(), ...defaultsWindow };
+  let geom = { ...w.geometry, ...defaultsWingeom };
+  w.geometry = geom;
+
+  return w;
+};
+
+export const defaultsWindow = {
+  name: "Hueco",
+};
+
+export const defaultsWingeom = {
+  position: null,
+};
+
+export const newShade = () => {
+  let w = { ...new_shade(), ...defaultsShade };
+  let geom = { ...w.geometry, ...defaultsWallgeom };
+  w.geometry = geom;
+
+  return w;
+};
+
+export const defaultsShade = {
+  name: "Sombra",
+};
+
+export const newTb = () => ({
+  ...new_thermalbridge(),
+  ...defaultsTb,
 });
 
-export const DEFAULT_WALL = () => ({
-  id: uuidv4(),
-  name: `Elemento_opaco_${uuidv4()}`,
-  A: 10.0,
-  bounds: "EXTERIOR",
-  cons: "",
-  space: "",
-  nextto: null,
-  geometry: {
-    azimuth: 0.0,
-    tilt: 90.0,
-    position: null,
-    polygon: []
-  }
-});
-
-export const DEFAULT_WINDOW = () => ({
-  id: uuidv4(),
-  name: `Hueco_${uuidv4()}`,
-  A: 1.0,
-  cons: "",
-  wall: "",
-  fshobst: 1.0,
-  geometry: {
-    position: null,
-    height: 1.0,
-    width: 1.0,
-    setback: 0.2
-  }
-});
-
-export const DEFAULT_SHADE = () => ({
-  id: uuidv4(),
-  name: `Sombra_${uuidv4()}`,
-  geometry: {
-    azimuth: 0.0,
-    tilt: 90.0,
-    position: null,
-    polygon: []
-  }
-});
-
-export const DEFAULT_TB = () => ({
-  id: uuidv4(),
-  name: `PT_${uuidv4()}`,
+export const defaultsTb = {
+  name: "Puente térmico",
   kind: "GENERIC",
-  L: 1.0,
-  psi: 0.05,
+  l: 1.0,
+  psi: 0.0,
+};
+
+export const newWallcons = () => ({
+  ...new_wallcons(),
+  ...defaultsWallcons,
 });
 
-export const DEFAULT_WALLCONS = () => ({
-  id: uuidv4(),
-  name: `Cons_opacos_${uuidv4()}`,
-  group: "Fachada",
-  thickness: 0.3,
-  R_intrinsic: 2.0,
-  absorptance: 0.6,
+export const defaultsWallcons = {
+  name: "Construcción de opaco",
+  layers: [],
+};
+
+export const newWincons = () => ({
+  ...new_wincons(),
+  ...defaultsWincons,
 });
 
-export const DEFAULT_WINCONS = () => ({
-  id: uuidv4(),
-  name: `Espacio_${uuidv4()}`,
-  group: "Ventanas",
-  U: 1.5,
-  Ff: 0.25,
-  gglwi: 0.65,
-  gglshwi: 0.65,
-  C_100: 27.0,
+export const defaultsWincons = {
+  name: "Construcción de hueco",
+  g_glshwi: null,
+};
+
+export const newMaterial = () => new_material();
+
+export const defaultsMaterial = {
+  name: "Material",
+  vapour_diff: null,
+};
+
+export const newGlass = () => new_glass();
+
+export const defaultsGlass = {
+  name: "Vidrio",
+};
+
+export const newFrame = () => new_frame();
+
+export const defaultsFrame = {
+  name: "Marco",
+};
+
+export const newMeta = () => ({
+  ...new_meta(),
+  ...defaultsMeta,
 });
+
+export const defaultsMeta = {
+  name: "Nombre del proyecto",
+  global_ventilation_l_s: null,
+  n50_test_ach: null,
+  d_perim_insulation: 0.0,
+  rn_perim_insulation: 0.0,
+};

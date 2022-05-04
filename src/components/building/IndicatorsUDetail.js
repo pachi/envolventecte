@@ -34,7 +34,7 @@ const formatted = (elem, bold = false) => (bold ? <b>{elem}</b> : <>{elem}</>);
 const IndicatorsUDetail = () => {
   const appstate = useContext(AppState);
   const { K, roofs, floors, walls, windows, ground } =
-    appstate.he1_indicators.K_data;
+    appstate.energy_indicators.K_data;
 
   // Elementos detallados: título, a, au, tipo, ¿con formato especial?
   const all_elements = [

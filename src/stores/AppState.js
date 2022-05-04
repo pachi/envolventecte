@@ -26,7 +26,7 @@ import { action, observable, computed, makeObservable, configure } from "mobx";
 
 import { uuidv4 } from "../utils.js";
 import {
-  he1_indicators,
+  energy_indicators,
   load_data_from_json,
   load_data_from_ctehexml,
   load_fshobst_data_from_kyg,
@@ -34,13 +34,23 @@ import {
 } from "wasm-envolventecte";
 
 import {
-  DEFAULT_SHADE,
-  DEFAULT_SPACE,
-  DEFAULT_TB,
-  DEFAULT_WALL,
-  DEFAULT_WALLCONS,
-  DEFAULT_WINDOW,
-  DEFAULT_WINCONS,
+  newShade,
+  newSpace,
+  newTb,
+  newWall,
+  newWallcons,
+  newWindow,
+  newWincons,
+  defaultsSpace,
+  defaultsWall,
+  defaultsWindow,
+  defaultsShade,
+  defaultsWallcons,
+  defaultsWincons,
+  defaultsMaterial,
+  defaultsGlass,
+  defaultsFrame,
+  newMeta,
 } from "./defaults";
 
 // import radiationdata from "../zcraddata.json";
@@ -62,23 +72,12 @@ configure({
 
 // Valores de radiación
 const MONTHLYRADIATIONDATA = get_monthly_radiation_data();
-const DEFAULT_META = {
-  name: "Modelo vacío",
-  is_new_building: true,
-  is_dwelling: true,
-  num_dwellings: 1,
-  climate: "D3",
-  global_ventilation_l_s: 0,
-  n50_test_ach: null,
-  d_perim_insulation: 0,
-  rn_perim_insulation: 0,
-};
 
 class AppState {
   // Datos climáticos --------
 
   // Zona climática y otros metadatos
-  meta = DEFAULT_META;
+  meta = newMeta();
 
   // Datos geométricos y constructivos -----------
   // Espacios de la envolvente térmica
@@ -89,10 +88,8 @@ class AppState {
   windows = [];
   // Sombras
   shades = [];
-  // Construcciones de opacos
-  wallcons = [];
-  // Construcciones de huecos
-  wincons = [];
+  // Construcciones de opacos y huecos
+  cons = { wallcons: [], wincons: [] };
 
   // Puentes térmicos
   thermal_bridges = [];
@@ -112,11 +109,10 @@ class AppState {
       windows: observable,
       shades: observable,
       thermal_bridges: observable,
-      wallcons: observable,
-      wincons: observable,
+      cons: observable,
       errors: observable,
       // Valores calculados
-      he1_indicators: computed({ requiresReaction: true }),
+      energy_indicators: computed({ requiresReaction: true }),
       zoneslist: computed,
       orientations: computed,
       warnings: computed,
@@ -153,13 +149,13 @@ class AppState {
     );
   }
 
-  get he1_indicators() {
-    return he1_indicators(this.getModel());
+  get energy_indicators() {
+    return energy_indicators(this.getModel());
   }
 
   // Acumula errores de la app y avisos de los cálculos
   get warnings() {
-    return this.errors.concat(this.he1_indicators.warnings);
+    return this.errors.concat(this.energy_indicators.warnings);
   }
 
   // Pertenencia de un muro a la envolvente térmica
@@ -195,13 +191,13 @@ class AppState {
   }
 
   // Constructores --------
-  newHueco = DEFAULT_WINDOW;
-  newOpaco = DEFAULT_WALL;
-  newPT = DEFAULT_TB;
-  newShade = DEFAULT_SHADE;
-  newSpace = DEFAULT_SPACE;
-  newWallCons = DEFAULT_WALLCONS;
-  newWinCons = DEFAULT_WINCONS;
+  newHueco = newWindow;
+  newOpaco = newWall;
+  newPT = newTb;
+  newShade = newShade;
+  newSpace = newSpace;
+  newWallCons = newWallcons;
+  newWinCons = newWincons;
 
   // Acciones --------
 
@@ -264,7 +260,7 @@ class AppState {
     for (let pt of this.thermal_bridges) {
       const p = ptsagrupados.find((e) => isequal(pt, e));
       if (p) {
-        p.A = p.L + pt.L;
+        p.A = p.l + pt.l;
         p.name = p.name + ", " + pt.name;
         p.id = uuidv4();
       } else {
@@ -276,21 +272,26 @@ class AppState {
 
   // Recopila modelo desde el appstate
   getModel() {
-    const { meta, thermal_bridges, walls, windows, shades, spaces, wallcons, wincons } =
+    const { meta, thermal_bridges, walls, windows, shades, spaces, cons } =
       this;
-    return { meta, spaces, walls, windows, shades, thermal_bridges, wallcons, wincons };
-  };
+    return { meta, spaces, walls, windows, shades, thermal_bridges, cons };
+  }
 
   // Deja modelo limpio
   clearModel() {
-    this.meta = DEFAULT_META;
+    this.meta = newMeta();
     this.spaces = [];
     this.walls = [];
     this.windows = [];
     this.shades = [];
     this.thermal_bridges = [];
-    this.wallcons = [];
-    this.wincons = [];
+    this.cons = {
+      wallcons: [],
+      wincons: [],
+      materials: [],
+      glasses: [],
+      frames: [],
+    };
   }
 
   // Carga modelo JSON en el appstate
@@ -302,35 +303,59 @@ class AppState {
       windows,
       shades,
       thermal_bridges,
-      wallcons,
-      wincons,
+      cons,
     } = inputData;
 
     // Carga datos en el store
+    // Asignamos valores por defecto de las propiedades que pueden ser omitidas
     this.meta = meta;
     this.thermal_bridges = thermal_bridges;
-    this.walls = walls;
-    this.windows = windows;
-    this.spaces = spaces;
-    this.shades = shades;
-    this.wallcons = wallcons;
-    this.wincons = wincons;
+    this.walls = walls.map((w) => ({
+      ...defaultsWall,
+      ...w,
+    }));
+    this.windows = windows.map((w) => ({
+      ...defaultsWindow,
+      ...w,
+    }));
+    this.spaces = spaces.map((s) => ({
+      ...defaultsSpace,
+      ...s,
+    }));
+    this.shades = shades.map((w) => ({
+      ...defaultsShade,
+      ...w,
+    }));
+    this.cons = {
+      wallcons: cons.wallcons.map((w) => ({
+        ...defaultsWallcons,
+        ...w,
+      })),
+      wincons: cons.wincons.map((w) => ({
+        ...defaultsWincons,
+        ...w,
+      })),
+      materials: cons.materials.map((w) => ({
+        ...defaultsMaterial,
+        ...w,
+      })),
+      glasses: cons.glasses.map((w) => ({
+        ...defaultsGlass,
+        ...w,
+      })),
+      frames: cons.frames.map((w) => ({
+        ...defaultsFrame,
+        ...w,
+      })),
+    };
   }
 
   // Importación y exportación de datos -------------
 
   // Serialización de los datos
   get asJSON() {
-    const {
-      meta,
-      spaces,
-      walls,
-      windows,
-      shades,
-      thermal_bridges,
-      wallcons,
-      wincons,
-    } = this;
+    const { meta, spaces, walls, windows, shades, thermal_bridges, cons } =
+      this;
 
     return JSON.stringify(
       {
@@ -340,8 +365,7 @@ class AppState {
         windows,
         shades,
         thermal_bridges,
-        wallcons,
-        wincons,
+        cons,
       },
       null,
       2
@@ -371,7 +395,7 @@ class AppState {
           {
             level: "INFO",
             id: null,
-            msg: `Clima ${this.meta.climate}, Cargados ${this.spaces.length} espacios, ${this.walls.length} opacos, ${this.windows.length} huecos, ${this.thermal_bridges.length} PTs, ${this.shades.length} elementos de sombra, ${this.wallcons.length} construcciones de opacos y ${this.wincons.length} construcciones de huecos`,
+            msg: `Clima ${this.meta.climate}, Cargados ${this.spaces.length} espacios, ${this.walls.length} opacos, ${this.windows.length} huecos, ${this.thermal_bridges.length} PTs, ${this.shades.length} elementos de sombra, ${this.cons.wallcons.length} construcciones de opacos y ${this.cons.wincons.length} construcciones de huecos`,
           },
         ];
       } else if (mode === "FSHOBST") {

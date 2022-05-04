@@ -46,15 +46,6 @@ const WinConsTable = ({ selected, setSelected }) => {
       title: (_cell, row) => `Construcción de hueco id: ${row.id}`,
     },
     {
-      dataField: "group",
-      text: "Grupo",
-      align: "center",
-      headerTitle: (_col, _colIndex) =>
-        "Grupo de soluciones al que pertenece la construcción (solo a efectos de clasificación)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-    },
-    {
         dataField: "U",
         text: "U_w",
         align: "center",
@@ -138,7 +129,7 @@ const WinConsTable = ({ selected, setSelected }) => {
 
   return (
     <BootstrapTable
-      data={appstate.wincons}
+      data={appstate.cons.wincons}
       keyField="id"
       striped
       hover

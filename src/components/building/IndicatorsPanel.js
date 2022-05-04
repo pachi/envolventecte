@@ -52,7 +52,7 @@ const IndicatorsPanel = () => {
     q_soljul_data,
     n50_data,
     K_data,
-  } = appstate.he1_indicators;
+  } = appstate.energy_indicators;
   const { climate, name } = appstate.meta;
 
   const { K } = K_data;

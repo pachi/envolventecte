@@ -30,10 +30,45 @@ import { observer } from "mobx-react-lite";
 import AppState from "../../stores/AppState";
 import { Float2DigitsFmt, getFloatOrOld } from "./TableHelpers";
 
+/// Formato de espesor total de construcción de opaco (id -> thickness)
+const WallConsThicknessFmt = (_cell, row, _rowIndex, wallconsPropsMap) => {
+  // cell == id
+  const props = wallconsPropsMap[row.id];
+  const p = props.thickness;
+  if (p === undefined || p === null || isNaN(p)) {
+    return <span>-</span>;
+  }
+  return <span>{p.toFixed(3)}</span>;
+};
+
+/// Formato de resistencia intrínseca de construcción de opaco (id -> r_intrinsic)
+const WallConsIntrinsicRFmt = (_cell, row, _rowIndex, wallconsPropsMap) => {
+  // cell == id
+  const props = wallconsPropsMap[row.id];
+  const p = props.r_intrinsic;
+  if (p === undefined || p === null || isNaN(p)) {
+    return <span>-</span>;
+  }
+  return <span>{p.toFixed(2)}</span>;
+};
+
+/// Formato de capas de construcción de opaco (id -> nº capas)
+const LayersNumberFmt = (cell, _row, _rowIndex, _formatExtraData) => {
+  // cell == id
+  const nlayers = cell.length;
+  if (nlayers === 0) {
+    return <span>-</span>;
+  }
+  return <span>{nlayers}</span>;
+};
+
+
 // Tabla de opacos del edificio
 const WallConsTable = ({ selected, setSelected }) => {
   const appstate = useContext(AppState);
-  const walls_Co100 = appstate.he1_indicators.n50_data.walls_c.toFixed(2);
+  const wallconsPropsMap = appstate.energy_indicators.props.wallcons;
+  const walls_Co100 = appstate.energy_indicators.n50_data.walls_c.toFixed(2);
+
   const columns = [
     { dataField: "id", isKey: true, hidden: true },
     {
@@ -46,46 +81,18 @@ const WallConsTable = ({ selected, setSelected }) => {
       title: (_cell, row) => `Construcción de opaco id: ${row.id}`,
     },
     {
-      dataField: "group",
-      text: "Grupo",
+      dataField: "layers",
+      text: "Capas",
       align: "center",
-      headerTitle: (_col, _colIndex) =>
-        "Grupo de soluciones al que pertenece la construcción (solo a efectos de clasificación)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-    },
-    {
-      dataField: "thickness",
-      text: "Grosor",
-      align: "center",
-      formatter: Float2DigitsFmt,
-      headerTitle: () => "Grosor el elemento (m)",
+      formatter: LayersNumberFmt,
+      headerTitle: () => "Capas de la construcción (nº)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
         <>
-          e<br />
+          Capas<br />
           <span style={{ fontWeight: "normal" }}>
-            <i>[m]</i>{" "}
-          </span>
-        </>
-      ),
-    },
-    {
-      dataField: "R_intrinsic",
-      text: "Resistencia intrínseca",
-      align: "center",
-      formatter: Float2DigitsFmt,
-      headerTitle: () =>
-        "Resistencia intrínseca de la solución constructiva (solo capas, sin resistencias superficiales) (m²K/W)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          R<sub>e</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[m²K/W]</i>{" "}
+            <i>[nº]</i>{" "}
           </span>
         </>
       ),
@@ -104,6 +111,50 @@ const WallConsTable = ({ selected, setSelected }) => {
           <br />
           <span style={{ fontWeight: "normal" }}>
             <i>[-]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "thickness",
+      text: "Espesor",
+      isDummyField: true,
+      editable: false,
+      align: "center",
+      classes: "td-column-computed-readonly",
+      formatter: WallConsThicknessFmt,
+      formatExtraData: wallconsPropsMap,
+      headerTitle: () => "Espesor total de la composición de capas (m)",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          e<br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[m]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "R_intrinsic",
+      text: "Resistencia intrínseca",
+      isDummyField: true,
+      editable: false,
+      align: "center",
+      classes: "td-column-computed-readonly",
+      formatter: WallConsIntrinsicRFmt,
+      formatExtraData: wallconsPropsMap,
+      headerTitle: () =>
+        "Resistencia intrínseca de la solución constructiva (solo capas, sin resistencias superficiales) (m²K/W)",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          R<sub>e</sub>
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[m²K/W]</i>{" "}
           </span>
         </>
       ),
@@ -135,7 +186,7 @@ const WallConsTable = ({ selected, setSelected }) => {
 
   return (
     <BootstrapTable
-      data={appstate.wallcons}
+      data={appstate.cons.wallcons}
       keyField="id"
       striped
       hover

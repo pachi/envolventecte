@@ -29,18 +29,58 @@ import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
 import {
-  Float2DigitsFmt,
   getFloatOrOld,
   WindowGeomFmt,
   WindowGeomIconFmt,
 } from "./TableHelpers";
 import { GeometryWindowEditor } from "./GeometryEditors";
 
+// Formato de área de huecos (id -> area)
+const WinAreaFmt = (_cell, row, _rowIndex, winProps) => {
+  // cell == id
+  const props = winProps[row.id];
+  const area = props.area * props.multiplier;
+  if (area === undefined || area === null || isNaN(area)) {
+    return <span>-</span>;
+  }
+  return <span>{area.toFixed(2)}</span>;
+};
+
+// Formato de fshobst (id -> fshobst)
+const FshobstFmt = (_cell, row, _rowIndex, winProps) => {
+  // cell == id
+  const props = winProps[row.id];
+  const p = props.f_shobst_override || props.f_shobst;
+  if (p === undefined || p === null || isNaN(p)) {
+    return <span>-</span>;
+  }
+  return <span>{p.toFixed(2)}</span>;
+};
+
+// Transmitancias de huecos (id -> window U-value)
+const WindowUFmt = (_cell, row, _rowIndex, winProps) => {
+  const props = winProps[row.id];
+  const p = props.u_value;
+  if (p === undefined || p === null) {
+    return <span>-</span>;
+  }
+  return <span>{p.toFixed(2)}</span>;
+};
+
+/// Construcciones de huecos (id -> nombre wincons)
+const WinconsFmt = (cell, _row, _rowIndex, winconsMap) => (
+  <span>{winconsMap[cell]}</span>
+);
+
+// Muro del hueco (id(muro) -> nombre_muro)
+const WallsFmt = (cell, _row, _rowIndex, wallMap) => (
+  <span>{wallMap[cell]?.name}</span>
+);
+
 // Tabla de huecos del edificio
 const HuecosTable = ({ selected, setSelected }) => {
   const appstate = useContext(AppState);
-  const he1_indicators = appstate.he1_indicators;
-  const winUValuesMap = he1_indicators.u_values.windows;
+  const winPropsMap = appstate.energy_indicators.props.windows;
 
   // Lista de IDs con errores
   const errors = appstate.warnings;
@@ -58,41 +98,19 @@ const HuecosTable = ({ selected, setSelected }) => {
     ])
   );
 
-  // Diccionario para determinar si el hueco está o no dentro de la ET
-  const is_outside_tenv = new Map();
-  appstate.windows.forEach((win) => {
-    const wall = appstate.walls.find((w) => w.id === win.wall);
-    // 1. No tiene definido muro -> fuera
-    if (wall === undefined) {
-      is_outside_tenv[win.id] = "outsidetenv";
-    } else {
-      const wall_inside_tenv = appstate.wall_is_inside_tenv(wall);
-      is_outside_tenv[win.id] = wall_inside_tenv ? null : "outsidetenv";
-    }
-  });
-
   // Formato y opciones de construcciones de huecos
   const winconsMap = new Map();
-  appstate.wincons.map((s) => (winconsMap[s.id] = s.name));
-  const WinconsFmt = (cell, _row) => <span>{winconsMap[cell]}</span>;
+  appstate.cons.wincons.map((s) => (winconsMap[s.id] = s.name));
+
   const WinconsOpts = Object.keys(winconsMap).map((k) => {
     return { value: k, label: winconsMap[k] };
   });
 
   // Formato y opciones de opacos
-  const WallsFmt = (cell, _row) => <span>{wallData[cell]?.name}</span>;
+
   const WallsOpts = Object.keys(wallData).map((k) => {
     return { value: k, label: wallData[k].name };
   });
-
-  // Transmitancias de huecos
-  const WindowUFmt = (_cell, row, _rowIndex, _formatExtraData) => {
-    const uvalue = winUValuesMap[row.id];
-    if (uvalue === undefined || uvalue === null) {
-      return <span>-</span>;
-    }
-    return <span>{uvalue.toFixed(2)}</span>;
-  };
 
   const columns = [
     { dataField: "id", isKey: true, hidden: true, text: "ID" },
@@ -103,7 +121,7 @@ const HuecosTable = ({ selected, setSelected }) => {
       headerTitle: () => "Nombre que identifica de forma única el hueco",
       headerClasses: "text-light bg-secondary",
       title: (_cell, row) => {
-        const u_value_window = winUValuesMap[row.id];
+        const u_value_window = winPropsMap[row.id].u_value;
         const u_value = !isNaN(u_value_window)
           ? Number(u_value_window).toFixed(2)
           : "-";
@@ -111,30 +129,11 @@ const HuecosTable = ({ selected, setSelected }) => {
       },
     },
     {
-      dataField: "A",
-      text: "A",
-      align: "center",
-      formatter: Float2DigitsFmt,
-      headerTitle: () => "Área proyectada del hueco (m2)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          A<sub>w,p</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>
-              [m<sup>2</sup>]
-            </i>
-          </span>
-        </>
-      ),
-    },
-    {
       dataField: "cons",
       text: "Construcción",
       align: "center",
       formatter: WinconsFmt,
+      formatExtraData: winconsMap,
       headerTitle: () => "Construcción del hueco",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
@@ -152,15 +151,59 @@ const HuecosTable = ({ selected, setSelected }) => {
         options: WallsOpts,
       },
       formatter: WallsFmt,
+      formatExtraData: wallData,
       headerTitle: () => "Opaco al que pertenece el hueco",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
     },
     {
+      dataField: "geometry",
+      text: "Geometría",
+      align: "center",
+      formatter: WindowGeomIconFmt,
+      formatExtraData: wallData,
+      title: WindowGeomFmt,
+      headerTitle: () =>
+        "Descripción geométrica del hueco (posición, ancho, alto, retranqueo). Posición en coordenadas de muro [x, y]. Para elementos sin definición geométrica completa la posición es una lista vacía.",
+      editorRenderer: (editorProps, value, row) => (
+        <GeometryWindowEditor {...editorProps} value={value} name={row.name} />
+      ),
+      headerAlign: "center",
+      headerClasses: "text-light bg-secondary",
+    },
+    {
+      dataField: "area",
+      isDummyField: true,
+      editable: false,
+      text: "A",
+      align: "center",
+      classes: "td-column-computed-readonly",
+      formatter: WinAreaFmt,
+      formatExtraData: winPropsMap,
+      headerTitle: () => "Área proyectada del hueco (m2)",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          A<sub>w,p</sub>
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>
+              [m<sup>2</sup>]
+            </i>
+          </span>
+        </>
+      ),
+    },
+    {
       dataField: "fshobst",
+      isDummyField: true,
+      editable: false,
       text: "fshobst",
       align: "center",
-      formatter: Float2DigitsFmt,
+      classes: "td-column-computed-readonly",
+      formatter: FshobstFmt,
+      formatExtraData: winPropsMap,
       headerTitle: () =>
         "Factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción). Este valor puede asimilarse al factor de sombra del hueco (FS). El Documento de Apoyo DA DB-HE/1 recoge valores del factor de sombra FS para considerar el efecto de voladizos, retranqueos, aletas laterales o lamas exteriores.",
       headerClasses: "text-light bg-secondary",
@@ -176,21 +219,6 @@ const HuecosTable = ({ selected, setSelected }) => {
       ),
     },
     {
-      dataField: "geometry",
-      text: "Geometría",
-      align: "center",
-      formatter: WindowGeomIconFmt,
-      formatExtraData: { wallData },
-      title: WindowGeomFmt,
-      headerTitle: () =>
-        "Descripción geométrica del hueco (posición, ancho, alto, retranqueo). Posición en coordenadas de muro [x, y]. Para elementos sin definición geométrica completa la posición es una lista vacía.",
-      editorRenderer: (editorProps, value, row) => (
-        <GeometryWindowEditor {...editorProps} value={value} name={row.name} />
-      ),
-      headerAlign: "center",
-      headerClasses: "text-light bg-secondary",
-    },
-    {
       dataField: "window_u",
       isDummyField: true,
       editable: false,
@@ -198,7 +226,7 @@ const HuecosTable = ({ selected, setSelected }) => {
       align: "center",
       classes: "td-column-computed-readonly",
       formatter: WindowUFmt,
-      formatExtraData: appstate.he1_indicators.u_values.windows,
+      formatExtraData: winPropsMap,
       headerTitle: () => "Transmitancia térmica del hueco [W/m²K]",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
@@ -257,9 +285,8 @@ const HuecosTable = ({ selected, setSelected }) => {
           classes.push("id_error_warning");
         }
         // clase para elementos fuera de la ET
-        const outside = is_outside_tenv[row.id];
-        if (outside !== null) {
-          classes.push(outside);
+        if (!winPropsMap[row.id].is_tenv) {
+          classes.push("outsidetenv");
         }
         return classes.join(" ");
       }}

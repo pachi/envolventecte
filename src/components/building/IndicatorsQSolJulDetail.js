@@ -32,7 +32,7 @@ import { round_or_dash } from "../../utils";
 
 const QSolJulDetail = () => {
   const appstate = useContext(AppState);
-  const { area_ref, q_soljul_data } = appstate.he1_indicators;
+  const { area_ref, q_soljul_data } = appstate.energy_indicators;
   const { q_soljul, Q_soljul, detail } = q_soljul_data;
 
   const q_soljul_detail = Orientations.map(([orient, color]) => [
