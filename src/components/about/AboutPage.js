@@ -37,6 +37,19 @@ const AboutPage = (props) => (
     <NavBar route={props.route} />
     <Row>
       <Col>
+        <h1>EnvolventeCTE</h1>
+        <p className="font-weight-bold">
+          Versión {version}, BEModel {get_version()}
+        </p>
+        <p>
+          Aplicación para el cálculo de indicadores de calidad y parámetros
+          descriptivos de la envolvente térmica de los edificios para la
+          evaluación energética y aplicación del CTE DB-HE (2019):
+        </p>
+      </Col>
+    </Row>
+    <Row>
+      <Col>
         <Alert variant="warning">
           <b>NOTA:</b> Esta aplicación y la información contenida en ella no
           tienen valor reglamentario.
@@ -79,12 +92,6 @@ const AboutPage = (props) => (
     </Row>
     <Row>
       <Col>
-        <h2>Versión:</h2>
-        <p>EnvolventeCTE: {version} (BEModel: { get_version() })</p>
-      </Col>
-    </Row>
-    <Row>
-      <Col>
         <h2>Licencia:</h2>
         <p>
           Esta aplicación es software libre y se distribuye con licencia MIT,
@@ -113,11 +120,11 @@ const AboutPage = (props) => (
           <p>
             Permission is hereby granted, free of charge, to any person
             obtaining a copy of this software and associated documentation files
-            (the &quot;Software&quot;), to deal in the Software without restriction,
-            including without limitation the rights to use, copy, modify, merge,
-            publish, distribute, sublicense, and/or sell copies of the Software,
-            and to permit persons to whom the Software is furnished to do so,
-            subject to the following conditions:
+            (the &quot;Software&quot;), to deal in the Software without
+            restriction, including without limitation the rights to use, copy,
+            modify, merge, publish, distribute, sublicense, and/or sell copies
+            of the Software, and to permit persons to whom the Software is
+            furnished to do so, subject to the following conditions:
           </p>
 
           <p>
@@ -126,9 +133,9 @@ const AboutPage = (props) => (
           </p>
 
           <p>
-            THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
-            EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-            MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+            THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY
+            KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+            WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
             NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
             BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
             ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
