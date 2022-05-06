@@ -30,6 +30,7 @@ import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 
 import AboutPage from "./AboutPage";
 import BuildingPage from "./BuildingPage";
+import ConsPage from "./ConsPage";
 import ThreeDPage from "./ThreeDPage";
 import ClimatePage from "./ClimatePage";
 import ElementsPage from "./ElementsPage";
@@ -37,7 +38,8 @@ import HelpPage from "./HelpPage";
 import MainPage from "./MainPage";
 
 const App = () => {
-  const [activeKey, setActiveKey] = useState("spaces");
+  const [buildingActiveKey, setBuildingActiveKey] = useState("spaces");
+  const [consActiveKey, setConsActiveKey] = useState("wallcons");
 
   return (
     <HashRouter>
@@ -49,8 +51,19 @@ const App = () => {
           render={(props) => (
             <BuildingPage
               {...props}
-              activeKey={activeKey}
-              setActiveKey={setActiveKey}
+              activeKey={buildingActiveKey}
+              setActiveKey={setBuildingActiveKey}
+            />
+          )}
+        />
+        <Route
+          exact
+          path="/constructions"
+          render={(props) => (
+            <ConsPage
+              {...props}
+              activeKey={consActiveKey}
+              setActiveKey={setConsActiveKey}
             />
           )}
         />

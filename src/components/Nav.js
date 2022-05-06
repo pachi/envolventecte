@@ -81,18 +81,23 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
               Edificio
             </Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/3d" eventKey={2}>
+          <LinkContainer to="/constructions" eventKey={2}>
+            <Nav.Link title="Visualización, introducción y edición de las constucciones del edificio.">
+              Construcción
+            </Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/3d" eventKey={3}>
             <Nav.Link title="Visualización tridimensional del modelo del edificio.">
               Vista3D
             </Nav.Link>
           </LinkContainer>
           <span style={{ borderLeft: "1px solid gray", margin: "0px 25px" }} />
-          <LinkContainer to="/climate" eventKey={3}>
+          <LinkContainer to="/climate" eventKey={4}>
             <Nav.Link title="Visualización y obtención de parámetros relacionados con el clima exterior del edificio.">
               Clima
             </Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/elements" eventKey={4}>
+          <LinkContainer to="/elements" eventKey={5}>
             <Nav.Link title="Ayudas para el cálculo de parámetros descriptivos de algunos elementos de la envolvente térmica del edificio.">
               Elementos
             </Nav.Link>
@@ -100,7 +105,7 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
         </Nav>
         <Nav className="ml-auto pr-3">
           <Nav.Link
-            md={4}
+            md={6}
             title="Zona climática, de acuerdo al DB-HE 2019, en la que se sitúa el edificio."
           >
             <Form.Row>
@@ -136,12 +141,12 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
             <img src={icondownload} alt="Descargar datos de envolvente" />{" "}
             Descarga
           </Nav.Link>
-          <LinkContainer to="/help" eventKey={5}>
+          <LinkContainer to="/help" eventKey={7}>
             <Nav.Link title="Ayuda de la aplicación">
               <img src={iconhelp} alt="Ayuda" /> Ayuda
             </Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/about" eventKey={6}>
+          <LinkContainer to="/about" eventKey={8}>
             <Nav.Link>
               <Nav.Item title="Infomración sobre autoría, licencia, etc de la aplicación">
                 <img src={iconinfo} alt="Créditos" /> Créditos
