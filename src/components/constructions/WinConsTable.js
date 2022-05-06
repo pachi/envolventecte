@@ -23,51 +23,54 @@ SOFTWARE.
 
 import React, { useContext } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory from "react-bootstrap-table2-editor";
+import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import { Float2DigitsFmt, getFloatOrOld } from "./TableHelpers";
+import { Float2DigitsFmt, getFloatOrOld } from "../building/TableHelpers";
 
-/// Formato de espesor total de construcción de opaco (id -> thickness)
-const WallConsThicknessFmt = (_cell, row, _rowIndex, wallconsPropsMap) => {
-  // cell == id
-  const props = wallconsPropsMap[row.id];
-  const p = props.thickness;
-  if (p === undefined || p === null || isNaN(p)) {
-    return <span>-</span>;
-  }
-  return <span>{p.toFixed(3)}</span>;
-};
-
-/// Formato de resistencia intrínseca de construcción de opaco (id -> r_intrinsic)
-const WallConsIntrinsicRFmt = (_cell, row, _rowIndex, wallconsPropsMap) => {
-  // cell == id
-  const props = wallconsPropsMap[row.id];
-  const p = props.r_intrinsic;
+/// Formato de U de hueco (id -> U)
+const WinconsUFmt = (_cell, row, _rowIndex, propsMap) => {
+  const props = propsMap[row.id];
+  const p = props.u_value;
   if (p === undefined || p === null || isNaN(p)) {
     return <span>-</span>;
   }
   return <span>{p.toFixed(2)}</span>;
 };
 
-/// Formato de capas de construcción de opaco (id -> nº capas)
-const LayersNumberFmt = (cell, _row, _rowIndex, _formatExtraData) => {
-  // cell == id
-  const nlayers = cell.length;
-  if (nlayers === 0) {
+/// Formato de g_gl;wi de hueco (id -> g_glwi)
+const WinconsGglwiFmt = (_cell, row, _rowIndex, propsMap) => {
+  const props = propsMap[row.id];
+  const p = props.g_glwi;
+  if (p === undefined || p === null || isNaN(p)) {
     return <span>-</span>;
   }
-  return <span>{nlayers}</span>;
+  return <span>{p.toFixed(2)}</span>;
 };
 
 
-// Tabla de opacos del edificio
-const WallConsTable = ({ selected, setSelected }) => {
+// Tabla de construcciones de huecos del edificio
+const WinConsTable = ({ selected, setSelected }) => {
   const appstate = useContext(AppState);
-  const wallconsPropsMap = appstate.energy_indicators.props.wallcons;
-  const walls_Co100 = appstate.energy_indicators.n50_data.walls_c.toFixed(2);
+  const winconsPropsMap = appstate.energy_indicators.props.wincons;
+
+  // Formato y opciones de vidrios y marcos
+  const glassMap = new Map();
+  appstate.cons.glasses.map((s) => (glassMap[s.id] = s.name));
+  const GlassFmt = (cell, _row) => <span>{glassMap[cell]}</span>;
+  const GlassOpts = Object.keys(glassMap).map((k) => {
+    return { value: k, label: glassMap[k] };
+  });
+
+  const frameMap = new Map();
+  appstate.cons.frames.map((s) => (frameMap[s.id] = s.name));
+  const FrameFmt = (cell, _row) => <span>{frameMap[cell]}</span>;
+  const FrameOpts = Object.keys(frameMap).map((k) => {
+    return { value: k, label: frameMap[k] };
+  });
+
 
   const columns = [
     { dataField: "id", isKey: true, hidden: true },
@@ -77,38 +80,47 @@ const WallConsTable = ({ selected, setSelected }) => {
       width: "30%",
       classes: "font-weight-bold",
       headerTitle: () =>
-        "Nombre que identifica de forma única la construcción de opaco",
+        "Nombre que identifica de forma única la construcción de hueco",
       headerClasses: "text-light bg-secondary",
-      title: (_cell, row) => `Construcción de opaco id: ${row.id}`,
+      title: (_cell, row) => `Construcción de hueco id: ${row.id}`,
     },
     {
-      dataField: "layers",
-      text: "Capas",
+      dataField: "glass",
+      text: "Vidrio",
+      editor: {
+        type: Type.SELECT,
+        options: GlassOpts,
+      },
       align: "center",
-      formatter: LayersNumberFmt,
-      headerTitle: () => "Capas de la construcción (nº)",
+      formatter: GlassFmt,
+      headerTitle: () => "Vidrio del hueco",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          Capas<br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[nº]</i>{" "}
-          </span>
-        </>
-      ),
     },
     {
-      dataField: "absorptance",
-      text: "Absortividad",
+      dataField: "frame",
+      text: "Marco",
+      editor: {
+        type: Type.SELECT,
+        options: FrameOpts,
+      },
+      align: "center",
+      formatter: FrameFmt,
+      headerTitle: () => "Marco del opaco",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+    },
+    {
+      dataField: "f_f",
+      text: "F_f",
       align: "center",
       formatter: Float2DigitsFmt,
-      headerTitle: () => "Absortividad térmica de la solución constructiva (-)",
+      headerTitle: () => "Fracción de marco de la construcción de hueco (-)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
         <>
-          &alpha;
+          F<sub>f</sub>
           <br />
           <span style={{ fontWeight: "normal" }}>
             <i>[-]</i>{" "}
@@ -117,68 +129,102 @@ const WallConsTable = ({ selected, setSelected }) => {
       ),
     },
     {
-      dataField: "thickness",
-      text: "Espesor",
-      isDummyField: true,
-      editable: false,
+      dataField: "delta_u",
+      text: "F_f",
       align: "center",
-      classes: "td-column-computed-readonly",
-      formatter: WallConsThicknessFmt,
-      formatExtraData: wallconsPropsMap,
-      headerTitle: () => "Espesor total de la composición de capas (m)",
+      formatter: Float2DigitsFmt,
+      headerTitle: () =>
+        "Procentaje de incremento de trasnmitancia por intercalarios o cajones de persiana (%)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
         <>
-          e<br />
+          &Delta;<sub>U</sub>
+          <br />
           <span style={{ fontWeight: "normal" }}>
-            <i>[m]</i>{" "}
+            <i>[%]</i>{" "}
           </span>
         </>
       ),
     },
     {
-      dataField: "R_intrinsic",
-      text: "Resistencia intrínseca",
-      isDummyField: true,
-      editable: false,
+      dataField: "g_glshwi",
+      text: "g_gl;sh;wi",
       align: "center",
-      classes: "td-column-computed-readonly",
-      formatter: WallConsIntrinsicRFmt,
-      formatExtraData: wallconsPropsMap,
+      formatter: Float2DigitsFmt,
       headerTitle: () =>
-        "Resistencia intrínseca de la solución constructiva (solo capas, sin resistencias superficiales) (m²K/W)",
+        "Factor solar del hueco con la protección solar activada (-)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
         <>
-          R<sub>e</sub>
+          g<sub>gl;sh;wi</sub>
           <br />
           <span style={{ fontWeight: "normal" }}>
-            <i>[m²K/W]</i>{" "}
+            <i>[-]</i>{" "}
           </span>
         </>
       ),
     },
     {
-      dataField: "C_o",
-      isDummyField: true,
-      text: "C_o",
-      editable: false,
+      dataField: "c_100",
+      text: "C_100",
       align: "center",
-      classes: "td-column-readonly",
-      formatter: () => walls_Co100,
-      formatExtraData: walls_Co100,
-      headerTitle: () =>
-        "Coeficiente de caudal de aire de la parte opaca de la envolvente térmica (a 100 Pa). Varía según n50 de ensayo o tipo de edificio (nuevo / existente)",
+      formatter: Float2DigitsFmt,
+      headerTitle: () => "Permeabilidad al aire a 100 Pa (m³/hm²)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
         <>
-          C<sub>o</sub>
+          C<sub>h;100</sub>
           <br />
           <span style={{ fontWeight: "normal" }}>
-            [m<sup>3</sup>/h·m<sup>2</sup>]
+            <i>[m³/h·m²]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "U",
+      text: "U_w",
+      isDummyField: true,
+      editable: false,
+      align: "center",
+      classes: "td-column-computed-readonly",
+      formatter: WinconsUFmt,
+      formatExtraData: winconsPropsMap,
+      headerTitle: () => "Transmitancia térmica del hueco (W/m²K)",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          U<sub>w</sub>
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[W/m²K]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "gglwi",
+      isDummyField: true,
+      editable: false,
+      text: "g_gl;wi",
+      align: "center",
+      classes: "td-column-computed-readonly",
+      formatter: WinconsGglwiFmt,
+      formatExtraData: winconsPropsMap,
+      headerTitle: () =>
+        "Factor solar del hueco sin la protección solar activada (g_glwi = g_gln * 0.90) (-)",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          g<sub>gl;wi</sub>
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[-]</i>{" "}
           </span>
         </>
       ),
@@ -187,7 +233,7 @@ const WallConsTable = ({ selected, setSelected }) => {
 
   return (
     <BootstrapTable
-      data={appstate.cons.wallcons}
+      data={appstate.cons.wincons}
       keyField="id"
       striped
       hover
@@ -196,11 +242,8 @@ const WallConsTable = ({ selected, setSelected }) => {
         mode: "dbclick",
         blurToSave: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
-          // Convierte a número campos numéricos
           if (
-            ["thickness", "R_intrinsic", "absorptance"].includes(
-              column.dataField
-            )
+            ["U", "Ff", "gglwi", "gglshwi", "C_100"].includes(column.dataField)
           ) {
             row[column.dataField] = getFloatOrOld(newValue, oldValue);
           }
@@ -226,4 +269,4 @@ const WallConsTable = ({ selected, setSelected }) => {
   );
 };
 
-export default observer(WallConsTable);
+export default observer(WinConsTable);

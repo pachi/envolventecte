@@ -21,54 +21,66 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext } from "react";
+import React from "react";
 import { Col, Container, Row, Tabs, Tab } from "react-bootstrap";
-
 import { observer } from "mobx-react-lite";
 // import DevTools from 'mobx-react-devtools';
 
-import AppState from "../stores/AppState";
+import Footer from "../ui/Footer";
+import NavBar from "../ui/Nav";
+import IndicatorsPanel from "../indicators/IndicatorsPanel";
+import HuecosView from "./HuecosView";
+import MetaParams from "./MetaParams";
+import OpacosView from "./OpacosView";
+import PTsView from "./PTsView";
+import ShadesView from "./ShadesView";
+import SpacesView from "./SpacesView";
 
-import Footer from "./Footer";
-import JulyRadiationTable from "./climate/JulyRadiationTable";
-import NavBar from "./Nav";
-import MonthlyRadiationTable from "./climate/MonthlyRadiationTable";
-import ShadingFactorsTable from "./climate/ShadingFactorsTable";
-import { OrientacionesSprite } from "./climate/IconsOrientaciones";
-import { FshwithSprite } from "./climate/IconsFshwith";
-
-const ClimatePage = observer(({ route }) => {
-  const appstate = useContext(AppState);
+const BuildingPage = ({ route, activeKey, setActiveKey }) => {
   return (
     <Container fluid>
       <NavBar route={route} />
-      <OrientacionesSprite />
-      <FshwithSprite />
       <Row>
         <Col>
-          <Tabs defaultActiveKey={1} id="tabla-de-valores-radiacion">
-            <Tab
-              eventKey={1}
-              title="Radiación acumulada (H_sol;m)"
-              className="pt-3"
-            >
-              <JulyRadiationTable data={appstate.climatedata} />
-              <MonthlyRadiationTable data={appstate.climatedata} />
+          <IndicatorsPanel />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Tabs
+            activeKey={activeKey}
+            onSelect={setActiveKey}
+            id="building_element_tabs"
+          >
+            <Tab eventKey="spaces" title="Espacios" className="pt-3">
+              <SpacesView />
+            </Tab>
+            <Tab eventKey="walls" title="Opacos" className="pt-3">
+              <OpacosView />
+            </Tab>
+            <Tab eventKey="windows" title="Huecos" className="pt-3">
+              <HuecosView />
+            </Tab>
+            <Tab eventKey="shadows" title="Sombras" className="pt-3">
+              <ShadesView />
             </Tab>
             <Tab
-              eventKey={2}
-              title="Factores de reducción por sombras móviles (f_sh;with)"
+              eventKey="thermal_bridges"
+              title="Puentes Térmicos"
               className="pt-3"
             >
-              <ShadingFactorsTable data={appstate.climatedata} />
+              <PTsView />
+            </Tab>
+            <Tab eventKey="metadata" title="Datos generales" className="pt-3">
+              <MetaParams />
             </Tab>
           </Tabs>
         </Col>
       </Row>
-      {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
+      {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
       <Footer />
     </Container>
   );
-});
+};
 
-export default ClimatePage;
+export default observer(BuildingPage);

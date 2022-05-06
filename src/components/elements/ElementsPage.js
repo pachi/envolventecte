@@ -24,10 +24,10 @@ SOFTWARE.
 import React, { useState, useCallback, useEffect } from "react";
 import { Col, Form, Container, Card, Row, Tabs, Tab } from "react-bootstrap";
 
-import Footer from "./Footer";
-import NavBar from "./Nav";
+import Footer from "../ui/Footer";
+import NavBar from "../ui/Nav";
 
-import { ELEMENTOS, g_t_e, g_t_i, g_t_m } from "../elements";
+import { ELEMENTOS, g_t_e, g_t_i, g_t_m } from "./elements";
 
 const ACRISTALAMIENTOS = ELEMENTOS.huecos.acristalamientos;
 const SOMBREAMIENTOS = ELEMENTOS.huecos.sombreamientos;

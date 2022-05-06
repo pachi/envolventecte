@@ -26,17 +26,11 @@ import { Col, Container, Row, Tabs, Tab } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 // import DevTools from 'mobx-react-devtools';
 
-import Footer from "./Footer";
-import HuecosView from "./building/HuecosView";
-import IndicatorsPanel from "./building/IndicatorsPanel";
-import MetaParams from "./building/MetaParams";
-import NavBar from "./Nav";
-import OpacosView from "./building/OpacosView";
-import PTsView from "./building/PTsView";
-import ShadesView from "./building/ShadesView";
-import SpacesView from "./building/SpacesView";
-import WallConsView from "./building/WallConsView";
-import WinConsView from "./building/WinConsView";
+import Footer from "../ui/Footer";
+import IndicatorsPanel from "../indicators/IndicatorsPanel";
+import NavBar from "../ui/Nav";
+import WallConsView from "./WallConsView";
+import WinConsView from "./WinConsView";
 
 const BuildingPage = ({ route, activeKey, setActiveKey }) => {
   return (
@@ -52,29 +46,13 @@ const BuildingPage = ({ route, activeKey, setActiveKey }) => {
           <Tabs
             activeKey={activeKey}
             onSelect={setActiveKey}
-            id="building_element_tabs"
+            id="constructions_tabs"
           >
-            <Tab eventKey="spaces" title="Espacios" className="pt-3">
-              <SpacesView />
+            <Tab eventKey="wallcons" title="Cons. opacos" className="pt-3">
+              <WallConsView />
             </Tab>
-            <Tab eventKey="walls" title="Opacos" className="pt-3">
-              <OpacosView />
-            </Tab>
-            <Tab eventKey="windows" title="Huecos" className="pt-3">
-              <HuecosView />
-            </Tab>
-            <Tab eventKey="shadows" title="Sombras" className="pt-3">
-              <ShadesView />
-            </Tab>
-            <Tab
-              eventKey="thermal_bridges"
-              title="Puentes Térmicos"
-              className="pt-3"
-            >
-              <PTsView />
-            </Tab>
-            <Tab eventKey="metadata" title="Datos generales" className="pt-3">
-              <MetaParams />
+            <Tab eventKey="windowcons" title="Cons. huecos" className="pt-3">
+              <WinConsView />
             </Tab>
           </Tabs>
         </Col>

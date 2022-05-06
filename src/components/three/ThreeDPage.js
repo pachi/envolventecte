@@ -25,10 +25,10 @@ import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 // import DevTools from 'mobx-react-devtools';
 
-import Footer from "./Footer";
-import IndicatorsPanel from "./building/IndicatorsPanel";
-import NavBar from "./Nav";
-import ThreeView from "./three/ThreeView";
+import Footer from "../ui/Footer";
+import IndicatorsPanel from "../indicators/IndicatorsPanel";
+import NavBar from "../ui/Nav";
+import ThreeView from "./ThreeView";
 
 const ThreeDPage = ({ route }) => {
   return (

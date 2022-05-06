@@ -27,14 +27,14 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Form, Nav, Navbar, Col } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
-import { hash } from "../utils.js";
+import { hash } from "../../utils.js";
 
-import AppState from "../stores/AppState";
+import AppState from "../../stores/AppState";
 
-import imglogo from "./img/logo.svg";
-import iconhelp from "./img/outline-live_help-24px.svg";
-import iconinfo from "./img/outline-info-24px.svg";
-import icondownload from "./img/baseline-archive-24px.svg";
+import imglogo from "../img/logo.svg";
+import iconhelp from "../img/outline-live_help-24px.svg";
+import iconinfo from "../img/outline-info-24px.svg";
+import icondownload from "../img/baseline-archive-24px.svg";
 
 const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
   const appstate = useContext(AppState);

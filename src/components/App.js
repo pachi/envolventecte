@@ -28,14 +28,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import "bootstrap/dist/css/bootstrap-theme.css";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 
-import AboutPage from "./AboutPage";
-import BuildingPage from "./BuildingPage";
-import ConsPage from "./ConsPage";
-import ThreeDPage from "./ThreeDPage";
-import ClimatePage from "./ClimatePage";
-import ElementsPage from "./ElementsPage";
-import HelpPage from "./HelpPage";
-import MainPage from "./MainPage";
+import AboutPage from "./about/AboutPage";
+import BuildingPage from "./building/BuildingPage";
+import ConsPage from "./constructions/ConsPage";
+import ThreeDPage from "./three/ThreeDPage";
+import ClimatePage from "./climate/ClimatePage";
+import ElementsPage from "./elements/ElementsPage";
+import HelpPage from "./help/HelpPage";
+import MainPage from "./main/MainPage";
 
 const App = () => {
   const [buildingActiveKey, setBuildingActiveKey] = useState("spaces");

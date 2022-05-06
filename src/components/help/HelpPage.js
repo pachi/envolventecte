@@ -33,11 +33,11 @@ import {
   Tab,
 } from "react-bootstrap";
 
-import Footer from "./Footer";
-import NavBar from "./Nav";
+import Footer from "../ui/Footer";
+import NavBar from "../ui/Nav";
 
-import esquema5R1C from "./img/5R1C.svg";
-import orientaciones from "./img/orientaciones.svg";
+import esquema5R1C from "../img/5R1C.svg";
+import orientaciones from "../img/orientaciones.svg";
 
 const HelpPage = (props) => (
   <Container fluid>

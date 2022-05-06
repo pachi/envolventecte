@@ -21,18 +21,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { version } from "../../package.json";
+import { version } from "../../../package.json";
 import { observer } from "mobx-react-lite";
 import React, { useContext } from "react";
 import { Alert, Button, Col, Container, Image, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import AppState from "../stores/AppState";
-import IndicatorsPanel from "./building/IndicatorsPanel";
-import Dropzone from "./DropZone.js";
-import Footer from "./Footer";
-import imglogo from "./img/logo.svg";
-import iconclearmodel from "./img/outline-new_document-24px.svg";
-import NavBar from "./Nav";
+import AppState from "../../stores/AppState";
+import IndicatorsPanel from "../indicators/IndicatorsPanel";
+import Dropzone from "../ui/DropZone.js";
+import Footer from "../ui/Footer";
+import imglogo from "../img/logo.svg";
+import iconclearmodel from "../img/outline-new_document-24px.svg";
+import NavBar from "../ui/Nav";
 
 const MainPage = observer((props) => {
   const appstate = useContext(AppState);

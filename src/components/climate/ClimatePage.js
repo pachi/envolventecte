@@ -21,46 +21,54 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React from "react";
+import React, { useContext } from "react";
 import { Col, Container, Row, Tabs, Tab } from "react-bootstrap";
+
 import { observer } from "mobx-react-lite";
 // import DevTools from 'mobx-react-devtools';
 
-import Footer from "./Footer";
-import IndicatorsPanel from "./building/IndicatorsPanel";
-import NavBar from "./Nav";
-import WallConsView from "./building/WallConsView";
-import WinConsView from "./building/WinConsView";
+import AppState from "../../stores/AppState";
 
-const BuildingPage = ({ route, activeKey, setActiveKey }) => {
+import Footer from "../ui/Footer";
+import JulyRadiationTable from "./JulyRadiationTable";
+import NavBar from "../ui/Nav";
+import MonthlyRadiationTable from "./MonthlyRadiationTable";
+import ShadingFactorsTable from "./ShadingFactorsTable";
+import { OrientacionesSprite } from "./IconsOrientaciones";
+import { FshwithSprite } from "./IconsFshwith";
+
+const ClimatePage = observer(({ route }) => {
+  const appstate = useContext(AppState);
   return (
     <Container fluid>
       <NavBar route={route} />
+      <OrientacionesSprite />
+      <FshwithSprite />
       <Row>
         <Col>
-          <IndicatorsPanel />
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Tabs
-            activeKey={activeKey}
-            onSelect={setActiveKey}
-            id="constructions_tabs"
-          >
-            <Tab eventKey="wallcons" title="Cons. opacos" className="pt-3">
-              <WallConsView />
+          <Tabs defaultActiveKey={1} id="tabla-de-valores-radiacion">
+            <Tab
+              eventKey={1}
+              title="Radiación acumulada (H_sol;m)"
+              className="pt-3"
+            >
+              <JulyRadiationTable data={appstate.climatedata} />
+              <MonthlyRadiationTable data={appstate.climatedata} />
             </Tab>
-            <Tab eventKey="windowcons" title="Cons. huecos" className="pt-3">
-              <WinConsView />
+            <Tab
+              eventKey={2}
+              title="Factores de reducción por sombras móviles (f_sh;with)"
+              className="pt-3"
+            >
+              <ShadingFactorsTable data={appstate.climatedata} />
             </Tab>
           </Tabs>
         </Col>
       </Row>
-      {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
+      {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
       <Footer />
     </Container>
   );
-};
+});
 
-export default observer(BuildingPage);
+export default ClimatePage;
