@@ -30,18 +30,19 @@ import AppState from "../../stores/AppState";
 const ClimateSelector = observer(({ ...props }) => {
   const appstate = useContext(AppState);
   return (
-    <Form.Group as={Row} controlId="formControlsClimateZone">
+    <Form.Group as={Row}>
       <Col as={Form.Label} md={4} style={props.labelStyle}>
         Zona Climática
       </Col>
       <Col md={8}>
         <Form.Control
-          value={appstate.meta.climate || ""}
+          id="climateselector"
+          value={appstate?.meta?.climate || ""}
           onChange={(e) => {
             appstate.meta.climate = e.target.value;
           }}
           as="select"
-          placeholder="select"
+          placeholder="Zona climática"
           custom
         >
           {appstate.zoneslist.map((z) => (
