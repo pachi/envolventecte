@@ -41,7 +41,9 @@ const WinConsView = () => {
         <Col>
           <h4>
             Construcciones de Huecos{" "}
-            <small className="text-muted">({appstate.cons.wincons.length})</small>
+            <small className="text-muted">
+              ({appstate.cons.wincons.length})
+            </small>
           </h4>
         </Col>
         <Col md="auto">
@@ -63,11 +65,10 @@ const WinConsView = () => {
           <p>Donde:</p>
           <ul>
             <li>
-              <b>Grupo</b>: grupo de clasificación de las construcciones de
-              opacos
+              <b>Vidrio</b>: nombre del vidrio definido para el hueco
             </li>
             <li>
-              <b>U</b>: Transmitancia térmica del hueco (W/m²K)
+              <b>Marco</b>: nombre del marco definido para el hueco
             </li>
             <li>
               <b>
@@ -77,10 +78,10 @@ const WinConsView = () => {
             </li>
             <li>
               <b>
-                g<sub>gl;wi</sub>
+                &Delta;<sub>U</sub>
               </b>
-              : factor solar del hueco sin la protección solar activada (g_glwi
-              = g_gln * 0.90) (-)
+              : Incremento de transmitancia térmica del hueco debido a
+              intercalarios o cajones de persiana (%)
             </li>
             <li>
               <b>
@@ -98,6 +99,19 @@ const WinConsView = () => {
               <sub>w;100</sub> &le; 50m3/hm2, Clase 2: C<sub>w;100</sub> &le; 27
               m³/hm², Clase 3: C<sub>w;100</sub> &le; 9 m³/hm², Clase 4: C
               <sub>w;100</sub> &le; 3 m³/hm².
+            </li>
+            <li>
+              <b>
+                U<sub>w</sub>
+              </b>
+              : Transmitancia térmica del hueco (W/m²K)
+            </li>
+            <li>
+              <b>
+                g<sub>gl;wi</sub>
+              </b>
+              : factor solar del hueco sin la protección solar activada (g_glwi
+              = g_gln * 0.90) (-)
             </li>
           </ul>
         </Col>
