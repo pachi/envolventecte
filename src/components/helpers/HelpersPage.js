@@ -295,7 +295,7 @@ const GlazingPropertiesCard = (props) => {
   );
 };
 
-const ElementsPage = (props) => {
+const HelpersPage = (props) => {
   return (
     <Container fluid>
       <NavBar route={props.route} />
@@ -314,4 +314,4 @@ const ElementsPage = (props) => {
   );
 };
 
-export default ElementsPage;
+export default HelpersPage;

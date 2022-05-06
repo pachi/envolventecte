@@ -120,11 +120,15 @@ const MainPage = observer((props) => {
                   editar los componentes de la envolvente térmica del edificio.
                 </li>
                 <li>
+                  <Link to="/constructions">Construcción</Link>: visualizar, introducir,
+                  editar los materiales y construcciones usados en el modelo.
+                </li>
+                <li>
                   <Link to="/climate">Clima</Link>: explorar diversos parámetros
                   relacionados con el clima exterior del edificio.
                 </li>
                 <li>
-                  <Link to="/elements">Elementos</Link>: ayudas para el cálculo
+                  <Link to="/helpers">Cálculos</Link>: ayudas para el cálculo
                   de parámetros descriptivos de algunos elementos de la
                   envolvente térmica.
                 </li>

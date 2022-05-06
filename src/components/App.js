@@ -33,7 +33,7 @@ import BuildingPage from "./building/BuildingPage";
 import ConsPage from "./constructions/ConsPage";
 import ThreeDPage from "./three/ThreeDPage";
 import ClimatePage from "./climate/ClimatePage";
-import ElementsPage from "./elements/ElementsPage";
+import HelpersPage from "./helpers/HelpersPage";
 import HelpPage from "./help/HelpPage";
 import MainPage from "./main/MainPage";
 
@@ -69,7 +69,7 @@ const App = () => {
         />
         <Route exact path="/3d" component={ThreeDPage} />
         <Route exact path="/climate" component={ClimatePage} />
-        <Route exact path="/elements" component={ElementsPage} />
+        <Route exact path="/helpers" component={HelpersPage} />
         <Route exact path="/help" render={(props) => <HelpPage {...props} />} />
         <Route exact path="/about" component={AboutPage} />
         <Route path="*" render={() => <Redirect to="/" />} />

@@ -97,9 +97,9 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
               Clima
             </Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/elements" eventKey={5}>
+          <LinkContainer to="/helpers" eventKey={5}>
             <Nav.Link title="Ayudas para el cálculo de parámetros descriptivos de algunos elementos de la envolvente térmica del edificio.">
-              Elementos
+              Cálculos
             </Nav.Link>
           </LinkContainer>
         </Nav>
