@@ -27,7 +27,7 @@ import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
 
-import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
+import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
 import ShadesTable from "./ShadesTable";
 
 // Vista de elementos de sombra del edificio

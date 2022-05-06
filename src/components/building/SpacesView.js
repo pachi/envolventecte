@@ -27,7 +27,7 @@ import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
 
-import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
+import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
 import SpacesTable from "./SpacesTable";
 
 // Vista de espacios del edificio

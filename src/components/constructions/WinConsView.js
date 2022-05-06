@@ -27,7 +27,7 @@ import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
 
-import AddRemoveButtonGroup from "../building/AddRemoveButtonGroup";
+import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
 import WinConsTable from "./WinConsTable";
 
 // Vista de construcciones de huecos del edificio

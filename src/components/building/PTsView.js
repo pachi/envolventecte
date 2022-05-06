@@ -27,7 +27,7 @@ import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
 
-import AddRemoveButtonGroup from "./AddRemoveButtonGroup";
+import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
 import PTsTable from "./PTsTable";
 import icongroup from "../img/outline-add_comment-24px.svg";
 
