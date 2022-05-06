@@ -78,6 +78,7 @@ const WinConsTable = ({ selected, setSelected }) => {
       dataField: "name",
       text: "Nombre",
       width: "30%",
+      classes: "font-weight-bold",
       headerTitle: () =>
         "Nombre que identifica de forma única la construcción de hueco",
       headerClasses: "text-light bg-secondary",

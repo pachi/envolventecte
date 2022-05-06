@@ -137,6 +137,7 @@ const SpacesTable = ({ selected, setSelected }) => {
       dataField: "name",
       text: "Nombre",
       width: "30%",
+      classes: "font-weight-bold",
       headerTitle: () => "Nombre del espacio",
       headerClasses: "text-light bg-secondary",
       title: (_cell, row) => `Espacio id: ${row.id}`,

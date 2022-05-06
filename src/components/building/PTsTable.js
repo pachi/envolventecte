@@ -40,6 +40,7 @@ const PTsTable = ({ selected, setSelected }) => {
       dataField: "name",
       text: "Nombre",
       width: "30%",
+      classes: "font-weight-bold",
       headerTitle: (_col, _colIndex) =>
         "Nombre que identifica de forma única el puente térmico",
       headerClasses: "text-light bg-secondary",

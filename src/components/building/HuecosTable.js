@@ -118,6 +118,7 @@ const HuecosTable = ({ selected, setSelected }) => {
       dataField: "name",
       text: "Nombre",
       width: "30%",
+      classes: "font-weight-bold",
       headerTitle: () => "Nombre que identifica de forma única el hueco",
       headerClasses: "text-light bg-secondary",
       title: (_cell, row) => {
