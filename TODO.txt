@@ -4,6 +4,10 @@
 
 # Mejoras
 
+- Eliminar agrupar elementos y añadir informe de mediciones
+- Pestaña de informes:
+    - HE1 (K, qsoljul, n50)
+    - Mediciones (superficies, pesos y volúmenes)
 - Añadir Glasses, Frames en Construcciones
 - Mover Datos generales a pestaña propia "Proyecto"
 - Revisar notas al pie de tablas
