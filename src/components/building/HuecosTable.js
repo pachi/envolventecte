@@ -25,7 +25,7 @@ import React, { useContext } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 import {

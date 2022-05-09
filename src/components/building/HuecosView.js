@@ -23,7 +23,7 @@ SOFTWARE.
 
 import React, { useState, useContext } from "react";
 import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 

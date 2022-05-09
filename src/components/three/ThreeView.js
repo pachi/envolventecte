@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useEffect } from "react";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import { autorun } from "mobx";
 
 import * as THREE from "three";

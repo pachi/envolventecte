@@ -23,7 +23,7 @@ SOFTWARE.
 
 import React, { useContext } from "react";
 import { Col, Row, Table } from "react-bootstrap";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 
 import { N50ChartPie as N50Chart } from "./N50Chart";
 // import {N50ChartBar as N50Chart} from "./IndicatorsN50Chart";

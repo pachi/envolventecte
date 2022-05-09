@@ -23,7 +23,7 @@ SOFTWARE.
 
 import React from "react";
 import { Col, Container, Row, Tabs, Tab } from "react-bootstrap";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 // import DevTools from 'mobx-react-devtools';
 
 import Footer from "../ui/Footer";

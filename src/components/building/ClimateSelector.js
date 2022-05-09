@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { useContext } from "react";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import { Form, Row, Col } from "react-bootstrap";
 
 import AppState from "../../stores/AppState";

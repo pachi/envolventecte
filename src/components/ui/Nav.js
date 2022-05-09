@@ -25,7 +25,7 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { Form, Nav, Navbar, Col } from "react-bootstrap";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 
 import { hash } from "../../utils.js";
 

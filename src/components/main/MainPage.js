@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import { version } from "../../../package.json";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 import React, { useContext } from "react";
 import { Alert, Button, Col, Container, Image, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";

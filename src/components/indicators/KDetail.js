@@ -23,7 +23,7 @@ SOFTWARE.
 
 import React, { useContext } from "react";
 import { Col, Row, Table } from "react-bootstrap";
-import { observer } from "mobx-react-lite";
+import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 import KChart from "./KChart";
