@@ -8,7 +8,6 @@
 - Eliminar agrupar elementos y añadir informe de mediciones
 - Poner en gris materiales, vidrios, marcos y constucciones de opacos y huecos no usadas
 - Botón para eliminar elementos no usados
-- Arreglar ancho de tablas en columna de nombre (ahora parecen todas iguales)
 - Edición de construcciones de opacos (capas)
 - Pestaña de informes:
     - Mediciones (superficies, pesos y volúmenes) y eliminar funcionalidad de agrupación de elementos

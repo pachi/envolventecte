@@ -74,8 +74,8 @@ const WallConsTable = ({ selected, setSelected }) => {
     {
       dataField: "name",
       text: "Nombre",
-      width: "30%",
       classes: "font-weight-bold",
+      headerStyle: () => ({ width: "30%" }),
       headerTitle: () =>
         "Nombre que identifica de forma única la construcción de opaco",
       headerClasses: "text-light bg-secondary",

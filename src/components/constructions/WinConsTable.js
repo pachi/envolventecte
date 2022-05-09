@@ -77,8 +77,8 @@ const WinConsTable = ({ selected, setSelected }) => {
     {
       dataField: "name",
       text: "Nombre",
-      width: "30%",
       classes: "font-weight-bold",
+      headerStyle: () => ({ width: "20%" }),
       headerTitle: () =>
         "Nombre que identifica de forma única la construcción de hueco",
       headerClasses: "text-light bg-secondary",
@@ -92,6 +92,7 @@ const WinConsTable = ({ selected, setSelected }) => {
         options: GlassOpts,
       },
       align: "center",
+      headerStyle: () => ({ width: "20%" }),
       formatter: GlassFmt,
       headerTitle: () => "Vidrio del hueco",
       headerClasses: "text-light bg-secondary",
@@ -105,6 +106,7 @@ const WinConsTable = ({ selected, setSelected }) => {
         options: FrameOpts,
       },
       align: "center",
+      headerStyle: () => ({ width: "20%" }),
       formatter: FrameFmt,
       headerTitle: () => "Marco del opaco",
       headerClasses: "text-light bg-secondary",

@@ -101,8 +101,8 @@ const OpacosTable = ({ selected, setSelected }) => {
     {
       dataField: "name",
       text: "Nombre",
-      width: "30%",
       classes: "font-weight-bold",
+      headerStyle: () => ({ width: "20%" }),
       headerTitle: () =>
         "Nombre que identifica de forma única el elemento opaco",
       headerClasses: "text-light bg-secondary",
@@ -145,6 +145,7 @@ const OpacosTable = ({ selected, setSelected }) => {
         options: WallconsOpts,
       },
       align: "center",
+      headerStyle: () => ({ width: "20%" }),
       formatter: WallconsFmt,
       headerTitle: () => "Construcción del opaco",
       headerClasses: "text-light bg-secondary",

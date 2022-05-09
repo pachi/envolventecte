@@ -117,8 +117,8 @@ const HuecosTable = ({ selected, setSelected }) => {
     {
       dataField: "name",
       text: "Nombre",
-      width: "30%",
       classes: "font-weight-bold",
+      headerStyle: () => ({ width: "20%" }),
       headerTitle: () => "Nombre que identifica de forma única el hueco",
       headerClasses: "text-light bg-secondary",
       title: (_cell, row) => {
@@ -133,6 +133,7 @@ const HuecosTable = ({ selected, setSelected }) => {
       dataField: "cons",
       text: "Construcción",
       align: "center",
+      headerStyle: () => ({ width: "20%" }),
       formatter: WinconsFmt,
       formatExtraData: winconsMap,
       headerTitle: () => "Construcción del hueco",
@@ -147,6 +148,7 @@ const HuecosTable = ({ selected, setSelected }) => {
       dataField: "wall",
       text: "Opaco",
       align: "center",
+      headerStyle: () => ({ width: "20%" }),
       editor: {
         type: Type.SELECT,
         options: WallsOpts,

@@ -39,8 +39,8 @@ const FamesTable = ({ selected, setSelected }) => {
     {
       dataField: "name",
       text: "Nombre",
-      width: "40%",
       classes: "font-weight-bold",
+      headerStyle: () => ({ width: "40%" }),
       headerTitle: () =>
         "Nombre que identifica de forma única el tipo de marco",
       headerClasses: "text-light bg-secondary",
