@@ -40,6 +40,9 @@ const ReportsPage = ({ route, activeKey, setActiveKey }) => {
             <Tab eventKey="he1" title="HE1" className="pt-3">
               <He1Report />
             </Tab>
+            <Tab eventKey="quantities" title="Mediciones" className="pt-3">
+              <p>Por hacer...</p>
+            </Tab>
           </Tabs>
         </Col>
       </Row>
