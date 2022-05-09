@@ -41,6 +41,9 @@ import {
   newWallcons,
   newWindow,
   newWincons,
+  newMaterial,
+  newFrame,
+  newGlass,
   defaultsSpace,
   defaultsWall,
   defaultsWindow,
@@ -89,7 +92,7 @@ class AppState {
   // Sombras
   shades = [];
   // Construcciones de opacos y huecos
-  cons = { wallcons: [], wincons: [], glasses: [], frames: [] };
+  cons = { wallcons: [], wincons: [], materials:[], glasses: [], frames: [] };
 
   // Puentes térmicos
   thermal_bridges = [];
@@ -198,6 +201,9 @@ class AppState {
   newSpace = newSpace;
   newWallCons = newWallcons;
   newWinCons = newWincons;
+  newMaterial = newMaterial;
+  newFrame = newFrame;
+  newGlass = newGlass;
 
   // Acciones --------
 

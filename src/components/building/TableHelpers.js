@@ -83,6 +83,15 @@ export const Float2DigitsFmt = (cell, _row) => {
   return <span>{Number(cell).toFixed(2)}</span>;
 };
 
+// Muestra número con 3 decimales
+export const Float3DigitsFmt = (cell, _row) => {
+  if (cell === null || cell === undefined) {
+    return <span>-</span>;
+  }
+
+  return <span>{Number(cell).toFixed(3)}</span>;
+};
+
 // Muestra valor booleano
 export const BoolFmt = (cell, _row, _rowIndex, _formatExtraData) => (
   <span>{cell === true ? "Sí" : "No"}</span>

@@ -27,6 +27,7 @@ import { Col, Row, Tabs, Tab } from "react-bootstrap";
 import WallConsView from "./WallConsView";
 import WinConsView from "./WinConsView";
 import { PageWithIndicators } from "../ui/PageWithIndicators";
+import MaterialsView from "./MaterialsView";
 
 const ConsPage = ({ route, activeKey, setActiveKey }) => {
   return (
@@ -43,6 +44,9 @@ const ConsPage = ({ route, activeKey, setActiveKey }) => {
             </Tab>
             <Tab eventKey="windowcons" title="Cons. huecos" className="pt-3">
               <WinConsView />
+            </Tab>
+            <Tab eventKey="materials" title="Materiales" className="pt-3">
+              <MaterialsView />
             </Tab>
           </Tabs>
         </Col>

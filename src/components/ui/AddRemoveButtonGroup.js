@@ -46,6 +46,9 @@ const AddRemoveButtonGroup = observer(
         "shades",
         "wallcons",
         "wincons",
+        "materials",
+        "glasses",
+        "frames",
       ].includes(elements)
     ) {
       return <h1>Elementos no reconocidos {elements}</h1>;
