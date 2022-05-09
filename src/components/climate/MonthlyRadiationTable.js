@@ -134,6 +134,14 @@ const MonthlyRadiationTable = ({ data, climatezone }) => {
             superficie horizontal y superficies verticales con la orientación
             indicada.
           </p>
+          <p className="text-info">
+            El parámetro de control solar (
+            <b>
+              q<sub>sol;jul</sub>
+            </b>
+            ) utiliza los valores de irradiación solar acumulada corespondientes
+            al mes de julio.
+          </p>
         </Col>
       </Row>
     </Col>

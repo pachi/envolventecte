@@ -30,7 +30,6 @@ import { observer } from "mobx-react-lite";
 import AppState from "../../stores/AppState";
 
 import Footer from "../ui/Footer";
-import JulyRadiationTable from "./JulyRadiationTable";
 import NavBar from "../ui/Nav";
 import MonthlyRadiationTable from "./MonthlyRadiationTable";
 import ShadingFactorsTable from "./ShadingFactorsTable";
@@ -52,15 +51,20 @@ const ClimatePage = observer(({ route }) => {
               title="Radiación acumulada (H_sol;m)"
               className="pt-3"
             >
-              <JulyRadiationTable data={appstate.climatedata} climatezone={appstate.meta.climate} />
-              <MonthlyRadiationTable data={appstate.climatedata} climatezone={appstate.meta.climate} />
+              <MonthlyRadiationTable
+                data={appstate.climatedata}
+                climatezone={appstate.meta.climate}
+              />
             </Tab>
             <Tab
               eventKey={2}
               title="Factores de reducción por sombras móviles (f_sh;with)"
               className="pt-3"
             >
-              <ShadingFactorsTable data={appstate.climatedata} climatezone={appstate.meta.climate} />
+              <ShadingFactorsTable
+                data={appstate.climatedata}
+                climatezone={appstate.meta.climate}
+              />
             </Tab>
           </Tabs>
         </Col>
