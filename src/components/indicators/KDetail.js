@@ -35,7 +35,6 @@ const KDetail = () => {
   const appstate = useContext(AppState);
   const { K, summary, roofs, floors, walls, windows, ground, tbs } =
     appstate.energy_indicators.K_data;
-  console.log(appstate.energy_indicators.K_data);
   const {
     a,
     au,
