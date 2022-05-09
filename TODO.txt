@@ -6,8 +6,7 @@
 
 - Eliminar agrupar elementos y añadir informe de mediciones
 - Pestaña de informes:
-    - HE1 (K, qsoljul, n50)
-    - Mediciones (superficies, pesos y volúmenes)
+    - Mediciones (superficies, pesos y volúmenes) y eliminar funcionalidad de agrupación de elementos
 - Añadir Glasses, Frames en Construcciones
 - Mover Datos generales a pestaña propia "Proyecto"
 - Revisar notas al pie de tablas
@@ -16,8 +15,6 @@
 - En capas de constucciones de opacos, mostrar imagen de capas con grosores relativos
 - Editor de capas en construcciones de opacos
 
-- Eliminar exposed_perimeter de space, ya que se puede deducir a partir de suelos y muros asignados al espacio
-- Eliminar A en huecos y opacos, ya que se puede deducir de la geometría (y evitamos desincronización)
 - Añadir en editor de geometría una imagen del polígono (hacer versión en SVG).
 - Añadir valores de referencia HE nuevos y existentes, apéndice E, etc a gráficas
 - Mostrar tooltip en los elementos con avisos
@@ -37,7 +34,6 @@
 - Elementos: calcular acristalamientos con sombras móviles usando directamente parámetros U_gl, g_gl_n, tau_e_B y ro_e_B
 - Elementos: añadir nueva construcción de hueco a partir de pestaña de elementos
 - Elementos: Construcciones de opacos definidas por capas + editor de capas
-- Construcciones de opacos: posibilidad de usar definición actual o por capas
 - Gráfica de radiación y fshwi por orientaciones en clima
 - Dibujar trayectorias solares en el espacio, para algunos meses y poder mostrar u ocultar.
     - https://drajmarsh.bitbucket.io/sunpath3d.html
