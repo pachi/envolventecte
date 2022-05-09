@@ -91,13 +91,16 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
               Vista3D
             </Nav.Link>
           </LinkContainer>
+          <LinkContainer to="/reports" eventKey={4}>
+            <Nav.Link title="Informes">Informes</Nav.Link>
+          </LinkContainer>
           <span style={{ borderLeft: "1px solid gray", margin: "0px 25px" }} />
-          <LinkContainer to="/climate" eventKey={4}>
+          <LinkContainer to="/climate" eventKey={5}>
             <Nav.Link title="Visualización y obtención de parámetros relacionados con el clima exterior del edificio.">
               Clima
             </Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/helpers" eventKey={5}>
+          <LinkContainer to="/helpers" eventKey={6}>
             <Nav.Link title="Ayudas para el cálculo de parámetros descriptivos de algunos elementos de la envolvente térmica del edificio.">
               Ayudas
             </Nav.Link>
@@ -105,7 +108,7 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
         </Nav>
         <Nav className="ml-auto pr-3">
           <Nav.Link
-            md={6}
+            md={7}
             title="Zona climática, de acuerdo al DB-HE 2019, en la que se sitúa el edificio."
           >
             <Form.Row>
@@ -141,12 +144,12 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
             <img src={icondownload} alt="Descargar datos de envolvente" />{" "}
             Descarga
           </Nav.Link>
-          <LinkContainer to="/help" eventKey={7}>
+          <LinkContainer to="/help" eventKey={8}>
             <Nav.Link title="Ayuda general">
               <img src={iconhelp} alt="Ayuda" />
             </Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/about" eventKey={8}>
+          <LinkContainer to="/about" eventKey={9}>
             <Nav.Link>
               <Nav.Item title="Descripción, autoría y licencia">
                 <img src={iconinfo} alt="Créditos" />

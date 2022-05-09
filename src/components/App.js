@@ -36,10 +36,12 @@ import ClimatePage from "./climate/ClimatePage";
 import HelpersPage from "./helpers/HelpersPage";
 import HelpPage from "./help/HelpPage";
 import MainPage from "./main/MainPage";
+import ReportsPage from "./reports/ReportsPage";
 
 const App = () => {
   const [buildingActiveKey, setBuildingActiveKey] = useState("spaces");
   const [consActiveKey, setConsActiveKey] = useState("wallcons");
+  const [reportActiveKey, setReportActiveKey] = useState("he1");
 
   return (
     <HashRouter>
@@ -68,6 +70,17 @@ const App = () => {
           )}
         />
         <Route exact path="/3d" component={ThreeDPage} />
+        <Route
+          exact
+          path="/reports"
+          render={(props) => (
+            <ReportsPage
+              {...props}
+              activeKey={reportActiveKey}
+              setActiveKey={setReportActiveKey}
+            />
+          )}
+        />
         <Route exact path="/climate" component={ClimatePage} />
         <Route exact path="/helpers" component={HelpersPage} />
         <Route exact path="/help" render={(props) => <HelpPage {...props} />} />

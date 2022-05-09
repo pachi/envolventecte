@@ -21,25 +21,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useState, useContext } from "react";
-import {
-  Alert,
-  Badge,
-  Button,
-  ButtonGroup,
-  Card,
-  Col,
-  Collapse,
-  Row,
-} from "react-bootstrap";
+import React, { useContext } from "react";
+import { Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
+import KDetail from "../indicators/KDetail";
+import UDetail from "../indicators/UDetail";
+import QSolJulDetail from "../indicators/QSolJulDetail";
+import N50Detail from "../indicators/N50Detail";
 
-const IndicatorsPanel = () => {
+const He1Report = () => {
   const appstate = useContext(AppState);
-  const [warnings, setWarnings] = useState(false);
-  
   const {
     area_ref,
     vol_env_net,
@@ -55,17 +48,45 @@ const IndicatorsPanel = () => {
   const { q_soljul } = q_soljul_data;
   const { n50, n50_ref } = n50_data;
 
-  const errors = appstate.warnings;
-  const numavisos = errors.length;
-
   return (
     <>
+      <Row>
+        <Col>
+          <h2>Comportamiento de la envolvente térmica</h2>
+        </Col>
+      </Row>
       <Row>
         <Col md={9}>
           Proyecto: <i>{name}</i>
         </Col>
-        <Col md={3}>
+        <Col>
           <b>ZC: {climate}</b>
+        </Col>
+      </Row>
+      <Row>
+        <Col
+          md={3}
+          title="Superficie útil de los espacios habitables del edificio o parte del edificio [m²]"
+        >
+          A<sub>util</sub> = {area_ref.toFixed(2)} m²
+        </Col>
+        <Col
+          md={3}
+          title="Volumen bruto de la envolvente térmica (volumen bruto s-s) [m³]"
+        >
+          V = {vol_env_gross.toFixed(2)} m³
+        </Col>
+        <Col
+          md={3}
+          title="Volumen interior de la envolvente térmica (volumen neto s-t) [m³]"
+        >
+          V<sub>int</sub> = {vol_env_net.toFixed(2)} m³
+        </Col>
+        <Col
+          md={3}
+          title="Compacidad de la envolvente térmica (V_tot / A) [m³/m²]"
+        >
+          V/A = {compacity.toFixed(2)} m³/m²
         </Col>
       </Row>
       <Row>
@@ -93,26 +114,6 @@ const IndicatorsPanel = () => {
             </i>
           </b>
         </Col>
-        <Col
-          md={3}
-          title="Volumen bruto de la envolvente térmica (volumen bruto s-s) [m³]"
-        >
-          V = {vol_env_gross.toFixed(2)} m³
-        </Col>
-      </Row>
-      <Row>
-        <Col
-          md={3}
-          title="Superficie útil de los espacios habitables del edificio o parte del edificio [m²]"
-        >
-          A<sub>util</sub> = {area_ref.toFixed(2)} m²
-        </Col>
-        <Col
-          md={3}
-          title="Compacidad de la envolvente térmica (V_tot / A) [m³/m²]"
-        >
-          V/A = {compacity.toFixed(2)} m³/m²
-        </Col>
         <Col md={3} title="Tasa de renovación de aire teórica a 50 Pa [1/h]">
           <i>
             n<sub>50,ref</sub>
@@ -122,47 +123,17 @@ const IndicatorsPanel = () => {
             h<sup>-1</sup>
           </i>
         </Col>
-        <Col
-          md={3}
-          title="Volumen interior de la envolvente térmica (volumen neto s-t) [m³]"
-        >
-          V<sub>int</sub> = {vol_env_net.toFixed(2)} m³
-        </Col>
       </Row>
-      <ButtonGroup className="mb-3">
-        <Button
-          size="sm"
-          variant="light"
-          onClick={() => setWarnings(!warnings)}
-        >
-          Avisos{" "}
-          {numavisos !== 0 && (
-            <Badge variant="primary">
-              <span>({numavisos})</span>{" "}
-            </Badge>
-          )}
-        </Button>
-        {numavisos > 0 && (
-          <Button onClick={() => appstate.errors.clear()} variant="light">
-            Limpiar avisos
-          </Button>
-        )}
-      </ButtonGroup>
-      <Collapse in={warnings}>
-        <Card body bg="light" border="info" className="mb-3">
-          <Row>
-            <Col>
-              {errors.map((e, idx) => (
-                <Alert variant={e.level.toLowerCase()} key={`AlertId${idx}`}>
-                  {e.msg}
-                </Alert>
-              ))}
-            </Col>
-          </Row>
-        </Card>
-      </Collapse>
+      <hr />
+      <KDetail />
+      <hr />
+      <UDetail />
+      <hr />
+      <QSolJulDetail />
+      <hr />
+      <N50Detail />
     </>
   );
 };
 
-export default observer(IndicatorsPanel);
+export default observer(He1Report);
