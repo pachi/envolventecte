@@ -46,7 +46,7 @@ const JulyRadiationTable = ({ data }) => (
           id="julyradiationtable"
           className="table table-striped table-bordered table-condensed"
         >
-          <thead>
+          <thead className="text-light bg-secondary">
             <tr>
               <th className="col-md-1">kWh/m²/mes</th>
               {data.map((d, i) => (

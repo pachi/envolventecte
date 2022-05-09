@@ -50,9 +50,22 @@ const ShadingFactorsTable = ({ data }) => {
   const [endMonth, setEndMonth] = useState("SET");
   const [selStart, selEnd] = selectedMonths(startMonth, endMonth);
 
-  const meanVals = data.map((d) => {
+  const meanSummerVals = data.map((d) => {
     const vals = d[`f_shwith${showlevel}`].slice(selStart, selEnd + 1);
     const days = DAYS.slice(selStart, selEnd + 1);
+    return (
+      vals
+        .map((val, idx) => [val, days[idx]])
+        .map(([val, days]) => val * days)
+        .reduce((sum, x) => sum + x) / days.reduce((sum, x) => sum + x)
+    );
+  });
+
+  const meanWinterVals = data.map((d) => {
+    const vals = d[`f_shwith${showlevel}`]
+      .slice(0, selStart)
+      .concat(d[`f_shwith${showlevel}`].slice(selEnd + 1));
+    const days = DAYS.slice(0, selStart).concat(DAYS.slice(selEnd + 1));
     return (
       vals
         .map((val, idx) => [val, days[idx]])
@@ -97,44 +110,36 @@ const ShadingFactorsTable = ({ data }) => {
           <p>Activación de elementos de sombra estacionales:</p>
         </Col>
       </Row>
-      <Form>
-        <Form.Group as={Row} controlId="formControlsSummerMonths">
-          <Form.Label column md={6}>
-            Mes de inicio:
-          </Form.Label>
-          <Col>
-            <Form.Control
-              value={startMonth}
-              onChange={(e) => setStartMonth(e.target.value)}
-              as="select"
-              placeholder="select"
-            >
-              {MESES.map((z) => (
-                <option value={z} key={"start_month_" + z}>
-                  {z}
-                </option>
-              ))}
-            </Form.Control>
-          </Col>
+      <Form className="form-inline">
+        <Form.Group controlId="formControlsSummerMonths">
+          <Form.Label column>Mes de inicio:</Form.Label>
+          <Form.Control
+            value={startMonth}
+            onChange={(e) => setStartMonth(e.target.value)}
+            as="select"
+            placeholder="select"
+          >
+            {MESES.map((z) => (
+              <option value={z} key={"start_month_" + z}>
+                {z}
+              </option>
+            ))}
+          </Form.Control>
         </Form.Group>
-        <Form.Group as={Row} controlId="formControlsSummerMonths">
-          <Form.Label column md={6}>
-            Mes de finalización:
-          </Form.Label>
-          <Col>
-            <Form.Control
-              value={endMonth}
-              onChange={(e) => setEndMonth(e.target.value)}
-              as="select"
-              placeholder="select"
-            >
-              {MESES.map((z) => (
-                <option value={z} key={"end_month_" + z}>
-                  {z}
-                </option>
-              ))}
-            </Form.Control>
-          </Col>
+        <Form.Group controlId="formControlsSummerMonths">
+          <Form.Label column>Mes de finalización:</Form.Label>
+          <Form.Control
+            value={endMonth}
+            onChange={(e) => setEndMonth(e.target.value)}
+            as="select"
+            placeholder="select"
+          >
+            {MESES.map((z) => (
+              <option value={z} key={"end_month_" + z}>
+                {z}
+              </option>
+            ))}
+          </Form.Control>
         </Form.Group>
       </Form>
       <Row style={{ marginTop: "2em" }}>
@@ -143,10 +148,10 @@ const ShadingFactorsTable = ({ data }) => {
             id="shadingfactorstable"
             className="table table-striped table-bordered table-condensed"
           >
-            <thead>
+            <thead className="text-light bg-secondary">
               <tr style={{ borderBottom: "3px solid darkgray" }}>
                 <th className="col-md-1">Superficie</th>
-                <th className="col-md-1">
+                <th>
                   f<sub>sh;with</sub>
                 </th>
                 {MESES.map((m) => (
@@ -155,7 +160,14 @@ const ShadingFactorsTable = ({ data }) => {
                 <th>
                   Media
                   <br />
-                  estacional
+                  {MESES[selStart] + "-" + MESES[selEnd]}
+                </th>
+                <th>
+                  Media
+                  <br />
+                  {MESES[0] + "-" + MESES[selStart - 1]}
+                  <br />
+                  {MESES[selEnd + 1] + "-" + MESES[MESES.length - 1]}
                 </th>
               </tr>
             </thead>
@@ -165,7 +177,7 @@ const ShadingFactorsTable = ({ data }) => {
                 return (
                   <tr key={"f_shwith200_" + d.orientation}>
                     <td>
-                      <b className="pull-left">{d.orientation}</b>
+                      <b className="pull-left">{d.orientation}</b>{" "}
                       <OrientaIcon dir={d.orientation} />
                     </td>
                     <td style={{ textAlign: "center" }}>I &gt; {level}</td>
@@ -189,8 +201,18 @@ const ShadingFactorsTable = ({ data }) => {
                         backgroundColor: "rgba(0.0, 0.0, 0.0, 0.15)",
                       }}
                     >
-                      {meanVals[surfidx].toFixed(2)}{" "}
-                      <FshwithIcon fsh={meanVals[surfidx]} />
+                      {meanSummerVals[surfidx].toFixed(2)}{" "}
+                      <FshwithIcon fsh={meanSummerVals[surfidx]} />
+                    </td>
+                    <td
+                      key={`fshwith_winter_mean_${surfidx}`}
+                      style={{
+                        textAlign: "center",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {meanWinterVals[surfidx].toFixed(2)}{" "}
+                      <FshwithIcon fsh={meanWinterVals[surfidx]} />
                     </td>
                   </tr>
                 );

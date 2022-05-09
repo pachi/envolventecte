@@ -95,7 +95,7 @@ const OrientacionesSprite = () => (
         <ellipse
           cx="55.4"
           cy="55.4"
-          fill="none"
+          fill="#FFFA"
           stroke="#000"
           strokeWidth="2.8"
           color="#000"
@@ -141,8 +141,8 @@ const OrientaIcon = ({ dir, width = "1.2em", height = "1.2em" }) => {
   if (["NE", "E", "SE", "S", "SW", "W", "NW", "N"].includes(dir)) {
     return (
       <svg width={width} height={height} style={{ verticalAlign: "middle" }}>
-        <use xlinkHref={`#s${dir}`} />
         <use xlinkHref="#circulo" />
+        <use xlinkHref={`#s${dir}`} />
       </svg>
     );
   }

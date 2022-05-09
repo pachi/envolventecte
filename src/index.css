@@ -10,12 +10,12 @@ body {
 #radiationtable th,
 #julyradiationtable th {
   text-align: center;
-  background: lightsteelblue;
 }
 #shadingfactorstable tbody,
 #radiationtable tbody,
 #julyradiationtable tbody {
   text-align: right;
+  background-color: white;
 }
 #shadingfactorstable,
 #radiationtable,

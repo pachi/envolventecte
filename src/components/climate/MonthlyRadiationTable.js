@@ -55,7 +55,7 @@ const MonthlyRadiationTable = ({ data }) => {
             id="radiationtable"
             className="table table-striped table-bordered table-condensed"
           >
-            <thead>
+            <thead className="text-light bg-secondary">
               <tr style={{ borderBottom: "3px solid darkgray" }}>
                 <th className="col-md-1">Superficie</th>
                 <th className="col-md-1">Irradiación</th>
@@ -80,7 +80,7 @@ const MonthlyRadiationTable = ({ data }) => {
                       }
                     >
                       <td rowSpan={showDetail ? "3" : null}>
-                        <b className="pull-left">{d.orientation}</b>
+                        <b className="pull-left">{d.orientation}</b>{" "}
                         <OrientaIcon dir={d.orientation} />
                       </td>
                       <td>Dir. + Dif.</td>

@@ -43,7 +43,7 @@ const FshwithSprite = () => (
           height="84"
           stroke="#000"
           strokeWidth="1"
-          fill="#4d4d8d"
+          fill="#5c555d"
           width="59"
           y="7.5"
           x="7.5"
