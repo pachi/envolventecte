@@ -22,31 +22,20 @@ SOFTWARE.
 */
 
 import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
-// import DevTools from 'mobx-react-devtools';
+import { Col, Row } from "react-bootstrap";
 
-import Footer from "../ui/Footer";
-import IndicatorsPanel from "../indicators/IndicatorsPanel";
-import NavBar from "../ui/Nav";
 import ThreeView from "./ThreeView";
+import { PageWithIndicators } from "../ui/PageWithIndicators";
 
 const ThreeDPage = ({ route }) => {
   return (
-    <Container fluid>
-      <NavBar route={route} />
-      <Row>
-        <Col>
-          <IndicatorsPanel />
-        </Col>
-      </Row>
+    <PageWithIndicators route={route}>
       <Row>
         <Col>
           <ThreeView />
         </Col>
       </Row>
-      {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
-      <Footer />
-    </Container>
+    </PageWithIndicators>
   );
 };
 

@@ -22,33 +22,23 @@ SOFTWARE.
 */
 
 import React from "react";
-import { Col, Row, Tabs, Tab } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 
-import WallConsView from "./WallConsView";
-import WinConsView from "./WinConsView";
-import { PageWithIndicators } from "../ui/PageWithIndicators";
+import Footer from "../ui/Footer";
+import NavBar from "../ui/Nav";
+import IndicatorsPanel from "../indicators/IndicatorsPanel";
 
-const ConsPage = ({ route, activeKey, setActiveKey }) => {
+export const PageWithIndicators = ({ route, children }) => {
   return (
-    <PageWithIndicators route={route}>
+    <Container fluid>
+      <NavBar route={route} />
       <Row>
         <Col>
-          <Tabs
-            activeKey={activeKey}
-            onSelect={setActiveKey}
-            id="constructions_tabs"
-          >
-            <Tab eventKey="wallcons" title="Cons. opacos" className="pt-3">
-              <WallConsView />
-            </Tab>
-            <Tab eventKey="windowcons" title="Cons. huecos" className="pt-3">
-              <WinConsView />
-            </Tab>
-          </Tabs>
+          <IndicatorsPanel />
         </Col>
       </Row>
-    </PageWithIndicators>
+      {children}
+      <Footer />
+    </Container>
   );
 };
-
-export default ConsPage;

@@ -22,29 +22,19 @@ SOFTWARE.
 */
 
 import React from "react";
-import { Col, Container, Row, Tabs, Tab } from "react-bootstrap";
-import { observer } from "mobx-react";
-// import DevTools from 'mobx-react-devtools';
+import { Col, Row, Tabs, Tab } from "react-bootstrap";
 
-import Footer from "../ui/Footer";
-import NavBar from "../ui/Nav";
-import IndicatorsPanel from "../indicators/IndicatorsPanel";
 import HuecosView from "./HuecosView";
 import MetaParams from "./MetaParams";
 import OpacosView from "./OpacosView";
 import PTsView from "./PTsView";
 import ShadesView from "./ShadesView";
 import SpacesView from "./SpacesView";
+import { PageWithIndicators } from "../ui/PageWithIndicators";
 
 const BuildingPage = ({ route, activeKey, setActiveKey }) => {
   return (
-    <Container fluid>
-      <NavBar route={route} />
-      <Row>
-        <Col>
-          <IndicatorsPanel />
-        </Col>
-      </Row>
+    <PageWithIndicators route={route}>
       <Row>
         <Col>
           <Tabs
@@ -77,10 +67,8 @@ const BuildingPage = ({ route, activeKey, setActiveKey }) => {
           </Tabs>
         </Col>
       </Row>
-      {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
-      <Footer />
-    </Container>
+    </PageWithIndicators>
   );
 };
 
-export default observer(BuildingPage);
+export default BuildingPage;
