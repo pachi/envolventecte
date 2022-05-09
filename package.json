@@ -57,7 +57,7 @@
     "react-router-bootstrap": "^0.25.0",
     "react-router-dom": "^5.3.1",
     "soljs": "^6.0.0",
-    "three": "^0.133.1",
+    "three": "^0.140.1",
     "tweakpane": "^3.0.8",
     "wasm-envolventecte": "file:./wasm/pkg",
     "whatwg-fetch": "^3.6.2"
