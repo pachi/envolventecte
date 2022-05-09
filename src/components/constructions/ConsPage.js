@@ -29,6 +29,7 @@ import WinConsView from "./WinConsView";
 import { PageWithIndicators } from "../ui/PageWithIndicators";
 import MaterialsView from "./MaterialsView";
 import GlassesView from "./GlassesView";
+import FramesView from "./FramesView";
 
 const ConsPage = ({ route, activeKey, setActiveKey }) => {
   return (
@@ -51,6 +52,9 @@ const ConsPage = ({ route, activeKey, setActiveKey }) => {
             </Tab>
             <Tab eventKey="glasses" title="Vidrios" className="pt-3">
               <GlassesView />
+            </Tab>
+            <Tab eventKey="frames" title="Marcos" className="pt-3">
+              <FramesView />
             </Tab>
           </Tabs>
         </Col>
