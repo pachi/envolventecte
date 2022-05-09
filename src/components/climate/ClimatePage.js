@@ -52,15 +52,15 @@ const ClimatePage = observer(({ route }) => {
               title="Radiación acumulada (H_sol;m)"
               className="pt-3"
             >
-              <JulyRadiationTable data={appstate.climatedata} />
-              <MonthlyRadiationTable data={appstate.climatedata} />
+              <JulyRadiationTable data={appstate.climatedata} climatezone={appstate.meta.climate} />
+              <MonthlyRadiationTable data={appstate.climatedata} climatezone={appstate.meta.climate} />
             </Tab>
             <Tab
               eventKey={2}
               title="Factores de reducción por sombras móviles (f_sh;with)"
               className="pt-3"
             >
-              <ShadingFactorsTable data={appstate.climatedata} />
+              <ShadingFactorsTable data={appstate.climatedata} climatezone={appstate.meta.climate} />
             </Tab>
           </Tabs>
         </Col>

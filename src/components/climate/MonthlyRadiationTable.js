@@ -29,13 +29,19 @@ import { OrientaIcon } from "./IconsOrientaciones";
 const MESES = "ENE,FEB,MAR,ABR,MAY,JUN,JUL,AGO,SET,OCT,NOV,DIC".split(",");
 
 // Tabla de irradiación mensual acumulada para distintas superficies orientadas e inclinadas
-const MonthlyRadiationTable = ({ data }) => {
+const MonthlyRadiationTable = ({ data, climatezone }) => {
   const [showDetail, setShowDetail] = useState(false);
   return (
     <Col>
       <Row>
         <Col>
-          <h4>Irradiación solar (acumulada) mensual (kWh/m²/mes)</h4>
+          <h4>
+            Irradiación solar ({climatezone}),{" "}
+            <i>
+              H<sub>sol;m</sub>
+            </i>{" "}
+            (kWh/m²/mes)
+          </h4>
         </Col>
       </Row>
       <Row>
@@ -53,7 +59,7 @@ const MonthlyRadiationTable = ({ data }) => {
         <Col>
           <table
             id="radiationtable"
-            className="table table-striped table-bordered table-condensed"
+            className="table table-striped table-bordered table-condensed table-hover"
           >
             <thead className="text-light bg-secondary">
               <tr style={{ borderBottom: "3px solid darkgray" }}>
@@ -85,7 +91,17 @@ const MonthlyRadiationTable = ({ data }) => {
                       </td>
                       <td>Dir. + Dif.</td>
                       {d.dir.map((v, i) => (
-                        <td key={"tot_" + i}>{(v + d.dif[i]).toFixed(2)}</td>
+                        <td
+                          key={"tot_" + i}
+                          style={{
+                            borderRight:
+                              i == 6 || i == 5 ? "2px solid darkgray" : null,
+                            backgroundColor:
+                              i == 6 ? "rgba(100, 0, 0, 0.05)" : null,
+                          }}
+                        >
+                          {(v + d.dif[i]).toFixed(2)}
+                        </td>
                       ))}
                     </tr>
                     {showDetail ? (

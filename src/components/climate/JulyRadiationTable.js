@@ -27,12 +27,12 @@ import { Col, Row } from "react-bootstrap";
 import { OrientaIcon } from "./IconsOrientaciones";
 
 // Tabla de irradiación acumulada mensual en el mes de julio
-const JulyRadiationTable = ({ data }) => (
+const JulyRadiationTable = ({ data, climatezone }) => (
   <Col>
     <Row>
       <Col>
         <h4>
-          Irradiación solar (acumulada) en el mes de julio{" "}
+          Irradiación solar en el mes de julio ({climatezone}),{" "}
           <i>
             H<sub>sol;jul</sub>
           </i>{" "}
@@ -77,7 +77,8 @@ const JulyRadiationTable = ({ data }) => (
           <b>
             q<sub>sol;jul</sub>
           </b>
-          ).
+          ) y recoge la irradiación solar acumulada en el mes de julio para la
+          zona climática indicada.
         </p>
       </Col>
     </Row>

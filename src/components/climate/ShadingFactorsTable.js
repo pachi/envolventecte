@@ -44,7 +44,7 @@ const selectedMonths = (start, end) => {
 // en la que se incruste la tabla.
 // import { OrientacionesSprite } from "./IconsOrientaciones"; -> <OrientacionesSprite/>
 // import { FshwithSprite } from "./IconsFshwith"; -> <FshwithSprite/>
-const ShadingFactorsTable = ({ data }) => {
+const ShadingFactorsTable = ({ data, climatezone }) => {
   const [showlevel, setShowlevel] = useState("500");
   const [startMonth, setStartMonth] = useState("JUN");
   const [endMonth, setEndMonth] = useState("SET");
@@ -80,6 +80,7 @@ const ShadingFactorsTable = ({ data }) => {
         <Col>
           <h4>
             Factores mensuales de reducción para sombreamientos solares móviles
+            - {climatezone}
           </h4>
         </Col>
       </Row>
@@ -146,7 +147,7 @@ const ShadingFactorsTable = ({ data }) => {
         <Col>
           <table
             id="shadingfactorstable"
-            className="table table-striped table-bordered table-condensed"
+            className="table table-striped table-bordered table-condensed table-hover"
           >
             <thead className="text-light bg-secondary">
               <tr style={{ borderBottom: "3px solid darkgray" }}>
@@ -184,11 +185,16 @@ const ShadingFactorsTable = ({ data }) => {
                     {d[`f_shwith${level}`].map((v, i) => (
                       <td
                         key={`fshwith${level}_${i}`}
-                        style={
-                          i >= selStart && i <= selEnd
-                            ? { backgroundColor: "rgba(0.0, 0.0, 0.0, 0.15)" }
-                            : null
-                        }
+                        style={{
+                          backgroundColor:
+                            i >= selStart && i <= selEnd
+                              ? "rgba(100, 0, 0, 0.05)"
+                              : null,
+                          borderRight:
+                            i == selStart - 1 || i == selEnd || i == 11
+                              ? "2px solid darkgray"
+                              : null,
+                        }}
                       >
                         {v.toFixed(2)} <FshwithIcon fsh={v} />
                       </td>
@@ -198,7 +204,8 @@ const ShadingFactorsTable = ({ data }) => {
                       style={{
                         textAlign: "center",
                         fontWeight: "bold",
-                        backgroundColor: "rgba(0.0, 0.0, 0.0, 0.15)",
+                        backgroundColor: "rgba(100, 0, 0, 0.05)",
+                        borderRight: "2px solid darkgray",
                       }}
                     >
                       {meanSummerVals[surfidx].toFixed(2)}{" "}
