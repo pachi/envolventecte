@@ -99,7 +99,7 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
           </LinkContainer>
           <LinkContainer to="/helpers" eventKey={5}>
             <Nav.Link title="Ayudas para el cálculo de parámetros descriptivos de algunos elementos de la envolvente térmica del edificio.">
-              Cálculos
+              Ayudas
             </Nav.Link>
           </LinkContainer>
         </Nav>
@@ -135,21 +135,21 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
           </Nav.Link>
           <span style={{ borderLeft: "1px solid gray", margin: "0px 25px" }} />
           <Nav.Link
-            title="Descarga del archivo de datos con la información del modelo actual."
+            title="Descarga del archivo de datos del modelo actual."
             onClick={(e) => handleDownload(e)}
           >
             <img src={icondownload} alt="Descargar datos de envolvente" />{" "}
             Descarga
           </Nav.Link>
           <LinkContainer to="/help" eventKey={7}>
-            <Nav.Link title="Ayuda de la aplicación">
-              <img src={iconhelp} alt="Ayuda" /> Ayuda
+            <Nav.Link title="Ayuda general">
+              <img src={iconhelp} alt="Ayuda" />
             </Nav.Link>
           </LinkContainer>
           <LinkContainer to="/about" eventKey={8}>
             <Nav.Link>
-              <Nav.Item title="Infomración sobre autoría, licencia, etc de la aplicación">
-                <img src={iconinfo} alt="Créditos" /> Créditos
+              <Nav.Item title="Descripción, autoría y licencia">
+                <img src={iconinfo} alt="Créditos" />
               </Nav.Item>
             </Nav.Link>
           </LinkContainer>
