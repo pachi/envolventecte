@@ -35,10 +35,10 @@ import {
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import KDetail from "./IndicatorsKDetail";
-import UDetail from "./IndicatorsUDetail";
-import QSolJulDetail from "./IndicatorsQSolJulDetail";
-import N50Detail from "./IndicatorsN50Detail";
+import KDetail from "./KDetail";
+import UDetail from "./UDetail";
+import QSolJulDetail from "./QSolJulDetail";
+import N50Detail from "./N50Detail";
 
 const IndicatorsPanel = () => {
   const appstate = useContext(AppState);

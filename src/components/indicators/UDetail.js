@@ -26,7 +26,7 @@ import { Col, Row, Table } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import UElementsChart from "./IndicatorsUChart";
+import UElementsChart from "./UChart";
 import { round_or_dash } from "../../utils";
 
 const formatted = (elem, bold = false) => (bold ? <b>{elem}</b> : <>{elem}</>);

@@ -26,15 +26,16 @@ import { Col, Row, Table } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import KElementsChart from "./IndicatorsKChart";
+import KChart from "./KChart";
 import { round_or_dash } from "../../utils";
 
 const formatted = (elem, bold = false) => (bold ? <b>{elem}</b> : <>{elem}</>);
 
-const IndicatorsKDetail = () => {
+const KDetail = () => {
   const appstate = useContext(AppState);
   const { K, summary, roofs, floors, walls, windows, ground, tbs } =
     appstate.energy_indicators.K_data;
+  console.log(appstate.energy_indicators.K_data);
   const {
     a,
     au,
@@ -234,7 +235,7 @@ const IndicatorsKDetail = () => {
       <Row>
         <Col className="text-center">
           {k_data.length > 0 ? (
-            <KElementsChart data={k_data} width={1200} />
+            <KChart data={k_data} width={1200} />
           ) : null}
         </Col>
       </Row>
@@ -342,9 +343,9 @@ const U_mean = (elem_au, elem_a) => {
   return null;
 };
 
-const K_contrib = (elem_au, a) => {
-  if (a && a > 0.0001) {
-    return elem_au / a;
+const K_contrib = (elem_au, total_a) => {
+  if (total_a && total_a > 0.0001) {
+    return elem_au / total_a;
   }
   return null;
 };
@@ -356,4 +357,4 @@ const K_pct = (elem_au, a, K) => {
   return null;
 };
 
-export default observer(IndicatorsKDetail);
+export default observer(KDetail);

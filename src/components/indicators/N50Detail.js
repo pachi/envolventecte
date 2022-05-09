@@ -25,7 +25,7 @@ import React, { useContext } from "react";
 import { Col, Row, Table } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
-import { N50ChartPie as N50Chart } from "./IndicatorsN50Chart";
+import { N50ChartPie as N50Chart } from "./N50Chart";
 // import {N50ChartBar as N50Chart} from "./IndicatorsN50Chart";
 import AppState from "../../stores/AppState";
 import { round_or_dash } from "../../utils";

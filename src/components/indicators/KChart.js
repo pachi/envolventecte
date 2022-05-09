@@ -28,7 +28,7 @@ import * as d3 from "d3";
 // https://embed.plnkr.co/plunk/MV01Dl
 // https://medium.com/@jeffbutsch/using-d3-in-react-with-hooks-4a6c61f1d102
 // Elementos de data: { title, a, au, type, u_mean, k_contrib, k_pct, format = false, color },
-const KElementsChart = ({
+const KChart = ({
   data,
   format,
   width = 800,
@@ -164,4 +164,4 @@ const KElementsChart = ({
   );
 };
 
-export default KElementsChart;
+export default KChart;

@@ -26,7 +26,7 @@ import { Col, Row, Table } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
 
 import AppState from "../../stores/AppState";
-import { QSolJulChartWindRose as QSolJulChart } from "./IndicatorsQSolJulChart";
+import { QSolJulChartWindRose as QSolJulChart } from "./QSolJulChart";
 // import { QSolJulChartBar as QSolJulChart } from "./IndicatorsQSolJulChart";
 import { round_or_dash } from "../../utils";
 
