@@ -25,7 +25,6 @@ import React from "react";
 import { Col, Row, Tabs, Tab } from "react-bootstrap";
 
 import HuecosView from "./HuecosView";
-import MetaParams from "./MetaParams";
 import OpacosView from "./OpacosView";
 import PTsView from "./PTsView";
 import ShadesView from "./ShadesView";
@@ -60,9 +59,6 @@ const BuildingPage = ({ route, activeKey, setActiveKey }) => {
               className="pt-3"
             >
               <PTsView />
-            </Tab>
-            <Tab eventKey="metadata" title="Datos generales" className="pt-3">
-              <MetaParams />
             </Tab>
           </Tabs>
         </Col>

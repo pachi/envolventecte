@@ -76,18 +76,21 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav>
-          <LinkContainer to="/building" eventKey={1}>
-            <Nav.Link title="Visualización, introducción y edición de los componentes de la envolvente térmica del edificio.">
-              Edificio
+          <LinkContainer to="/project" eventKey={0}>
+            <Nav.Link title="Datos generales del proyecto">Proyecto</Nav.Link>
+          </LinkContainer>
+          <LinkContainer to="/elements" eventKey={1}>
+            <Nav.Link title="Elementos del edificio y su envolvente térmica">
+              Elementos
             </Nav.Link>
           </LinkContainer>
           <LinkContainer to="/constructions" eventKey={2}>
-            <Nav.Link title="Visualización, introducción y edición de las constucciones del edificio.">
+            <Nav.Link title="Construcciones y materiales del edificio">
               Construcción
             </Nav.Link>
           </LinkContainer>
           <LinkContainer to="/3d" eventKey={3}>
-            <Nav.Link title="Visualización tridimensional del modelo del edificio.">
+            <Nav.Link title="Visualización tridimensional del modelo del edificio">
               Vista3D
             </Nav.Link>
           </LinkContainer>
@@ -96,12 +99,12 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
           </LinkContainer>
           <span style={{ borderLeft: "1px solid gray", margin: "0px 25px" }} />
           <LinkContainer to="/climate" eventKey={5}>
-            <Nav.Link title="Visualización y obtención de parámetros relacionados con el clima exterior del edificio.">
+            <Nav.Link title="Información sobre datos climáticos">
               Clima
             </Nav.Link>
           </LinkContainer>
           <LinkContainer to="/helpers" eventKey={6}>
-            <Nav.Link title="Ayudas para el cálculo de parámetros descriptivos de algunos elementos de la envolvente térmica del edificio.">
+            <Nav.Link title="Ayudas para el cálculo de parámetros de diversos elementos constructivos">
               Ayudas
             </Nav.Link>
           </LinkContainer>

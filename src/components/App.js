@@ -37,6 +37,7 @@ import HelpersPage from "./helpers/HelpersPage";
 import HelpPage from "./help/HelpPage";
 import MainPage from "./main/MainPage";
 import ReportsPage from "./reports/ReportsPage";
+import { ProjectPage } from "./project/ProjectPage";
 
 const App = () => {
   const [buildingActiveKey, setBuildingActiveKey] = useState("spaces");
@@ -47,9 +48,10 @@ const App = () => {
     <HashRouter>
       <Switch>
         <Route exact path="/" render={(props) => <MainPage {...props} />} />
+        <Route exact path="/project" component={ProjectPage} />
         <Route
           exact
-          path="/building"
+          path="/elements"
           render={(props) => (
             <BuildingPage
               {...props}
