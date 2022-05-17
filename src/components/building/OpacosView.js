@@ -46,18 +46,6 @@ const OpacosView = observer(() => {
           </h4>
         </Col>
         <Col md="auto">
-          <ButtonGroup>
-            <Button
-              variant="default"
-              size="sm"
-              title="Agrupa opacos, sumando áreas de igual transmitancia y factor de ajuste."
-              onClick={() => appstate.agrupaOpacos()}
-            >
-              <img src={icongroup} alt="Agrupar opacos" /> Agrupar opacos
-            </Button>
-          </ButtonGroup>
-        </Col>
-        <Col md="auto">
           <AddRemoveButtonGroup
             elements="walls"
             newobj="newOpaco"

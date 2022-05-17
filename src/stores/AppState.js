@@ -122,7 +122,6 @@ class AppState {
       // TODO: estos dos se podrían llegar a eliminar si cambiamos climas y usamos los del wasm
       climatedata: computed({ requiresReaction: true }),
       climateTotRadJul: computed({ requiresReaction: true }),
-      agrupaOpacos: action,
       agrupaPts: action,
       loadModel: action,
       clearModel: action,
@@ -173,39 +172,6 @@ class AppState {
   newGlass = newGlass;
 
   // Acciones --------
-
-  // Agrupa superficie de opacos por tipos (y reescribimos referencias en huecos)
-  agrupaOpacos() {
-    const isequal = (o1, o2) =>
-      o1.bounds === o2.bounds &&
-      o1.cons === o2.cons &&
-      o1.space === o2.space &&
-      o1.nextto === o2.nextto &&
-      o1.geometry.azimuth === o2.geometry.azimuth &&
-      o1.geometry.tilt === o2.geometry.tilt &&
-      o1.geometry.position === o2.geometry.position &&
-      o1.geometry.polygon === o2.geometry.polygon;
-    const opacosagrupados = [];
-    for (let opaco of this.walls) {
-      const o = opacosagrupados.find((e) => isequal(opaco, e));
-      if (o) {
-        const oldid = o.id;
-        const newid = uuidv4();
-        o.A = o.A + opaco.A;
-        o.name = o.name + ", " + opaco.name;
-        o.id = newid;
-        // Reescribimos referencias a los anteriores id
-        for (let w of this.windows) {
-          if (w.wall === oldid || w.wall === opaco.id) {
-            w.wall = newid;
-          }
-        }
-      } else {
-        opacosagrupados.push(opaco);
-      }
-    }
-    this.walls = opacosagrupados;
-  }
 
   // Agrupa longitudes de puentes térmicos por tipos
   agrupaPts() {
