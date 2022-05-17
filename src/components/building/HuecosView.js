@@ -59,14 +59,6 @@ const HuecosView = observer(() => {
             >
               Calcula F<sub>sh;obst</sub>
             </Button> */}
-            <Button
-              variant="default"
-              size="sm"
-              title="Agrupar huecos de igual orientación, fracción de marco, transmitancia y factor de transmisión solar con protecciones solares activadas. Suma las áreas y calcula el factor equivalente de sombras remotas."
-              onClick={() => appstate.agrupaHuecos()}
-            >
-              <img src={icongroup} alt="Agrupar huecos" /> Agrupar huecos
-            </Button>
           </ButtonGroup>
         </Col>
         <Col md="auto">

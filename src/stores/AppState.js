@@ -122,7 +122,6 @@ class AppState {
       // TODO: estos dos se podrían llegar a eliminar si cambiamos climas y usamos los del wasm
       climatedata: computed({ requiresReaction: true }),
       climateTotRadJul: computed({ requiresReaction: true }),
-      agrupaHuecos: action,
       agrupaOpacos: action,
       agrupaPts: action,
       loadModel: action,
@@ -174,25 +173,6 @@ class AppState {
   newGlass = newGlass;
 
   // Acciones --------
-
-  // Agrupa superficie de huecos por tipos
-  agrupaHuecos() {
-    const isequal = (h1, h2) => h1.cons === h2.cons && h1.wall === h2.wall;
-    const huecosagrupados = [];
-    for (let hueco of this.windows) {
-      const h = huecosagrupados.find((e) => isequal(hueco, e));
-      if (h) {
-        h.fshobst =
-          (1.0 * (h.fshobst * h.A + hueco.fshobst * hueco.A)) / (h.A + hueco.A);
-        h.A = 0.0 + h.A + hueco.A;
-        h.name = h.name + ", " + hueco.name;
-        h.id = uuidv4();
-      } else {
-        huecosagrupados.push(hueco);
-      }
-    }
-    this.windows = huecosagrupados;
-  }
 
   // Agrupa superficie de opacos por tipos (y reescribimos referencias en huecos)
   agrupaOpacos() {
