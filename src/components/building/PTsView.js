@@ -48,18 +48,6 @@ const PTsView = observer(() => {
           </h4>
         </Col>
         <Col md="auto">
-          <ButtonGroup>
-            <Button
-              variant="default"
-              size="sm"
-              title="Agrupa puentes térmicos, sumando longitudes de igual transmitancia térmica lineal."
-              onClick={() => appstate.agrupaPts()}
-            >
-              <img src={icongroup} alt="Agrupar PTs" /> Agrupar PTs
-            </Button>
-          </ButtonGroup>
-        </Col>
-        <Col md="auto">
           <AddRemoveButtonGroup
             elements="thermal_bridges"
             newobj="newPT"

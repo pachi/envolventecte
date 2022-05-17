@@ -122,7 +122,6 @@ class AppState {
       // TODO: estos dos se podrían llegar a eliminar si cambiamos climas y usamos los del wasm
       climatedata: computed({ requiresReaction: true }),
       climateTotRadJul: computed({ requiresReaction: true }),
-      agrupaPts: action,
       loadModel: action,
       clearModel: action,
       asJSON: computed,
@@ -172,23 +171,6 @@ class AppState {
   newGlass = newGlass;
 
   // Acciones --------
-
-  // Agrupa longitudes de puentes térmicos por tipos
-  agrupaPts() {
-    const isequal = (p1, p2) => Number(p1.psi) === Number(p2.psi);
-    const ptsagrupados = [];
-    for (let pt of this.thermal_bridges) {
-      const p = ptsagrupados.find((e) => isequal(pt, e));
-      if (p) {
-        p.A = p.l + pt.l;
-        p.name = p.name + ", " + pt.name;
-        p.id = uuidv4();
-      } else {
-        ptsagrupados.push(pt);
-      }
-    }
-    this.thermal_bridges = ptsagrupados;
-  }
 
   // Recopila modelo desde el appstate
   getModel() {
