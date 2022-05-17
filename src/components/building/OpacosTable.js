@@ -212,7 +212,7 @@ const OpacosTable = ({ selected, setSelected }) => {
       headerAlign: "center",
       headerFormatter: () => (
         <>
-          A<br />
+          A<sub>c</sub><br />
           <span style={{ fontWeight: "normal" }}>
             <i>
               [m<sup>2</sup>]
@@ -235,7 +235,7 @@ const OpacosTable = ({ selected, setSelected }) => {
       headerAlign: "center",
       headerFormatter: () => (
         <>
-          U
+          U<sub>c</sub>
           <br />
           <span style={{ fontWeight: "normal" }}>
             <i>[W/m²K]</i>{" "}
