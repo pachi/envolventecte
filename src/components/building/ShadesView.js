@@ -58,23 +58,6 @@ const ShadesView = observer(() => {
           <ShadesTable selected={selected} setSelected={setSelected} />
         </Col>
       </Row>
-      <Row className="text-info small mt-3">
-        <Col>
-          <p>Donde:</p>
-          <ul>
-            <li>
-              <b>Orientación</b>: Orientación (gamma) [-180,+180] (S=0, E=+90,
-              W=-90). Medido como azimuth geográfico de la proyección horizontal
-              de la normal a la superficie.
-            </li>
-            <li>
-              <b>Inclinación</b>: Inclinación (beta) [0, 180]. Medido respecto a
-              la horizontal y normal hacia arriba (0 -&gt; superficie mirando
-              hacia arriba, 180 -&gt; superficie mirando hacia abajo)
-            </li>
-          </ul>
-        </Col>
-      </Row>
     </Col>
   );
 });

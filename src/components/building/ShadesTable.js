@@ -42,7 +42,7 @@ const ShadesTable = ({ selected, setSelected }) => {
       classes: "font-weight-bold",
       headerStyle: () => ({ width: "30%" }),
       headerTitle: () =>
-        "Nombre que identifica de forma única el elemento de sombra",
+        "Nombre que identifica el elemento de sombra",
       headerClasses: "text-light bg-secondary",
       title: (_cell, row) => `Elemento de sombra id: ${row.id}`,
     },
@@ -53,7 +53,7 @@ const ShadesTable = ({ selected, setSelected }) => {
       formatter: OpaqueGeomIconFmt,
       title: OpaqueGeomFmt,
       headerTitle: () =>
-        "Lista de puntos 2D que configuran el polígono del elemento: [[x, y]...]. Para elementos sin definición geométrica completa no se define este elemento.",
+        "Geometría (punto de inserción, vértices y orientación e inclinación de la superficie.",
       editorRenderer: (editorProps, value, row) => (
         <GeometryOpaquesEditor {...editorProps} value={value} name={row.name} />
       ),
