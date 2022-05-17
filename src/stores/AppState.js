@@ -92,7 +92,7 @@ class AppState {
   // Sombras
   shades = [];
   // Construcciones de opacos y huecos
-  cons = { wallcons: [], wincons: [], materials:[], glasses: [], frames: [] };
+  cons = { wallcons: [], wincons: [], materials: [], glasses: [], frames: [] };
 
   // Puentes térmicos
   thermal_bridges = [];
