@@ -147,7 +147,7 @@ const SpacesTable = ({ selected, setSelected }) => {
       text: "Multiplicador",
       align: "center",
       formatter: MultiplierFmt,
-      headerTitle: () => "Multiplicador (-)",
+      headerTitle: () => "Multiplicador (-). Número de espacios iguales",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
@@ -162,7 +162,7 @@ const SpacesTable = ({ selected, setSelected }) => {
     },
     {
       dataField: "kind",
-      text: "Tipo",
+      text: "Tipo de espacio",
       align: "center",
       formatter: SpaceTypeFmt,
       editor: {
@@ -196,7 +196,8 @@ const SpacesTable = ({ selected, setSelected }) => {
         _rowIndex,
         _columnIndex
       ) => <InsideTeEditor value={value} {...editorProps} />,
-      headerTitle: () => "¿Pertenece a la envolvente térmica?",
+      headerTitle: () =>
+        "¿Pertenece el espacio al interior de la envolvente térmica?",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
@@ -211,7 +212,7 @@ const SpacesTable = ({ selected, setSelected }) => {
       align: "center",
       formatter: Float2DigitsFmt,
       headerTitle: () =>
-        "Altura total, bruta, o suelo a suelo, del espacio (m)",
+        "Altura total, bruta, o de suelo a suelo, del espacio (m)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
@@ -238,7 +239,7 @@ const SpacesTable = ({ selected, setSelected }) => {
         ),
       },
       headerTitle: () =>
-        "Ventilación, en ren/h. Sólo para espacios no habitables.",
+        "Ventilación del espacio, en ren/h. Sólo cuando se trata de espacios no habitables.",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
@@ -256,7 +257,7 @@ const SpacesTable = ({ selected, setSelected }) => {
       text: "z",
       align: "center",
       formatter: ZFmt,
-      headerTitle: () => "Cota de la planta, en m",
+      headerTitle: () => "Cota de la planta respecto al terreno, en m",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
