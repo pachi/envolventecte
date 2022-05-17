@@ -24,7 +24,6 @@ SOFTWARE.
 import { createContext } from "react";
 import { action, observable, computed, makeObservable, configure } from "mobx";
 
-import { uuidv4 } from "../utils.js";
 import {
   energy_indicators,
   load_data_from_json,
