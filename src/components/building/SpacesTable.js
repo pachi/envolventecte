@@ -284,7 +284,7 @@ const SpacesTable = ({ selected, setSelected }) => {
       headerAlign: "center",
       headerFormatter: () => (
         <>
-          A<br />
+          A<sub>use;zt</sub><br />
           <span style={{ fontWeight: "normal" }}>
             <i>
               [m<sup>2</sup>]
