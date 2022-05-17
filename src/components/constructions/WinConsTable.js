@@ -50,7 +50,6 @@ const WinconsGglwiFmt = (_cell, row, _rowIndex, propsMap) => {
   return <span>{p.toFixed(2)}</span>;
 };
 
-
 // Tabla de construcciones de huecos del edificio
 const WinConsTable = ({ selected, setSelected }) => {
   const appstate = useContext(AppState);
@@ -71,7 +70,6 @@ const WinConsTable = ({ selected, setSelected }) => {
     return { value: k, label: frameMap[k] };
   });
 
-
   const columns = [
     { dataField: "id", isKey: true, hidden: true },
     {
@@ -79,8 +77,7 @@ const WinConsTable = ({ selected, setSelected }) => {
       text: "Nombre",
       classes: "font-weight-bold",
       headerStyle: () => ({ width: "20%" }),
-      headerTitle: () =>
-        "Nombre que identifica de forma única la construcción de hueco",
+      headerTitle: () => "Nombre que identifica la construcción de hueco",
       headerClasses: "text-light bg-secondary",
       title: (_cell, row) => `Construcción de hueco id: ${row.id}`,
     },
@@ -94,7 +91,7 @@ const WinConsTable = ({ selected, setSelected }) => {
       align: "center",
       headerStyle: () => ({ width: "20%" }),
       formatter: GlassFmt,
-      headerTitle: () => "Vidrio del hueco",
+      headerTitle: () => "Tipo de vidrio del hueco",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
     },
@@ -108,7 +105,7 @@ const WinConsTable = ({ selected, setSelected }) => {
       align: "center",
       headerStyle: () => ({ width: "20%" }),
       formatter: FrameFmt,
-      headerTitle: () => "Marco del opaco",
+      headerTitle: () => "Tipo de marco del hueco",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
     },
@@ -117,7 +114,8 @@ const WinConsTable = ({ selected, setSelected }) => {
       text: "F_f",
       align: "center",
       formatter: Float2DigitsFmt,
-      headerTitle: () => "Fracción de marco de la construcción de hueco (-)",
+      headerTitle: () =>
+        "Fracción de marco de la construcción de hueco (-)\n0.0 = sin marco, 1.0 = completamente opaco",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
@@ -155,7 +153,7 @@ const WinConsTable = ({ selected, setSelected }) => {
       align: "center",
       formatter: Float2DigitsFmt,
       headerTitle: () =>
-        "Factor solar del hueco con la protección solar activada (-)",
+        "Factor solar del hueco con la protección solar móvil activada (-)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
@@ -173,7 +171,12 @@ const WinConsTable = ({ selected, setSelected }) => {
       text: "C_100",
       align: "center",
       formatter: Float2DigitsFmt,
-      headerTitle: () => "Permeabilidad al aire a 100 Pa (m³/hm²)",
+      headerTitle: () =>
+        "Coeficiente de permeabilidad al aire del hueco a 100 Pa (m³/hm²).\n" +
+        "La clase de permeabilidad al aire de los huecos, " +
+        "según la norma UNE EN 12207:2000 es:\n" +
+        "Clase 1: Cw;100 ≤ 50m3/hm2,\nClase 2: Cw;100 ≤ 27 m³/hm²,\n" +
+        "Clase 3: Cw;100 ≤ 9 m³/hm²,\nClase 4: Cw;100 ≤ 3 m³/hm².",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
@@ -195,7 +198,8 @@ const WinConsTable = ({ selected, setSelected }) => {
       classes: "td-column-computed-readonly",
       formatter: WinconsUFmt,
       formatExtraData: winconsPropsMap,
-      headerTitle: () => "Transmitancia térmica del hueco (W/m²K)",
+      headerTitle: () =>
+        "Transmitancia térmica del hueco (W/m²K).\nSe especifica en su posición final y teniendo en cuenta las resistencias superficiales correspondientes.",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
@@ -218,7 +222,7 @@ const WinConsTable = ({ selected, setSelected }) => {
       formatter: WinconsGglwiFmt,
       formatExtraData: winconsPropsMap,
       headerTitle: () =>
-        "Factor solar del hueco sin la protección solar activada (g_glwi = g_gln * 0.90) (-)",
+        "Factor solar del hueco sin la protección solar activada (g_glwi = g_gln * 0.90) (-).\nTiene en cuenta el factor de difusión del vidrio y la transmitancia a incidencia normal.",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (

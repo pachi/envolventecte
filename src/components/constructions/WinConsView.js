@@ -60,62 +60,6 @@ const WinConsView = () => {
           <WinConsTable selected={selected} setSelected={setSelected} />
         </Col>
       </Row>
-      <Row className="text-info small mt-3">
-        <Col>
-          <p>Donde:</p>
-          <ul>
-            <li>
-              <b>Vidrio</b>: nombre del vidrio definido para el hueco
-            </li>
-            <li>
-              <b>Marco</b>: nombre del marco definido para el hueco
-            </li>
-            <li>
-              <b>
-                F<sub>f</sub>
-              </b>
-              : fracción de marco (-)
-            </li>
-            <li>
-              <b>
-                &Delta;<sub>U</sub>
-              </b>
-              : Incremento de transmitancia térmica del hueco debido a
-              intercalarios o cajones de persiana (%)
-            </li>
-            <li>
-              <b>
-                g<sub>gl;sh;wi</sub>
-              </b>
-              : factor solar del hueco con la protección solar activada (-)
-            </li>
-            <li>
-              <b>
-                C<sub>h;100</sub>
-              </b>
-              : Coeficiente de permeabilidad al aire del hueco a 100 Pa de
-              diferencia de presión (m³/h·m²). La clase de permeabilidad al aire
-              de los huecos, según la norma UNE EN 12207:2000 es: Clase 1: C
-              <sub>w;100</sub> &le; 50m3/hm2, Clase 2: C<sub>w;100</sub> &le; 27
-              m³/hm², Clase 3: C<sub>w;100</sub> &le; 9 m³/hm², Clase 4: C
-              <sub>w;100</sub> &le; 3 m³/hm².
-            </li>
-            <li>
-              <b>
-                U<sub>w</sub>
-              </b>
-              : Transmitancia térmica del hueco (W/m²K)
-            </li>
-            <li>
-              <b>
-                g<sub>gl;wi</sub>
-              </b>
-              : factor solar del hueco sin la protección solar activada (g_glwi
-              = g_gln * 0.90) (-)
-            </li>
-          </ul>
-        </Col>
-      </Row>
     </Col>
   );
 };

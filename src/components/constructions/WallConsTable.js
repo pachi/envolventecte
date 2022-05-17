@@ -42,10 +42,10 @@ const WallConsThicknessFmt = (_cell, row, _rowIndex, wallconsPropsMap) => {
 };
 
 /// Formato de resistencia intrínseca de construcción de opaco (id -> r_intrinsic)
-const WallConsIntrinsicRFmt = (_cell, row, _rowIndex, wallconsPropsMap) => {
+const WallConsResistanceFmt = (_cell, row, _rowIndex, wallconsPropsMap) => {
   // cell == id
   const props = wallconsPropsMap[row.id];
-  const p = props.r_intrinsic;
+  const p = props.resistance;
   if (p === undefined || p === null || isNaN(p)) {
     return <span>-</span>;
   }
@@ -77,7 +77,7 @@ const WallConsTable = ({ selected, setSelected }) => {
       classes: "font-weight-bold",
       headerStyle: () => ({ width: "30%" }),
       headerTitle: () =>
-        "Nombre que identifica de forma única la construcción de opaco",
+        "Nombre que identifica la construcción de opaco",
       headerClasses: "text-light bg-secondary",
       title: (_cell, row) => `Construcción de opaco id: ${row.id}`,
     },
@@ -138,24 +138,24 @@ const WallConsTable = ({ selected, setSelected }) => {
       ),
     },
     {
-      dataField: "R_intrinsic",
+      dataField: "resistance",
       text: "Resistencia intrínseca",
       isDummyField: true,
       editable: false,
       align: "center",
       classes: "td-column-computed-readonly",
-      formatter: WallConsIntrinsicRFmt,
+      formatter: WallConsResistanceFmt,
       formatExtraData: wallconsPropsMap,
       headerTitle: () =>
-        "Resistencia intrínseca de la solución constructiva (solo capas, sin resistencias superficiales) (m²K/W)",
+        "Resistencia térmica de la solución constructiva (sin resistencias superficiales) (m²·K/W)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
         <>
-          R<sub>e</sub>
+          R<sub>c;op</sub>
           <br />
           <span style={{ fontWeight: "normal" }}>
-            <i>[m²K/W]</i>{" "}
+            <i>[m²·K/W]</i>{" "}
           </span>
         </>
       ),
@@ -198,7 +198,7 @@ const WallConsTable = ({ selected, setSelected }) => {
         afterSaveCell: (oldValue, newValue, row, column) => {
           // Convierte a número campos numéricos
           if (
-            ["thickness", "R_intrinsic", "absorptance"].includes(
+            ["thickness", "resistance", "absorptance"].includes(
               column.dataField
             )
           ) {

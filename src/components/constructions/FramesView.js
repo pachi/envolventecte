@@ -58,16 +58,6 @@ const FramesView = observer(() => {
           <FramesTable selected={selected} setSelected={setSelected} />
         </Col>
       </Row>
-      <Row className="text-info small mt-3">
-        <Col>
-          <p>Donde:</p>
-          <ul>
-            <li>
-              <b>e</b>: grosor total del conjunto de capas de la construcción
-            </li>
-          </ul>
-        </Col>
-      </Row>
     </Col>
   );
 });

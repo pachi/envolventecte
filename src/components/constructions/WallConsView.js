@@ -58,38 +58,6 @@ const WallConsView = observer(() => {
           <WallConsTable selected={selected} setSelected={setSelected} />
         </Col>
       </Row>
-      <Row className="text-info small mt-3">
-        <Col>
-          <p>Donde:</p>
-          <ul>
-            <li>
-              <b>Grupo</b>: grupo de clasificación de las construcciones de
-              opacos
-            </li>
-            <li>
-              <b>e</b>: grosor total del conjunto de capas de la construcción
-            </li>
-            <li>
-              <b>
-                R<sub>e</sub>
-              </b>
-              : resistencia intrínseca (sin resistencias superficiales, solo de
-              las capas) del elemento (m²K/W)
-            </li>
-            <li>
-              <b>&alpha;</b>: absortividad térmica de la construcción [-]
-            </li>
-            <li>
-              <b>
-                C<sub>o;100</sub>
-              </b>
-              : coeficiente de permeabilidad de opacos a 100Pa. Depende del tipo
-              de edificio (nuevo / existente) y de si existe ensayo de
-              permeabildad, n<sub>50</sub> (Blower-door) [m³/h·m²]
-            </li>
-          </ul>
-        </Col>
-      </Row>
     </Col>
   );
 });
