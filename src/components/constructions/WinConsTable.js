@@ -130,7 +130,7 @@ const WinConsTable = ({ selected, setSelected }) => {
     },
     {
       dataField: "delta_u",
-      text: "F_f",
+      text: "delta_u",
       align: "center",
       formatter: Float2DigitsFmt,
       headerTitle: () =>
@@ -249,7 +249,7 @@ const WinConsTable = ({ selected, setSelected }) => {
         blurToSave: true,
         afterSaveCell: (oldValue, newValue, row, column) => {
           if (
-            ["U", "Ff", "gglwi", "gglshwi", "C_100"].includes(column.dataField)
+            ["f_f", "delta_u", "g_glshwi", "c_100"].includes(column.dataField)
           ) {
             row[column.dataField] = getFloatOrOld(newValue, oldValue);
           }
