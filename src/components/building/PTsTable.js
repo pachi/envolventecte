@@ -42,7 +42,7 @@ const PTsTable = ({ selected, setSelected }) => {
       classes: "font-weight-bold",
       headerStyle: () => ({ width: "30%" }),
       headerTitle: (_col, _colIndex) =>
-        "Nombre que identifica de forma única el puente térmico",
+        "Nombre que identifica el puente térmico",
       headerClasses: "text-light bg-secondary",
       headerFormatter: () => (
         <>

@@ -62,16 +62,6 @@ const PTsView = observer(() => {
       </Row>
       <Row className="text-info small mt-3">
         <Col>
-          <p>Donde:</p>
-          <ul>
-            <li>
-              <b>Longitud</b>: longitud del puente térmico (m)
-            </li>
-            <li>
-              <b>&psi;</b>: transmitancia térmica lineal del puente térmico
-              (W/mK)
-            </li>
-          </ul>
           <p>
             <b>NOTA</b>: Para los puentes térmicos definidos en la tabla se
             considera, a efectos del cálculo de K, un factor de ajuste{" "}
