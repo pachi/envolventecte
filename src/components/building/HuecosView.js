@@ -65,57 +65,6 @@ const HuecosView = observer(() => {
             <b>NOTA:</b>Se marcan en color más claro aquellos elementos que no
             pertenecen a la ET.
           </p>
-          <p>Donde:</p>
-          <ul>
-            <li>
-              <b>
-                A<sub>w,p</sub>
-              </b>
-              : área (proyectada) del hueco (m²)
-            </li>
-            <li>
-              <b>Construcción</b>: Solución constructiva del hueco.
-            </li>
-            <li>
-              <b>Opaco</b>: Elemento opaco en el que se sitúa el hueco
-            </li>
-            <li>
-              <b>
-                F<sub>sh;obst</sub>
-              </b>
-              : factor reductor por sombreamiento por obstáculos externos
-              (comprende todos los elementos exteriores al hueco como voladizos,
-              aletas laterales, retranqueos, obstáculos remotos, etc.), para el
-              mes de julio (fracción).
-              <br />
-              Este valor puede asimilarse al factor de sombra del hueco (
-              <i>
-                F<sub>S</sub>
-              </i>
-              ). El Documento de Apoyo <i>DA DB-HE/1</i> recoge valores del
-              factor de sombra{" "}
-              <i>
-                F<sub>S</sub>
-              </i>{" "}
-              para considerar el efecto de voladizos, retranqueos, aletas
-              laterales o lamas exteriores.
-            </li>
-          </ul>
-          <p>
-            <b>NOTA</b>: Para los huecos definidos en la tabla se considera, a
-            efectos del cálculo de K, un factor de ajuste{" "}
-            <i>
-              b<sub>tr,x</sub> = 1.0
-            </i>
-            , de modo que solo deben incluirse aquellos pertenecientes a
-            elementos con un factor de ajuste distinto de cero. Es decir, deben
-            excluirse aquellos huecos situados en elementos en contacto con
-            edificios o espacios adyacentes, cuyo{" "}
-            <i>
-              b<sub>tr,x</sub> = 0.0
-            </i>
-            .
-          </p>
         </Col>
       </Row>
     </Col>

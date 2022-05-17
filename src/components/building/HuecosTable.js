@@ -119,7 +119,7 @@ const HuecosTable = ({ selected, setSelected }) => {
       text: "Nombre",
       classes: "font-weight-bold",
       headerStyle: () => ({ width: "20%" }),
-      headerTitle: () => "Nombre que identifica de forma única el hueco",
+      headerTitle: () => "Nombre que identifica el hueco",
       headerClasses: "text-light bg-secondary",
       title: (_cell, row) => {
         const u_value_window = winPropsMap[row.id].u_value;
@@ -183,7 +183,7 @@ const HuecosTable = ({ selected, setSelected }) => {
       classes: "td-column-computed-readonly",
       formatter: WinAreaFmt,
       formatExtraData: winPropsMap,
-      headerTitle: () => "Área proyectada del hueco (m2)",
+      headerTitle: () => "Superficie proyectada del hueco (m²)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
@@ -235,7 +235,7 @@ const HuecosTable = ({ selected, setSelected }) => {
       headerAlign: "center",
       headerFormatter: () => (
         <>
-          U
+          U<sub>w</sub>
           <br />
           <span style={{ fontWeight: "normal" }}>
             <i>[W/m²K]</i>{" "}
