@@ -95,7 +95,6 @@ const OpacosTable = ({ selected, setSelected }) => {
     return { value: k, label: spaceMap[k] };
   });
 
-
   const columns = [
     { dataField: "id", isKey: true, hidden: true, text: "ID" },
     {
@@ -104,7 +103,7 @@ const OpacosTable = ({ selected, setSelected }) => {
       classes: "font-weight-bold",
       headerStyle: () => ({ width: "20%" }),
       headerTitle: () =>
-        "Nombre que identifica de forma única el elemento opaco",
+        "Nombre que identifica el elemento opaco",
       headerClasses: "text-light bg-secondary",
       title: (_cell, row) => {
         const u_value_wall = wallPropsMap[row.id].u_value;
@@ -124,7 +123,7 @@ const OpacosTable = ({ selected, setSelected }) => {
       align: "center",
       formatter: BoundaryFmt,
       headerTitle: () =>
-        "Condición de contorno del elemento opaco (INTERIOR | EXTERIOR | GROUND | ADIABATIC)",
+        "Condición de contorno del elemento opaco (INTERIOR | EXTERIOR | TERRENO | ADIABÁTICO)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
@@ -179,7 +178,7 @@ const OpacosTable = ({ selected, setSelected }) => {
       formatter: SpaceFmt,
       formatExtraData: spaceMap,
       headerTitle: () =>
-        "Espacio adyacente con el que comunica el elemento opaco cuando es interior",
+        "Espacio adyacente con el que comunica el elemento opaco, cuando este es un elemento interior",
       headerAlign: "center",
       headerClasses: "text-light bg-secondary",
     },
@@ -190,7 +189,7 @@ const OpacosTable = ({ selected, setSelected }) => {
       formatter: OpaqueGeomIconFmt,
       title: OpaqueGeomFmt,
       headerTitle: () =>
-        "Geometría (parámetros, punto de inserción y polígono).",
+        "Geometría (punto de inserción, polígono, inclinación y orientación).",
       editorRenderer: (editorProps, value, row) => (
         <GeometryOpaquesEditor {...editorProps} value={value} name={row.name} />
       ),
