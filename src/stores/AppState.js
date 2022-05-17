@@ -198,18 +198,20 @@ class AppState {
 
   // Carga modelo JSON en el appstate
   loadModel(inputData) {
-    // Limpia modelo para evitar que queden objetos antiguos
-    // (en grupos sin objetos de ese tipo en el nuevo modelo)
-    this.clearModel();
-
     const {
       meta = { climate: "D3" },
-      spaces,
-      walls,
-      windows,
-      shades,
-      thermal_bridges,
-      cons,
+      spaces = [],
+      walls = [],
+      windows = [],
+      shades = [],
+      thermal_bridges = [],
+      cons = {
+        wallcons: [],
+        wincons: [],
+        materials: [],
+        glasses: [],
+        frames: [],
+      },
     } = inputData;
 
     // Carga datos en el store
