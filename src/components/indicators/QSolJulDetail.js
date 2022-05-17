@@ -66,37 +66,76 @@ const QSolJulDetail = () => {
     <>
       <Row>
         <Col>
-          <h3>
+          <h3 className="mb-4">
             Control solar de los huecos (q<sub>sol;jul</sub>)
           </h3>
           <p>
-            Ganancias solares en el mes de julio con los dispositivos de sombra
-            de los huecos activados
+            El <b>parámetro de control solar</b> cuantifica la{" "}
+            <b>capacidad de evitar el exceso de ganancias de radiación solar</b>
+            , gracias a las prestaciones térmicas del hueco (incluyendo los
+            dispositivos de sombra móviles) y el efecto de los obstáculos fijos
+            o remotos.
           </p>
           <p>
+            El cálculo se basa en las ganancias solares en el mes de julio con
+            los dispositivos de sombra de los huecos activados, Q
+            <sub>sol;jul</sub> y la superficie útil de los espacios habitables
+            de la envolvente térmica, A<sub>útil</sub>.
+          </p>
+          <p>
+            <u>
+              Ganancias solares en el mes de julio con los dispositivos de
+              sombra de los huecos activados
+            </u>
+            , Q<sub>sol;jul</sub>*:
+          </p>
+          <p className="text-center">
             Q<sub>sol;jul</sub> = &sum;<sub>k</sub>(F
             <sub>sh,obst</sub> · g<sub>gl;sh;wi</sub> · (1 − F<sub>F</sub>) · A
             <sub>w,p</sub> · H<sub>sol;jul</sub>) = {Q_soljul.toFixed(2)}{" "}
             kWh/mes
           </p>
-          <p>Superficie útil</p>
+          <p className="small">
+            *{" "}
+            <i>
+              Q<sub>H/C;sol;wi</sub>
+            </i>{" "}
+            <i>UNE-EN ISO 52016-1</i>, 6.5.13.2, (69) y 6.6.8.2, (123),
+            despreciando la reirradiación al cielo (Q<sub>sky;wi;jul</sub> = 0)
+            y considerando activadas las protecciones solares móviles (g = g
+            <sub>gl;sh;wi</sub>
+            ). De acuerdo a dichas normas, tampoco se consideran de forma
+            separada las componentes directa y difusa al evaluar las
+            obstrucciones solares.
+          </p>
+
           <p>
+            <u>Superficie útil</u>, A<sub>útil</sub>**:
+          </p>
+          <p className="text-center">
             A<sub>util</sub> = {area_ref.toFixed(2)} m²
           </p>
-          <p>Valor del indicador:</p>
+          <p className="small">
+            ** <i>CTE DB-HE 2019</i>. &quot;Superficie para el cálculo de los
+            indicadores de consumo&quot;.
+          </p>
           <p>
+            <u>Valor del indicador</u>, q<sub>sol;jul</sub>:
+          </p>
+          <p className="text-center">
+            q<sub>sol;jul</sub> = Q<sub>sol;jul</sub> / A<sub>util</sub> =
+            {Q_soljul.toFixed(2)} / {area_ref.toFixed(2)} ={" "}
+            {area_ref !== 0 ? q_soljul.toFixed(2) : "-"} <i>kWh/m²·mes</i>
+          </p>
+          <p className="text-center h4 border border-dark p-4">
             <b>
-              q<sub>sol;jul</sub>
-            </b>{" "}
-            = Q<sub>sol;jul</sub> / A<sub>util</sub> ={Q_soljul.toFixed(2)} /{" "}
-            {area_ref.toFixed(2)} ={" "}
-            <b>
-              {area_ref !== 0 ? q_soljul.toFixed(2) : "-"} <i>kWh/m²/mes</i>
+              q<sub>sol;jul</sub> = {area_ref !== 0 ? q_soljul.toFixed(2) : "-"}{" "}
+              <i>kWh/m²·mes</i>
             </b>
           </p>
         </Col>
       </Row>
-      <Row>
+      <Row className="mt-4">
         <Col>
           {q_soljul_detail.length > 0 ? (
             <QSolJulTable

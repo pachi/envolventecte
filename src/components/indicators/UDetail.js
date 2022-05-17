@@ -61,11 +61,21 @@ const IndicatorsUDetail = () => {
     <>
       <Row>
         <Col>
-          <h3>Transmitancia térmica de huecos y opacos (U)</h3>
+          <h3 className="mb-4">Transmitancia térmica de huecos y opacos (U)</h3>
           <p>
-            Indicadores relativos a la transmisión de calor por conducción a
-            través de los elementos opacos y huecos pertenecientes a la
-            envolvente térmica, desagregados por tipo de elemento.
+            La <b>transmitancia térmica (U)</b> cuantifica la facilidad de{" "}
+            <b>intercambiar calor por conducción</b> a través de los distintos{" "}
+            <b>elementos de la envolvente térmica</b> del edificio.
+          </p>
+          <p>
+            Su cálculo corresponde con el coeficiente de transmisión de calor
+            (U) de los elementos opacos y huecos pertenecientes a la envolvente
+            térmica.*
+          </p>
+          <p className="small">
+            * <i>UNE-EN ISO 13789</i>, <i>UNE-EN ISO 6946</i>,{" "}
+            <i>UNE-EN ISO 13370</i>, <i>UNE-EN ISO 10077-1</i>,{" "}
+            <i>UNE-EN ISO 12631</i>.
           </p>
         </Col>
       </Row>

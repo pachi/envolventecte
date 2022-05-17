@@ -39,7 +39,6 @@ const IndicatorsN50Detail = () => {
     walls_c,
     walls_c_ref,
     walls_c_a,
-    walls_c_a_ref,
     windows_a,
     windows_c,
     windows_c_a,
@@ -50,6 +49,21 @@ const IndicatorsN50Detail = () => {
   const factor_ca_to_n50 = 1 / factor_n50_to_ca;
   // Renovación total / h a 10 Pa
   const ca_tot = n50 * factor_n50_to_ca;
+  let co_ensayo =
+    n50 < n50_ref ? (
+      <>
+        C<sub>o</sub> = {walls_c.toFixed(2)} m³/h·m², n<sub>50</sub> ={" "}
+        {n50.toFixed(2)}{" "}
+        <i>
+          h<sup>-1</sup>
+        </i>
+      </>
+    ) : (
+      <>
+        Ensayo no disponible
+        <br />C<sub>o</sub> = C<sub>o, ref</sub>
+      </>
+    );
 
   const n50_info = [
     [
@@ -86,31 +100,69 @@ const IndicatorsN50Detail = () => {
     <>
       <Row>
         <Col>
-          <h3>
+          <h3 className="mb-4">
             Tasa de renovación de aire a 50 Pa (n<sub>50</sub>)
           </h3>
           <p>
-            <b>Tasa de renovación de aire a 50 Pa (teórica)</b>
+            Cuantifica el{" "}
+            <b>
+              riesgo de un intercambio excesivo de calor debido a la
+              infiltración y exfiltración de aire
+            </b>{" "}
+            a través de la envolvente térmica.
           </p>
           <p>
-            Permeabilidad al aire de referencia de los opacos, obtenida según
-            criterio de DB-HE:
+            El cálculo se basa en el valor de permeabilidad obtenido con el
+            ensayo mediante el método de presurización con ventilador o,
+            alternativamente, mediante un indicador de riesgo teórico, la tasa
+            de referencia de renovación de aire a 50 Pa, n<sub>50,ref</sub>.
+          </p>
+
+          <p>
+            <u>Permeabilidad al aire de los opacos</u>, C<sub>o</sub>:
           </p>
           <p>
+            Valor de referencia, C<sub>o, ref</sub>*:
+          </p>
+          <p className="text-center">
             C<sub>o, ref</sub> = {walls_c_ref.toFixed(2)} m³/h·m²
           </p>
           <p>
-            Permeabilidad al aire de referencia del conjunto de la envolvente
-            térmica a partir de valores de referencia:
+            Valor a partir de ensayo, C<sub>o</sub>**:
           </p>
+          <p className="text-center">{co_ensayo}</p>
+
+          <p className="small">
+            * <i>CTE DB-HE 2019, Anejo H</i>. <br />
+            **{" "}
+            <i>
+              Ensayo según UNE-EN ISO 9972:2019 (sustituye a UNE-EN 13829:2002)
+            </i>
+          </p>
+
           <p>
+            <u>Permeabilidad al aire de los huecos</u>, C<sub>h</sub>*:
+          </p>
+          <p className="text-center">
+            C<sub>h</sub> = {windows_c.toFixed(2)} m³/h·m²
+          </p>
+
+          <p className="small">
+            * Según <i>UNE-EN 12207:2017</i>.
+          </p>
+
+          <p>
+            <u>Valor de referencia del indicador</u>, n<sub>50,ref</sub>*:
+          </p>
+          <p className="text-center">
             <b>
               n<sub>50, ref</sub>
             </b>{" "}
-            = 0.629 · (&sum;C<sub>o</sub> · A<sub>o</sub>+ &sum;C
+            = 0.629 · (&sum;C<sub>o, ref</sub> · A<sub>o</sub>+ &sum;C
             <sub>h</sub>· A<sub>h</sub>) / V<sub>int</sub> = 0.629 · (
-            {walls_c_a_ref.toFixed(2)} + {windows_c_a.toFixed(2)}) /{" "}
-            {vol.toFixed(2)} ={" "}
+            {walls_c_ref.toFixed(2)} · {walls_a.toFixed(2)} +{" "}
+            {windows_c.toFixed(2)} · {windows_a.toFixed(2)}) / {vol.toFixed(2)}{" "}
+            ={" "}
             <b>
               {n50_ref.toFixed(2)}{" "}
               <i>
@@ -118,30 +170,28 @@ const IndicatorsN50Detail = () => {
               </i>
             </b>
           </p>
-          <p>
-            <b>Tasa de renovación de aire a 50 Pa</b>
+          <p className="small">
+            * <i>CTE DB-HE 2019, Anejo H</i>.
           </p>
+
           <p>
-            Permeabilidad al aire de los opacos obtenida mediante ensayo, si
-            está disponible, o según criterio del DB-HE:
+            <u>Valor del indicador</u>, n<sub>50</sub>
           </p>
-          <p>
+          <p className="text-center">
             C<sub>o</sub> = {walls_c.toFixed(2)} m³/h·m²
           </p>
-          <p>
-            Permeabilidad al aire del conjunto de la envolvente térmica obtenida
-            mediante ensayo, si está disponible, o según criterio del DB-HE:
-          </p>
-          <p>
-            <b>
-              n<sub>50</sub>
-            </b>{" "}
-            = 0.629 · (&sum;C<sub>o</sub> · A<sub>o</sub>+ &sum;C
+          <p className="text-center">
+            n<sub>50</sub> = 0.629 · (&sum;C<sub>o</sub> · A<sub>o</sub>+ &sum;C
             <sub>h</sub>· A<sub>h</sub>) / V<sub>int</sub> = 0.629 · (
-            {walls_c_a.toFixed(2)} + {windows_c_a.toFixed(2)}) /{" "}
-            {vol.toFixed(2)} ={" "}
+            {walls_c.toFixed(2)} · {walls_a.toFixed(2)} + {windows_c.toFixed(2)}{" "}
+            · {windows_a.toFixed(2)}) / {vol.toFixed(2)} = {n50.toFixed(2)}{" "}
+            <i>
+              h<sup>-1</sup>
+            </i>
+          </p>
+          <p className="text-center h4 mb-4 border border-dark p-4">
             <b>
-              {n50.toFixed(2)}{" "}
+              n<sub>50</sub> = {n50.toFixed(2)}{" "}
               <i>
                 h<sup>-1</sup>
               </i>

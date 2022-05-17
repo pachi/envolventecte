@@ -174,14 +174,31 @@ const KDetail = () => {
 
   return (
     <>
-      <Row>
+      <Row className="mb-4">
         <Col>
-          <h3>Transmitancia térmica global (K)</h3>
+          <h3 className="mb-4">Transmitancia térmica global (K)</h3>
           <p>
-            Indicador relativo a la transmisión de calor por conducción a través
-            de la envolvente térmica (huecos, opacos y puentes térmicos)
+            La{" "}
+            <b>
+              transmitancia térmica global (<i>K</i>)
+            </b>{" "}
+            cuantifica la facilidad de <b>intercambiar calor por conducción</b>{" "}
+            a través del <b>conjunto de la envolvente</b> térmica (huecos,
+            opacos y puentes térmicos).
           </p>
           <p>
+            Su cálculo se basa en el coeficiente global de transmisión de calor
+            (
+            <i>
+              H<sub>tr,adj</sub>
+            </i>
+            ) repercutido por la superficie de intercambio con el exterior.
+          </p>
+          <p>
+            <u>Coeficiente global de transmisión de calor</u>, H
+            <sub>tr,adj</sub>*:
+          </p>
+          <p className="text-center">
             H<sub>tr,adj</sub> &asymp; &sum;<sub>x</sub> b<sub>tr,x</sub> ·
             [&sum;
             <sub>i</sub> A<sub>x,i</sub> · U<sub>x,i</sub> (huecos + opacos) +
@@ -189,18 +206,34 @@ const KDetail = () => {
             {windows_au.toFixed(2)} W/K (huecos) + {opaques_au.toFixed(2)} W/K
             (opacos) + {tbs_psil.toFixed(2)} W/K (PTs) = {au.toFixed(2)} W/K{" "}
           </p>
-          <p>Superficie de intercambio de la envolvente térmica</p>
+          <p className="small">
+            * <i>UNE EN ISO 13790:2008</i>, 8.3.1, ec. (17) e{" "}
+            <i>ISO/FDIS 52016-1</i>, 6.6.5.2, ec. (108).
+          </p>
           <p>
-            &sum;A = &sum; b<sub>tr,x</sub> · A<sub>x</sub> ={" "}
+            <u>Superficie de intercambio térmico de la envolvente</u>, A
+            <sub>int</sub>
+            **:
+          </p>
+          <p className="text-center">
+            A<sub>int</sub> = &sum; b<sub>tr,x</sub> · A<sub>x</sub> ={" "}
             {windows_a.toFixed(2)} m² (huecos) + {opaques_a.toFixed(2)} m²
             (opacos) = {a.toFixed(2)} m²
           </p>
-          <p>Valor del indicador:</p>
+          <p className="small">
+            ** CTE DB-HE 2019. &quot;superficie de intercambio térmico de la
+            envolvente&quot;
+          </p>
           <p>
-            <b>K</b> = H<sub>tr,adj</sub> / &sum;A &asymp; {au.toFixed(2)} /{" "}
-            {a.toFixed(2)} ={" "}
+            <u>Valor del indicador</u>, K:
+          </p>
+          <p className="text-center">
+            K = H<sub>tr,adj</sub> / A<sub>int</sub> &asymp; {au.toFixed(2)} /{" "}
+            {a.toFixed(2)} = {K.toFixed(2)} <i>W/m²K</i>
+          </p>
+          <p className="text-center h4 border border-dark p-4">
             <b>
-              {K.toFixed(2)} <i>W/m²K</i>
+              K = {K.toFixed(2)} <i>W/m²K</i>
             </b>
           </p>
         </Col>
@@ -233,9 +266,7 @@ const KDetail = () => {
       </Row>
       <Row>
         <Col className="text-center">
-          {k_data.length > 0 ? (
-            <KChart data={k_data} width={1200} />
-          ) : null}
+          {k_data.length > 0 ? <KChart data={k_data} width={1200} /> : null}
         </Col>
       </Row>
     </>

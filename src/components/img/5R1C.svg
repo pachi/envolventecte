@@ -101,6 +101,6 @@
   </text>
   <path fill="none" stroke="#000" stroke-width="2" marker-end="url(#e)" marker-start="url(#f)" d="M287.7 576.5s61.3 2.7 89-8c18.9-7.1 38.3-18.7 48.5-36 11.1-19.1 8.5-65.7 8.5-65.7"/>
   <text x="55.6" y="865.1" font-family="Arial" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start" word-spacing="0">
-    <tspan x="55.6" y="865.1" font-size="25" font-weight="700" style="line-height:125%;-inkscape-font-specification:'Arial Bold';text-align:start">Modelo de 5 resistencias y 1 condensador EN 13790 / ISO EN 52016</tspan>
+    <tspan x="15" y="865.1" font-size="25" font-weight="700" style="line-height:125%;-inkscape-font-specification:'Arial Bold';text-align:start">Modelo de 5 resist. y 1 condens. UNE-EN ISO 13790 / UNE-EN ISO 52016-1</tspan>
   </text>
 </svg>
