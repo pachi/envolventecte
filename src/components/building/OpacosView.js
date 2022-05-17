@@ -22,14 +22,13 @@ SOFTWARE.
 */
 
 import React, { useState, useContext } from "react";
-import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 
 import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
 import OpacosTable from "./OpacosTable";
-import icongroup from "../img/outline-add_comment-24px.svg";
 
 // Vista de elementos opacos
 const OpacosView = observer(() => {

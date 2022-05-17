@@ -22,14 +22,13 @@ SOFTWARE.
 */
 
 import React, { useState, useContext } from "react";
-import { Button, ButtonGroup, Col, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 
 import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
 import HuecosTable from "./HuecosTable";
-import icongroup from "../img/outline-add_comment-24px.svg";
 // import { update_fshobst } from "wasm-envolventecte";
 
 // Vista de huecos del edificio
@@ -45,21 +44,6 @@ const HuecosView = observer(() => {
             Huecos del edificio{" "}
             <small className="text-muted">({appstate.windows.length})</small>
           </h4>
-        </Col>
-        <Col md="auto">
-          <ButtonGroup>
-            {/* TODO: Esta operación de actualizar los Fshobst lleva mucho tiempo deberíamos usar algo que indique que se está procesando */}
-            {/* <Button
-              variant="default"
-              size="sm"
-              title="Recalcular F_sh;obst"
-              onClick={(_) =>
-                appstate.loadModel(update_fshobst(appstate.getModel()))
-              }
-            >
-              Calcula F<sub>sh;obst</sub>
-            </Button> */}
-          </ButtonGroup>
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
