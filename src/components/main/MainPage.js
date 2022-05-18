@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { version } from "../../../package.json";
+import { APP_VERSION } from "../../version.js";
 import { observer } from "mobx-react";
 import React, { useContext } from "react";
 import { Alert, Button, Col, Container, Image, Row } from "react-bootstrap";
@@ -76,7 +76,7 @@ const MainPage = observer((props) => {
           <Row>
             <Col>
               <h1>
-                EnvolventeCTE <small>(v.{version})</small>
+                EnvolventeCTE <small>(v.{APP_VERSION})</small>
               </h1>
               <p>
                 Aplicación para el cálculo de indicadores de calidad y

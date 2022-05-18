@@ -18,3 +18,4 @@ build
 npm-debug.log
 # aux data dir
 auxdata
+src/version.js

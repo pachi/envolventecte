@@ -24,7 +24,7 @@ SOFTWARE.
 import React from "react";
 import { Alert, Col, Container, Image, Row } from "react-bootstrap";
 
-import { version } from "../../../package.json";
+import { APP_VERSION } from "../../version.js";
 import Footer from "../ui/Footer";
 import NavBar from "../ui/Nav";
 import FotoPachi from "../img/FotoPachi.jpg";
@@ -39,7 +39,7 @@ const AboutPage = (props) => (
       <Col>
         <h1>EnvolventeCTE</h1>
         <p className="font-weight-bold">
-          Versión {version}, BEModel {get_version()}
+          Versión {APP_VERSION}, BEModel {get_version()}
         </p>
         <p>
           Aplicación para el cálculo de indicadores de calidad y parámetros
