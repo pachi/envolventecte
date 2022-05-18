@@ -54,6 +54,17 @@ const AddRemoveButtonGroup = observer(
       return <h1>Elementos no reconocidos {elements}</h1>;
     }
 
+    let container;
+    if (
+      ["wallcons", "wincons", "materials", "glasses", "frames"].includes(
+        elements
+      )
+    ) {
+      container = appstate.cons[elements];
+    } else {
+      container = appstate[elements];
+    }
+
     return (
       <ButtonToolbar>
         <ButtonGroup
@@ -65,10 +76,8 @@ const AddRemoveButtonGroup = observer(
             size="sm"
             title="Añadir una fila al final de la tabla"
             onClick={() => {
-              const element = appstate[newobj]();
-              appstate[elements].push(element);
-              // seleccionamos nuevo elemento recién creado
-              setSelected([element.id]);
+              const newid = appstate.addElement(elements)
+              setSelected([newid]);
             }}
           >
             <img src={iconplus} alt="Añadir fila" />
@@ -80,12 +89,10 @@ const AddRemoveButtonGroup = observer(
             onClick={() => {
               const newids = [];
               selected.forEach((id) => {
-                const selectedIndex = appstate[elements].findIndex(
-                  (h) => h.id === id
-                );
+                const selectedIndex = container.findIndex((h) => h.id === id);
                 if (selectedIndex !== -1) {
                   const idx = selectedIndex >= 0 ? selectedIndex : 0;
-                  const selectedObj = appstate[elements][idx];
+                  const selectedObj = container[idx];
                   const newid = uuidv4();
                   const dupObj = {
                     ...selectedObj,
@@ -93,7 +100,7 @@ const AddRemoveButtonGroup = observer(
                     id: newid,
                   };
                   newids.push(newid);
-                  appstate[elements].splice(idx + 1, 0, dupObj);
+                  container.splice(idx + 1, 0, dupObj);
                 }
               });
               // Reseleccionamos lo nuevo
@@ -108,21 +115,21 @@ const AddRemoveButtonGroup = observer(
             title="Eliminar filas seleccionadas de la tabla"
             onClick={() => {
               if (selected.length > 0) {
-                const indices = appstate[elements].reduce((acc, cur, idx) => {
+                const indices = container.reduce((acc, cur, idx) => {
                   if (selected.includes(cur.id)) {
                     acc.push(idx);
                   }
                   return acc;
                 }, []);
                 const minidx = Math.max(0, Math.min(...indices) - 1);
-                const filtered = appstate[elements].filter(
+                const filtered = container.filter(
                   (h) => !selected.includes(h.id)
                 );
                 // usa replace: https://mobx.js.org/api.html#observablearray
-                appstate[elements].replace(filtered);
+                container.replace(filtered);
                 // Selecciona el elemento anterior al primero seleccionado salvo que no queden elementos o sea el primero, o nada si no hay elementos
                 if (filtered.length > 0) {
-                  setSelected([appstate[elements][minidx].id]);
+                  setSelected([container[minidx].id]);
                 } else {
                   setSelected([]);
                 }
@@ -138,7 +145,7 @@ const AddRemoveButtonGroup = observer(
             size="sm"
             title="Seleccionar todas las filas de la tabla"
             onClick={() => {
-              setSelected(appstate[elements].map((e) => e.id));
+              setSelected(container.map((e) => e.id));
             }}
           >
             <img src={iconselectall} alt="Seleccionar todo" />

@@ -74,6 +74,7 @@ configure({
 
 // Valores de radiación
 const MONTHLYRADIATIONDATA = get_monthly_radiation_data();
+const EMPTY_ID = "00000000-0000-0000-0000-000000000000";
 
 class AppState {
   // Datos climáticos --------
@@ -118,6 +119,7 @@ class AppState {
       zoneslist: computed,
       orientations: computed,
       warnings: computed,
+      addElement: action,
       // TODO: estos dos se podrían llegar a eliminar si cambiamos climas y usamos los del wasm
       climatedata: computed({ requiresReaction: true }),
       climateTotRadJul: computed({ requiresReaction: true }),
@@ -168,6 +170,55 @@ class AppState {
   newMaterial = newMaterial;
   newFrame = newFrame;
   newGlass = newGlass;
+
+  addElement(elementType) {
+    let el;
+    switch (elementType) {
+      case "spaces":
+        el = newSpace();
+        this.spaces.push(el);
+        break;
+      case "walls":
+        el = newWall();
+        this.walls.push(el);
+        break;
+      case "windows":
+        el = newWindow();
+        this.windows.push(el);
+        break;
+      case "thermal_bridges":
+        el = newTb();
+        this.thermal_bridges.push(el);
+        break;
+      case "shades":
+        el = newShade();
+        this.shades.push(el);
+        break;
+      case "wallcons":
+        el = newWallcons();
+        this.cons.wallcons.push(el);
+        break;
+      case "wincons":
+        el = newWincons();
+        this.cons.wincons.push(el);
+        break;
+      case "materials":
+        el = newMaterial();
+        this.cons.materials.push(el);
+        break;
+      case "glasses":
+        el = newGlass();
+        this.cons.glasses.push(el);
+        break;
+      case "frames":
+        el = newFrame();
+        this.cons.frames.push(el);
+        break;
+      default:
+        break;
+    }
+    return el.id || EMPTY_ID;
+  }
 
   // Acciones --------
 

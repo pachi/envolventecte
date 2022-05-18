@@ -19,3 +19,4 @@ npm-debug.log
 # aux data dir
 auxdata
 src/version.js
+.eslintcache

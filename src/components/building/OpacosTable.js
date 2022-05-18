@@ -38,10 +38,11 @@ import { GeometryOpaquesEditor } from "./GeometryEditors";
 import { OpaqueGeomIconFmt } from "./TableHelpers";
 import { OrientacionesSprite } from "../climate/IconsOrientaciones";
 
+const EMPTY_ID = "00000000-0000-0000-0000-000000000000";
+
 /// Formato de espacio (id -> nombre espacio)
-const SpaceFmt = (cell, _row, _rowIndex, spaceMap) => (
-  <span>{spaceMap[cell]}</span>
-);
+const SpaceFmt = (cell, _row, _rowIndex, spaceMap) =>
+  cell === EMPTY_ID ? <span>-</span> : <span>{spaceMap[cell]}</span>;
 
 /// Formato de area de opaco (id -> area)
 const WallAreaFmt = (_cell, row, _rowIndex, wallPropsMap) => {
@@ -80,7 +81,11 @@ const OpacosTable = ({ selected, setSelected }) => {
 
   // Formato y opciones de construcciones de opacos
   const wallconsMap = new Map();
-  appstate.cons.wallcons.map((s) => (wallconsMap[s.id] = s.name));
+  appstate.cons.wallcons.map((s) =>
+    s.id != EMPTY_ID
+      ? (wallconsMap[s.id] = s.name)
+      : (wallconsMap[EMPTY_ID] = "-")
+  );
   const WallconsFmt = (cell, _row) => <span>{wallconsMap[cell]}</span>;
   const WallconsOpts = Object.keys(wallconsMap).map((k) => {
     return { value: k, label: wallconsMap[k] };
@@ -102,8 +107,7 @@ const OpacosTable = ({ selected, setSelected }) => {
       text: "Nombre",
       classes: "font-weight-bold",
       headerStyle: () => ({ width: "20%" }),
-      headerTitle: () =>
-        "Nombre que identifica el elemento opaco",
+      headerTitle: () => "Nombre que identifica el elemento opaco",
       headerClasses: "text-light bg-secondary",
       title: (_cell, row) => {
         const u_value_wall = wallPropsMap[row.id].u_value;
@@ -212,7 +216,8 @@ const OpacosTable = ({ selected, setSelected }) => {
       headerAlign: "center",
       headerFormatter: () => (
         <>
-          A<sub>c</sub><br />
+          A<sub>c</sub>
+          <br />
           <span style={{ fontWeight: "normal" }}>
             <i>
               [m<sup>2</sup>]
