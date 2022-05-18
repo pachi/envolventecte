@@ -72,19 +72,19 @@ const AboutPage = (props) => (
     </Row>
     <Row>
       <Col md={{ span: 2, offset: 3 }}>
-        <Image responsive alt="Rafael Villar Burke" src={FotoPachi} />
+        <Image fluid alt="Rafael Villar Burke" src={FotoPachi} />
         <p>
           Rafael Villar Burke (pachi), <i>pachi@ietcc.csic.es</i>
         </p>
       </Col>
       <Col md={2}>
-        <Image responsive alt="Daniel Jiménez González" src={FotoDani} />
+        <Image fluid alt="Daniel Jiménez González" src={FotoDani} />
         <p>
           Daniel Jiménez González, <i>danielj@ietcc.csic.es</i>
         </p>
       </Col>
       <Col md={2}>
-        <Image responsive alt="Marta Sorribes Gil" src={FotoMarta} />
+        <Image fluid alt="Marta Sorribes Gil" src={FotoMarta} />
         <p>
           Marta Sorribes Gil, <i>msorribes@ietcc.csic.es</i>
         </p>

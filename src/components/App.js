@@ -22,14 +22,14 @@ SOFTWARE.
 */
 
 import React, { useState } from "react";
-import { HashRouter, Redirect, Route, Switch } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "bootstrap/dist/css/bootstrap-theme.css";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 
 import AboutPage from "./about/AboutPage";
-import BuildingPage from "./building/BuildingPage";
+import { BuildingPage } from "./building/BuildingPage";
 import ConsPage from "./constructions/ConsPage";
 import ThreeDPage from "./three/ThreeDPage";
 import ClimatePage from "./climate/ClimatePage";
@@ -39,58 +39,53 @@ import MainPage from "./main/MainPage";
 import ReportsPage from "./reports/ReportsPage";
 import { ProjectPage } from "./project/ProjectPage";
 
-const App = () => {
+export const App = () => {
   const [buildingActiveKey, setBuildingActiveKey] = useState("spaces");
   const [consActiveKey, setConsActiveKey] = useState("wallcons");
   const [reportActiveKey, setReportActiveKey] = useState("he1");
 
   return (
     <HashRouter>
-      <Switch>
-        <Route exact path="/" render={(props) => <MainPage {...props} />} />
-        <Route exact path="/project" component={ProjectPage} />
+      <Routes>
+        <Route exact path="/" element={<MainPage />} />
+        <Route exact path="/project" element={<ProjectPage />} />
         <Route
           exact
           path="/elements"
-          render={(props) => (
+          element={
             <BuildingPage
-              {...props}
               activeKey={buildingActiveKey}
               setActiveKey={setBuildingActiveKey}
             />
-          )}
+          }
         />
         <Route
           exact
           path="/constructions"
-          render={(props) => (
+          element={
             <ConsPage
-              {...props}
               activeKey={consActiveKey}
               setActiveKey={setConsActiveKey}
             />
-          )}
+          }
         />
-        <Route exact path="/3d" component={ThreeDPage} />
+        <Route exact path="/3d" element={<ThreeDPage />} />
         <Route
           exact
           path="/reports"
-          render={(props) => (
+          element={
             <ReportsPage
-              {...props}
               activeKey={reportActiveKey}
               setActiveKey={setReportActiveKey}
             />
-          )}
+          }
         />
-        <Route exact path="/climate" component={ClimatePage} />
-        <Route exact path="/helpers" component={HelpersPage} />
-        <Route exact path="/help" render={(props) => <HelpPage {...props} />} />
-        <Route exact path="/about" component={AboutPage} />
-        <Route path="*" render={() => <Redirect to="/" />} />
-      </Switch>
+        <Route exact path="/climate" element={<ClimatePage />} />
+        <Route exact path="/helpers" element={<HelpersPage />} />
+        <Route exact path="/help" element={<HelpPage />} />
+        <Route exact path="/about" element={<AboutPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </HashRouter>
   );
 };
-
-export default App;

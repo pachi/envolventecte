@@ -24,7 +24,7 @@ SOFTWARE.
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { Form, Nav, Navbar, Col } from "react-bootstrap";
+import { Form, Nav, Navbar, Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import { hash } from "../../utils.js";
@@ -65,7 +65,7 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
     <Navbar bg="dark" variant="dark" fixed="top">
       <Navbar.Brand>
         <Link
-          className="navbar-brand"
+          className="navbar-brand ps-3"
           to="/"
           title="EnvolventeCTE. Aplicación para el cálculo de indicadores de calidad y parámetros descriptivos de la envolvente térmica de los edificios para su evaluación energética y para la aplicación del CTE DB-HE (2019)"
         >
@@ -109,35 +109,35 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
             </Nav.Link>
           </LinkContainer>
         </Nav>
-        <Nav className="ml-auto pr-3">
+        <Nav className="ms-auto pe-3">
           <Nav.Link
             md={7}
             title="Zona climática, de acuerdo al DB-HE 2019, en la que se sitúa el edificio."
           >
-            <Form.Row>
-              <Form.Label htmlFor="climateselector" className="mr-2">
-                Zona Climática
-              </Form.Label>
-              <Col>
-                <Form.Control
-                  id="climateselector"
-                  size="sm"
-                  value={appstate?.meta?.climate || ""}
-                  onChange={(e) => {
-                    appstate.meta.climate = e.target.value;
-                  }}
-                  as="select"
-                  placeholder="Zona climática"
-                  custom
-                >
-                  {appstate.zoneslist.map((z) => (
-                    <option value={z} key={"zone_" + z}>
-                      {z}
-                    </option>
-                  ))}
-                </Form.Control>
-              </Col>
-            </Form.Row>
+            <Form>
+              <Form.Group as={Row}>
+                <Form.Label column htmlFor="climateselector">
+                  Zona Climática
+                </Form.Label>
+                <Col sm={5}>
+                  <Form.Select
+                    id="climateselector"
+                    size="sm"
+                    value={appstate?.meta?.climate || ""}
+                    onChange={(e) => {
+                      appstate.meta.climate = e.target.value;
+                    }}
+                    placeholder="Zona climática"
+                  >
+                    {appstate.zoneslist.map((z) => (
+                      <option value={z} key={"zone_" + z}>
+                        {z}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Col>
+              </Form.Group>
+            </Form>
           </Nav.Link>
           <span style={{ borderLeft: "1px solid gray", margin: "0px 25px" }} />
           <Nav.Link

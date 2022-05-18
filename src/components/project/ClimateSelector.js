@@ -35,22 +35,20 @@ const ClimateSelector = observer(({ ...props }) => {
         Zona Climática
       </Col>
       <Col md={8}>
-        <Form.Control
+        <Form.Select
           id="climateselector"
           value={appstate?.meta?.climate || ""}
           onChange={(e) => {
             appstate.meta.climate = e.target.value;
           }}
-          as="select"
           placeholder="Zona climática"
-          custom
         >
           {appstate.zoneslist.map((z) => (
             <option value={z} key={"zone_" + z}>
               {z}
             </option>
           ))}
-        </Form.Control>
+        </Form.Select>
       </Col>
     </Form.Group>
   );

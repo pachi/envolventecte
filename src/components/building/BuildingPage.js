@@ -31,7 +31,7 @@ import ShadesView from "./ShadesView";
 import SpacesView from "./SpacesView";
 import { PageWithIndicators } from "../ui/PageWithIndicators";
 
-const BuildingPage = ({ route, activeKey, setActiveKey }) => {
+export const BuildingPage = ({ route, activeKey, setActiveKey }) => {
   return (
     <PageWithIndicators route={route}>
       <Row>
@@ -66,5 +66,3 @@ const BuildingPage = ({ route, activeKey, setActiveKey }) => {
     </PageWithIndicators>
   );
 };
-
-export default BuildingPage;
