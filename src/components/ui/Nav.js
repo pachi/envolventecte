@@ -80,7 +80,7 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
             <Nav.Link title="Datos generales del proyecto">Proyecto</Nav.Link>
           </LinkContainer>
           <LinkContainer to="/elements" eventKey={1}>
-            <Nav.Link title="Elementos del edificio y su envolvente térmica">
+            <Nav.Link title="Espacios y superficies del edificio y su envolvente térmica">
               Elementos
             </Nav.Link>
           </LinkContainer>

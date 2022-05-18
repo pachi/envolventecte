@@ -116,8 +116,13 @@ const MainPage = observer((props) => {
               <p>Los distintos apartados del programa permiten:</p>
               <ul>
                 <li>
-                  <Link to="/building">Edificio</Link>: visualizar, introducir,
-                  editar los componentes de la envolvente térmica del edificio.
+                  <Link to="/project">Proyecto</Link>: visualizar y editar los
+                  datos generales del modelo.
+                </li>
+                <li>
+                  <Link to="/elements">Elementos</Link>: visualizar, introducir,
+                  editar los espacios y superficies del edificio y su envolvente
+                  térmica.
                 </li>
                 <li>
                   <Link to="/constructions">Construcción</Link>: visualizar,
@@ -125,13 +130,21 @@ const MainPage = observer((props) => {
                   el modelo.
                 </li>
                 <li>
+                  <Link to="/3d">Vista3D</Link>: explorar visualmente el modelo.
+                </li>
+                <li>
+                  <Link to="/reports">Construcción</Link>: mostrar una
+                  evaluación de los indicadores de eficiencia energética del
+                  modelo o sus mediciones.
+                </li>
+                <li>
                   <Link to="/climate">Clima</Link>: explorar diversos parámetros
                   relacionados con el clima exterior del edificio.
                 </li>
                 <li>
-                  <Link to="/helpers">Cálculos</Link>: ayudas para el cálculo de
-                  parámetros descriptivos de algunos elementos de la envolvente
-                  térmica.
+                  <Link to="/helpers">Ayudas</Link>: herramientas para el
+                  cálculo de parámetros descriptivos de algunos elementos de la
+                  envolvente térmica.
                 </li>
               </ul>
             </Col>
