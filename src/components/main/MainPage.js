@@ -60,7 +60,7 @@ const MainPage = observer((props) => {
     }
   };
 
-  const dropHeight = "150px";
+  const dropHeight = "100px";
   return (
     <Container fluid>
       <NavBar route={props.route} />
@@ -120,17 +120,18 @@ const MainPage = observer((props) => {
                   editar los componentes de la envolvente térmica del edificio.
                 </li>
                 <li>
-                  <Link to="/constructions">Construcción</Link>: visualizar, introducir,
-                  editar los materiales y construcciones usados en el modelo.
+                  <Link to="/constructions">Construcción</Link>: visualizar,
+                  introducir, editar los materiales y construcciones usados en
+                  el modelo.
                 </li>
                 <li>
                   <Link to="/climate">Clima</Link>: explorar diversos parámetros
                   relacionados con el clima exterior del edificio.
                 </li>
                 <li>
-                  <Link to="/helpers">Cálculos</Link>: ayudas para el cálculo
-                  de parámetros descriptivos de algunos elementos de la
-                  envolvente térmica.
+                  <Link to="/helpers">Cálculos</Link>: ayudas para el cálculo de
+                  parámetros descriptivos de algunos elementos de la envolvente
+                  térmica.
                 </li>
               </ul>
             </Col>
@@ -159,24 +160,24 @@ const MainPage = observer((props) => {
                 Pulse este botón para partir de un modelo vacío en el que
                 introducir de cero los elementos de la envolvente térmica:
               </p>
-
-              <Button
-                variant="secondary"
-                block
-                onClick={(_e) => appstate.clearModel()}
-                title="Pulse para dejar el modelo actual vacío, sin elementos definidos"
-                style={{
-                  fontSize: 20,
-                  height: 50,
-                  marginTop: 20,
-                  marginBottom: 20,
-                }}
-              >
-                <img src={iconclearmodel} alt="Limpiar modelo" /> Modelo vacío
-              </Button>
+              <div className="d-grid">
+                <Button
+                  variant="secondary"
+                  onClick={(_e) => appstate.clearModel()}
+                  title="Pulse para dejar el modelo actual vacío, sin elementos definidos"
+                  style={{
+                    fontSize: 20,
+                    height: 50,
+                    marginTop: 20,
+                    marginBottom: 20,
+                  }}
+                >
+                  <img src={iconclearmodel} alt="Limpiar modelo" /> Modelo vacío
+                </Button>
+              </div>
             </Col>
           </Row>
-          <Row>
+          <Row className="my-3">
             <Col>
               <h4>Opción 2: cargar modelo desde archivo de EnvolventeCTE</h4>
               <p>
@@ -186,11 +187,11 @@ const MainPage = observer((props) => {
               </p>
             </Col>
           </Row>
-          <Row style={{ fontSize: 18, height: dropHeight }}>
+          <Row>
             <Col>
               <Dropzone
                 onDrop={handleUpload}
-                accept={"application/json, .json"}
+                accept={{ "application/json": [".json"] }}
                 message={
                   <>
                     <h3>EnvolventeCTE</h3>
@@ -203,7 +204,7 @@ const MainPage = observer((props) => {
               />
             </Col>
           </Row>
-          <Row>
+          <Row className="my-3">
             <Col>
               <h4>
                 Opción 3: importar modelo y/o factores de sombras remotas desde
@@ -218,11 +219,11 @@ const MainPage = observer((props) => {
               </p>
             </Col>
           </Row>
-          <Row style={{ paddingTop: 20, fontSize: 18, height: dropHeight }}>
+          <Row>
             <Col md={8}>
               <Dropzone
                 onDrop={handleUpload}
-                accept={"application/octet-stream, .ctehexml"}
+                accept={{ "application/octet-stream": [".ctehexml"] }}
                 message={
                   <>
                     <h3>HULC</h3>
@@ -231,7 +232,6 @@ const MainPage = observer((props) => {
                     </p>
                   </>
                 }
-                containerHeight={dropHeight}
               />
             </Col>
             <Col
@@ -246,18 +246,16 @@ const MainPage = observer((props) => {
             <Col md={3}>
               <Dropzone
                 onDrop={handleUpload}
-                accept={"text/plain, .txt"}
+                accept={{ "text/plain": [".txt"] }}
                 message={
                   <>
                     <h3>HULC</h3>
                     <p className="text-center">
-                      Importar al modelo existente <b>solo</b> los factores de
-                      sombras remotas de los huecos desde archivo{" "}
+                      Importar <b>solo</b> F<sub>sh;obst</sub> desde archivo{" "}
                       <i>KyGananciasSolares.txt</i>
                     </p>
                   </>
                 }
-                containerHeight={dropHeight}
               />
             </Col>
           </Row>

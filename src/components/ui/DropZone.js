@@ -63,9 +63,8 @@ export default function StyledDropzone(props) {
         Arrastre y suelte aquí el archivo o pulse para seleccionarlo del equipo
       </p>
     ),
-    accept = "application/json, .json",
+    accept = { "application/json": [".json"] },
     maxFiles = 1,
-    containerHeight = "200px",
     title = "Arrastre un archivo sobre esta zona o pulse para seleccionar del sistema de archivos.",
   } = props;
   const {
@@ -101,7 +100,11 @@ export default function StyledDropzone(props) {
   return (
     <div
       className="container"
-      style={{ minHeight: containerHeight }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+      }}
       title={title}
     >
       <div {...getRootProps({ style })}>
