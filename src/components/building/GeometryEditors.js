@@ -227,7 +227,7 @@ const PositionEditor = ({
           <label htmlFor="position">
             Punto de inserción del elemento:
           </label>
-          <ButtonGroup toggle className="mb-2 btn-block">
+          <ButtonGroup className="mb-2 btn-block">
             <ToggleButton
               type="radio"
               variant="secondary"
@@ -360,8 +360,8 @@ const CoordsTable = ({ poly, setPoly }) => {
         <AddRemovePolyButtonGroup
           poly={poly}
           setPoly={setPoly}
-          selected={selected}
-          setSelected={setSelected}
+          selectedIds={selected}
+          setSelectedIds={setSelected}
         />
         <BootstrapTable
           data={poly}
@@ -401,7 +401,7 @@ const CoordsTable = ({ poly, setPoly }) => {
   );
 };
 
-const AddRemovePolyButtonGroup = ({ poly, setPoly, selected, setSelected }) => {
+const AddRemovePolyButtonGroup = ({ poly, setPoly, selectedIds, setSelectedIds }) => {
   return (
     <ButtonToolbar>
       <ButtonGroup
@@ -416,7 +416,7 @@ const AddRemovePolyButtonGroup = ({ poly, setPoly, selected, setSelected }) => {
             const element = { id: uuidv4(), X: 0.0, Y: 0.0 };
             setPoly([...poly, element]);
             // seleccionamos nuevo elemento recién creado
-            setSelected([element.id]);
+            setSelectedIds([element.id]);
           }}
         >
           <img src={iconplus} alt="Añadir fila" />
@@ -427,7 +427,7 @@ const AddRemovePolyButtonGroup = ({ poly, setPoly, selected, setSelected }) => {
           title="Duplicar filas seleccionadas de la tabla"
           onClick={() => {
             const newids = [];
-            selected.forEach((id) => {
+            selectedIds.forEach((id) => {
               const selectedIndex = poly.findIndex((h) => h.id === id);
               if (selectedIndex !== -1) {
                 const idx = selectedIndex >= 0 ? selectedIndex : 0;
@@ -442,7 +442,7 @@ const AddRemovePolyButtonGroup = ({ poly, setPoly, selected, setSelected }) => {
               }
             });
             // Reseleccionamos lo nuevo
-            setSelected(newids);
+            setSelectedIds(newids);
           }}
         >
           <img src={iconduplicate} alt="Duplicar fila" />
@@ -452,20 +452,20 @@ const AddRemovePolyButtonGroup = ({ poly, setPoly, selected, setSelected }) => {
           size="sm"
           title="Eliminar filas seleccionadas de la tabla"
           onClick={() => {
-            if (selected.length > 0) {
+            if (selectedIds.length > 0) {
               const indices = poly.reduce((acc, cur, idx) => {
-                if (selected.includes(cur.id)) {
+                if (selectedIds.includes(cur.id)) {
                   acc.push(idx);
                 }
                 return acc;
               }, []);
               const minidx = Math.max(0, Math.min(...indices) - 1);
-              const newPoly = poly.filter((h) => !selected.includes(h.id));
+              const newPoly = poly.filter((h) => !selectedIds.includes(h.id));
               // Selecciona el elemento anterior al primero seleccionado salvo que no queden elementos o sea el primero, o nada si no hay elementos
               if (newPoly.length > 0) {
-                setSelected([newPoly[minidx].id]);
+                setSelectedIds([newPoly[minidx].id]);
               } else {
-                setSelected([]);
+                setSelectedIds([]);
               }
               setPoly(newPoly);
             }
@@ -480,7 +480,7 @@ const AddRemovePolyButtonGroup = ({ poly, setPoly, selected, setSelected }) => {
           size="sm"
           title="Seleccionar todas las filas de la tabla"
           onClick={() => {
-            setSelected(poly.map((e) => e.id));
+            setSelectedIds(poly.map((e) => e.id));
           }}
         >
           <img src={iconselectall} alt="Seleccionar todo" />
@@ -490,7 +490,7 @@ const AddRemovePolyButtonGroup = ({ poly, setPoly, selected, setSelected }) => {
           size="sm"
           title="Deseleccionar todas las filas de la tabla"
           onClick={() => {
-            setSelected([]);
+            setSelectedIds([]);
           }}
         >
           <img src={iconselectnone} alt="Deseleccionar todo" />
