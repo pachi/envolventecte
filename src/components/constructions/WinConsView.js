@@ -49,7 +49,6 @@ const WinConsView = () => {
         <Col md="auto">
           <AddRemoveButtonGroup
             elements="wincons"
-            newobj="newWinCons"
             selected={selected}
             setSelected={setSelected}
           />

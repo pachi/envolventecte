@@ -34,7 +34,7 @@ import iconselectnone from "../img/unselect-rows.svg";
 import iconduplicate from "../img/outline-file_copy-24px.svg";
 
 const AddRemoveButtonGroup = observer(
-  ({ elements, newobj, selected, setSelected }) => {
+  ({ elements, selected, setSelected }) => {
     const appstate = useContext(AppState);
     if (
       ![

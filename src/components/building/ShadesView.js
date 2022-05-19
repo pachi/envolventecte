@@ -47,7 +47,6 @@ const ShadesView = observer(() => {
         <Col md="auto">
           <AddRemoveButtonGroup
             elements="shades"
-            newobj="newShade"
             selected={selected}
             setSelected={setSelected}
           />

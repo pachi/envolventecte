@@ -47,7 +47,6 @@ const GlassesView = observer(() => {
         <Col md="auto">
           <AddRemoveButtonGroup
             elements="glasses"
-            newobj="newGlass"
             selected={selected}
             setSelected={setSelected}
           />

@@ -47,7 +47,6 @@ const OpacosView = observer(() => {
         <Col md="auto">
           <AddRemoveButtonGroup
             elements="walls"
-            newobj="newOpaco"
             selected={selected}
             setSelected={setSelected}
           />

@@ -48,7 +48,6 @@ const HuecosView = observer(() => {
         <Col md="auto">
           <AddRemoveButtonGroup
             elements="windows"
-            newobj="newHueco"
             selected={selected}
             setSelected={setSelected}
           />

@@ -47,7 +47,6 @@ const FramesView = observer(() => {
         <Col md="auto">
           <AddRemoveButtonGroup
             elements="frames"
-            newobj="newFrame"
             selected={selected}
             setSelected={setSelected}
           />

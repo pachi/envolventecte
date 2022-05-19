@@ -49,7 +49,6 @@ const PTsView = observer(() => {
         <Col md="auto">
           <AddRemoveButtonGroup
             elements="thermal_bridges"
-            newobj="newPT"
             selected={selected}
             setSelected={setSelected}
           />

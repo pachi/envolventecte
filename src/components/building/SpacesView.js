@@ -47,7 +47,6 @@ const SpacesView = observer(() => {
         <Col md="auto">
           <AddRemoveButtonGroup
             elements="spaces"
-            newobj="newSpace"
             selected={selected}
             setSelected={setSelected}
           />

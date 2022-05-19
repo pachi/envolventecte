@@ -47,7 +47,6 @@ const MaterialsView = observer(() => {
         <Col md="auto">
           <AddRemoveButtonGroup
             elements="materials"
-            newobj="newMaterial"
             selected={selected}
             setSelected={setSelected}
           />
