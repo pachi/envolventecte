@@ -122,6 +122,7 @@ class AppState {
       warnings: computed,
       addElement: action,
       duplicateElements: action,
+      deleteElements: action,
       // TODO: estos dos se podrían llegar a eliminar si cambiamos climas y usamos los del wasm
       climatedata: computed({ requiresReaction: true }),
       climateTotRadJul: computed({ requiresReaction: true }),
@@ -172,6 +173,8 @@ class AppState {
   newMaterial = newMaterial;
   newFrame = newFrame;
   newGlass = newGlass;
+
+  // Acciones --------
 
   // Añade un nuevo elemento del tipo indicado y devuelve su UUID
   addElement(elementType) {
@@ -254,7 +257,37 @@ class AppState {
     return newids;
   }
 
-  // Acciones --------
+  // Elimina los elementos selecccionados del tipo indicado y devuelve el UUID del nuevo elemento seleccionado (o null)
+  deleteElements(elementType, selection) {
+    const container = [
+      "wallcons",
+      "wincons",
+      "materials",
+      "glasses",
+      "frames",
+    ].includes(elementType)
+      ? this.cons[elementType]
+      : this[elementType];
+
+    if (selection.length > 0) {
+      const indices = container.reduce((acc, cur, idx) => {
+        if (selection.includes(cur.id)) {
+          acc.push(idx);
+        }
+        return acc;
+      }, []);
+      const minidx = Math.max(0, Math.min(...indices) - 1);
+      const filtered = container.filter((h) => !selection.includes(h.id));
+      // usa replace: https://mobx.js.org/api.html#observablearray
+      container.replace(filtered);
+      // Selecciona el elemento anterior al primero seleccionado salvo que no queden elementos o sea el primero, o nada si no hay elementos
+      if (filtered.length > 0) {
+        return container[minidx].id;
+      } else {
+        return null;
+      }
+    }
+  }
 
   // Recopila modelo desde el appstate
   getModel() {

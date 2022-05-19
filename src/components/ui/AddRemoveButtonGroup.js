@@ -75,7 +75,7 @@ const AddRemoveButtonGroup = observer(
             size="sm"
             title="Añadir una fila al final de la tabla"
             onClick={() => {
-              const newid = appstate.addElement(elements)
+              const newid = appstate.addElement(elements);
               setSelected([newid]);
             }}
           >
@@ -98,24 +98,8 @@ const AddRemoveButtonGroup = observer(
             title="Eliminar filas seleccionadas de la tabla"
             onClick={() => {
               if (selected.length > 0) {
-                const indices = container.reduce((acc, cur, idx) => {
-                  if (selected.includes(cur.id)) {
-                    acc.push(idx);
-                  }
-                  return acc;
-                }, []);
-                const minidx = Math.max(0, Math.min(...indices) - 1);
-                const filtered = container.filter(
-                  (h) => !selected.includes(h.id)
-                );
-                // usa replace: https://mobx.js.org/api.html#observablearray
-                container.replace(filtered);
-                // Selecciona el elemento anterior al primero seleccionado salvo que no queden elementos o sea el primero, o nada si no hay elementos
-                if (filtered.length > 0) {
-                  setSelected([container[minidx].id]);
-                } else {
-                  setSelected([]);
-                }
+                let newid = appstate.deleteElements(elements, selected);
+                newid !== null ? setSelected([newid]) : setSelected([]);
               }
             }}
           >
