@@ -64,7 +64,7 @@ const LayersNumberFmt = (cell, _row, _rowIndex, _formatExtraData) => {
 
 
 // Tabla de opacos del edificio
-const WallConsTable = ({ selected, setSelected }) => {
+const WallConsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const wallconsPropsMap = appstate.energy_indicators.props.wallcons;
   const walls_Co100 = appstate.energy_indicators.n50_data.walls_c.toFixed(2);
@@ -210,12 +210,12 @@ const WallConsTable = ({ selected, setSelected }) => {
         mode: "checkbox",
         clickToSelect: true,
         clickToEdit: true,
-        selected: selected,
+        selected: selectedIds,
         onSelect: (row, isSelected) => {
           if (isSelected) {
-            setSelected([...selected, row.id]);
+            setSelectedIds([...selectedIds, row.id]);
           } else {
-            setSelected(selected.filter((it) => it !== row.id));
+            setSelectedIds(selectedIds.filter((it) => it !== row.id));
           }
         },
         hideSelectColumn: true,

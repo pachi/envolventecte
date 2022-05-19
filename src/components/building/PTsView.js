@@ -48,15 +48,15 @@ const PTsView = observer(() => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elements="thermal_bridges"
-            selected={selected}
-            setSelected={setSelected}
+            elementType="thermal_bridges"
+            selectedIds={selected}
+            setSelectedIds={setSelected}
           />
         </Col>
       </Row>
       <Row>
         <Col>
-          <PTsTable selected={selected} setSelected={setSelected} />
+          <PTsTable selectedIds={selected} setSelectedIds={setSelected} />
         </Col>
       </Row>
       <Row className="text-info small mt-3">

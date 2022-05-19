@@ -47,15 +47,15 @@ const HuecosView = observer(() => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elements="windows"
-            selected={selected}
-            setSelected={setSelected}
+            elementType="windows"
+            selectedIds={selected}
+            setSelectedIds={setSelected}
           />
         </Col>
       </Row>
       <Row>
         <Col>
-          <HuecosTable selected={selected} setSelected={setSelected} />
+          <HuecosTable selectedIds={selected} setSelectedIds={setSelected} />
         </Col>
       </Row>
       <Row className="text-info small mt-3">

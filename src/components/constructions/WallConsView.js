@@ -46,15 +46,15 @@ const WallConsView = observer(() => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elements="wallcons"
-            selected={selected}
-            setSelected={setSelected}
+            elementType="wallcons"
+            selectedIds={selected}
+            setSelectedIds={setSelected}
           />
         </Col>
       </Row>
       <Row>
         <Col>
-          <WallConsTable selected={selected} setSelected={setSelected} />
+          <WallConsTable selectedIds={selected} setSelectedIds={setSelected} />
         </Col>
       </Row>
     </Col>

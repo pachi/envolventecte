@@ -48,15 +48,15 @@ const WinConsView = () => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elements="wincons"
-            selected={selected}
-            setSelected={setSelected}
+            elementType="wincons"
+            selectedIds={selected}
+            setSelectedIds={setSelected}
           />
         </Col>
       </Row>
       <Row>
         <Col>
-          <WinConsTable selected={selected} setSelected={setSelected} />
+          <WinConsTable selectedIds={selected} setSelectedIds={setSelected} />
         </Col>
       </Row>
     </Col>

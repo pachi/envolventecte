@@ -51,7 +51,7 @@ const WinconsGglwiFmt = (_cell, row, _rowIndex, propsMap) => {
 };
 
 // Tabla de construcciones de huecos del edificio
-const WinConsTable = ({ selected, setSelected }) => {
+const WinConsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const winconsPropsMap = appstate.energy_indicators.props.wincons;
 
@@ -259,12 +259,12 @@ const WinConsTable = ({ selected, setSelected }) => {
         mode: "checkbox",
         clickToSelect: true,
         clickToEdit: true,
-        selected: selected,
+        selected: selectedIds,
         onSelect: (row, isSelected) => {
           if (isSelected) {
-            setSelected([...selected, row.id]);
+            setSelectedIds([...selectedIds, row.id]);
           } else {
-            setSelected(selected.filter((it) => it !== row.id));
+            setSelectedIds(selectedIds.filter((it) => it !== row.id));
           }
         },
         hideSelectColumn: true,

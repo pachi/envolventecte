@@ -46,15 +46,15 @@ const FramesView = observer(() => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elements="frames"
-            selected={selected}
-            setSelected={setSelected}
+            elementType="frames"
+            selectedIds={selected}
+            setSelectedIds={setSelected}
           />
         </Col>
       </Row>
       <Row>
         <Col>
-          <FramesTable selected={selected} setSelected={setSelected} />
+          <FramesTable selectedIds={selected} setSelectedIds={setSelected} />
         </Col>
       </Row>
     </Col>

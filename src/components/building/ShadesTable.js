@@ -32,7 +32,7 @@ import { GeometryOpaquesEditor } from "./GeometryEditors";
 import { OpaqueGeomFmt, OpaqueGeomIconFmt } from "./TableHelpers";
 
 // Tabla de elementos de sombra del edificio
-const ShadesTable = ({ selected, setSelected }) => {
+const ShadesTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const columns = [
     { dataField: "id", isKey: true, hidden: true },
@@ -87,12 +87,12 @@ const ShadesTable = ({ selected, setSelected }) => {
         mode: "checkbox",
         clickToSelect: true,
         clickToEdit: true,
-        selected: selected,
+        selected: selectedIds,
         onSelect: (row, isSelected) => {
           if (isSelected) {
-            setSelected([...selected, row.id]);
+            setSelectedIds([...selectedIds, row.id]);
           } else {
-            setSelected(selected.filter((it) => it !== row.id));
+            setSelectedIds(selectedIds.filter((it) => it !== row.id));
           }
         },
         hideSelectColumn: true,

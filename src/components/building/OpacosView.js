@@ -46,15 +46,15 @@ const OpacosView = observer(() => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elements="walls"
-            selected={selected}
-            setSelected={setSelected}
+            elementType="walls"
+            selectedIds={selected}
+            setSelectedIds={setSelected}
           />
         </Col>
       </Row>
       <Row>
         <Col>
-          <OpacosTable selected={selected} setSelected={setSelected} />
+          <OpacosTable selectedIds={selected} setSelectedIds={setSelected} />
         </Col>
       </Row>
       <Row className="text-info small mt-3">

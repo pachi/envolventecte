@@ -115,17 +115,20 @@ class AppState {
       thermal_bridges: observable,
       cons: observable,
       errors: observable,
-      // Valores calculados
+
+      // Valores calculados (resultan de modificaciones del estado)
       energy_indicators: computed({ requiresReaction: true }),
       zoneslist: computed,
       orientations: computed,
       warnings: computed,
-      addElement: action,
-      duplicateElements: action,
-      deleteElements: action,
       // TODO: estos dos se podrían llegar a eliminar si cambiamos climas y usamos los del wasm
       climatedata: computed({ requiresReaction: true }),
       climateTotRadJul: computed({ requiresReaction: true }),
+
+      // Acciones (modifican el estado)
+      addElement: action,
+      duplicateElements: action,
+      deleteElements: action,
       loadModel: action,
       clearModel: action,
       asJSON: computed,
@@ -162,17 +165,32 @@ class AppState {
     return this.errors.concat(this.energy_indicators.warnings);
   }
 
-  // Constructores --------
-  newHueco = newWindow;
-  newOpaco = newWall;
-  newPT = newTb;
-  newShade = newShade;
-  newSpace = newSpace;
-  newWallCons = newWallcons;
-  newWinCons = newWincons;
-  newMaterial = newMaterial;
-  newFrame = newFrame;
-  newGlass = newGlass;
+  getElements(elementType) {
+    switch (elementType) {
+      case "spaces":
+        return this.spaces;
+      case "walls":
+        return this.walls;
+      case "windows":
+        return this.windows;
+      case "thermal_bridges":
+        return this.thermal_bridges;
+      case "shades":
+        return this.shades;
+      case "wallcons":
+        return this.cons.wallcons;
+      case "wincons":
+        return this.cons.wincons;
+      case "materials":
+        return this.cons.materials;
+      case "glasses":
+        return this.cons.glasses;
+      case "frames":
+        return this.cons.frames;
+      default:
+        return []
+    }
+  }
 
   // Acciones --------
 

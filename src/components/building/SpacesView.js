@@ -46,15 +46,15 @@ const SpacesView = observer(() => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elements="spaces"
-            selected={selected}
-            setSelected={setSelected}
+            elementType="spaces"
+            selectedIds={selected}
+            setSelectedIds={setSelected}
           />
         </Col>
       </Row>
       <Row>
         <Col>
-          <SpacesTable selected={selected} setSelected={setSelected} />
+          <SpacesTable selectedIds={selected} setSelectedIds={setSelected} />
         </Col>
       </Row>
       <Row className="text-info small mt-3">

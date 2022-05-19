@@ -127,7 +127,7 @@ const SpaceVolumeFmt = (_cell, row, _rowIndex, spacePropsMap) => {
 };
 
 // Tabla de espacios del edificio
-const SpacesTable = ({ selected, setSelected }) => {
+const SpacesTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const spacePropsMap = appstate.energy_indicators.props.spaces;
 
@@ -349,12 +349,12 @@ const SpacesTable = ({ selected, setSelected }) => {
         mode: "checkbox",
         clickToSelect: true,
         clickToEdit: true,
-        selected: selected,
+        selected: selectedIds,
         onSelect: (row, isSelected) => {
           if (isSelected) {
-            setSelected([...selected, row.id]);
+            setSelectedIds([...selectedIds, row.id]);
           } else {
-            setSelected(selected.filter((it) => it !== row.id));
+            setSelectedIds(selectedIds.filter((it) => it !== row.id));
           }
         },
         hideSelectColumn: true,

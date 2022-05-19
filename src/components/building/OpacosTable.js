@@ -66,7 +66,7 @@ const WallUFmt = (_cell, row, _rowIndex, wallPropsMap) => {
 };
 
 // Tabla de elementos opacos
-const OpacosTable = ({ selected, setSelected }) => {
+const OpacosTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const wallPropsMap = appstate.energy_indicators.props.walls;
 
@@ -289,12 +289,12 @@ const OpacosTable = ({ selected, setSelected }) => {
           mode: "checkbox",
           clickToSelect: true,
           clickToEdit: true,
-          selected: selected,
+          selected: selectedIds,
           onSelect: (row, isSelected) => {
             if (isSelected) {
-              setSelected([...selected, row.id]);
+              setSelectedIds([...selectedIds, row.id]);
             } else {
-              setSelected(selected.filter((it) => it !== row.id));
+              setSelectedIds(selectedIds.filter((it) => it !== row.id));
             }
           },
           hideSelectColumn: true,

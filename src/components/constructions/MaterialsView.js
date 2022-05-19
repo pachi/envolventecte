@@ -46,15 +46,15 @@ const MaterialsView = observer(() => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elements="materials"
-            selected={selected}
-            setSelected={setSelected}
+            elementType="materials"
+            selectedIds={selected}
+            setSelectedIds={setSelected}
           />
         </Col>
       </Row>
       <Row>
         <Col>
-          <MaterialsTable selected={selected} setSelected={setSelected} />
+          <MaterialsTable selectedIds={selected} setSelectedIds={setSelected} />
         </Col>
       </Row>
     </Col>
