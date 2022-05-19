@@ -53,6 +53,7 @@ import {
   defaultsGlass,
   defaultsFrame,
   newMeta,
+  defaultsTb,
 } from "./defaults";
 
 // import radiationdata from "../zcraddata.json";
@@ -354,7 +355,10 @@ class AppState {
     // Carga datos en el store
     // Asignamos valores por defecto de las propiedades que pueden ser omitidas
     this.meta = meta;
-    this.thermal_bridges = thermal_bridges;
+    this.thermal_bridges = thermal_bridges.map((tb) => ({
+      ...defaultsTb,
+      ...tb,
+    }));
     this.walls = walls.map((w) => ({
       ...defaultsWall,
       ...w,
