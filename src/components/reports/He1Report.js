@@ -46,7 +46,7 @@ const He1Report = () => {
 
   const { K } = K_data;
   const { q_soljul } = q_soljul_data;
-  const { n50, n50_ref } = n50_data;
+  const { n50 } = n50_data;
 
   return (
     <>
@@ -57,10 +57,37 @@ const He1Report = () => {
       </Row>
       <Row>
         <Col md={9}>
-          Proyecto: <i>{name}</i>
+          <big>Proyecto: <i>{name}</i></big>
         </Col>
-        <Col>
+        <Col></Col>
+      </Row>
+      <Row>
+        <Col md={3} title="Zona climática">
           <b>ZC: {climate}</b>
+        </Col>
+        <Col md={3} title="Transmitancia térmica global del edificio [W/m²K]">
+          <b>
+            <i>K</i> = {K.toFixed(2)} <i>W/m²K</i>
+          </b>
+        </Col>
+        <Col md={3} title="Indicador de control solar [kWh/m²·mes]">
+          <b>
+            <i>
+              q<sub>sol;jul</sub>
+            </i>{" "}
+            = {area_ref !== 0 ? q_soljul.toFixed(2) : "-"} <i>kWh/m²/mes</i>
+          </b>
+        </Col>
+        <Col md={3} title="Tasa de renovación de aire a 50 Pa [1/h]">
+          <b>
+            <i>
+              n<sub>50</sub>
+            </i>{" "}
+            = {n50.toFixed(2)}{" "}
+            <i>
+              h<sup>-1</sup>
+            </i>
+          </b>
         </Col>
       </Row>
       <Row>
@@ -87,41 +114,6 @@ const He1Report = () => {
           title="Compacidad de la envolvente térmica (V_tot / A) [m³/m²]"
         >
           V/A = {compacity.toFixed(2)} m³/m²
-        </Col>
-      </Row>
-      <Row>
-        <Col md={3} title="Transmitancia térmica global del edificio [W/m²K]">
-          <b>
-            <i>K</i> = {K.toFixed(2)} <i>W/m²K</i>
-          </b>
-        </Col>
-        <Col md={3} title="Indicador de control solar [kWh/m²·mes]">
-          <b>
-            <i>
-              q<sub>sol;jul</sub>
-            </i>{" "}
-            = {area_ref !== 0 ? q_soljul.toFixed(2) : "-"} <i>kWh/m²/mes</i>
-          </b>
-        </Col>
-        <Col md={3} title="Tasa de renovación de aire a 50 Pa [1/h]">
-          <b>
-            <i>
-              n<sub>50</sub>
-            </i>{" "}
-            = {n50.toFixed(2)}{" "}
-            <i>
-              h<sup>-1</sup>
-            </i>
-          </b>
-        </Col>
-        <Col md={3} title="Tasa de renovación de aire teórica a 50 Pa [1/h]">
-          <i>
-            n<sub>50,ref</sub>
-          </i>{" "}
-          = {n50_ref.toFixed(2)}{" "}
-          <i>
-            h<sup>-1</sup>
-          </i>
         </Col>
       </Row>
       <hr />
