@@ -26,6 +26,7 @@ import { Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
+import { WINDOW } from "../../stores/types";
 
 import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
 import HuecosTable from "./HuecosTable";
@@ -47,7 +48,7 @@ const HuecosView = observer(() => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elementType="windows"
+            elementType={WINDOW}
             selectedIds={selected}
             setSelectedIds={setSelected}
           />

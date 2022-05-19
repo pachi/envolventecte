@@ -26,6 +26,7 @@ import { Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
+import { FRAME } from "../../stores/types";
 
 import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
 import FramesTable from "./FramesTable";
@@ -41,12 +42,14 @@ const FramesView = observer(() => {
         <Col>
           <h4>
             Vidrios{" "}
-            <small className="text-muted">({appstate.cons.frames.length})</small>
+            <small className="text-muted">
+              ({appstate.cons.frames.length})
+            </small>
           </h4>
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elementType="frames"
+            elementType={FRAME}
             selectedIds={selected}
             setSelectedIds={setSelected}
           />

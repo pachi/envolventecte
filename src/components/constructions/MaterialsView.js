@@ -26,6 +26,7 @@ import { Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
+import { MATERIAL } from "../../stores/types";
 
 import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
 import MaterialsTable from "./MaterialsTable";
@@ -41,12 +42,14 @@ const MaterialsView = observer(() => {
         <Col>
           <h4>
             Materiales de opacos{" "}
-            <small className="text-muted">({appstate.cons.materials.length})</small>
+            <small className="text-muted">
+              ({appstate.cons.materials.length})
+            </small>
           </h4>
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elementType="materials"
+            elementType={MATERIAL}
             selectedIds={selected}
             setSelectedIds={setSelected}
           />

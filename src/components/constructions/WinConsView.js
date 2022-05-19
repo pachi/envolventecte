@@ -26,6 +26,7 @@ import { Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
+import { WINCONS } from "../../stores/types";
 
 import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
 import WinConsTable from "./WinConsTable";
@@ -48,7 +49,7 @@ const WinConsView = () => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elementType="wincons"
+            elementType={WINCONS}
             selectedIds={selected}
             setSelectedIds={setSelected}
           />

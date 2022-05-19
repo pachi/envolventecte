@@ -26,6 +26,7 @@ import { Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
+import { WALL } from "../../stores/types";
 
 import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
 import OpacosTable from "./OpacosTable";
@@ -46,7 +47,7 @@ const OpacosView = observer(() => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elementType="walls"
+            elementType={WALL}
             selectedIds={selected}
             setSelectedIds={setSelected}
           />

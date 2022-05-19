@@ -29,6 +29,7 @@ import AppState from "../../stores/AppState";
 
 import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
 import SpacesTable from "./SpacesTable";
+import { SPACE } from "../../stores/types";
 
 // Vista de espacios del edificio
 const SpacesView = observer(() => {
@@ -46,7 +47,7 @@ const SpacesView = observer(() => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elementType="spaces"
+            elementType={SPACE}
             selectedIds={selected}
             setSelectedIds={setSelected}
           />

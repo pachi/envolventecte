@@ -26,6 +26,7 @@ import { Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
+import { THERMAL_BRIDGE } from "../../stores/types";
 
 import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
 import PTsTable from "./PTsTable";
@@ -48,7 +49,7 @@ const PTsView = observer(() => {
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elementType="thermal_bridges"
+            elementType={THERMAL_BRIDGE}
             selectedIds={selected}
             setSelectedIds={setSelected}
           />

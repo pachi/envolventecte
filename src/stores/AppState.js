@@ -58,6 +58,7 @@ import {
 // import radiationdata from "../zcraddata.json";
 import example from "./example.json";
 import { uuidv4 } from "../utils";
+import * as types from "./types";
 
 // DEBUG:
 /* lint import/no-webpack-loader-syntax: off */
@@ -167,29 +168,42 @@ class AppState {
 
   getElements(elementType) {
     switch (elementType) {
-      case "spaces":
+      case types.SPACE:
         return this.spaces;
-      case "walls":
+      case types.WALL:
         return this.walls;
-      case "windows":
+      case types.WINDOW:
         return this.windows;
-      case "thermal_bridges":
+      case types.THERMAL_BRIDGE:
         return this.thermal_bridges;
-      case "shades":
+      case types.SHADE:
         return this.shades;
-      case "wallcons":
+      case types.WALLCONS:
         return this.cons.wallcons;
-      case "wincons":
+      case types.WINCONS:
         return this.cons.wincons;
-      case "materials":
+      case types.MATERIAL:
         return this.cons.materials;
-      case "glasses":
+      case types.GLASS:
         return this.cons.glasses;
-      case "frames":
+      case types.FRAME:
         return this.cons.frames;
       default:
-        return []
+        return [];
     }
+  }
+
+  getIdNameMap(elementType) {
+    const container = types.is_cons(elementType)
+      ? this.cons[elementType]
+      : this[elementType];
+    const idNameMap = new Map();
+    container.map((s) =>
+      s.id != EMPTY_ID
+        ? (idNameMap[s.id] = s.name)
+        : (idNameMap[EMPTY_ID] = "-")
+    );
+    return idNameMap;
   }
 
   // Acciones --------
@@ -198,43 +212,43 @@ class AppState {
   addElement(elementType) {
     let el;
     switch (elementType) {
-      case "spaces":
+      case types.SPACE:
         el = newSpace();
         this.spaces.push(el);
         break;
-      case "walls":
+      case types.WALL:
         el = newWall();
         this.walls.push(el);
         break;
-      case "windows":
+      case types.WINDOW:
         el = newWindow();
         this.windows.push(el);
         break;
-      case "thermal_bridges":
+      case types.THERMAL_BRIDGE:
         el = newTb();
         this.thermal_bridges.push(el);
         break;
-      case "shades":
+      case types.SHADE:
         el = newShade();
         this.shades.push(el);
         break;
-      case "wallcons":
+      case types.WALLCONS:
         el = newWallcons();
         this.cons.wallcons.push(el);
         break;
-      case "wincons":
+      case types.WINCONS:
         el = newWincons();
         this.cons.wincons.push(el);
         break;
-      case "materials":
+      case types.MATERIAL:
         el = newMaterial();
         this.cons.materials.push(el);
         break;
-      case "glasses":
+      case types.GLASS:
         el = newGlass();
         this.cons.glasses.push(el);
         break;
-      case "frames":
+      case types.FRAME:
         el = newFrame();
         this.cons.frames.push(el);
         break;
@@ -246,13 +260,7 @@ class AppState {
 
   // Duplica elementos seleccionados y devuelve UUIDs de los elementos generados
   duplicateElements(elementType, selection) {
-    const container = [
-      "wallcons",
-      "wincons",
-      "materials",
-      "glasses",
-      "frames",
-    ].includes(elementType)
+    const container = types.is_cons(elementType)
       ? this.cons[elementType]
       : this[elementType];
 
@@ -277,13 +285,7 @@ class AppState {
 
   // Elimina los elementos selecccionados del tipo indicado y devuelve el UUID del nuevo elemento seleccionado (o null)
   deleteElements(elementType, selection) {
-    const container = [
-      "wallcons",
-      "wincons",
-      "materials",
-      "glasses",
-      "frames",
-    ].includes(elementType)
+    const container = types.is_cons(elementType)
       ? this.cons[elementType]
       : this[elementType];
 

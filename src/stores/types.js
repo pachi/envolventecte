@@ -21,45 +21,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useState, useContext } from "react";
-import { Col, Row } from "react-bootstrap";
-import { observer } from "mobx-react";
-
-import AppState from "../../stores/AppState";
-
-import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
-import ShadesTable from "./ShadesTable";
-import { SHADE } from "../../stores/types";
-
-// Vista de elementos de sombra del edificio
-const ShadesView = observer(() => {
-  const appstate = useContext(AppState);
-  const [selected, setSelected] = useState([]);
-
-  return (
-    <Col>
-      <Row>
-        <Col>
-          <h4>
-            Elementos de sombra{" "}
-            <small className="text-muted">({appstate.shades.length})</small>
-          </h4>
-        </Col>
-        <Col md="auto">
-          <AddRemoveButtonGroup
-            elementType={SHADE}
-            selectedIds={selected}
-            setSelectedIds={setSelected}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <ShadesTable selectedIds={selected} setSelectedIds={setSelected} />
-        </Col>
-      </Row>
-    </Col>
-  );
-});
-
-export default ShadesView;
+export const SPACE = "spaces";
+export const WALL = "walls";
+export const WINDOW = "windows";
+export const THERMAL_BRIDGE = "thermal_bridges";
+export const SHADE = "shades";
+export const WALLCONS = "wallcons";
+export const WINCONS = "wincons";
+export const MATERIAL = "materials";
+export const GLASS = "glasses";
+export const FRAME = "frames";
+export const is_cons = (elementType) =>
+  [WALLCONS, WINCONS, MATERIAL, GLASS, FRAME].includes(elementType);

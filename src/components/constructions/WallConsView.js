@@ -26,6 +26,7 @@ import { Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
+import { WALLCONS } from "../../stores/types";
 
 import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
 import WallConsTable from "./WallConsTable";
@@ -41,12 +42,14 @@ const WallConsView = observer(() => {
         <Col>
           <h4>
             Construcciones de Opacos{" "}
-            <small className="text-muted">({appstate.cons.wallcons.length})</small>
+            <small className="text-muted">
+              ({appstate.cons.wallcons.length})
+            </small>
           </h4>
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elementType="wallcons"
+            elementType={WALLCONS}
             selectedIds={selected}
             setSelectedIds={setSelected}
           />

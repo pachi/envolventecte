@@ -26,6 +26,7 @@ import { Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
+import { GLASS } from "../../stores/types";
 
 import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
 import GlassesTable from "./GlassesTable";
@@ -41,12 +42,14 @@ const GlassesView = observer(() => {
         <Col>
           <h4>
             Vidrios{" "}
-            <small className="text-muted">({appstate.cons.glasses.length})</small>
+            <small className="text-muted">
+              ({appstate.cons.glasses.length})
+            </small>
           </h4>
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elementType="glasses"
+            elementType={GLASS}
             selectedIds={selected}
             setSelectedIds={setSelected}
           />
