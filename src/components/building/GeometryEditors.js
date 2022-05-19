@@ -357,7 +357,7 @@ const CoordsTable = ({ poly, setPoly }) => {
     <Row id="ctable">
       <Col>
         <label htmlFor="ctable">Polígono:</label>
-        <AddRemoveButtonGroup
+        <AddRemovePolyButtonGroup
           poly={poly}
           setPoly={setPoly}
           selected={selected}
@@ -401,7 +401,7 @@ const CoordsTable = ({ poly, setPoly }) => {
   );
 };
 
-const AddRemoveButtonGroup = ({ poly, setPoly, selected, setSelected }) => {
+const AddRemovePolyButtonGroup = ({ poly, setPoly, selected, setSelected }) => {
   return (
     <ButtonToolbar>
       <ButtonGroup
