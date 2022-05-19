@@ -34,6 +34,7 @@ import {
   WindowGeomIconFmt,
 } from "./TableHelpers";
 import { GeometryWindowEditor } from "./GeometryEditors";
+import { WINCONS } from "../../stores/types";
 
 // Formato de área de huecos (id -> area)
 const WinAreaFmt = (_cell, row, _rowIndex, winProps) => {
@@ -81,6 +82,7 @@ const WallsFmt = (cell, _row, _rowIndex, wallMap) => (
 const HuecosTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const winPropsMap = appstate.energy_indicators.props.windows;
+  const winconsMap = appstate.getIdNameMap(WINCONS);
 
   // Lista de IDs con errores
   const errors = appstate.warnings;
@@ -98,16 +100,12 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
     ])
   );
 
-  // Formato y opciones de construcciones de huecos
-  const winconsMap = new Map();
-  appstate.cons.wincons.map((s) => (winconsMap[s.id] = s.name));
-
+  // Opciones de construcciones de huecos
   const WinconsOpts = Object.keys(winconsMap).map((k) => {
     return { value: k, label: winconsMap[k] };
   });
 
-  // Formato y opciones de opacos
-
+  // Opciones de opacos
   const WallsOpts = Object.keys(wallData).map((k) => {
     return { value: k, label: wallData[k].name };
   });

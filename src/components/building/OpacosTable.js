@@ -37,12 +37,16 @@ import {
 import { GeometryOpaquesEditor } from "./GeometryEditors";
 import { OpaqueGeomIconFmt } from "./TableHelpers";
 import { OrientacionesSprite } from "../climate/IconsOrientaciones";
+import { SPACE, WALLCONS } from "../../stores/types";
 
-const EMPTY_ID = "00000000-0000-0000-0000-000000000000";
+const WallconsFmt = (cell, _row, _rowIndex, wallconsMap) => (
+  <span>{wallconsMap[cell]}</span>
+);
 
 /// Formato de espacio (id -> nombre espacio)
-const SpaceFmt = (cell, _row, _rowIndex, spaceMap) =>
-  cell === EMPTY_ID ? <span>-</span> : <span>{spaceMap[cell]}</span>;
+const SpaceFmt = (cell, _row, _rowIndex, spaceMap) => (
+  <span>{spaceMap[cell]}</span>
+);
 
 /// Formato de area de opaco (id -> area)
 const WallAreaFmt = (_cell, row, _rowIndex, wallPropsMap) => {
@@ -69,6 +73,8 @@ const WallUFmt = (_cell, row, _rowIndex, wallPropsMap) => {
 const OpacosTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const wallPropsMap = appstate.energy_indicators.props.walls;
+  const wallconsMap = appstate.getIdNameMap(WALLCONS);
+  const spaceMap = appstate.getIdNameMap(SPACE);
 
   // Lista de IDs con errores
   const errors = appstate.warnings;
@@ -79,23 +85,12 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
     .filter((e) => e.level === "DANGER")
     .map((e) => e.id);
 
-  // Formato y opciones de construcciones de opacos
-  const wallconsMap = new Map();
-  appstate.cons.wallcons.map((s) =>
-    s.id != EMPTY_ID
-      ? (wallconsMap[s.id] = s.name)
-      : (wallconsMap[EMPTY_ID] = "-")
-  );
-  const WallconsFmt = (cell, _row) => <span>{wallconsMap[cell]}</span>;
+  // Opciones de construcciones de opacos
   const WallconsOpts = Object.keys(wallconsMap).map((k) => {
     return { value: k, label: wallconsMap[k] };
   });
 
-  // Formato y opciones de espacios y espacios adyacentes
-  const spaceMap = new Map();
-  spaceMap[""] = "";
-  appstate.spaces.map((s) => (spaceMap[s.id] = s.name));
-
+  // Opciones de espacios y espacios adyacentes
   const SpaceOpts = Object.keys(spaceMap).map((k) => {
     return { value: k, label: spaceMap[k] };
   });
@@ -150,6 +145,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       align: "center",
       headerStyle: () => ({ width: "20%" }),
       formatter: WallconsFmt,
+      formatExtraData: wallconsMap,
       headerTitle: () => "Construcción del opaco",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",

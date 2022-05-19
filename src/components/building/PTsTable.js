@@ -34,6 +34,8 @@ import { Float2DigitsFmt, ThermalBridgeTypesFmt, ThermalBridgeTypesOpts, getFloa
 // Tabla de puentes térmicos del edificio
 const PTsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
+
+  console.log(appstate.thermal_bridges);
   const columns = [
     { dataField: "id", isKey: true, hidden: true },
     {
@@ -53,7 +55,7 @@ const PTsTable = ({ selectedIds, setSelectedIds }) => {
       title: (_cell, row) => `Puente térmico id: ${row.id}`,
     },
     {
-      dataField: "L",
+      dataField: "l",
       formatter: Float2DigitsFmt,
       text: "Longitud",
       align: "center",

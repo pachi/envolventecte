@@ -29,6 +29,13 @@ import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 import { Float2DigitsFmt, getFloatOrOld } from "../building/TableHelpers";
+import { FRAME, GLASS } from "../../stores/types";
+
+// Formato de vidrio
+const GlassFmt = (cell, _row, _rowIndex, glassMap) => <span>{glassMap[cell]}</span>;
+
+// Formato de marco
+const FrameFmt = (cell, _row, _rowIndex, frameMap) => <span>{frameMap[cell]}</span>;
 
 /// Formato de U de hueco (id -> U)
 const WinconsUFmt = (_cell, row, _rowIndex, propsMap) => {
@@ -54,18 +61,14 @@ const WinconsGglwiFmt = (_cell, row, _rowIndex, propsMap) => {
 const WinConsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const winconsPropsMap = appstate.energy_indicators.props.wincons;
+  const glassMap = appstate.getIdNameMap(GLASS);
+  const frameMap = appstate.getIdNameMap(FRAME);
 
-  // Formato y opciones de vidrios y marcos
-  const glassMap = new Map();
-  appstate.cons.glasses.map((s) => (glassMap[s.id] = s.name));
-  const GlassFmt = (cell, _row) => <span>{glassMap[cell]}</span>;
+  
+  // Opciones de vidrios y marcos
   const GlassOpts = Object.keys(glassMap).map((k) => {
     return { value: k, label: glassMap[k] };
   });
-
-  const frameMap = new Map();
-  appstate.cons.frames.map((s) => (frameMap[s.id] = s.name));
-  const FrameFmt = (cell, _row) => <span>{frameMap[cell]}</span>;
   const FrameOpts = Object.keys(frameMap).map((k) => {
     return { value: k, label: frameMap[k] };
   });
@@ -91,6 +94,7 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       align: "center",
       headerStyle: () => ({ width: "20%" }),
       formatter: GlassFmt,
+      formatExtraData: glassMap,
       headerTitle: () => "Tipo de vidrio del hueco",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
@@ -105,6 +109,7 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       align: "center",
       headerStyle: () => ({ width: "20%" }),
       formatter: FrameFmt,
+      formatExtraData: frameMap,
       headerTitle: () => "Tipo de marco del hueco",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
