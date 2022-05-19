@@ -32,7 +32,6 @@ import iconless from "../img/baseline-remove-24px.svg";
 import iconselectall from "../img/select-rows.svg";
 import iconselectnone from "../img/unselect-rows.svg";
 import iconduplicate from "../img/outline-file_copy-24px.svg";
-import { uuidv4 } from "../../utils";
 
 const AddRemoveButtonGroup = observer(
   ({ elements, newobj, selected, setSelected }) => {
@@ -87,23 +86,7 @@ const AddRemoveButtonGroup = observer(
             size="sm"
             title="Duplicar filas seleccionadas de la tabla"
             onClick={() => {
-              const newids = [];
-              selected.forEach((id) => {
-                const selectedIndex = container.findIndex((h) => h.id === id);
-                if (selectedIndex !== -1) {
-                  const idx = selectedIndex >= 0 ? selectedIndex : 0;
-                  const selectedObj = container[idx];
-                  const newid = uuidv4();
-                  const dupObj = {
-                    ...selectedObj,
-                    name: selectedObj.name + " (dup.)",
-                    id: newid,
-                  };
-                  newids.push(newid);
-                  container.splice(idx + 1, 0, dupObj);
-                }
-              });
-              // Reseleccionamos lo nuevo
+              const newids = appstate.duplicateElements(elements, selected);
               setSelected(newids);
             }}
           >

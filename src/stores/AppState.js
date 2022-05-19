@@ -57,6 +57,7 @@ import {
 
 // import radiationdata from "../zcraddata.json";
 import example from "./example.json";
+import { uuidv4 } from "../utils";
 
 // DEBUG:
 /* lint import/no-webpack-loader-syntax: off */
@@ -120,6 +121,7 @@ class AppState {
       orientations: computed,
       warnings: computed,
       addElement: action,
+      duplicateElements: action,
       // TODO: estos dos se podrían llegar a eliminar si cambiamos climas y usamos los del wasm
       climatedata: computed({ requiresReaction: true }),
       climateTotRadJul: computed({ requiresReaction: true }),
@@ -171,6 +173,7 @@ class AppState {
   newFrame = newFrame;
   newGlass = newGlass;
 
+  // Añade un nuevo elemento del tipo indicado y devuelve su UUID
   addElement(elementType) {
     let el;
     switch (elementType) {
@@ -218,6 +221,37 @@ class AppState {
         break;
     }
     return el.id || EMPTY_ID;
+  }
+
+  // Duplica elementos seleccionados y devuelve UUIDs de los elementos generados
+  duplicateElements(elementType, selection) {
+    const container = [
+      "wallcons",
+      "wincons",
+      "materials",
+      "glasses",
+      "frames",
+    ].includes(elementType)
+      ? this.cons[elementType]
+      : this[elementType];
+
+    const newids = [];
+    selection.forEach((id) => {
+      const selectedIndex = container.findIndex((h) => h.id === id);
+      if (selectedIndex !== -1) {
+        const idx = selectedIndex >= 0 ? selectedIndex : 0;
+        const selectedObj = container[idx];
+        const newid = uuidv4();
+        const dupObj = {
+          ...selectedObj,
+          name: selectedObj.name + " (dup.)",
+          id: newid,
+        };
+        newids.push(newid);
+        container.splice(idx + 1, 0, dupObj);
+      }
+    });
+    return newids;
   }
 
   // Acciones --------
