@@ -4,6 +4,7 @@
 
 # Mejoras
 
+- instalar con npm install --legacy-peer-deps
 - Elimina newWall, etc y generar acciones para crear, duplicar y eliminar objetos
 - Migrar a AG Grid https://www.ag-grid.com/javascript-data-grid/component-cell-editor/ ?
 - Añadir informe de mediciones
