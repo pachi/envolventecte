@@ -5,21 +5,16 @@
 # Mejoras
 
 - instalar con npm install --legacy-peer-deps
-- Elimina newWall, etc y generar acciones para crear, duplicar y eliminar objetos
 - Migrar a AG Grid https://www.ag-grid.com/javascript-data-grid/component-cell-editor/ ?
-- Añadir informe de mediciones
+- Pestaña de informes:
+    - Mediciones (superficies, pesos y volúmenes)
 - Poner en gris materiales, vidrios, marcos y constucciones de opacos y huecos no usadas
 - Botón para eliminar elementos no usados
-- Edición de construcciones de opacos (capas)
-- Pestaña de informes:
-    - Mediciones (superficies, pesos y volúmenes) y eliminar funcionalidad de agrupación de elementos
-- Mover Datos generales a pestaña propia "Proyecto"
+- Editor de capas en construcciones de opacos
 - Nuevo tipo de construcciones en  groundCons para aislamiento perimetral de soleras?
 - Introducir overrides de huecos y muros...
-- En capas de constucciones de opacos, mostrar imagen de capas con grosores relativos
+- En capas de construcciones de opacos, mostrar imagen de capas con grosores relativos
   y color según propiedades (lambda/resist y densidad?)
-- Editor de capas en construcciones de opacos
-
 - Añadir en editor de geometría una imagen del polígono (hacer versión en SVG).
 - Añadir valores de referencia HE nuevos y existentes, apéndice E, etc a gráficas
 - Mostrar tooltip en los elementos con avisos
@@ -37,8 +32,8 @@
 - Estimación de longitudes de PTs
 - Definición de lamas en huecos
 - Elementos: calcular acristalamientos con sombras móviles usando directamente parámetros U_gl, g_gl_n, tau_e_B y ro_e_B
+- Elementos: calcular R_u de espacios acondicionados adyacentes y bajocubierta s/ UNE-EN ISO 8996=2021
 - Elementos: añadir nueva construcción de hueco a partir de pestaña de elementos
-- Elementos: Construcciones de opacos definidas por capas + editor de capas
 - Gráfica de radiación y fshwi por orientaciones en clima
 - Dibujar trayectorias solares en el espacio, para algunos meses y poder mostrar u ocultar.
     - https://drajmarsh.bitbucket.io/sunpath3d.html
