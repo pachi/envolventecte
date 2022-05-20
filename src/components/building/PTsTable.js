@@ -35,7 +35,6 @@ import { Float2DigitsFmt, ThermalBridgeTypesFmt, ThermalBridgeTypesOpts, getFloa
 const PTsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
 
-  console.log(appstate.thermal_bridges);
   const columns = [
     { dataField: "id", isKey: true, hidden: true },
     {
