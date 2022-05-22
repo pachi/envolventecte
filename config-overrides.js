@@ -6,6 +6,9 @@ const wasmExtensionRegExp = /\.wasm$/;
 module.exports = function override(config, _env) {
   // Make file-loader ignore WASM files
   config.resolve.extensions.push(".wasm");
+  // Add experimental support
+  // console.log(config);
+  // config.experiments = { syncWebAssembly: true };
 
   config.module.rules.forEach((rule) => {
     (rule.oneOf || []).forEach((oneOf) => {
