@@ -77,7 +77,7 @@ configure({
 
 // Valores de radiación
 const MONTHLYRADIATIONDATA = get_monthly_radiation_data();
-const EMPTY_ID = "00000000-0000-0000-0000-000000000000";
+export const EMPTY_ID = "00000000-0000-0000-0000-000000000000";
 
 class AppState {
   // Datos climáticos --------
