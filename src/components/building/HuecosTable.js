@@ -30,11 +30,12 @@ import { observer } from "mobx-react";
 import AppState from "../../stores/AppState";
 import {
   getFloatOrOld,
+  NameFromIdFmt,
   WindowGeomFmt,
   WindowGeomIconFmt,
 } from "./TableHelpers";
 import { GeometryWindowEditor } from "./GeometryEditors";
-import { WINCONS } from "../../stores/types";
+import { WINCONS, WALL } from "../../stores/types";
 
 // Formato de área de huecos (id -> area)
 const WinAreaFmt = (_cell, row, _rowIndex, winProps) => {
@@ -68,21 +69,14 @@ const WindowUFmt = (_cell, row, _rowIndex, winProps) => {
   return <span>{p.toFixed(2)}</span>;
 };
 
-/// Construcciones de huecos (id -> nombre wincons)
-const WinconsFmt = (cell, _row, _rowIndex, winconsMap) => (
-  <span>{winconsMap[cell]}</span>
-);
-
-// Muro del hueco (id(muro) -> nombre_muro)
-const WallsFmt = (cell, _row, _rowIndex, wallMap) => (
-  <span>{wallMap[cell]?.name}</span>
-);
-
 // Tabla de huecos del edificio
 const HuecosTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const winPropsMap = appstate.energy_indicators.props.windows;
   const winconsMap = appstate.getIdNameMap(WINCONS);
+  const wallsMap = appstate.getIdNameMap(WALL);
+  const winconsOpts = appstate.getElementOptions(WINCONS);
+  const wallsOpts = appstate.getElementOptions(WALL);
 
   // Lista de IDs con errores
   const errors = appstate.warnings;
@@ -99,16 +93,6 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
       { azimuth: w.geometry.azimuth, tilt: w.geometry.tilt, name: w.name },
     ])
   );
-
-  // Opciones de construcciones de huecos
-  const WinconsOpts = Object.keys(winconsMap).map((k) => {
-    return { value: k, label: winconsMap[k] };
-  });
-
-  // Opciones de opacos
-  const WallsOpts = Object.keys(wallData).map((k) => {
-    return { value: k, label: wallData[k].name };
-  });
 
   const columns = [
     { dataField: "id", isKey: true, hidden: true, text: "ID" },
@@ -132,14 +116,14 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
       text: "Construcción",
       align: "center",
       headerStyle: () => ({ width: "20%" }),
-      formatter: WinconsFmt,
+      formatter: NameFromIdFmt,
       formatExtraData: winconsMap,
       headerTitle: () => "Construcción del hueco",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       editor: {
         type: Type.SELECT,
-        options: WinconsOpts,
+        options: winconsOpts,
       },
     },
     {
@@ -149,10 +133,10 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
       headerStyle: () => ({ width: "20%" }),
       editor: {
         type: Type.SELECT,
-        options: WallsOpts,
+        options: wallsOpts,
       },
-      formatter: WallsFmt,
-      formatExtraData: wallData,
+      formatter: NameFromIdFmt,
+      formatExtraData: wallsMap,
       headerTitle: () => "Opaco al que pertenece el hueco",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",

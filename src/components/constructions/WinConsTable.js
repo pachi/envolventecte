@@ -28,14 +28,8 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { Float2DigitsFmt, getFloatOrOld } from "../building/TableHelpers";
+import { Float2DigitsFmt, getFloatOrOld, NameFromIdFmt } from "../building/TableHelpers";
 import { FRAME, GLASS } from "../../stores/types";
-
-// Formato de vidrio
-const GlassFmt = (cell, _row, _rowIndex, glassMap) => <span>{glassMap[cell]}</span>;
-
-// Formato de marco
-const FrameFmt = (cell, _row, _rowIndex, frameMap) => <span>{frameMap[cell]}</span>;
 
 /// Formato de U de hueco (id -> U)
 const WinconsUFmt = (_cell, row, _rowIndex, propsMap) => {
@@ -63,15 +57,8 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
   const winconsPropsMap = appstate.energy_indicators.props.wincons;
   const glassMap = appstate.getIdNameMap(GLASS);
   const frameMap = appstate.getIdNameMap(FRAME);
-
-  
-  // Opciones de vidrios y marcos
-  const GlassOpts = Object.keys(glassMap).map((k) => {
-    return { value: k, label: glassMap[k] };
-  });
-  const FrameOpts = Object.keys(frameMap).map((k) => {
-    return { value: k, label: frameMap[k] };
-  });
+  const glassOpts = appstate.getElementOptions(GLASS);
+  const frameOpts = appstate.getElementOptions(FRAME);
 
   const columns = [
     { dataField: "id", isKey: true, hidden: true },
@@ -89,11 +76,11 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       text: "Vidrio",
       editor: {
         type: Type.SELECT,
-        options: GlassOpts,
+        options: glassOpts,
       },
       align: "center",
       headerStyle: () => ({ width: "20%" }),
-      formatter: GlassFmt,
+      formatter: NameFromIdFmt,
       formatExtraData: glassMap,
       headerTitle: () => "Tipo de vidrio del hueco",
       headerClasses: "text-light bg-secondary",
@@ -104,11 +91,11 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       text: "Marco",
       editor: {
         type: Type.SELECT,
-        options: FrameOpts,
+        options: frameOpts,
       },
       align: "center",
       headerStyle: () => ({ width: "20%" }),
-      formatter: FrameFmt,
+      formatter: NameFromIdFmt,
       formatExtraData: frameMap,
       headerTitle: () => "Tipo de marco del hueco",
       headerClasses: "text-light bg-secondary",

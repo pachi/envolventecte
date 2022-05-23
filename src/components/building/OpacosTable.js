@@ -35,18 +35,9 @@ import {
   OpaqueGeomFmt,
 } from "./TableHelpers";
 import { GeometryOpaquesEditor } from "./GeometryEditors";
-import { OpaqueGeomIconFmt } from "./TableHelpers";
+import { OpaqueGeomIconFmt, NameFromIdFmt } from "./TableHelpers";
 import { OrientacionesSprite } from "../climate/IconsOrientaciones";
 import { SPACE, WALLCONS } from "../../stores/types";
-
-const WallconsFmt = (cell, _row, _rowIndex, wallconsMap) => (
-  <span>{wallconsMap[cell]}</span>
-);
-
-/// Formato de espacio (id -> nombre espacio)
-const SpaceFmt = (cell, _row, _rowIndex, spaceMap) => (
-  <span>{spaceMap[cell]}</span>
-);
 
 /// Formato de area de opaco (id -> area)
 const WallAreaFmt = (_cell, row, _rowIndex, wallPropsMap) => {
@@ -75,6 +66,8 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
   const wallPropsMap = appstate.energy_indicators.props.walls;
   const wallconsMap = appstate.getIdNameMap(WALLCONS);
   const spaceMap = appstate.getIdNameMap(SPACE);
+  const wallconsOpts = appstate.getElementOptions(WALLCONS);
+  const spaceOpts = appstate.getElementOptions(SPACE);
 
   // Lista de IDs con errores
   const errors = appstate.warnings;
@@ -84,16 +77,6 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
   const error_ids_danger = errors
     .filter((e) => e.level === "DANGER")
     .map((e) => e.id);
-
-  // Opciones de construcciones de opacos
-  const WallconsOpts = Object.keys(wallconsMap).map((k) => {
-    return { value: k, label: wallconsMap[k] };
-  });
-
-  // Opciones de espacios y espacios adyacentes
-  const SpaceOpts = Object.keys(spaceMap).map((k) => {
-    return { value: k, label: spaceMap[k] };
-  });
 
   const columns = [
     { dataField: "id", isKey: true, hidden: true, text: "ID" },
@@ -140,11 +123,11 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       text: "Construcción",
       editor: {
         type: Type.SELECT,
-        options: WallconsOpts,
+        options: wallconsOpts,
       },
       align: "center",
       headerStyle: () => ({ width: "20%" }),
-      formatter: WallconsFmt,
+      formatter: NameFromIdFmt,
       formatExtraData: wallconsMap,
       headerTitle: () => "Construcción del opaco",
       headerClasses: "text-light bg-secondary",
@@ -155,10 +138,10 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       text: "Espacio",
       editor: {
         type: Type.SELECT,
-        options: SpaceOpts,
+        options: spaceOpts,
       },
       align: "center",
-      formatter: SpaceFmt,
+      formatter: NameFromIdFmt,
       formatExtraData: spaceMap,
       headerTitle: () => "Espacio al que pertenece el elemento opaco",
       headerClasses: "text-light bg-secondary",
@@ -172,10 +155,10 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       },
       editor: {
         type: Type.SELECT,
-        options: SpaceOpts,
+        options: spaceOpts,
       },
       align: "center",
-      formatter: SpaceFmt,
+      formatter: NameFromIdFmt,
       formatExtraData: spaceMap,
       headerTitle: () =>
         "Espacio adyacente con el que comunica el elemento opaco, cuando este es un elemento interior",
