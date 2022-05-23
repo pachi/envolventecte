@@ -53,46 +53,67 @@ const WallConsResistanceFmt = (_cell, row, _rowIndex, wallconsPropsMap) => {
   return <span>{p.toFixed(2)}</span>;
 };
 
-// Selecciona bloque de color según material
-// Combinar conductividad con densidad según
+// Selecciona color según propiedades del material
+// Combinar conductividad con densidad para mejorar heurística según
 // https://www.codigotecnico.org/pdf/Programas/CEC/CAT-EC-v06.3_marzo_10.pdf
-const getMatColorBlock = (mat, e) => {
-  const lambda = mat.conductivity || e / mat.resistance || 0;
-  if (lambda < 0.1) {
-    // Aislantes - amarillo
-    return "\u{1F7E8}";
-  } else if (lambda < 0.35) {
-    // Madera / Morteros / piezas cerámicas ligeras - naranja
-    return "\u{1F7E7}";
-  } else if (lambda < 0.9) {
-    // Madera / Morteros / piezas cerámicas ligeras - verde
-    return "\u{1F7E9}";
-  } else if (lambda < 1.5) {
-    // Cerámica - marrón
-    return "\u{1F7EB}";
-  } else if (lambda < 3.0) {
-    // Mortero / hormigón - azul
-    return "\u{1F7E6}";
+const getMatColor = (mat, _e) => {
+  if (mat.conductivity) {
+    const lambda = mat.conductivity;
+    if (lambda < 0.1) {
+      // Aislantes - amarillo
+      return "yellow";
+    } else if (lambda < 0.35) {
+      // Madera / Morteros / piezas cerámicas ligeras - naranja
+      return "orange";
+    } else if (lambda < 0.9) {
+      // Madera / Morteros / piezas cerámicas ligeras - verde
+      return "green";
+    } else if (lambda < 1.5) {
+      // Cerámica - marrón
+      return "brown";
+    } else if (lambda < 3.0) {
+      // Mortero / hormigón - gris oscuro
+      return "darkgray";
+    } else {
+      // Metal - azul oscuro
+      return "navyblue";
+    }
   } else {
-    // Metal - negro
-    return "\u{2B1B}";
+    return "lightblue";
   }
 };
 
-/// Formato de capas de construcción de opaco (id -> nº capas)
-const LayersImgFmt = (cell, _row, _rowIndex, materials) => {
+const LayersFmt = (cell, _row, _rowIndex, materials) => {
   // cell == id
   const nlayers = cell.length;
   if (nlayers === 0) {
-    return <span>{"\u{25FB}"}</span>;
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10">
+        <rect x="0" y="0" width="100" height="10" fill="white" />
+      </svg>
+    );
   }
-  const layers = cell
-    .map(({ material, e }) => {
-      const mat = materials.find((m) => m.id === material);
-      return getMatColorBlock(mat, e);
-    })
-    .join("");
-  return <span>{layers}</span>;
+  let xPos = 0;
+  const layers = [];
+  for (const [idx, { material, e }] of cell.entries()) {
+    const mat = materials.find((m) => m.id === material);
+    const color = getMatColor(mat, e);
+    const width = Math.round(e * 100);
+    layers.push(
+      <rect key={idx} x={xPos} y="0" width={width} height="10" fill={color} />
+    );
+    xPos += Math.round(e * 100);
+  }
+
+  //  = cell.map(({ material, e }, idx) => {
+  //   const mat = materials.find((m) => m.id === material);
+  //   return <rect key={idx} x={10 * idx} width="10" height="10" fill={getMatColor(mat, e)} />;
+  // });
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10">
+      {layers}
+    </svg>
+  );
 };
 
 // Tabla de opacos del edificio
@@ -117,7 +138,8 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "layers",
       text: "Capas",
       align: "center",
-      formatter: LayersImgFmt,
+      formatter: LayersFmt,
+      // formatter: LayersImgFmt,
       formatExtraData: mats,
       headerTitle: () => "Capas de la construcción (nº)",
       headerClasses: "text-light bg-secondary",
