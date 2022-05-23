@@ -92,6 +92,11 @@ export const Float3DigitsFmt = (cell, _row) => {
   return <span>{Number(cell).toFixed(3)}</span>;
 };
 
+/// Formato de id a nombre usando mapper
+export const NameFromIdFmt = (cell, _row, _rowIndex, idMapper) => (
+  <span>{idMapper[cell]}</span>
+);
+
 // Muestra valor booleano
 export const BoolFmt = (cell, _row, _rowIndex, _formatExtraData) => (
   <span>{cell === true ? "Sí" : "No"}</span>
