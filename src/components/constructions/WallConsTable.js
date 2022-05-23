@@ -63,12 +63,54 @@ const LayersNumberFmt = (cell, _row, _rowIndex, _formatExtraData) => {
   return <span>{nlayers}</span>;
 };
 
+// Selecciona bloque de color según material
+// Combinar conductividad con densidad según
+// https://www.codigotecnico.org/pdf/Programas/CEC/CAT-EC-v06.3_marzo_10.pdf
+const getMatColorBlock = (mat, e) => {
+  const lambda = mat.conductivity || e / mat.resistance || 0;
+  if (lambda < 0.1) {
+    // Aislantes - amarillo
+    return "\u{1F7E8}";
+  } else if (lambda < 0.35) {
+    // Madera / Morteros / piezas cerámicas ligeras - naranja
+    return "\u{1F7E7}";
+  } else if (lambda < 0.9) {
+    // Madera / Morteros / piezas cerámicas ligeras - verde
+    return "\u{1F7E9}";
+  } else if (lambda < 1.5) {
+    // Cerámica - marrón
+    return "\u{1F7EB}";
+  } else if (lambda < 3.0) {
+    // Mortero / hormigón - azul
+    return "\u{1F7E6}";
+  } else {
+    // Metal - negro
+    return "\u{2B1B}";
+  }
+};
+
+/// Formato de capas de construcción de opaco (id -> nº capas)
+const LayersImgFmt = (cell, _row, _rowIndex, materials) => {
+  // cell == id
+  const nlayers = cell.length;
+  if (nlayers === 0) {
+    return <span>{"\u{25FB}"}</span>;
+  }
+  const layers = cell
+    .map(({ material, e }) => {
+      const mat = materials.find((m) => m.id === material);
+      return getMatColorBlock(mat, e);
+    })
+    .join("");
+  return <span>{layers}</span>;
+};
 
 // Tabla de opacos del edificio
 const WallConsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const wallconsPropsMap = appstate.energy_indicators.props.wallcons;
   const walls_Co100 = appstate.energy_indicators.n50_data.walls_c.toFixed(2);
+  const mats = appstate.cons.materials;
 
   const columns = [
     { dataField: "id", isKey: true, hidden: true },
@@ -77,8 +119,7 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       text: "Nombre",
       classes: "font-weight-bold",
       headerStyle: () => ({ width: "30%" }),
-      headerTitle: () =>
-        "Nombre que identifica la construcción de opaco",
+      headerTitle: () => "Nombre que identifica la construcción de opaco",
       headerClasses: "text-light bg-secondary",
       title: (_cell, row) => `Construcción de opaco id: ${row.id}`,
     },
@@ -86,13 +127,16 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "layers",
       text: "Capas",
       align: "center",
-      formatter: LayersNumberFmt,
+      // formatter: LayersNumberFmt,
+      formatter: LayersImgFmt,
+      formatExtraData: mats,
       headerTitle: () => "Capas de la construcción (nº)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
         <>
-          Capas<br />
+          Capas
+          <br />
           <span style={{ fontWeight: "normal" }}>
             <i>[nº]</i>{" "}
           </span>

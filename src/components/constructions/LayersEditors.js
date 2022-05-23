@@ -88,16 +88,11 @@ export const LayersEditor = React.forwardRef(
         onHide={() => handleCancel()}
       >
         <Modal.Header closeButton>
-          <Modal.Title>
-            Capas de construcción ({name})
-          </Modal.Title>
+          <Modal.Title>Construcción de elementos opacos ({name})</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
-            <LayersTable
-              layers={layers}
-              setLayers={setLayers}
-            />
+            <LayersTable layers={layers} setLayers={setLayers} />
           </Container>
         </Modal.Body>
         <Modal.Footer>
@@ -163,7 +158,7 @@ const LayersTable = ({ layers, setLayers }) => {
   return (
     <Row id="ctable">
       <Col>
-        <label htmlFor="ctable">Capa:</label>
+        <p htmlFor="ctable">Capas (de exterior a interior):</p>
         <AddRemovePolyButtonGroup
           layers={layers}
           setLayers={setLayers}
