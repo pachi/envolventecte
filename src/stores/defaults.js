@@ -36,8 +36,8 @@ import {
 } from "wasm-envolventecte";
 
 export const newSpace = () => ({
-  ...new_space(),
   ...defaultsSpace,
+  ...new_space(),
 });
 
 export const defaultsSpace = {
@@ -50,8 +50,8 @@ export const defaultsSpace = {
 };
 
 export const newWall = () => {
-  let w = { ...new_wall(), ...defaultsWall };
-  let geom = { ...w.geometry, ...defaultsWallgeom };
+  let w = { ...defaultsWall, ...new_wall(),  };
+  let geom = { ...defaultsWallgeom, ...w.geometry,  };
   w.geometry = geom;
 
   return w;
@@ -68,8 +68,8 @@ export const defaultsWallgeom = {
 };
 
 export const newWindow = () => {
-  let w = { ...new_window(), ...defaultsWindow };
-  let geom = { ...w.geometry, ...defaultsWingeom };
+  let w = { ...defaultsWindow, ...new_window(),  };
+  let geom = { ...defaultsWingeom, ...w.geometry,  };
   w.geometry = geom;
 
   return w;
@@ -84,8 +84,8 @@ export const defaultsWingeom = {
 };
 
 export const newShade = () => {
-  let w = { ...new_shade(), ...defaultsShade };
-  let geom = { ...w.geometry, ...defaultsWallgeom };
+  let w = { ...defaultsShade, ...new_shade() };
+  let geom = { ...defaultsWallgeom, ...w.geometry };
   w.geometry = geom;
 
   return w;
@@ -96,8 +96,8 @@ export const defaultsShade = {
 };
 
 export const newTb = () => ({
-  ...new_thermalbridge(),
   ...defaultsTb,
+  ...new_thermalbridge(),
 });
 
 export const defaultsTb = {
@@ -108,8 +108,8 @@ export const defaultsTb = {
 };
 
 export const newWallcons = () => ({
-  ...new_wallcons(),
   ...defaultsWallcons,
+  ...new_wallcons(),
 });
 
 export const defaultsWallcons = {
@@ -118,8 +118,8 @@ export const defaultsWallcons = {
 };
 
 export const newWincons = () => ({
-  ...new_wincons(),
   ...defaultsWincons,
+  ...new_wincons(),
 });
 
 export const defaultsWincons = {
@@ -127,11 +127,10 @@ export const defaultsWincons = {
   g_glshwi: null,
 };
 
-export const newMaterial = () => new_material();
+export const newMaterial = () => ({ ...defaultsMaterial, ...new_material() });
 
 export const defaultsMaterial = {
   name: "Material",
-  vapour_diff: null,
 };
 
 export const newGlass = () => new_glass();
@@ -147,8 +146,8 @@ export const defaultsFrame = {
 };
 
 export const newMeta = () => ({
-  ...new_meta(),
   ...defaultsMeta,
+  ...new_meta(),
 });
 
 export const defaultsMeta = {
