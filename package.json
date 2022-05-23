@@ -29,6 +29,9 @@
     "solar",
     "sun"
   ],
+  "overrides": {
+    "react-error-overlay": "6.0.9"
+  },
   "devDependencies": {
     "@babel/core": "^7.18.0",
     "@babel/eslint-parser": "^7.17.0",
