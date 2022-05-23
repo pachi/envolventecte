@@ -6823,23 +6823,23 @@
         "name": "cubierta tipo",
         "layers": [
           {
-            "id": "63a4e6dd-4357-a415-6da9-7e639f0e3abd",
+            "material": "63a4e6dd-4357-a415-6da9-7e639f0e3abd",
             "e": 0.015
           },
           {
-            "id": "680d148f-b816-bc8f-a1b1-bc96e4eaf5cf",
+            "material": "680d148f-b816-bc8f-a1b1-bc96e4eaf5cf",
             "e": 0.015
           },
           {
-            "id": "80274963-698f-dbb3-3741-056857281f8c",
+            "material": "80274963-698f-dbb3-3741-056857281f8c",
             "e": 0.13
           },
           {
-            "id": "e5f312d0-e644-824e-259a-917bf8d344bf",
+            "material": "e5f312d0-e644-824e-259a-917bf8d344bf",
             "e": 0.07
           },
           {
-            "id": "de671b0e-ce46-2f58-aa6d-117c81b0b403",
+            "material": "de671b0e-ce46-2f58-aa6d-117c81b0b403",
             "e": 0.25
           }
         ],
@@ -6850,15 +6850,15 @@
         "name": "division_viviendas",
         "layers": [
           {
-            "id": "f6a256d7-3c7c-c116-60fd-dc1f9a7635fd",
+            "material": "f6a256d7-3c7c-c116-60fd-dc1f9a7635fd",
             "e": 0.015
           },
           {
-            "id": "e885d544-2d21-1e4d-d5a4-7e60276ceb5d",
+            "material": "e885d544-2d21-1e4d-d5a4-7e60276ceb5d",
             "e": 0.04
           },
           {
-            "id": "f6a256d7-3c7c-c116-60fd-dc1f9a7635fd",
+            "material": "f6a256d7-3c7c-c116-60fd-dc1f9a7635fd",
             "e": 0.015
           }
         ],
@@ -6869,23 +6869,23 @@
         "name": "fachada tipo",
         "layers": [
           {
-            "id": "680d148f-b816-bc8f-a1b1-bc96e4eaf5cf",
+            "material": "680d148f-b816-bc8f-a1b1-bc96e4eaf5cf",
             "e": 0.015
           },
           {
-            "id": "a90add57-4ac6-032e-fe56-eece92423ac3",
+            "material": "a90add57-4ac6-032e-fe56-eece92423ac3",
             "e": 0.115
           },
           {
-            "id": "80274963-698f-dbb3-3741-056857281f8c",
+            "material": "80274963-698f-dbb3-3741-056857281f8c",
             "e": 0.14
           },
           {
-            "id": "a14db341-a3e0-233e-3897-0e99b620bca1",
+            "material": "a14db341-a3e0-233e-3897-0e99b620bca1",
             "e": 0.04
           },
           {
-            "id": "f6a256d7-3c7c-c116-60fd-dc1f9a7635fd",
+            "material": "f6a256d7-3c7c-c116-60fd-dc1f9a7635fd",
             "e": 0.015
           }
         ],
@@ -6896,23 +6896,23 @@
         "name": "fachada tipo0.60",
         "layers": [
           {
-            "id": "680d148f-b816-bc8f-a1b1-bc96e4eaf5cf",
+            "material": "680d148f-b816-bc8f-a1b1-bc96e4eaf5cf",
             "e": 0.015
           },
           {
-            "id": "a90add57-4ac6-032e-fe56-eece92423ac3",
+            "material": "a90add57-4ac6-032e-fe56-eece92423ac3",
             "e": 0.115
           },
           {
-            "id": "80274963-698f-dbb3-3741-056857281f8c",
+            "material": "80274963-698f-dbb3-3741-056857281f8c",
             "e": 0.14
           },
           {
-            "id": "a14db341-a3e0-233e-3897-0e99b620bca1",
+            "material": "a14db341-a3e0-233e-3897-0e99b620bca1",
             "e": 0.04
           },
           {
-            "id": "f6a256d7-3c7c-c116-60fd-dc1f9a7635fd",
+            "material": "f6a256d7-3c7c-c116-60fd-dc1f9a7635fd",
             "e": 0.015
           }
         ],
@@ -6923,15 +6923,15 @@
         "name": "forjado tipo",
         "layers": [
           {
-            "id": "63a4e6dd-4357-a415-6da9-7e639f0e3abd",
+            "material": "63a4e6dd-4357-a415-6da9-7e639f0e3abd",
             "e": 0.015
           },
           {
-            "id": "680d148f-b816-bc8f-a1b1-bc96e4eaf5cf",
+            "material": "680d148f-b816-bc8f-a1b1-bc96e4eaf5cf",
             "e": 0.02
           },
           {
-            "id": "de671b0e-ce46-2f58-aa6d-117c81b0b403",
+            "material": "de671b0e-ce46-2f58-aa6d-117c81b0b403",
             "e": 0.25
           }
         ],
@@ -6942,19 +6942,19 @@
         "name": "solera tipo",
         "layers": [
           {
-            "id": "63a4e6dd-4357-a415-6da9-7e639f0e3abd",
+            "material": "63a4e6dd-4357-a415-6da9-7e639f0e3abd",
             "e": 0.015
           },
           {
-            "id": "680d148f-b816-bc8f-a1b1-bc96e4eaf5cf",
+            "material": "680d148f-b816-bc8f-a1b1-bc96e4eaf5cf",
             "e": 0.015
           },
           {
-            "id": "80274963-698f-dbb3-3741-056857281f8c",
+            "material": "80274963-698f-dbb3-3741-056857281f8c",
             "e": 0.085
           },
           {
-            "id": "cb6c584f-b667-d6db-2fc8-0e133e9c5f2d",
+            "material": "cb6c584f-b667-d6db-2fc8-0e133e9c5f2d",
             "e": 0.2
           }
         ],
@@ -6965,15 +6965,15 @@
         "name": "tabique tipo",
         "layers": [
           {
-            "id": "f6a256d7-3c7c-c116-60fd-dc1f9a7635fd",
+            "material": "f6a256d7-3c7c-c116-60fd-dc1f9a7635fd",
             "e": 0.015
           },
           {
-            "id": "e885d544-2d21-1e4d-d5a4-7e60276ceb5d",
+            "material": "e885d544-2d21-1e4d-d5a4-7e60276ceb5d",
             "e": 0.04
           },
           {
-            "id": "f6a256d7-3c7c-c116-60fd-dc1f9a7635fd",
+            "material": "f6a256d7-3c7c-c116-60fd-dc1f9a7635fd",
             "e": 0.015
           }
         ],
