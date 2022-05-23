@@ -53,16 +53,6 @@ const WallConsResistanceFmt = (_cell, row, _rowIndex, wallconsPropsMap) => {
   return <span>{p.toFixed(2)}</span>;
 };
 
-/// Formato de capas de construcción de opaco (id -> nº capas)
-const LayersNumberFmt = (cell, _row, _rowIndex, _formatExtraData) => {
-  // cell == id
-  const nlayers = cell.length;
-  if (nlayers === 0) {
-    return <span>-</span>;
-  }
-  return <span>{nlayers}</span>;
-};
-
 // Selecciona bloque de color según material
 // Combinar conductividad con densidad según
 // https://www.codigotecnico.org/pdf/Programas/CEC/CAT-EC-v06.3_marzo_10.pdf
@@ -127,7 +117,6 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "layers",
       text: "Capas",
       align: "center",
-      // formatter: LayersNumberFmt,
       formatter: LayersImgFmt,
       formatExtraData: mats,
       headerTitle: () => "Capas de la construcción (nº)",
