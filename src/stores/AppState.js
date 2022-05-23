@@ -207,6 +207,13 @@ class AppState {
     return idNameMap;
   }
 
+  getElementOptions(elementType) {
+    const container = types.is_cons(elementType)
+      ? this.cons[elementType]
+      : this[elementType];
+    return container.map(({ id, name }) => ({ value: id, label: name }));
+  }
+
   // Acciones --------
 
   // Añade un nuevo elemento del tipo indicado y devuelve su UUID
