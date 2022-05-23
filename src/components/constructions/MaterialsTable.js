@@ -152,19 +152,47 @@ const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
       cellEdit={cellEditFactory({
         mode: "dbclick",
         blurToSave: true,
+        beforeSaveCell: (oldValue, newValue, row, column) => {
+          // Aseguramos que la columna esté definida antes de intentar modificarla
+          row[column.dataField] = null;
+        },
+
         afterSaveCell: (oldValue, newValue, row, column) => {
           // Convierte a número campos numéricos
           if (
-            [
-              "resistance",
-              "conductivity",
-              "density",
-              "specific_heat",
-              "vapour_diff",
-            ].includes(column.dataField)
+            ["density", "specific_heat", "vapour_diff"].includes(
+              column.dataField
+            )
           ) {
             row[column.dataField] = getFloatOrOld(newValue, oldValue);
           }
+          // Si se define  el material por resistencia dejar en null campos por propiedades
+          if (column.dataField === "resistance") {
+            row["resistance"] = getFloatOrOld(newValue, oldValue);
+            row?.conductivity ? delete row["conductivity"] : null;
+            row?.density ? delete row["density"] : null;
+            row?.specific_heat ? delete row["specific_heat"] : null;
+          }
+          // Si se define  el material por propiedades dejar resistencia a null y completar resto a valor por defecto
+          if (column.dataField === "conductivity") {
+            row["conductivity"] = getFloatOrOld(newValue, oldValue);
+            row?.resistance ? delete row["resistance"] : null;
+            row?.density ? null : (row["density"] = 1000.0);
+            row?.specific_heat ? null : (row["specific_heat"] = 1000.0);
+          }
+          if (column.dataField === "density") {
+            row["density"] = getFloatOrOld(newValue, oldValue);
+            row?.resistance ? delete row["resistance"] : null;
+            row?.conductivity ? null : (row["conductivity"] = 1.0);
+            row?.specific_heat ? null : (row["specific_heat"] = 1000.0);
+          }
+          if (column.dataField === "specific_heat") {
+            row["specific_heat"] = getFloatOrOld(newValue, oldValue);
+            row?.resistance ? delete row["resistance"] : null;
+            row?.conductivity ? null : (row["conductivity"] = 1.0);
+            row?.density ? null : (row["density"] = 1000.0);
+          }
+          row["vapour_diff"] === null? delete row["vapour_diff"] : null;
         },
       })}
       selectRow={{
