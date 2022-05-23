@@ -29,6 +29,7 @@ import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 import { Float2DigitsFmt, getFloatOrOld } from "../building/TableHelpers";
+import { LayersEditor } from "./LayersEditors";
 
 /// Formato de espesor total de construcción de opaco (id -> thickness)
 const WallConsThicknessFmt = (_cell, row, _rowIndex, wallconsPropsMap) => {
@@ -96,6 +97,9 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
             <i>[nº]</i>{" "}
           </span>
         </>
+      ),
+      editorRenderer: (editorProps, value, row) => (
+        <LayersEditor {...editorProps} value={value} name={row.name} />
       ),
     },
     {
