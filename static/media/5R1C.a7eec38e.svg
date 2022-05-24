@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="927.7" height="870.3">
+  <defs>
+    <marker id="e" orient="auto" overflow="visible">
+      <path fill-rule="evenodd" stroke="#000" stroke-width=".5" d="M-4 0l-2 2 7-2-7-2 2 2z"/>
+    </marker>
+    <marker id="f" orient="auto" overflow="visible">
+      <path fill-rule="evenodd" stroke="#000" stroke-width=".5" d="M4 0l2-2-7 2 7 2-2-2z"/>
+    </marker>
+    <marker id="a" orient="auto" overflow="visible">
+      <path fill-rule="evenodd" stroke="#000" stroke-width=".5" d="M-4 0l-2 2 7-2-7-2 2 2z"/>
+    </marker>
+    <marker id="b" orient="auto" overflow="visible">
+      <path fill-rule="evenodd" stroke="#000" stroke-width=".5" d="M-4 0l-2 2 7-2-7-2 2 2z"/>
+    </marker>
+    <marker id="c" orient="auto" overflow="visible">
+      <path fill-rule="evenodd" stroke="#000" stroke-width=".5" d="M-4 0l-2 2 7-2-7-2 2 2z"/>
+    </marker>
+    <marker id="d" orient="auto" overflow="visible">
+      <path fill-rule="evenodd" stroke="#000" stroke-width=".5" d="M-4 0l-2 2 7-2-7-2 2 2z"/>
+    </marker>
+  </defs>
+  <text x="19.1" y="155.5" font-family="Arial" font-size="25" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start" word-spacing="0">
+    <tspan x="19.1" y="155.5" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">θ<tspan baseline-shift="sub" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">sup</tspan></tspan>
+  </text>
+  <text x="13.5" y="377.2" font-family="Arial" font-size="25" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start" word-spacing="0">
+    <tspan x="13.5" y="377.2" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">θ<tspan baseline-shift="sub" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">e</tspan></tspan>
+  </text>
+  <text x="449.4" y="143" font-family="Arial" font-size="25" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start" word-spacing="0">
+    <tspan x="449.4" y="143" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">θ<tspan baseline-shift="sub" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">air</tspan></tspan>
+  </text>
+  <text x="492.3" y="388" font-family="Arial" font-size="25" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start" word-spacing="0">
+    <tspan x="492.3" y="388" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">θ<tspan baseline-shift="sub" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">s</tspan></tspan>
+  </text>
+  <text x="490" y="605.8" font-family="Arial" font-size="25" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start" word-spacing="0">
+    <tspan x="490" y="605.8" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">θ<tspan baseline-shift="sub" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">m</tspan></tspan>
+  </text>
+  <text x="746.7" y="57" font-family="Arial" font-size="25" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start" word-spacing="0">
+    <tspan x="746.7" y="57" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">Φ<tspan baseline-shift="sub" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">HC,nd</tspan></tspan>
+  </text>
+  <text x="779.3" y="587.4" font-family="Arial" font-size="25" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start" word-spacing="0">
+    <tspan x="779.3" y="587.4" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">Φ<tspan style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start"><tspan baseline-shift="sub" font-size="65%">int</tspan> + Φ<tspan baseline-shift="sub" font-size="65%"> sol</tspan></tspan></tspan>
+  </text>
+  <text x="333.1" y="723.4" font-family="Arial" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start" word-spacing="0">
+    <tspan x="333.1" y="723.4" font-size="25" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">C<tspan baseline-shift="sub" font-size="65%">m</tspan>, A<tspan baseline-shift="sub" font-size="65%">m</tspan></tspan>
+  </text>
+  <text x="250.8" y="626.3" font-family="Arial" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start" word-spacing="0">
+    <tspan x="250.8" y="626.3" font-size="25" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">H<tspan baseline-shift="sub" font-size="65%">tr,em</tspan></tspan>
+  </text>
+  <text x="330.1" y="540.4" font-family="Arial" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start" word-spacing="0">
+    <tspan x="330.1" y="540.4" font-size="25" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">H<tspan baseline-shift="sub" font-size="65%">tr,op</tspan></tspan>
+  </text>
+  <text x="257.3" y="408.4" font-family="Arial" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start" word-spacing="0">
+    <tspan x="257.3" y="408.4" font-size="25" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">H<tspan baseline-shift="sub" font-size="65%">tr,w</tspan></tspan>
+  </text>
+  <text x="-539.7" y="479.6" font-family="Arial" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start" transform="rotate(-90)" word-spacing="0">
+    <tspan x="-539.7" y="479.6" font-size="25" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">H<tspan baseline-shift="sub" font-size="65%">tr,ms</tspan></tspan>
+  </text>
+  <text x="-314.4" y="482.7" font-family="Arial" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start" transform="rotate(-90)" word-spacing="0">
+    <tspan x="-314.4" y="482.7" font-size="25" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">H<tspan baseline-shift="sub" font-size="65%">tr,is</tspan></tspan>
+  </text>
+  <text x="260.5" y="185.8" font-family="Arial" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start" word-spacing="0">
+    <tspan x="260.5" y="185.8" font-size="25" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start">H<tspan baseline-shift="sub" font-size="65%">ve</tspan></tspan>
+  </text>
+  <path fill="none" stroke="#000" stroke-width="3" d="M149 149.1h264.6V205H149zm1.8 222.7h264.6v55.9H150.8zm.2 217.9h264.6v55.9H151zm301.2-236V225.1h44.4v128.6zm1.3 219.3V444.4h44.4V573z" color="#000" overflow="visible" style="isolation:auto;mix-blend-mode:normal;marker:none"/>
+  <circle cx="475.8" cy="618.7" r="7.5" color="#000" overflow="visible" style="isolation:auto;mix-blend-mode:normal;marker:none"/>
+  <circle cx="475.8" cy="399.3" r="7.5" color="#000" overflow="visible" style="isolation:auto;mix-blend-mode:normal;marker:none"/>
+  <circle cx="475.3" cy="178.4" r="7.5" color="#000" overflow="visible" style="isolation:auto;mix-blend-mode:normal;marker:none"/>
+  <circle cx="27.2" cy="401.7" r="7.5" color="#000" overflow="visible" style="isolation:auto;mix-blend-mode:normal;marker:none"/>
+  <circle cx="42.2" cy="177.4" r="7.5" color="#000" overflow="visible" style="isolation:auto;mix-blend-mode:normal;marker:none"/>
+  <path fill="none" stroke="#000" stroke-width="3" d="M41.2 178.9l110.5-1.5m0 220l-125.9 2.9 55.5 218h69.9M414.3 398h61.4v45.7m-.7-45v-45m-.7 219.6V619h-60m61.4 1.4v90m.7 22.6l-1.4 32m-28-21.8h58m-43 11.6h28.7"/>
+  <path fill="none" stroke="#000" stroke-width="3" marker-end="url(#a)" d="M732.1 795.7L479.8 621"/>
+  <ellipse cx="599.2" cy="704.7" fill="none" stroke="#000" stroke-width="2" color="#000" overflow="visible" rx="38.2" ry="51.5" style="isolation:auto;mix-blend-mode:normal;marker:none"/>
+  <ellipse cx="630.2" cy="725.8" fill="none" stroke="#000" stroke-width="2" color="#000" overflow="visible" rx="38.9" ry="52.2" style="isolation:auto;mix-blend-mode:normal;marker:none"/>
+  <path fill="none" stroke="#000" stroke-width="3" marker-end="url(#b)" d="M733.1 575.9L480.8 401.3"/>
+  <ellipse cx="600.1" cy="484.8" fill="none" stroke="#000" stroke-width="2" color="#000" overflow="visible" rx="38.2" ry="51.5" style="isolation:auto;mix-blend-mode:normal;marker:none"/>
+  <ellipse cx="631.2" cy="506" fill="none" stroke="#000" stroke-width="2" color="#000" overflow="visible" rx="38.9" ry="52.2" style="isolation:auto;mix-blend-mode:normal;marker:none"/>
+  <path fill="none" stroke="#000" stroke-width="3" marker-end="url(#c)" d="M733 355.2L480.4 180.6"/>
+  <ellipse cx="599.9" cy="264.1" fill="none" stroke="#000" stroke-width="2" color="#000" overflow="visible" rx="38.2" ry="51.5" style="isolation:auto;mix-blend-mode:normal;marker:none"/>
+  <ellipse cx="630.9" cy="285.3" fill="none" stroke="#000" stroke-width="2" color="#000" overflow="visible" rx="38.9" ry="52.2" style="isolation:auto;mix-blend-mode:normal;marker:none"/>
+  <path fill="none" stroke="#000" stroke-width="3" marker-end="url(#d)" d="M736.8 1.2L484.5 175.8"/>
+  <ellipse cx="603.8" cy="-92.3" fill="none" stroke="#000" stroke-width="2" color="#000" overflow="visible" rx="38.2" ry="51.5" style="isolation:auto;mix-blend-mode:normal;marker:none" transform="scale(1 -1)"/>
+  <ellipse cx="634.9" cy="-71.1" fill="none" stroke="#000" stroke-width="2" color="#000" overflow="visible" rx="38.9" ry="52.2" style="isolation:auto;mix-blend-mode:normal;marker:none" transform="scale(1 -1)"/>
+  <circle cx="476.5" cy="178.2" r="7.5" color="#000" overflow="visible" style="isolation:auto;mix-blend-mode:normal;marker:none"/>
+  <path fill="none" stroke="#000" stroke-width="3" d="M415 177h61.4v45.7"/>
+  <path fill="none" stroke="#4d4d4d" stroke-width="2" d="M739.6 356l8.2 7.1v198.6l16 15.7-16 16.4v190.9l-9.1 11.9"/>
+  <path fill="none" stroke="#000" stroke-width="5" d="M430 711.8h92.1m-92.1 20h92.1"/>
+  <text x="731.9" y="91.1" font-family="Arial" font-size="12" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:Arial;text-align:start" word-spacing="0">
+    <tspan x="731.9" y="91.1"><tspan x="731.9" y="91.1" fill="#00f" font-size="17.5">demanda cal/ref</tspan></tspan>
+  </text>
+  <text x="765.6" y="625.9" font-family="Arial" font-size="12" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:Arial;text-align:start" word-spacing="0">
+    <tspan x="765.6" y="625.9"><tspan x="765.6" y="625.9" fill="#00f" font-size="17.5">ganancias internas + </tspan></tspan><tspan x="765.6" y="647.8"><tspan x="765.6" y="647.8" fill="#00f" font-size="17.5">ganancias solares</tspan></tspan>
+  </text>
+  <text x="232.9" y="505.8" font-family="Arial" font-size="12" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:Arial;text-align:start" word-spacing="0">
+    <tspan x="232.9" y="505.8"><tspan x="232.9" y="505.8" fill="#00f" font-size="17.5">transmisión opacos</tspan></tspan>
+  </text>
+  <text x="211.5" y="358.2" font-family="Arial" font-size="12" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:Arial;text-align:start" word-spacing="0">
+    <tspan x="211.5" y="358.2"><tspan x="211.5" y="358.2" fill="#00f" font-size="17.5">transmisión huecos</tspan></tspan>
+  </text>
+  <text x="242.2" y="132.1" font-family="Arial" font-size="12" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:Arial;text-align:start" word-spacing="0">
+    <tspan x="242.2" y="132.1"><tspan x="242.2" y="132.1" fill="#00f" font-size="17.5">ventilación</tspan></tspan>
+  </text>
+  <path fill="none" stroke="#000" stroke-width="2" marker-end="url(#e)" marker-start="url(#f)" d="M287.7 576.5s61.3 2.7 89-8c18.9-7.1 38.3-18.7 48.5-36 11.1-19.1 8.5-65.7 8.5-65.7"/>
+  <text x="55.6" y="865.1" font-family="Arial" font-weight="400" letter-spacing="0" style="line-height:125%;-inkscape-font-specification:'Arial, Normal';text-align:start" word-spacing="0">
+    <tspan x="15" y="865.1" font-size="25" font-weight="700" style="line-height:125%;-inkscape-font-specification:'Arial Bold';text-align:start">Modelo de 5 resist. y 1 condens. UNE-EN ISO 13790 / UNE-EN ISO 52016-1</tspan>
+  </text>
+</svg>
