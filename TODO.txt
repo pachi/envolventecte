@@ -29,6 +29,7 @@
 - Estimación de longitudes de PTs
 - Definición de lamas en huecos
 - Elementos: calcular acristalamientos con sombras móviles usando directamente parámetros U_gl, g_gl_n, tau_e_B y ro_e_B
+- Elementos: calculadoras de U de opacos
 - Elementos: calcular R_u de espacios acondicionados adyacentes y bajocubierta s/ UNE-EN ISO 8996=2021
 - Elementos: añadir nueva construcción de hueco a partir de pestaña de elementos
 - Gráfica de radiación y fshwi por orientaciones en clima
