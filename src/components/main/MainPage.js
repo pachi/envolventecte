@@ -24,17 +24,18 @@ SOFTWARE.
 import { APP_VERSION } from "../../version.js";
 import { observer } from "mobx-react";
 import React, { useContext } from "react";
-import { Alert, Button, Col, Container, Image, Row } from "react-bootstrap";
+import { Alert, Button, Col, Image, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+
 import AppState from "../../stores/AppState";
+
+import { Page } from "../ui/Page.js";
 import IndicatorsPanel from "../indicators/IndicatorsPanel";
 import Dropzone from "../ui/DropZone.js";
-import Footer from "../ui/Footer";
 import imglogo from "../img/logo.svg";
 import iconclearmodel from "../img/outline-new_document-24px.svg";
-import NavBar from "../ui/Nav";
 
-const MainPage = observer((props) => {
+const MainPage = observer(() => {
   const appstate = useContext(AppState);
 
   const handleUpload = (acceptedFiles, _rejectedFiles, _event) => {
@@ -62,8 +63,7 @@ const MainPage = observer((props) => {
 
   const dropHeight = "100px";
   return (
-    <Container fluid>
-      <NavBar route={props.route} />
+    <Page>
       <Row>
         <Col md={3} className="text-center">
           <Image src={imglogo} width="90%" />
@@ -274,8 +274,7 @@ const MainPage = observer((props) => {
           </Row>
         </Col>
       </Row>
-      <Footer />
-    </Container>
+    </Page>
   );
 });
 
