@@ -21,37 +21,48 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React from "react";
-import { Col, Row, Tabs, Tab } from "react-bootstrap";
+import React, { useContext } from "react";
+import { Col, Row, Button } from "react-bootstrap";
 import { observer } from "mobx-react";
 
-import { PageWithIndicators } from "../ui/PageWithIndicators";
-import { ProjectData } from "./ProjectData";
-import { HulcImport } from "./HulcImport";
-import { EmptyModel } from "./EmptyModel";
-import { LoadData } from "./LoadData";
+import AppState from "../../stores/AppState";
 
-export const ProjectPage = observer(({ route, activeKey, setActiveKey }) => {
+import iconclearmodel from "../img/outline-new_document-24px.svg";
+
+// Limpiar datos del modelo
+export const EmptyModel = observer(() => {
+  const appstate = useContext(AppState);
+
   return (
-    <PageWithIndicators route={route}>
-      <Row className="well">
+    <>
+      <Row>
         <Col>
-          <Tabs activeKey={activeKey} onSelect={setActiveKey} id="project_tabs">
-            <Tab eventKey="metadata" title="Datos generales" className="pt-3">
-              <ProjectData />
-            </Tab>
-            <Tab eventKey="load" title="Cargar datos" className="pt-3">
-              <LoadData />
-            </Tab>
-            <Tab eventKey="hulc_import" title="Importar desde HULC" className="pt-3">
-              <HulcImport />
-            </Tab>
-            <Tab eventKey="clear" title="Vaciar modelo" className="pt-3">
-              <EmptyModel />
-            </Tab>
-          </Tabs>
+          <p className="lead">Vaciar modelo actual</p>
         </Col>
       </Row>
-    </PageWithIndicators>
+      <Row>
+        <Col>
+          <p>
+            Pulse este botón para partir de un modelo vacío en el que introducir
+            de cero los elementos de la envolvente térmica:
+          </p>
+          <div className="d-grid">
+            <Button
+              variant="secondary"
+              onClick={(_e) => appstate.clearModel()}
+              title="Pulse para dejar el modelo actual vacío, sin elementos definidos"
+              style={{
+                fontSize: 20,
+                height: 50,
+                marginTop: 20,
+                marginBottom: 20,
+              }}
+            >
+              <img src={iconclearmodel} alt="Limpiar modelo" /> Modelo vacío
+            </Button>
+          </div>
+        </Col>
+      </Row>
+    </>
   );
 });

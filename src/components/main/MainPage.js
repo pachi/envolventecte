@@ -22,23 +22,14 @@ SOFTWARE.
 */
 
 import { APP_VERSION } from "../../version.js";
-import { observer } from "mobx-react";
-import React, { useContext } from "react";
-import { Alert, Button, Col, Image, Row } from "react-bootstrap";
+import React from "react";
+import { Alert, Col, Image, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import AppState from "../../stores/AppState";
-
 import { Page } from "../ui/Page.js";
-import IndicatorsPanel from "../indicators/IndicatorsPanel";
-import Dropzone from "../ui/DropZone.js";
 import imglogo from "../img/logo.svg";
-import iconclearmodel from "../img/outline-new_document-24px.svg";
 
-const MainPage = observer(() => {
-  const appstate = useContext(AppState);
-
-  const dropHeight = "100px";
+const MainPage = () => {
   return (
     <Page>
       <Row>
@@ -93,8 +84,8 @@ const MainPage = observer(() => {
               <p>Los distintos apartados del programa permiten:</p>
               <ul>
                 <li>
-                  <Link to="/project">Proyecto</Link>: visualizar y editar los
-                  datos generales del modelo.
+                  <Link to="/project">Proyecto</Link>: cargar datos, visualizar
+                  y editar los datos generales del modelo.
                 </li>
                 <li>
                   <Link to="/elements">Elementos</Link>: visualizar, introducir,
@@ -115,144 +106,17 @@ const MainPage = observer(() => {
                   modelo o sus mediciones.
                 </li>
                 <li>
-                  <Link to="/climate">Clima</Link>: explorar diversos parámetros
-                  relacionados con el clima exterior del edificio.
-                </li>
-                <li>
                   <Link to="/helpers">Ayudas</Link>: herramientas para el
                   cálculo de parámetros descriptivos de algunos elementos de la
-                  envolvente térmica.
+                  envolvente térmica y visualización de datos climáticos.
                 </li>
               </ul>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <h3>
-                Parámetros de eficiencia energética de la envolvente térmica
-              </h3>
-              <p>Resultados obtenidos para el modelo actual:</p>
-              <IndicatorsPanel />
-              <Alert variant="info">
-                Pulse en el botón de &quot;Detalles&quot; para más información.
-              </Alert>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <h3>Carga de datos</h3>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <h4>Opción 1: modelo nuevo</h4>
-              <p>
-                Pulse este botón para partir de un modelo vacío en el que
-                introducir de cero los elementos de la envolvente térmica:
-              </p>
-              <div className="d-grid">
-                <Button
-                  variant="secondary"
-                  onClick={(_e) => appstate.clearModel()}
-                  title="Pulse para dejar el modelo actual vacío, sin elementos definidos"
-                  style={{
-                    fontSize: 20,
-                    height: 50,
-                    marginTop: 20,
-                    marginBottom: 20,
-                  }}
-                >
-                  <img src={iconclearmodel} alt="Limpiar modelo" /> Modelo vacío
-                </Button>
-              </div>
-            </Col>
-          </Row>
-          <Row className="my-3">
-            <Col>
-              <h4>Opción 2: cargar modelo desde archivo de EnvolventeCTE</h4>
-              <p>
-                Arrastre y suelte en el área inferior o pulse para importar
-                datos desde un archivo <b>.json</b> generado anteriormente por
-                EnvolventeCTE.
-              </p>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Dropzone
-                onDrop={(acceptedFiles, _rejectedFiles, _event) => appstate.handleUpload(acceptedFiles)}
-                accept={{ "application/json": [".json"] }}
-                message={
-                  <>
-                    <h3>EnvolventeCTE</h3>
-                    <p className="text-center">
-                      Importar modelo nuevo desde archivo <i>.json</i>
-                    </p>
-                  </>
-                }
-                containerHeight={dropHeight}
-              />
-            </Col>
-          </Row>
-          <Row className="my-3">
-            <Col>
-              <h4>
-                Opción 3: importar modelo y/o factores de sombras remotas desde
-                archivo de HULC
-              </h4>
-              <p>
-                Arrastre y suelte en el área inferior o pulse para importar
-                datos desde un archivo <b>.ctehexml</b> o un archivo{" "}
-                <b>KyGananciasSolares.txt</b> de HULC. Este último solo importa
-                los factores de sombras remotas al modelo ya cargado,
-                modificando la propiedad correspondiente de los huecos.
-              </p>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={8}>
-              <Dropzone
-                onDrop={(acceptedFiles, _rejectedFiles, _event) => appstate.handleUpload(acceptedFiles)}
-                accept={{ "application/octet-stream": [".ctehexml"] }}
-                message={
-                  <>
-                    <h3>HULC</h3>
-                    <p className="text-center">
-                      Importar modelo nuevo desde archivo <i>.ctehexml</i>
-                    </p>
-                  </>
-                }
-              />
-            </Col>
-            <Col
-              style={{
-                textAlign: "center",
-                verticalAlign: "middle",
-                fontSize: 40,
-              }}
-            >
-              +
-            </Col>
-            <Col md={3}>
-              <Dropzone
-                onDrop={(acceptedFiles, _rejectedFiles, _event) => appstate.handleUpload(acceptedFiles)}
-                accept={{ "text/plain": [".txt"] }}
-                message={
-                  <>
-                    <h3>HULC</h3>
-                    <p className="text-center">
-                      Importar <b>solo</b> F<sub>sh;obst</sub> desde archivo{" "}
-                      <i>KyGananciasSolares.txt</i>
-                    </p>
-                  </>
-                }
-              />
             </Col>
           </Row>
         </Col>
       </Row>
     </Page>
   );
-});
+};
 
 export default MainPage;

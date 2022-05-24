@@ -39,6 +39,7 @@ import ReportsPage from "./reports/ReportsPage";
 import { ProjectPage } from "./project/ProjectPage";
 
 export const App = () => {
+  const [projectActiveKey, setProjectActiveKey] = useState("metadata");
   const [buildingActiveKey, setBuildingActiveKey] = useState("spaces");
   const [consActiveKey, setConsActiveKey] = useState("wallcons");
   const [reportActiveKey, setReportActiveKey] = useState("he1");
@@ -47,7 +48,16 @@ export const App = () => {
     <HashRouter>
       <Routes>
         <Route exact path="/" element={<MainPage />} />
-        <Route exact path="/project" element={<ProjectPage />} />
+        <Route
+          exact
+          path="/project"
+          element={
+            <ProjectPage
+              activeKey={projectActiveKey}
+              setActiveKey={setProjectActiveKey}
+            />
+          }
+        />
         <Route
           exact
           path="/elements"
