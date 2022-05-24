@@ -68,17 +68,17 @@ const IndicatorsPanel = () => {
         >
           A<sub>util</sub> = {area_ref.toFixed(2)} m²
         </Col>
-        <Col md={3} title="Transmitancia térmica global del edificio [W/m²K]">
+        <Col md={2} title="Transmitancia térmica global del edificio [W/m²K]">
           <b>
             <i>K</i> = {K.toFixed(2)} <i>W/m²K</i>
           </b>
         </Col>
-        <Col md={3} title="Indicador de control solar [kWh/m²·mes]">
+        <Col md={2} title="Indicador de control solar [kWh/m²·mes]">
           <b>
             <i>
               q<sub>sol;jul</sub>
             </i>{" "}
-            = {area_ref !== 0 ? q_soljul.toFixed(2) : "-"} <i>kWh/m²/mes</i>
+            = {area_ref !== 0 ? q_soljul.toFixed(2) : "-"} <i>kWh/m²·mes</i>
           </b>
         </Col>
         <Col md={2} title="Tasa de renovación de aire a 50 Pa [1/h]">
@@ -92,7 +92,7 @@ const IndicatorsPanel = () => {
             </i>
           </b>
         </Col>
-        <Col md={1}>
+        <Col md={3} align="right">
           <ButtonGroup>
             <Button
               size="sm"
