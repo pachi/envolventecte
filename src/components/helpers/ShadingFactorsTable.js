@@ -27,7 +27,23 @@ import { Col, Form, Row } from "react-bootstrap";
 import { OrientaIcon } from "./IconsOrientaciones";
 import { FshwithIcon } from "./IconsFshwith";
 
-const LEVELS = ["200", "300", "500"];
+const LEVELS = [
+  {
+    key: "f_shwith200",
+    value:
+      "200 W/m² - dispositivos de sombra con control y accionamiento automático",
+  },
+  {
+    key: "f_shwith300",
+    value:
+      "300 W/m² - dispositivos de sombra con accionamiento y control manual",
+  },
+  {
+    key: "f_shwith500",
+    value:
+      "500 W/m² - dispositivos de sombra en modo de calefacción (evita cargas extremas)",
+  },
+];
 const MESES = "ENE,FEB,MAR,ABR,MAY,JUN,JUL,AGO,SET,OCT,NOV,DIC".split(",");
 const DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
@@ -78,17 +94,18 @@ const ShadingFactorsTable = ({ data, climatezone }) => {
     <Col>
       <Row>
         <Col>
-          <h4>
-            Factores mensuales de reducción para sombreamientos solares móviles
-            - {climatezone}
-          </h4>
+          <p className="lead">
+            Factores mensuales y estacionales de reducción de la radiación solar
+            debida a protecciones solares móviles asociadas al hueco, según
+            UNE-EN ISO 52016-1:2017.
+          </p>
         </Col>
       </Row>
       <Form>
         <Form.Group as={Row} controlId="formControlsIrradiationLevel">
           <Form.Label column md={6}>
-            Nivel de irradiación de activación / desactivación del sombreamiento
-            solar móvil (W/m²):
+            Nivel de irradiación sobre el hueco para la activación del
+            sombreamiento móvil (W/m²):
           </Form.Label>
           <Col>
             <Form.Control
@@ -97,53 +114,59 @@ const ShadingFactorsTable = ({ data, climatezone }) => {
               as="select"
               placeholder="select"
             >
-              {LEVELS.map((z) => (
-                <option value={z} key={"f_shwith" + z}>
-                  {z}
+              {LEVELS.map(({ key, value }) => (
+                <option value={value} key={key}>
+                  {value}
                 </option>
               ))}
             </Form.Control>
           </Col>
         </Form.Group>
       </Form>
-      <Row>
-        <Col>
-          <p>Activación de elementos de sombra estacionales:</p>
-        </Col>
-      </Row>
-      <Form className="form-inline">
-        <Form.Group controlId="formControlsSummerMonths">
-          <Form.Label column>Mes de inicio:</Form.Label>
-          <Form.Control
-            value={startMonth}
-            onChange={(e) => setStartMonth(e.target.value)}
-            as="select"
-            placeholder="select"
-          >
-            {MESES.map((z) => (
-              <option value={z} key={"start_month_" + z}>
-                {z}
-              </option>
-            ))}
-          </Form.Control>
-        </Form.Group>
-        <Form.Group controlId="formControlsSummerMonths">
-          <Form.Label column>Mes de finalización:</Form.Label>
-          <Form.Control
-            value={endMonth}
-            onChange={(e) => setEndMonth(e.target.value)}
-            as="select"
-            placeholder="select"
-          >
-            {MESES.map((z) => (
-              <option value={z} key={"end_month_" + z}>
-                {z}
-              </option>
-            ))}
-          </Form.Control>
-        </Form.Group>
+      <Form className="form-inline mb-3">
+        <Row>
+          <Col md={6}>
+            <p>Activación de elementos de sombra estacionales:</p>
+          </Col>
+          <Form.Group as={Col} controlId="formControlsStartSummerMonths">
+            <Form.Label column>Mes de inicio:</Form.Label>
+            <Form.Control
+              value={startMonth}
+              onChange={(e) => setStartMonth(e.target.value)}
+              as="select"
+              placeholder="select"
+            >
+              {MESES.map((z) => (
+                <option value={z} key={"start_month_" + z}>
+                  {z}
+                </option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+          <Form.Group as={Col} controlId="formControlsEndSummerMonths">
+            <Form.Label column>Mes de finalización:</Form.Label>
+            <Form.Control
+              value={endMonth}
+              onChange={(e) => setEndMonth(e.target.value)}
+              as="select"
+              placeholder="select"
+            >
+              {MESES.map((z) => (
+                <option value={z} key={"end_month_" + z}>
+                  {z}
+                </option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+        </Row>
       </Form>
-      <Row style={{ marginTop: "2em" }}>
+      <Row>
+        <h4>
+          Factores de reducción por sombras móviles, f<sub>sh;with</sub>, zona
+          climática {climatezone}
+        </h4>
+      </Row>
+      <Row>
         <Col>
           <table
             id="shadingfactorstable"
@@ -275,32 +298,6 @@ const ShadingFactorsTable = ({ data, climatezone }) => {
               desconectado o desactivado (p.e. un toldo recogido o una persiana
               subida).
             </p>
-            <p>
-              Se han calculados los factores de reducción para los siguientes
-              valores de la irradiación sobre el hueco, para los que se indican
-              sus usos recomendados:
-            </p>
-            <ul>
-              <li>
-                <i>
-                  I &gt; 300 W/m<sup>2</sup>
-                </i>
-                : dispositivos de sombra con accionamiento y control manual;
-              </li>
-              <li>
-                <i>
-                  I &gt; 200 W/m<sup>2</sup>
-                </i>
-                : dispositivos de sombra con control y accionamiento automático;
-              </li>
-              <li>
-                <i>
-                  I &gt; 500 W/m<sup>2</sup>
-                </i>
-                : dispositivos de sombra en modo de calefacción (evita cargas
-                extremas).
-              </li>
-            </ul>
             <p>
               NOTA: Debe tenerse en cuenta que los valores de la tabla se han
               obtenido sin considerar el efecto de los obstáculos remotos sobre

@@ -35,18 +35,15 @@ const MonthlyRadiationTable = ({ data, climatezone }) => {
     <Col>
       <Row>
         <Col>
-          <h4>
-            Irradiación solar ({climatezone}),{" "}
-            <i>
-              H<sub>sol;m</sub>
-            </i>{" "}
-            (kWh/m²/mes)
-          </h4>
+          <p className="lead">
+            Radiación solar acumulada mensual sobre planos inclinados y
+            orientados, según UNE-EN ISO 52010-1:2017
+          </p>
         </Col>
       </Row>
-      <Row>
+      <Row className="mb-3">
         <Col>
-          <Form inline>
+          <Form>
             <Form.Check
               checked={showDetail}
               onChange={(_e) => setShowDetail(!showDetail)}
@@ -55,7 +52,16 @@ const MonthlyRadiationTable = ({ data, climatezone }) => {
           </Form>
         </Col>
       </Row>
-      <Row style={{ marginTop: "2em" }}>
+      <Row>
+        <h4>
+          Irradiación solar,{" "}
+          <i>
+            H<sub>sol;m</sub>
+          </i>{" "}
+          (kWh/m²/mes), Zona climática {climatezone}
+        </h4>
+      </Row>
+      <Row>
         <Col>
           <table
             id="radiationtable"

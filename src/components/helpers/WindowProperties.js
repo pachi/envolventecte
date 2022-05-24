@@ -55,6 +55,13 @@ export const HuecosParams = (_props) => {
   const F_w = ACRISTALAMIENTOS.propiedades.F_w;
   return (
     <>
+      <Row>
+        <Col>
+          <p className="lead">
+            Propiedades térmicas de los huecos según UNE-EN ISO 52022-1:2017
+          </p>
+        </Col>
+      </Row>
       <Row className="well">
         <Col>
           <Form>

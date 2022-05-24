@@ -36,7 +36,7 @@ import {
 } from "./TableHelpers";
 import { GeometryOpaquesEditor } from "./GeometryEditors";
 import { OpaqueGeomIconFmt, NameFromIdFmt } from "./TableHelpers";
-import { OrientacionesSprite } from "../climate/IconsOrientaciones";
+import { OrientacionesSprite } from "../helpers/IconsOrientaciones";
 import { SPACE, WALLCONS } from "../../stores/types";
 
 /// Formato de area de opaco (id -> area)

@@ -30,7 +30,7 @@ import nullPolyIcon from "../img/null_poly_icon.svg";
 import fullGeometryIcon from "../img/full_geom_icon.svg";
 import partialGeometryIcon from "../img/partial_geom_icon.svg";
 
-import { OrientaIcon, TiltIcon } from "../climate/IconsOrientaciones";
+import { OrientaIcon, TiltIcon } from "../helpers/IconsOrientaciones";
 
 // Formato y opciones de condiciones de contorno
 export const BOUNDARYTYPESMAP = {

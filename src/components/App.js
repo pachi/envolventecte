@@ -32,7 +32,6 @@ import AboutPage from "./about/AboutPage";
 import { BuildingPage } from "./building/BuildingPage";
 import ConsPage from "./constructions/ConsPage";
 import ThreeDPage from "./three/ThreeDPage";
-import ClimatePage from "./climate/ClimatePage";
 import HelpersPage from "./helpers/HelpersPage";
 import HelpPage from "./help/HelpPage";
 import MainPage from "./main/MainPage";
@@ -80,7 +79,6 @@ export const App = () => {
             />
           }
         />
-        <Route exact path="/climate" element={<ClimatePage />} />
         <Route exact path="/helpers" element={<HelpersPage />} />
         <Route exact path="/help" element={<HelpPage />} />
         <Route exact path="/about" element={<AboutPage />} />

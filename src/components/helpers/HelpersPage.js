@@ -21,26 +21,56 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React from "react";
+import React, { useContext } from "react";
 import { Col, Row, Tabs, Tab } from "react-bootstrap";
+
+import AppState from "../../stores/AppState";
 
 import { Page } from "../ui/Page";
 import { HuecosParams } from "./WindowProperties";
+import MonthlyRadiationTable from "./MonthlyRadiationTable";
+import ShadingFactorsTable from "./ShadingFactorsTable";
+import { OrientacionesSprite } from "./IconsOrientaciones";
+import { FshwithSprite } from "./IconsFshwith";
+import { observer } from "mobx-react";
 
-const HelpersPage = () => {
+const HelpersPage = observer(() => {
+  const appstate = useContext(AppState);
   return (
     <Page>
+      <OrientacionesSprite />
+      <FshwithSprite />
       <Row>
         <Col>
           <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
             <Tab eventKey={1} title="Huecos" className="pt-3">
               <HuecosParams />
             </Tab>
+            <Tab
+              eventKey={2}
+              title="Radiación acumulada"
+              className="pt-3"
+            >
+              <MonthlyRadiationTable
+                data={appstate.climatedata}
+                climatezone={appstate.meta.climate}
+              />
+            </Tab>
+            <Tab
+              eventKey={3}
+              title="Factores de reducción por sombras"
+              className="pt-3"
+            >
+              <ShadingFactorsTable
+                data={appstate.climatedata}
+                climatezone={appstate.meta.climate}
+              />
+            </Tab>
           </Tabs>
         </Col>
       </Row>
     </Page>
   );
-};
+});
 
 export default HelpersPage;
