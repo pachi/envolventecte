@@ -26,7 +26,6 @@ import {
   Alert,
   Button,
   Col,
-  Container,
   Row,
   Image,
   Tabs,
@@ -34,15 +33,13 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import Footer from "../ui/Footer";
-import NavBar from "../ui/Nav";
+import { Page } from "../ui/Page";
 
 import esquema5R1C from "../img/5R1C.svg";
 import orientaciones from "../img/orientaciones.svg";
 
-const HelpPage = (props) => (
-  <Container fluid>
-    <NavBar route={props.route} />
+const HelpPage = () => (
+  <Page>
     <Row>
       <Col>
         <h1>EnvolventeCTE</h1>
@@ -305,8 +302,7 @@ const HelpPage = (props) => (
         </Tabs>
       </Col>
     </Row>
-    <Footer />
-  </Container>
+  </Page>
 );
 
 export default HelpPage;

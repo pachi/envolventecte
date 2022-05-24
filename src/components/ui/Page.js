@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React from "react";
-import { Container } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 
 import Footer from "../ui/Footer";
 import NavBar from "../ui/Nav";
@@ -30,7 +30,9 @@ import NavBar from "../ui/Nav";
 export const Page = ({ route, children }) => {
   return (
     <Container fluid>
-      <NavBar route={route} />
+      <Row className="pb-2 mb-2">
+        <NavBar route={route} />
+      </Row>
       {children}
       <Footer />
     </Container>

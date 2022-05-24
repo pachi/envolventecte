@@ -39,21 +39,14 @@ import AppState from "../../stores/AppState";
 const IndicatorsPanel = () => {
   const appstate = useContext(AppState);
   const [warnings, setWarnings] = useState(false);
-  
-  const {
-    area_ref,
-    vol_env_net,
-    vol_env_gross,
-    compacity,
-    q_soljul_data,
-    n50_data,
-    K_data,
-  } = appstate.energy_indicators;
+
+  const { area_ref, q_soljul_data, n50_data, K_data } =
+    appstate.energy_indicators;
   const { climate, name } = appstate.meta;
 
   const { K } = K_data;
   const { q_soljul } = q_soljul_data;
-  const { n50, n50_ref } = n50_data;
+  const { n50 } = n50_data;
 
   const errors = appstate.warnings;
   const numavisos = errors.length;
@@ -64,11 +57,17 @@ const IndicatorsPanel = () => {
         <Col md={9}>
           Proyecto: <i>{name}</i>
         </Col>
-        <Col md={3}>
-          <b>ZC: {climate}</b>
-        </Col>
       </Row>
       <Row>
+        <Col md={1} title="Zona climática (CTE DB-HE)">
+          <b>{climate}</b>
+        </Col>
+        <Col
+          md={2}
+          title="Superficie útil de los espacios habitables del edificio o parte del edificio [m²]"
+        >
+          A<sub>util</sub> = {area_ref.toFixed(2)} m²
+        </Col>
         <Col md={3} title="Transmitancia térmica global del edificio [W/m²K]">
           <b>
             <i>K</i> = {K.toFixed(2)} <i>W/m²K</i>
@@ -82,7 +81,7 @@ const IndicatorsPanel = () => {
             = {area_ref !== 0 ? q_soljul.toFixed(2) : "-"} <i>kWh/m²/mes</i>
           </b>
         </Col>
-        <Col md={3} title="Tasa de renovación de aire a 50 Pa [1/h]">
+        <Col md={2} title="Tasa de renovación de aire a 50 Pa [1/h]">
           <b>
             <i>
               n<sub>50</sub>
@@ -93,61 +92,26 @@ const IndicatorsPanel = () => {
             </i>
           </b>
         </Col>
-        <Col
-          md={3}
-          title="Volumen bruto de la envolvente térmica (volumen bruto s-s) [m³]"
-        >
-          V = {vol_env_gross.toFixed(2)} m³
+        <Col md={1}>
+          <ButtonGroup>
+            <Button
+              size="sm"
+              variant="light"
+              onClick={() => setWarnings(!warnings)}
+            >
+              Avisos{" "}
+              <Badge bg={numavisos > 0 ? "primary" : "secondary"}>
+                ({numavisos}){" "}
+              </Badge>
+            </Button>
+            {numavisos > 0 && (
+              <Button onClick={() => appstate.errors.clear()} variant="light">
+                Limpiar avisos
+              </Button>
+            )}
+          </ButtonGroup>
         </Col>
       </Row>
-      <Row>
-        <Col
-          md={3}
-          title="Superficie útil de los espacios habitables del edificio o parte del edificio [m²]"
-        >
-          A<sub>util</sub> = {area_ref.toFixed(2)} m²
-        </Col>
-        <Col
-          md={3}
-          title="Compacidad de la envolvente térmica (V_tot / A) [m³/m²]"
-        >
-          V/A = {compacity.toFixed(2)} m³/m²
-        </Col>
-        <Col md={3} title="Tasa de renovación de aire teórica a 50 Pa [1/h]">
-          <i>
-            n<sub>50,ref</sub>
-          </i>{" "}
-          = {n50_ref.toFixed(2)}{" "}
-          <i>
-            h<sup>-1</sup>
-          </i>
-        </Col>
-        <Col
-          md={3}
-          title="Volumen interior de la envolvente térmica (volumen neto s-t) [m³]"
-        >
-          V<sub>int</sub> = {vol_env_net.toFixed(2)} m³
-        </Col>
-      </Row>
-      <ButtonGroup className="mb-3">
-        <Button
-          size="sm"
-          variant="light"
-          onClick={() => setWarnings(!warnings)}
-        >
-          Avisos{" "}
-          {numavisos !== 0 && (
-            <Badge variant="primary">
-              <span>({numavisos})</span>{" "}
-            </Badge>
-          )}
-        </Button>
-        {numavisos > 0 && (
-          <Button onClick={() => appstate.errors.clear()} variant="light">
-            Limpiar avisos
-          </Button>
-        )}
-      </ButtonGroup>
       <Collapse in={warnings}>
         <Card body bg="light" border="info" className="mb-3">
           <Row>

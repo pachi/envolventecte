@@ -22,19 +22,19 @@ SOFTWARE.
 */
 
 import React from "react";
-import { Alert, Col, Container, Image, Row } from "react-bootstrap";
+import { Alert, Col, Image, Row } from "react-bootstrap";
 
 import { APP_VERSION } from "../../version.js";
-import Footer from "../ui/Footer";
-import NavBar from "../ui/Nav";
+
+import { Page } from "../ui/Page";
+
 import FotoPachi from "../img/FotoPachi.jpg";
 import FotoDani from "../img/FotoDani.jpg";
 import FotoMarta from "../img/FotoMarta.jpg";
 import { get_version } from "wasm-envolventecte";
 
-const AboutPage = (props) => (
-  <Container fluid>
-    <NavBar route={props.route} />
+const AboutPage = () => (
+  <Page>
     <Row>
       <Col>
         <h1>EnvolventeCTE</h1>
@@ -145,8 +145,7 @@ const AboutPage = (props) => (
         </Alert>
       </Col>
     </Row>
-    <Footer />
-  </Container>
+  </Page>
 );
 
 export default AboutPage;

@@ -62,7 +62,7 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
   };
 
   return (
-    <Navbar bg="dark" variant="dark" fixed="top">
+    <Navbar bg="dark" variant="dark">
       <Navbar.Brand>
         <Link
           className="navbar-brand ps-3"

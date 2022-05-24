@@ -31,8 +31,10 @@ import IndicatorsPanel from "../indicators/IndicatorsPanel";
 export const PageWithIndicators = ({ route, children }) => {
   return (
     <Container fluid>
-      <NavBar route={route} />
       <Row>
+        <NavBar route={route} />
+      </Row>
+      <Row style={{ background: "lightgray" }} className="pb-2 mb-2">
         <Col>
           <IndicatorsPanel />
         </Col>

@@ -22,10 +22,9 @@ SOFTWARE.
 */
 
 import React, { useState, useCallback, useEffect } from "react";
-import { Col, Form, Container, Card, Row, Tabs, Tab } from "react-bootstrap";
+import { Col, Form, Card, Row, Tabs, Tab } from "react-bootstrap";
 
-import Footer from "../ui/Footer";
-import NavBar from "../ui/Nav";
+import { Page } from "../ui/Page";
 
 import { ELEMENTOS, g_t_e, g_t_i, g_t_m } from "./elements";
 
@@ -295,10 +294,9 @@ const GlazingPropertiesCard = (props) => {
   );
 };
 
-const HelpersPage = (props) => {
+const HelpersPage = () => {
   return (
-    <Container fluid>
-      <NavBar route={props.route} />
+    <Page>
       <Row>
         <Col>
           <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
@@ -308,9 +306,7 @@ const HelpersPage = (props) => {
           </Tabs>
         </Col>
       </Row>
-      {/* {<DevTools position={{ bottom: 0, right: 20 }} />} */}
-      <Footer />
-    </Container>
+    </Page>
   );
 };
 

@@ -22,25 +22,24 @@ SOFTWARE.
 */
 
 import React, { useContext } from "react";
-import { Col, Container, Row, Tabs, Tab } from "react-bootstrap";
+import { Col, Row, Tabs, Tab } from "react-bootstrap";
 
 import { observer } from "mobx-react";
 // import DevTools from 'mobx-react-devtools';
 
 import AppState from "../../stores/AppState";
 
-import Footer from "../ui/Footer";
-import NavBar from "../ui/Nav";
+import { Page } from "../ui/Page";
+
 import MonthlyRadiationTable from "./MonthlyRadiationTable";
 import ShadingFactorsTable from "./ShadingFactorsTable";
 import { OrientacionesSprite } from "./IconsOrientaciones";
 import { FshwithSprite } from "./IconsFshwith";
 
-const ClimatePage = observer(({ route }) => {
+const ClimatePage = observer(() => {
   const appstate = useContext(AppState);
   return (
-    <Container fluid>
-      <NavBar route={route} />
+    <Page>
       <OrientacionesSprite />
       <FshwithSprite />
       <Row>
@@ -69,9 +68,7 @@ const ClimatePage = observer(({ route }) => {
           </Tabs>
         </Col>
       </Row>
-      {/* <DevTools position={{ bottom: 0, right: 20 }} /> */}
-      <Footer />
-    </Container>
+    </Page>
   );
 });
 
