@@ -38,7 +38,7 @@ const HuecosView = observer(() => {
   const [selected, setSelected] = useState([]);
 
   return (
-    <Col>
+    <>
       <Row>
         <Col>
           <h4>
@@ -67,7 +67,7 @@ const HuecosView = observer(() => {
           </p>
         </Col>
       </Row>
-    </Col>
+    </>
   );
 });
 

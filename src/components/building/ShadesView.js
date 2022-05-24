@@ -37,7 +37,7 @@ const ShadesView = observer(() => {
   const [selected, setSelected] = useState([]);
 
   return (
-    <Col>
+    <>
       <Row>
         <Col>
           <h4>
@@ -58,7 +58,7 @@ const ShadesView = observer(() => {
           <ShadesTable selectedIds={selected} setSelectedIds={setSelected} />
         </Col>
       </Row>
-    </Col>
+    </>
   );
 });
 

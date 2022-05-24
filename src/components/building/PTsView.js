@@ -37,7 +37,7 @@ const PTsView = observer(() => {
   const [selected, setSelected] = useState([]);
 
   return (
-    <Col>
+    <>
       <Row>
         <Col>
           <h4>
@@ -73,7 +73,7 @@ const PTsView = observer(() => {
           </p>
         </Col>
       </Row>
-    </Col>
+    </>
   );
 });
 

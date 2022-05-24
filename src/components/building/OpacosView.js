@@ -37,7 +37,7 @@ const OpacosView = observer(() => {
   const [selected, setSelected] = useState([]);
 
   return (
-    <Col>
+    <>
       <Row>
         <Col>
           <h4>
@@ -66,7 +66,7 @@ const OpacosView = observer(() => {
           </p>
         </Col>
       </Row>
-    </Col>
+    </>
   );
 });
 
