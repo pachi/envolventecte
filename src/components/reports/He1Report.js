@@ -63,7 +63,7 @@ const He1Report = () => {
       </Row>
       <Row>
         <Col md={3} title="Zona climática">
-          <b>ZC: {climate}</b>
+          <b>Zona climática: {climate}</b>
         </Col>
         <Col md={3} title="Transmitancia térmica global del edificio [W/m²K]">
           <b>
