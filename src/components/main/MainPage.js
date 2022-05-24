@@ -38,29 +38,6 @@ import iconclearmodel from "../img/outline-new_document-24px.svg";
 const MainPage = observer(() => {
   const appstate = useContext(AppState);
 
-  const handleUpload = (acceptedFiles, _rejectedFiles, _event) => {
-    if (acceptedFiles.length > 0) {
-      const file = acceptedFiles[0];
-      const reader = new FileReader();
-      reader.onload = (rawdata) => {
-        if (
-          file.name.includes("KyGananciasSolares.txt") ||
-          file.path.includes("KyGananciasSolares.txt")
-        ) {
-          appstate.loadData(rawdata.target.result, "FSHOBST");
-        } else if (
-          file.name.toLowerCase().includes(".ctehexml") ||
-          file.path.toLowerCase().includes(".ctehexml")
-        ) {
-          appstate.loadData(rawdata.target.result, "CTEHEXML");
-        } else {
-          appstate.loadData(rawdata.target.result, "JSON");
-        }
-      };
-      reader.readAsText(file);
-    }
-  };
-
   const dropHeight = "100px";
   return (
     <Page>
@@ -203,7 +180,7 @@ const MainPage = observer(() => {
           <Row>
             <Col>
               <Dropzone
-                onDrop={handleUpload}
+                onDrop={(acceptedFiles, _rejectedFiles, _event) => appstate.handleUpload(acceptedFiles)}
                 accept={{ "application/json": [".json"] }}
                 message={
                   <>
@@ -235,7 +212,7 @@ const MainPage = observer(() => {
           <Row>
             <Col md={8}>
               <Dropzone
-                onDrop={handleUpload}
+                onDrop={(acceptedFiles, _rejectedFiles, _event) => appstate.handleUpload(acceptedFiles)}
                 accept={{ "application/octet-stream": [".ctehexml"] }}
                 message={
                   <>
@@ -258,7 +235,7 @@ const MainPage = observer(() => {
             </Col>
             <Col md={3}>
               <Dropzone
-                onDrop={handleUpload}
+                onDrop={(acceptedFiles, _rejectedFiles, _event) => appstate.handleUpload(acceptedFiles)}
                 accept={{ "text/plain": [".txt"] }}
                 message={
                   <>

@@ -131,6 +131,7 @@ class AppState {
       addElement: action,
       duplicateElements: action,
       deleteElements: action,
+      handleUpload: action,
       loadModel: action,
       clearModel: action,
       asJSON: computed,
@@ -426,6 +427,30 @@ class AppState {
       null,
       2
     );
+  }
+
+  // Carga datos desde lista de archivos subida, identificando el tipo
+  handleUpload(acceptedFiles) {
+    if (acceptedFiles.length > 0) {
+      const file = acceptedFiles[0];
+      const reader = new FileReader();
+      reader.onload = (rawdata) => {
+        if (
+          file.name.includes("KyGananciasSolares.txt") ||
+          file.path.includes("KyGananciasSolares.txt")
+        ) {
+          this.loadData(rawdata.target.result, "FSHOBST");
+        } else if (
+          file.name.toLowerCase().includes(".ctehexml") ||
+          file.path.toLowerCase().includes(".ctehexml")
+        ) {
+          this.loadData(rawdata.target.result, "CTEHEXML");
+        } else {
+          this.loadData(rawdata.target.result, "JSON");
+        }
+      };
+      reader.readAsText(file);
+    }
   }
 
   // Deserialización de datos desde
