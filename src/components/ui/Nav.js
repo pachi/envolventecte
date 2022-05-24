@@ -94,6 +94,7 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
               Vista3D
             </Nav.Link>
           </LinkContainer>
+          <span style={{ borderLeft: "1px solid gray", margin: "0px 25px" }} />
           <LinkContainer to="/reports" eventKey={4}>
             <Nav.Link title="Informes">Informes</Nav.Link>
           </LinkContainer>
