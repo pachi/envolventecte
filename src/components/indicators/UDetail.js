@@ -59,7 +59,7 @@ const IndicatorsUDetail = () => {
 
   return (
     <>
-      <Row>
+      <Row className="print-section">
         <Col>
           <h3 className="mb-4">Transmitancia térmica de huecos y opacos (U)</h3>
           <p>
@@ -100,10 +100,10 @@ const IndicatorsUDetail = () => {
           </mask>
         </defs>
       </svg>
-      <Row>
+      <Row className="print-section">
         <Col>{k_data.length > 0 ? <UElementsTable data={k_data} /> : null}</Col>
       </Row>
-      <Row>
+      <Row className="print-section">
         <Col className="text-center">
           {k_data.length > 0 ? (
             <UElementsChart data={k_data} K={K} width={1200} />

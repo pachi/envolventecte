@@ -36,6 +36,7 @@ const ReportsPage = ({ route, activeKey, setActiveKey }) => {
             activeKey={activeKey}
             onSelect={setActiveKey}
             id="building_element_tabs"
+            className="d-print-none"
           >
             <Tab eventKey="he1" title="HE1" className="pt-3">
               <He1Report />

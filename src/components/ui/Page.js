@@ -30,7 +30,7 @@ import NavBar from "../ui/Nav";
 export const Page = ({ route, children }) => {
   return (
     <Container fluid>
-      <Row className="pb-2 mb-2">
+      <Row className="pb-2 mb-2 d-print-none">
         <NavBar route={route} />
       </Row>
       {children}

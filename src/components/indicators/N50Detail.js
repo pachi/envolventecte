@@ -98,7 +98,7 @@ const IndicatorsN50Detail = () => {
 
   return (
     <>
-      <Row>
+      <Row className="print-section">
         <Col>
           <h3 className="mb-4">
             Tasa de renovación de aire a 50 Pa (n<sub>50</sub>)
@@ -199,7 +199,7 @@ const IndicatorsN50Detail = () => {
           </p>
         </Col>
       </Row>
-      <Row>
+      <Row className="print-section">
         <Col>
           {n50 > 0 ? (
             <Table striped bordered hover size="sm" className="small">
@@ -263,7 +263,7 @@ const IndicatorsN50Detail = () => {
           ) : null}
         </Col>
       </Row>
-      <Row>
+      <Row className="print-section">
         <Col className="text-center">
           {n50 > 0 ? (
             <N50Chart

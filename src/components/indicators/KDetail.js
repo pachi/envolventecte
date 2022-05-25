@@ -174,7 +174,7 @@ const KDetail = () => {
 
   return (
     <>
-      <Row className="mb-4">
+      <Row className="mb-4 print-section">
         <Col>
           <h3 className="mb-4">Transmitancia térmica global (K)</h3>
           <p>
@@ -259,12 +259,12 @@ const KDetail = () => {
           </mask>
         </defs>
       </svg>
-      <Row>
+      <Row className="print-section">
         <Col>
           {k_data.length > 0 ? <KElementsTable K={K} data={k_data} /> : null}
         </Col>
       </Row>
-      <Row>
+      <Row className="print-section">
         <Col className="text-center">
           {k_data.length > 0 ? <KChart data={k_data} width={1200} /> : null}
         </Col>

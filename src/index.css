@@ -1,50 +1,161 @@
-body {
-  margin: 0;
-  padding: 0;
-  padding-bottom: 50px; /* Separa body de navbar fixedbottom*/
-  font-family: sans-serif;
+@media all {
+  body {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 50px; /* Separa body de navbar fixedbottom*/
+    font-family: sans-serif;
+  }
+
+  #shadingfactorstable th,
+  #radiationtable th,
+  #julyradiationtable th {
+    text-align: center;
+  }
+  #shadingfactorstable tbody,
+  #radiationtable tbody,
+  #julyradiationtable tbody {
+    text-align: right;
+    background-color: white;
+  }
+  #shadingfactorstable,
+  #radiationtable,
+  #julyradiationtable {
+    background: rgb(199, 215, 236);
+  }
+
+  tr.outsidetenv td {
+    opacity: 0.5;
+  }
+
+  tr.id_error_warning td {
+    color: rgb(180, 80, 0);
+  }
+
+  tr.id_error_danger {
+    color: rgb(180, 0, 0);
+  }
+
+  td.td-column-readonly {
+    opacity: 0.6;
+    background-color: rgb(220, 220, 220);
+  }
+
+  td.td-column-computed-readonly {
+    opacity: 0.8;
+    background-color: rgb(220, 220, 220);
+    color: navy;
+  }
+
+  canvas {
+    flex: 1 1 100%;
+  }
+
+  ul.indice li,
+  ol.indice li {
+    font-weight: bold;
+    color: gray;
+  }
+  ul.indice li:hover,
+  ol.indice li:hover {
+    text-decoration: underline;
+  }
+
+  /* Encabezado y pie de página para imprimir */
+  #print-head,
+  #print-foot {
+    display: none;
+  }
 }
 
-#shadingfactorstable th,
-#radiationtable th,
-#julyradiationtable th {
-  text-align: center;
-}
-#shadingfactorstable tbody,
-#radiationtable tbody,
-#julyradiationtable tbody {
-  text-align: right;
-  background-color: white;
-}
-#shadingfactorstable,
-#radiationtable,
-#julyradiationtable {
-  background: rgb(199, 215, 236);
-}
+@media print {
+  @page {
+    margin: 2cm;
+    margin-top: 3cm;
+    font-size: 9pt;
+    size: A4 portrait;
 
-tr.outsidetenv td {
-  opacity: 0.5;
-}
+    /* Estas propiedades CSS3-page no están soportadas por los navegadores 
+    
+    Así que usamos algún truco: https://stackoverflow.com/questions/15797161/browser-support-for-css-page-numbers
+    */
 
-tr.id_error_warning td {
-  color: rgb(180, 80, 0);
-}
+    /*
+    @top-center {
+      content: "EnvolventeCTE";
+      color: blue;
+    }
 
-tr.id_error_danger {
-  color: rgb(180, 0, 0);
-}
+    @top-right-corner {
+      content: url(/src/components/img/logo.svg);
+    }
+    @bottom-right {
+      content: counter(page) " de " counter(pages);
+    }
+    
+    */
+  }
 
-td.td-column-readonly {
-  opacity: 0.6;
-  background-color: rgb(220,220,220)
-}
+  a:after {
+    content: "(" attr(href) ")";
+  }
 
-td.td-column-computed-readonly {
-  opacity: 0.8;
-  background-color: rgb(220,220,220);
-  color: navy;
-}
+  .print-break {
+    page-break-before: always;
+  }
 
-canvas { 
-  flex: 1 1 100%;
+  .print-section {
+    page-break-inside: avoid;
+  }
+
+  body {
+    padding-top: 3em;
+  }
+
+  /* Bloques para encabezado y pie de página */
+  /* 
+    <div id="print-head">
+      Heading for paged media
+    </div>
+    <div id="print-foot">
+      Page: 
+    </div>
+  */
+  #print-head {
+    display: block;
+    position: fixed;
+    top: 0pt;
+    left: 0pt;
+    right: 0pt;
+
+    font-size: 200%;
+    text-align: center;
+  }
+
+  #print-foot {
+    display: block;
+    position: fixed;
+    bottom: 0pt;
+    right: 0pt;
+
+    font-size: 200%;
+  }
+
+  #print-foot:after {
+    content: counter(page);
+    counter-increment: page;
+  }
+  /* Fin de bloques para encabezado y pie de página */
+
+  .pagebreak {
+    page-break-after: always;
+  }
+
+  table,
+  figure {
+    page-break-inside: avoid;
+  }
+
+  .navbar {
+    display: none;
+  }
 }

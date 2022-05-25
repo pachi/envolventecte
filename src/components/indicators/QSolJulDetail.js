@@ -64,7 +64,7 @@ const QSolJulDetail = () => {
 
   return (
     <>
-      <Row>
+      <Row className="print-section">
         <Col>
           <h3 className="mb-4">
             Control solar de los huecos (q<sub>sol;jul</sub>)
@@ -135,7 +135,7 @@ const QSolJulDetail = () => {
           </p>
         </Col>
       </Row>
-      <Row className="mt-4">
+      <Row className="mt-4 print-section">
         <Col>
           {q_soljul_detail.length > 0 ? (
             <QSolJulTable
@@ -146,7 +146,7 @@ const QSolJulDetail = () => {
           ) : null}
         </Col>
       </Row>
-      <Row>
+      <Row className="print-section">
         <Col className="text-center">
           {q_soljul_detail.length > 0 ? (
             <QSolJulChart
