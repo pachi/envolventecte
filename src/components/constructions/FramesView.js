@@ -41,7 +41,7 @@ const FramesView = observer(() => {
       <Row>
         <Col>
           <h4>
-            Vidrios{" "}
+            Marcos{" "}
             <small className="text-muted">
               ({appstate.cons.frames.length})
             </small>
