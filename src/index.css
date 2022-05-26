@@ -72,26 +72,23 @@
     margin: 30mm 20mm;
     font-size: 9pt;
     size: A4 portrait;
+    /* counter-reset: page; */
 
     /* Estas propiedades CSS3-page no están soportadas por los navegadores 
     
     Así que usamos algún truco: https://stackoverflow.com/questions/15797161/browser-support-for-css-page-numbers
     */
 
-    /*
-    @top-center {
+    /* @top-center {
       content: "EnvolventeCTE";
-      color: blue;
     }
 
     @top-right-corner {
       content: url(/src/components/img/logo.svg);
     }
     @bottom-right {
-      content: counter(page) " de " counter(pages);
-    }
-    
-    */
+      content: counter(page) " / " counter(pages);
+    } */
   }
 
   a:after {
