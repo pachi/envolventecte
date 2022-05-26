@@ -43,6 +43,7 @@ export const App = () => {
   const [buildingActiveKey, setBuildingActiveKey] = useState("spaces");
   const [consActiveKey, setConsActiveKey] = useState("wallcons");
   const [reportActiveKey, setReportActiveKey] = useState("he1");
+  const [helpersActiveKey, setHelpersActiveKey] = useState("winproperties");
 
   return (
     <HashRouter>
@@ -89,7 +90,16 @@ export const App = () => {
             />
           }
         />
-        <Route exact path="/helpers" element={<HelpersPage />} />
+        <Route
+          exact
+          path="/helpers"
+          element={
+            <HelpersPage
+              activeKey={helpersActiveKey}
+              setActiveKey={setHelpersActiveKey}
+            />
+          }
+        />
         <Route exact path="/help" element={<HelpPage />} />
         <Route exact path="/about" element={<AboutPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />

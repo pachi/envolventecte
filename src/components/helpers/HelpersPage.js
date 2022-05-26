@@ -34,20 +34,20 @@ import { OrientacionesSprite } from "./IconsOrientaciones";
 import { FshwithSprite } from "./IconsFshwith";
 import { observer } from "mobx-react";
 
-const HelpersPage = observer(() => {
+const HelpersPage = observer(({ route, activeKey, setActiveKey }) => {
   const appstate = useContext(AppState);
   return (
-    <Page>
+    <Page route={route}>
       <OrientacionesSprite />
       <FshwithSprite />
       <Row>
         <Col>
-          <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
-            <Tab eventKey={1} title="Huecos" className="pt-3">
+          <Tabs activeKey={activeKey} onSelect={setActiveKey} id="helpers_tab">
+            <Tab eventKey="winproperties" title="Huecos" className="pt-3">
               <HuecosParams />
             </Tab>
             <Tab
-              eventKey={2}
+              eventKey="radiation"
               title="Radiación acumulada"
               className="pt-3"
             >
@@ -57,7 +57,7 @@ const HelpersPage = observer(() => {
               />
             </Tab>
             <Tab
-              eventKey={3}
+              eventKey="fshwith"
               title="Factores de reducción por sombras"
               className="pt-3"
             >
