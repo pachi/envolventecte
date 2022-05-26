@@ -24,13 +24,15 @@
 
 # Nueva funcionalidad
 
+- Gestor de biblioteca en Ayudas
+    - Seleccionar elementos y trasladar a la base de datos del edificio
 - Integrar cálculo de F_sh;obst en el programa
     - Añadir en vista de huecos un botón para calcular F_sh;obst y otro para cargar datos externos (KyGananciasSolares.txt)
 - Estimación de longitudes de PTs
 - Definición de lamas en huecos
 - Elementos: calcular acristalamientos con sombras móviles usando directamente parámetros U_gl, g_gl_n, tau_e_B y ro_e_B
 - Elementos: calculadoras de U de opacos
-- Elementos: calcular R_u de espacios acondicionados adyacentes y bajocubierta s/ UNE-EN ISO 8996=2021
+- Elementos: "Medianeras". Calcular R_u de espacios acondicionados adyacentes y bajocubierta s/ UNE-EN ISO 8996=2021
 - Elementos: añadir nueva construcción de hueco a partir de pestaña de elementos
 - Gráfica de radiación y fshwi por orientaciones en clima
 - Dibujar trayectorias solares en el espacio, para algunos meses y poder mostrar u ocultar.
