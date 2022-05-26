@@ -69,8 +69,7 @@
 
 @media print {
   @page {
-    margin: 2cm;
-    margin-top: 3cm;
+    margin: 30mm 20mm;
     font-size: 9pt;
     size: A4 portrait;
 
