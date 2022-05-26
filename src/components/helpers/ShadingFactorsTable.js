@@ -29,18 +29,18 @@ import { FshwithIcon } from "./IconsFshwith";
 
 const LEVELS = [
   {
-    key: "f_shwith200",
-    value:
+    value: "f_shwith200",
+    label:
       "200 W/m² - dispositivos de sombra con control y accionamiento automático",
   },
   {
-    key: "f_shwith300",
-    value:
+    value: "f_shwith300",
+    label:
       "300 W/m² - dispositivos de sombra con accionamiento y control manual",
   },
   {
-    key: "f_shwith500",
-    value:
+    value: "f_shwith500",
+    label:
       "500 W/m² - dispositivos de sombra en modo de calefacción (evita cargas extremas)",
   },
 ];
@@ -61,7 +61,7 @@ const selectedMonths = (start, end) => {
 // import { OrientacionesSprite } from "./IconsOrientaciones"; -> <OrientacionesSprite/>
 // import { FshwithSprite } from "./IconsFshwith"; -> <FshwithSprite/>
 const ShadingFactorsTable = ({ data, climatezone }) => {
-  const [showlevel, setShowlevel] = useState("500");
+  const [showlevel, setShowlevel] = useState("300");
   const [startMonth, setStartMonth] = useState("JUN");
   const [endMonth, setEndMonth] = useState("SET");
   const [selStart, selEnd] = selectedMonths(startMonth, endMonth);
@@ -109,14 +109,14 @@ const ShadingFactorsTable = ({ data, climatezone }) => {
           </Form.Label>
           <Col>
             <Form.Control
-              value={showlevel}
-              onChange={(e) => setShowlevel(e.target.value)}
+              value={`f_shwith${showlevel}`}
+              onChange={(e) => setShowlevel(e.target.value.slice(-3))}
               as="select"
               placeholder="select"
             >
-              {LEVELS.map(({ key, value }) => (
-                <option value={value} key={key}>
-                  {value}
+              {LEVELS.map(({ value, label }) => (
+                <option value={value} key={value}>
+                  {label}
                 </option>
               ))}
             </Form.Control>
