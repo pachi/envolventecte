@@ -66,6 +66,8 @@ export const getFloatOrOld = (newValue, oldValue) => {
   return isNaN(value) ? oldValue : value;
 };
 
+// Formateadores -------------------------------------------------------------
+
 // Muestra número con 1 decimal
 export const Float1DigitsFmt = (cell, _row, _rowIndex, _formatExtraData) => {
   if (cell === null || cell === undefined) {
@@ -185,12 +187,7 @@ posición: ${PosFmt(geom.position)}`;
 };
 
 // Convierte geometría de hueco a icono según tenga o no punto de inserción
-export const WindowGeomIconFmt = (
-  geometry,
-  row,
-  _rowIndex,
-  wallData
-) => {
+export const WindowGeomIconFmt = (geometry, row, _rowIndex, wallData) => {
   const wall = wallData[row.wall];
   const has_wall = wall !== undefined;
   const azimuth_dir = has_wall ? AzimuthFmt(wall.azimuth) : "-";
@@ -263,6 +260,20 @@ export const SpaceTypeFmt = (cell, _row, _rowIndex, _formatExtraData) =>
 export const spaceTypesOpts = Object.keys(SPACETYPESMAP).map((k) => {
   return { value: k, label: SPACETYPESMAP[k] };
 });
+
+// Validadores ---------------------------------------------------------------
+
+// Comprueba que el valor es un número y no es negativo
+export const validateNonNegNumber = (newValue, _row, _column) => {
+  if (newValue == null || newValue == "" || isNaN(newValue) || newValue < 0.0) {
+    return {
+      valid: false,
+      message: "Debe introducir un valor numérico mayor o igual que cero",
+    };
+  } else {
+    return true;
+  }
+};
 
 // Normaliza número a un intervalo arbitrario (wrapping)
 export function normalize(value, start, end) {

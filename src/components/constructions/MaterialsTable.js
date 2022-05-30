@@ -32,6 +32,7 @@ import {
   Float1DigitsFmt,
   Float3DigitsFmt,
   getFloatOrOld,
+  validateNonNegNumber,
 } from "../building/TableHelpers";
 
 // Tabla de materiales para opacos del edificio
@@ -89,6 +90,11 @@ const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "density",
       text: "Densidad",
       align: "center",
+      editable: (_cell, row) =>
+        row.conductivity == undefined || row.conductivity == null
+          ? false
+          : true,
+      validator: validateNonNegNumber,
       formatter: Float1DigitsFmt,
       headerTitle: () => "Densidad del material (kg/m³)",
       headerClasses: "text-light bg-secondary",
@@ -107,6 +113,11 @@ const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "specific_heat",
       text: "Calor específico",
       align: "center",
+      editable: (_cell, row) =>
+        row.conductivity == undefined || row.conductivity == null
+          ? false
+          : true,
+      validator: validateNonNegNumber,
       formatter: Float1DigitsFmt,
       headerTitle: () => "Calor específico del material (J/kg·K)",
       headerClasses: "text-light bg-secondary",
@@ -192,7 +203,7 @@ const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
             row?.conductivity ? null : (row["conductivity"] = 1.0);
             row?.density ? null : (row["density"] = 1000.0);
           }
-          row["vapour_diff"] === null? delete row["vapour_diff"] : null;
+          row["vapour_diff"] === null ? delete row["vapour_diff"] : null;
         },
       })}
       selectRow={{
