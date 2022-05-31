@@ -28,8 +28,7 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { Float2DigitsFmt, ThermalBridgeTypesFmt, ThermalBridgeTypesOpts, getFloatOrOld } from "./TableHelpers";
-
+import { Float2DigitsFmt, ThermalBridgeTypesFmt, ThermalBridgeTypesOpts, getFloatOrOld, validateNonNegNumber, validateNumber } from "./TableHelpers";
 
 // Tabla de puentes térmicos del edificio
 const PTsTable = ({ selectedIds, setSelectedIds }) => {
@@ -55,9 +54,10 @@ const PTsTable = ({ selectedIds, setSelectedIds }) => {
     },
     {
       dataField: "l",
-      formatter: Float2DigitsFmt,
       text: "Longitud",
       align: "center",
+      formatter: Float2DigitsFmt,
+      validator: validateNonNegNumber,
       headerTitle: (_col, _colIndex) => "Longitud del puente térmico (m)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
@@ -99,6 +99,7 @@ const PTsTable = ({ selectedIds, setSelectedIds }) => {
       text: "Transmitancia",
       align: "center",
       formatter: Float2DigitsFmt,
+      validator: validateNumber,
       headerClasses: "text-light bg-secondary",
       headerAttrs: {
         title: "Transmitancia térmica lineal del puente térmico (W/mK)",

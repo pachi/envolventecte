@@ -28,7 +28,7 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { Float2DigitsFmt, getFloatOrOld } from "../building/TableHelpers";
+import { Float2DigitsFmt, getFloatOrOld, validateNonNegNumber } from "../building/TableHelpers";
 
 // Tabla de materiales para opacos del edificio
 const GlassesTable = ({ selectedIds, setSelectedIds }) => {
@@ -51,6 +51,7 @@ const GlassesTable = ({ selectedIds, setSelectedIds }) => {
       text: "U",
       align: "center",
       formatter: Float2DigitsFmt,
+      validator: validateNonNegNumber,
       headerTitle: () => "Transmitancia térmica del vidrio (W/m²K)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
@@ -68,6 +69,7 @@ const GlassesTable = ({ selectedIds, setSelectedIds }) => {
       text: "Factor solar del vidrio a incidencia normal",
       align: "center",
       formatter: Float2DigitsFmt,
+      validator: validateNonNegNumber,
       headerTitle: () => "Factor solar del vidrio a incidencia normal (-)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",

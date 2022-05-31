@@ -28,7 +28,7 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { Float2DigitsFmt, getFloatOrOld } from "../building/TableHelpers";
+import { Float2DigitsFmt, getFloatOrOld, validateNonNegNumber } from "../building/TableHelpers";
 
 // Tabla de materiales para opacos del edificio
 const FamesTable = ({ selectedIds, setSelectedIds }) => {
@@ -51,6 +51,7 @@ const FamesTable = ({ selectedIds, setSelectedIds }) => {
       text: "U",
       align: "center",
       formatter: Float2DigitsFmt,
+      validator: validateNonNegNumber,
       headerTitle: () => "Transmitancia térmica del marco (W/m²K)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
@@ -68,6 +69,7 @@ const FamesTable = ({ selectedIds, setSelectedIds }) => {
       text: "Absortividad del marco",
       align: "center",
       formatter: Float2DigitsFmt,
+      validator: validateNonNegNumber,
       headerTitle: () => "Absortividad del marco (-)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",

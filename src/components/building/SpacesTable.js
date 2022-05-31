@@ -36,6 +36,9 @@ import {
   MultiplierFmt,
   InsideTeFmt,
   ZFmt,
+  validateNonNegNumber,
+  validateNumber,
+  validateIntegerNumber,
 } from "./TableHelpers";
 
 // Custom editor para pertenencia a la ET
@@ -147,6 +150,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       text: "Multiplicador",
       align: "center",
       formatter: MultiplierFmt,
+      validator: validateIntegerNumber,
       headerTitle: () => "Multiplicador (-). Número de espacios iguales",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
@@ -211,6 +215,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       text: "Altura",
       align: "center",
       formatter: Float2DigitsFmt,
+      validator: validateNonNegNumber,
       headerTitle: () =>
         "Altura total, bruta, o de suelo a suelo, del espacio (m)",
       headerClasses: "text-light bg-secondary",
@@ -257,6 +262,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       text: "z",
       align: "center",
       formatter: ZFmt,
+      validator: validateNumber,
       headerTitle: () => "Cota de la planta respecto al terreno, en m",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",

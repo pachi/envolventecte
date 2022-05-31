@@ -28,7 +28,7 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { Float2DigitsFmt, getFloatOrOld, NameFromIdFmt } from "../building/TableHelpers";
+import { Float2DigitsFmt, getFloatOrOld, NameFromIdFmt, validateNonNegNumber, validateNumber } from "../building/TableHelpers";
 import { FRAME, GLASS } from "../../stores/types";
 
 /// Formato de U de hueco (id -> U)
@@ -106,6 +106,7 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       text: "F_f",
       align: "center",
       formatter: Float2DigitsFmt,
+      validator: validateNonNegNumber,
       headerTitle: () =>
         "Fracción de marco de la construcción de hueco (-)\n0.0 = sin marco, 1.0 = completamente opaco",
       headerClasses: "text-light bg-secondary",
@@ -125,6 +126,7 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       text: "delta_u",
       align: "center",
       formatter: Float2DigitsFmt,
+      validator: validateNumber,
       headerTitle: () =>
         "Procentaje de incremento de trasnmitancia por intercalarios o cajones de persiana (%)",
       headerClasses: "text-light bg-secondary",
@@ -144,6 +146,7 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       text: "g_gl;sh;wi",
       align: "center",
       formatter: Float2DigitsFmt,
+      validator: validateNonNegNumber,
       headerTitle: () =>
         "Factor solar del hueco con la protección solar móvil activada (-)",
       headerClasses: "text-light bg-secondary",
@@ -163,6 +166,7 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       text: "C_100",
       align: "center",
       formatter: Float2DigitsFmt,
+      validator: validateNonNegNumber,
       headerTitle: () =>
         "Coeficiente de permeabilidad al aire del hueco a 100 Pa (m³/hm²).\n" +
         "La clase de permeabilidad al aire de los huecos, " +

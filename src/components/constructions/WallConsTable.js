@@ -28,7 +28,7 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { Float2DigitsFmt, getFloatOrOld } from "../building/TableHelpers";
+import { Float2DigitsFmt, getFloatOrOld, validateNonNegNumber } from "../building/TableHelpers";
 import { LayersEditor } from "./LayersEditors";
 
 /// Formato de espesor total de construcción de opaco (id -> thickness)
@@ -162,6 +162,7 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       text: "Absortividad",
       align: "center",
       formatter: Float2DigitsFmt,
+      validator: validateNonNegNumber,
       headerTitle: () => "Absortividad térmica de la solución constructiva (-)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",

@@ -107,9 +107,9 @@ export const BoolFmt = (cell, _row, _rowIndex, _formatExtraData) => (
 // Multiplier (por defecto es 1.0)
 export const MultiplierFmt = (cell, _row, _rowIndex, _formatExtraData) =>
   cell === null || cell === undefined ? (
-    <span>1.0</span>
+    <span>1</span>
   ) : (
-    <span>{Number(cell).toFixed(1)}</span>
+    <span>{Number(cell).toFixed(0)}</span>
   );
 
 // Muestra pertenencia a la ET (por defecto es sí)
@@ -274,6 +274,31 @@ export const validateNonNegNumber = (newValue, _row, _column) => {
     return true;
   }
 };
+
+// Comprueba que el valor es un número
+export const validateNumber = (newValue, _row, _column) => {
+  if (newValue == null || newValue == "" || isNaN(newValue)) {
+    return {
+      valid: false,
+      message: "Debe introducir un valor numérico",
+    };
+  } else {
+    return true;
+  }
+};
+
+// Comprueba que el valor es un número entero
+export const validateIntegerNumber = (newValue, _row, _column) => {
+  if (newValue == null || newValue == "" || isNaN(newValue) || Number(newValue) % 1 !== 0) {
+    return {
+      valid: false,
+      message: "Debe introducir un numéro entero",
+    };
+  } else {
+    return true;
+  }
+};
+
 
 // Normaliza número a un intervalo arbitrario (wrapping)
 export function normalize(value, start, end) {
