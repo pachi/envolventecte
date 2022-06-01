@@ -29,7 +29,7 @@ SOFTWARE.
 // U_cub = 0.6  -> R_u = 0,30
 // U_cub = 0.0  -> R_u = 0,40
 
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState } from "react";
 import { Col, Form, Card, Row } from "react-bootstrap";
 
 export const BoundaryWallResistance = (_props) => {
