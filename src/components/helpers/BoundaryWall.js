@@ -44,8 +44,8 @@ export const BoundaryWallResistance = (_props) => {
       <Row>
         <Col>
           <p className="lead">
-            Resistencia térmica equivalente de espacios no calefactados (acondicionados) según
-            UNE-EN ISO 6946:2021
+            Resistencia térmica equivalente de espacios no calefactados
+            (acondicionados) según UNE-EN ISO 6946:2021
           </p>
           <p className="small">
             Cálculo de la resistencia térmica adicional para modelizar el efecto
@@ -104,7 +104,7 @@ export const BoundaryWallResistance = (_props) => {
 
             <Form.Group as={Row} controlId="formControlsExternalArea">
               <Col as={Form.Label} md={2} className="text-end">
-              A<sub>e</sub> = &sum;A<sub>e,k</sub>:
+                A<sub>e</sub> = &sum;A<sub>e,k</sub>:
               </Col>{" "}
               <Col md={1}>
                 <Form.Control
@@ -171,14 +171,17 @@ export const BoundaryWallResistance = (_props) => {
                 n=3 ren/h
               </Col>
             </Form.Group>
-
           </Form>
         </Col>
       </Row>
-      <Row>
+      <Row className="mt-4">
         <Col className="text-center">
-          R<sub>u</sub> ={" "}
-          {(supInt / (supExt * uExt + 0.33 * n * volume)).toFixed(2)} m²·K/W
+          <Card>
+            <Card.Body>
+              R<sub>u</sub> ={" "}
+              {(supInt / (supExt * uExt + 0.33 * n * volume)).toFixed(2)} m²·K/W
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
     </>
