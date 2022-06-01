@@ -23,6 +23,7 @@ SOFTWARE.
 
 import React, { useContext } from "react";
 import { Col, Row, Tabs, Tab } from "react-bootstrap";
+import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 
@@ -32,7 +33,7 @@ import MonthlyRadiationTable from "./MonthlyRadiationTable";
 import ShadingFactorsTable from "./ShadingFactorsTable";
 import { OrientacionesSprite } from "./IconsOrientaciones";
 import { FshwithSprite } from "./IconsFshwith";
-import { observer } from "mobx-react";
+import {BoundaryWallResistance} from "./BoundaryWall";
 
 const HelpersPage = observer(({ route, activeKey, setActiveKey }) => {
   const appstate = useContext(AppState);
@@ -43,7 +44,10 @@ const HelpersPage = observer(({ route, activeKey, setActiveKey }) => {
       <Row>
         <Col>
           <Tabs activeKey={activeKey} onSelect={setActiveKey} id="helpers_tab">
-            <Tab eventKey="winproperties" title="Huecos" className="pt-3">
+            <Tab eventKey="winproperties" title="Medianeras" className="pt-3">
+              <BoundaryWallResistance />
+            </Tab>
+            <Tab eventKey="boundarywallresistance" title="Huecos" className="pt-3">
               <HuecosParams />
             </Tab>
             <Tab
