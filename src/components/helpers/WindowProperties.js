@@ -21,6 +21,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+// Propiedades de los huecos a partir de la definición del tipo de vidrio y protecciones solares móviles
+// Cálculo de los factores multiplicadores del factor solar para HULC y otros procedimientos
+
 import React, { useState, useCallback, useEffect } from "react";
 import { Col, Form, Card, Row } from "react-bootstrap";
 
@@ -53,6 +56,19 @@ export const HuecosParams = (_props) => {
 
   const vidrio = ACRISTALAMIENTOS.tipos.find((v) => v.name === tipovidrio);
   const F_w = ACRISTALAMIENTOS.propiedades.F_w;
+
+  const g_gl_wi = F_w * vidrio.g_gl_n || 0.0;
+  let g_gl_sh_wi;
+  if (tiposombra === "Exterior") {
+    g_gl_sh_wi = g_t_e(vidrio.U_gl, vidrio.g_gl_n, tau_e_B, rho_e_B);
+  } else if (tiposombra === "Interior") {
+    g_gl_sh_wi = g_t_i(vidrio.U_gl, vidrio.g_gl_n, tau_e_B, rho_e_B);
+  } else if (tiposombra === "Integrado") {
+    g_gl_sh_wi = g_t_m(vidrio.U_gl, vidrio.g_gl_n, tau_e_B, rho_e_B);
+  } else {
+    g_gl_sh_wi = g_gl_wi;
+  }
+
   return (
     <>
       <Row>
@@ -72,6 +88,7 @@ export const HuecosParams = (_props) => {
               <Col md={8}>
                 <Form.Control
                   value={tipovidrio}
+                  size="sm"
                   onChange={(e) => setTipovidrio(e.target.value)}
                   as="select"
                   placeholder="select"
@@ -91,6 +108,7 @@ export const HuecosParams = (_props) => {
               <Col md={8}>
                 <Form.Control
                   value={tiposombra}
+                  size="sm"
                   onChange={(e) => setTiposombra(e.target.value)}
                   as="select"
                   placeholder="select"
@@ -114,10 +132,30 @@ export const HuecosParams = (_props) => {
           </Form>
         </Col>
       </Row>
-      <Row>
+      <Row className="mt-2">
         <Col>
           <GlazingPropertiesCard
-            {...{ vidrio, F_w, tiposombra, tau_e_B, rho_e_B }}
+            {...{
+              vidrio,
+              F_w,
+              tiposombra,
+              tau_e_B,
+              rho_e_B,
+              g_gl_wi,
+              g_gl_sh_wi,
+            }}
+          />
+        </Col>
+      </Row>
+      <Row className="mt-2">
+        <Col>
+          <FactorsCard
+            {...{
+              vidrio,
+              tiposombra,
+              g_gl_wi,
+              g_gl_sh_wi,
+            }}
           />
         </Col>
       </Row>
@@ -157,6 +195,7 @@ const SombrasForm = ({ tau_e_B, setTau_e_B, rho_e_B, setRho_e_B }) => {
         <Col md={6}>
           <Form.Control
             value={opacidad}
+            size="sm"
             onChange={(e) => {
               setOpacidad(e.target.value);
             }}
@@ -180,6 +219,7 @@ const SombrasForm = ({ tau_e_B, setTau_e_B, rho_e_B, setRho_e_B }) => {
           <Form.Control
             readOnly
             type="text"
+            size="sm"
             value={tau_e_B.toFixed(2)}
             md={1}
           />
@@ -192,6 +232,7 @@ const SombrasForm = ({ tau_e_B, setTau_e_B, rho_e_B, setRho_e_B }) => {
         <Col md={6}>
           <Form.Control
             value={color}
+            size="sm"
             onChange={(e) => {
               setColor(e.target.value);
             }}
@@ -212,6 +253,7 @@ const SombrasForm = ({ tau_e_B, setTau_e_B, rho_e_B, setRho_e_B }) => {
           <Form.Control
             readOnly
             type="text"
+            size="sm"
             value={rho_e_B.toFixed(2)}
             md={1}
           />
@@ -221,19 +263,15 @@ const SombrasForm = ({ tau_e_B, setTau_e_B, rho_e_B, setRho_e_B }) => {
   );
 };
 
-const GlazingPropertiesCard = (props) => {
-  const { vidrio, F_w, tiposombra, tau_e_B, rho_e_B } = props;
-  const g_gl_wi = F_w * vidrio.g_gl_n;
-  let g_gl_sh_wi;
-  if (tiposombra === "Exterior") {
-    g_gl_sh_wi = g_t_e(vidrio.U_gl, vidrio.g_gl_n, tau_e_B, rho_e_B);
-  } else if (tiposombra === "Interior") {
-    g_gl_sh_wi = g_t_i(vidrio.U_gl, vidrio.g_gl_n, tau_e_B, rho_e_B);
-  } else if (tiposombra === "Integrado") {
-    g_gl_sh_wi = g_t_m(vidrio.U_gl, vidrio.g_gl_n, tau_e_B, rho_e_B);
-  } else {
-    g_gl_sh_wi = g_gl_wi;
-  }
+const GlazingPropertiesCard = ({
+  vidrio,
+  F_w,
+  tiposombra,
+  tau_e_B,
+  rho_e_B,
+  g_gl_wi,
+  g_gl_sh_wi,
+}) => {
   return (
     <Card>
       <Card.Header>
@@ -294,6 +332,164 @@ const GlazingPropertiesCard = (props) => {
             <sub>e,B</sub>: {rho_e_B.toFixed(2)}
           </Card.Text>
         )}
+      </Card.Body>
+    </Card>
+  );
+};
+
+const FactorsCard = ({ vidrio, tiposombra, g_gl_wi, g_gl_sh_wi }) => {
+  let [fshwithsummer, setFshwithSummer] = useState("0");
+  let [fshwithwinter, setFshwithWinter] = useState("0");
+  let [buildingUseCoef, setBuildingUseCoef] = useState(0.7);
+
+  let f_sh_with_summer = Number(fshwithsummer.replace(",", ".")).toFixed(2);
+  let f_sh_with_winter = Number(fshwithwinter.replace(",", ".")).toFixed(2);
+
+  let g_gl_sh_wi_on =
+    (1.0 - f_sh_with_summer) * g_gl_wi + f_sh_with_summer * g_gl_sh_wi;
+
+  let g_gl_sh_wi_off =
+    (1.0 - f_sh_with_winter) * g_gl_wi + f_sh_with_winter * g_gl_sh_wi;
+
+  let g_gl_wi_ref_on = g_gl_wi * buildingUseCoef;
+  let g_gl_wi_ref_off = g_gl_wi;
+
+  return (
+    <Card>
+      <Card.Header>
+        Coeficiente de corrección por dispositivo de sombra estacional (
+        {vidrio.name.toLowerCase()},{" "}
+        {tiposombra === "Ninguno"
+          ? "sin sombreamiento"
+          : `sombreamiento ${tiposombra.toLowerCase()}`}
+        ),{" "}
+        <b>
+          F<sub>g;estacional</sub>
+        </b>
+      </Card.Header>
+      <Card.Body>
+        <Card.Text>
+          <Form>
+            <Form.Group as={Row} controlId="formControlsBuildingUse">
+              <Form.Label column md={6}>
+                Uso del edificio:
+              </Form.Label>{" "}
+              <Col md={2}>
+                <Form.Control
+                  as="select"
+                  size="sm"
+                  defaultValue={buildingUseCoef}
+                  onChange={(e) => {
+                    setBuildingUseCoef(e.target.value);
+                  }}
+                >
+                  <option value={0.7}>Residencial privado</option>
+                  <option value={1.0}>Otros usos</option>
+                </Form.Control>
+              </Col>
+              <Col>
+                <i>Residencial privado, k=0.7, resto k=1.0</i>
+              </Col>
+            </Form.Group>
+            <Form.Group as={Row} controlId="formControlsFshwithSummer">
+              <Form.Label column md={6}>
+                Factor de reducción por sombras móviles <b>durante</b> el
+                periodo de activación, f<sub>sh;with;on</sub>:
+              </Form.Label>{" "}
+              <Col md={2}>
+                <Form.Control
+                  type="input"
+                  size="sm"
+                  value={fshwithsummer}
+                  onChange={(e) => {
+                    setFshwithSummer(e.target.value);
+                  }}
+                  placeholder="0.0"
+                  step="0.01"
+                />
+              </Col>
+              <Col>
+                <i>Fracción del tiempo con radiación</i>
+              </Col>
+            </Form.Group>
+            <Form.Group as={Row} controlId="formControlsFshwithSummer">
+              <Form.Label column md={6}>
+                Factor de reducción por sombras móviles <b>fuera</b> del periodo
+                de activación, f<sub>sh;with;off</sub>:
+              </Form.Label>{" "}
+              <Col md={2}>
+                <Form.Control
+                  type="input"
+                  size="sm"
+                  value={fshwithwinter}
+                  onChange={(e) => {
+                    setFshwithWinter(e.target.value);
+                  }}
+                  placeholder="0.0"
+                  step="0.01"
+                />
+              </Col>
+              <Col>
+                <i>Fracción del tiempo con radiación</i>
+              </Col>
+            </Form.Group>
+          </Form>
+
+          <hr />
+
+          <h5>
+            Periodo <b>CON</b> activación de las protecciones solares móviles
+          </h5>
+
+          <p>
+            Factor de transmitancia de energía solar del vidrio, g
+            <sub>gl;sh;wi;on</sub> = {g_gl_sh_wi_on.toFixed(2)}
+          </p>
+          <p>
+            Valor de referencia, g<sub>sh;wi;ref;on</sub> = g<sub>gl;wi</sub> ·{" "}
+            {Number(buildingUseCoef).toFixed(2)} = {g_gl_wi_ref_on.toFixed(2)}
+          </p>
+          <p>
+            <b>Coeficiente de corrección</b> del factor solar,{" "}
+            <b>
+              F<sub>g;on</sub>
+            </b>{" "}
+            = g<sub>gl;sh;wi;on</sub> / g<sub>sh;wi;ref;on</sub> ={" "}
+            <b>{(g_gl_sh_wi_on / g_gl_wi_ref_on).toFixed(2)}</b>
+          </p>
+
+          <hr />
+
+          <h5>
+            Periodo <b>SIN</b> activación de las protecciones solares móviles
+          </h5>
+          <p>
+            Factor de transmitancia de energía solar del vidrio, g
+            <sub>gl;sh;wi;off</sub> = {g_gl_sh_wi_off.toFixed(2)}
+          </p>
+          <p>
+            Valor de referencia, g<sub>sh;wi;ref;off</sub> = g<sub>gl;wi</sub> ={" "}
+            {g_gl_wi_ref_off.toFixed(2)}
+          </p>
+          <p>
+            <b>Coeficiente de corrección</b> del factor solar,{" "}
+            <b>
+              F<sub>g;off</sub>
+            </b>{" "}
+            = g<sub>gl;sh;wi;off</sub> / g<sub>sh;wi;ref;off</sub> ={" "}
+            <b>{(g_gl_sh_wi_off / g_gl_wi_ref_off).toFixed(2)}</b>
+          </p>
+
+          <hr />
+          <p className="small my-3" style={{ color: "gray" }}>
+            Estos factores correctores del factor solar se usarían en los
+            distintos procedimientos de evaluación de la eficiencia energética
+            para afectar al factor solar estacional de referencia (g
+            <sub>gl;sh;wi;ref</sub>), calculado automáticamente por el
+            procedimiento, para obtener el factor solar estacional deseado (g
+            <sub>gl;sh;wi</sub>).
+          </p>
+        </Card.Text>
       </Card.Body>
     </Card>
   );
