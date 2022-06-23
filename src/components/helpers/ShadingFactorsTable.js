@@ -253,56 +253,74 @@ const ShadingFactorsTable = ({ data, climatezone }) => {
       </Row>
       <Row>
         <Col>
-          <div className="text-info">
-            <p>
-              La tabla anterior recoge la fracción del tiempo (mensual) que el
-              dispositivo de sombra móvil está conectado (se supera el nivel de
-              irradiación indicado).
-            </p>
-            <p>
-              Estos valores pueden resultar útiles para obtener el factor solar
-              del hueco considerando los dispositivos de sombra móviles (
-              <i>
-                g<sub>gl;sh;wi</sub>
-              </i>
-              ). Para obtener valores estacionales se pueden promediar los
-              valores mensuales correspondientes a la estación (p.e. verano e
-              invierno).
-            </p>
-            <p>
-              Se puede considerar que el dispositivo está conectado cuando la
-              radiación (total) incidente supera el valor indicado (
-              <i>
-                I &gt; 200 W/m<sup>2</sup>
-              </i>
-              ,{" "}
-              <i>
-                I &gt; 300 W/m<sup>2</sup>
-              </i>
-              ,{" "}
-              <i>
-                I &gt; 500 W/m<sup>2</sup>
-              </i>
-              ) y desconectado cuando se encuentra por debajo de ese valor. Es
-              decir, un valor de{" "}
-              <i>
-                f<sub>sh;with</sub> = 1
-              </i>{" "}
-              significa que el dispositivo de sombra móvil está completamente
-              conectado o activado (p.e. un toldo extendido o una persiana
-              bajada) y un valor de{" "}
-              <i>
-                f<sub>sh;with</sub> = 0
-              </i>{" "}
-              significa que el dispositivo de sombra móvil está completamente
-              desconectado o desactivado (p.e. un toldo recogido o una persiana
-              subida).
-            </p>
-            <p>
-              NOTA: Debe tenerse en cuenta que los valores de la tabla se han
-              obtenido sin considerar el efecto de los obstáculos remotos sobre
-              el hueco.
-            </p>
+          <hr />
+          <div className="text-muted my-3">
+            <p>NOTAS:</p>
+            <ul>
+              <li>
+                La tabla anterior recoge la fracción del tiempo (mensual) que el
+                dispositivo de sombra móvil está conectado (se supera el nivel
+                de irradiación indicado) en relación al tiempo total con
+                radiación solar disponible.
+              </li>
+              <li>
+                Estos valores pueden resultar útiles para obtener el factor
+                solar del hueco considerando los dispositivos de sombra móviles
+                (
+                <i>
+                  g<sub>gl;sh;wi</sub>
+                </i>
+                ). Para obtener valores estacionales se pueden promediar los
+                valores mensuales correspondientes a la estación (p.e. verano e
+                invierno). Véase la ayuda de <i>Huecos</i>.
+              </li>
+              <li>
+                Se puede considerar que el dispositivo está conectado cuando la
+                radiación (total) incidente supera el valor indicado (
+                <i>
+                  I &gt; 200 W/m<sup>2</sup>
+                </i>
+                ,{" "}
+                <i>
+                  I &gt; 300 W/m<sup>2</sup>
+                </i>
+                ,{" "}
+                <i>
+                  I &gt; 500 W/m<sup>2</sup>
+                </i>
+                ) y desconectado cuando se encuentra por debajo de ese valor. Es
+                decir, un valor de{" "}
+                <i>
+                  f<sub>sh;with</sub> = 1
+                </i>{" "}
+                significa que el dispositivo de sombra móvil está completamente
+                conectado o activado (p.e. un toldo extendido o una persiana
+                bajada) y un valor de{" "}
+                <i>
+                  f<sub>sh;with</sub> = 0
+                </i>{" "}
+                significa que el dispositivo de sombra móvil está completamente
+                desconectado o desactivado (p.e. un toldo recogido o una
+                persiana subida).
+              </li>
+              <li>
+                Debe tenerse en cuenta que los valores de la tabla se han
+                obtenido sin considerar el efecto de los obstáculos remotos
+                sobre el hueco. Dicha obstrucción se tiene en cuenta a través
+                del factor de obstrucción de obstáculos remotos{" "}
+                <b>
+                  F<sub>sh;obst</sub>
+                </b>
+                .
+              </li>
+              <li>
+                La tabla superior recoge los supestos del{" "}
+                <a href="https://www.codigotecnico.org/pdf/Documentos/HE/DA_DB-HE-1_Calculo_de_parametros_caracteristicos_de_la_envolvente.pdf">
+                  Documento de Apoyo al Documento Básico DB-HE Ahorro de energía
+                  (DA DB-HE/1)
+                </a>
+              </li>
+            </ul>
           </div>
         </Col>
       </Row>
