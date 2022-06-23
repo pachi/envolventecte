@@ -368,175 +368,168 @@ const FactorsCard = ({ vidrio, tiposombra, g_gl_wi, g_gl_sh_wi }) => {
         </b>
       </Card.Header>
       <Card.Body>
-        <Card.Text>
-          <Form>
-            <Form.Group as={Row} controlId="formControlsBuildingUse">
-              <Form.Label column md={6}>
-                Uso del edificio:
-              </Form.Label>{" "}
-              <Col md={2}>
-                <Form.Control
-                  as="select"
-                  size="sm"
-                  defaultValue={buildingUseCoef}
-                  onChange={(e) => {
-                    setBuildingUseCoef(e.target.value);
-                  }}
-                >
-                  <option value={0.7}>Residencial privado</option>
-                  <option value={1.0}>Otros usos</option>
-                </Form.Control>
-              </Col>
-              <Col>
-                <i>Residencial privado, k=0.7, resto k=1.0</i>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} controlId="formControlsFshwithSummer">
-              <Form.Label column md={6}>
-                Factor de reducción por sombras móviles medio <b>durante</b> el
-                periodo / meses de activación, f<sub>sh;with;on</sub>:
-              </Form.Label>{" "}
-              <Col md={2}>
-                <Form.Control
-                  type="input"
-                  size="sm"
-                  value={fshwithsummer}
-                  onChange={(e) => {
-                    setFshwithSummer(e.target.value);
-                  }}
-                  placeholder="1.0"
-                  step="0.01"
-                />
-              </Col>
-              <Col>
-                <i>
-                  Tiempo de activación respecto al tiempo total con radiación
-                </i>
-              </Col>
-            </Form.Group>
-            <Form.Group as={Row} controlId="formControlsFshwithSummer">
-              <Form.Label column md={6}>
-                Factor de reducción por sombras móviles medio <b>fuera</b> del
-                periodo / meses de activación, f<sub>sh;with;off</sub>:
-              </Form.Label>{" "}
-              <Col md={2}>
-                <Form.Control
-                  type="input"
-                  size="sm"
-                  value={fshwithwinter}
-                  onChange={(e) => {
-                    setFshwithWinter(e.target.value);
-                  }}
-                  placeholder="1.0"
-                  step="0.01"
-                />
-              </Col>
-              <Col>
-                <i>
-                  Tiempo de activación respecto al tiempo total con radiación
-                </i>
-              </Col>
-            </Form.Group>
-          </Form>
+        <Form>
+          <Form.Group as={Row} controlId="formControlsBuildingUse">
+            <Form.Label column md={6}>
+              Uso del edificio:
+            </Form.Label>{" "}
+            <Col md={2}>
+              <Form.Control
+                as="select"
+                size="sm"
+                defaultValue={buildingUseCoef}
+                onChange={(e) => {
+                  setBuildingUseCoef(e.target.value);
+                }}
+              >
+                <option value={0.7}>Residencial privado</option>
+                <option value={1.0}>Otros usos</option>
+              </Form.Control>
+            </Col>
+            <Col>
+              <i>Residencial privado, k=0.7, resto k=1.0</i>
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row} controlId="formControlsFshwithSummer">
+            <Form.Label column md={6}>
+              Factor de reducción por sombras móviles medio <b>durante</b> el
+              periodo / meses de activación, f<sub>sh;with;on</sub>:
+            </Form.Label>{" "}
+            <Col md={2}>
+              <Form.Control
+                type="input"
+                size="sm"
+                value={fshwithsummer}
+                onChange={(e) => {
+                  setFshwithSummer(e.target.value);
+                }}
+                placeholder="1.0"
+                step="0.01"
+              />
+            </Col>
+            <Col>
+              <i>Tiempo de activación respecto al tiempo total con radiación</i>
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row} controlId="formControlsFshwithSummer">
+            <Form.Label column md={6}>
+              Factor de reducción por sombras móviles medio <b>fuera</b> del
+              periodo / meses de activación, f<sub>sh;with;off</sub>:
+            </Form.Label>{" "}
+            <Col md={2}>
+              <Form.Control
+                type="input"
+                size="sm"
+                value={fshwithwinter}
+                onChange={(e) => {
+                  setFshwithWinter(e.target.value);
+                }}
+                placeholder="1.0"
+                step="0.01"
+              />
+            </Col>
+            <Col>
+              <i>Tiempo de activación respecto al tiempo total con radiación</i>
+            </Col>
+          </Form.Group>
+        </Form>
 
-          <hr />
+        <hr />
 
-          <h5>
-            Periodo / meses <b>CON</b> activación de las protecciones solares
-            móviles
-          </h5>
+        <h5>
+          Periodo / meses <b>CON</b> activación de las protecciones solares
+          móviles
+        </h5>
 
-          <p>
-            Factor de transmitancia de energía solar del vidrio, g
-            <sub>gl;sh;wi;on</sub> = {g_gl_sh_wi_on.toFixed(2)}
-          </p>
-          <p>
-            Valor de referencia<sup>*</sup>, g<sub>sh;wi;ref;on</sub> = g
-            <sub>gl;wi</sub> · {Number(buildingUseCoef).toFixed(2)} ={" "}
-            {g_gl_wi_ref_on.toFixed(2)}
-          </p>
-          <p>
-            <b>Coeficiente de corrección</b> del factor solar,{" "}
-            <b>
-              F<sub>g;on</sub>
-            </b>{" "}
-            = g<sub>gl;sh;wi;on</sub> / g<sub>sh;wi;ref;on</sub> ={" "}
-            <b>{(g_gl_sh_wi_on / g_gl_wi_ref_on).toFixed(2)}</b>
-          </p>
+        <p>
+          Factor de transmitancia de energía solar del vidrio, g
+          <sub>gl;sh;wi;on</sub> = {g_gl_sh_wi_on.toFixed(2)}
+        </p>
+        <p>
+          Valor de referencia<sup>*</sup>, g<sub>sh;wi;ref;on</sub> = g
+          <sub>gl;wi</sub> · {Number(buildingUseCoef).toFixed(2)} ={" "}
+          {g_gl_wi_ref_on.toFixed(2)}
+        </p>
+        <p>
+          <b>Coeficiente de corrección</b> del factor solar,{" "}
+          <b>
+            F<sub>g;on</sub>
+          </b>{" "}
+          = g<sub>gl;sh;wi;on</sub> / g<sub>sh;wi;ref;on</sub> ={" "}
+          <b>{(g_gl_sh_wi_on / g_gl_wi_ref_on).toFixed(2)}</b>
+        </p>
 
-          <hr />
+        <hr />
 
-          <h5>
-            Periodo / meses <b>SIN</b> activación de las protecciones solares
-            móviles
-          </h5>
-          <p>
-            Factor de transmitancia de energía solar del vidrio, g
-            <sub>gl;sh;wi;off</sub> = {g_gl_sh_wi_off.toFixed(2)}
-          </p>
-          <p>
-            Valor de referencia, g<sub>sh;wi;ref;off</sub> = g<sub>gl;wi</sub> ={" "}
-            {g_gl_wi_ref_off.toFixed(2)}
-          </p>
-          <p>
-            <b>Coeficiente de corrección</b> del factor solar,{" "}
-            <b>
-              F<sub>g;off</sub>
-            </b>{" "}
-            = g<sub>gl;sh;wi;off</sub> / g<sub>sh;wi;ref;off</sub> ={" "}
-            <b>{(g_gl_sh_wi_off / g_gl_wi_ref_off).toFixed(2)}</b>
-          </p>
+        <h5>
+          Periodo / meses <b>SIN</b> activación de las protecciones solares
+          móviles
+        </h5>
+        <p>
+          Factor de transmitancia de energía solar del vidrio, g
+          <sub>gl;sh;wi;off</sub> = {g_gl_sh_wi_off.toFixed(2)}
+        </p>
+        <p>
+          Valor de referencia, g<sub>sh;wi;ref;off</sub> = g<sub>gl;wi</sub> ={" "}
+          {g_gl_wi_ref_off.toFixed(2)}
+        </p>
+        <p>
+          <b>Coeficiente de corrección</b> del factor solar,{" "}
+          <b>
+            F<sub>g;off</sub>
+          </b>{" "}
+          = g<sub>gl;sh;wi;off</sub> / g<sub>sh;wi;ref;off</sub> ={" "}
+          <b>{(g_gl_sh_wi_off / g_gl_wi_ref_off).toFixed(2)}</b>
+        </p>
 
-          <hr />
+        <hr />
 
-          <div className="text-muted my-3">
-            <b>NOTAS</b>:
-            <ul>
-              <li>
-                Para el periodo de no activación puede ser más adecuado usar un
-                factor F<sub>g;off</sub>=1.0
-              </li>
-              <li>
-                Los valores de los factores de reducción medios para los
-                periodos de activación y no activación pueden obtenerse en el
-                apartado de &quot;Ayudas &gt; Factores de reducción por
-                sombras&quot; en las columnas correspondientes a los meses
-                correspondientes (inicialmente JUN-SET para el periodo de
-                activación y el resto de meses para el de no activación).
-              </li>
-              <li>
-                Debe tenerse en cuenta que el periodo / meses de activación o no
-                activación de las sombras estacionales podría tener umbrales de
-                radiación diferenciados entre periodos.
-              </li>
-              <li>
-                Estos factores correctores del factor solar se usarían en los
-                distintos procedimientos de evaluación de la eficiencia
-                energética para afectar al factor solar estacional de referencia
-                (g
-                <sub>gl;sh;wi;ref</sub>), calculado automáticamente por el
-                procedimiento, para obtener el factor solar estacional deseado
-                (g
-                <sub>gl;sh;wi</sub>).
-              </li>
-              <li>
-                <sup>*</sup> El valor de referencia (g<sub>sh;wi;ref;on</sub>)
-                se corresponde aproximadamente a la que resultaría de un
-                dispositivo de sombra móvil en el interior del acristalamiento,
-                muy traslúcido y de color blanco (&tau;<sub>e,B</sub>=0.40,
-                &rho;<sub>e,B</sub>=0.40).
-              </li>
-              <li>
-                Esta ayuda utiliza las condiciones de referencia del apartado
-                6.5 del Documento Reconocido de{" "}
-                <a href="https://energia.gob.es/es-es/Participacion/Documents/propuesta-doc-reconocido-condiciones-tecnicas/Condiciones-tecnicas-evaluacion-eficiencia-energetica.pdf">
-                  Condiciones técnicas para la evaluación de la eficiencia
-                  energética de edificios
-                </a>.
-              </li>
-            </ul>
-          </div>
-        </Card.Text>
+        <div className="text-muted my-3">
+          <b>NOTAS</b>:
+          <ul>
+            <li>
+              Para el periodo de no activación puede ser más adecuado usar un
+              factor F<sub>g;off</sub>=1.0
+            </li>
+            <li>
+              Los valores de los factores de reducción medios para los periodos
+              de activación y no activación pueden obtenerse en el apartado de
+              &quot;Ayudas &gt; Factores de reducción por sombras&quot; en las
+              columnas correspondientes a los meses correspondientes
+              (inicialmente JUN-SET para el periodo de activación y el resto de
+              meses para el de no activación).
+            </li>
+            <li>
+              Debe tenerse en cuenta que el periodo / meses de activación o no
+              activación de las sombras estacionales podría tener umbrales de
+              radiación diferenciados entre periodos.
+            </li>
+            <li>
+              Estos factores correctores del factor solar se usarían en los
+              distintos procedimientos de evaluación de la eficiencia energética
+              para afectar al factor solar estacional de referencia (g
+              <sub>gl;sh;wi;ref</sub>), calculado automáticamente por el
+              procedimiento, para obtener el factor solar estacional deseado (g
+              <sub>gl;sh;wi</sub>).
+            </li>
+            <li>
+              <sup>*</sup> El valor de referencia (g<sub>sh;wi;ref;on</sub>) se
+              corresponde aproximadamente a la que resultaría de un dispositivo
+              de sombra móvil en el interior del acristalamiento, muy traslúcido
+              y de color blanco (&tau;<sub>e,B</sub>=0.40, &rho;<sub>e,B</sub>
+              =0.40).
+            </li>
+            <li>
+              Esta ayuda utiliza las condiciones de referencia del apartado 6.5
+              del Documento Reconocido de{" "}
+              <a href="https://energia.gob.es/es-es/Participacion/Documents/propuesta-doc-reconocido-condiciones-tecnicas/Condiciones-tecnicas-evaluacion-eficiencia-energetica.pdf">
+                Condiciones técnicas para la evaluación de la eficiencia
+                energética de edificios
+              </a>
+              .
+            </li>
+          </ul>
+        </div>
       </Card.Body>
     </Card>
   );
