@@ -443,7 +443,7 @@ const FactorsCard = ({ vidrio, tiposombra, g_gl_wi, g_gl_sh_wi }) => {
 
         <p>
           Factor de transmitancia de energía solar del vidrio, g
-          <sub>gl;sh;wi;on</sub> = {g_gl_sh_wi_on.toFixed(2)}
+          <sub>gl;sh;wi;on</sub> = (1.0 - f<sub>sh;with;on</sub>) · g<sub>gl;wi</sub> + f<sub>sh;with;on</sub> · g<sub>gl;sh;wi</sub> = {g_gl_sh_wi_on.toFixed(2)}
         </p>
         <p>
           Valor de referencia<sup>*</sup>, g<sub>sh;wi;ref;on</sub> = g
@@ -467,7 +467,7 @@ const FactorsCard = ({ vidrio, tiposombra, g_gl_wi, g_gl_sh_wi }) => {
         </h5>
         <p>
           Factor de transmitancia de energía solar del vidrio, g
-          <sub>gl;sh;wi;off</sub> = {g_gl_sh_wi_off.toFixed(2)}
+          <sub>gl;sh;wi;off</sub> = (1.0 - f<sub>sh;with;off</sub>) · g<sub>gl;wi</sub> + f<sub>sh;with;off</sub> · g<sub>gl;sh;wi</sub> = {g_gl_sh_wi_off.toFixed(2)}
         </p>
         <p>
           Valor de referencia, g<sub>sh;wi;ref;off</sub> = g<sub>gl;wi</sub> ={" "}
