@@ -181,17 +181,15 @@ const ShadingFactorsTable = ({ data, climatezone }) => {
                 {MESES.map((m) => (
                   <th key={m}>{m}</th>
                 ))}
-                <th>
-                  Media
-                  <br />
-                  {MESES[selStart] + "-" + MESES[selEnd]}
+                <th style={{ background: "gray" }}>
+                  f<sub>sh;with;on</sub>
+                  <br />({MESES[selStart] + "-" + MESES[selEnd]})
                 </th>
-                <th>
-                  Media
+                <th style={{ background: "gray" }}>
+                  f<sub>sh;with;off</sub>
+                  <br />({MESES[0] + "-" + MESES[selStart - 1]}
                   <br />
-                  {MESES[0] + "-" + MESES[selStart - 1]}
-                  <br />
-                  {MESES[selEnd + 1] + "-" + MESES[MESES.length - 1]}
+                  {MESES[selEnd + 1] + "-" + MESES[MESES.length - 1]})
                 </th>
               </tr>
             </thead>
