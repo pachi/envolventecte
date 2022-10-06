@@ -94,11 +94,18 @@ class AppState {
   windows = [];
   // Sombras
   shades = [];
+  // Puentes térmicos
+  thermal_bridges = [];
   // Construcciones de opacos y huecos
   cons = { wallcons: [], wincons: [], materials: [], glasses: [], frames: [] };
 
-  // Puentes térmicos
-  thermal_bridges = [];
+  // Datos de uso
+  // Horarios
+  schedules = { year: [], week: [], day: [] };
+  // Cargas
+  loads = [];
+  // Consignas
+  sys_settings = [];
 
   // Lista de errores y avisos -------
   // Contiene objetos  { level: warninglevel, id: "element_id", msg: "my msg" }
@@ -116,6 +123,9 @@ class AppState {
       shades: observable,
       thermal_bridges: observable,
       cons: observable,
+      schedules: observable,
+      loads: observable,
+      sys_settings: observable,
       errors: observable,
 
       // Valores calculados (resultan de modificaciones del estado)
@@ -320,9 +330,30 @@ class AppState {
 
   // Recopila modelo desde el appstate
   getModel() {
-    const { meta, thermal_bridges, walls, windows, shades, spaces, cons } =
-      this;
-    return { meta, spaces, walls, windows, shades, thermal_bridges, cons };
+    const {
+      meta,
+      spaces,
+      walls,
+      windows,
+      shades,
+      thermal_bridges,
+      cons,
+      schedules,
+      loads,
+      sys_settings,
+    } = this;
+    return {
+      meta,
+      spaces,
+      walls,
+      windows,
+      shades,
+      thermal_bridges,
+      cons,
+      schedules,
+      loads,
+      sys_settings,
+    };
   }
 
   // Deja modelo limpio
@@ -340,6 +371,9 @@ class AppState {
       glasses: [],
       frames: [],
     };
+    this.schedules = { year: [], week: [], day: [] };
+    this.loads = [];
+    this.sys_settings = [];
   }
 
   // Carga modelo JSON en el appstate
@@ -358,6 +392,13 @@ class AppState {
         glasses: [],
         frames: [],
       },
+      schedules = {
+        year: [],
+        week: [],
+        day: [],
+      },
+      loads = [],
+      sys_settings = [],
     } = inputData;
 
     // Carga datos en el store
@@ -405,14 +446,32 @@ class AppState {
         ...w,
       })),
     };
+    // TODO: todavía no se regeneran valores por defecto que falten
+    this.schedules = {
+      year: schedules.year,
+      week: schedules.week,
+      day: schedules.day,
+    };
+    this.loads = loads;
+    this.sys_settings = sys_settings;
   }
 
   // Importación y exportación de datos -------------
 
   // Serialización de los datos
   get asJSON() {
-    const { meta, spaces, walls, windows, shades, thermal_bridges, cons } =
-      this;
+    const {
+      meta,
+      spaces,
+      walls,
+      windows,
+      shades,
+      thermal_bridges,
+      cons,
+      schedules,
+      loads,
+      sys_settings,
+    } = this;
 
     return JSON.stringify(
       {
@@ -423,6 +482,9 @@ class AppState {
         shades,
         thermal_bridges,
         cons,
+        schedules,
+        loads,
+        sys_settings,
       },
       null,
       2
@@ -476,7 +538,18 @@ class AppState {
           {
             level: "INFO",
             id: null,
-            msg: `Clima ${this.meta.climate}, Cargados ${this.spaces.length} espacios, ${this.walls.length} opacos, ${this.windows.length} huecos, ${this.thermal_bridges.length} PTs, ${this.shades.length} elementos de sombra, ${this.cons.wallcons.length} construcciones de opacos y ${this.cons.wincons.length} construcciones de huecos`,
+            msg: [
+              `Clima ${this.meta.climate}, Cargados: `,
+              `${this.spaces.length} espacios, `,
+              `${this.walls.length} opacos, `,
+              `${this.windows.length} huecos, `,
+              `${this.thermal_bridges.length} PTs, `,
+              `${this.shades.length} elementos de sombra, `,
+              `${this.cons.wallcons.length} construcciones de opacos, `,
+              `${this.cons.wincons.length} construcciones de huecos, `,
+              `${this.loads.length} definiciones de cargas y `,
+              `${this.sys_settings.length} definiciones de consignas`,
+            ].join(""),
           },
         ];
       } else if (mode === "FSHOBST") {
