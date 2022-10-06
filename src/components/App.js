@@ -30,6 +30,7 @@ import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 
 import AboutPage from "./about/AboutPage";
 import { BuildingPage } from "./building/BuildingPage";
+import { UsesPage } from "./uses/UsesPage";
 import ConsPage from "./constructions/ConsPage";
 import ThreeDPage from "./three/ThreeDPage";
 import HelpersPage from "./helpers/HelpersPage";
@@ -42,6 +43,7 @@ export const App = () => {
   const [projectActiveKey, setProjectActiveKey] = useState("metadata");
   const [buildingActiveKey, setBuildingActiveKey] = useState("spaces");
   const [consActiveKey, setConsActiveKey] = useState("wallcons");
+  const [usesActiveKey, setUsesActiveKey] = useState("loads");
   const [reportActiveKey, setReportActiveKey] = useState("he1");
   const [helpersActiveKey, setHelpersActiveKey] = useState("winproperties");
 
@@ -76,6 +78,16 @@ export const App = () => {
             <ConsPage
               activeKey={consActiveKey}
               setActiveKey={setConsActiveKey}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/uses"
+          element={
+            <UsesPage
+              activeKey={usesActiveKey}
+              setActiveKey={setUsesActiveKey}
             />
           }
         />

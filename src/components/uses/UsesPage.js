@@ -21,18 +21,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-export const SPACE = "spaces";
-export const WALL = "walls";
-export const WINDOW = "windows";
-export const THERMAL_BRIDGE = "thermal_bridges";
-export const SHADE = "shades";
-export const WALLCONS = "wallcons";
-export const WINCONS = "wincons";
-export const MATERIAL = "materials";
-export const GLASS = "glasses";
-export const FRAME = "frames";
-export const SCHEDULE_YEAR = "year";
-export const SCHEDULE_WEEK = "week";
-export const SCHEDULE_DAY = "day";
-export const LOAD = "loads";
-export const SYS_SETTING = "sys_settings";
+import React from "react";
+import { Col, Row, Tabs, Tab } from "react-bootstrap";
+
+import LoadsView from "./LoadsView";
+import { PageWithIndicators } from "../ui/PageWithIndicators";
+
+export const UsesPage = ({ route, activeKey, setActiveKey }) => {
+  return (
+    <PageWithIndicators route={route}>
+      <Row>
+        <Col>
+          <Tabs
+            activeKey={activeKey}
+            onSelect={setActiveKey}
+            id="building_element_tabs"
+          >
+            <Tab eventKey="loads" title="Loads" className="pt-3">
+              <LoadsView />
+            </Tab>
+          </Tabs>
+        </Col>
+      </Row>
+    </PageWithIndicators>
+  );
+};

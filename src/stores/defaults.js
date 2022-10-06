@@ -21,6 +21,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+// TODO: falta constructores de horarios y valores predeterminados
+
 import {
   new_glass,
   new_frame,
@@ -33,6 +35,8 @@ import {
   new_wincons,
   new_window,
   new_meta,
+  new_load,
+  new_sys_setting,
 } from "wasm-envolventecte";
 
 export const newSpace = () => ({
@@ -50,8 +54,8 @@ export const defaultsSpace = {
 };
 
 export const newWall = () => {
-  let w = { ...defaultsWall, ...new_wall(),  };
-  let geom = { ...defaultsWallgeom, ...w.geometry,  };
+  let w = { ...defaultsWall, ...new_wall() };
+  let geom = { ...defaultsWallgeom, ...w.geometry };
   w.geometry = geom;
 
   return w;
@@ -68,8 +72,8 @@ export const defaultsWallgeom = {
 };
 
 export const newWindow = () => {
-  let w = { ...defaultsWindow, ...new_window(),  };
-  let geom = { ...defaultsWingeom, ...w.geometry,  };
+  let w = { ...defaultsWindow, ...new_window() };
+  let geom = { ...defaultsWingeom, ...w.geometry };
   w.geometry = geom;
 
   return w;
@@ -156,4 +160,27 @@ export const defaultsMeta = {
   n50_test_ach: null,
   d_perim_insulation: 0.0,
   rn_perim_insulation: 0.0,
+};
+
+export const newLoad = () => ({
+  ...defaultsLoad,
+  ...new_load(),
+});
+
+export const defaultsLoad = {
+  name: "Carga de espacio",
+  people_schedule: null,
+  lighting_schedule: null,
+  equipment_schedule: null,
+};
+
+export const newSysSetting = () => ({
+  ...defaultsSysSetting,
+  ...new_sys_setting(),
+});
+
+export const defaultsSysSetting = {
+  name: "Consignas de espacio",
+  temp_max: null,
+  temp_min: null,
 };

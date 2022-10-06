@@ -54,6 +54,8 @@ import {
   defaultsFrame,
   newMeta,
   defaultsTb,
+  newSysSetting,
+  newLoad,
 } from "./defaults";
 
 // import radiationdata from "../zcraddata.json";
@@ -200,17 +202,24 @@ class AppState {
         return this.cons.glasses;
       case types.FRAME:
         return this.cons.frames;
+      case types.SCHEDULE_YEAR:
+        return this.schedules.year;
+      case types.SCHEDULE_WEEK:
+        return this.schedules.week;
+      case types.SCHEDULE_DAY:
+        return this.schedules.day;
+      case types.LOAD:
+        return this.loads;
+      case types.SYS_SETTING:
+        return this.sys_settings;
       default:
         return [];
     }
   }
 
   getIdNameMap(elementType) {
-    const container = types.is_cons(elementType)
-      ? this.cons[elementType]
-      : this[elementType];
     const idNameMap = new Map();
-    container.map((s) =>
+    this.getElements(elementType).map((s) =>
       s.id != EMPTY_ID
         ? (idNameMap[s.id] = s.name)
         : (idNameMap[EMPTY_ID] = "-")
@@ -219,10 +228,10 @@ class AppState {
   }
 
   getElementOptions(elementType) {
-    const container = types.is_cons(elementType)
-      ? this.cons[elementType]
-      : this[elementType];
-    return container.map(({ id, name }) => ({ value: id, label: name }));
+    return this.getElements(elementType).map(({ id, name }) => ({
+      value: id,
+      label: name,
+    }));
   }
 
   // Acciones --------
@@ -271,6 +280,15 @@ class AppState {
         el = newFrame();
         this.cons.frames.push(el);
         break;
+      case types.LOAD:
+        el = newLoad();
+        this.loads.push(el);
+        break;
+      case types.SYS_SETTING:
+        el = newSysSetting();
+        this.sys_settings.push(el);
+        break;
+      // TODO: añadir schedules
       default:
         break;
     }
@@ -279,9 +297,7 @@ class AppState {
 
   // Duplica elementos seleccionados y devuelve UUIDs de los elementos generados
   duplicateElements(elementType, selection) {
-    const container = types.is_cons(elementType)
-      ? this.cons[elementType]
-      : this[elementType];
+    const container = this.getElements(elementType);
 
     const newids = [];
     selection.forEach((id) => {
@@ -304,9 +320,7 @@ class AppState {
 
   // Elimina los elementos selecccionados del tipo indicado y devuelve el UUID del nuevo elemento seleccionado (o null)
   deleteElements(elementType, selection) {
-    const container = types.is_cons(elementType)
-      ? this.cons[elementType]
-      : this[elementType];
+    const container = this.getElements(elementType);
 
     if (selection.length > 0) {
       const indices = container.reduce((acc, cur, idx) => {

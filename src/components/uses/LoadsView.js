@@ -21,18 +21,45 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-export const SPACE = "spaces";
-export const WALL = "walls";
-export const WINDOW = "windows";
-export const THERMAL_BRIDGE = "thermal_bridges";
-export const SHADE = "shades";
-export const WALLCONS = "wallcons";
-export const WINCONS = "wincons";
-export const MATERIAL = "materials";
-export const GLASS = "glasses";
-export const FRAME = "frames";
-export const SCHEDULE_YEAR = "year";
-export const SCHEDULE_WEEK = "week";
-export const SCHEDULE_DAY = "day";
-export const LOAD = "loads";
-export const SYS_SETTING = "sys_settings";
+import React, { useState, useContext } from "react";
+import { Col, Row } from "react-bootstrap";
+import { observer } from "mobx-react";
+
+import AppState from "../../stores/AppState";
+import { LOAD } from "../../stores/types";
+
+import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
+import LoadsTable from "./LoadsTable";
+
+// Vista de cargas de los espacios
+const LoadsView = observer(() => {
+  const appstate = useContext(AppState);
+  const [selected, setSelected] = useState([]);
+
+  return (
+    <>
+      <Row>
+        <Col>
+          <h4>
+            Cargas de los espacios{" "}
+            <small className="text-muted">({appstate.loads.length})</small>
+          </h4>
+        </Col>
+        <Col md="auto">
+          <AddRemoveButtonGroup
+            elementType={LOAD}
+            selectedIds={selected}
+            setSelectedIds={setSelected}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <LoadsTable selectedIds={selected} setSelectedIds={setSelected} />
+        </Col>
+      </Row>
+    </>
+  );
+});
+
+export default LoadsView;

@@ -176,3 +176,15 @@ pub fn new_frame() -> JsValue {
 pub fn new_meta() -> JsValue {
     JsValue::from_serde(&bemodel::Meta::default()).unwrap()
 }
+
+/// Carga por defecto
+#[wasm_bindgen]
+pub fn new_load() -> JsValue {
+    JsValue::from_serde(&bemodel::SpaceLoads::default()).unwrap()
+}
+
+/// Consignas por defecto
+#[wasm_bindgen]
+pub fn new_sys_setting() -> JsValue {
+    JsValue::from_serde(&bemodel::SpaceSysConditions::default()).unwrap()
+}

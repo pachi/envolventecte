@@ -89,6 +89,11 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
               Construcción
             </Nav.Link>
           </LinkContainer>
+          <LinkContainer to="/uses" eventKey={2}>
+            <Nav.Link title="Horarios, cargas y consignas de los espacios">
+              Uso
+            </Nav.Link>
+          </LinkContainer>
           <LinkContainer to="/3d" eventKey={3}>
             <Nav.Link title="Visualización tridimensional del modelo del edificio">
               Vista3D
