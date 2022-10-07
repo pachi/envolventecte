@@ -37,7 +37,7 @@ import {
 } from "../building/TableHelpers";
 import { SCHEDULE_YEAR } from "../../stores/types";
 
-// Tabla de elementos opacos
+// Tabla de cargas de los espacios
 //  {
 //    "id": "6b351706-c5d1-19d2-3ef5-866eb367f90a",
 //    "name": "NIVEL_ESTANQUEIDAD_1",
