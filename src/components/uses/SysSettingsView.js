@@ -21,32 +21,45 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React from "react";
-import { Col, Row, Tabs, Tab } from "react-bootstrap";
+import React, { useState, useContext } from "react";
+import { Col, Row } from "react-bootstrap";
+import { observer } from "mobx-react";
 
-import { PageWithIndicators } from "../ui/PageWithIndicators";
-import LoadsView from "./LoadsView";
-import SysSettingsView from "./SysSettingsView";
+import AppState from "../../stores/AppState";
+import { SYS_SETTING } from "../../stores/types";
 
-export const UsesPage = ({ route, activeKey, setActiveKey }) => {
+import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
+import SysSettingsTable from "./SysSettingsTable";
+
+// Vista de consignas de los espacios
+const SysSettingsView = observer(() => {
+  const appstate = useContext(AppState);
+  const [selected, setSelected] = useState([]);
+
   return (
-    <PageWithIndicators route={route}>
+    <>
       <Row>
         <Col>
-          <Tabs
-            activeKey={activeKey}
-            onSelect={setActiveKey}
-            id="building_element_tabs"
-          >
-            <Tab eventKey="loads" title="Cargas" className="pt-3">
-              <LoadsView />
-            </Tab>
-            <Tab eventKey="sys_settings" title="Consignas" className="pt-3">
-              <SysSettingsView />
-            </Tab>
-          </Tabs>
+          <h4>
+            Consignas de los espacios{" "}
+            <small className="text-muted">({appstate.sys_settings.length})</small>
+          </h4>
+        </Col>
+        <Col md="auto">
+          <AddRemoveButtonGroup
+            elementType={SYS_SETTING}
+            selectedIds={selected}
+            setSelectedIds={setSelected}
+          />
         </Col>
       </Row>
-    </PageWithIndicators>
+      <Row>
+        <Col>
+          <SysSettingsTable selectedIds={selected} setSelectedIds={setSelected} />
+        </Col>
+      </Row>
+    </>
   );
-};
+});
+
+export default SysSettingsView;
