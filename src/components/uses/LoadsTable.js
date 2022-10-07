@@ -230,22 +230,26 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
         mode: "dbclick",
         blurToSave: true,
         // Corrige el valor del espacio adyacente de "" a null
+        // y convierte campos numéricos a número
         afterSaveCell: (oldValue, newValue, row, column) => {
-          if (
-            (column.dataField === "nextto" && newValue === "") ||
-            (column.dataField === "bounds" && row.bounds !== "INTERIOR")
-          ) {
-            row.nextto = null;
-          } else if (column.dataField === "A") {
-            // Convierte a número campos numéricos
-            row.A = getFloatOrOld(newValue, oldValue);
-          } else if (column.dataField === "geometry.tilt" && newValue !== "") {
-            row.geometry.tilt = getFloatOrOld(newValue, oldValue);
-          } else if (
-            column.dataField === "geometry.azimuth" &&
-            newValue !== ""
-          ) {
-            row.geometry.azimuth = getFloatOrOld(newValue, oldValue);
+          switch (column.dataField) {
+            // Campos opcionales
+            case "people_schedule":
+            case "lighting_schedule":
+            case "equipment_schedule":
+              if (newValue == "") {
+                row[column.dataField] = null;
+              }
+              break;
+            // Conversiones numéricas
+            case "people_sensible":
+            case "people_latent":
+            case "lighting":
+            case "equipment":
+              if (newValue !== "") {
+                row[column.dataField] = getFloatOrOld(newValue, oldValue);
+              }
+              break;
           }
         },
       })}
