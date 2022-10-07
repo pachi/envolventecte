@@ -41,7 +41,7 @@ import { SCHEDULE_YEAR } from "../../stores/types";
 const LoadsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const schedulesMap = appstate.getIdNameMap(SCHEDULE_YEAR);
-  const schedulesOpts = appstate.getElementOptions(SCHEDULE_YEAR);
+  const schedulesOpts = appstate.getElementOptions(SCHEDULE_YEAR, true);
 
   // Lista de IDs con errores
   const errors = appstate.warnings;

@@ -229,11 +229,15 @@ class AppState {
     return idNameMap;
   }
 
-  getElementOptions(elementType) {
-    return this.getElements(elementType).map(({ id, name }) => ({
+  getElementOptions(elementType, addEmpty=false) {
+    const opts = this.getElements(elementType).map(({ id, name }) => ({
       value: id,
       label: name,
     }));
+    if (addEmpty) {
+      opts.unshift({value: "", label: "<Vacío>"})
+    }
+    return opts;
   }
 
   // Acciones --------
