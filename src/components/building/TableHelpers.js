@@ -289,7 +289,12 @@ export const validateNumber = (newValue, _row, _column) => {
 
 // Comprueba que el valor es un número entero
 export const validateIntegerNumber = (newValue, _row, _column) => {
-  if (newValue == null || newValue == "" || isNaN(newValue) || Number(newValue) % 1 !== 0) {
+  if (
+    newValue == null ||
+    newValue == "" ||
+    isNaN(newValue) ||
+    Number(newValue) % 1 !== 0
+  ) {
     return {
       valid: false,
       message: "Debe introducir un numéro entero",
@@ -298,7 +303,6 @@ export const validateIntegerNumber = (newValue, _row, _column) => {
     return true;
   }
 };
-
 
 // Normaliza número a un intervalo arbitrario (wrapping)
 export function normalize(value, start, end) {
