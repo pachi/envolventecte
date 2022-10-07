@@ -209,7 +209,7 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       headerAlign: "center",
       headerFormatter: () => (
         <>
-          Sup<sub>oc</sub>
+          A<sub>oc</sub>
           <br />
           <span style={{ fontWeight: "normal" }}>
             <i>[m²/pax]</i>{" "}

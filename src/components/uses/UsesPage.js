@@ -37,7 +37,7 @@ export const UsesPage = ({ route, activeKey, setActiveKey }) => {
             onSelect={setActiveKey}
             id="building_element_tabs"
           >
-            <Tab eventKey="loads" title="Loads" className="pt-3">
+            <Tab eventKey="loads" title="Cargas" className="pt-3">
               <LoadsView />
             </Tab>
           </Tabs>
