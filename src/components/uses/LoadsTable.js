@@ -28,11 +28,12 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { getFloatOrOld } from "../building/TableHelpers";
 import {
-  NameFromIdFmt,
   Float2DigitsFmt,
+  getFloatOrOld,
+  NameFromIdFmt,
   validateNonNegNumber,
+  validateNonNegNumberOrEmpty,
 } from "../building/TableHelpers";
 import { SCHEDULE_YEAR } from "../../stores/types";
 
@@ -129,6 +130,25 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       headerTitle: () => "Horario de ocupación",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
+    },
+    {
+      dataField: "illuminance",
+      text: "Iluminancia",
+      align: "center",
+      formatter: Float2DigitsFmt,
+      validator: validateNonNegNumberOrEmpty,
+      headerTitle: () => "Iluminancia media en el plano de trabajo (lux)",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          E<sub>m</sub>
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[lux]</i>{" "}
+          </span>
+        </>
+      ),
     },
     {
       dataField: "lighting",
@@ -233,7 +253,15 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
         // y convierte campos numéricos a número
         afterSaveCell: (oldValue, newValue, row, column) => {
           switch (column.dataField) {
-            // Campos opcionales
+            // Campos opcionales numéricos
+            case "illuminance":
+              if (newValue == "") {
+                delete row[column.dataField];
+              } else {
+                row[column.dataField] = getFloatOrOld(newValue, oldValue);
+              }
+              break;
+            // Campos opcionales textuales
             case "people_schedule":
             case "lighting_schedule":
             case "equipment_schedule":
