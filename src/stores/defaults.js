@@ -172,6 +172,7 @@ export const defaultsLoad = {
   people_schedule: null,
   lighting_schedule: null,
   equipment_schedule: null,
+  illuminance: null,
 };
 
 export const newSysSetting = () => ({
