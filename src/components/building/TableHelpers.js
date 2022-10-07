@@ -275,6 +275,21 @@ export const validateNonNegNumber = (newValue, _row, _column) => {
   }
 };
 
+// Comprueba que el valor es un número y no es negativo o es una cadena vacía
+export const validateNonNegNumberOrEmpty = (newValue, _row, _column) => {
+  if (newValue == "") {
+    return true;
+  } else if (newValue == null || isNaN(newValue) || newValue < 0.0) {
+    return {
+      valid: false,
+      message:
+        "Debe introducir un valor numérico mayor o igual que cero o una cadena vacía",
+    };
+  } else {
+    return true;
+  }
+};
+
 // Comprueba que el valor es un número
 export const validateNumber = (newValue, _row, _column) => {
   if (newValue == null || newValue == "" || isNaN(newValue)) {
