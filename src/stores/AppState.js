@@ -56,6 +56,8 @@ import {
   defaultsTb,
   newSysSetting,
   newLoad,
+  defaultsLoad,
+  defaultsSysSetting,
 } from "./defaults";
 
 // import radiationdata from "../zcraddata.json";
@@ -460,14 +462,16 @@ class AppState {
         ...w,
       })),
     };
-    // TODO: todavía no se regeneran valores por defecto que falten
     this.schedules = {
       year: schedules.year,
       week: schedules.week,
       day: schedules.day,
     };
-    this.loads = loads;
-    this.sys_settings = sys_settings;
+    this.loads = loads.map((e) => ({ ...defaultsLoad, ...e }));
+    this.sys_settings = sys_settings.map((e) => ({
+      ...defaultsSysSetting,
+      ...e,
+    }));
   }
 
   // Importación y exportación de datos -------------
