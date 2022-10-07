@@ -4,6 +4,7 @@
 
 # Mejoras
 
+- Usar desplegable con opción de vacío en espacios adyacentes (getElementOptions con addEmpty=true)
 - instalar con npm install --legacy-peer-deps
 - Migrar a AG Grid https://www.ag-grid.com/javascript-data-grid/component-cell-editor/ ?
 - Pestaña de informes:
