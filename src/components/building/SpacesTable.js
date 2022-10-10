@@ -30,16 +30,18 @@ import { observer } from "mobx-react";
 import AppState from "../../stores/AppState";
 import {
   Float2DigitsFmt,
+  getFloatOrOld,
+  InsideTeFmt,
+  MultiplierFmt,
+  NameFromIdFmt,
   SpaceTypeFmt,
   spaceTypesOpts,
-  getFloatOrOld,
-  MultiplierFmt,
-  InsideTeFmt,
-  ZFmt,
   validateNonNegNumber,
   validateNumber,
   validateIntegerNumber,
+  ZFmt,
 } from "./TableHelpers";
+import { LOAD, SYS_SETTING } from "../../stores/types";
 
 // Custom editor para pertenencia a la ET
 //
@@ -133,6 +135,10 @@ const SpaceVolumeFmt = (_cell, row, _rowIndex, spacePropsMap) => {
 const SpacesTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const spacePropsMap = appstate.energy_indicators.props.spaces;
+  const loadsMap = appstate.getIdNameMap(LOAD);
+  const loadsOpts = appstate.getElementOptions(LOAD, true);
+  const sysSettingsMap = appstate.getIdNameMap(SYS_SETTING);
+  const sysSettingsOpts = appstate.getElementOptions(SYS_SETTING, true);
 
   const columns = [
     { dataField: "id", isKey: true, hidden: true },
@@ -277,6 +283,34 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       ),
     },
     {
+      dataField: "loads",
+      text: "Cargas",
+      editor: {
+        type: Type.SELECT,
+        options: loadsOpts,
+      },
+      align: "center",
+      formatter: NameFromIdFmt,
+      formatExtraData: loadsMap,
+      headerTitle: () => "Perfil de cargas del espacio",
+      headerAlign: "center",
+      headerClasses: "text-light bg-secondary",
+    },
+    {
+      dataField: "sys_settings",
+      text: "Consignas",
+      editor: {
+        type: Type.SELECT,
+        options: sysSettingsOpts,
+      },
+      align: "center",
+      formatter: NameFromIdFmt,
+      formatExtraData: sysSettingsMap,
+      headerTitle: () => "Consignas de temperatura en el espacio",
+      headerAlign: "center",
+      headerClasses: "text-light bg-secondary",
+    },
+    {
       dataField: "area",
       text: "A",
       isDummyField: true,
@@ -290,7 +324,8 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       headerAlign: "center",
       headerFormatter: () => (
         <>
-          A<sub>use;zt</sub><br />
+          A<sub>use;zt</sub>
+          <br />
           <span style={{ fontWeight: "normal" }}>
             <i>
               [m<sup>2</sup>]
@@ -344,7 +379,14 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
             // o cambia a null cuando no son espacios no habitables
             row.n_v = null;
           } else if (
-            !["name", "inside_tenv", "kind"].includes(column.dataField)
+            ["loads", "sys_settings"].includes(column.dataField) &&
+            newValue === ""
+          ) {
+            row[column.dataField] = null;
+          } else if (
+            !["name", "inside_tenv", "kind", "loads", "sys_settings"].includes(
+              column.dataField
+            )
           ) {
             // Convierte a número salvo en el caso del nombre o de inside_tenv
             row[column.dataField] = getFloatOrOld(newValue, oldValue);
