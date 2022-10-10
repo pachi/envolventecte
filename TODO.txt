@@ -4,12 +4,11 @@
 
 # Mejoras
 
-- Usar desplegable con opción de vacío en espacios adyacentes (getElementOptions con addEmpty=true)
 - instalar con npm install --legacy-peer-deps
 - Migrar a AG Grid https://www.ag-grid.com/javascript-data-grid/component-cell-editor/ ?
 - Pestaña de informes:
     - Mediciones (superficies, pesos y volúmenes)
-- Poner en gris materiales, vidrios, marcos y constucciones de opacos y huecos no usadas
+- Poner en gris materiales, vidrios, marcos y construcciones de opacos y huecos no usadas
 - Botón para eliminar elementos no usados
 - Nuevo tipo de construcciones en  groundCons para aislamiento perimetral de soleras?
 - Introducir overrides de huecos y muros...

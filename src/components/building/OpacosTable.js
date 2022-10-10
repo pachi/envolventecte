@@ -68,6 +68,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
   const spaceMap = appstate.getIdNameMap(SPACE);
   const wallconsOpts = appstate.getElementOptions(WALLCONS);
   const spaceOpts = appstate.getElementOptions(SPACE);
+  const spaceOptsAndNull = appstate.getElementOptions(SPACE, true);
 
   // Lista de IDs con errores
   const errors = appstate.warnings;
@@ -148,14 +149,14 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       headerAlign: "center",
     },
     {
-      dataField: "nextto",
+      dataField: "next_to",
       text: "Espacio ady.",
       editable: (cell, row) => {
         return row.bounds === "INTERIOR";
       },
       editor: {
         type: Type.SELECT,
-        options: spaceOpts,
+        options: spaceOptsAndNull,
       },
       align: "center",
       formatter: NameFromIdFmt,
@@ -244,10 +245,10 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
           // Corrige el valor del espacio adyacente de "" a null
           afterSaveCell: (oldValue, newValue, row, column) => {
             if (
-              (column.dataField === "nextto" && newValue === "") ||
+              (column.dataField === "next_to" && newValue === "") ||
               (column.dataField === "bounds" && row.bounds !== "INTERIOR")
             ) {
-              row.nextto = null;
+              row.next_to = null;
             } else if (column.dataField === "A") {
               // Convierte a número campos numéricos
               row.A = getFloatOrOld(newValue, oldValue);
