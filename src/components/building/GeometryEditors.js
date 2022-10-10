@@ -31,16 +31,10 @@ import {
   Form,
   Row,
   ToggleButton,
-  ButtonToolbar,
 } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory from "react-bootstrap-table2-editor";
 
-import iconplus from "../img/baseline-add-24px.svg";
-import iconless from "../img/baseline-remove-24px.svg";
-import iconselectall from "../img/select-rows.svg";
-import iconselectnone from "../img/unselect-rows.svg";
-import iconduplicate from "../img/outline-file_copy-24px.svg";
 import { uuidv4 } from "../../utils";
 
 import {
@@ -49,6 +43,7 @@ import {
   getFloatOrOld,
   TiltFmt,
 } from "./TableHelpers";
+import { ListEditor } from "../ui/ListEditor";
 
 /*
   The getElement function from customEditor takes two arguments,
@@ -115,7 +110,9 @@ export const GeometryOpaquesEditor = React.forwardRef(
         onHide={() => handleCancel()}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Definición geométrica de opaco o sombra ({name})</Modal.Title>
+          <Modal.Title>
+            Definición geométrica de opaco o sombra ({name})
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
@@ -224,9 +221,7 @@ const PositionEditor = ({
     <>
       <Row id="position">
         <Col>
-          <label htmlFor="position">
-            Punto de inserción del elemento:
-          </label>
+          <label htmlFor="position">Punto de inserción del elemento:</label>
           <ButtonGroup className="mb-2 btn-block">
             <ToggleButton
               type="radio"
@@ -309,7 +304,7 @@ const PositionEditor = ({
   );
 };
 
-// Tabla de puentes térmicos del edificio
+// Tabla de coordenadas X, Y de polígonos
 const CoordsTable = ({ poly, setPoly }) => {
   // Filas de puntos 2D seleccionados
   const [selected, setSelected] = useState([]);
@@ -353,13 +348,16 @@ const CoordsTable = ({ poly, setPoly }) => {
     },
   ];
 
+  const newPoint = () => ({ id: uuidv4(), X: 0.0, Y: 0.0 });
+
   return (
     <Row id="ctable">
       <Col>
         <label htmlFor="ctable">Polígono:</label>
-        <AddRemovePolyButtonGroup
-          poly={poly}
-          setPoly={setPoly}
+        <ListEditor
+          list={poly}
+          setList={setPoly}
+          newElement={newPoint}
           selectedIds={selected}
           setSelectedIds={setSelected}
         />
@@ -398,105 +396,6 @@ const CoordsTable = ({ poly, setPoly }) => {
         />
       </Col>
     </Row>
-  );
-};
-
-const AddRemovePolyButtonGroup = ({ poly, setPoly, selectedIds, setSelectedIds }) => {
-  return (
-    <ButtonToolbar>
-      <ButtonGroup
-        className="mr-2"
-        aria-label="Barra de modificación de líneas"
-      >
-        <Button
-          variant="primary"
-          size="sm"
-          title="Añadir una fila al final de la tabla"
-          onClick={() => {
-            const element = { id: uuidv4(), X: 0.0, Y: 0.0 };
-            setPoly([...poly, element]);
-            // seleccionamos nuevo elemento recién creado
-            setSelectedIds([element.id]);
-          }}
-        >
-          <img src={iconplus} alt="Añadir fila" />
-        </Button>
-        <Button
-          variant="primary"
-          size="sm"
-          title="Duplicar filas seleccionadas de la tabla"
-          onClick={() => {
-            const newids = [];
-            selectedIds.forEach((id) => {
-              const selectedIndex = poly.findIndex((h) => h.id === id);
-              if (selectedIndex !== -1) {
-                const idx = selectedIndex >= 0 ? selectedIndex : 0;
-                const selectedObj = poly[idx];
-                const dupObj = {
-                  ...selectedObj,
-                  id: uuidv4(),
-                };
-                newids.push(dupObj.id);
-                poly.splice(idx + 1, 0, dupObj);
-                setPoly(poly);
-              }
-            });
-            // Reseleccionamos lo nuevo
-            setSelectedIds(newids);
-          }}
-        >
-          <img src={iconduplicate} alt="Duplicar fila" />
-        </Button>
-        <Button
-          variant="primary"
-          size="sm"
-          title="Eliminar filas seleccionadas de la tabla"
-          onClick={() => {
-            if (selectedIds.length > 0) {
-              const indices = poly.reduce((acc, cur, idx) => {
-                if (selectedIds.includes(cur.id)) {
-                  acc.push(idx);
-                }
-                return acc;
-              }, []);
-              const minidx = Math.max(0, Math.min(...indices) - 1);
-              const newPoly = poly.filter((h) => !selectedIds.includes(h.id));
-              // Selecciona el elemento anterior al primero seleccionado salvo que no queden elementos o sea el primero, o nada si no hay elementos
-              if (newPoly.length > 0) {
-                setSelectedIds([newPoly[minidx].id]);
-              } else {
-                setSelectedIds([]);
-              }
-              setPoly(newPoly);
-            }
-          }}
-        >
-          <img src={iconless} alt="Eliminar fila" />
-        </Button>
-      </ButtonGroup>
-      <ButtonGroup aria-label="Barra de selección y deselección de filas">
-        <Button
-          variant="primary"
-          size="sm"
-          title="Seleccionar todas las filas de la tabla"
-          onClick={() => {
-            setSelectedIds(poly.map((e) => e.id));
-          }}
-        >
-          <img src={iconselectall} alt="Seleccionar todo" />
-        </Button>
-        <Button
-          variant="primary"
-          size="sm"
-          title="Deseleccionar todas las filas de la tabla"
-          onClick={() => {
-            setSelectedIds([]);
-          }}
-        >
-          <img src={iconselectnone} alt="Deseleccionar todo" />
-        </Button>
-      </ButtonGroup>
-    </ButtonToolbar>
   );
 };
 
