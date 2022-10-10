@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useState } from "react";
+import React from "react";
 import { Button, ButtonGroup, ButtonToolbar } from "react-bootstrap";
 
 import iconPlus from "../img/baseline-add-24px.svg";
