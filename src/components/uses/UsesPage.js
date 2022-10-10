@@ -26,6 +26,9 @@ import { Col, Row, Tabs, Tab } from "react-bootstrap";
 
 import { PageWithIndicators } from "../ui/PageWithIndicators";
 import LoadsView from "./LoadsView";
+import SchedulesDayView from "./SchedulesDayView";
+import SchedulesWeekView from "./SchedulesWeekView";
+import SchedulesYearView from "./SchedulesYearView";
 import SysSettingsView from "./SysSettingsView";
 
 export const UsesPage = ({ route, activeKey, setActiveKey }) => {
@@ -43,6 +46,15 @@ export const UsesPage = ({ route, activeKey, setActiveKey }) => {
             </Tab>
             <Tab eventKey="sys_settings" title="Consignas" className="pt-3">
               <SysSettingsView />
+            </Tab>
+            <Tab eventKey="schedules_year" title="Horarios anuales" className="pt-3">
+              <SchedulesYearView />
+            </Tab>
+            <Tab eventKey="schedules_week" title="Horarios semanales" className="pt-3">
+              <SchedulesWeekView />
+            </Tab>
+            <Tab eventKey="schedules_day" title="Horarios diarios" className="pt-3">
+              <SchedulesDayView />
             </Tab>
           </Tabs>
         </Col>
