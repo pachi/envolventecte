@@ -68,6 +68,14 @@ export const getFloatOrOld = (newValue, oldValue) => {
 
 // Formateadores -------------------------------------------------------------
 
+// Muestra número sin decimales
+export const Float0DigitsFmt = (cell, _row, _rowIndex, _formatExtraData) => {
+  if (cell === null || cell === undefined) {
+    return <span>-</span>;
+  }
+  return <span>{Number(cell).toFixed(0)}</span>;
+};
+
 // Muestra número con 1 decimal
 export const Float1DigitsFmt = (cell, _row, _rowIndex, _formatExtraData) => {
   if (cell === null || cell === undefined) {
@@ -260,6 +268,15 @@ export const SpaceTypeFmt = (cell, _row, _rowIndex, _formatExtraData) =>
 export const spaceTypesOpts = Object.keys(SPACETYPESMAP).map((k) => {
   return { value: k, label: SPACETYPESMAP[k] };
 });
+
+// Formato de horarios como listas de [id, repeticiones]
+// con id a nombre usando mapper
+export const ScheduleFmt = (cell, _row, _rowIndex, idMapper) => {
+  const txt = cell
+    .map(([id, count]) => `(${idMapper[id]}, ${count})`)
+    .join(", ");
+  return <span>[{txt}]</span>;
+};
 
 // Validadores ---------------------------------------------------------------
 
