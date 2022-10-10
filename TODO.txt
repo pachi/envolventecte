@@ -11,6 +11,7 @@
 - Poner en gris materiales, vidrios, marcos y construcciones de opacos y huecos no usadas
 - Introducir overrides de huecos y muros...
 - Añadir en editor de geometría una imagen del polígono (hacer versión en SVG).
+- Tablas de horarios: mostrar de forma gráfica (secuencias de cajas de colores)
 - Añadir valores de referencia HE nuevos y existentes, apéndice E, etc a gráficas
 - Mostrar tooltip en los elementos con avisos
 - ThreeView
