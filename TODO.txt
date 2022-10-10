@@ -9,8 +9,6 @@
 - Pestaña de informes:
     - Mediciones (superficies, pesos y volúmenes)
 - Poner en gris materiales, vidrios, marcos y construcciones de opacos y huecos no usadas
-- Botón para eliminar elementos no usados
-- Nuevo tipo de construcciones en  groundCons para aislamiento perimetral de soleras?
 - Introducir overrides de huecos y muros...
 - Añadir en editor de geometría una imagen del polígono (hacer versión en SVG).
 - Añadir valores de referencia HE nuevos y existentes, apéndice E, etc a gráficas
@@ -24,6 +22,8 @@
 
 # Nueva funcionalidad
 
+- Botón para eliminar elementos no usados en cada pestaña (icono de limpiar)
+- Nuevo tipo de construcciones en groundCons para aislamiento perimetral de soleras?
 - Gestor de biblioteca en Ayudas
     - Seleccionar elementos y trasladar a la base de datos del edificio
 - Integrar cálculo de F_sh;obst en el programa
