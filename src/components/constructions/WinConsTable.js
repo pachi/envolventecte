@@ -28,31 +28,16 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { Float2DigitsFmt, NameFromIdFmt } from "../tables/Formatters";
+import {
+  Float2DigitsFmt,
+  NameFromIdFmt,
+  WinconsUFmt,
+  WinconsGglwiFmt,
+} from "../tables/Formatters";
 import { validateNonNegNumber, validateNumber } from "../tables/Validators";
 import { getFloatOrOld } from "../tables/utils";
 
 import { FRAME, GLASS } from "../../stores/types";
-
-/// Formato de U de hueco (id -> U)
-const WinconsUFmt = (_cell, row, _rowIndex, propsMap) => {
-  const props = propsMap[row.id];
-  const p = props.u_value;
-  if (p === undefined || p === null || isNaN(p)) {
-    return <span>-</span>;
-  }
-  return <span>{p.toFixed(2)}</span>;
-};
-
-/// Formato de g_gl;wi de hueco (id -> g_glwi)
-const WinconsGglwiFmt = (_cell, row, _rowIndex, propsMap) => {
-  const props = propsMap[row.id];
-  const p = props.g_glwi;
-  if (p === undefined || p === null || isNaN(p)) {
-    return <span>-</span>;
-  }
-  return <span>{p.toFixed(2)}</span>;
-};
 
 // Tabla de construcciones de huecos del edificio
 const WinConsTable = ({ selectedIds, setSelectedIds }) => {

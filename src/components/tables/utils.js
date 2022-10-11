@@ -81,3 +81,33 @@ export function tilt_name(tilt_angle) {
 
   return "TECHO";
 }
+
+// Selecciona color según propiedades del material
+// Combinar conductividad con densidad para mejorar heurística según
+// https://www.codigotecnico.org/pdf/Programas/CEC/CAT-EC-v06.3_marzo_10.pdf
+export const getMatColor = (mat, _e) => {
+  if (mat.conductivity) {
+    const lambda = mat.conductivity;
+    if (lambda < 0.1) {
+      // Aislantes - amarillo
+      return "yellow";
+    } else if (lambda < 0.35) {
+      // Madera / Morteros / piezas cerámicas ligeras - naranja
+      return "orange";
+    } else if (lambda < 0.9) {
+      // Madera / Morteros / piezas cerámicas ligeras - verde
+      return "green";
+    } else if (lambda < 1.5) {
+      // Cerámica - marrón
+      return "brown";
+    } else if (lambda < 3.0) {
+      // Mortero / hormigón - gris oscuro
+      return "darkgray";
+    } else {
+      // Metal - azul oscuro
+      return "navyblue";
+    }
+  } else {
+    return "lightblue";
+  }
+};

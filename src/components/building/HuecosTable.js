@@ -32,43 +32,14 @@ import {
   NameFromIdFmt,
   WindowGeomFmt,
   WindowGeomIconFmt,
+  WinAreaFmt,
+  FshobstFmt,
+  WindowUFmt,
 } from "../tables/Formatters";
 import { getFloatOrOld } from "../tables/utils";
 
 import { GeometryWindowEditor } from "./GeometryEditors";
 import { WINCONS, WALL } from "../../stores/types";
-
-// Formato de área de huecos (id -> area)
-const WinAreaFmt = (_cell, row, _rowIndex, winProps) => {
-  // cell == id
-  const props = winProps[row.id];
-  const area = props.area * props.multiplier;
-  if (area === undefined || area === null || isNaN(area)) {
-    return <span>-</span>;
-  }
-  return <span>{area.toFixed(2)}</span>;
-};
-
-// Formato de fshobst (id -> fshobst)
-const FshobstFmt = (_cell, row, _rowIndex, winProps) => {
-  // cell == id
-  const props = winProps[row.id];
-  const p = props.f_shobst_override || props.f_shobst;
-  if (p === undefined || p === null || isNaN(p)) {
-    return <span>-</span>;
-  }
-  return <span>{p.toFixed(2)}</span>;
-};
-
-// Transmitancias de huecos (id -> window U-value)
-const WindowUFmt = (_cell, row, _rowIndex, winProps) => {
-  const props = winProps[row.id];
-  const p = props.u_value;
-  if (p === undefined || p === null) {
-    return <span>-</span>;
-  }
-  return <span>{p.toFixed(2)}</span>;
-};
 
 // Tabla de huecos del edificio
 const HuecosTable = ({ selectedIds, setSelectedIds }) => {

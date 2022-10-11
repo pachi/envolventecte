@@ -28,96 +28,16 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { Float2DigitsFmt } from "../tables/Formatters";
+import {
+  Float2DigitsFmt,
+  WallConsResistanceFmt,
+  WallConsThicknessFmt,
+  LayersFmt,
+} from "../tables/Formatters";
 import { validateNonNegNumber } from "../tables/Validators";
 import { getFloatOrOld } from "../tables/utils";
 
 import { LayersEditor } from "./LayersEditors";
-
-/// Formato de espesor total de construcción de opaco (id -> thickness)
-const WallConsThicknessFmt = (_cell, row, _rowIndex, wallconsPropsMap) => {
-  // cell == id
-  const props = wallconsPropsMap[row.id];
-  const p = props.thickness;
-  if (p === undefined || p === null || isNaN(p)) {
-    return <span>-</span>;
-  }
-  return <span>{p.toFixed(3)}</span>;
-};
-
-/// Formato de resistencia intrínseca de construcción de opaco (id -> r_intrinsic)
-const WallConsResistanceFmt = (_cell, row, _rowIndex, wallconsPropsMap) => {
-  // cell == id
-  const props = wallconsPropsMap[row.id];
-  const p = props.resistance;
-  if (p === undefined || p === null || isNaN(p)) {
-    return <span>-</span>;
-  }
-  return <span>{p.toFixed(2)}</span>;
-};
-
-// Selecciona color según propiedades del material
-// Combinar conductividad con densidad para mejorar heurística según
-// https://www.codigotecnico.org/pdf/Programas/CEC/CAT-EC-v06.3_marzo_10.pdf
-const getMatColor = (mat, _e) => {
-  if (mat.conductivity) {
-    const lambda = mat.conductivity;
-    if (lambda < 0.1) {
-      // Aislantes - amarillo
-      return "yellow";
-    } else if (lambda < 0.35) {
-      // Madera / Morteros / piezas cerámicas ligeras - naranja
-      return "orange";
-    } else if (lambda < 0.9) {
-      // Madera / Morteros / piezas cerámicas ligeras - verde
-      return "green";
-    } else if (lambda < 1.5) {
-      // Cerámica - marrón
-      return "brown";
-    } else if (lambda < 3.0) {
-      // Mortero / hormigón - gris oscuro
-      return "darkgray";
-    } else {
-      // Metal - azul oscuro
-      return "navyblue";
-    }
-  } else {
-    return "lightblue";
-  }
-};
-
-const LayersFmt = (cell, _row, _rowIndex, materials) => {
-  // cell == id
-  const nlayers = cell.length;
-  if (nlayers === 0) {
-    return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10">
-        <rect x="0" y="0" width="100" height="10" fill="white" />
-      </svg>
-    );
-  }
-  let xPos = 0;
-  const layers = [];
-  for (const [idx, { material, e }] of cell.entries()) {
-    const mat = materials.find((m) => m.id === material);
-    const color = getMatColor(mat, e);
-    const width = Math.round(e * 100);
-    layers.push(
-      <rect key={idx} x={xPos} y="0" width={width} height="10" fill={color} />
-    );
-    xPos += Math.round(e * 100);
-  }
-
-  //  = cell.map(({ material, e }, idx) => {
-  //   const mat = materials.find((m) => m.id === material);
-  //   return <rect key={idx} x={10 * idx} width="10" height="10" fill={getMatColor(mat, e)} />;
-  // });
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10">
-      {layers}
-    </svg>
-  );
-};
 
 // Tabla de opacos del edificio
 const WallConsTable = ({ selectedIds, setSelectedIds }) => {

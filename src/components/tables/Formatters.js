@@ -32,7 +32,7 @@ import partialGeometryIcon from "../img/partial_geom_icon.svg";
 
 import { OrientaIcon, TiltIcon } from "../helpers/IconsOrientaciones";
 
-import { azimuth_name, tilt_name } from "./utils";
+import { azimuth_name, tilt_name, getMatColor } from "./utils";
 
 // Formato y opciones de condiciones de contorno
 export const BOUNDARY_TYPES_MAP = {
@@ -272,4 +272,154 @@ export const ScheduleFmt = (cell, _row, _rowIndex, idMapper) => {
     .map(([id, count]) => `(${idMapper[id]}, ${count})`)
     .join(", ");
   return <span>[{txt}]</span>;
+};
+
+/// Formato de espesor total de construcción de opaco (id -> thickness)
+export const WallConsThicknessFmt = (_cell, row, _rowIndex, wallconsPropsMap) => {
+  // cell == id
+  const props = wallconsPropsMap[row.id];
+  const p = props.thickness;
+  if (p === undefined || p === null || isNaN(p)) {
+    return <span>-</span>;
+  }
+  return <span>{p.toFixed(3)}</span>;
+};
+
+/// Formato de resistencia intrínseca de construcción de opaco (id -> r_intrinsic)
+export const WallConsResistanceFmt = (_cell, row, _rowIndex, wallconsPropsMap) => {
+  // cell == id
+  const props = wallconsPropsMap[row.id];
+  const p = props.resistance;
+  if (p === undefined || p === null || isNaN(p)) {
+    return <span>-</span>;
+  }
+  return <span>{p.toFixed(2)}</span>;
+};
+
+export const LayersFmt = (cell, _row, _rowIndex, materials) => {
+  // cell == id
+  const num_layers = cell.length;
+  if (num_layers === 0) {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10">
+        <rect x="0" y="0" width="100" height="10" fill="white" />
+      </svg>
+    );
+  }
+  let xPos = 0;
+  const layers = [];
+  for (const [idx, { material, e }] of cell.entries()) {
+    const mat = materials.find((m) => m.id === material);
+    const color = getMatColor(mat, e);
+    const width = Math.round(e * 100);
+    layers.push(
+      <rect key={idx} x={xPos} y="0" width={width} height="10" fill={color} />
+    );
+    xPos += Math.round(e * 100);
+  }
+
+  //  = cell.map(({ material, e }, idx) => {
+  //   const mat = materials.find((m) => m.id === material);
+  //   return <rect key={idx} x={10 * idx} width="10" height="10" fill={getMatColor(mat, e)} />;
+  // });
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10">
+      {layers}
+    </svg>
+  );
+};
+
+// Formato de área de huecos (id -> area)
+export const WinAreaFmt = (_cell, row, _rowIndex, winProps) => {
+  // cell == id
+  const props = winProps[row.id];
+  const area = props.area * props.multiplier;
+  if (area === undefined || area === null || isNaN(area)) {
+    return <span>-</span>;
+  }
+  return <span>{area.toFixed(2)}</span>;
+};
+
+// Formato de fshobst (id -> fshobst)
+export const FshobstFmt = (_cell, row, _rowIndex, winProps) => {
+  // cell == id
+  const props = winProps[row.id];
+  const p = props.f_shobst_override || props.f_shobst;
+  if (p === undefined || p === null || isNaN(p)) {
+    return <span>-</span>;
+  }
+  return <span>{p.toFixed(2)}</span>;
+};
+
+// Transmitancia de huecos (id -> window U-value)
+export const WindowUFmt = (_cell, row, _rowIndex, winProps) => {
+  const props = winProps[row.id];
+  const p = props.u_value;
+  if (p === undefined || p === null) {
+    return <span>-</span>;
+  }
+  return <span>{p.toFixed(2)}</span>;
+};
+
+/// Formato de area de opaco (id -> area)
+export const WallAreaFmt = (_cell, row, _rowIndex, wallPropsMap) => {
+  // cell == id
+  const props = wallPropsMap[row.id];
+  const p = props.area_net * props.multiplier;
+  if (p === undefined || p === null || isNaN(p)) {
+    return <span>-</span>;
+  }
+  return <span>{p.toFixed(2)}</span>;
+};
+
+/// Formato de U de opaco (id -> U_value)
+export const WallUFmt = (_cell, row, _rowIndex, wallPropsMap) => {
+  // cell == id
+  const uvalue = wallPropsMap[row.id].u_value;
+  if (uvalue === undefined || uvalue === null || isNaN(uvalue)) {
+    return <span>-</span>;
+  }
+  return <span>{uvalue.toFixed(2)}</span>;
+};
+
+// Formato de area de espacio (id -> area)
+export const SpaceAreaFmt = (_cell, row, _rowIndex, spacePropsMap) => {
+  // cell == id
+  const props = spacePropsMap[row.id];
+  const area = props.area * props.multiplier;
+  if (area === undefined || area === null || isNaN(area)) {
+    return <span>-</span>;
+  }
+  return <span>{area.toFixed(2)}</span>;
+};
+
+// Formato de volumen neto de espacio (id -> volume_net)
+export const SpaceVolumeFmt = (_cell, row, _rowIndex, spacePropsMap) => {
+  // cell == id
+  const props = spacePropsMap[row.id];
+  const volume_net = props.volume_net * props.multiplier;
+  if (volume_net === undefined || volume_net === null || isNaN(volume_net)) {
+    return <span>-</span>;
+  }
+  return <span>{volume_net.toFixed(2)}</span>;
+};
+
+/// Formato de U de hueco (id -> U)
+export const WinconsUFmt = (_cell, row, _rowIndex, propsMap) => {
+  const props = propsMap[row.id];
+  const p = props.u_value;
+  if (p === undefined || p === null || isNaN(p)) {
+    return <span>-</span>;
+  }
+  return <span>{p.toFixed(2)}</span>;
+};
+
+/// Formato de g_gl;wi de hueco (id -> g_glwi)
+export const WinconsGglwiFmt = (_cell, row, _rowIndex, propsMap) => {
+  const props = propsMap[row.id];
+  const p = props.g_glwi;
+  if (p === undefined || p === null || isNaN(p)) {
+    return <span>-</span>;
+  }
+  return <span>{p.toFixed(2)}</span>;
 };

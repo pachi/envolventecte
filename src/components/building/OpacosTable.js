@@ -34,33 +34,14 @@ import {
   OpaqueGeomFmt,
   OpaqueGeomIconFmt,
   NameFromIdFmt,
+  WallAreaFmt,
+  WallUFmt,
 } from "../tables/Formatters";
 import { getFloatOrOld } from "../tables/utils";
 
 import { GeometryOpaquesEditor } from "./GeometryEditors";
 import { OrientacionesSprite } from "../helpers/IconsOrientaciones";
 import { SPACE, WALLCONS } from "../../stores/types";
-
-/// Formato de area de opaco (id -> area)
-const WallAreaFmt = (_cell, row, _rowIndex, wallPropsMap) => {
-  // cell == id
-  const props = wallPropsMap[row.id];
-  const p = props.area_net * props.multiplier;
-  if (p === undefined || p === null || isNaN(p)) {
-    return <span>-</span>;
-  }
-  return <span>{p.toFixed(2)}</span>;
-};
-
-/// Fromato de U de opaco (id -> U_value)
-const WallUFmt = (_cell, row, _rowIndex, wallPropsMap) => {
-  // cell == id
-  const uvalue = wallPropsMap[row.id].u_value;
-  if (uvalue === undefined || uvalue === null || isNaN(uvalue)) {
-    return <span>-</span>;
-  }
-  return <span>{uvalue.toFixed(2)}</span>;
-};
 
 // Tabla de elementos opacos
 const OpacosTable = ({ selectedIds, setSelectedIds }) => {

@@ -35,6 +35,8 @@ import {
   NameFromIdFmt,
   SpaceTypeFmt,
   spaceTypesOpts,
+  SpaceAreaFmt,
+  SpaceVolumeFmt,
   ZFmt,
 } from "../tables/Formatters";
 import {
@@ -112,28 +114,6 @@ const NVEditor = React.forwardRef((props, _ref) => {
     </span>
   );
 });
-
-// Formato de area de espacio (id -> area)
-const SpaceAreaFmt = (_cell, row, _rowIndex, spacePropsMap) => {
-  // cell == id
-  const props = spacePropsMap[row.id];
-  const area = props.area * props.multiplier;
-  if (area === undefined || area === null || isNaN(area)) {
-    return <span>-</span>;
-  }
-  return <span>{area.toFixed(2)}</span>;
-};
-
-// Formato de volumen neto de espacio (id -> volume_net)
-const SpaceVolumeFmt = (_cell, row, _rowIndex, spacePropsMap) => {
-  // cell == id
-  const props = spacePropsMap[row.id];
-  const volume_net = props.volume_net * props.multiplier;
-  if (volume_net === undefined || volume_net === null || isNaN(volume_net)) {
-    return <span>-</span>;
-  }
-  return <span>{volume_net.toFixed(2)}</span>;
-};
 
 // Tabla de espacios del edificio
 const SpacesTable = ({ selectedIds, setSelectedIds }) => {
