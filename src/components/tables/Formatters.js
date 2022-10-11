@@ -275,7 +275,12 @@ export const ScheduleFmt = (cell, _row, _rowIndex, idMapper) => {
 };
 
 /// Formato de espesor total de construcción de opaco (id -> thickness)
-export const WallConsThicknessFmt = (_cell, row, _rowIndex, wallconsPropsMap) => {
+export const WallConsThicknessFmt = (
+  _cell,
+  row,
+  _rowIndex,
+  wallconsPropsMap
+) => {
   // cell == id
   const props = wallconsPropsMap[row.id];
   const p = props.thickness;
@@ -286,7 +291,12 @@ export const WallConsThicknessFmt = (_cell, row, _rowIndex, wallconsPropsMap) =>
 };
 
 /// Formato de resistencia intrínseca de construcción de opaco (id -> r_intrinsic)
-export const WallConsResistanceFmt = (_cell, row, _rowIndex, wallconsPropsMap) => {
+export const WallConsResistanceFmt = (
+  _cell,
+  row,
+  _rowIndex,
+  wallconsPropsMap
+) => {
   // cell == id
   const props = wallconsPropsMap[row.id];
   const p = props.resistance;

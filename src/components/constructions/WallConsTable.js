@@ -62,7 +62,6 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       text: "Capas",
       align: "center",
       formatter: LayersFmt,
-      // formatter: LayersImgFmt,
       formatExtraData: mats,
       headerTitle: () => "Capas de la construcción (nº)",
       headerClasses: "text-light bg-secondary",
