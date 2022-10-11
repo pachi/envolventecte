@@ -32,7 +32,7 @@ import partialGeometryIcon from "../img/partial_geom_icon.svg";
 
 import { OrientaIcon, TiltIcon } from "../helpers/IconsOrientaciones";
 
-import { azimuth_name, tilt_name, getMatColor } from "./utils";
+import palette, { azimuth_name, tilt_name, getMatColor } from "./utils";
 
 // Formato y opciones de condiciones de contorno
 export const BOUNDARY_TYPES_MAP = {
@@ -500,6 +500,73 @@ export const DayScheduleFmt = (cell, _row, _rowIndex) => {
         strokeWidth={0.1}
         stroke="gray"
       />
+    </svg>
+  );
+};
+
+// Formato de horario mensual o anual como sparkline
+// Colorea cada elemento de repetición según su id
+export const CountScheduleFmt = (cell, _row, _rowIndex, idMapper) => {
+  // cell == [(string, u32), ...]
+  const svgWidth = 200;
+  const svgHeight = 4;
+
+  if (cell.length === 0) {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+      >
+        <rect x="0" y="0" width={svgWidth} height={svgHeight} fill="white" />
+      </svg>
+    );
+  }
+
+  const totalCount = cell.map((v) => v[1]).reduce((a, b) => a + b, 0);
+  let keys = Object.keys(idMapper);
+  const colors = palette(keys.length, 100, 40);
+  const colorMap = new Map(keys.map((k, i) => [k, colors[i]]));
+
+  const stepX = svgWidth / totalCount;
+
+  let xPos = 0;
+  const layers = [];
+  let tickCoords = "";
+  for (const [idx, [key, count]] of cell.entries()) {
+    const color = colorMap.get(key);
+    for (let i = 0; i < count; i++) {
+      layers.push(
+        <rect
+          key={`${idx}-${i}`}
+          x={xPos.toFixed(2)}
+          y="0"
+          width={stepX}
+          height="10"
+          fill={color}
+        >
+          <title>
+            {idMapper[key]} ({count} repeticiones)
+          </title>
+        </rect>
+      );
+      tickCoords += `M${xPos} 0 L${xPos} ${svgHeight}`;
+      xPos += stepX;
+    }
+  }
+
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+    >
+      <path
+        className="tick_lines"
+        d={tickCoords}
+        fill="none"
+        strokeWidth={0.1}
+        stroke="gray"
+      />
+      {layers}
     </svg>
   );
 };
