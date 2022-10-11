@@ -445,12 +445,10 @@ function getY(max, min, height, diff, value) {
 // Formato de horario diario como sparkline
 export const DayScheduleFmt = (cell, _row, _rowIndex) => {
   // cell == [f32, ...]
-  const num_values = cell.length;
   const svgWidth = 200;
   const svgHeight = 4;
-  const strokeWidth = 0.5;
 
-  if (num_values === 0) {
+  if (cell.length === 0) {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -461,6 +459,7 @@ export const DayScheduleFmt = (cell, _row, _rowIndex) => {
     );
   }
 
+  const strokeWidth = 0.5;
   const height = svgHeight - 2 * strokeWidth;
   const stepX = svgWidth / (24.0 - 1.0);
   const max = Math.max(...cell, 1);
@@ -476,43 +475,31 @@ export const DayScheduleFmt = (cell, _row, _rowIndex) => {
     tickCoords += `M${x} 0 L${x} ${svgHeight}`;
   });
 
-  const path = (
-    <path
-      className="line"
-      d={pathCoords}
-      fill="none"
-      strokeWidth={0.5}
-      stroke="black"
-    />
-  );
-
-  const fill = (
-    <path
-      className="fill"
-      d={`${pathCoords} V ${svgHeight} L 0 ${svgHeight} Z`}
-      stroke="none"
-      fill="#FF333355"
-    />
-  );
-
-  const ticks = (
-    <path
-      className="tick_lines"
-      d={tickCoords}
-      fill="none"
-      strokeWidth={0.1}
-      stroke="gray"
-    />
-  );
-
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox={`0 0 ${svgWidth} ${svgHeight}`}
     >
-      {path}
-      {fill}
-      {ticks}
+      <path
+        className="line"
+        d={pathCoords}
+        fill="none"
+        strokeWidth={0.5}
+        stroke="black"
+      />
+      <path
+        className="fill"
+        d={`${pathCoords} V ${svgHeight} L 0 ${svgHeight} Z`}
+        stroke="none"
+        fill="#FF333355"
+      />
+      <path
+        className="tick_lines"
+        d={tickCoords}
+        fill="none"
+        strokeWidth={0.1}
+        stroke="gray"
+      />
     </svg>
   );
 };
