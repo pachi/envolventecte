@@ -29,7 +29,7 @@ import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 import { SCHEDULE_WEEK } from "../../stores/types";
-import { ScheduleFmt } from "../tables/Formatters";
+import { CountScheduleFmt } from "../tables/Formatters";
 import { ScheduleCountsEditor } from "./ScheduleCountsEditor";
 
 // Tabla de horarios anuales
@@ -91,7 +91,7 @@ const SchedulesYearTable = ({ selectedIds, setSelectedIds }) => {
           scheduleOpts={weekSchedulesOpts}
         />
       ),
-      formatter: ScheduleFmt,
+      formatter: CountScheduleFmt,
       formatExtraData: weekSchedulesMap,
       headerTitle: () => "Lista de horarios semanales",
       headerClasses: "text-light bg-secondary",
