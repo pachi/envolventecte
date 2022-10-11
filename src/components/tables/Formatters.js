@@ -433,3 +433,86 @@ export const WinconsGglwiFmt = (_cell, row, _rowIndex, propsMap) => {
   }
   return <span>{p.toFixed(2)}</span>;
 };
+
+// Valor en Y del valor value para una altura total disponible height
+// y con valores máximos y mínimo max y min, y un desplazamiento diff
+function getY(max, min, height, diff, value) {
+  return parseFloat(
+    (height - ((value - min) * height) / (max - min) + diff).toFixed(2)
+  );
+}
+
+// Formato de horario diario como sparkline
+export const DayScheduleFmt = (cell, _row, _rowIndex) => {
+  // cell == [f32, ...]
+  const num_values = cell.length;
+  const svgWidth = 200;
+  const svgHeight = 4;
+  const strokeWidth = 0.5;
+
+  if (num_values === 0) {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+      >
+        <rect x="0" y="0" width={svgWidth} height={svgHeight} fill="white" />
+      </svg>
+    );
+  }
+
+  const height = svgHeight - 2 * strokeWidth;
+  const stepX = svgWidth / (24.0 - 1.0);
+  const max = Math.max(...cell, 1);
+  const min = Math.min(...cell, 0);
+
+  const pathY = getY(max, min, height, strokeWidth, cell[0]);
+  let pathCoords = `M0 ${pathY}`;
+  let tickCoords = "";
+  cell.forEach((value, idx) => {
+    const x = (idx * stepX).toFixed(2);
+    const y = getY(max, min, height, strokeWidth, value);
+    pathCoords += `L ${x} ${y}`;
+    tickCoords += `M${x} 0 L${x} ${svgHeight}`;
+  });
+
+  const path = (
+    <path
+      className="line"
+      d={pathCoords}
+      fill="none"
+      strokeWidth={0.5}
+      stroke="black"
+    />
+  );
+
+  const fill = (
+    <path
+      className="fill"
+      d={`${pathCoords} V ${svgHeight} L 0 ${svgHeight} Z`}
+      stroke="none"
+      fill="#FF333355"
+    />
+  );
+
+  const ticks = (
+    <path
+      className="tick_lines"
+      d={tickCoords}
+      fill="none"
+      strokeWidth={0.1}
+      stroke="gray"
+    />
+  );
+
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+    >
+      {path}
+      {fill}
+      {ticks}
+    </svg>
+  );
+};

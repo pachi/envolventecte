@@ -29,6 +29,7 @@ import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 import { ScheduleHoursEditor } from "./ScheduleHoursEditor";
+import { DayScheduleFmt } from "../tables/Formatters";
 
 // Tabla de horarios diarios
 //  {
@@ -70,18 +71,13 @@ const SchedulesDayTable = ({ selectedIds, setSelectedIds }) => {
       text: "Valores horarios diarios",
       align: "center",
       editorRenderer: (editorProps, value, row) => (
-        <ScheduleHoursEditor
-          {...editorProps}
-          value={value}
-          name={row.name}
-        />
+        <ScheduleHoursEditor {...editorProps} value={value} name={row.name} />
       ),
-      // TODO: editor
-      // formatter: ScheduleFmt,
-      // formatExtraData: daySchedulesMap,
+      formatter: DayScheduleFmt,
       headerTitle: () => "Lista de valores horarios",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
+      title: (cell) => `Valores horarios: ${cell}`,
     },
     {
       dataField: "n_hours",
