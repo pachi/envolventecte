@@ -188,3 +188,21 @@ pub fn new_load() -> JsValue {
 pub fn new_sys_setting() -> JsValue {
     JsValue::from_serde(&bemodel::SpaceSysConditions::default()).unwrap()
 }
+
+/// Horario diario por defecto
+#[wasm_bindgen]
+pub fn new_schedule_day() -> JsValue {
+    JsValue::from_serde(&bemodel::ScheduleDay::default()).unwrap()
+}
+
+/// Horario semanal por defecto
+#[wasm_bindgen]
+pub fn new_schedule_week() -> JsValue {
+    JsValue::from_serde(&bemodel::ScheduleWeek::default()).unwrap()
+}
+
+/// Horario anual por defecto
+#[wasm_bindgen]
+pub fn new_schedule_year() -> JsValue {
+    JsValue::from_serde(&bemodel::Schedule::default()).unwrap()
+}

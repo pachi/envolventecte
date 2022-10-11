@@ -37,6 +37,9 @@ import {
   new_meta,
   new_load,
   new_sys_setting,
+  new_schedule_day,
+  new_schedule_week,
+  new_schedule_year,
 } from "wasm-envolventecte";
 
 export const newSpace = () => ({
@@ -184,4 +187,36 @@ export const defaultsSysSetting = {
   name: "Consignas de espacio",
   temp_max: null,
   temp_min: null,
+};
+
+export const newScheduleDay = () => ({
+  ...defaultsScheduleDay,
+  ...new_schedule_day(),
+});
+
+export const defaultsScheduleDay = {
+  name: "Horario diario todo 0",
+  values: [
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  ],
+};
+
+export const newScheduleWeek = () => ({
+  ...defaultsScheduleWeek,
+  ...new_schedule_week(),
+});
+
+export const defaultsScheduleWeek = {
+  name: "Horario semanal vacío",
+  values: [],
+};
+
+export const newScheduleYear = () => ({
+  ...defaultsScheduleYear,
+  ...new_schedule_year(),
+});
+
+export const defaultsScheduleYear = {
+  name: "Horario anual vacío",
+  values: [],
 };

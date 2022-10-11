@@ -58,6 +58,9 @@ import {
   newLoad,
   defaultsLoad,
   defaultsSysSetting,
+  newScheduleDay,
+  newScheduleYear,
+  newScheduleWeek,
 } from "./defaults";
 
 // import radiationdata from "../zcraddata.json";
@@ -294,7 +297,18 @@ class AppState {
         el = newSysSetting();
         this.sys_settings.push(el);
         break;
-      // TODO: añadir schedules
+      case types.SCHEDULE_DAY:
+        el = newScheduleDay();
+        this.schedules.day.push(el);
+        break;
+      case types.SCHEDULE_WEEK:
+        el = newScheduleWeek();
+        this.schedules.week.push(el);
+        break;
+      case types.SCHEDULE_YEAR:
+        el = newScheduleYear();
+        this.schedules.year.push(el);
+        break;
       default:
         break;
     }
