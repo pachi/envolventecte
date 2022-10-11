@@ -28,7 +28,11 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { Float2DigitsFmt, getFloatOrOld, validateNonNegNumber } from "../building/TableHelpers";
+import {
+  Float2DigitsFmt,
+  getFloatOrOld,
+  validateNonNegNumber,
+} from "../building/TableHelpers";
 import { LayersEditor } from "./LayersEditors";
 
 /// Formato de espesor total de construcción de opaco (id -> thickness)
@@ -156,6 +160,16 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       editorRenderer: (editorProps, value, row) => (
         <LayersEditor {...editorProps} value={value} name={row.name} />
       ),
+      title: (_cell, row) =>
+        `Construcción de opaco:\n ${row.layers
+          .map(
+            ({ material, e }) =>
+              "- " +
+              mats.find((m) => m.id == material)?.name +
+              ": " +
+              e.toFixed(2)
+          )
+          .join("\n")}`,
     },
     {
       dataField: "absorptance",
