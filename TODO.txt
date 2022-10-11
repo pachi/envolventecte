@@ -3,6 +3,7 @@
 - Al poner un nombre de elemento en la selección no se selecciona (¿siempre?).
 - Arreglar eliminación de horarios hijos en horarios padres:
     - Si se elimina un horario diario el horario mensual que lo use se queda en situación inconsistente
+    - Indicar error
 
 # Mejoras
 
