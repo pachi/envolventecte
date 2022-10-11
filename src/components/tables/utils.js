@@ -21,7 +21,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-
 // Devuelve el campo convertido a valor numérico o el valor previo
 export const getFloatOrOld = (newValue, oldValue) => {
   const value = parseFloat(newValue.replace(",", "."));
@@ -111,3 +110,18 @@ export const getMatColor = (mat, _e) => {
     return "lightblue";
   }
 };
+
+// Selecciona color i
+// Based on https://stackoverflow.com/a/20129594/901944
+function selectColor(i, saturation = 100, opacity = 100) {
+  const goldenAngle = 137.508;
+  const hue = (i * goldenAngle).toFixed(2); // use golden angle approximation
+  const brightness = ((((i + 50) * goldenAngle) % 30) + 20).toFixed(2);
+
+  return `hsla(${hue},${saturation}%,${brightness}%,${opacity}%)`;
+}
+
+// Selecciona paleta de n colores
+export default function palette(n, saturation = 100, opacity = 100) {
+  return [...Array(n)].map((_, i) => selectColor(i, saturation, opacity));
+}
