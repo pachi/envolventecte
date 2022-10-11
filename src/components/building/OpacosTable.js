@@ -31,11 +31,13 @@ import AppState from "../../stores/AppState";
 import {
   BoundaryFmt,
   BoundaryOpts,
-  getFloatOrOld,
   OpaqueGeomFmt,
-} from "./TableHelpers";
+  OpaqueGeomIconFmt,
+  NameFromIdFmt,
+} from "../tables/Formatters";
+import { getFloatOrOld } from "../tables/utils";
+
 import { GeometryOpaquesEditor } from "./GeometryEditors";
-import { OpaqueGeomIconFmt, NameFromIdFmt } from "./TableHelpers";
 import { OrientacionesSprite } from "../helpers/IconsOrientaciones";
 import { SPACE, WALLCONS } from "../../stores/types";
 

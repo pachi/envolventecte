@@ -28,13 +28,13 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
+import { Float2DigitsFmt, NameFromIdFmt } from "../tables/Formatters";
 import {
-  Float2DigitsFmt,
-  getFloatOrOld,
-  NameFromIdFmt,
   validateNonNegNumber,
   validateNonNegNumberOrEmpty,
-} from "../building/TableHelpers";
+} from "../tables/Validators";
+import { getFloatOrOld } from "../tables/utils";
+
 import { SCHEDULE_YEAR } from "../../stores/types";
 
 // Tabla de cargas de los espacios

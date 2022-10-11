@@ -29,7 +29,7 @@ import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 import { GeometryOpaquesEditor } from "./GeometryEditors";
-import { OpaqueGeomFmt, OpaqueGeomIconFmt } from "./TableHelpers";
+import { OpaqueGeomFmt, OpaqueGeomIconFmt } from "../tables/Formatters";
 
 // Tabla de elementos de sombra del edificio
 const ShadesTable = ({ selectedIds, setSelectedIds }) => {
@@ -41,8 +41,7 @@ const ShadesTable = ({ selectedIds, setSelectedIds }) => {
       text: "Nombre",
       classes: "font-weight-bold",
       headerStyle: () => ({ width: "30%" }),
-      headerTitle: () =>
-        "Nombre que identifica el elemento de sombra",
+      headerTitle: () => "Nombre que identifica el elemento de sombra",
       headerClasses: "text-light bg-secondary",
       title: (_cell, row) => `Elemento de sombra id: ${row.id}`,
     },

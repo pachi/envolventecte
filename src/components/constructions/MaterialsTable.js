@@ -28,12 +28,9 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import {
-  Float1DigitsFmt,
-  Float3DigitsFmt,
-  getFloatOrOld,
-  validateNonNegNumber,
-} from "../building/TableHelpers";
+import { Float1DigitsFmt, Float3DigitsFmt } from "../tables/Formatters";
+import { validateNonNegNumber } from "../tables/Validators";
+import { getFloatOrOld } from "../tables/utils";
 
 // Tabla de materiales para opacos del edificio
 const MaterialsTable = ({ selectedIds, setSelectedIds }) => {

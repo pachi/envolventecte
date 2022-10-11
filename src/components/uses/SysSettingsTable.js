@@ -28,8 +28,8 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { NameFromIdFmt } from "../building/TableHelpers";
 import { SCHEDULE_YEAR } from "../../stores/types";
+import { NameFromIdFmt } from "../tables/Formatters";
 
 // Tabla de consignas de los espacios
 //  {

@@ -37,12 +37,9 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 
 import { uuidv4 } from "../../utils";
 
-import {
-  AzimuthFmt,
-  Float2DigitsFmt,
-  getFloatOrOld,
-  TiltFmt,
-} from "./TableHelpers";
+import { AzimuthFmt, Float2DigitsFmt, TiltFmt } from "../tables/Formatters";
+import { getFloatOrOld } from "../tables/utils";
+
 import { ListEditor } from "../ui/ListEditor";
 
 /*

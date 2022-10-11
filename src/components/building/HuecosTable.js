@@ -29,11 +29,12 @@ import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 import {
-  getFloatOrOld,
   NameFromIdFmt,
   WindowGeomFmt,
   WindowGeomIconFmt,
-} from "./TableHelpers";
+} from "../tables/Formatters";
+import { getFloatOrOld } from "../tables/utils";
+
 import { GeometryWindowEditor } from "./GeometryEditors";
 import { WINCONS, WALL } from "../../stores/types";
 

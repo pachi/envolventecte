@@ -28,7 +28,13 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { Float2DigitsFmt, ThermalBridgeTypesFmt, ThermalBridgeTypesOpts, getFloatOrOld, validateNonNegNumber, validateNumber } from "./TableHelpers";
+import {
+  Float2DigitsFmt,
+  ThermalBridgeTypesFmt,
+  ThermalBridgeTypesOpts,
+} from "../tables/Formatters";
+import { validateNonNegNumber, validateNumber } from "../tables/Validators";
+import { getFloatOrOld } from "../tables/utils";
 
 // Tabla de puentes térmicos del edificio
 const PTsTable = ({ selectedIds, setSelectedIds }) => {

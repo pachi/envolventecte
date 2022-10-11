@@ -32,8 +32,10 @@ import partialGeometryIcon from "../img/partial_geom_icon.svg";
 
 import { OrientaIcon, TiltIcon } from "../helpers/IconsOrientaciones";
 
+import { azimuth_name, tilt_name } from "./utils";
+
 // Formato y opciones de condiciones de contorno
-export const BOUNDARYTYPESMAP = {
+export const BOUNDARY_TYPES_MAP = {
   EXTERIOR: "EXTERIOR",
   INTERIOR: "INTERIOR",
   ADIABATIC: "ADIABÁTICO",
@@ -41,14 +43,14 @@ export const BOUNDARYTYPESMAP = {
 };
 
 // Tipos de espacios según nivel de acondicionamiento
-export const SPACETYPESMAP = {
+export const SPACE_TYPES_MAP = {
   CONDITIONED: "ACONDICIONADO",
   UNCONDITIONED: "NO ACONDICIONADO",
   UNINHABITED: "NO HABITABLE",
 };
 
 // Tipos de puentes térmicos
-export const THERMALBRIDGETYPESMAP = {
+export const THERMAL_BRIDGE_TYPES_MAP = {
   ROOF: "CUBIERTA",
   BALCONY: "BALCÓN",
   CORNER: "ESQUINA",
@@ -58,12 +60,6 @@ export const THERMALBRIDGETYPESMAP = {
   PILLAR: "PILAR",
   WINDOW: "HUECO",
   GENERIC: "GENÉRICO",
-};
-
-// Devuelve el campo convertido a valor numérico o el valor previo
-export const getFloatOrOld = (newValue, oldValue) => {
-  const value = parseFloat(newValue.replace(",", "."));
-  return isNaN(value) ? oldValue : value;
 };
 
 // Formateadores -------------------------------------------------------------
@@ -239,20 +235,20 @@ export const OpaqueGeomIconFmt = (
 
 // Formato y opciones de condiciones de contorno
 export const BoundaryFmt = (cell, _row) => (
-  <span>{BOUNDARYTYPESMAP[cell]}</span>
+  <span>{BOUNDARY_TYPES_MAP[cell]}</span>
 );
-export const BoundaryOpts = Object.keys(BOUNDARYTYPESMAP).map((k) => {
-  return { value: k, label: BOUNDARYTYPESMAP[k] };
+export const BoundaryOpts = Object.keys(BOUNDARY_TYPES_MAP).map((k) => {
+  return { value: k, label: BOUNDARY_TYPES_MAP[k] };
 });
 
 // Formato y opciones de tipos de puentes térmicos
 export const ThermalBridgeTypesFmt = (cell, _row) => (
-  <span>{THERMALBRIDGETYPESMAP[cell]}</span>
+  <span>{THERMAL_BRIDGE_TYPES_MAP[cell]}</span>
 );
 
-export const ThermalBridgeTypesOpts = Object.keys(THERMALBRIDGETYPESMAP).map(
+export const ThermalBridgeTypesOpts = Object.keys(THERMAL_BRIDGE_TYPES_MAP).map(
   (k) => {
-    return { value: k, label: THERMALBRIDGETYPESMAP[k] };
+    return { value: k, label: THERMAL_BRIDGE_TYPES_MAP[k] };
   }
 );
 
@@ -261,12 +257,12 @@ export const SpaceTypeFmt = (cell, _row, _rowIndex, _formatExtraData) =>
   cell === null || cell === undefined ? (
     <span>ACONDICIONADO</span>
   ) : (
-    <span>{SPACETYPESMAP[cell]}</span>
+    <span>{SPACE_TYPES_MAP[cell]}</span>
   );
 
 // Opciones de tipo de espacio
-export const spaceTypesOpts = Object.keys(SPACETYPESMAP).map((k) => {
-  return { value: k, label: SPACETYPESMAP[k] };
+export const spaceTypesOpts = Object.keys(SPACE_TYPES_MAP).map((k) => {
+  return { value: k, label: SPACE_TYPES_MAP[k] };
 });
 
 // Formato de horarios como listas de [id, repeticiones]
@@ -277,115 +273,3 @@ export const ScheduleFmt = (cell, _row, _rowIndex, idMapper) => {
     .join(", ");
   return <span>[{txt}]</span>;
 };
-
-// Validadores ---------------------------------------------------------------
-
-// Comprueba que el valor es un número y no es negativo
-export const validateNonNegNumber = (newValue, _row, _column) => {
-  if (newValue == null || newValue == "" || isNaN(newValue) || newValue < 0.0) {
-    return {
-      valid: false,
-      message: "Debe introducir un valor numérico mayor o igual que cero",
-    };
-  } else {
-    return true;
-  }
-};
-
-// Comprueba que el valor es un número y no es negativo o es una cadena vacía
-export const validateNonNegNumberOrEmpty = (newValue, _row, _column) => {
-  if (newValue == "") {
-    return true;
-  } else if (newValue == null || isNaN(newValue) || newValue < 0.0) {
-    return {
-      valid: false,
-      message:
-        "Debe introducir un valor numérico mayor o igual que cero o una cadena vacía",
-    };
-  } else {
-    return true;
-  }
-};
-
-// Comprueba que el valor es un número
-export const validateNumber = (newValue, _row, _column) => {
-  if (newValue == null || newValue == "" || isNaN(newValue)) {
-    return {
-      valid: false,
-      message: "Debe introducir un valor numérico",
-    };
-  } else {
-    return true;
-  }
-};
-
-// Comprueba que el valor es un número entero
-export const validateIntegerNumber = (newValue, _row, _column) => {
-  if (
-    newValue == null ||
-    newValue == "" ||
-    isNaN(newValue) ||
-    Number(newValue) % 1 !== 0
-  ) {
-    return {
-      valid: false,
-      message: "Debe introducir un numéro entero",
-    };
-  } else {
-    return true;
-  }
-};
-
-// Normaliza número a un intervalo arbitrario (wrapping)
-export function normalize(value, start, end) {
-  // ancho del intervalo
-  const width = end - start;
-  // convertimos el intervalo a [0, ancho] restando el valor inicial
-  const offset = value - start;
-  // volvemos a sumar el valor incial para volver al intervalo [start, end]
-  return offset - Math.floor(offset / width) * width + start;
-}
-
-// Conversión de orientación de ángulo a nombre
-export function azimuth_name(azimuth_angle) {
-  const azimuth = normalize(azimuth_angle, 0.0, 360.0);
-  if (azimuth < 18.0) {
-    return "S";
-  } else if (azimuth < 69.0) {
-    return "SE";
-  } else if (azimuth < 120.0) {
-    return "E";
-  } else if (azimuth < 157.5) {
-    return "NE";
-  } else if (azimuth < 202.5) {
-    return "N";
-  } else if (azimuth < 240.0) {
-    // 202.5 = 360 - 157.5
-    return "NW";
-  } else if (azimuth < 291.0) {
-    // 240 = 360 - 120
-    return "W";
-  } else if (azimuth < 342.0) {
-    // 291 = 360 - 69
-    return "SW";
-  }
-
-  // 342 = 360 - 18
-  return "S";
-}
-
-// Conversión de inclinación de ángulo a nombre
-export function tilt_name(tilt_angle) {
-  const tilt = normalize(tilt_angle, 0.0, 360.0);
-  if (tilt <= 60.0) {
-    return "TECHO";
-  } else if (tilt < 120.0) {
-    return "PARED";
-  } else if (tilt < 240.0) {
-    return "SUELO";
-  } else if (tilt < 300.0) {
-    return "PARED";
-  }
-
-  return "TECHO";
-}

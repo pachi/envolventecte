@@ -28,11 +28,9 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
 import { uuidv4 } from "../../utils";
 
-import {
-  Float0DigitsFmt,
-  getFloatOrOld,
-  NameFromIdFmt,
-} from "../building/TableHelpers";
+import { Float0DigitsFmt, NameFromIdFmt } from "../tables/Formatters";
+import { getFloatOrOld } from "../tables/utils";
+
 import { ListEditor } from "../ui/ListEditor";
 
 /*

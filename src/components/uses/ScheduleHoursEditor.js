@@ -26,7 +26,8 @@ import { Modal, Button, Col, Container, Row } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory from "react-bootstrap-table2-editor";
 
-import { Float2DigitsFmt, getFloatOrOld } from "../building/TableHelpers";
+import { Float2DigitsFmt } from "../tables/Formatters";
+import { getFloatOrOld } from "../tables/utils";
 
 /*
   The getElement function from customEditor takes two arguments,

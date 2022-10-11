@@ -28,8 +28,8 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { ScheduleFmt } from "../building/TableHelpers";
 import { SCHEDULE_DAY } from "../../stores/types";
+import { ScheduleFmt } from "../tables/Formatters";
 import { ScheduleCountsEditor } from "./ScheduleCountsEditor";
 
 // Tabla de horarios semanales

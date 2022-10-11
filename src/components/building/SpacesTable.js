@@ -30,17 +30,21 @@ import { observer } from "mobx-react";
 import AppState from "../../stores/AppState";
 import {
   Float2DigitsFmt,
-  getFloatOrOld,
   InsideTeFmt,
   MultiplierFmt,
   NameFromIdFmt,
   SpaceTypeFmt,
   spaceTypesOpts,
+  ZFmt,
+} from "../tables/Formatters";
+import {
   validateNonNegNumber,
   validateNumber,
   validateIntegerNumber,
-  ZFmt,
-} from "./TableHelpers";
+} from "../tables/Validators";
+
+import { getFloatOrOld } from "../tables/utils";
+
 import { LOAD, SYS_SETTING } from "../../stores/types";
 
 // Custom editor para pertenencia a la ET

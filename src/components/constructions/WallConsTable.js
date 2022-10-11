@@ -28,11 +28,10 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import {
-  Float2DigitsFmt,
-  getFloatOrOld,
-  validateNonNegNumber,
-} from "../building/TableHelpers";
+import { Float2DigitsFmt } from "../tables/Formatters";
+import { validateNonNegNumber } from "../tables/Validators";
+import { getFloatOrOld } from "../tables/utils";
+
 import { LayersEditor } from "./LayersEditors";
 
 /// Formato de espesor total de construcción de opaco (id -> thickness)

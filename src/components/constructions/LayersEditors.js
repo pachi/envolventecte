@@ -42,11 +42,9 @@ import iconduplicate from "../img/outline-file_copy-24px.svg";
 import { uuidv4 } from "../../utils";
 import AppState, { EMPTY_ID } from "../../stores/AppState";
 
-import {
-  Float3DigitsFmt,
-  getFloatOrOld,
-  NameFromIdFmt,
-} from "../building/TableHelpers";
+import { Float3DigitsFmt, NameFromIdFmt } from "../tables/Formatters";
+import { getFloatOrOld } from "../tables/utils";
+
 import { MATERIAL } from "../../stores/types";
 
 /*
