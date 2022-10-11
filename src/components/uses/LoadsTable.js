@@ -274,6 +274,7 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
             case "people_latent":
             case "lighting":
             case "equipment":
+            case "area_per_person":
               if (newValue !== "") {
                 row[column.dataField] = getFloatOrOld(newValue, oldValue);
               }
