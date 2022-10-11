@@ -220,7 +220,7 @@ class AppState {
   }
 
   getIdNameMap(elementType) {
-    const idNameMap = new Map();
+    const idNameMap = {};
     this.getElements(elementType).map((s) =>
       s.id != EMPTY_ID
         ? (idNameMap[s.id] = s.name)
