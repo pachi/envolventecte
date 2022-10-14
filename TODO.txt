@@ -18,11 +18,20 @@
 - Añadir valores de referencia HE nuevos y existentes, apéndice E, etc a gráficas
 - Mostrar tooltip en los elementos con avisos
 - ThreeView
+    - Tomar ideas de visualización de visorgbxml:
+        - https://www.ladybug.tools/spider-gbxml-tools/spider-gbxml-viewer/v-0-17-08/app-viewer/spider-gbxml-viewer.html
+        - https://github.com/ladybug-tools/spider-gbxml-tools/tree/master/spider-gbxml-viewer/v-0-17-07
     - Posición del sol a partir de mes, día y hora
     - Opacidad aclarando elementos ocultos
     - Clipping plane: https://github.com/agviegas/IFC.js/commit/9be223de323e6acd936d9493eda5753a4ffe8183
     - Activar postproceso para mejorar calidad de imagen: https://github.com/IFCjs/web-ifc-viewer/blob/master/viewer/src/components/context/renderer/postproduction.ts
     - Seleccionar elemento activo en las tablas del modelo (y, al revés, mostrar elementos seleccionados en 3D), selecciones múltiples
+    - Ver impacto de triangular geometría:
+        - https://github.com/mapbox/earcut
+        - https://discourse.threejs.org/t/2d-to-3d-shape-shade-and-texture/12299
+        - https://www.ladybug.tools/spider-gbxml-tools/spider-gbxml-viewer/v-0-17-08/app-viewer/spider-gbxml-viewer.html
+        - https://github.com/ladybug-tools/spider-gbxml-tools/tree/master/spider-gbxml-viewer/v-0-17-07
+        - getBufferGeometry: https://github.com/ladybug-tools/spider-gbxml-tools/blob/7ade1e3bbdfa50f07ee35520d8d11e1bbc4e3757/spider-gbxml-viewer/v-0-17-07/core-gbx-gbxml/gbx-gbxml-parser.js#L253
 
 # Nueva funcionalidad
 

@@ -1,5 +1,24 @@
 import { DoubleSide, LineBasicMaterial, MeshLambertMaterial } from "three";
 
+// Referencia de colores de gbxml-tools, similar al plugin de sketchup de OS
+// https://github.com/ladybug-tools/spider-gbxml-tools/blob/master/spider-gbxml-viewer/v-0-17-07/core-gbx-gbxml/gbx-gbxml-parser.js
+// InteriorWall: 0x008000,
+// ExteriorWall: 0xFFB400,
+// Roof: 0x800000,
+// InteriorFloor: 0x80FFFF,
+// ExposedFloor: 0x40B4FF,
+// Shade: 0xFFCE9D,
+// UndergroundWall: 0xA55200,
+// UndergroundSlab: 0x804000,
+// Ceiling: 0xFF8080,
+// Air: 0xFFFF00,
+// UndergroundCeiling: 0x408080,
+// RaisedFloor: 0x4B417D,
+// SlabOnGrade: 0x804000,
+// FreestandingColumn: 0x808080,
+// EmbeddedColumn: 0x80806E,
+// Undefined: 0x88888888
+
 // Material genérico de líneas
 export const material_generic_lines = new LineBasicMaterial({
   name: "generic_lines",
