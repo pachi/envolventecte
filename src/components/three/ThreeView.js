@@ -36,8 +36,12 @@ const style = {
 
 const ThreeView = () => {
   const appstate = useContext(AppState);
-  const mountRef = useRef(null);
+  // Referencia a nodo DOM en el que se monta el ThreeView
+  const domNodeRef = useRef(null);
+  // Referencia a nodo DOM del panel de control
   const guiPaneRef = useRef(null);
+  // Referencia a Controles de cámara
+  const cameraControlRef = useRef();
 
   const model = {
     walls: appstate.walls,
@@ -45,8 +49,8 @@ const ThreeView = () => {
     shades: appstate.shades,
   };
 
-  // Incializa ThreeJS
-  const scene = new Scene();
+  // Inicializa ThreeJS
+  // Renderer
   const renderer = new WebGLRenderer({
     antialias: true,
     alpha: true,
@@ -63,69 +67,78 @@ const ThreeView = () => {
   );
   camera.position.set(10, 30, 50);
   camera.lookAt(new Vector3(0, 0, 0));
+  camera.up.set(0, 1, 0); // Tenemos "arriba" en +Y (valor por defecto)
 
-  // Controles
-  const cameraControl = useRef();
+  // Escena
+  const scene = new Scene();
 
   // Introduce suelo y luces
   initGround(scene);
   initLights(scene);
 
+  // Al renderizar por primera vez:
+  // - Monta control de cámara
+  // - Monta panel de control general
+  // - Configura visualización inicial (tamaño, aspect ratio, etc)
+  // - Añade elemento del DOM del renderer
+  // - Conecta eventos de teclado y mouse
+  // - Inicia bucle de animación
+  // - Devuelve destructor para ejecutar al desmontar el control
   useEffect(() => {
-    const ref = mountRef.current;
+    const domNode = domNodeRef.current;
 
-    // Incializa cámara
-    camera.aspect = ref.clientWidth / ref.clientHeight;
+    // Control de cámara
+    const cameraControl = new OrbitControls(camera, domNode);
+    cameraControl.enableDamping = true;
+    cameraControl.enabled = true;
+    cameraControl.update();
+    cameraControlRef.current = cameraControl;
 
-    // Renderer
-    renderer.setSize(ref.clientWidth, ref.clientHeight, false);
-
-    // Controles
-    const control = new OrbitControls(camera, ref);
-    control.enableDamping = true;
-    control.enabled = true;
-    control.update();
-    cameraControl.current = control;
+    // Inicializa cámara
+    camera.aspect = domNode.clientWidth / domNode.clientHeight;
 
     // Panel de control
     const gui = new GUIView(scene, guiPaneRef);
 
-    // Monta elemento en el DOM
-    ref.appendChild(renderer.domElement);
+    // Renderer
+    renderer.setSize(domNode.clientWidth, domNode.clientHeight, false);
 
-    // Conecta eventos del panel de control
-    mountRef.current.addEventListener("keydown", (e) =>
-      onKeyDown(e, gui, control)
+    // Monta elemento en el DOM
+    domNode.appendChild(renderer.domElement);
+
+    // Conecta eventos de mouse y teclado
+    domNode.addEventListener("keydown", (e) =>
+      onKeyDown(e, gui, cameraControlRef)
     );
-    mountRef.current.addEventListener("pointerdown", (e) =>
-      onPointerDown(e, mountRef, scene, camera, gui)
+    domNode.addEventListener("pointerdown", (e) =>
+      onPointerDown(e, domNodeRef, scene, camera, gui)
     );
 
     // Bucle de animación
     const animate = () => {
-      if (control) control.update();
+      if (cameraControl) cameraControl.update();
       resizeToDisplaySize(renderer, camera);
       renderer.render(scene, camera);
       return window.requestAnimationFrame(animate);
     };
-
     const requestID = animate();
 
     // Desmonta al eliminar el componente
     return () => {
+      const cameraControl = cameraControlRef.current;
       window.cancelAnimationFrame(requestID);
-      if (control) control.dispose();
+      if (cameraControl) cameraControl.dispose();
       if (gui) gui.dispose();
-      ref.removeChild(renderer.domElement);
+      domNodeRef.current.removeChild(renderer.domElement);
     };
-  }, [scene, camera, renderer]);
+  }, []);
 
+  // Actualización del modelo cuando este cambie
   useEffect(
     () =>
       autorun(() => {
-        const control = cameraControl.current;
         initObjectsFromModel(model, scene);
-        updateCamera(scene, camera, control);
+        updateCameraAndLight(scene, camera, cameraControlRef.current);
         updateGround(scene);
       }),
     [model, scene, camera]
@@ -138,7 +151,7 @@ const ThreeView = () => {
         ref={guiPaneRef}
       />
       {/* Tabindex es necesario para recibir eventos de teclado en un div */}
-      <div style={style} ref={mountRef} tabIndex={-1} />
+      <div style={style} ref={domNodeRef} tabIndex={-1} />
     </div>
   );
 };
@@ -273,10 +286,14 @@ const updateGround = (scene) => {
 // - altura solar (Horiz=0, vert=90), en grados
 // Usa una posición con distancia = 100m
 // Coordenadas altura solar es sistema levógiro y con Y=arriba, X=Este, Z=Sur
-const sunPos = (azimuth, altitude, dist=100) => {
-  const azim = azimuth * Math.PI / 180;
-  const alt = altitude * Math.PI / 180;
-  return new Vector3(Math.cos(alt) * Math.sin(azim), Math.sin(alt), Math.cos(alt) * Math.cos(azim)).multiplyScalar(dist);
+const sunPos = (azimuth, altitude, dist = 100) => {
+  const azim = (azimuth * Math.PI) / 180;
+  const alt = (altitude * Math.PI) / 180;
+  return new Vector3(
+    Math.cos(alt) * Math.sin(azim),
+    Math.sin(alt),
+    Math.cos(alt) * Math.cos(azim)
+  ).multiplyScalar(dist);
 };
 
 const initLights = (scene) => {
@@ -285,6 +302,7 @@ const initLights = (scene) => {
 
   // Luz ambiente
   const light_amb = new AmbientLight(0xffffff, 2.0);
+  light_amb.name = "AmbientLight";
   group.add(light_amb);
 
   // Luz direccional. Ajustamos el tamaño para que cubra la escena
@@ -311,7 +329,14 @@ const initLights = (scene) => {
   scene.add(group);
 };
 
-const updateCamera = (scene, camera, control) => {
+// Actualiza cámara para centrar en el edificio
+//
+// En gbxmlview puede haber una estrategia interesante para actualizar, usando:
+// - una esfera en lugar de una caja (para calcular más fácil la distancia):
+// - ajustando la escala de la luz direccional
+// - moviendo el punto al que mira la luz direccional (en el centro de la esfera)
+// https://github.com/ladybug-tools/spider-gbxml-tools/blob/7ade1e3bbdfa50f07ee35520d8d11e1bbc4e3757/spider-gbxml-viewer/v-0-17-07/core-thr-three/thru-threejs-utilities.js#L88
+const updateCameraAndLight = (scene, camera, control) => {
   const obj = scene.getObjectByName("BuildingGroup");
   const bbox = new THREE.Box3().setFromObject(obj);
   const size = bbox.getSize(new THREE.Vector3());
@@ -370,35 +395,37 @@ const resizeToDisplaySize = (renderer, camera) => {
 
 // Gestiona entradas de teclado:
 // CTRL + ALT + g / p - oculta panel
-// CTRL + ALT + h - resitua cámara en su posición original
+// CTRL + ALT + h - resitúa cámara en su posición original
 // CTRL + ALT + i - Activa / desactiva modo de inspección de objetos
 // Para poder conectar este manejador en un elemento div es necesario fijar la
 // propiedad tabIndex=-1 (para que el elemento se sitúe fuera del flujo de foco de entrada)
 // Ver https://webaim.org/techniques/keyboard/tabindex
-const onKeyDown = (e, gui, control) => {
+const onKeyDown = (e, guiView, cameraControlRef) => {
   // CTRL + ALT + g || CTRL + ALT + p
   if (e.ctrlKey && e.altKey && (e.code === "KeyG" || e.code === "KeyP")) {
-    if (gui) gui.toggle();
+    if (guiView) guiView.toggle();
   }
   // CTRL + ALT + h
   if (e.ctrlKey && e.altKey && e.code === "KeyH") {
-    if (control) control.reset();
+    const cameraControl = cameraControlRef.current;
+    if (cameraControl) cameraControl.reset();
   }
   // CTRL + ALT + i
   if (e.ctrlKey && e.altKey && e.code === "KeyI") {
-    if (gui) {
-      gui.params.inspectMode = !gui.params.inspectMode;
-      gui.pane.refresh();
+    if (guiView) {
+      guiView.params.inspectMode = !guiView.params.inspectMode;
+      guiView.pane.refresh();
     }
   }
 };
 
 // Muestra, en modo de inspección, una lista con los objetos bajo la localización del puntero
-const onPointerDown = (e, ref, scene, camera, gui) => {
-  const currentRef = ref.current;
-  if (!gui || gui.params.inspectMode === false || !currentRef) return;
+const onPointerDown = (e, domNodeRef, scene, camera, guiView) => {
+  const domNode = domNodeRef.current;
+  if (!guiView?.params?.inspectMode || !domNode) return;
+
   // Rectángulo del elemento
-  const rect = currentRef.getBoundingClientRect();
+  const rect = domNode.getBoundingClientRect();
   // Coordenadas dentro del elemento X: [0, rect.width], Y: [0, rect.height]
   const xCoord = e.clientX - rect.left;
   const yCoord = e.clientY - rect.top;
@@ -417,9 +444,9 @@ const onPointerDown = (e, ref, scene, camera, gui) => {
   const el = getTextElement(document);
   if (intersects.length > 0) {
     const objectNames = intersects.map((v) => v.object.name);
-    setTextData(gui, el, e.clientX, e.clientY, objectNames);
+    setTextData(guiView, el, e.clientX, e.clientY, objectNames);
   } else {
-    setTextData(gui, el, e.clientX, e.clientY, []);
+    setTextData(guiView, el, e.clientX, e.clientY, []);
   }
 };
 
