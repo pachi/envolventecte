@@ -7,8 +7,6 @@ import {
   Matrix3,
   Matrix4,
   Mesh,
-  Shape,
-  ShapeGeometry,
   ShapeUtils,
   Vector2,
   Vector3,
@@ -65,6 +63,7 @@ export function initObjectsFromModel(model, scene) {
       continue;
     }
 
+    // TODO: Llevar generación de userData a funciones
     const wallSubtype = getWallSubtype(wall); // FLOOR | ROOF | WALL
     const wallBounds = wall.bounds; // ADIABATIC | GROUND | EXTERIOR | INTERIOR
     const wallData = {
@@ -92,11 +91,13 @@ export function initObjectsFromModel(model, scene) {
         continue;
       }
 
-      const [winMesh, winPoints] = windowMesh(
-        window,
-        wallLocal2WallPolyTransform,
-        wallTransform
-      );
+      // Contorno de muro en coordenadas de polígono de muro
+      const winContour = getWindowContour(window, wallLocal2WallPolyTransform);
+      const winMesh = meshFromCoords(winContour);
+      winMesh.geometry.applyMatrix4(wallTransform);
+
+      // Aplica retranqueo de huecos tomando normal del primer vértice
+      setWindowMeshSetback(window, winMesh);
 
       // Asigna propiedades de hueco
       winMesh.name = window.name;
@@ -116,11 +117,12 @@ export function initObjectsFromModel(model, scene) {
       // Añadir la malla al grupo
       buildingGroup.add(winMesh);
       // Añadir el path a la lista de huecos del muro
-      wallHoles.push(winPoints);
+      wallHoles.push(winContour);
     }
 
-    const wallPoints = polygon.map((p) => new Vector2(p[0], p[1]));
-    const wallMesh = meshFromCoords(wallPoints, wallHoles, wallTransform);
+    const wallContour = polygon.map((p) => new Vector2(p[0], p[1]));
+    const wallMesh = meshFromCoords(wallContour, wallHoles);
+    wallMesh.geometry.applyMatrix4(wallTransform);
 
     wallMesh.name = wall.name;
     wallMesh.userData = wallData;
@@ -145,14 +147,15 @@ export function initObjectsFromModel(model, scene) {
     if (!position || !polygon || tilt === undefined || azimuth === undefined) {
       continue;
     }
-    const shadeTransform = transformMatrix(tilt, azimuth, position);
-    const points = polygon.map((p) => new Vector2(p[0], p[1]));
-    // Lista vacía de puntos - No hay polígono definido
-    if (points.length < 3) {
+    // Puntos insuficientes para generar una superficie
+    if (polygon.length < 3) {
       continue;
     }
-    const shadeShape = new Shape(points);
-    const shadeMesh = meshFromShape(shadeShape, shadeTransform);
+
+    const shadeTransform = transformMatrix(tilt, azimuth, position);
+    const contour = polygon.map((p) => new Vector2(p[0], p[1]));
+    const shadeMesh = meshFromCoords(contour);
+    shadeMesh.geometry.applyMatrix4(shadeTransform);
 
     shadeMesh.name = shade.name;
     shadeMesh.material = material_shades;
@@ -169,20 +172,10 @@ export function initObjectsFromModel(model, scene) {
   scene.add(wireframeGroup);
 }
 
-// Genera Mesh desde Shape, asignando capacidad de recibir y generar sombras y generando normales
-function meshFromShape(shape, transform) {
-  const winGeom = new ShapeGeometry(shape).applyMatrix4(transform);
-  winGeom.computeVertexNormals();
-  const winMesh = new Mesh(winGeom);
-  winMesh.receiveShadow = true;
-  winMesh.castShadow = true;
-  return winMesh;
-}
-
-// Construye malla a partir de lista de puntos (2D) de contorno,
-// lista de paths de huecos ([Path([Vector2, ...])...]) y transformación
+// Construye malla a partir de lista de puntos (2D) de contorno y
+// lista de paths de huecos ([Path([Vector2, ...])...])
 // El contorno debe tener al menos 2 puntos (una línea)
-function meshFromCoords(contour, holes = [], transform = null) {
+function meshFromCoords(contour, holes = []) {
   const geom = new BufferGeometry();
   let points;
   if (contour.length < 3) {
@@ -217,7 +210,6 @@ function meshFromCoords(contour, holes = [], transform = null) {
   }
 
   geom.setFromPoints(points);
-  geom.applyMatrix4(transform);
   geom.computeVertexNormals();
 
   const mesh = new Mesh(geom);
@@ -226,36 +218,32 @@ function meshFromCoords(contour, holes = [], transform = null) {
   return mesh;
 }
 
-// Generar el Shape de un hueco a partir de los datos de posición, ancho y alto
+// Obtener lista de puntos de contorno de un hueco
 // Los datos de hueco están en coordenadas locales de muro y se transforman en
 // coordenadas de polígono de muro
 // La posición se refiere a la esquina inferior izquierda.
-function windowMesh(window, wallLocal2WallPolyTransform, transform) {
+function getWindowContour(window, wallLocal2WallPolyTransform = null) {
   const {
     position: [x, y],
     width,
     height,
   } = window.geometry;
   // Generamos el hueco transformando las coordenadas a ejes locales de muro
-  const p1 = new Vector2(x, y).applyMatrix3(wallLocal2WallPolyTransform);
-  const p2 = new Vector2(x + width, y).applyMatrix3(
-    wallLocal2WallPolyTransform
-  );
-  const p3 = new Vector2(x + width, y + height).applyMatrix3(
-    wallLocal2WallPolyTransform
-  );
-  const p4 = new Vector2(x, y + height).applyMatrix3(
-    wallLocal2WallPolyTransform
-  );
+  let contour = [
+    new Vector2(x, y),
+    new Vector2(x + width, y),
+    new Vector2(x + width, y + height),
+    new Vector2(x, y + height),
+  ];
+  if (wallLocal2WallPolyTransform) {
+    contour = contour.map((p) => p.applyMatrix3(wallLocal2WallPolyTransform));
+  }
+  return contour;
+}
 
-  const geom = new BufferGeometry().setFromPoints([p1, p2, p3, p4, p1, p3, p4]);
-  geom.applyMatrix4(transform);
-  geom.computeVertexNormals();
-
-  const mesh = new Mesh(geom);
-  mesh.receiveShadow = mesh.castShadow = true;
-
-  // Aplica retranqueo de huecos
+// Aplica retranqueo a la malla del hueco
+function setWindowMeshSetback(window, mesh) {
+  // Aplica retranqueo de huecos tomando normal del primer vértice
   const winNormal = new Vector3().fromBufferAttribute(
     mesh.geometry.getAttribute("normal"),
     0
@@ -263,10 +251,7 @@ function windowMesh(window, wallLocal2WallPolyTransform, transform) {
   const winSetback = winNormal.multiplyScalar(-window.geometry.setback);
   mesh.geometry.translate(...winSetback.toArray());
 
-  // Path del hueco en el muro
-  const pointsArray = [p1, p2, p3, p4];
-
-  return [mesh, pointsArray];
+  return mesh;
 }
 
 // Matriz de transformación de coordenadas locales de muro a coordenadas de su polígono 2D
@@ -288,13 +273,13 @@ function wallLocal2WallPolygon(wall_polygon) {
 function transformMatrix(tilt, azimuth, position) {
   const [x, y, z] = position;
   // Aplicamos la inclinación del muro
-  const mtilt = new Matrix4().makeRotationX(degToRad(tilt));
+  const tilt_rot_mat = new Matrix4().makeRotationX(degToRad(tilt));
   // Aplicamos el azimuth del muro
-  const mazim = new Matrix4().makeRotationZ(degToRad(azimuth));
+  const azimuth_rot_mat = new Matrix4().makeRotationZ(degToRad(azimuth));
   // Aplicamos la traslación en coordenadas globales
-  const mtran = new Matrix4().makeTranslation(x, y, z);
+  const trans_mat = new Matrix4().makeTranslation(x, y, z);
 
-  return mtran.multiply(mazim).multiply(mtilt);
+  return trans_mat.multiply(azimuth_rot_mat).multiply(tilt_rot_mat);
 }
 
 // Devuelve subtipo de muro según inclinación: ROOF | FLOOR | WALL
