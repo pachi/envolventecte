@@ -1,4 +1,5 @@
 import {
+  BufferGeometry,
   EdgesGeometry,
   Group,
   LineSegments,
@@ -6,6 +7,7 @@ import {
   Matrix3,
   Matrix4,
   Mesh,
+  Path,
   Shape,
   ShapeGeometry,
   Vector2,
@@ -73,9 +75,9 @@ export function initObjectsFromModel(model, scene) {
     const wallLocal2WallPolyTransform = wallLocal2WallPolygon(polygon);
 
     // Muro
-    const wallShape = new Shape(polygon.map((p) => new Vector2(p[0], p[1])));
     const wallWindows = model.windows.filter((w) => w.wall === wall.id);
 
+    const wallHoles = [];
     for (const window of wallWindows) {
       if (
         !window.geometry.position ||
@@ -84,8 +86,13 @@ export function initObjectsFromModel(model, scene) {
         continue;
       }
 
-      const winShape = windowShape(window, wallLocal2WallPolyTransform);
-      const winMesh = meshFromShape(winShape, wallTransform);
+      const [winMesh, winPath] = windowMesh(
+        window,
+        wallLocal2WallPolyTransform,
+        wallTransform
+      );
+
+      // Asigna propiedades de hueco
       winMesh.name = window.name;
       winMesh.userData = {
         id: window.id,
@@ -96,19 +103,21 @@ export function initObjectsFromModel(model, scene) {
         parent: wall.name,
         parentId: wall.id,
       };
-      winMesh.material = chooseMaterial(winMesh);
-      // Aplica retranqueo de huecos
-      const winNormal = buffergeometryNormal(winMesh.geometry).clone();
-      const winSetback = winNormal.multiplyScalar(-window.geometry.setback);
-      winMesh.geometry.translate(...winSetback.toArray());
 
-      // Añadir al grupo
+      // Elige material según propiedades
+      winMesh.material = chooseMaterial(winMesh);
+
+      // Añadir la malla al grupo
       buildingGroup.add(winMesh);
-      // Añadir como hueco al muro
-      wallShape.holes.push(winShape);
+      // Añadir el path a la lista de huecos del muro
+      wallHoles.push(winPath);
     }
 
+    // TODO: eliminar la generación del shape
+    const wallShape = new Shape(polygon.map((p) => new Vector2(p[0], p[1])));
+    wallShape.holes = wallHoles;
     const wallMesh = meshFromShape(wallShape, wallTransform);
+
     wallMesh.name = wall.name;
     wallMesh.userData = wallData;
     wallMesh.material = chooseMaterial(wallMesh);
@@ -165,34 +174,48 @@ function meshFromShape(shape, transform) {
   return winMesh;
 }
 
-// Normal del vértice idx de un buffergeometry
-//
-// Genera un Vector3 para el BufferAttribute 'normal' del elemento idx
-function buffergeometryNormal(geometry, idx = 0) {
-  const vA = geometry.index.getX(idx);
-  const normalAttr = geometry.getAttribute("normal");
-  const normal = new Vector3().fromBufferAttribute(normalAttr, vA);
-  return normal;
-}
-
 // Generar el Shape de un hueco a partir de los datos de posición, ancho y alto
 // Los datos de hueco están en coordenadas locales de muro y se transforman en
 // coordenadas de polígono de muro
 // La posición se refiere a la esquina inferior izquierda.
-function windowShape(window, wallLocal2WallPolyTransform) {
+function windowMesh(window, wallLocal2WallPolyTransform, transform) {
   const {
     position: [x, y],
     width,
     height,
   } = window.geometry;
   // Generamos el hueco transformando las coordenadas a ejes locales de muro
-  const coords = [
-    new Vector2(x, y),
-    new Vector2(x + width, y),
-    new Vector2(x + width, y + height),
-    new Vector2(x, y + height),
-  ].map((x) => x.applyMatrix3(wallLocal2WallPolyTransform));
-  return new Shape().setFromPoints(coords);
+  const p1 = new Vector2(x, y).applyMatrix3(wallLocal2WallPolyTransform);
+  const p2 = new Vector2(x + width, y).applyMatrix3(
+    wallLocal2WallPolyTransform
+  );
+  const p3 = new Vector2(x + width, y + height).applyMatrix3(
+    wallLocal2WallPolyTransform
+  );
+  const p4 = new Vector2(x, y + height).applyMatrix3(
+    wallLocal2WallPolyTransform
+  );
+
+  const geom = new BufferGeometry().setFromPoints([p1, p2, p3, p4, p1, p3, p4]);
+  geom.applyMatrix4(transform);
+  geom.computeVertexNormals();
+
+  const mesh = new Mesh(geom);
+  mesh.receiveShadow = true;
+  mesh.castShadow = true;
+
+  // Aplica retranqueo de huecos
+  const winNormal = new Vector3().fromBufferAttribute(
+    mesh.geometry.getAttribute("normal"),
+    0
+  );
+  const winSetback = winNormal.multiplyScalar(-window.geometry.setback);
+  mesh.geometry.translate(...winSetback.toArray());
+
+  // Path del hueco en el muro
+  const path = new Path().setFromPoints([p1, p2, p3, p4]);
+
+  return [mesh, path];
 }
 
 // Matriz de transformación de coordenadas locales de muro a coordenadas de su polígono 2D
