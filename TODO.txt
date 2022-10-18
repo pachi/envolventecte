@@ -7,8 +7,11 @@
 
 # Mejoras
 
+- Usar Vite para el empaquetado
 - instalar con npm install --legacy-peer-deps
-- Migrar a AG Grid https://www.ag-grid.com/javascript-data-grid/component-cell-editor/ ?
+- Migrar a otra implementación de tabla (sin problemas de mantenimiento y compatibilidad):
+    - [React-table](https://react-table-v7.tanstack.com/)
+    - [AG Grid](https://www.ag-grid.com/javascript-data-grid/component-cell-editor/)
 - Pestaña de informes:
     - Mediciones (superficies, pesos y volúmenes)
 - Poner en gris materiales, vidrios, marcos y construcciones de opacos y huecos no usadas
@@ -18,7 +21,6 @@
 - Añadir valores de referencia HE nuevos y existentes, apéndice E, etc a gráficas
 - Mostrar tooltip en los elementos con avisos
 - ThreeView
-    - Llevar generacion de userData a funciones
     - Tomar ideas de visualización de visorgbxml:
         - https://www.ladybug.tools/spider-gbxml-tools/spider-gbxml-viewer/v-0-17-08/app-viewer/spider-gbxml-viewer.html
         - https://github.com/ladybug-tools/spider-gbxml-tools/tree/master/spider-gbxml-viewer/v-0-17-07
@@ -40,7 +42,6 @@
 - Definición de lamas en huecos
 - Elementos: calcular acristalamientos con sombras móviles usando directamente parámetros U_gl, g_gl_n, tau_e_B y ro_e_B
 - Elementos: calculadoras de U de opacos
-- Elementos: "Medianeras". Calcular R_u de espacios acondicionados adyacentes y bajocubierta s/ UNE-EN ISO 8996=2021
 - Elementos: añadir nueva construcción de hueco a partir de pestaña de elementos
 - Gráfica de radiación y fshwi por orientaciones en clima
 - Dibujar trayectorias solares en el espacio, para algunos meses y poder mostrar u ocultar.
