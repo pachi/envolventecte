@@ -129,7 +129,9 @@ const ThreeView = () => {
       window.cancelAnimationFrame(requestID);
       if (cameraControl) cameraControl.dispose();
       if (gui) gui.dispose();
-      domNodeRef.current.removeChild(renderer.domElement);
+      if (domNodeRef.current) {
+        domNodeRef.current.removeChild(renderer.domElement);
+      }
     };
   }, []);
 
