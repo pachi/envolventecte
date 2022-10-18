@@ -58,6 +58,7 @@ const ThreeView = () => {
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.shadowMap.enabled = true;
   renderer.physicallyCorrectLights = true;
+
   // Cámara
   const camera = new PerspectiveCamera(
     50,
@@ -98,7 +99,7 @@ const ThreeView = () => {
     camera.aspect = domNode.clientWidth / domNode.clientHeight;
 
     // Panel de control
-    const gui = new GUIView(scene, guiPaneRef);
+    const gui = new GUIView(renderer, scene, guiPaneRef);
 
     // Renderer
     renderer.setSize(domNode.clientWidth, domNode.clientHeight, false);
