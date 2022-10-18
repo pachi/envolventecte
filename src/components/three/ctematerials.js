@@ -1,47 +1,46 @@
 import { DoubleSide, LineBasicMaterial, MeshLambertMaterial } from "three";
 
-// Referencia de colores de gbxml-tools, similar al plugin de sketchup de OS
-// https://github.com/ladybug-tools/spider-gbxml-tools/blob/master/spider-gbxml-viewer/v-0-17-07/core-gbx-gbxml/gbx-gbxml-parser.js
-// InteriorWall: 0x008000,
-// ExteriorWall: 0xFFB400,
-// Roof: 0x800000,
-// InteriorFloor: 0x80FFFF,
-// ExposedFloor: 0x40B4FF,
-// Shade: 0xFFCE9D,
-// UndergroundWall: 0xA55200,
-// UndergroundSlab: 0x804000,
-// Ceiling: 0xFF8080,
-// Air: 0xFFFF00,
-// UndergroundCeiling: 0x408080,
-// RaisedFloor: 0x4B417D,
-// SlabOnGrade: 0x804000,
-// FreestandingColumn: 0x808080,
-// EmbeddedColumn: 0x80806E,
-// Undefined: 0x88888888
+const colorMap = {
+  Generic: 0x0000ff, // Genérico (líneas)
+  Line: 0x444444, // Bordes (líneas)
+  Selection: 0xff4444, // Selección
+  Shade: 0xa496ad, // Sombras
+  Window: 0xade1ec, // Ventanas
+  Adiabatic: 0x777777, // Adiabático
+  WallExt: 0xeecf74, // Paredes exterior
+  WallInt: 0xffce9d, // Paredes interior
+  WallGnd: 0xac8554, // Paredes terreno
+  RoofExt: 0x953e3f, // Techos exterior
+  RoofInt: 0xa54e4f, // Techos interior
+  RoofGnd: 0x5f2f2d, // Techos terreno
+  FloorExt: 0x893649, // Suelos exterior
+  FloorInt: 0x89627f, // Suelos interior
+  FloorGnd: 0x673659, // Suelos terreno
+};
 
 // Material genérico de líneas
 export const material_generic_lines = new LineBasicMaterial({
   name: "generic_lines",
-  color: 0x0000ff,
+  color: colorMap["Generic"],
   linewidth: 1,
 });
 
 // Material de bordes
 export const material_lines = new LineBasicMaterial({
   name: "lines",
-  color: 0x444444,
+  color: colorMap["Line"],
   linewidth: 1,
 });
-// Material doble cara - azul
+// Material selección
 export const material_select = new MeshLambertMaterial({
   name: "select",
-  color: 0xff4444,
+  color: colorMap["Selection"],
   side: DoubleSide,
 });
 // Sombras - violeta claro
 export const material_shades = new MeshLambertMaterial({
   name: "shades",
-  color: 0xa496ad,
+  color: colorMap["Shade"],
   side: DoubleSide,
   transparent: true,
   opacity: 1.0,
@@ -49,7 +48,7 @@ export const material_shades = new MeshLambertMaterial({
 // Ventanas azul claro
 export const material_windows = new MeshLambertMaterial({
   name: "windows",
-  color: 0xade1ec,
+  color: colorMap["Window"],
   side: DoubleSide,
   transparent: true,
   opacity: 0.5,
@@ -57,7 +56,7 @@ export const material_windows = new MeshLambertMaterial({
 // Elementos adiabáticos gris
 export const material_adiabatic = new MeshLambertMaterial({
   name: "adiabatic",
-  color: 0x777777,
+  color: colorMap["Adiabatic"],
   side: DoubleSide,
   transparent: true,
   opacity: 1.0,
@@ -65,7 +64,15 @@ export const material_adiabatic = new MeshLambertMaterial({
 // Paredes ocre
 export const material_walls = new MeshLambertMaterial({
   name: "walls",
-  color: 0xeecf74,
+  color: colorMap["WallExt"],
+  side: DoubleSide,
+  transparent: true,
+  opacity: 1.0,
+});
+// Paredes interior ocre claro
+export const material_walls_interior = new MeshLambertMaterial({
+  name: "walls_interior",
+  color: colorMap["WallInt"],
   side: DoubleSide,
   transparent: true,
   opacity: 1.0,
@@ -73,7 +80,7 @@ export const material_walls = new MeshLambertMaterial({
 // Paredes terreno ocre oscuro
 export const material_walls_ground = new MeshLambertMaterial({
   name: "walls_ground",
-  color: 0xac8554,
+  color: colorMap["WallGnd"],
   side: DoubleSide,
   transparent: true,
   opacity: 1.0,
@@ -81,7 +88,15 @@ export const material_walls_ground = new MeshLambertMaterial({
 // Techos rojizo
 export const material_roofs = new MeshLambertMaterial({
   name: "roofs",
-  color: 0x7e3e3f,
+  color: colorMap["RoofExt"],
+  side: DoubleSide,
+  transparent: true,
+  opacity: 1.0,
+});
+// Techos interior rojizo claro
+export const material_roofs_interior = new MeshLambertMaterial({
+  name: "roofs_interior",
+  color: colorMap["RoofInt"],
   side: DoubleSide,
   transparent: true,
   opacity: 1.0,
@@ -89,15 +104,23 @@ export const material_roofs = new MeshLambertMaterial({
 // Techos terreno rojizo oscuro
 export const material_roofs_ground = new MeshLambertMaterial({
   name: "roofs_ground",
-  color: 0x4f2d2d,
+  color: colorMap["RoofGnd"],
   side: DoubleSide,
   transparent: true,
   opacity: 1.0,
 });
-// Suelos rosado claro
+// Suelos con aire exterior rosado
 export const material_floors = new MeshLambertMaterial({
   name: "floors",
-  color: 0xa97ac7,
+  color: colorMap["FloorExt"],
+  side: DoubleSide,
+  transparent: true,
+  opacity: 1.0,
+});
+// Suelos interior rosado claro
+export const material_floors_interior = new MeshLambertMaterial({
+  name: "floors_interior",
+  color: colorMap["FloorInt"],
   side: DoubleSide,
   transparent: true,
   opacity: 1.0,
@@ -105,7 +128,7 @@ export const material_floors = new MeshLambertMaterial({
 // Suelos terreno morado oscuro
 export const material_floors_ground = new MeshLambertMaterial({
   name: "floors_ground",
-  color: 0x673669,
+  color: colorMap["FloorGnd"],
   side: DoubleSide,
   transparent: true,
   opacity: 1.0,
@@ -116,7 +139,6 @@ export const material_floors_ground = new MeshLambertMaterial({
 // Ahora mismo el material depende del tipo de elemento (Muro, cubierta, suelo, Window) y sus condiciones de contorno (ADIABATIC vs GROUND)
 //
 // TODO: Admitir más modos de representación:
-// - matizar la selección actual para elementos con condiciones de contorno INTERIOR
 // - en función de si el elemento pertenece o no a la envolvente térmica
 // - en función de la U del elemento
 export function getMaterial(obj) {
@@ -128,18 +150,24 @@ export function getMaterial(obj) {
     } else if (subtype === "FLOOR") {
       if (bounds === "GROUND") {
         material = material_floors_ground;
+      } else if (bounds === "INTERIOR") {
+        material = material_floors_interior;
       } else {
         material = material_floors;
       }
     } else if (subtype === "ROOF") {
       if (bounds === "GROUND") {
         material = material_roofs_ground;
+      } else if (bounds === "INTERIOR") {
+        material = material_roofs_interior;
       } else {
         material = material_roofs;
       }
     } else {
       if (bounds === "GROUND") {
         material = material_walls_ground;
+      } else if (bounds === "INTERIOR") {
+        material = material_walls_interior;
       } else {
         material = material_walls;
       }
