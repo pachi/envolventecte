@@ -119,7 +119,7 @@ export const material_floors_ground = new MeshLambertMaterial({
 // - matizar la selección actual para elementos con condiciones de contorno INTERIOR
 // - en función de si el elemento pertenece o no a la envolvente térmica
 // - en función de la U del elemento
-export function chooseMaterial(obj) {
+export function getMaterial(obj) {
   const { type, bounds, subtype } = obj.userData;
   let material;
   if (type === "Wall") {
@@ -146,6 +146,8 @@ export function chooseMaterial(obj) {
     }
   } else if (type === "Window") {
     material = material_windows;
+  } else if (type === "Shade") {
+    material = material_shades;
   } else {
     console.log(
       `Elemento ${obj.name} (${obj.userData.type}), asignando material de selección por defecto`

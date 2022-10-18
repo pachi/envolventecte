@@ -11,11 +11,7 @@ import {
   Vector2,
   Vector3,
 } from "three";
-import {
-  chooseMaterial,
-  material_lines,
-  material_shades,
-} from "./ctematerials.js";
+import { getMaterial, material_lines } from "./ctematerials.js";
 
 const { degToRad } = MathUtils;
 
@@ -63,16 +59,7 @@ export function initObjectsFromModel(model, scene) {
       continue;
     }
 
-    // TODO: Llevar generación de userData a funciones
-    const wallSubtype = getWallSubtype(wall); // FLOOR | ROOF | WALL
-    const wallBounds = wall.bounds; // ADIABATIC | GROUND | EXTERIOR | INTERIOR
-    const wallData = {
-      id: wall.id,
-      name: wall.name,
-      type: "Wall",
-      bounds: wallBounds,
-      subtype: wallSubtype,
-    };
+    const wallUserData = getUserData(wall);
 
     // Conversión a coordenadas globales
     const wallTransform = transformMatrix(tilt, azimuth, position);
@@ -101,18 +88,10 @@ export function initObjectsFromModel(model, scene) {
 
       // Asigna propiedades de hueco
       winMesh.name = window.name;
-      winMesh.userData = {
-        id: window.id,
-        name: window.name,
-        type: "Window",
-        bounds: wallBounds,
-        subtype: wallSubtype,
-        parent: wall.name,
-        parentId: wall.id,
-      };
+      winMesh.userData = getUserData(window, wallUserData);
 
       // Elige material según propiedades
-      winMesh.material = chooseMaterial(winMesh);
+      winMesh.material = getMaterial(winMesh);
 
       // Añadir la malla al grupo
       buildingGroup.add(winMesh);
@@ -125,8 +104,8 @@ export function initObjectsFromModel(model, scene) {
     wallMesh.geometry.applyMatrix4(wallTransform);
 
     wallMesh.name = wall.name;
-    wallMesh.userData = wallData;
-    wallMesh.material = chooseMaterial(wallMesh);
+    wallMesh.userData = wallUserData;
+    wallMesh.material = getMaterial(wallMesh);
 
     buildingGroup.add(wallMesh);
 
@@ -158,18 +137,46 @@ export function initObjectsFromModel(model, scene) {
     shadeMesh.geometry.applyMatrix4(shadeTransform);
 
     shadeMesh.name = shade.name;
-    shadeMesh.material = material_shades;
-    shadeMesh.userData = {
-      id: shade.id,
-      name: shade.name,
-      type: "Shade",
-    };
+    shadeMesh.userData = getUserData(shade);
+    shadeMesh.material = getMaterial(shadeMesh);
     buildingGroup.add(shadeMesh);
   }
 
   // Añade elementos a la escena
   scene.add(buildingGroup);
   scene.add(wireframeGroup);
+}
+
+// Calcula datos para mesh.userData a partir de objetos y propiedades del objeto padre
+function getUserData(obj, parentUserData = null) {
+  if (Object.prototype.hasOwnProperty.call(obj, "space")) {
+    // Es un muro
+    return {
+      id: obj.id,
+      name: obj.name,
+      type: "Wall",
+      bounds: obj.bounds, // ADIABATIC | GROUND | EXTERIOR | INTERIOR
+      subtype: getWallSubtype(obj), // FLOOR | ROOF | WALL
+    };
+  } else if (Object.prototype.hasOwnProperty.call(obj, "wall")) {
+    // Es un hueco
+    return {
+      id: obj.id,
+      name: obj.name,
+      type: "Window",
+      bounds: parentUserData.bounds, // ADIABATIC | GROUND | EXTERIOR | INTERIOR
+      subtype: parentUserData.subtype, // FLOOR | ROOF | WALL
+      parent: parentUserData.name,
+      parentId: parentUserData.id,
+    };
+  } else {
+    // Es una sombra
+    return {
+      id: obj.id,
+      name: obj.name,
+      type: "Shade",
+    };
+  }
 }
 
 // Construye malla a partir de lista de puntos (2D) de contorno y
