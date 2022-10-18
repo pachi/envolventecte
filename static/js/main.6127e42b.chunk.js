@@ -1,2 +1,0 @@
-(this.webpackJsonpenvolventecte=this.webpackJsonpenvolventecte||[]).push([[0],[function(e,n,o){Promise.all([o.e(2),o.e(3)]).then(o.bind(null,1)).catch((function(e){return console.error("Error importing `index.js`:",e)}))}],[[0,1]]]);
-//# sourceMappingURL=main.6127e42b.chunk.js.map
