@@ -141,8 +141,8 @@ export const material_floors_ground = new MeshLambertMaterial({
 // TODO: Admitir más modos de representación:
 // - en función de si el elemento pertenece o no a la envolvente térmica
 // - en función de la U del elemento
-export function getMaterial(obj) {
-  const { type, bounds, subtype } = obj.userData;
+export function getMaterial(mesh) {
+  const { type, bounds, subtype } = mesh.userData;
   let material;
   if (type === "Wall") {
     if (bounds === "ADIABATIC") {
@@ -178,7 +178,7 @@ export function getMaterial(obj) {
     material = material_shades;
   } else {
     console.log(
-      `Elemento ${obj.name} (${obj.userData.type}), asignando material de selección por defecto`
+      `Elemento ${mesh.name} (${mesh.userData.type}), asignando material de selección por defecto`
     );
     material = material_select;
   }
