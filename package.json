@@ -41,7 +41,7 @@
     "eslint-plugin-jsx": "^0.1.0",
     "gh-pages": "^4.0.0",
     "raw-loader": "^4.0.2",
-    "react-scripts": "^4.0.3",
+    "react-scripts": "^5.0.1",
     "url-parse": "^1.5.10"
   },
   "dependencies": {
