@@ -31,7 +31,7 @@ import AppState from "../../stores/AppState";
 const style = {
   display: "flex",
   flexFlow: "row",
-  height: "60vh",
+  height: "75vh",
 };
 
 const ThreeView = () => {
