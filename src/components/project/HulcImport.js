@@ -21,8 +21,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext } from "react";
-import { Col, Row } from "react-bootstrap";
+import React, { useContext, useState } from "react";
+import { Col, Form, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
@@ -32,6 +32,7 @@ import Dropzone from "../ui/DropZone.js";
 // Vista de elementos de sombra del edificio
 export const HulcImport = observer(() => {
   const appstate = useContext(AppState);
+  const [purge, setPurge] = useState(false);
 
   return (
     <>
@@ -55,7 +56,7 @@ export const HulcImport = observer(() => {
         <Col>
           <Dropzone
             onDrop={(acceptedFiles, _rejectedFiles, _event) =>
-              appstate.handleUpload(acceptedFiles)
+              appstate.handleUpload(acceptedFiles, purge)
             }
             accept={{ "application/octet-stream": [".ctehexml"] }}
             message={
@@ -68,6 +69,20 @@ export const HulcImport = observer(() => {
               </>
             }
           />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form>
+            <Form.Group>
+              <Form.Check
+                checked={purge}
+                onChange={(_e) => setPurge(!purge)}
+                label="Purga del modelo los elementos no utilizados"
+                className="mx-auto small"
+              />
+            </Form.Group>
+          </Form>
         </Col>
       </Row>
       <Row className="my-3">

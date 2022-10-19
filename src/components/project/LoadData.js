@@ -21,8 +21,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext } from "react";
-import { Col, Row } from "react-bootstrap";
+import React, { useContext, useState } from "react";
+import { Col, Form, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
@@ -32,13 +32,16 @@ import Dropzone from "../ui/DropZone.js";
 // Vista de elementos de sombra del edificio
 export const LoadData = observer(() => {
   const appstate = useContext(AppState);
+  const [purge, setPurge] = useState(false);
 
   const dropHeight = "100px";
   return (
     <>
       <Row>
         <Col>
-          <p className="lead">Carga de datos desde un archivo de EnvolventeCTE</p>
+          <p className="lead">
+            Carga de datos desde un archivo de EnvolventeCTE
+          </p>
         </Col>
       </Row>
       <Row className="my-3">
@@ -50,11 +53,11 @@ export const LoadData = observer(() => {
           </p>
         </Col>
       </Row>
-      <Row>
+      <Row className="my-3">
         <Col>
           <Dropzone
             onDrop={(acceptedFiles, _rejectedFiles, _event) =>
-              appstate.handleUpload(acceptedFiles)
+              appstate.handleUpload(acceptedFiles, purge)
             }
             accept={{ "application/json": [".json"] }}
             message={
@@ -67,6 +70,20 @@ export const LoadData = observer(() => {
             }
             containerHeight={dropHeight}
           />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form>
+            <Form.Group>
+              <Form.Check
+                checked={purge}
+                onChange={(_e) => setPurge(!purge)}
+                label="Purga del modelo los elementos no utilizados"
+                className="mx-auto small"
+              />
+            </Form.Group>
+          </Form>
         </Col>
       </Row>
     </>

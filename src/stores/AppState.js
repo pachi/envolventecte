@@ -26,10 +26,11 @@ import { action, observable, computed, makeObservable, configure } from "mobx";
 
 import {
   energy_indicators,
+  get_monthly_radiation_data,
   load_data_from_json,
   load_data_from_ctehexml,
   load_fshobst_data_from_kyg,
-  get_monthly_radiation_data,
+  purge_unused,
 } from "wasm-envolventecte";
 
 import {
@@ -151,6 +152,7 @@ class AppState {
       handleUpload: action,
       loadModel: action,
       clearModel: action,
+      purgeModel: action,
       asJSON: computed,
       loadData: action,
     });
@@ -232,13 +234,13 @@ class AppState {
     return idNameMap;
   }
 
-  getElementOptions(elementType, addEmpty=false) {
+  getElementOptions(elementType, addEmpty = false) {
     const opts = this.getElements(elementType).map(({ id, name }) => ({
       value: id,
       label: name,
     }));
     if (addEmpty) {
-      opts.unshift({value: "", label: "<Vacío>"})
+      opts.unshift({ value: "", label: "<Vacío>" });
     }
     return opts;
   }
@@ -410,6 +412,12 @@ class AppState {
     this.sys_settings = [];
   }
 
+  // Purga datos no usados del modelo
+  purgeModel() {
+    let cleanModel = purge_unused(this.getModel());
+    this.loadModel(cleanModel);
+  }
+
   // Carga modelo JSON en el appstate
   loadModel(inputData) {
     const {
@@ -528,7 +536,7 @@ class AppState {
   }
 
   // Carga datos desde lista de archivos subida, identificando el tipo
-  handleUpload(acceptedFiles) {
+  handleUpload(acceptedFiles, purge = false) {
     if (acceptedFiles.length > 0) {
       const file = acceptedFiles[0];
       const reader = new FileReader();
@@ -542,9 +550,9 @@ class AppState {
           file.name.toLowerCase().includes(".ctehexml") ||
           file.path.toLowerCase().includes(".ctehexml")
         ) {
-          this.loadData(rawdata.target.result, "CTEHEXML");
+          this.loadData(rawdata.target.result, "CTEHEXML", purge);
         } else {
-          this.loadData(rawdata.target.result, "JSON");
+          this.loadData(rawdata.target.result, "JSON", purge);
         }
       };
       reader.readAsText(file);
@@ -555,16 +563,16 @@ class AppState {
   // - JSON (mode = "JSON")
   // - CTEHEXML (mode="CTEHEXML")
   // - KyGananciasSolares.txt (mode="FSHOBST")
-  loadData(data, mode) {
+  loadData(data, mode, purge = false) {
     // Lee datos
     try {
       let inputData;
       if (mode === "FSHOBST") {
         inputData = load_fshobst_data_from_kyg(data);
       } else if (mode === "CTEHEXML") {
-        inputData = load_data_from_ctehexml(data);
+        inputData = load_data_from_ctehexml(data, purge);
       } else {
-        inputData = load_data_from_json(data);
+        inputData = load_data_from_json(data, purge);
       }
 
       if (mode === "CTEHEXML" || mode === "JSON") {

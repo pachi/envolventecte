@@ -63,6 +63,25 @@ export const EmptyModel = observer(() => {
           </div>
         </Col>
       </Row>
+      <Row>
+        <Col>
+          <div className="d-grid">
+            <Button
+              variant="secondary"
+              onClick={(_e) => appstate.purgeModel()}
+              title="Pulse para limpiar los elementos no usados del modelo"
+              style={{
+                fontSize: 20,
+                height: 50,
+                marginTop: 20,
+                marginBottom: 20,
+              }}
+            >
+              Purga elementos no utilizados del modelo
+            </Button>
+          </div>
+        </Col>
+      </Row>
     </>
   );
 });

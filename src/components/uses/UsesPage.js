@@ -47,13 +47,25 @@ export const UsesPage = ({ route, activeKey, setActiveKey }) => {
             <Tab eventKey="sys_settings" title="Consignas" className="pt-3">
               <SysSettingsView />
             </Tab>
-            <Tab eventKey="schedules_year" title="Horarios anuales" className="pt-3">
+            <Tab
+              eventKey="schedules_year"
+              title="Horarios anuales"
+              className="pt-3"
+            >
               <SchedulesYearView />
             </Tab>
-            <Tab eventKey="schedules_week" title="Horarios semanales" className="pt-3">
+            <Tab
+              eventKey="schedules_week"
+              title="Horarios semanales"
+              className="pt-3"
+            >
               <SchedulesWeekView />
             </Tab>
-            <Tab eventKey="schedules_day" title="Horarios diarios" className="pt-3">
+            <Tab
+              eventKey="schedules_day"
+              title="Horarios diarios"
+              className="pt-3"
+            >
               <SchedulesDayView />
             </Tab>
           </Tabs>
