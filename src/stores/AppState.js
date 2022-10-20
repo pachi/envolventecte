@@ -340,7 +340,7 @@ class AppState {
     return newids;
   }
 
-  // Elimina los elementos selecccionados del tipo indicado y devuelve el UUID del nuevo elemento seleccionado (o null)
+  // Elimina los elementos seleccionados del tipo indicado y devuelve el UUID del nuevo elemento seleccionado (o null)
   deleteElements(elementType, selection) {
     const container = this.getElements(elementType);
 
@@ -414,8 +414,9 @@ class AppState {
 
   // Purga datos no usados del modelo
   purgeModel() {
-    let cleanModel = purge_unused(this.getModel());
+    const { model: cleanModel, warnings } = purge_unused(this.getModel());
     this.loadModel(cleanModel);
+    this.errors = warnings;
   }
 
   // Carga modelo JSON en el appstate
@@ -567,18 +568,24 @@ class AppState {
     // Lee datos
     try {
       let inputData;
+      let loadWarnings = [];
       if (mode === "FSHOBST") {
         inputData = load_fshobst_data_from_kyg(data);
       } else if (mode === "CTEHEXML") {
-        inputData = load_data_from_ctehexml(data, purge);
+        const { model, warnings } = load_data_from_ctehexml(data, purge);
+        loadWarnings = warnings;
+        inputData = model;
       } else {
-        inputData = load_data_from_json(data, purge);
+        const { model, warnings } = load_data_from_json(data, purge);
+        loadWarnings = warnings;
+        inputData = model;
       }
 
       if (mode === "CTEHEXML" || mode === "JSON") {
         this.loadModel(inputData);
         this.errors = [
           { level: "SUCCESS", id: null, msg: "Datos cargados correctamente." },
+          ...loadWarnings,
           {
             level: "INFO",
             id: null,

@@ -1,8 +1,10 @@
 use std::{collections::BTreeMap, convert::TryFrom};
 
-use bemodel::{self, climatedata, Model, VERSION};
-use hulc::{ctehexml, kyg};
+use serde::Serialize;
 use wasm_bindgen::prelude::*;
+
+use bemodel::{self, climatedata, Model, Warning, VERSION};
+use hulc::{ctehexml, kyg};
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -55,6 +57,15 @@ pub fn set_log_hook(level: &str) {
     .expect("error initializing log");
 }
 
+/// Tipo para intercambio de modelo y sus avisos
+#[derive(Serialize)]
+struct ModelWithWarnings {
+    pub model: Model,
+    pub warnings: Vec<Warning>,
+}
+
+// Funciones exportadas
+
 /// Carga datos de radiación acumulada mensual
 #[wasm_bindgen]
 pub fn get_monthly_radiation_data() -> Result<JsValue, JsValue> {
@@ -85,10 +96,13 @@ pub fn energy_indicators(model_js: &JsValue) -> Result<JsValue, JsValue> {
 #[wasm_bindgen]
 pub fn load_data_from_json(data: &str, purge_unused: bool) -> Result<JsValue, JsValue> {
     let mut model = Model::from_json(data).map_err(|e| e.to_string())?;
-    if purge_unused {
+    let warnings = if purge_unused {
         model.purge_unused()
-    }
-    let res = JsValue::from_serde(&model).map_err(|e| e.to_string())?;
+    } else {
+        vec![]
+    };
+    let res =
+        JsValue::from_serde(&ModelWithWarnings { model, warnings }).map_err(|e| e.to_string())?;
     Ok(res)
 }
 
@@ -97,10 +111,13 @@ pub fn load_data_from_json(data: &str, purge_unused: bool) -> Result<JsValue, Js
 pub fn load_data_from_ctehexml(data: &str, purge_unused: bool) -> Result<JsValue, JsValue> {
     let ctehexmldata = ctehexml::parse_with_catalog(data).map_err(|e| e.to_string())?;
     let mut model = Model::try_from(&ctehexmldata).map_err(|e| e.to_string())?;
-    if purge_unused {
+    let warnings = if purge_unused {
         model.purge_unused()
-    }
-    let res = JsValue::from_serde(&model).map_err(|e| e.to_string())?;
+    } else {
+        vec![]
+    };
+    let res =
+        JsValue::from_serde(&ModelWithWarnings { model, warnings }).map_err(|e| e.to_string())?;
     Ok(res)
 }
 
@@ -121,9 +138,10 @@ pub fn load_fshobst_data_from_kyg(data: &str) -> Result<JsValue, JsValue> {
 #[wasm_bindgen]
 pub fn purge_unused(model_js: &JsValue) -> Result<JsValue, JsValue> {
     let mut model: Model = model_js.into_serde().map_err(|e| e.to_string())?;
-    model.purge_unused();
-    let js_model = JsValue::from_serde(&model).map_err(|e| e.to_string())?;
-    Ok(js_model)
+    let warnings = model.purge_unused();
+    let res =
+        JsValue::from_serde(&ModelWithWarnings { model, warnings }).map_err(|e| e.to_string())?;
+    Ok(res)
 }
 
 /// Espacio por defecto
