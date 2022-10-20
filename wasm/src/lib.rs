@@ -97,7 +97,7 @@ pub fn energy_indicators(model_js: &JsValue) -> Result<JsValue, JsValue> {
 pub fn load_data_from_json(data: &str, purge_unused: bool) -> Result<JsValue, JsValue> {
     let mut model = Model::from_json(data).map_err(|e| e.to_string())?;
     let warnings = if purge_unused {
-        model.purge_unused()
+        bemodel::purge_unused(&mut model)
     } else {
         vec![]
     };
@@ -112,7 +112,7 @@ pub fn load_data_from_ctehexml(data: &str, purge_unused: bool) -> Result<JsValue
     let ctehexmldata = ctehexml::parse_with_catalog(data).map_err(|e| e.to_string())?;
     let mut model = Model::try_from(&ctehexmldata).map_err(|e| e.to_string())?;
     let warnings = if purge_unused {
-        model.purge_unused()
+        bemodel::purge_unused(&mut model)
     } else {
         vec![]
     };
@@ -138,7 +138,7 @@ pub fn load_fshobst_data_from_kyg(data: &str) -> Result<JsValue, JsValue> {
 #[wasm_bindgen]
 pub fn purge_unused(model_js: &JsValue) -> Result<JsValue, JsValue> {
     let mut model: Model = model_js.into_serde().map_err(|e| e.to_string())?;
-    let warnings = model.purge_unused();
+    let warnings = bemodel::purge_unused(&mut model);
     let res =
         JsValue::from_serde(&ModelWithWarnings { model, warnings }).map_err(|e| e.to_string())?;
     Ok(res)
