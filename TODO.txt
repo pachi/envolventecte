@@ -8,7 +8,7 @@
 # Mejoras
 
 - Usar Vite para el empaquetado
-- instalar con npm install --legacy-peer-deps
+- Instalar con npm install --legacy-peer-deps (para evitar problemas con tablas y otros paquetes obsoletos)
 - Migrar a otra implementación de tabla (sin problemas de mantenimiento y compatibilidad):
     - [React-table](https://react-table-v7.tanstack.com/)
     - [AG Grid](https://www.ag-grid.com/javascript-data-grid/component-cell-editor/)
