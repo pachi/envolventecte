@@ -21,8 +21,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-// TODO: falta constructores de horarios y valores predeterminados
-
 import {
   new_glass,
   new_frame,
