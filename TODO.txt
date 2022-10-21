@@ -21,12 +21,17 @@
 - Mostrar tooltip en los elementos con avisos
 - ThreeView
     - Tomar ideas de visualización de visorgbxml:
+        - https://github.com/ladybug-tools/ladybug-web/
         - https://www.ladybug.tools/spider-gbxml-tools/spider-gbxml-viewer/v-0-17-08/app-viewer/spider-gbxml-viewer.html
         - https://github.com/ladybug-tools/spider-gbxml-tools/tree/master/spider-gbxml-viewer/v-0-17-07
-    - Posición del sol a partir de mes, día y hora
+    - Gráfica y posición del sol (Analemma) a partir de mes (1-12), día(1-31) y hora(0-24):
+        - https://rawgit.com/ladybug-tools/ladybug-web/gh-pages/solar-calculator-ladybug-web/solar-calculator-ladybug-web-r1.js
+        - [Dibuja Analemma](https://github.com/ladybug-tools/ladybug-web/blob/b0d34a5de71ad2e9f489d24ce3e1aa1033378263/analemma-3d/analemma-3d-r10.html#L356)
+        - https://github.com/ladybug-tools/ladybug-web/blob/b0d34a5de71ad2e9f489d24ce3e1aa1033378263/analemma-3d/analemma-3d-r18.html
     - Opacidad aclarando elementos ocultos
     - Activar postproceso para mejorar calidad de imagen: https://github.com/IFCjs/web-ifc-viewer/blob/master/viewer/src/components/context/renderer/postproduction.ts
     - Seleccionar elemento activo en las tablas del modelo (y, al revés, mostrar elementos seleccionados en 3D), selecciones múltiples
+    - Dibujar datos sobre objeto al seleccionar: https://github.com/ladybug-tools/ladybug-web/blob/b0d34a5de71ad2e9f489d24ce3e1aa1033378263/analemma-3d/analemma-3d-r10.html#L694
 
 # Nueva funcionalidad
 
