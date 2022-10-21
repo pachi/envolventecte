@@ -30,7 +30,6 @@
 
 # Nueva funcionalidad
 
-- Botón para eliminar elementos no usados en cada pestaña (icono de limpiar)
 - Nuevo tipo de construcciones en groundCons para aislamiento perimetral de soleras?
 - Gestor de biblioteca en Ayudas
     - Seleccionar elementos y trasladar a la base de datos del edificio
