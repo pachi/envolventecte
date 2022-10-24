@@ -50,8 +50,9 @@ export const defaultsSpace = {
   name: "Espacio",
   multiplier: 1.0,
   inside_tenv: true,
-  n_v: null,
   z: 0.0,
+  n_v: null,
+  illuminance: null,
 };
 
 export const newWall = () => {

@@ -130,7 +130,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "name",
       text: "Nombre",
       classes: "font-weight-bold",
-      headerStyle: () => ({ width: "30%" }),
+      headerStyle: () => ({ width: "20%" }),
       headerTitle: () => "Nombre del espacio",
       headerClasses: "text-light bg-secondary",
       title: (_cell, row) => `Espacio id: ${row.id}`,
@@ -220,33 +220,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
         </>
       ),
     },
-    {
-      dataField: "n_v",
-      text: "Ventilación ren/h",
-      align: "center",
-      formatter: Float2DigitsFmt,
-      editable: (cell, row) => {
-        return row.type === "UNINHABITED";
-      },
-      customEditor: {
-        getElement: (onUpdate, props) => (
-          <NVEditor onUpdate={onUpdate} defaultValue={null} {...props} />
-        ),
-      },
-      headerTitle: () =>
-        "Ventilación del espacio, en ren/h. Sólo cuando se trata de espacios no habitables.",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          n<sub>v</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[ren/h]</i>{" "}
-          </span>
-        </>
-      ),
-    },
+    
     {
       dataField: "z",
       text: "z",
@@ -293,6 +267,57 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       headerTitle: () => "Consignas de temperatura en el espacio",
       headerAlign: "center",
       headerClasses: "text-light bg-secondary",
+    },
+    {
+      dataField: "n_v",
+      text: "Infiltraciones ren/h",
+      align: "center",
+      formatter: Float2DigitsFmt,
+      editable: (cell, row) => {
+        return row.type === "UNINHABITED";
+      },
+      customEditor: {
+        getElement: (onUpdate, props) => (
+          <NVEditor onUpdate={onUpdate} defaultValue={null} {...props} />
+        ),
+      },
+      headerTitle: () =>
+        "Nivel de infiltraciones del espacio, en ren/h",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          n<sub>v</sub>
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[ren/h]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
+      dataField: "illuminance",
+      text: "Iluminancia lux",
+      align: "center",
+      formatter: Float2DigitsFmt,
+      customEditor: {
+        getElement: (onUpdate, props) => (
+          <NVEditor onUpdate={onUpdate} defaultValue={null} {...props} />
+        ),
+      },
+      headerTitle: () =>
+        "Iluminancia media en el plano de trabajo, en lux",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          E<sub>m</sub>
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[lux]</i>{" "}
+          </span>
+        </>
+      ),
     },
     {
       dataField: "area",
@@ -361,7 +386,15 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
           ) {
             // Corrige el valor de n_v de undefined a null
             // o cambia a null cuando no son espacios no habitables
+            // TODO: esto en terciario no necesariamente es así, 
+            // ya que se pueden definir las infiltraciones
+            // cuando no funcionan los equipos
             row.n_v = null;
+          } else if (
+            (column.dataField === "illuminance" && newValue === undefined)
+          ) {
+            // Corrige el valor de illuminance de undefined a null
+            row.illuminance = null;
           } else if (
             ["loads", "sys_settings"].includes(column.dataField) &&
             newValue === ""
@@ -372,7 +405,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
               column.dataField
             )
           ) {
-            // Convierte a número salvo en el caso del nombre o de inside_tenv
+            // Convierte a número salvo en el caso del nombre, inside_tenv, kind, loads y sys_settings
             row[column.dataField] = getFloatOrOld(newValue, oldValue);
           }
         },
