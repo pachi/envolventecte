@@ -25,7 +25,7 @@ import React, { useState, useRef } from "react";
 import {
   Modal,
   Button,
-  ButtonGroup,
+  ToggleButtonGroup,
   Col,
   Container,
   Form,
@@ -52,16 +52,18 @@ import { ListEditor } from "../ui/ListEditor";
 // No se comprueba la coherencia de la definición geométrica con la superficie
 export const GeometryOpaquesEditor = React.forwardRef(
   ({ onUpdate, value, name }, _ref) => {
-    const posIsNull = value.position === null || value.position.length === 0;
+    const hasDefinedPos = !(
+      value.position === null || value.position.length === 0
+    );
     let x = 0.0,
       y = 0.0,
       z = 0.0;
-    if (!posIsNull) {
+    if (hasDefinedPos) {
       x = value.position[0];
       y = value.position[1];
       z = value.position[2];
     }
-    const [isNull, setIsNull] = useState(posIsNull);
+    const [hasPos, setHasPos] = useState(hasDefinedPos);
     const [show, setShow] = useState(true);
     // Posición
     const [xPos, setXPos] = useState(x);
@@ -76,9 +78,9 @@ export const GeometryOpaquesEditor = React.forwardRef(
     const [tilt, setTilt] = useState(value.tilt);
 
     const updateData = () => {
-      const position = isNull
-        ? null
-        : [parseFloat(xPos), parseFloat(yPos), parseFloat(zPos)];
+      const position = hasPos
+        ? [parseFloat(xPos), parseFloat(yPos), parseFloat(zPos)]
+        : null;
       const polygon = poly.map((p) => [p.X, p.Y]);
       return onUpdate({
         azimuth: parseFloat(azimuth),
@@ -120,8 +122,8 @@ export const GeometryOpaquesEditor = React.forwardRef(
               setTilt={setTilt}
             />
             <PositionEditor
-              isNull={isNull}
-              setIsNull={setIsNull}
+              hasPos={hasPos}
+              setHasPos={setHasPos}
               xPos={xPos}
               setXPos={setXPos}
               yPos={yPos}
@@ -202,8 +204,8 @@ const AzimuthTiltEditor = ({ azimuth, setAzimuth, tilt, setTilt }) => (
 );
 
 const PositionEditor = ({
-  isNull,
-  setIsNull,
+  hasPos,
+  setHasPos,
   xPos,
   setXPos,
   yPos,
@@ -219,30 +221,31 @@ const PositionEditor = ({
       <Row id="position">
         <Col>
           <label htmlFor="position">Punto de inserción del elemento:</label>
-          <ButtonGroup className="mb-2 btn-block">
+          <ToggleButtonGroup
+            type="radio"
+            name="insertion_point_present"
+            className="mb-2 btn-block"
+            value={hasPos ? 2 : 1}
+          >
             <ToggleButton
               type="radio"
               variant="secondary"
-              name="nullPos"
-              checked={isNull}
-              onChange={(e) => {
-                setIsNull(e.currentTarget.checked);
-              }}
+              value={1}
               className="col-md-6"
+              onClick={(_e) => setHasPos(false)}
             >
               Sin posición definida
             </ToggleButton>
             <ToggleButton
               type="radio"
               variant="secondary"
-              name="validPos"
-              checked={!isNull}
-              onChange={(e) => setIsNull(!e.currentTarget.checked)}
+              value={2}
               className="col-md-6"
+              onClick={(_e) => setHasPos(true)}
             >
               Posición definida por coordenadas
             </ToggleButton>
-          </ButtonGroup>
+          </ToggleButtonGroup>
         </Col>
       </Row>
       <Form.Group as={Row}>
@@ -253,8 +256,8 @@ const PositionEditor = ({
           <Form.Control
             id="xInput"
             ref={inputXRef}
-            value={isNull ? "" : xPos}
-            readOnly={isNull}
+            value={hasPos ? xPos : ""}
+            readOnly={!hasPos}
             onChange={(ev) => {
               setXPos(ev.currentTarget.value.replace(",", "."));
             }}
@@ -268,8 +271,8 @@ const PositionEditor = ({
           <Form.Control
             id="yInput"
             ref={inputYRef}
-            value={isNull ? "" : yPos}
-            readOnly={isNull}
+            value={hasPos ? yPos : ""}
+            readOnly={!hasPos}
             onChange={(ev) => {
               setYPos(ev.currentTarget.value.replace(",", "."));
             }}
@@ -286,8 +289,8 @@ const PositionEditor = ({
                 md="2"
                 id="zInput"
                 ref={inputZRef}
-                value={isNull ? "" : zPos}
-                readOnly={isNull}
+                value={hasPos ? zPos : ""}
+                readOnly={!hasPos}
                 onChange={(ev) => {
                   setZPos(ev.currentTarget.value.replace(",", "."));
                 }}
