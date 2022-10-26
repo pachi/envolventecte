@@ -39,6 +39,9 @@ import iconless from "../img/baseline-remove-24px.svg";
 import iconselectall from "../img/select-rows.svg";
 import iconselectnone from "../img/unselect-rows.svg";
 import iconduplicate from "../img/outline-file_copy-24px.svg";
+import iconarrowup from "../img/arrow_up.svg";
+import iconarrowdown from "../img/arrow_down.svg";
+
 import { uuidv4 } from "../../utils";
 import AppState, { EMPTY_ID } from "../../stores/AppState";
 
@@ -299,6 +302,54 @@ const AddRemovePolyButtonGroup = ({
           }}
         >
           <img src={iconselectnone} alt="Deseleccionar todo" />
+        </Button>
+      </ButtonGroup>
+      <ButtonGroup aria-label="Barra de subir o bajar filas">
+        <Button
+          variant="primary"
+          size="sm"
+          title="Subir primer elemento seleccionado en la tabla"
+          onClick={() => {
+            if (layers.length < 2) return;
+            const selection = selectedIds[0];
+
+            const idx = layers.findIndex((h) => selection === h.id);
+            if (idx < 1) return;
+            const prev = layers[idx - 1];
+            const elem = layers[idx];
+
+            setLayers([
+              ...layers.slice(0, idx - 1),
+              elem,
+              prev,
+              ...layers.splice(idx + 1),
+            ]);
+          }}
+        >
+          <img src={iconarrowup} alt="Subir filas" />
+        </Button>
+        <Button
+          variant="primary"
+          size="sm"
+          title="Bajar primer elemento seleccionado en la tabla"
+          onClick={() => {
+            if (layers.length < 2) return;
+            const selection = selectedIds[0];
+
+            const idx = layers.findIndex((h) => selection === h.id);
+            if (idx > layers.length - 2 || idx < 0) return;
+            const elem = layers[idx];
+            const next = layers[idx + 1];
+
+            setLayers([
+              ...layers.slice(0, idx),
+              next,
+              elem,
+              ...layers.splice(idx + 2),
+            ]);
+          }}
+        >
+          <img src={iconarrowdown} alt="Bajar filas" />
         </Button>
       </ButtonGroup>
     </ButtonToolbar>

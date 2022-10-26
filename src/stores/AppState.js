@@ -364,6 +364,46 @@ class AppState {
     }
   }
 
+  // Mueve una posición hacia arriba el primer elemento seleccionado
+  moveUpFirstSelectedElement(elementType, selection) {
+    const container = this.getElements(elementType);
+
+    if (selection.length === 0) return;
+    selection = selection[0];
+
+    const idx = container.findIndex((h) => selection.includes(h.id));
+    if (idx < 1) return;
+    const prev = container[idx - 1];
+    const elem = container[idx];
+
+    container.replace([
+      ...container.slice(0, idx - 1),
+      elem,
+      prev,
+      ...container.splice(idx + 1),
+    ]);
+  }
+
+  // Mueve una posición hacia arriba el primer elemento seleccionado
+  moveDownFirstSelectedElement(elementType, selection) {
+    const container = this.getElements(elementType);
+
+    if (selection.length === 0) return;
+    selection = selection[0];
+
+    const idx = container.findIndex((h) => selection.includes(h.id));
+    if (idx > container.length - 2 || idx < 0) return;
+    const elem = container[idx];
+    const next = container[idx + 1];
+    
+    container.replace([
+      ...container.slice(0, idx),
+      next,
+      elem,
+      ...container.splice(idx + 2),
+    ]);
+  }
+
   // Recopila modelo desde el appstate
   getModel() {
     const {

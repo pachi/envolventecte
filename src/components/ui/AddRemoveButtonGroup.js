@@ -32,76 +32,107 @@ import iconless from "../img/baseline-remove-24px.svg";
 import iconselectall from "../img/select-rows.svg";
 import iconselectnone from "../img/unselect-rows.svg";
 import iconduplicate from "../img/outline-file_copy-24px.svg";
+import iconarrowup from "../img/arrow_up.svg";
+import iconarrowdown from "../img/arrow_down.svg";
 
-const AddRemoveButtonGroup = observer(({ elementType, selectedIds, setSelectedIds }) => {
-  const appstate = useContext(AppState);
+const AddRemoveButtonGroup = observer(
+  ({ elementType, selectedIds, setSelectedIds }) => {
+    const appstate = useContext(AppState);
 
-  return (
-    <ButtonToolbar>
-      <ButtonGroup
-        className="mr-2"
-        aria-label="Barra de modificación de líneas"
-      >
-        <Button
-          variant="primary"
-          size="sm"
-          title="Añadir una fila al final de la tabla"
-          onClick={() => {
-            const newid = appstate.addElement(elementType);
-            setSelectedIds([newid]);
-          }}
+    return (
+      <ButtonToolbar>
+        <ButtonGroup
+          className="mr-2"
+          aria-label="Barra de modificación de líneas"
         >
-          <img src={iconplus} alt="Añadir fila" />
-        </Button>
-        <Button
-          variant="primary"
-          size="sm"
-          title="Duplicar filas seleccionadas de la tabla"
-          onClick={() => {
-            const newids = appstate.duplicateElements(elementType, selectedIds);
-            setSelectedIds(newids);
-          }}
-        >
-          <img src={iconduplicate} alt="Duplicar fila" />
-        </Button>
-        <Button
-          variant="primary"
-          size="sm"
-          title="Eliminar filas seleccionadas de la tabla"
-          onClick={() => {
-            if (selectedIds.length > 0) {
-              let newid = appstate.deleteElements(elementType, selectedIds);
-              newid !== null ? setSelectedIds([newid]) : setSelectedIds([]);
-            }
-          }}
-        >
-          <img src={iconless} alt="Eliminar fila" />
-        </Button>
-      </ButtonGroup>
-      <ButtonGroup aria-label="Barra de selección y deselección de filas">
-        <Button
-          variant="primary"
-          size="sm"
-          title="Seleccionar todas las filas de la tabla"
-          onClick={() => {
-            setSelectedIds(appstate.getElements(elementType).map((e) => e.id));
-          }}
-        >
-          <img src={iconselectall} alt="Seleccionar todo" />
-        </Button>
-        <Button
-          variant="primary"
-          size="sm"
-          title="Deseleccionar todas las filas de la tabla"
-          onClick={() => {
-            setSelectedIds([]);
-          }}
-        >
-          <img src={iconselectnone} alt="Deseleccionar todo" />
-        </Button>
-      </ButtonGroup>
-    </ButtonToolbar>
-  );
-});
+          <Button
+            variant="primary"
+            size="sm"
+            title="Añadir una fila al final de la tabla"
+            onClick={() => {
+              const newid = appstate.addElement(elementType);
+              setSelectedIds([newid]);
+            }}
+          >
+            <img src={iconplus} alt="Añadir fila" />
+          </Button>
+          <Button
+            variant="primary"
+            size="sm"
+            title="Duplicar filas seleccionadas de la tabla"
+            onClick={() => {
+              const newids = appstate.duplicateElements(
+                elementType,
+                selectedIds
+              );
+              setSelectedIds(newids);
+            }}
+          >
+            <img src={iconduplicate} alt="Duplicar fila" />
+          </Button>
+          <Button
+            variant="primary"
+            size="sm"
+            title="Eliminar filas seleccionadas de la tabla"
+            onClick={() => {
+              if (selectedIds.length > 0) {
+                let newid = appstate.deleteElements(elementType, selectedIds);
+                newid !== null ? setSelectedIds([newid]) : setSelectedIds([]);
+              }
+            }}
+          >
+            <img src={iconless} alt="Eliminar fila" />
+          </Button>
+        </ButtonGroup>
+        <ButtonGroup aria-label="Barra de selección y deselección de filas">
+          <Button
+            variant="primary"
+            size="sm"
+            title="Seleccionar todas las filas de la tabla"
+            onClick={() => {
+              setSelectedIds(
+                appstate.getElements(elementType).map((e) => e.id)
+              );
+            }}
+          >
+            <img src={iconselectall} alt="Seleccionar todo" />
+          </Button>
+          <Button
+            variant="primary"
+            size="sm"
+            title="Deseleccionar todas las filas de la tabla"
+            onClick={() => {
+              setSelectedIds([]);
+            }}
+          >
+            <img src={iconselectnone} alt="Deseleccionar todo" />
+          </Button>
+        </ButtonGroup>
+        <ButtonGroup aria-label="Barra de subir o bajar filas">
+          <Button
+            variant="primary"
+            size="sm"
+            title="Subir primer elemento seleccionado en la tabla"
+            onClick={() => {
+              appstate.moveUpFirstSelectedElement(elementType, selectedIds);
+            }}
+          >
+            <img src={iconarrowup} alt="Subir filas" />
+          </Button>
+          <Button
+            variant="primary"
+            size="sm"
+            title="Bajar primer elemento seleccionado en la tabla"
+            onClick={() => {
+              appstate.moveDownFirstSelectedElement(elementType, selectedIds);
+            }}
+          >
+            <img src={iconarrowdown} alt="Bajar filas" />
+          </Button>
+        </ButtonGroup>
+      </ButtonToolbar>
+    );
+  }
+);
 
 export default AddRemoveButtonGroup;
