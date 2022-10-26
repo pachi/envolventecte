@@ -79,6 +79,25 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       },
     },
     {
+      dataField: "area_per_person",
+      text: "Densidad ocupación",
+      align: "center",
+      formatter: Float2DigitsFmt,
+      validator: validateNonNegNumber,
+      headerTitle: () => "Superficie por ocupante (m²/pax)",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          A<sub>oc</sub>
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[m²/pax]</i>{" "}
+          </span>
+        </>
+      ),
+    },
+    {
       dataField: "people_sensible",
       text: "Ocup. sensible",
       align: "center",
@@ -130,25 +149,6 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       headerTitle: () => "Horario de ocupación",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
-    },
-    {
-      dataField: "illuminance",
-      text: "Iluminancia",
-      align: "center",
-      formatter: Float2DigitsFmt,
-      validator: validateNonNegNumberOrEmpty,
-      headerTitle: () => "Iluminancia media en el plano de trabajo (lux)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          E<sub>m</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[lux]</i>{" "}
-          </span>
-        </>
-      ),
     },
     {
       dataField: "lighting",
@@ -217,25 +217,6 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       headerTitle: () => "Horario de equipos",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
-    },
-    {
-      dataField: "area_per_person",
-      text: "Densidad ocupación",
-      align: "center",
-      formatter: Float2DigitsFmt,
-      validator: validateNonNegNumber,
-      headerTitle: () => "Superficie por ocupante (m²/pax)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          A<sub>oc</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[m²/pax]</i>{" "}
-          </span>
-        </>
-      ),
     },
   ];
 

@@ -51,6 +51,8 @@ export const defaultsSpace = {
   multiplier: 1.0,
   inside_tenv: true,
   z: 0.0,
+  loads: null,
+  sys_settings: null,
   n_v: null,
   illuminance: null,
 };
@@ -174,7 +176,6 @@ export const defaultsLoad = {
   people_schedule: null,
   lighting_schedule: null,
   equipment_schedule: null,
-  illuminance: null,
 };
 
 export const newSysSetting = () => ({
