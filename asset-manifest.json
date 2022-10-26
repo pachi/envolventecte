@@ -2,15 +2,15 @@
   "files": {
     "main.js": "/envolventecte/static/js/main.b58437c8.chunk.js",
     "main.js.map": "/envolventecte/static/js/main.b58437c8.chunk.js.map",
-    "runtime-main.js": "/envolventecte/static/js/runtime-main.9d1a30d4.js",
-    "runtime-main.js.map": "/envolventecte/static/js/runtime-main.9d1a30d4.js.map",
+    "runtime-main.js": "/envolventecte/static/js/runtime-main.72c07ee0.js",
+    "runtime-main.js.map": "/envolventecte/static/js/runtime-main.72c07ee0.js.map",
     "static/css/2.2e03af06.chunk.css": "/envolventecte/static/css/2.2e03af06.chunk.css",
     "static/js/2.04126b75.chunk.js": "/envolventecte/static/js/2.04126b75.chunk.js",
     "static/js/2.04126b75.chunk.js.map": "/envolventecte/static/js/2.04126b75.chunk.js.map",
     "static/css/3.fafdfdba.chunk.css": "/envolventecte/static/css/3.fafdfdba.chunk.css",
-    "static/js/3.d338e9eb.chunk.js": "/envolventecte/static/js/3.d338e9eb.chunk.js",
+    "static/js/3.226278f6.chunk.js": "/envolventecte/static/js/3.226278f6.chunk.js",
     "f80ac97d5b29f18ad441.module.wasm": "/envolventecte/f80ac97d5b29f18ad441.module.wasm",
-    "static/js/3.d338e9eb.chunk.js.map": "/envolventecte/static/js/3.d338e9eb.chunk.js.map",
+    "static/js/3.226278f6.chunk.js.map": "/envolventecte/static/js/3.226278f6.chunk.js.map",
     "index.html": "/envolventecte/index.html",
     "static/css/2.2e03af06.chunk.css.map": "/envolventecte/static/css/2.2e03af06.chunk.css.map",
     "static/css/3.fafdfdba.chunk.css.map": "/envolventecte/static/css/3.fafdfdba.chunk.css.map",
@@ -18,6 +18,8 @@
     "static/media/5R1C.a7eec38e.svg": "/envolventecte/static/media/5R1C.a7eec38e.svg",
     "static/media/FotoDani.a707bf6c.jpg": "/envolventecte/static/media/FotoDani.a707bf6c.jpg",
     "static/media/FotoMarta.48d0cd56.jpg": "/envolventecte/static/media/FotoMarta.48d0cd56.jpg",
+    "static/media/arrow_down.048c6af1.svg": "/envolventecte/static/media/arrow_down.048c6af1.svg",
+    "static/media/arrow_up.807e68e4.svg": "/envolventecte/static/media/arrow_up.807e68e4.svg",
     "static/media/baseline-add-24px.b16f86ed.svg": "/envolventecte/static/media/baseline-add-24px.b16f86ed.svg",
     "static/media/baseline-archive-24px.e47369bc.svg": "/envolventecte/static/media/baseline-archive-24px.e47369bc.svg",
     "static/media/baseline-remove-24px.811c054e.svg": "/envolventecte/static/media/baseline-remove-24px.811c054e.svg",
@@ -38,7 +40,7 @@
     "static/media/valid_pos_icon.8296e01e.svg": "/envolventecte/static/media/valid_pos_icon.8296e01e.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.9d1a30d4.js",
+    "static/js/runtime-main.72c07ee0.js",
     "static/js/main.b58437c8.chunk.js"
   ]
 }
