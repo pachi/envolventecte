@@ -106,7 +106,7 @@ const MainPage = () => {
                   <Link to="/3d">Vista3D</Link>: explorar visualmente el modelo.
                 </li>
                 <li>
-                  <Link to="/reports">Construcción</Link>: mostrar una
+                  <Link to="/reports">Informes</Link>: mostrar una
                   evaluación de los indicadores de eficiencia energética del
                   modelo o sus mediciones.
                 </li>
