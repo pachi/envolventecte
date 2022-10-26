@@ -409,14 +409,16 @@ const CoordsTable = ({ poly, setPoly }) => {
 // No se comprueba la coherencia de la definición geométrica con la superficie
 export const GeometryWindowEditor = React.forwardRef(
   ({ onUpdate, value, name, ..._rest }, _ref) => {
-    const posIsNull = value.position === null || value.position.length === 0;
+    const hasDefinedPos = !(
+      value.position === null || value.position.length === 0
+    );
     let x = 0.0,
       y = 0.0;
-    if (!posIsNull) {
+    if (hasDefinedPos) {
       x = value.position[0];
       y = value.position[1];
     }
-    const [isNull, setIsNull] = useState(posIsNull);
+    const [hasPos, setHasPos] = useState(hasDefinedPos);
     const [show, setShow] = useState(true);
     // Posición
     const [xPos, setXPos] = useState(x);
@@ -428,7 +430,7 @@ export const GeometryWindowEditor = React.forwardRef(
     const [setback, setSetback] = useState(value.setback);
 
     const updateData = () => {
-      if (isNull) {
+      if (!hasPos) {
         return onUpdate({
           width: parseFloat(width),
           height: parseFloat(height),
@@ -476,8 +478,8 @@ export const GeometryWindowEditor = React.forwardRef(
             setSetback={setSetback}
           />
           <PositionEditor
-            isNull={isNull}
-            setIsNull={setIsNull}
+            hasPos={hasPos}
+            setHasPos={setHasPos}
             xPos={xPos}
             setXPos={setXPos}
             yPos={yPos}
