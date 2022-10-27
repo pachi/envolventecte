@@ -35,6 +35,11 @@
 
 # Nueva funcionalidad
 
+- Mostrar JSON de datos en pestaña oculta por defecto (ctrl+alt+h):
+    - modelo
+    - EnergyIndicators
+- Configuración de la aplicación:
+    - Mostrar/ocultar valores calculados
 - Nuevo tipo de construcciones en groundCons para aislamiento perimetral de soleras?
 - Gestor de biblioteca en Ayudas
     - Seleccionar elementos y trasladar a la base de datos del edificio
