@@ -26,6 +26,7 @@ import { Col, Row, Tab, Tabs } from "react-bootstrap";
 
 import { Page } from "../ui/Page";
 import He1Report from "./He1Report";
+import QuantitiesReport from "./QuantitiesReport";
 
 const ReportsPage = ({ route, activeKey, setActiveKey }) => {
   return (
@@ -42,7 +43,7 @@ const ReportsPage = ({ route, activeKey, setActiveKey }) => {
               <He1Report />
             </Tab>
             <Tab eventKey="quantities" title="Mediciones" className="pt-3">
-              <p>Por hacer...</p>
+              <QuantitiesReport />
             </Tab>
           </Tabs>
         </Col>
