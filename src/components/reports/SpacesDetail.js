@@ -27,6 +27,11 @@ import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 import { round_or_dash } from "../../utils";
+import {
+  BOUNDARY_TYPES_MAP,
+  BOUNDARY_TYPES,
+  ORIENTATION_TYPES,
+} from "../../stores/types";
 
 const formatted = (elem, bold = false) => (bold ? <b>{elem}</b> : <>{elem}</>);
 
@@ -35,31 +40,19 @@ const SpacesDetail = () => {
 
   const { props } = appstate.energy_indicators;
 
-  // TODO: roofs, floors, windows
+  // TODO: spaces, shades
   // TODO: ordenar tablas, ordenar elementos dentro de las tablas, etc
 
-  const wall_area_by_cons = Object.entries(
-    Object.values(props.walls).reduce((acc, w) => {
-      acc[w.cons] = (acc[w.cons] ?? 0) + w.area_net;
-      return acc;
-    }, {})
+  let wallData = computeRows(
+    appstate.cons.wallcons,
+    props.walls,
+    (e) => e.area_net * e.multiplier
   );
-
-  const wall_area_by_bound = Object.entries(
-    Object.values(props.walls).reduce((acc, w) => {
-      acc[w.bounds] = (acc[w.bounds] ?? 0) + w.area_net;
-      return acc;
-    }, {})
+  let windowData = computeRows(
+    appstate.cons.wincons,
+    props.windows,
+    (e) => e.area * e.multiplier
   );
-
-  const wall_area_by_orientation = Object.entries(
-    Object.values(props.walls).reduce((acc, w) => {
-      acc[w.orientation] = (acc[w.orientation] ?? 0) + w.area_net;
-      return acc;
-    }, {})
-  );
-
-  // console.log(wall_area_by_cons, wall_area_by_bound, wall_area_by_orientation);
 
   return (
     <>
@@ -68,46 +61,36 @@ const SpacesDetail = () => {
           <h3 className="mb-4">Opacos</h3>
           <p>
             Elementos opacos (muros, cubiertas, suelos, particiones interiores)
-            pertenecientes o no a la envolvente térmica.
+            pertenecientes o no a la envolvente térmica, exceptuando elementos
+            de sombra. <br />
+            <br />
+            Se indican superficies netas.
           </p>
+        </Col>
+      </Row>
+      <Row className="print-section">
+        <Col>
+          <ByConceptTable data={wallData} />
         </Col>
       </Row>
       <Row className="mb-4 print-section">
         <Col>
-          <h4 className="mb-4">Muros</h4>
+          <h3 className="mb-4">Huecos</h3>
+          <p>Huecos pertenecientes o no a la envolvente térmica.</p>
         </Col>
       </Row>
       <Row className="print-section">
         <Col>
-          <WallsByConceptTable
-            concept="Construcción"
-            data={wall_area_by_cons}
-          />
-        </Col>
-      </Row>
-      <Row className="print-section">
-        <Col>
-          <WallsByConceptTable
-            concept="Condición de contorno"
-            data={wall_area_by_bound}
-          />
-        </Col>
-      </Row>
-      <Row className="print-section">
-        <Col>
-          <WallsByConceptTable
-            concept="Orientación"
-            data={wall_area_by_orientation}
-          />
+          <ByConceptTable data={windowData} />
         </Col>
       </Row>
     </>
   );
 };
 
-// Tabla de desglose de K
-const WallsByConceptTable = ({ concept, data }) => {
-  const total = data.reduce((acc, e) => (acc += e[1]), 0);
+// Tabla de desglose de muros
+const ByConceptTable = ({ data }) => {
+  const total = data.reduce((acc, e) => (acc += e.area), 0);
   return (
     <Table
       striped
@@ -120,9 +103,11 @@ const WallsByConceptTable = ({ concept, data }) => {
       <thead style={{ background: "lightGray" }}>
         <tr>
           <th>
-            {concept}
+            Solución constructiva
             <br />
           </th>
+          <th>Condición de contorno</th>
+          <th>Orientación</th>
           <th className="text-center" style={{ width: "20%" }}>
             A<br />
             [m²]
@@ -130,18 +115,52 @@ const WallsByConceptTable = ({ concept, data }) => {
         </tr>
       </thead>
       <tbody>
-        {data.map(([concept, area], idx) => (
-          <tr key={idx}>
-            <td>{formatted(concept, false)}</td>
-            <td className="text-center">
-              {formatted(round_or_dash(area), false)}
-            </td>
-          </tr>
+        {data.map((row, idx) => (
+          <React.Fragment key={`${idx}-${row.name}`}>
+            <tr style={{ borderTop: "2 solid black" }}>
+              <td>
+                <i>
+                  <b>{row.name}</b>
+                </i>
+              </td>
+              <td></td>
+              <td></td>
+              <td className="text-center">
+                <b>{round_or_dash(row.area)}</b>
+              </td>
+            </tr>
+            {row.children.map((row2, idx2) => (
+              <React.Fragment key={`${idx}-${idx2}`}>
+                <tr>
+                  <td></td>
+                  <td>
+                    <i>{BOUNDARY_TYPES_MAP[row2.bounds]}</i>
+                  </td>
+                  <td></td>
+                  <td className="text-center">
+                    <i>{formatted(round_or_dash(row2.area), false)}</i>
+                  </td>
+                </tr>
+                {row2.children.map((row3, idx3) => (
+                  <tr key={`${idx}-${idx2}-${idx3}`}>
+                    <td></td>
+                    <td></td>
+                    <td>{formatted(row3.orientation, false)}</td>
+                    <td className="text-center">
+                      {formatted(round_or_dash(row3.area), false)}
+                    </td>
+                  </tr>
+                ))}
+              </React.Fragment>
+            ))}
+          </React.Fragment>
         ))}
         <tr>
           <td>
             <b>TOTAL</b>
           </td>
+          <td></td>
+          <td></td>
           <td className="text-center">
             {formatted(round_or_dash(total), true)}
           </td>
@@ -152,3 +171,38 @@ const WallsByConceptTable = ({ concept, data }) => {
 };
 
 export default observer(SpacesDetail);
+
+function computeRows(cons, props, adder = () => 1) {
+  let data = [];
+  for (const wc of cons) {
+    const id = wc.id;
+    const name = wc.name;
+    const consTotal = { name, area: 0, children: [] };
+    for (const bounds of BOUNDARY_TYPES) {
+      const boundTotal = { bounds, area: 0, children: [] };
+      for (const orientation of ORIENTATION_TYPES) {
+        const orientTotal = { orientation, area: 0 };
+        const selected = Object.values(props).filter(
+          (w) =>
+            w.orientation === orientation && w.bounds === bounds && w.cons == id
+        );
+        for (const elem of selected) {
+          const area = adder(elem);
+          consTotal.area += area;
+          boundTotal.area += area;
+          orientTotal.area += area;
+        }
+        if (orientTotal.area > 0.01) {
+          boundTotal.children.push(orientTotal);
+        }
+      }
+      if (boundTotal.area > 0.01) {
+        consTotal.children.push(boundTotal);
+      }
+    }
+    if (consTotal.area > 0.01) {
+      data.push(consTotal);
+    }
+  }
+  return data;
+}

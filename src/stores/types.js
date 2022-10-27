@@ -77,3 +77,5 @@ export const THERMAL_BRIDGE_TYPES_MAP = {
   WINDOW: "HUECO",
   GENERIC: "GENÉRICO",
 };
+
+export const ORIENTATION_TYPES = ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "HZ"];
