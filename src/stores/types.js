@@ -37,7 +37,8 @@ export const SCHEDULE_DAY = "day";
 export const LOAD = "loads";
 export const THERMOSTAT = "thermostats";
 
-// Formato y opciones de condiciones de contorno
+// Lista y mapeado de de condiciones de contorno
+export const BOUNDARY_TYPES = ["EXTERIOR", "INTERIOR", "ADIABATIC", "GROUND"];
 export const BOUNDARY_TYPES_MAP = {
   EXTERIOR: "EXTERIOR",
   INTERIOR: "INTERIOR",
@@ -46,6 +47,7 @@ export const BOUNDARY_TYPES_MAP = {
 };
 
 // Tipos de espacios según nivel de acondicionamiento
+export const SPACE_TYPES = ["CONDITIONED", "UNCONDITIONED", "UNINHABITED"];
 export const SPACE_TYPES_MAP = {
   CONDITIONED: "ACONDICIONADO",
   UNCONDITIONED: "NO ACONDICIONADO",
@@ -53,6 +55,17 @@ export const SPACE_TYPES_MAP = {
 };
 
 // Tipos de puentes térmicos
+export const THERMAL_BRIDGE_TYPES = [
+  "ROOF",
+  "BALCONY",
+  "CORNER",
+  "INTERMEDIATEFLOOR",
+  "INTERNALWALL",
+  "GROUNDFLOOR",
+  "PILLAR",
+  "WINDOW",
+  "GENERIC",
+];
 export const THERMAL_BRIDGE_TYPES_MAP = {
   ROOF: "CUBIERTA",
   BALCONY: "BALCÓN",
