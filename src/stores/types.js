@@ -36,3 +36,31 @@ export const SCHEDULE_WEEK = "week";
 export const SCHEDULE_DAY = "day";
 export const LOAD = "loads";
 export const THERMOSTAT = "thermostats";
+
+// Formato y opciones de condiciones de contorno
+export const BOUNDARY_TYPES_MAP = {
+  EXTERIOR: "EXTERIOR",
+  INTERIOR: "INTERIOR",
+  ADIABATIC: "ADIABÁTICO",
+  GROUND: "TERRENO",
+};
+
+// Tipos de espacios según nivel de acondicionamiento
+export const SPACE_TYPES_MAP = {
+  CONDITIONED: "ACONDICIONADO",
+  UNCONDITIONED: "NO ACONDICIONADO",
+  UNINHABITED: "NO HABITABLE",
+};
+
+// Tipos de puentes térmicos
+export const THERMAL_BRIDGE_TYPES_MAP = {
+  ROOF: "CUBIERTA",
+  BALCONY: "BALCÓN",
+  CORNER: "ESQUINA",
+  INTERMEDIATEFLOOR: "FORJADO",
+  INTERNALWALL: "PARTICIÓN",
+  GROUNDFLOOR: "SOLERA",
+  PILLAR: "PILAR",
+  WINDOW: "HUECO",
+  GENERIC: "GENÉRICO",
+};

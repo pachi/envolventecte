@@ -33,34 +33,11 @@ import partialGeometryIcon from "../img/partial_geom_icon.svg";
 import { OrientaIcon, TiltIcon } from "../helpers/IconsOrientaciones";
 
 import palette, { azimuth_name, tilt_name, getMatColor } from "./utils";
-
-// Formato y opciones de condiciones de contorno
-export const BOUNDARY_TYPES_MAP = {
-  EXTERIOR: "EXTERIOR",
-  INTERIOR: "INTERIOR",
-  ADIABATIC: "ADIABÁTICO",
-  GROUND: "TERRENO",
-};
-
-// Tipos de espacios según nivel de acondicionamiento
-export const SPACE_TYPES_MAP = {
-  CONDITIONED: "ACONDICIONADO",
-  UNCONDITIONED: "NO ACONDICIONADO",
-  UNINHABITED: "NO HABITABLE",
-};
-
-// Tipos de puentes térmicos
-export const THERMAL_BRIDGE_TYPES_MAP = {
-  ROOF: "CUBIERTA",
-  BALCONY: "BALCÓN",
-  CORNER: "ESQUINA",
-  INTERMEDIATEFLOOR: "FORJADO",
-  INTERNALWALL: "PARTICIÓN",
-  GROUNDFLOOR: "SOLERA",
-  PILLAR: "PILAR",
-  WINDOW: "HUECO",
-  GENERIC: "GENÉRICO",
-};
+import {
+  BOUNDARY_TYPES_MAP,
+  SPACE_TYPES_MAP,
+  THERMAL_BRIDGE_TYPES_MAP,
+} from "../../stores/types";
 
 // Formateadores -------------------------------------------------------------
 
