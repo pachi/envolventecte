@@ -35,4 +35,4 @@ export const SCHEDULE_YEAR = "year";
 export const SCHEDULE_WEEK = "week";
 export const SCHEDULE_DAY = "day";
 export const LOAD = "loads";
-export const SYS_SETTING = "sys_settings";
+export const THERMOSTAT = "thermostats";

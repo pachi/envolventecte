@@ -38,7 +38,7 @@ import { NameFromIdFmt } from "../tables/Formatters";
 //    "temp_max": "d02b9100-8895-0f1a-4f70-0bb216479f55",
 //    "temp_min": "026bc569-dc14-ade8-f130-e5da31fc74b8"
 //  }
-const SysSettingsTable = ({ selectedIds, setSelectedIds }) => {
+const ThermostatsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const schedulesMap = appstate.getIdNameMap(SCHEDULE_YEAR);
   const schedulesOpts = appstate.getElementOptions(SCHEDULE_YEAR, true);
@@ -99,7 +99,7 @@ const SysSettingsTable = ({ selectedIds, setSelectedIds }) => {
 
   return (
     <BootstrapTable
-      data={appstate.sys_settings}
+      data={appstate.thermostats}
       keyField="id"
       striped
       hover
@@ -153,4 +153,4 @@ const SysSettingsTable = ({ selectedIds, setSelectedIds }) => {
   );
 };
 
-export default observer(SysSettingsTable);
+export default observer(ThermostatsTable);

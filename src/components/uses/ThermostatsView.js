@@ -26,13 +26,13 @@ import { Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { SYS_SETTING } from "../../stores/types";
+import { THERMOSTAT } from "../../stores/types";
 
 import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
-import SysSettingsTable from "./SysSettingsTable";
+import ThermostatsTable from "./ThermostatsTable";
 
 // Vista de consignas de los espacios
-const SysSettingsView = observer(() => {
+const ThermostatsView = observer(() => {
   const appstate = useContext(AppState);
   const [selected, setSelected] = useState([]);
 
@@ -42,12 +42,12 @@ const SysSettingsView = observer(() => {
         <Col>
           <h4>
             Consignas de los espacios{" "}
-            <small className="text-muted">({appstate.sys_settings.length})</small>
+            <small className="text-muted">({appstate.thermostats.length})</small>
           </h4>
         </Col>
         <Col md="auto">
           <AddRemoveButtonGroup
-            elementType={SYS_SETTING}
+            elementType={THERMOSTAT}
             selectedIds={selected}
             setSelectedIds={setSelected}
           />
@@ -55,11 +55,11 @@ const SysSettingsView = observer(() => {
       </Row>
       <Row>
         <Col>
-          <SysSettingsTable selectedIds={selected} setSelectedIds={setSelected} />
+          <ThermostatsTable selectedIds={selected} setSelectedIds={setSelected} />
         </Col>
       </Row>
     </>
   );
 });
 
-export default SysSettingsView;
+export default ThermostatsView;

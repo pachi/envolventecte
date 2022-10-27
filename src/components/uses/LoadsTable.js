@@ -29,10 +29,7 @@ import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 import { Float2DigitsFmt, NameFromIdFmt } from "../tables/Formatters";
-import {
-  validateNonNegNumber,
-  validateNonNegNumberOrEmpty,
-} from "../tables/Validators";
+import { validateNonNegNumber } from "../tables/Validators";
 import { getFloatOrOld } from "../tables/utils";
 
 import { SCHEDULE_YEAR } from "../../stores/types";

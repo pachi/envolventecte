@@ -218,8 +218,8 @@ pub fn new_load() -> JsValue {
 
 /// Consignas por defecto
 #[wasm_bindgen]
-pub fn new_sys_setting() -> JsValue {
-    JsValue::from_serde(&bemodel::SpaceSysConditions::default()).unwrap()
+pub fn new_thermostat() -> JsValue {
+    JsValue::from_serde(&bemodel::Thermostat::default()).unwrap()
 }
 
 /// Horario diario por defecto

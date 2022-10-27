@@ -34,7 +34,7 @@ import {
   new_window,
   new_meta,
   new_load,
-  new_sys_setting,
+  new_thermostat,
   new_schedule_day,
   new_schedule_week,
   new_schedule_year,
@@ -52,7 +52,7 @@ export const defaultsSpace = {
   inside_tenv: true,
   z: 0.0,
   loads: null,
-  sys_settings: null,
+  thermostats: null,
   n_v: null,
   illuminance: null,
 };
@@ -178,9 +178,9 @@ export const defaultsLoad = {
   equipment_schedule: null,
 };
 
-export const newSysSetting = () => ({
+export const newThermostat = () => ({
   ...defaultsSysSetting,
-  ...new_sys_setting(),
+  ...new_thermostat(),
 });
 
 export const defaultsSysSetting = {

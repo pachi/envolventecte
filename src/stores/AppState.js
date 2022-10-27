@@ -55,7 +55,7 @@ import {
   defaultsFrame,
   newMeta,
   defaultsTb,
-  newSysSetting,
+  newThermostat,
   newLoad,
   defaultsLoad,
   defaultsSysSetting,
@@ -113,7 +113,7 @@ class AppState {
   // Cargas
   loads = [];
   // Consignas
-  sys_settings = [];
+  thermostats = [];
 
   // Lista de errores y avisos -------
   // Contiene objetos  { level: warninglevel, id: "element_id", msg: "my msg" }
@@ -133,7 +133,7 @@ class AppState {
       cons: observable,
       schedules: observable,
       loads: observable,
-      sys_settings: observable,
+      thermostats: observable,
       errors: observable,
 
       // Valores calculados (resultan de modificaciones del estado)
@@ -217,8 +217,8 @@ class AppState {
         return this.schedules.day;
       case types.LOAD:
         return this.loads;
-      case types.SYS_SETTING:
-        return this.sys_settings;
+      case types.THERMOSTAT:
+        return this.thermostats;
       default:
         return [];
     }
@@ -295,9 +295,9 @@ class AppState {
         el = newLoad();
         this.loads.push(el);
         break;
-      case types.SYS_SETTING:
-        el = newSysSetting();
-        this.sys_settings.push(el);
+      case types.THERMOSTAT:
+        el = newThermostat();
+        this.thermostats.push(el);
         break;
       case types.SCHEDULE_DAY:
         el = newScheduleDay();
@@ -416,7 +416,7 @@ class AppState {
       cons,
       schedules,
       loads,
-      sys_settings,
+      thermostats,
     } = this;
     return {
       meta,
@@ -428,7 +428,7 @@ class AppState {
       cons,
       schedules,
       loads,
-      sys_settings,
+      thermostats,
     };
   }
 
@@ -449,7 +449,7 @@ class AppState {
     };
     this.schedules = { year: [], week: [], day: [] };
     this.loads = [];
-    this.sys_settings = [];
+    this.thermostats = [];
   }
 
   // Purga datos no usados del modelo
@@ -481,7 +481,7 @@ class AppState {
         day: [],
       },
       loads = [],
-      sys_settings = [],
+      thermostats = [],
     } = inputData;
 
     // Carga datos en el store
@@ -535,7 +535,7 @@ class AppState {
       day: schedules.day,
     };
     this.loads = loads.map((e) => ({ ...defaultsLoad, ...e }));
-    this.sys_settings = sys_settings.map((e) => ({
+    this.thermostats = thermostats.map((e) => ({
       ...defaultsSysSetting,
       ...e,
     }));
@@ -555,7 +555,7 @@ class AppState {
       cons,
       schedules,
       loads,
-      sys_settings,
+      thermostats,
     } = this;
 
     return JSON.stringify(
@@ -569,7 +569,7 @@ class AppState {
         cons,
         schedules,
         loads,
-        sys_settings,
+        thermostats,
       },
       null,
       2
@@ -639,7 +639,7 @@ class AppState {
               `${this.cons.wallcons.length} construcciones de opacos, `,
               `${this.cons.wincons.length} construcciones de huecos, `,
               `${this.loads.length} definiciones de cargas y `,
-              `${this.sys_settings.length} definiciones de consignas`,
+              `${this.thermostats.length} definiciones de consignas`,
             ].join(""),
           },
         ];

@@ -47,7 +47,7 @@ import {
 
 import { getFloatOrOld } from "../tables/utils";
 
-import { LOAD, SYS_SETTING } from "../../stores/types";
+import { LOAD, THERMOSTAT } from "../../stores/types";
 
 // Custom editor para pertenencia a la ET
 //
@@ -121,8 +121,8 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
   const spacePropsMap = appstate.energy_indicators.props.spaces;
   const loadsMap = appstate.getIdNameMap(LOAD);
   const loadsOpts = appstate.getElementOptions(LOAD, true);
-  const sysSettingsMap = appstate.getIdNameMap(SYS_SETTING);
-  const sysSettingsOpts = appstate.getElementOptions(SYS_SETTING, true);
+  const thermostatsMap = appstate.getIdNameMap(THERMOSTAT);
+  const thermostatsOpts = appstate.getElementOptions(THERMOSTAT, true);
 
   const columns = [
     { dataField: "id", isKey: true, hidden: true },
@@ -255,15 +255,15 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       headerClasses: "text-light bg-secondary",
     },
     {
-      dataField: "sys_settings",
+      dataField: "thermostat",
       text: "Consignas",
       editor: {
         type: Type.SELECT,
-        options: sysSettingsOpts,
+        options: thermostatsOpts,
       },
       align: "center",
       formatter: NameFromIdFmt,
-      formatExtraData: sysSettingsMap,
+      formatExtraData: thermostatsMap,
       headerTitle: () => "Consignas de temperatura en el espacio",
       headerAlign: "center",
       headerClasses: "text-light bg-secondary",
@@ -396,16 +396,16 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
             // Corrige el valor de illuminance de undefined a null
             row.illuminance = null;
           } else if (
-            ["loads", "sys_settings"].includes(column.dataField) &&
+            ["loads", "thermostat"].includes(column.dataField) &&
             newValue === ""
           ) {
             row[column.dataField] = null;
           } else if (
-            !["name", "inside_tenv", "kind", "loads", "sys_settings"].includes(
+            !["name", "inside_tenv", "kind", "loads", "thermostat"].includes(
               column.dataField
             )
           ) {
-            // Convierte a número salvo en el caso del nombre, inside_tenv, kind, loads y sys_settings
+            // Convierte a número salvo en el caso del nombre, inside_tenv, kind, loads y thermostat
             row[column.dataField] = getFloatOrOld(newValue, oldValue);
           }
         },

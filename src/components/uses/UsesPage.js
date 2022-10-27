@@ -29,7 +29,7 @@ import LoadsView from "./LoadsView";
 import SchedulesDayView from "./SchedulesDayView";
 import SchedulesWeekView from "./SchedulesWeekView";
 import SchedulesYearView from "./SchedulesYearView";
-import SysSettingsView from "./SysSettingsView";
+import ThermostatsView from "./ThermostatsView";
 
 export const UsesPage = ({ route, activeKey, setActiveKey }) => {
   return (
@@ -44,8 +44,8 @@ export const UsesPage = ({ route, activeKey, setActiveKey }) => {
             <Tab eventKey="loads" title="Cargas" className="pt-3">
               <LoadsView />
             </Tab>
-            <Tab eventKey="sys_settings" title="Consignas" className="pt-3">
-              <SysSettingsView />
+            <Tab eventKey="thermostats" title="Consignas" className="pt-3">
+              <ThermostatsView />
             </Tab>
             <Tab
               eventKey="schedules_year"
