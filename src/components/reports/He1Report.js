@@ -29,10 +29,10 @@ import { APP_VERSION } from "../../version.js";
 
 import AppState from "../../stores/AppState";
 
-import KDetail from "../indicators/KDetail";
-import UDetail from "../indicators/UDetail";
-import QSolJulDetail from "../indicators/QSolJulDetail";
-import N50Detail from "../indicators/N50Detail";
+import KDetail from "./KDetail";
+import UDetail from "./UDetail";
+import QSolJulDetail from "./QSolJulDetail";
+import N50Detail from "./N50Detail";
 import printer from "../img/print-solid.svg";
 
 const He1Report = () => {
