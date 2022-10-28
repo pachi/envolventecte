@@ -7,30 +7,18 @@
 
 # Mejoras
 
-- Usar Vite para el empaquetado
-- Instalar con npm install --legacy-peer-deps (para evitar problemas con tablas y otros paquetes obsoletos)
-- Migrar a otra implementación de tabla (sin problemas de mantenimiento y compatibilidad):
-    - [React-table](https://react-table-v7.tanstack.com/)
-    - [AG Grid](https://www.ag-grid.com/javascript-data-grid/component-cell-editor/)
-- Poner en gris materiales, vidrios, marcos y construcciones de opacos y huecos no usadas
-- Introducir overrides de huecos y muros...
-- Informe de mediciones: permitir mostrar valores detallados (por opaco / espacio)
 - Añadir en editor de geometría una imagen del polígono (hacer versión en SVG).
-- Añadir valores de referencia HE nuevos y existentes, apéndice E, etc a gráficas
 - Mostrar tooltip en los elementos con avisos
+- Señalar con un icono materiales, vidrios, marcos y construcciones de opacos y huecos no usadas
+- Introducir overrides de huecos y muros...
+- Informe HE1:
+    - Carga interna media
+    - Añadir valores de referencia HE nuevos y existentes, apéndice E, etc a gráficas
+- Informe de mediciones:
+    - Opción de mostrar valores detallados (por opaco / espacio)
 - ThreeView
-    - Tomar ideas de visualización de visorgbxml:
-        - https://github.com/ladybug-tools/ladybug-web/
-        - https://www.ladybug.tools/spider-gbxml-tools/spider-gbxml-viewer/v-0-17-08/app-viewer/spider-gbxml-viewer.html
-        - https://github.com/ladybug-tools/spider-gbxml-tools/tree/master/spider-gbxml-viewer/v-0-17-07
-    - Gráfica y posición del sol (Analemma) a partir de mes (1-12), día(1-31) y hora(0-24):
-        - https://rawgit.com/ladybug-tools/ladybug-web/gh-pages/solar-calculator-ladybug-web/solar-calculator-ladybug-web-r1.js
-        - [Dibuja Analemma](https://github.com/ladybug-tools/ladybug-web/blob/b0d34a5de71ad2e9f489d24ce3e1aa1033378263/analemma-3d/analemma-3d-r10.html#L356)
-        - https://github.com/ladybug-tools/ladybug-web/blob/b0d34a5de71ad2e9f489d24ce3e1aa1033378263/analemma-3d/analemma-3d-r18.html
     - Opacidad aclarando elementos ocultos
-    - Activar postproceso para mejorar calidad de imagen: https://github.com/IFCjs/web-ifc-viewer/blob/master/viewer/src/components/context/renderer/postproduction.ts
     - Seleccionar elemento activo en las tablas del modelo (y, al revés, mostrar elementos seleccionados en 3D), selecciones múltiples
-    - Dibujar datos sobre objeto al seleccionar: https://github.com/ladybug-tools/ladybug-web/blob/b0d34a5de71ad2e9f489d24ce3e1aa1033378263/analemma-3d/analemma-3d-r10.html#L694
 
 # Nueva funcionalidad
 
@@ -46,15 +34,38 @@
     - Añadir en vista de huecos un botón para calcular F_sh;obst y otro para cargar datos externos (KyGananciasSolares.txt)
 - Estimación de longitudes de PTs
 - Definición de lamas en huecos
-- Elementos: calcular acristalamientos con sombras móviles usando directamente parámetros U_gl, g_gl_n, tau_e_B y ro_e_B
-- Elementos: calculadoras de U de opacos
-- Elementos: añadir nueva construcción de hueco a partir de pestaña de elementos
-- Gráfica de radiación y fshwi por orientaciones en clima
-- Dibujar trayectorias solares en el espacio, para algunos meses y poder mostrar u ocultar.
-    - https://drajmarsh.bitbucket.io/sunpath3d.html
-    - http://andrewmarsh.com/software/sunpath2d-web/
-    - ver http://andrewmarsh.com/software/
-    - http://andrewmarsh.com/software/psychro-chart-web/
+- Ayudas:
+    - calcular acristalamientos con sombras móviles usando directamente parámetros U_gl, g_gl_n, tau_e_B y ro_e_B
+    - calculadoras de U de opacos
+    - añadir nueva construcción de hueco a partir de pestaña de elementos
+- Informe HE1
+    - Gráfica de radiación y fshwi por orientaciones en clima
+- ThreeView
+    - Tomar ideas de visualización de visorgbxml:
+        - https://github.com/ladybug-tools/ladybug-web/
+        - https://www.ladybug.tools/spider-gbxml-tools/spider-gbxml-viewer/v-0-17-08/app-viewer/spider-gbxml-viewer.html
+        - https://github.com/ladybug-tools/spider-gbxml-tools/tree/master/spider-gbxml-viewer/v-0-17-07
+    - Gráfica y posición del sol (Analemma) a partir de mes (1-12), día(1-31) y hora(0-24):
+        - https://rawgit.com/ladybug-tools/ladybug-web/gh-pages/solar-calculator-ladybug-web/solar-calculator-ladybug-web-r1.js
+        - [Dibuja Analemma](https://github.com/ladybug-tools/ladybug-web/blob/b0d34a5de71ad2e9f489d24ce3e1aa1033378263/analemma-3d/analemma-3d-r10.html#L356)
+        - https://github.com/ladybug-tools/ladybug-web/blob/b0d34a5de71ad2e9f489d24ce3e1aa1033378263/analemma-3d/analemma-3d-r18.html
+        - Dibujar trayectorias solares en el espacio, para algunos meses y poder mostrar u ocultar.
+            - https://drajmarsh.bitbucket.io/sunpath3d.html
+            - http://andrewmarsh.com/software/sunpath2d-web/
+            - ver http://andrewmarsh.com/software/
+            - http://andrewmarsh.com/software/psychro-chart-web/
+    - Activar postproceso para mejorar calidad de imagen: https://github.com/IFCjs/web-ifc-viewer/blob/master/viewer/src/components/context/renderer/postproduction.ts
+    - Dibujar datos sobre objeto al seleccionar: https://github.com/ladybug-tools/ladybug-web/blob/b0d34a5de71ad2e9f489d24ce3e1aa1033378263/analemma-3d/analemma-3d-r10.html#L694
+
+# Infraestructura
+
+## Mejoras
+
+- Usar Vite para el empaquetado
+- Instalar con npm install --legacy-peer-deps (para evitar problemas con tablas y otros paquetes obsoletos)
+- Migrar a otra implementación de tabla (sin problemas de mantenimiento y compatibilidad):
+    - [React-table](https://react-table-v7.tanstack.com/)
+    - [AG Grid](https://www.ag-grid.com/javascript-data-grid/component-cell-editor/)
 
 # Reorganizaciones
 
@@ -62,7 +73,9 @@
 - Ver si es posible llevar la salida del logging de Rust a los avisos de wasm
     - Guardar en cada bloque de hulc los avisos y recolectarlos en la conversión a objetos y luego trasladarlos a wasm
 - Llevar a wasm:
-    - funciones para actualizar geometría, construcciones o datos generales para evitar recálculos innecesarios (manteniendo modelo espejo en Rust).
+    - mantener estado en wasm y usar funciones para actualizar geometría,
+      construcciones o datos generales para evitar recálculos innecesarios
+      (manteniendo el modelo espejo en WASM).
 
 ## ES
 - Trasladar datos a public/data? (usando luego fetch o direcciones como <a href={process.env.PUBLIC_URL + "/data/zcraddata.json"}>Enlace</a>)
