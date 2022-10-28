@@ -56,8 +56,6 @@ const QuantitiesReport = () => {
   let spacesData = computeSpacesRows(props.spaces);
   let loadsIdMap = appstate.getIdNameMap(LOAD);
 
-  console.log(JSON.stringify(spacesData));
-
   let wallData = computeRows(
     appstate.cons.wallcons,
     props.walls,
