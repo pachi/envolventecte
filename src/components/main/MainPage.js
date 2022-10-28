@@ -98,17 +98,17 @@ const MainPage = () => {
                   el modelo.
                 </li>
                 <li>
-                  <Link to="/uses">Usos</Link>: visualizar,
-                  introducir, editar las cargas y condiciones operacionales de
-                  los espacios del modelo.
+                  <Link to="/uses">Usos</Link>: visualizar, introducir, editar
+                  las cargas y condiciones operacionales de los espacios del
+                  modelo.
                 </li>
                 <li>
                   <Link to="/3d">Vista3D</Link>: explorar visualmente el modelo.
                 </li>
                 <li>
-                  <Link to="/reports">Informes</Link>: mostrar una
-                  evaluación de los indicadores de eficiencia energética del
-                  modelo o sus mediciones.
+                  <Link to="/reports">Informes</Link>: mostrar una evaluación de
+                  los indicadores de eficiencia energética del modelo o sus
+                  mediciones.
                 </li>
                 <li>
                   <Link to="/helpers">Ayudas</Link>: herramientas para el

@@ -43,7 +43,11 @@ export const ProjectPage = observer(({ route, activeKey, setActiveKey }) => {
             <Tab eventKey="load" title="Cargar datos" className="pt-3">
               <LoadData />
             </Tab>
-            <Tab eventKey="hulc_import" title="Importar desde HULC" className="pt-3">
+            <Tab
+              eventKey="hulc_import"
+              title="Importar desde HULC"
+              className="pt-3"
+            >
               <HulcImport />
             </Tab>
             <Tab eventKey="clear" title="Vaciar modelo" className="pt-3">
