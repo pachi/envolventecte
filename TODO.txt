@@ -12,10 +12,9 @@
 - Migrar a otra implementación de tabla (sin problemas de mantenimiento y compatibilidad):
     - [React-table](https://react-table-v7.tanstack.com/)
     - [AG Grid](https://www.ag-grid.com/javascript-data-grid/component-cell-editor/)
-- Pestaña de informes:
-    - Mediciones (superficies, pesos y volúmenes)
 - Poner en gris materiales, vidrios, marcos y construcciones de opacos y huecos no usadas
 - Introducir overrides de huecos y muros...
+- Informe de mediciones: permitir mostrar valores detallados (por opaco / espacio)
 - Añadir en editor de geometría una imagen del polígono (hacer versión en SVG).
 - Añadir valores de referencia HE nuevos y existentes, apéndice E, etc a gráficas
 - Mostrar tooltip en los elementos con avisos

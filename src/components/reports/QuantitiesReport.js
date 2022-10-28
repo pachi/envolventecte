@@ -33,6 +33,9 @@ import {
   BOUNDARY_TYPES_MAP,
   BOUNDARY_TYPES,
   ORIENTATION_TYPES,
+  SPACE_TYPES,
+  SPACE_TYPES_MAP,
+  LOAD,
 } from "../../stores/types";
 
 import printer from "../img/print-solid.svg";
@@ -50,7 +53,10 @@ const QuantitiesReport = () => {
   const { area_ref, vol_env_net, vol_env_gross, compacity, props } =
     appstate.energy_indicators;
 
-  // TODO: spaces
+  let spacesData = computeSpacesRows(props.spaces);
+  let loadsIdMap = appstate.getIdNameMap(LOAD);
+
+  console.log(JSON.stringify(spacesData));
 
   let wallData = computeRows(
     appstate.cons.wallcons,
@@ -101,38 +107,6 @@ const QuantitiesReport = () => {
             </Col>
             <Col></Col>
           </Row>
-          {/* <Row>
-            <Col sm={3} title="Zona climática">
-              <b>Zona climática: {climate}</b>
-            </Col>
-            <Col
-              sm={3}
-              title="Transmitancia térmica global del edificio [W/m²K]"
-            >
-              <b>
-                <i>K</i> = {K.toFixed(2)} <i>W/m²K</i>
-              </b>
-            </Col>
-            <Col sm={3} title="Indicador de control solar [kWh/m²·mes]">
-              <b>
-                <i>
-                  q<sub>sol;jul</sub>
-                </i>{" "}
-                = {area_ref !== 0 ? q_soljul.toFixed(2) : "-"} <i>kWh/m²/mes</i>
-              </b>
-            </Col>
-            <Col sm={3} title="Tasa de renovación de aire a 50 Pa [1/h]">
-              <b>
-                <i>
-                  n<sub>50</sub>
-                </i>{" "}
-                = {n50.toFixed(2)}{" "}
-                <i>
-                  h<sup>-1</sup>
-                </i>
-              </b>
-            </Col>
-          </Row> */}
           <Row>
             <Col
               sm={3}
@@ -186,6 +160,7 @@ const QuantitiesReport = () => {
             Espacios pertenecientes o no a la envolvente térmica (superficies
             interiores).
           </p>
+          <SpacesByConceptTable data={spacesData} loadsIdMap={loadsIdMap} />
         </Col>
       </Row>
 
@@ -236,6 +211,117 @@ const QuantitiesReport = () => {
 
 export default observer(QuantitiesReport);
 
+// Tabla de desglose de espacios por conceptos: tenv -> nivel_acondic -> cargas
+const SpacesByConceptTable = ({ data, loadsIdMap }) => {
+  const total_area = data.reduce((acc, e) => (acc += e.area), 0);
+  const total_volume = data.reduce((acc, e) => (acc += e.volume), 0);
+  return (
+    <Table
+      striped
+      bordered
+      hover
+      size="sm"
+      className="small"
+      style={{ margin: "0 auto", marginBottom: "2em", width: "70%" }}
+    >
+      <thead style={{ background: "lightGray", verticalAlign: "top" }}>
+        <tr>
+          <th>Tipo</th>
+          <th>Nivel de acondicionamiento</th>
+          <th>Perfil de cargas</th>
+          <th className="text-center" colSpan={2} style={{ width: "20%" }}>
+            A<br />
+            [m²]
+          </th>
+          <th className="text-center" colSpan={2} style={{ width: "20%" }}>
+            V<sub>int</sub>
+            <br />
+            [m³]
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((row, idx) => (
+          <React.Fragment key={`${idx}-${row.name}`}>
+            <tr style={{ height: "1em" }}></tr>
+            <tr style={{ borderTop: "2 solid black" }}>
+              <td>
+                <i>
+                  <b>
+                    {row.inside_tenv ? "Interior a la ET" : "Exterior a la ET"}
+                  </b>
+                </i>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td className="text-center">
+                <b>{round_or_dash(row.area)}</b>
+              </td>
+              <td></td>
+              <td className="text-center">
+                <b>{round_or_dash(row.volume)}</b>
+              </td>
+            </tr>
+            {row.children.map((row2, idx2) => (
+              <React.Fragment key={`${idx}-${idx2}`}>
+                <tr>
+                  <td></td>
+                  <td>
+                    <i>{SPACE_TYPES_MAP[row2.kind]}</i>
+                  </td>
+                  <td></td>
+                  <td className="text-center">
+                    <u>
+                      <i>{round_or_dash(row2.area)}</i>
+                    </u>
+                  </td>
+                  <td></td>
+                  <td className="text-center">
+                    <u>
+                      <i>{round_or_dash(row2.volume)}</i>
+                    </u>
+                  </td>
+                  <td></td>
+                </tr>
+                {row2.children.map((row3, idx3) => (
+                  <tr key={`${idx}-${idx2}-${idx3}`}>
+                    <td></td>
+                    <td></td>
+                    <td>{loadsIdMap[row3.loads]}</td>
+                    <td className="text-center">{round_or_dash(row3.area)}</td>
+                    <td></td>
+                    <td className="text-center">
+                      {round_or_dash(row3.volume)}
+                    </td>
+                    <td></td>
+                  </tr>
+                ))}
+              </React.Fragment>
+            ))}
+          </React.Fragment>
+        ))}
+        <tr style={{ height: "1em" }}></tr>
+        <tr style={{ background: "lightGray" }}>
+          <td>
+            <b>TOTAL</b>
+          </td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td className="text-center">
+            <b>{round_or_dash(total_area)}</b>
+          </td>
+          <td></td>
+          <td className="text-center">
+            <b>{round_or_dash(total_volume)}</b>
+          </td>
+        </tr>
+      </tbody>
+    </Table>
+  );
+};
+
 // Tabla de desglose por conceptos
 const ByConceptTable = ({ data }) => {
   const total = data.reduce((acc, e) => (acc += e.area), 0);
@@ -248,12 +334,9 @@ const ByConceptTable = ({ data }) => {
       className="small"
       style={{ margin: "0 auto", marginBottom: "2em", width: "70%" }}
     >
-      <thead style={{ background: "lightGray" }}>
+      <thead style={{ background: "lightGray", verticalAlign: "top" }}>
         <tr>
-          <th>
-            Solución constructiva
-            <br />
-          </th>
+          <th>Solución constructiva</th>
           <th>Condición de contorno</th>
           <th>Orientación</th>
           <th className="text-center" colSpan={2} style={{ width: "20%" }}>
@@ -336,7 +419,7 @@ const ShadesByConceptTable = ({ data }) => {
       className="small"
       style={{ margin: "0 auto", marginBottom: "2em", width: "70%" }}
     >
-      <thead style={{ background: "lightGray" }}>
+      <thead style={{ background: "lightGray", verticalAlign: "top" }}>
         <tr>
           <th>Condición de contorno</th>
           <th>Orientación</th>
@@ -378,6 +461,46 @@ const ShadesByConceptTable = ({ data }) => {
   );
 };
 
+function computeSpacesRows(props) {
+  const spaceLoads = [...new Set(Object.values(props).map((e) => e.loads))];
+  let data = [];
+  for (const inside_tenv of [true, false]) {
+    const tenvTotal = { inside_tenv, area: 0, volume: 0, children: [] };
+    for (const kind of SPACE_TYPES) {
+      const spaceTypeTotal = { kind, area: 0, volume: 0, children: [] };
+      for (const loads of spaceLoads) {
+        const spaceLoadsTotal = { loads, area: 0, volume: 0 };
+        const selected = Object.values(props).filter(
+          (w) =>
+            w.kind === kind &&
+            w.inside_tenv === inside_tenv &&
+            w.loads === loads
+        );
+        for (const elem of selected) {
+          const area = elem.area * elem.multiplier;
+          const volume = elem.volume_net * elem.multiplier;
+          tenvTotal.area += area;
+          spaceTypeTotal.area += area;
+          spaceLoadsTotal.area += area;
+          tenvTotal.volume += volume;
+          spaceTypeTotal.volume += volume;
+          spaceLoadsTotal.volume += volume;
+        }
+        if (spaceLoadsTotal.area > 0.01) {
+          spaceTypeTotal.children.push(spaceLoadsTotal);
+        }
+      }
+      if (spaceTypeTotal.area > 0.01) {
+        tenvTotal.children.push(spaceTypeTotal);
+      }
+    }
+    if (tenvTotal.area > 0.01) {
+      data.push(tenvTotal);
+    }
+  }
+  return data;
+}
+
 function computeRows(cons, props, adder = () => 1) {
   let data = [];
   for (const wc of cons) {
@@ -390,7 +513,9 @@ function computeRows(cons, props, adder = () => 1) {
         const orientTotal = { orientation, area: 0 };
         const selected = Object.values(props).filter(
           (w) =>
-            w.orientation === orientation && w.bounds === bounds && w.cons == id
+            w.orientation === orientation &&
+            w.bounds === bounds &&
+            w.cons === id
         );
         for (const elem of selected) {
           const area = adder(elem);
