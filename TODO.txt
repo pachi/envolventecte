@@ -7,6 +7,8 @@
 
 # Mejoras
 
+- Vista de detalle JSON (ctrl+alt+h):
+    - mostrar elemento de menú solo al activar
 - Añadir en editor de geometría una imagen del polígono (hacer versión en SVG).
 - Mostrar tooltip en los elementos con avisos
 - Señalar con un icono materiales, vidrios, marcos y construcciones de opacos y huecos no usadas
@@ -22,9 +24,6 @@
 
 # Nueva funcionalidad
 
-- Mostrar JSON de datos en pestaña oculta por defecto (ctrl+alt+h):
-    - modelo
-    - EnergyIndicators
 - Configuración de la aplicación:
     - Mostrar/ocultar valores calculados
 - Nuevo tipo de construcciones en groundCons para aislamiento perimetral de soleras?

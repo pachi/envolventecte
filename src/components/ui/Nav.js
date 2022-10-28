@@ -89,25 +89,29 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
               Construcción
             </Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/uses" eventKey={2}>
+          <LinkContainer to="/uses" eventKey={3}>
             <Nav.Link title="Horarios, cargas y consignas de los espacios">
               Uso
             </Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/3d" eventKey={3}>
+          <LinkContainer to="/3d" eventKey={4}>
             <Nav.Link title="Visualización tridimensional del modelo del edificio">
               Vista3D
             </Nav.Link>
           </LinkContainer>
           <span style={{ borderLeft: "1px solid gray", margin: "0px 25px" }} />
-          <LinkContainer to="/reports" eventKey={4}>
+          <LinkContainer to="/reports" eventKey={5}>
             <Nav.Link title="Informes">Informes</Nav.Link>
           </LinkContainer>
           <span style={{ borderLeft: "1px solid gray", margin: "0px 25px" }} />
-          <LinkContainer to="/helpers" eventKey={5}>
+          <LinkContainer to="/helpers" eventKey={6}>
             <Nav.Link title="Ayudas para el cálculo de parámetros climáticos y elementos constructivos">
               Ayudas
             </Nav.Link>
+          </LinkContainer>
+          <span style={{ borderLeft: "1px solid gray", margin: "0px 25px" }} />
+          <LinkContainer to="/detail" eventKey={7}>
+            <Nav.Link title="Detalle">Detalle</Nav.Link>
           </LinkContainer>
         </Nav>
         <Nav className="ms-auto pe-3">
@@ -148,12 +152,12 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
             <img src={icondownload} alt="Descargar datos de envolvente" />{" "}
             Descarga
           </Nav.Link>
-          <LinkContainer to="/help" eventKey={7}>
+          <LinkContainer to="/help" eventKey={8}>
             <Nav.Link title="Ayuda general">
               <img src={iconhelp} alt="Ayuda" />
             </Nav.Link>
           </LinkContainer>
-          <LinkContainer to="/about" eventKey={8}>
+          <LinkContainer to="/about" eventKey={9}>
             <Nav.Link>
               <Nav.Item title="Descripción, autoría y licencia">
                 <img src={iconinfo} alt="Créditos" />

@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -38,6 +38,7 @@ import HelpPage from "./help/HelpPage";
 import MainPage from "./main/MainPage";
 import ReportsPage from "./reports/ReportsPage";
 import { ProjectPage } from "./project/ProjectPage";
+import JsonDetail from "./JsonDetail";
 
 export const App = () => {
   const [projectActiveKey, setProjectActiveKey] = useState("metadata");
@@ -46,6 +47,23 @@ export const App = () => {
   const [usesActiveKey, setUsesActiveKey] = useState("loads");
   const [reportActiveKey, setReportActiveKey] = useState("he1");
   const [helpersActiveKey, setHelpersActiveKey] = useState("winproperties");
+  const [showJsonTab, setShowJsonTab] = useState(false);
+
+  console.log("showJSON:", showJsonTab);
+
+  // Manejador de teclado para mostrar pestañas con JSON
+  // https://stackoverflow.com/questions/55565444/how-to-register-event-with-useeffect-hooks
+  const handleUserKeyPress = useCallback((e) => {
+    if (e.ctrlKey && e.altKey && e.key === "h") {
+      setShowJsonTab((prev) => !prev);
+    }
+  }, []);
+  useEffect(() => {
+    window.addEventListener("keydown", handleUserKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleUserKeyPress);
+    };
+  }, [handleUserKeyPress]);
 
   return (
     <HashRouter>
@@ -112,6 +130,7 @@ export const App = () => {
             />
           }
         />
+        {showJsonTab && <Route exact path="/detail" element={<JsonDetail />} />}
         <Route exact path="/help" element={<HelpPage />} />
         <Route exact path="/about" element={<AboutPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
