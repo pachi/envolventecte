@@ -7,8 +7,6 @@
 
 # Mejoras
 
-- Vista de detalle JSON (ctrl+alt+h):
-    - mostrar elemento de menú solo al activar
 - Añadir en editor de geometría una imagen del polígono (hacer versión en SVG).
 - Mostrar tooltip en los elementos con avisos
 - Señalar con un icono materiales, vidrios, marcos y construcciones de opacos y huecos no usadas
