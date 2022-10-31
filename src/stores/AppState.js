@@ -321,23 +321,23 @@ class AppState {
   duplicateElements(elementType, selection) {
     const container = this.getElements(elementType);
 
-    const newids = [];
+    const newIds = [];
     selection.forEach((id) => {
       const selectedIndex = container.findIndex((h) => h.id === id);
       if (selectedIndex !== -1) {
         const idx = selectedIndex >= 0 ? selectedIndex : 0;
         const selectedObj = container[idx];
-        const newid = uuidv4();
+        const newId = uuidv4();
         const dupObj = {
           ...selectedObj,
           name: selectedObj.name + " (dup.)",
-          id: newid,
+          id: newId,
         };
-        newids.push(newid);
+        newIds.push(newId);
         container.splice(idx + 1, 0, dupObj);
       }
     });
-    return newids;
+    return newIds;
   }
 
   // Elimina los elementos seleccionados del tipo indicado y devuelve el UUID del nuevo elemento seleccionado (o null)
@@ -581,19 +581,19 @@ class AppState {
     if (acceptedFiles.length > 0) {
       const file = acceptedFiles[0];
       const reader = new FileReader();
-      reader.onload = (rawdata) => {
+      reader.onload = (rawData) => {
         if (
           file.name.includes("KyGananciasSolares.txt") ||
           file.path.includes("KyGananciasSolares.txt")
         ) {
-          this.loadData(rawdata.target.result, "FSHOBST");
+          this.loadData(rawData.target.result, "FSHOBST");
         } else if (
           file.name.toLowerCase().includes(".ctehexml") ||
           file.path.toLowerCase().includes(".ctehexml")
         ) {
-          this.loadData(rawdata.target.result, "CTEHEXML", purge);
+          this.loadData(rawData.target.result, "CTEHEXML", purge);
         } else {
-          this.loadData(rawdata.target.result, "JSON", purge);
+          this.loadData(rawData.target.result, "JSON", purge);
         }
       };
       reader.readAsText(file);
@@ -649,7 +649,7 @@ class AppState {
           {
             level: "INFO",
             id: null,
-            msg: `Cargados ${inputData.length} factores de sombra de obstáculos remotos (F_shobst) de huecos`,
+            msg: `Cargados ${inputData.length} factores de sombra de obstáculos remotos (F_sh;obst) de huecos`,
           },
         ];
 

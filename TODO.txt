@@ -65,6 +65,7 @@
 - Migrar a otra implementación de tabla (sin problemas de mantenimiento y compatibilidad):
     - [React-table](https://react-table-v7.tanstack.com/)
     - [AG Grid](https://www.ag-grid.com/javascript-data-grid/component-cell-editor/)
+- Convertir en subrutas las pestañas de las distintas páginas (https://reactrouter.com/en/main/start/tutorial)
 
 # Reorganizaciones
 
