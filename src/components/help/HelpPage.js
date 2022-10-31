@@ -22,15 +22,7 @@ SOFTWARE.
 */
 
 import React from "react";
-import {
-  Alert,
-  Button,
-  Col,
-  Row,
-  Image,
-  Tabs,
-  Tab,
-} from "react-bootstrap";
+import { Button, Col, Row, Image, Tabs, Tab } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import { Page } from "../ui/Page";
@@ -69,7 +61,7 @@ const HelpPage = () => (
             )
           </li>
           <li>
-            <b>área útil</b> a efectos del cálculo de indicadores energéticos (A
+            <b>Área útil</b> a efectos del cálculo de indicadores energéticos (A
             <sub>útil</sub>), <b>compacidad</b> (V/A) , <b>volumen</b> bruto (V)
             , volumen neto (V<sub>int</sub>), ...
           </li>
@@ -100,11 +92,6 @@ const HelpPage = () => (
           elementos de la envolvente térmica a partir de sus características.
         </p>
         <p>Los campos pueden ser editados haciendo doble click sobre ellos.</p>
-
-        <Alert variant="warning">
-          <b>NOTA:</b> Esta aplicación y la información contenida en ella no
-          tienen valor reglamentario.
-        </Alert>
       </Col>
     </Row>
     <Row>
@@ -156,7 +143,22 @@ const HelpPage = () => (
               </Col>
             </Row>
           </Tab>
-          <Tab eventKey={4} title="Vista3D" className="pt-3">
+          <Tab eventKey={4} title="Uso" className="pt-3">
+            <Row>
+              <Col>
+                <h4>Uso</h4>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <p>
+                  Este apartado recoge los perfiles de uso, consignas y horarios
+                  definidos en el modelo.
+                </p>
+              </Col>
+            </Row>
+          </Tab>
+          <Tab eventKey={5} title="Vista3D" className="pt-3">
             <Row>
               <Col>
                 <h4>Visualización 3D</h4>
@@ -175,7 +177,7 @@ const HelpPage = () => (
               </Col>
             </Row>
           </Tab>
-          <Tab eventKey={5} title="Informes" className="pt-3">
+          <Tab eventKey={6} title="Informes" className="pt-3">
             <Row>
               <Col>
                 <h4>HE1 - Indicadores de calidad de la envolvente térmica</h4>
@@ -185,7 +187,7 @@ const HelpPage = () => (
               <Col md={8}>
                 <p>
                   Este apartado muestra un informe de indicadores y parámetros
-                  de caracterizacion de la envolvente térmica (transmitancia
+                  de caracterización de la envolvente térmica (transmitancia
                   térmica global, control solar, permeabilidad al aire).
                 </p>
                 <p>
@@ -199,7 +201,42 @@ const HelpPage = () => (
               </Col>
             </Row>
           </Tab>
-          <Tab eventKey={6} title="Clima" className="pt-3">
+          <Tab eventKey={7} title="Ayudas" className="pt-3">
+            <Row>
+              <Col>
+                <h4>Medianeras</h4>
+
+                <p>
+                  Este apartado permite el cálculo de las resistencias térmicas
+                  adicionales equivalentes a espacios no calefactados de acuerdo
+                  a la UNE-EN ISO 6946:2001.
+                </p>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <h4>Huecos</h4>
+
+                <p>
+                  Este apartado permite el cálculo de las propiedades térmicas
+                  de huecos y parámetros de funcionamiento para el cálculo
+                  energético de acuerdo a la UNE-EN ISO 52022-1:2017.
+                </p>
+                <p>
+                  Por ejemplo, se puede obtener: la
+                  <i>transmitancia térmica</i> (U<sub>H</sub>), el{" "}
+                  <i>factor solar del vidrio a incidencia normal</i> (g
+                  <sub>gl;n</sub>), el <i>factor solar del hueco</i> (g
+                  <sub>gl;wi</sub>), el{" "}
+                  <i>
+                    factor solar del hueco teniendo en cuenta los sombreamientos
+                    solares móviles
+                  </i>
+                  (g<sub>gl;sh;wi</sub>) o los coeficientes de corrección por
+                  dispositivo de sombra estacional.
+                </p>
+              </Col>
+            </Row>
             <Row>
               <Col>
                 <h4>Parámetros climáticos</h4>
@@ -218,15 +255,6 @@ const HelpPage = () => (
                       Irradiación acumulada mensual (
                       <i>
                         H<sub>sol;m</sub>
-                      </i>
-                      )
-                    </b>
-                  </li>
-                  <li>
-                    <b>
-                      Irradiación acumulada en el mes de julio (
-                      <i>
-                        H<sub>sol;jul</sub>
                       </i>
                       )
                     </b>
@@ -271,31 +299,6 @@ const HelpPage = () => (
                     src={orientaciones}
                   />
                 </Col>
-              </Col>
-            </Row>
-          </Tab>
-          <Tab eventKey={7} title="Ayudas" className="pt-3">
-            <Row>
-              <Col>
-                <h4>Elementos de la envolvente térmica</h4>
-                <p>
-                  La aplicación permite obtener algunos parámetros descriptivos
-                  del comportamiento térmico de elementos de la envolvente
-                  térmica a partir de sus características generales o parámetros
-                  de diseño.
-                </p>
-                <p>
-                  Por ejemplo, para los huecos se puede obtener: la
-                  <i>transmitancia térmica</i> (U<sub>H</sub>), el{" "}
-                  <i>factor solar del vidrio a incidencia normal</i> (g
-                  <sub>gl;n</sub>), el <i>factor solar del hueco</i> (g
-                  <sub>gl;wi</sub>), el{" "}
-                  <i>
-                    factor solar del hueco teniendo en cuenta los sombreamientos
-                    solares móviles
-                  </i>
-                  (g<sub>gl;sh;wi</sub>).
-                </p>
               </Col>
             </Row>
           </Tab>
