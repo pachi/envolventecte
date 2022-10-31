@@ -21,12 +21,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
+import { observer } from "mobx-react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "bootstrap/dist/css/bootstrap-theme.css";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
+
+import GuiState from "../stores/GuiState";
 
 import AboutPage from "./about/AboutPage";
 import { BuildingPage } from "./building/BuildingPage";
@@ -40,22 +43,21 @@ import ReportsPage from "./reports/ReportsPage";
 import { ProjectPage } from "./project/ProjectPage";
 import JsonDetail from "./JsonDetail";
 
-export const App = () => {
+const App = () => {
   const [projectActiveKey, setProjectActiveKey] = useState("metadata");
   const [buildingActiveKey, setBuildingActiveKey] = useState("spaces");
   const [consActiveKey, setConsActiveKey] = useState("wallcons");
   const [usesActiveKey, setUsesActiveKey] = useState("loads");
   const [reportActiveKey, setReportActiveKey] = useState("he1");
   const [helpersActiveKey, setHelpersActiveKey] = useState("winproperties");
-  const [showJsonTab, setShowJsonTab] = useState(false);
 
-  console.log("showJSON:", showJsonTab);
+  const guiState = useContext(GuiState);
 
   // Manejador de teclado para mostrar pestañas con JSON
   // https://stackoverflow.com/questions/55565444/how-to-register-event-with-useeffect-hooks
   const handleUserKeyPress = useCallback((e) => {
     if (e.ctrlKey && e.altKey && e.key === "h") {
-      setShowJsonTab((prev) => !prev);
+      guiState.toggleShowJsonTab();
     }
   }, []);
   useEffect(() => {
@@ -130,7 +132,9 @@ export const App = () => {
             />
           }
         />
-        {showJsonTab && <Route exact path="/detail" element={<JsonDetail />} />}
+        {guiState.showJsonTab && (
+          <Route exact path="/detail" element={<JsonDetail />} />
+        )}
         <Route exact path="/help" element={<HelpPage />} />
         <Route exact path="/about" element={<AboutPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
@@ -138,3 +142,5 @@ export const App = () => {
     </HashRouter>
   );
 };
+
+export default observer(App);

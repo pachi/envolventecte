@@ -35,9 +35,11 @@ import imglogo from "../img/logo.svg";
 import iconhelp from "../img/outline-live_help-24px.svg";
 import iconinfo from "../img/outline-info-24px.svg";
 import icondownload from "../img/baseline-archive-24px.svg";
+import GuiState from "../../stores/GuiState.js";
 
 const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
   const appstate = useContext(AppState);
+  const guiState = useContext(GuiState);
 
   const handleDownload = (_e) => {
     const contents = appstate.asJSON;
@@ -109,10 +111,16 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
               Ayudas
             </Nav.Link>
           </LinkContainer>
-          <span style={{ borderLeft: "1px solid gray", margin: "0px 25px" }} />
-          <LinkContainer to="/detail" eventKey={7}>
-            <Nav.Link title="Detalle">Detalle</Nav.Link>
-          </LinkContainer>
+          {guiState.showJsonTab ? (
+            <>
+              <span
+                style={{ borderLeft: "1px solid gray", margin: "0px 25px" }}
+              />
+              <LinkContainer to="/detail" eventKey={7}>
+                <Nav.Link title="Detalle">Detalle</Nav.Link>
+              </LinkContainer>
+            </>
+          ) : null}
         </Nav>
         <Nav className="ms-auto pe-3">
           <Nav.Link

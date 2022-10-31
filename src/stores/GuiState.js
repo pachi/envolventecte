@@ -21,30 +21,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import { observer } from "mobx-react";
-import React, { useContext } from "react";
-import { Col, Row } from "react-bootstrap";
-import AppState from "../stores/AppState.js";
+import { createContext } from "react";
+import { makeAutoObservable } from "mobx";
 
-import { Page } from "./ui/Page.js";
-
-const JsonDetail = () => {
-  const appstate = useContext(AppState);
-
-  return (
-    <Page>
-      <Row>
-        <Col md={6}>
-          <h3>Modelo:</h3>
-          <pre>{JSON.stringify(appstate.getModel(), undefined, 2)}</pre>
-        </Col>
-        <Col md={6}>
-          <h3>Indicadores energéticos:</h3>
-          <pre>{JSON.stringify(appstate.energy_indicators, undefined, 2)}</pre>
-        </Col>
-      </Row>
-    </Page>
-  );
+const GuiState = ({ showJsonTab }) => {
+  return makeAutoObservable({
+    showJsonTab,
+    toggleShowJsonTab() {
+      this.showJsonTab = !this.showJsonTab;
+    },
+  });
 };
 
-export default observer(JsonDetail);
+const defaultGuiState = { showJsonTab: false };
+
+export default createContext(GuiState(defaultGuiState));
