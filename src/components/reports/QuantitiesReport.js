@@ -50,7 +50,7 @@ const QuantitiesReport = () => {
   const appstate = useContext(AppState);
 
   const { name } = appstate.meta;
-  const { area_ref, vol_env_net, vol_env_gross, compacity, props } =
+  const { area_ref, vol_env_net, vol_env_gross, compactness, props } =
     appstate.energy_indicators;
 
   let spacesData = computeSpacesRows(props.spaces);
@@ -128,7 +128,7 @@ const QuantitiesReport = () => {
               sm={3}
               title="Compacidad de la envolvente térmica (V_tot / A) [m³/m²]"
             >
-              V/A = {compacity.toFixed(2)} m³/m²
+              V/A = {compactness.toFixed(2)} m³/m²
             </Col>
           </Row>
         </Col>

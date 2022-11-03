@@ -46,7 +46,7 @@ const He1Report = () => {
     area_ref,
     vol_env_net,
     vol_env_gross,
-    compacity,
+    compactness,
     q_soljul_data,
     n50_data,
     K_data,
@@ -152,7 +152,7 @@ const He1Report = () => {
               sm={3}
               title="Compacidad de la envolvente térmica (V_tot / A) [m³/m²]"
             >
-              V/A = {compacity.toFixed(2)} m³/m²
+              V/A = {compactness.toFixed(2)} m³/m²
             </Col>
           </Row>
         </Col>
