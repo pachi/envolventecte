@@ -40,21 +40,23 @@ const IndicatorsPanel = () => {
   const appstate = useContext(AppState);
   const [warnings, setWarnings] = useState(false);
 
-  const { area_ref, q_soljul_data, n50_data, K_data } =
-    appstate.energy_indicators;
+  const {
+    area_ref,
+    q_soljul_data: { q_soljul },
+    n50_data: { n50 },
+    K_data: { K },
+    props: {
+      global: { occ_spaces_average_load },
+    },
+  } = appstate.energy_indicators;
   const { climate, name } = appstate.meta;
-
-  const { K } = K_data;
-  const { q_soljul } = q_soljul_data;
-  const { n50 } = n50_data;
-
   const errors = appstate.warnings;
   const numavisos = errors.length;
 
   return (
     <>
       <Row>
-        <Col md={9}>
+        <Col>
           Proyecto: <i>{name}</i>
         </Col>
       </Row>
@@ -62,13 +64,10 @@ const IndicatorsPanel = () => {
         <Col md={1} title="Zona climática (CTE DB-HE)">
           <b>{climate}</b>
         </Col>
-        <Col
-          md={2}
-          title="Superficie útil de los espacios habitables del edificio o parte del edificio [m²]"
-        >
+        <Col title="Superficie útil de los espacios habitables del edificio o parte del edificio [m²]">
           A<sub>util</sub> = {area_ref.toFixed(2)} m²
         </Col>
-        <Col md={2} title="Transmitancia térmica global del edificio [W/m²K]">
+        <Col title="Transmitancia térmica global del edificio [W/m²K]">
           <b>
             <i>K</i> = {K.toFixed(2)} <i>W/m²K</i>
           </b>
@@ -81,7 +80,7 @@ const IndicatorsPanel = () => {
             = {area_ref !== 0 ? q_soljul.toFixed(2) : "-"} <i>kWh/m²·mes</i>
           </b>
         </Col>
-        <Col md={2} title="Tasa de renovación de aire a 50 Pa [1/h]">
+        <Col title="Tasa de renovación de aire a 50 Pa [1/h]">
           <b>
             <i>
               n<sub>50</sub>
@@ -92,7 +91,15 @@ const IndicatorsPanel = () => {
             </i>
           </b>
         </Col>
-        <Col md={3} align="right">
+        <Col title="Carga interna media (cargas de ocupación sensible, iluminación y equipos) de los espacios habitables de la envolvente [W/m²]">
+          <b>
+            <i>
+              C<sub>FI</sub>
+            </i>{" "}
+            = {occ_spaces_average_load.toFixed(2)} <i>W/m²</i>
+          </b>
+        </Col>
+        <Col md={2} align="right">
           <ButtonGroup>
             <Button
               size="sm"

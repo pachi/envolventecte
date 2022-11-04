@@ -47,16 +47,14 @@ const He1Report = () => {
     vol_env_net,
     vol_env_gross,
     compactness,
-    q_soljul_data,
-    n50_data,
-    K_data,
+    q_soljul_data: { q_soljul },
+    n50_data: { n50 },
+    K_data: { K },
+    props: {
+      global: { occ_spaces_hours_in_use, occ_spaces_average_load },
+    },
   } = appstate.energy_indicators;
-
   const { climate, name } = appstate.meta;
-
-  const { K } = K_data;
-  const { q_soljul } = q_soljul_data;
-  const { n50 } = n50_data;
 
   const date = new Date(Date.now());
 
@@ -126,6 +124,28 @@ const He1Report = () => {
                 <i>
                   h<sup>-1</sup>
                 </i>
+              </b>
+            </Col>
+          </Row>
+          <Row>
+            <Col  sm={3}/>
+            <Col sm={3} title="Tiempo de ocupación [h]">
+              <b>
+                <i>
+                  t<sub>oc</sub>
+                </i>{" "}
+                = {occ_spaces_hours_in_use.toFixed(0)} <i>h</i>
+              </b>
+            </Col>
+            <Col
+              sm={3}
+              title="Carga interna media (cargas de ocupación sensible, iluminación y equipos) de los espacios habitables de la envolvente [W/m²]"
+            >
+              <b>
+                <i>
+                  C<sub>FI</sub>
+                </i>{" "}
+                = {occ_spaces_average_load.toFixed(2)} <i>W/m²</i>
               </b>
             </Col>
           </Row>
