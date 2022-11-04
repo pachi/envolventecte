@@ -12,7 +12,6 @@
 - Señalar con un icono materiales, vidrios, marcos y construcciones de opacos y huecos no usadas
 - Introducir overrides de huecos y muros...
 - Informe HE1:
-    - Carga interna media
     - Añadir valores de referencia HE nuevos y existentes, apéndice E, etc a gráficas
 - Informe de mediciones:
     - Opción de mostrar valores detallados (por opaco / espacio)
