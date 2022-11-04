@@ -28,7 +28,7 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { Float2DigitsFmt, NameFromIdFmt } from "../tables/Formatters";
+import { optionalNumberDisplay, NameFromIdFmt } from "../tables/Formatters";
 import { validateNonNegNumber } from "../tables/Validators";
 import { getFloatOrOld } from "../tables/utils";
 
@@ -80,7 +80,7 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "area_per_person",
       text: "Densidad ocupación",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 2),
       validator: validateNonNegNumber,
       headerTitle: () => "Superficie por ocupante (m²/pax)",
       headerClasses: "text-light bg-secondary",
@@ -99,7 +99,7 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "people_sensible",
       text: "Ocup. sensible",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 2),
       validator: validateNonNegNumber,
       headerTitle: () => "Carga de ocupación, parte sensible (W/m²)",
       headerClasses: "text-light bg-secondary",
@@ -118,7 +118,7 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "people_latent",
       text: "Ocup. latente",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 2),
       validator: validateNonNegNumber,
       headerTitle: () => "Carga de ocupación, parte latente (W/m²)",
       headerClasses: "text-light bg-secondary",
@@ -152,7 +152,7 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "lighting",
       text: "Iluminación",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 2),
       validator: validateNonNegNumber,
       headerTitle: () => "Carga de iluminación (W/m²)",
       headerClasses: "text-light bg-secondary",
@@ -186,7 +186,7 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "equipment",
       text: "Equipos",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 2),
       validator: validateNonNegNumber,
       headerTitle: () => "Carga de equipos (W/m²)",
       headerClasses: "text-light bg-secondary",

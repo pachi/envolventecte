@@ -45,7 +45,7 @@ import iconarrowdown from "../img/arrow_down.svg";
 import { uuidv4 } from "../../utils";
 import AppState, { EMPTY_ID } from "../../stores/AppState";
 
-import { Float3DigitsFmt, NameFromIdFmt } from "../tables/Formatters";
+import { optionalNumberDisplay, NameFromIdFmt } from "../tables/Formatters";
 import { getFloatOrOld } from "../tables/utils";
 
 import { MATERIAL } from "../../stores/types";
@@ -137,7 +137,7 @@ const LayersTable = ({ layers, setLayers }) => {
     },
     {
       dataField: "e",
-      formatter: Float3DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 3),
       text: "Espesor",
       align: "center",
       headerTitle: (_col, _colIndex) => "Espesor de la capa",

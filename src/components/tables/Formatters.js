@@ -39,41 +39,16 @@ import {
   THERMAL_BRIDGE_TYPES_MAP,
 } from "../../stores/types";
 
-// Formateadores -------------------------------------------------------------
-
-// Muestra número sin decimales
-export const Float0DigitsFmt = (cell, _row, _rowIndex, _formatExtraData) => {
-  if (cell === null || cell === undefined) {
+/// Número formateado con el número de decimales indicado o guion para valor nulo o no numérico
+/// Nota: isNaN(undefined) == true pero isNaN(null) === false
+export const optionalNumberDisplay = (value, digits = 2) => {
+  if (value === null || isNaN(value)) {
     return <span>-</span>;
   }
-  return <span>{Number(cell).toFixed(0)}</span>;
+  return <span>{Number(value).toFixed(digits)}</span>;
 };
 
-// Muestra número con 1 decimal
-export const Float1DigitsFmt = (cell, _row, _rowIndex, _formatExtraData) => {
-  if (cell === null || cell === undefined) {
-    return <span>-</span>;
-  }
-  return <span>{Number(cell).toFixed(1)}</span>;
-};
-
-// Muestra número con 2 decimales
-export const Float2DigitsFmt = (cell, _row) => {
-  if (cell === null || cell === undefined) {
-    return <span>-</span>;
-  }
-
-  return <span>{Number(cell).toFixed(2)}</span>;
-};
-
-// Muestra número con 3 decimales
-export const Float3DigitsFmt = (cell, _row) => {
-  if (cell === null || cell === undefined) {
-    return <span>-</span>;
-  }
-
-  return <span>{Number(cell).toFixed(3)}</span>;
-};
+// Formateadores ---------------------------------------------------------------
 
 /// Formato de id a nombre usando mapper
 export const NameFromIdFmt = (cell, _row, _rowIndex, idMapper) => (
@@ -214,6 +189,7 @@ export const OpaqueGeomIconFmt = (
 export const BoundaryFmt = (cell, _row) => (
   <span>{BOUNDARY_TYPES_MAP[cell]}</span>
 );
+
 export const BoundaryOpts = Object.keys(BOUNDARY_TYPES_MAP).map((k) => {
   return { value: k, label: BOUNDARY_TYPES_MAP[k] };
 });
@@ -230,7 +206,7 @@ export const ThermalBridgeTypesOpts = Object.keys(THERMAL_BRIDGE_TYPES_MAP).map(
 );
 
 // Muestra tipo de espacio
-export const SpaceTypeFmt = (cell, _row, _rowIndex, _formatExtraData) =>
+export const SpaceTypeFmt = (cell, _row, _rowIndex, _extraData) =>
   cell === null || cell === undefined ? (
     <span>ACONDICIONADO</span>
   ) : (
@@ -244,44 +220,11 @@ export const spaceTypesOpts = Object.keys(SPACE_TYPES_MAP).map((k) => {
 
 // Formato de horarios como listas de [id, repeticiones]
 // con id a nombre usando mapper
-export const ScheduleFmt = (cell, _row, _rowIndex, idMapper) => {
-  const txt = cell
-    .map(([id, count]) => `(${idMapper[id]}, ${count})`)
-    .join(", ");
-  return <span>[{txt}]</span>;
-};
-
-/// Formato de espesor total de construcción de opaco (id -> thickness)
-export const WallConsThicknessFmt = (
-  _cell,
-  row,
-  _rowIndex,
-  wallconsPropsMap
-) => {
-  // cell == id
-  const props = wallconsPropsMap[row.id];
-  const p = props.thickness;
-  if (p === undefined || p === null || isNaN(p)) {
-    return <span>-</span>;
-  }
-  return <span>{p.toFixed(3)}</span>;
-};
-
-/// Formato de resistencia intrínseca de construcción de opaco (id -> r_intrinsic)
-export const WallConsResistanceFmt = (
-  _cell,
-  row,
-  _rowIndex,
-  wallconsPropsMap
-) => {
-  // cell == id
-  const props = wallconsPropsMap[row.id];
-  const p = props.resistance;
-  if (p === undefined || p === null || isNaN(p)) {
-    return <span>-</span>;
-  }
-  return <span>{p.toFixed(2)}</span>;
-};
+export const ScheduleFmt = (cell, _row, _rowIndex, idMapper) => (
+  <span>
+    [{cell.map(([id, count]) => `(${idMapper[id]}, ${count})`).join(", ")}]
+  </span>
+);
 
 export const LayersFmt = (cell, _row, _rowIndex, materials) => {
   // cell == id
@@ -314,112 +257,6 @@ export const LayersFmt = (cell, _row, _rowIndex, materials) => {
       {layers}
     </svg>
   );
-};
-
-// Formato de área de huecos (id -> area)
-export const WinAreaFmt = (_cell, row, _rowIndex, winProps) => {
-  // cell == id
-  const props = winProps[row.id];
-  const area = props.area * props.multiplier;
-  if (area === undefined || area === null || isNaN(area)) {
-    return <span>-</span>;
-  }
-  return <span>{area.toFixed(2)}</span>;
-};
-
-// Formato de fshobst (id -> fshobst)
-export const FshobstFmt = (_cell, row, _rowIndex, winProps) => {
-  // cell == id
-  const props = winProps[row.id];
-  const p = props.f_shobst_override || props.f_shobst;
-  if (p === undefined || p === null || isNaN(p)) {
-    return <span>-</span>;
-  }
-  return <span>{p.toFixed(2)}</span>;
-};
-
-// Transmitancia de huecos (id -> window U-value)
-export const WindowUFmt = (_cell, row, _rowIndex, winProps) => {
-  const props = winProps[row.id];
-  const p = props.u_value;
-  if (p === undefined || p === null) {
-    return <span>-</span>;
-  }
-  return <span>{p.toFixed(2)}</span>;
-};
-
-/// Formato de area de opaco (id -> area)
-export const WallAreaFmt = (_cell, row, _rowIndex, wallPropsMap) => {
-  // cell == id
-  const props = wallPropsMap[row.id];
-  const p = props.area_net * props.multiplier;
-  if (p === undefined || p === null || isNaN(p)) {
-    return <span>-</span>;
-  }
-  return <span>{p.toFixed(2)}</span>;
-};
-
-/// Formato de U de opaco (id -> U_value)
-export const WallUFmt = (_cell, row, _rowIndex, wallPropsMap) => {
-  // cell == id
-  const uvalue = wallPropsMap[row.id].u_value;
-  if (uvalue === undefined || uvalue === null || isNaN(uvalue)) {
-    return <span>-</span>;
-  }
-  return <span>{uvalue.toFixed(2)}</span>;
-};
-
-// Formato de area de espacio (id -> area)
-export const SpaceAreaFmt = (_cell, row, _rowIndex, spacePropsMap) => {
-  // cell == id
-  const props = spacePropsMap[row.id];
-  const area = props.area * props.multiplier;
-  if (area === undefined || area === null || isNaN(area)) {
-    return <span>-</span>;
-  }
-  return <span>{area.toFixed(2)}</span>;
-};
-
-// Formato de volumen neto de espacio (id -> volume_net)
-export const SpaceVolumeFmt = (_cell, row, _rowIndex, spacePropsMap) => {
-  // cell == id
-  const props = spacePropsMap[row.id];
-  const volume_net = props.volume_net * props.multiplier;
-  if (volume_net === undefined || volume_net === null || isNaN(volume_net)) {
-    return <span>-</span>;
-  }
-  return <span>{volume_net.toFixed(2)}</span>;
-};
-
-// Formato de VEEI de espacio (id -> veei)
-export const SpaceVeeiFmt = (_cell, row, _rowIndex, spacePropsMap) => {
-  // cell == id
-  const props = spacePropsMap[row.id];
-  const veei = props.veei;
-  if (veei === undefined || veei === null || isNaN(veei)) {
-    return <span>-</span>;
-  }
-  return <span>{veei.toFixed(2)}</span>;
-};
-
-/// Formato de U de hueco (id -> U)
-export const WinconsUFmt = (_cell, row, _rowIndex, propsMap) => {
-  const props = propsMap[row.id];
-  const p = props.u_value;
-  if (p === undefined || p === null || isNaN(p)) {
-    return <span>-</span>;
-  }
-  return <span>{p.toFixed(2)}</span>;
-};
-
-/// Formato de g_gl;wi de hueco (id -> g_glwi)
-export const WinconsGglwiFmt = (_cell, row, _rowIndex, propsMap) => {
-  const props = propsMap[row.id];
-  const p = props.g_glwi;
-  if (p === undefined || p === null || isNaN(p)) {
-    return <span>-</span>;
-  }
-  return <span>{p.toFixed(2)}</span>;
 };
 
 // Valor en Y del valor value para una altura total disponible height

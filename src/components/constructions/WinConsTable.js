@@ -28,12 +28,7 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import {
-  Float2DigitsFmt,
-  NameFromIdFmt,
-  WinconsUFmt,
-  WinconsGglwiFmt,
-} from "../tables/Formatters";
+import { optionalNumberDisplay, NameFromIdFmt } from "../tables/Formatters";
 import { validateNonNegNumber, validateNumber } from "../tables/Validators";
 import { getFloatOrOld } from "../tables/utils";
 
@@ -93,7 +88,7 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "f_f",
       text: "F_f",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: (cell) => optionalNumberDisplay(cell, 2),
       validator: validateNonNegNumber,
       headerTitle: () =>
         "Fracción de marco de la construcción de hueco (-)\n0.0 = sin marco, 1.0 = completamente opaco",
@@ -113,7 +108,7 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "delta_u",
       text: "delta_u",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: (cell) => optionalNumberDisplay(cell, 2),
       validator: validateNumber,
       headerTitle: () =>
         "Procentaje de incremento de trasnmitancia por intercalarios o cajones de persiana (%)",
@@ -133,7 +128,7 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "g_glshwi",
       text: "g_gl;sh;wi",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: (cell) => optionalNumberDisplay(cell, 2),
       validator: validateNonNegNumber,
       headerTitle: () =>
         "Factor solar del hueco con la protección solar móvil activada (-)",
@@ -153,7 +148,7 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "c_100",
       text: "C_100",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: (cell) => optionalNumberDisplay(cell, 2),
       validator: validateNonNegNumber,
       headerTitle: () =>
         "Coeficiente de permeabilidad al aire del hueco a 100 Pa (m³/hm²).\n" +
@@ -180,7 +175,8 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       editable: false,
       align: "center",
       classes: "td-column-computed-readonly",
-      formatter: WinconsUFmt,
+      formatter: (_cell, row, _rowIndex, extraData) =>
+        optionalNumberDisplay(extraData[row.id].u_value, 2),
       formatExtraData: winconsPropsMap,
       headerTitle: () =>
         "Transmitancia térmica del hueco (W/m²K).\nSe especifica en su posición final y teniendo en cuenta las resistencias superficiales correspondientes.",
@@ -203,7 +199,8 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       text: "g_gl;wi",
       align: "center",
       classes: "td-column-computed-readonly",
-      formatter: WinconsGglwiFmt,
+      formatter: (_cell, row, _rowIndex, extraData) =>
+        optionalNumberDisplay(extraData[row.id].g_glwi, 2),
       formatExtraData: winconsPropsMap,
       headerTitle: () =>
         "Factor solar del hueco sin la protección solar activada (g_glwi = g_gln * 0.90) (-).\nTiene en cuenta el factor de difusión del vidrio y la transmitancia a incidencia normal.",

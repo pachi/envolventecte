@@ -32,9 +32,7 @@ import {
   NameFromIdFmt,
   WindowGeomFmt,
   WindowGeomIconFmt,
-  WinAreaFmt,
-  FshobstFmt,
-  WindowUFmt,
+  optionalNumberDisplay,
 } from "../tables/Formatters";
 import { getFloatOrOld } from "../tables/utils";
 
@@ -135,7 +133,11 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
       text: "A",
       align: "center",
       classes: "td-column-computed-readonly",
-      formatter: WinAreaFmt,
+      formatter: (_cell, row, _rowIndex, extraData) =>
+        optionalNumberDisplay(
+          extraData[row.id].area * extraData[row.id].multiplier,
+          2
+        ),
       formatExtraData: winPropsMap,
       headerTitle: () => "Superficie proyectada del hueco (m²)",
       headerClasses: "text-light bg-secondary",
@@ -159,7 +161,11 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
       text: "fshobst",
       align: "center",
       classes: "td-column-computed-readonly",
-      formatter: FshobstFmt,
+      formatter: (_cell, row, _rowIndex, extraData) =>
+        optionalNumberDisplay(
+          extraData[row.id].f_shobst_override || extraData[row.id].f_shobst,
+          2
+        ),
       formatExtraData: winPropsMap,
       headerTitle: () =>
         "Factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción). Este valor puede asimilarse al factor de sombra del hueco (FS). El Documento de Apoyo DA DB-HE/1 recoge valores del factor de sombra FS para considerar el efecto de voladizos, retranqueos, aletas laterales o lamas exteriores.",
@@ -182,7 +188,8 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
       text: "window U",
       align: "center",
       classes: "td-column-computed-readonly",
-      formatter: WindowUFmt,
+      formatter: (_cell, row, _rowIndex, extraData) =>
+        optionalNumberDisplay(extraData[row.id].u_value, 2),
       formatExtraData: winPropsMap,
       headerTitle: () => "Transmitancia térmica del hueco [W/m²K]",
       headerClasses: "text-light bg-secondary",

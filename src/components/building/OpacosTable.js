@@ -34,8 +34,7 @@ import {
   OpaqueGeomFmt,
   OpaqueGeomIconFmt,
   NameFromIdFmt,
-  WallAreaFmt,
-  WallUFmt,
+  optionalNumberDisplay,
 } from "../tables/Formatters";
 import { getFloatOrOld } from "../tables/utils";
 
@@ -171,7 +170,11 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       editable: false,
       align: "center",
       classes: "td-column-computed-readonly",
-      formatter: WallAreaFmt,
+      formatter: (_cell, row, _rowIndex, extraData) =>
+        optionalNumberDisplay(
+          extraData[row.id].area_net * extraData[row.id].multiplier,
+          2
+        ),
       formatExtraData: wallPropsMap,
       headerTitle: () =>
         "Superficie neta (sin huecos) del elemento opaco, en m²",
@@ -196,7 +199,8 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       editable: false,
       align: "center",
       classes: "td-column-computed-readonly",
-      formatter: WallUFmt,
+      formatter: (_cell, row, _rowIndex, extraData) =>
+        optionalNumberDisplay(extraData[row.id].u_value, 2),
       formatExtraData: wallPropsMap,
       headerTitle: () => "Transmitancia térmica del elemento opaco [W/m²K]",
       headerClasses: "text-light bg-secondary",

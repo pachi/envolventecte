@@ -28,7 +28,7 @@ import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
 import { uuidv4 } from "../../utils";
 
-import { Float0DigitsFmt, NameFromIdFmt } from "../tables/Formatters";
+import { NameFromIdFmt, optionalNumberDisplay } from "../tables/Formatters";
 import { getFloatOrOld } from "../tables/utils";
 
 import { ListEditor } from "../ui/ListEditor";
@@ -121,7 +121,7 @@ const ScheduleListTable = ({ schedule, setSchedule, idMap, scheduleOpts }) => {
     },
     {
       dataField: "count",
-      formatter: Float0DigitsFmt,
+      formatter: (cell) => optionalNumberDisplay(cell, 0),
       text: "Repeticiones",
       align: "center",
       headerTitle: (_col, _colIndex) =>

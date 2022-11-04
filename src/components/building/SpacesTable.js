@@ -29,16 +29,13 @@ import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 import {
-  Float2DigitsFmt,
+  optionalNumberDisplay,
   InsideTeFmt,
   MultiplierFmt,
   NameFromIdFmt,
   SpaceTypeFmt,
   spaceTypesOpts,
-  SpaceAreaFmt,
-  SpaceVolumeFmt,
   ZFmt,
-  SpaceVeeiFmt,
 } from "../tables/Formatters";
 import {
   validateNonNegNumber,
@@ -205,7 +202,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "height",
       text: "Altura",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: (cell) => optionalNumberDisplay(cell, 2),
       validator: validateNonNegNumber,
       headerTitle: () =>
         "Altura total, bruta, o de suelo a suelo, del espacio (m)",
@@ -273,7 +270,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "n_v",
       text: "Infiltraciones ren/h",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: (cell) => optionalNumberDisplay(cell, 2),
       editable: (cell, row) => {
         return row.type === "UNINHABITED";
       },
@@ -299,7 +296,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "illuminance",
       text: "Iluminancia lux",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: (cell) => optionalNumberDisplay(cell, 2),
       customEditor: {
         getElement: (onUpdate, props) => (
           <NVEditor onUpdate={onUpdate} defaultValue={null} {...props} />
@@ -325,7 +322,11 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       editable: false,
       align: "center",
       classes: "td-column-computed-readonly",
-      formatter: SpaceAreaFmt,
+      formatter: (_cell, row, _rowIndex, extraData) =>
+        optionalNumberDisplay(
+          extraData[row.id].area * extraData[row.id].multiplier,
+          2
+        ),
       formatExtraData: spacePropsMap,
       headerTitle: () => "Superficie útil del espacio (m²)",
       headerClasses: "text-light bg-secondary",
@@ -349,7 +350,11 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       editable: false,
       align: "center",
       classes: "td-column-computed-readonly",
-      formatter: SpaceVolumeFmt,
+      formatter: (_cell, row, _rowIndex, extraData) =>
+        optionalNumberDisplay(
+          extraData[row.id].volume_net * extraData[row.id].multiplier,
+          2
+        ),
       formatExtraData: spacePropsMap,
       headerTitle: () => "Volumen neto del espacio, en m³",
       headerClasses: "text-light bg-secondary",
@@ -373,7 +378,8 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       editable: false,
       align: "center",
       classes: "td-column-computed-readonly",
-      formatter: SpaceVeeiFmt,
+      formatter: (_cell, row, _rowIndex, extraData) =>
+        optionalNumberDisplay(extraData[row.id].veei, 2),
       formatExtraData: spacePropsMap,
       headerTitle: () =>
         "Valor de la eficiencia energética de la iluminación, en W/m²·100lx",

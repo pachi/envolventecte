@@ -28,12 +28,7 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import {
-  Float2DigitsFmt,
-  WallConsResistanceFmt,
-  WallConsThicknessFmt,
-  LayersFmt,
-} from "../tables/Formatters";
+import { optionalNumberDisplay, LayersFmt } from "../tables/Formatters";
 import { validateNonNegNumber } from "../tables/Validators";
 import { getFloatOrOld } from "../tables/utils";
 
@@ -93,7 +88,7 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "absorptance",
       text: "Absortividad",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: (cell) => optionalNumberDisplay(cell, 2),
       validator: validateNonNegNumber,
       headerTitle: () => "Absortividad térmica de la solución constructiva (-)",
       headerClasses: "text-light bg-secondary",
@@ -115,7 +110,8 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       editable: false,
       align: "center",
       classes: "td-column-computed-readonly",
-      formatter: WallConsThicknessFmt,
+      formatter: (_cell, row, _rowIndex, extraData) =>
+        optionalNumberDisplay(extraData[row.id].thickness, 3),
       formatExtraData: wallconsPropsMap,
       headerTitle: () => "Espesor total de la composición de capas (m)",
       headerClasses: "text-light bg-secondary",
@@ -136,7 +132,8 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       editable: false,
       align: "center",
       classes: "td-column-computed-readonly",
-      formatter: WallConsResistanceFmt,
+      formatter: (_cell, row, _rowIndex, extraData) =>
+        optionalNumberDisplay(extraData[row.id].resistance, 2),
       formatExtraData: wallconsPropsMap,
       headerTitle: () =>
         "Resistencia térmica de la solución constructiva (sin resistencias superficiales) (m²·K/W)",

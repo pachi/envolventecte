@@ -29,7 +29,7 @@ import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 import {
-  Float2DigitsFmt,
+  optionalNumberDisplay,
   ThermalBridgeTypesFmt,
   ThermalBridgeTypesOpts,
 } from "../tables/Formatters";
@@ -62,7 +62,7 @@ const PTsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "l",
       text: "Longitud",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 2),
       validator: validateNonNegNumber,
       headerTitle: (_col, _colIndex) => "Longitud del puente térmico (m)",
       headerClasses: "text-light bg-secondary",
@@ -104,7 +104,7 @@ const PTsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "psi",
       text: "Transmitancia",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 2),
       validator: validateNumber,
       headerClasses: "text-light bg-secondary",
       headerAttrs: {

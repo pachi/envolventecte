@@ -28,7 +28,7 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { Float2DigitsFmt } from "../tables/Formatters";
+import { optionalNumberDisplay } from "../tables/Formatters";
 import { validateNonNegNumber } from "../tables/Validators";
 import { getFloatOrOld } from "../tables/utils";
 
@@ -52,7 +52,7 @@ const FamesTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "u_value",
       text: "U",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 2),
       validator: validateNonNegNumber,
       headerTitle: () => "Transmitancia térmica del marco (W/m²K)",
       headerClasses: "text-light bg-secondary",
@@ -70,7 +70,7 @@ const FamesTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "absorptivity",
       text: "Absortividad del marco",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 2),
       validator: validateNonNegNumber,
       headerTitle: () => "Absortividad del marco (-)",
       headerClasses: "text-light bg-secondary",

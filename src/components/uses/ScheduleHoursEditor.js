@@ -26,7 +26,7 @@ import { Modal, Button, Col, Container, Row } from "react-bootstrap";
 import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory from "react-bootstrap-table2-editor";
 
-import { Float2DigitsFmt } from "../tables/Formatters";
+import { optionalNumberDisplay } from "../tables/Formatters";
 import { getFloatOrOld } from "../tables/utils";
 
 /*
@@ -108,7 +108,7 @@ const ScheduleHoursTable = ({ hours }) => {
     },
     {
       dataField: "value",
-      formatter: Float2DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 2),
       text: "valor",
       align: "center",
       headerTitle: (_col, _colIndex) =>

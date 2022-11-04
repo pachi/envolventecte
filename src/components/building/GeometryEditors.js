@@ -37,7 +37,7 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 
 import { uuidv4 } from "../../utils";
 
-import { AzimuthFmt, Float2DigitsFmt, TiltFmt } from "../tables/Formatters";
+import { AzimuthFmt, optionalNumberDisplay, TiltFmt } from "../tables/Formatters";
 import { getFloatOrOld } from "../tables/utils";
 
 import { ListEditor } from "../ui/ListEditor";
@@ -312,7 +312,7 @@ const CoordsTable = ({ poly, setPoly }) => {
     { dataField: "id", isKey: true, hidden: true },
     {
       dataField: "X",
-      formatter: Float2DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 2),
       text: "Coordenada X (coordenadas locales)",
       align: "center",
       headerTitle: (_col, _colIndex) => "Coordenadas locales eje X",
@@ -330,7 +330,7 @@ const CoordsTable = ({ poly, setPoly }) => {
     },
     {
       dataField: "Y",
-      formatter: Float2DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 2),
       text: "Coordenada Y (coordenadas locales)",
       align: "center",
       headerTitle: (_col, _colIndex) => "Coordenadas locales eje Y",

@@ -28,7 +28,7 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { Float2DigitsFmt } from "../tables/Formatters";
+import { optionalNumberDisplay } from "../tables/Formatters";
 import { validateNonNegNumber } from "../tables/Validators";
 import { getFloatOrOld } from "../tables/utils";
 
@@ -52,7 +52,7 @@ const GlassesTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "u_value",
       text: "U",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 2),
       validator: validateNonNegNumber,
       headerTitle: () => "Transmitancia térmica del vidrio (W/m²K)",
       headerClasses: "text-light bg-secondary",
@@ -70,7 +70,7 @@ const GlassesTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "g_gln",
       text: "Factor solar del vidrio a incidencia normal",
       align: "center",
-      formatter: Float2DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 2),
       validator: validateNonNegNumber,
       headerTitle: () => "Factor solar del vidrio a incidencia normal (-)",
       headerClasses: "text-light bg-secondary",

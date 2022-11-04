@@ -28,7 +28,7 @@ import cellEditFactory from "react-bootstrap-table2-editor";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { Float1DigitsFmt, Float3DigitsFmt } from "../tables/Formatters";
+import { optionalNumberDisplay } from "../tables/Formatters";
 import { validateNonNegNumber } from "../tables/Validators";
 import { getFloatOrOld } from "../tables/utils";
 
@@ -52,7 +52,7 @@ const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "resistance",
       text: "Resistencia térmica",
       align: "center",
-      formatter: Float3DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 3),
       validator: validateNonNegNumber,
       headerTitle: () => "Resistencia térmica (m²K/W)",
       headerClasses: "text-light bg-secondary",
@@ -70,7 +70,7 @@ const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "conductivity",
       text: "Conductividad térmica",
       align: "center",
-      formatter: Float3DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 3),
       validator: validateNonNegNumber,
       headerTitle: () => "Conductividad térmica (W/mK)",
       headerClasses: "text-light bg-secondary",
@@ -94,7 +94,7 @@ const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
           ? false
           : true,
       validator: validateNonNegNumber,
-      formatter: Float1DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 1),
       headerTitle: () => "Densidad del material (kg/m³)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
@@ -117,7 +117,7 @@ const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
           ? false
           : true,
       validator: validateNonNegNumber,
-      formatter: Float1DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 1),
       headerTitle: () => "Calor específico del material (J/kg·K)",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
@@ -135,7 +135,7 @@ const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
       dataField: "vapour_diff",
       text: "Factor de difusividad al vapor de agua",
       align: "center",
-      formatter: Float1DigitsFmt,
+      formatter: cell => optionalNumberDisplay(cell, 1),
       headerTitle: () =>
         "Factor de difusividad al vapor de agua del material (J/kg·K)",
       headerClasses: "text-light bg-secondary",
