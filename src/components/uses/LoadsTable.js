@@ -52,6 +52,7 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const schedulesMap = appstate.getIdNameMap(SCHEDULE_YEAR);
   const schedulesOpts = appstate.getElementOptions(SCHEDULE_YEAR, true);
+  const loadsPropsMap = appstate.energy_indicators.props.loads;
 
   // Lista de IDs con errores
   const errors = appstate.warnings;
@@ -214,6 +215,36 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       headerTitle: () => "Horario de equipos",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
+    },
+    {
+      dataField: "loads_avg",
+      text: "C_fi",
+      isDummyField: true,
+      editable: false,
+      align: "center",
+      classes: "td-column-computed-readonly",
+      formatter: (cell, row, _rowIndex, extraData) => {
+        const load = extraData[row.id].loads_avg;
+        if (load === null || isNaN(load)) {
+          return <span>-</span>;
+        }
+        return <span>{load.toFixed(2)}</span>;
+      },
+      formatExtraData: loadsPropsMap,
+      headerTitle: () => "Carga interna media, en W/m²",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          C<sub>FI</sub>
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>
+              [W/m<sup>²</sup>]
+            </i>{" "}
+          </span>
+        </>
+      ),
     },
   ];
 
