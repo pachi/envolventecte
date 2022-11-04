@@ -391,6 +391,17 @@ export const SpaceVolumeFmt = (_cell, row, _rowIndex, spacePropsMap) => {
   return <span>{volume_net.toFixed(2)}</span>;
 };
 
+// Formato de VEEI de espacio (id -> veei)
+export const SpaceVeeiFmt = (_cell, row, _rowIndex, spacePropsMap) => {
+  // cell == id
+  const props = spacePropsMap[row.id];
+  const veei = props.veei;
+  if (veei === undefined || veei === null || isNaN(veei)) {
+    return <span>-</span>;
+  }
+  return <span>{veei.toFixed(2)}</span>;
+};
+
 /// Formato de U de hueco (id -> U)
 export const WinconsUFmt = (_cell, row, _rowIndex, propsMap) => {
   const props = propsMap[row.id];

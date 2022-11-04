@@ -38,6 +38,7 @@ import {
   SpaceAreaFmt,
   SpaceVolumeFmt,
   ZFmt,
+  SpaceVeeiFmt,
 } from "../tables/Formatters";
 import {
   validateNonNegNumber,
@@ -220,7 +221,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
         </>
       ),
     },
-    
+
     {
       dataField: "z",
       text: "z",
@@ -281,8 +282,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
           <NVEditor onUpdate={onUpdate} defaultValue={null} {...props} />
         ),
       },
-      headerTitle: () =>
-        "Nivel de infiltraciones del espacio, en ren/h",
+      headerTitle: () => "Nivel de infiltraciones del espacio, en ren/h",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
@@ -305,8 +305,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
           <NVEditor onUpdate={onUpdate} defaultValue={null} {...props} />
         ),
       },
-      headerTitle: () =>
-        "Iluminancia media en el plano de trabajo, en lux",
+      headerTitle: () => "Iluminancia media en el plano de trabajo, en lux",
       headerClasses: "text-light bg-secondary",
       headerAlign: "center",
       headerFormatter: () => (
@@ -367,6 +366,31 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
         </>
       ),
     },
+    {
+      dataField: "veei",
+      text: "VEEI",
+      isDummyField: true,
+      editable: false,
+      align: "center",
+      classes: "td-column-computed-readonly",
+      formatter: SpaceVeeiFmt,
+      formatExtraData: spacePropsMap,
+      headerTitle: () =>
+        "Valor de la eficiencia energética de la iluminación, en W/m²·100lx",
+      headerClasses: "text-light bg-secondary",
+      headerAlign: "center",
+      headerFormatter: () => (
+        <>
+          VEEI
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>
+              [W/m<sup>²</sup>·100lx]
+            </i>{" "}
+          </span>
+        </>
+      ),
+    },
   ];
 
   return (
@@ -386,12 +410,13 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
           ) {
             // Corrige el valor de n_v de undefined a null
             // o cambia a null cuando no son espacios no habitables
-            // TODO: esto en terciario no necesariamente es así, 
+            // TODO: esto en terciario no necesariamente es así,
             // ya que se pueden definir las infiltraciones
             // cuando no funcionan los equipos
             row.n_v = null;
           } else if (
-            (column.dataField === "illuminance" && newValue === undefined)
+            column.dataField === "illuminance" &&
+            newValue === undefined
           ) {
             // Corrige el valor de illuminance de undefined a null
             row.illuminance = null;
