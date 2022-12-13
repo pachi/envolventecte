@@ -58,6 +58,7 @@
 ## Mejoras
 
 - Usar Vite para el empaquetado
+- Barrel files (index.js) para consolidar imports
 - Instalar con npm install --legacy-peer-deps (para evitar problemas con tablas y otros paquetes obsoletos)
 - Migrar a otra implementación de tabla (sin problemas de mantenimiento y compatibilidad):
     - [React-table](https://react-table-v7.tanstack.com/)
@@ -76,3 +77,4 @@
 
 ## ES
 - Trasladar datos a public/data? (usando luego fetch o direcciones como <a href={process.env.PUBLIC_URL + "/data/zcraddata.json"}>Enlace</a>)
+    - Mejor, usar RTK Query?
