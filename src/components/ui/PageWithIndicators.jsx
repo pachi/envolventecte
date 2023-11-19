@@ -24,8 +24,8 @@ SOFTWARE.
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 
-import Footer from "../ui/Footer";
-import NavBar from "../ui/Nav";
+import Footer from "./Footer";
+import NavBar from "./Nav";
 import IndicatorsPanel from "../indicators/IndicatorsPanel";
 
 export const PageWithIndicators = ({ route, children }) => {

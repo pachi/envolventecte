@@ -25,8 +25,8 @@ import {
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 import { initObjectsFromModel } from "./ctemodel.js";
-import GUIView from "./gui/GUIView";
-import AppState from "../../stores/AppState";
+import GUIView from "./gui/GUIView.js";
+import AppState from "../../stores/AppState.js";
 
 const style = {
   display: "flex",

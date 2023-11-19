@@ -26,7 +26,7 @@ import React from "react";
 import { Alert, Col, Image, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import { Page } from "../ui/Page.js";
+import { Page } from "../ui/Page.jsx";
 import imglogo from "../img/logo.svg";
 
 const MainPage = () => {

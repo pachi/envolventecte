@@ -26,7 +26,7 @@ import React, { useContext } from "react";
 import { Col, Row } from "react-bootstrap";
 import AppState from "../stores/AppState.js";
 
-import { Page } from "./ui/Page.js";
+import { Page } from "./ui/Page.jsx";
 
 const JsonDetail = () => {
   const appstate = useContext(AppState);

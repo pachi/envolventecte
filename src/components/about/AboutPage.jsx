@@ -26,7 +26,7 @@ import { Alert, Col, Image, Row } from "react-bootstrap";
 
 import { APP_VERSION } from "../../version.js";
 
-import { Page } from "../ui/Page";
+import { Page } from "../ui/Page.jsx";
 
 import FotoPachi from "../img/FotoPachi.jpg";
 import FotoDani from "../img/FotoDani.jpg";

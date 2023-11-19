@@ -25,9 +25,9 @@ import React, { useContext, useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
-import AppState from "../../stores/AppState";
+import AppState from "../../stores/AppState.js";
 
-import Dropzone from "../ui/DropZone.js";
+import Dropzone from "../ui/DropZone.jsx";
 
 // Vista de elementos de sombra del edificio
 export const HulcImport = observer(() => {

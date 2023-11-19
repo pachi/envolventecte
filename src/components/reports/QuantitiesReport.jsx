@@ -27,8 +27,8 @@ import { observer } from "mobx-react";
 
 import { APP_VERSION } from "../../version.js";
 
-import AppState from "../../stores/AppState";
-import { round_or_dash } from "../../utils";
+import AppState from "../../stores/AppState.js";
+import { round_or_dash } from "../../utils.js";
 import {
   BOUNDARY_TYPES_MAP,
   BOUNDARY_TYPES,
@@ -36,7 +36,7 @@ import {
   SPACE_TYPES,
   SPACE_TYPES_MAP,
   LOAD,
-} from "../../stores/types";
+} from "../../stores/types.js";
 
 import printer from "../img/print-solid.svg";
 

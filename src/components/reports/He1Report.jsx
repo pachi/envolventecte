@@ -27,12 +27,12 @@ import { observer } from "mobx-react";
 
 import { APP_VERSION } from "../../version.js";
 
-import AppState from "../../stores/AppState";
+import AppState from "../../stores/AppState.js";
 
-import KDetail from "./KDetail";
-import UDetail from "./UDetail";
-import QSolJulDetail from "./QSolJulDetail";
-import N50Detail from "./N50Detail";
+import KDetail from "./KDetail.jsx";
+import UDetail from "./UDetail.jsx";
+import QSolJulDetail from "./QSolJulDetail.jsx";
+import N50Detail from "./N50Detail.jsx";
 import printer from "../img/print-solid.svg";
 
 const He1Report = () => {

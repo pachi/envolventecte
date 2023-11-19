@@ -29,7 +29,7 @@ import { observer } from "mobx-react";
 
 import { hash } from "../../utils.js";
 
-import AppState from "../../stores/AppState";
+import AppState from "../../stores/AppState.js";
 
 import imglogo from "../img/logo.svg";
 import iconhelp from "../img/outline-live_help-24px.svg";

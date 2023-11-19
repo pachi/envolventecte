@@ -24,8 +24,8 @@ SOFTWARE.
 import React from "react";
 import { Container, Row } from "react-bootstrap";
 
-import Footer from "../ui/Footer";
-import NavBar from "../ui/Nav";
+import Footer from "./Footer";
+import NavBar from "./Nav";
 
 export const Page = ({ route, children }) => {
   return (
