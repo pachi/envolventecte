@@ -21,8 +21,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext } from "react";
-import { AgGridReact } from 'ag-grid-react';
+import React, { useContext, useState, useMemo } from "react";
+import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 // import BootstrapTable from "react-bootstrap-table-next";
@@ -31,67 +31,83 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { optionalNumberDisplay } from "../tables/Formatters";
-import { validateNonNegNumber } from "../tables/Validators";
+// import { optionalNumberDisplay } from "../tables/Formatters";
+// import { validateNonNegNumber } from "../tables/Validators";
 import { getFloatOrOld } from "../tables/utils";
 
 // Tabla de materiales para opacos del edificio
 const GlassesTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
 
-  const columns = [
+  const [columnDefs, setColumnDefs] = useState([
     { headerName: "ID", field: "id", hide: true },
     {
       field: "name",
       headerName: "Nombre",
-      cellClass: "font-weight-bold",
       // headerStyle: () => ({ width: "40%" }),
       headerClass: "text-light bg-secondary",
       headerTooltip: "Nombre que identifica de forma única el tipo de vidrio",
+      cellClass: "font-weight-bold",
       // title: (_cell, row) => `Vidrio id: ${row.id}`,
+      tooltipField: "id",
     },
     {
       field: "u_value",
       headerName: "U",
+      headerTooltip: "Transmitancia térmica del vidrio (W/m²K)",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => (
+        <>
+          U<br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[W/m²K]</i>{" "}
+          </span>
+        </>
+      ),
       cellClass: "text-center",
       // cellRenderer: cell => optionalNumberDisplay(cell, 2),
       // validator: validateNonNegNumber,
-      headerTooltip: "Transmitancia térmica del vidrio (W/m²K)",
-      headerClass: "text-light bg-secondary",
-      // headerAlign: "center",
-      // headerFormatter: () => (
-      //   <>
-      //     U<br />
-      //     <span style={{ fontWeight: "normal" }}>
-      //       <i>[W/m²K]</i>{" "}
-      //     </span>
-      //   </>
-      // ),
     },
     {
       field: "g_gln",
       headerName: "Factor solar del vidrio a incidencia normal",
-      cellClass: "text-center",
-      // align: "center",
-      // cellRenderer: cell => optionalNumberDisplay(cell, 2),
-      // validator: validateNonNegNumber,
       headerTooltip: "Factor solar del vidrio a incidencia normal (-)",
-      headerClass: "text-light bg-secondary",
-      // headerFormatter: () => (
-      //   <>
-      //     g<sub>gl;n</sub>
-      //     <br />
-      //     <span style={{ fontWeight: "normal" }}>
-      //       <i>[-]</i>{" "}
-      //     </span>
-      //   </>
-      // ),
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => (
+        <>
+          g<sub>gl;n</sub>
+          <br />
+          <span style={{ fontWeight: "normal" }}>
+            <i>[-]</i>{" "}
+          </span>
+        </>
+      ),
+      cellClass: "text-center",
+      // cellRenderer: optionalNumberDisplay
+      valueFormatter: (params) =>
+        params.value === null || isNaN(params.value)
+          ? "-"
+          : Number(params.value).toFixed(2),
+      // Ver validación en https://blog.ag-grid.com/user-input-validation-with-ag-grid/
+      // validator: validateNonNegNumber,
+      // valueParser: params =>
     },
-  ];
+  ]);
+
+  // DefaultColDef sets props common to all Columns
+  const defaultColDef = useMemo(() => ({
+    editable: true,
+    singleClickEdit: true,
+    sortable: true,
+    flex: 1,
+    // minWidth: 50,
+    filter: true,
+    resizable: true,
+  }));
 
   const rowData = appstate.cons.glasses;
 
- const onCellValueChanged = (params) => {
+  const onCellValueChanged = (params) => {
     if (params.column.getColId() === "u_value") {
       const value = getFloatOrOld(params.newValue, params.oldValue);
       params.data[params.column.getColId()] = value;
@@ -99,20 +115,25 @@ const GlassesTable = ({ selectedIds, setSelectedIds }) => {
   };
 
   return (
-    <div className="ag-theme-alpine" style={{ height: 400, width: '100%' }}>
-     <AgGridReact
-       rowData={rowData}
-       columnDefs={columns}
-       onCellValueChanged={onCellValueChanged}
-       rowSelection="multiple"
-       rowMultiSelectWithClick
-       suppressRowClickSelection
-       onSelectionChanged={(params) => {
-         setSelectedIds(params.api.getSelectedNodes().map(node => node.data.id));
-       }}
-       rowDeselection
-     />
-   </div>
+    <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
+      <AgGridReact
+        rowData={rowData}
+        columnDefs={columnDefs}
+        defaultColDef={defaultColDef}
+        animateRows={true}
+        rowSelection="multiple"
+        tooltipShowDelay={500}
+        onCellValueChanged={onCellValueChanged}
+        rowMultiSelectWithClick
+        suppressRowClickSelection
+        onSelectionChanged={(params) => {
+          setSelectedIds(
+            params.api.getSelectedNodes().map((node) => node.data.id)
+          );
+        }}
+        rowDeselection
+      />
+    </div>
   );
 };
 
