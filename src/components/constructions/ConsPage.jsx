@@ -41,7 +41,7 @@ const ConsPage = ({ route, activeKey, setActiveKey }) => {
             onSelect={setActiveKey}
             id="constructions_tabs"
           >
-            <Tab eventKey="wallcons" title="Cons. opacos" className="pt-3">
+            {/* <Tab eventKey="wallcons" title="Cons. opacos" className="pt-3">
               <WallConsView />
             </Tab>
             <Tab eventKey="windowcons" title="Cons. huecos" className="pt-3">
@@ -49,13 +49,13 @@ const ConsPage = ({ route, activeKey, setActiveKey }) => {
             </Tab>
             <Tab eventKey="materials" title="Materiales" className="pt-3">
               <MaterialsView />
-            </Tab>
+            </Tab> */}
             <Tab eventKey="glasses" title="Vidrios" className="pt-3">
               <GlassesView />
             </Tab>
-            <Tab eventKey="frames" title="Marcos" className="pt-3">
+            {/* <Tab eventKey="frames" title="Marcos" className="pt-3">
               <FramesView />
-            </Tab>
+            </Tab> */}
           </Tabs>
         </Col>
       </Row>
