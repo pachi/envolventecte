@@ -42,9 +42,11 @@ const GlassesTable = ({ selectedIds, setSelectedIds }) => {
   const [columnDefs, setColumnDefs] = useState([
     { headerName: "ID", field: "id", hide: true },
     {
-      field: "name",
       headerName: "Nombre",
-      // headerStyle: () => ({ width: "40%" }),
+      field: "name",
+      cellDataType: 'text',
+      // cellStyle: (params) => ({ width: "40%" }),
+      flex: 2,
       headerClass: "text-light bg-secondary",
       headerTooltip: "Nombre que identifica de forma única el tipo de vidrio",
       cellClass: "font-weight-bold",
@@ -52,8 +54,9 @@ const GlassesTable = ({ selectedIds, setSelectedIds }) => {
       tooltipField: "id",
     },
     {
-      field: "u_value",
       headerName: "U",
+      field: "u_value",
+      cellDataType: 'number',
       headerTooltip: "Transmitancia térmica del vidrio (W/m²K)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => (
@@ -69,8 +72,9 @@ const GlassesTable = ({ selectedIds, setSelectedIds }) => {
       // validator: validateNonNegNumber,
     },
     {
-      field: "g_gln",
       headerName: "Factor solar del vidrio a incidencia normal",
+      field: "g_gln",
+      cellDataType: 'number',
       headerTooltip: "Factor solar del vidrio a incidencia normal (-)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => (
@@ -99,10 +103,12 @@ const GlassesTable = ({ selectedIds, setSelectedIds }) => {
     editable: true,
     singleClickEdit: true,
     sortable: true,
-    flex: 1,
-    // minWidth: 50,
+    resizable: false,
     filter: true,
-    resizable: true,
+    flex: 1,
+    minWidth: 50,
+    wrapHeaderText: true,
+    autoHeaderHeight: true,
   }));
 
   const rowData = appstate.cons.glasses;
