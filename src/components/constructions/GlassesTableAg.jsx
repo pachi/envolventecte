@@ -90,13 +90,6 @@ const GlassesTable = ({ selectedIds, setSelectedIds }) => {
 
   const rowData = appstate.cons.glasses;
 
-  const onCellValueChanged = (params) => {
-    if (params.column.getColId() === "u_value") {
-      const value = getFloatOrOld(params.newValue, params.oldValue);
-      params.data[params.column.getColId()] = value;
-    }
-  };
-
   return (
     <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
       <AgGridReact
@@ -106,7 +99,6 @@ const GlassesTable = ({ selectedIds, setSelectedIds }) => {
         animateRows={true}
         rowSelection="multiple"
         tooltipShowDelay={500}
-        onCellValueChanged={onCellValueChanged}
         rowMultiSelectWithClick
         suppressRowClickSelection
         onSelectionChanged={(params) => {
