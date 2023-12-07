@@ -28,19 +28,9 @@ import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 import { optionalNumberDisplay } from "../tables/FormattersAg";
+import { getHeader } from "../tables/Helpers";
 import { validateNonNegNumber } from "../tables/ValidatorsAg";
 import { getFloatOrOld } from "../tables/utils";
-
-const getHeader = (name, sub, units) => (
-  <>
-    {name}
-    {sub ? <sub>{sub}</sub> : null}
-    <br />
-    <span style={{ fontWeight: "normal" }}>
-      <i>[{units}]</i>{" "}
-    </span>
-  </>
-);
 
 // Tabla de materiales para opacos del edificio
 const GlassesTable = ({ selectedIds, setSelectedIds }) => {
@@ -58,7 +48,7 @@ const GlassesTable = ({ selectedIds, setSelectedIds }) => {
       flex: 2,
       headerClass: "text-light bg-secondary",
       headerTooltip: "Nombre que identifica de forma única el tipo de vidrio",
-      tooltipValueGetter: ({data}) => `Vidrio id: ${data.id}`,
+      tooltipValueGetter: ({ data }) => `Vidrio id: ${data.id}`,
       // tooltipField: "id",
     },
     {
