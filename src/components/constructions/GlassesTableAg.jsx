@@ -60,8 +60,8 @@ const GlassesTable = ({ selectedIds, setSelectedIds }) => {
       flex: 2,
       headerClass: "text-light bg-secondary",
       headerTooltip: "Nombre que identifica de forma única el tipo de vidrio",
-      // title: (_cell, row) => `Vidrio id: ${row.id}`,
-      tooltipField: "id",
+      tooltipValueGetter: ({data}) => `Vidrio id: ${data.id}`,
+      // tooltipField: "id",
     },
     {
       headerName: "U",
