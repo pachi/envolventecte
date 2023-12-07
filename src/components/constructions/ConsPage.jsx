@@ -53,9 +53,9 @@ const ConsPage = ({ route, activeKey, setActiveKey }) => {
             <Tab eventKey="glasses" title="Vidrios" className="pt-3">
               <GlassesView />
             </Tab>
-            {/* <Tab eventKey="frames" title="Marcos" className="pt-3">
+            <Tab eventKey="frames" title="Marcos" className="pt-3">
               <FramesView />
-            </Tab> */}
+            </Tab>
           </Tabs>
         </Col>
       </Row>
