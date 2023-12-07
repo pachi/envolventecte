@@ -25,76 +25,65 @@ import React, { useContext, useState, useMemo } from "react";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
-// import BootstrapTable from "react-bootstrap-table-next";
-// import cellEditFactory from "react-bootstrap-table2-editor";
 
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-// import { optionalNumberDisplay } from "../tables/Formatters";
-// import { validateNonNegNumber } from "../tables/Validators";
+import { optionalNumberDisplay } from "../tables/FormattersAg";
+import { validateNonNegNumber } from "../tables/ValidatorsAg";
 import { getFloatOrOld } from "../tables/utils";
+
+const getHeader = (name, sub, units) => (
+  <>
+    {name}
+    {sub ? <sub>{sub}</sub> : null}
+    <br />
+    <span style={{ fontWeight: "normal" }}>
+      <i>[{units}]</i>{" "}
+    </span>
+  </>
+);
 
 // Tabla de materiales para opacos del edificio
 const GlassesTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
 
   const [columnDefs, setColumnDefs] = useState([
+    // https://www.ag-grid.com/javascript-data-grid/column-properties/
     { headerName: "ID", field: "id", hide: true },
     {
       headerName: "Nombre",
       field: "name",
-      cellDataType: 'text',
+      cellDataType: "text",
       // cellStyle: (params) => ({ width: "40%" }),
+      cellClass: "font-weight-bold",
       flex: 2,
       headerClass: "text-light bg-secondary",
       headerTooltip: "Nombre que identifica de forma única el tipo de vidrio",
-      cellClass: "font-weight-bold",
       // title: (_cell, row) => `Vidrio id: ${row.id}`,
       tooltipField: "id",
     },
     {
       headerName: "U",
       field: "u_value",
-      cellDataType: 'number',
+      cellDataType: "number",
+      cellClass: "text-center",
       headerTooltip: "Transmitancia térmica del vidrio (W/m²K)",
       headerClass: "text-light bg-secondary text-center",
-      headerComponent: (_props) => (
-        <>
-          U<br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[W/m²K]</i>{" "}
-          </span>
-        </>
-      ),
-      cellClass: "text-center",
-      // cellRenderer: cell => optionalNumberDisplay(cell, 2),
-      // validator: validateNonNegNumber,
+      headerComponent: (_props) => getHeader("U", "", "W/m²K"),
+      valueFormatter: optionalNumberDisplay,
+      valueSetter: validateNonNegNumber,
     },
     {
       headerName: "Factor solar del vidrio a incidencia normal",
       field: "g_gln",
-      cellDataType: 'number',
+      cellDataType: "number",
+      cellClass: "text-center",
       headerTooltip: "Factor solar del vidrio a incidencia normal (-)",
       headerClass: "text-light bg-secondary text-center",
-      headerComponent: (_props) => (
-        <>
-          g<sub>gl;n</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[-]</i>{" "}
-          </span>
-        </>
-      ),
-      cellClass: "text-center",
-      // cellRenderer: optionalNumberDisplay
-      valueFormatter: (params) =>
-        params.value === null || isNaN(params.value)
-          ? "-"
-          : Number(params.value).toFixed(2),
-      // Ver validación en https://blog.ag-grid.com/user-input-validation-with-ag-grid/
-      // validator: validateNonNegNumber,
-      // valueParser: params =>
+      headerComponent: (_props) => getHeader("g", "gl;n", "W/m²K"),
+      valueFormatter: optionalNumberDisplay,
+      valueSetter: validateNonNegNumber,
     },
   ]);
 
