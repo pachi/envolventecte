@@ -30,7 +30,6 @@ import AppState from "../../stores/AppState";
 import { optionalNumberDisplay } from "../tables/FormattersAg";
 import { getHeader } from "../tables/Helpers";
 import { validateNonNegNumber } from "../tables/ValidatorsAg";
-import { getFloatOrOld } from "../tables/utils";
 
 // Tabla de materiales para opacos del edificio
 const GlassesTable = ({ selectedIds, setSelectedIds }) => {
