@@ -23,8 +23,6 @@ SOFTWARE.
 
 import React, { useContext, useState, useMemo } from "react";
 import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
 
 import { observer } from "mobx-react";
 
