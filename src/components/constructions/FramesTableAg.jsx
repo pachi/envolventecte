@@ -62,7 +62,7 @@ const FamesTable = ({ selectedIds, setSelectedIds }) => {
       headerName: "Absortividad del marco",
       field: "absorptivity",
       cellDataType: "number",
-      cellClass: "center",
+      cellClass: "text-center",
       headerTooltip: "Absortividad del marco (-)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("α", "", "-"),
