@@ -21,12 +21,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext, useState, useMemo } from "react";
-import { AgGridReact } from "ag-grid-react";
+import React, { useContext, useState } from "react";
 
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
+
+import { AgTable } from "../tables/AgTable.jsx";
 import { optionalNumberDisplay } from "../tables/FormattersAg";
 import { getHeader } from "../tables/Helpers";
 import { validateNonNegNumber } from "../tables/ValidatorsAg";
@@ -71,40 +72,15 @@ const FamesTable = ({ selectedIds, setSelectedIds }) => {
     },
   ]);
 
-  // DefaultColDef sets props common to all Columns
-  const defaultColDef = useMemo(() => ({
-    editable: true,
-    singleClickEdit: true,
-    sortable: true,
-    resizable: false,
-    filter: true,
-    flex: 1,
-    minWidth: 50,
-    wrapHeaderText: true,
-    autoHeaderHeight: true,
-  }));
-
   const rowData = appstate.cons.frames;
 
   return (
-    <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
-      <AgGridReact
-        rowData={rowData}
-        columnDefs={columnDefs}
-        defaultColDef={defaultColDef}
-        animateRows={true}
-        rowSelection="multiple"
-        tooltipShowDelay={500}
-        rowMultiSelectWithClick
-        suppressRowClickSelection
-        onSelectionChanged={(params) => {
-          setSelectedIds(
-            params.api.getSelectedNodes().map((node) => node.data.id)
-          );
-        }}
-        rowDeselection
-      />
-    </div>
+    <AgTable
+      rowData={rowData}
+      columnDefs={columnDefs}
+      selectedIds={selectedIds}
+      setSelectedIds={setSelectedIds}
+    />
   );
 };
 
