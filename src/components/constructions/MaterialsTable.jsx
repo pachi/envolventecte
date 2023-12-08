@@ -21,208 +21,182 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory from "react-bootstrap-table2-editor";
+import React, { useContext, useState } from "react";
 
 import { observer } from "mobx-react";
 
-import AppState from "../../stores/AppState";
-import { optionalNumberDisplay } from "../tables/Formatters";
-import { validateNonNegNumber } from "../tables/Validators";
-import { getFloatOrOld } from "../tables/utils";
+import AppState from "../../stores/AppState.js";
+
+import { AgTable } from "../tables/AgTable.jsx";
+import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
+import { getHeader } from "../tables/Helpers.jsx";
+import { validateNonNegNumber } from "../tables/Validators.js";
 
 // Tabla de materiales para opacos del edificio
+// TODO: reimplementar lógica para usar conductividad o resistencia
 const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
 
-  const columns = [
-    { dataField: "id", isKey: true, hidden: true },
+  const [columnDefs, setColumnDefs] = useState([
+    { headerName: "ID", field: "id", hide: true },
     {
-      dataField: "name",
-      text: "Nombre",
-      classes: "font-weight-bold",
-      headerStyle: () => ({ width: "40%" }),
-      headerTitle: () =>
+      headerName: "Nombre",
+      field: "name",
+      cellDataType: "text",
+      cellClass: "font-weight-bold",
+      flex: 2,
+      headerClass: "text-light bg-secondary",
+      headerTooltip:
         "Nombre que identifica de forma única el material de opaco",
-      headerClasses: "text-light bg-secondary",
-      title: (_cell, row) => `Material de opaco id: ${row.id}`,
+      tooltipValueGetter: ({ data }) => `Material de opaco id: ${data.id}`,
     },
     {
-      dataField: "resistance",
-      text: "Resistencia térmica",
-      align: "center",
-      formatter: cell => optionalNumberDisplay(cell, 3),
-      validator: validateNonNegNumber,
-      headerTitle: () => "Resistencia térmica (m²K/W)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          R<br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[m²K/W]</i>{" "}
-          </span>
-        </>
-      ),
+      headerName: "Resistencia térmica",
+      field: "resistance",
+      cellDataType: "number",
+      cellClass: "text-center",
+      headerTooltip: "Resistencia térmica (m²K/W)",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("R", "", "m²K/W"),
+      valueFormatter: (params) => optionalNumberDisplay(params, 3),
+      valueSetter: validateNonNegNumber,
     },
     {
-      dataField: "conductivity",
-      text: "Conductividad térmica",
-      align: "center",
-      formatter: cell => optionalNumberDisplay(cell, 3),
-      validator: validateNonNegNumber,
-      headerTitle: () => "Conductividad térmica (W/mK)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          &lambda;
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[W/mK]</i>{" "}
-          </span>
-        </>
-      ),
+      headerName: "Conductividad térmica",
+      field: "conductivity",
+      cellDataType: "number",
+      cellClass: "text-center",
+      headerTooltip: "Conductividad térmica (W/mK)",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("λ", "", "W/mK"),
+      valueFormatter: (params) => optionalNumberDisplay(params, 3),
+      valueSetter: validateNonNegNumber,
     },
     {
-      dataField: "density",
-      text: "Densidad",
-      align: "center",
-      editable: (_cell, row) =>
-        row.conductivity == undefined || row.conductivity == null
+      headerName: "Densidad",
+      field: "density",
+      cellDataType: "number",
+      cellClass: "text-center",
+      headerTooltip: "Densidad del material (kg/m³)",
+      headerClass: "text-light bg-secondary text-center",
+      editable: ({ data }) =>
+        data.conductivity == undefined || data.conductivity == null
           ? false
           : true,
-      validator: validateNonNegNumber,
-      formatter: cell => optionalNumberDisplay(cell, 1),
-      headerTitle: () => "Densidad del material (kg/m³)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          &rho;
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[kg/m³]</i>{" "}
-          </span>
-        </>
-      ),
+      headerComponent: (_props) => getHeader("ρ", "", "kg/m³"),
+      valueSetter: validateNonNegNumber,
+      valueFormatter: (cell) => optionalNumberDisplay(cell, 1),
     },
     {
-      dataField: "specific_heat",
-      text: "Calor específico",
-      align: "center",
-      editable: (_cell, row) =>
-        row.conductivity == undefined || row.conductivity == null
+      headerName: "Calor específico",
+      field: "specific_heat",
+      cellDataType: "number",
+      cellClass: "text-center",
+      headerTooltip: "Calor específico del material (J/kg·K)",
+      headerClass: "text-light bg-secondary text-center",
+      editable: ({ data }) =>
+        data.conductivity == undefined || data.conductivity == null
           ? false
           : true,
-      validator: validateNonNegNumber,
-      formatter: cell => optionalNumberDisplay(cell, 1),
-      headerTitle: () => "Calor específico del material (J/kg·K)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          C<sub>p</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[J/kg K]</i>{" "}
-          </span>
-        </>
-      ),
+      headerComponent: (_props) => getHeader("C", "p", "J/kg K"),
+      valueSetter: validateNonNegNumber,
+      valueFormatter: (params) => optionalNumberDisplay(params, 1),
     },
     {
-      dataField: "vapour_diff",
-      text: "Factor de difusividad al vapor de agua",
-      align: "center",
-      formatter: cell => optionalNumberDisplay(cell, 1),
-      headerTitle: () =>
+      headerName: "Factor de difusividad al vapor de agua",
+      field: "vapour_diff",
+      cellDataType: "number",
+      cellClass: "text-center",
+      headerTooltip:
         "Factor de difusividad al vapor de agua del material (J/kg·K)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          &mu;
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[-]</i>{" "}
-          </span>
-        </>
-      ),
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("μ", "", "-"),
+      valueFormatter: (params) => optionalNumberDisplay(params, 1),
+      valueSetter: validateNonNegNumber,
     },
-  ];
+  ]);
+
+  const rowData = appstate.cons.materials;
 
   return (
-    <BootstrapTable
-      data={appstate.cons.materials}
-      keyField="id"
-      striped
-      hover
-      bordered={false}
-      cellEdit={cellEditFactory({
-        mode: "dbclick",
-        blurToSave: true,
-        beforeSaveCell: (oldValue, newValue, row, column) => {
-          // Aseguramos que la columna esté definida antes de intentar modificarla
-          row[column.dataField] = null;
-        },
-
-        afterSaveCell: (oldValue, newValue, row, column) => {
-          // Convierte a número campos numéricos
-          if (
-            ["density", "specific_heat", "vapour_diff"].includes(
-              column.dataField
-            )
-          ) {
-            row[column.dataField] = getFloatOrOld(newValue, oldValue);
-          }
-          // Si se define  el material por resistencia dejar en null campos por propiedades
-          if (column.dataField === "resistance") {
-            row["resistance"] = getFloatOrOld(newValue, oldValue);
-            row?.conductivity ? delete row["conductivity"] : null;
-            row?.density ? delete row["density"] : null;
-            row?.specific_heat ? delete row["specific_heat"] : null;
-          }
-          // Si se define  el material por propiedades dejar resistencia a null y completar resto a valor por defecto
-          if (column.dataField === "conductivity") {
-            row["conductivity"] = getFloatOrOld(newValue, oldValue);
-            row?.resistance ? delete row["resistance"] : null;
-            row?.density ? null : (row["density"] = 1000.0);
-            row?.specific_heat ? null : (row["specific_heat"] = 1000.0);
-          }
-          if (column.dataField === "density") {
-            row["density"] = getFloatOrOld(newValue, oldValue);
-            row?.resistance ? delete row["resistance"] : null;
-            row?.conductivity ? null : (row["conductivity"] = 1.0);
-            row?.specific_heat ? null : (row["specific_heat"] = 1000.0);
-          }
-          if (column.dataField === "specific_heat") {
-            row["specific_heat"] = getFloatOrOld(newValue, oldValue);
-            row?.resistance ? delete row["resistance"] : null;
-            row?.conductivity ? null : (row["conductivity"] = 1.0);
-            row?.density ? null : (row["density"] = 1000.0);
-          }
-          row["vapour_diff"] === null ? delete row["vapour_diff"] : null;
-        },
-      })}
-      selectRow={{
-        mode: "checkbox",
-        clickToSelect: true,
-        clickToEdit: true,
-        selected: selectedIds,
-        onSelect: (row, isSelected) => {
-          if (isSelected) {
-            setSelectedIds([...selectedIds, row.id]);
-          } else {
-            setSelectedIds(selectedIds.filter((it) => it !== row.id));
-          }
-        },
-        hideSelectColumn: true,
-        bgColor: "lightgray",
-      }}
-      columns={columns}
+    <AgTable
+      rowData={rowData}
+      columnDefs={columnDefs}
+      selectedIds={selectedIds}
+      setSelectedIds={setSelectedIds}
     />
   );
+  // return (
+  //   <BootstrapTable
+  //     data={appstate.cons.materials}
+  //     keyField="id"
+  //     striped
+  //     hover
+  //     bordered={false}
+  //     cellEdit={cellEditFactory({
+  //       mode: "dbclick",
+  //       blurToSave: true,
+  //       beforeSaveCell: (oldValue, newValue, row, column) => {
+  //         // Aseguramos que la columna esté definida antes de intentar modificarla
+  //         row[column.field] = null;
+  //       },
+
+  //       afterSaveCell: (oldValue, newValue, row, column) => {
+  //         // Convierte a número campos numéricos
+  //         if (
+  //           ["density", "specific_heat", "vapour_diff"].includes(
+  //             column.field
+  //           )
+  //         ) {
+  //           row[column.field] = getFloatOrOld(newValue, oldValue);
+  //         }
+  //         // Si se define  el material por resistencia dejar en null campos por propiedades
+  //         if (column.field === "resistance") {
+  //           row["resistance"] = getFloatOrOld(newValue, oldValue);
+  //           row?.conductivity ? delete row["conductivity"] : null;
+  //           row?.density ? delete row["density"] : null;
+  //           row?.specific_heat ? delete row["specific_heat"] : null;
+  //         }
+  //         // Si se define  el material por propiedades dejar resistencia a null y completar resto a valor por defecto
+  //         if (column.field === "conductivity") {
+  //           row["conductivity"] = getFloatOrOld(newValue, oldValue);
+  //           row?.resistance ? delete row["resistance"] : null;
+  //           row?.density ? null : (row["density"] = 1000.0);
+  //           row?.specific_heat ? null : (row["specific_heat"] = 1000.0);
+  //         }
+  //         if (column.field === "density") {
+  //           row["density"] = getFloatOrOld(newValue, oldValue);
+  //           row?.resistance ? delete row["resistance"] : null;
+  //           row?.conductivity ? null : (row["conductivity"] = 1.0);
+  //           row?.specific_heat ? null : (row["specific_heat"] = 1000.0);
+  //         }
+  //         if (column.field === "specific_heat") {
+  //           row["specific_heat"] = getFloatOrOld(newValue, oldValue);
+  //           row?.resistance ? delete row["resistance"] : null;
+  //           row?.conductivity ? null : (row["conductivity"] = 1.0);
+  //           row?.density ? null : (row["density"] = 1000.0);
+  //         }
+  //         row["vapour_diff"] === null ? delete row["vapour_diff"] : null;
+  //       },
+  //     })}
+  //     selectRow={{
+  //       mode: "checkbox",
+  //       clickToSelect: true,
+  //       clickToEdit: true,
+  //       selected: selectedIds,
+  //       onSelect: (row, isSelected) => {
+  //         if (isSelected) {
+  //           setSelectedIds([...selectedIds, row.id]);
+  //         } else {
+  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
+  //         }
+  //       },
+  //       hideSelectColumn: true,
+  //       bgColor: "lightgray",
+  //     }}
+  //     columns={columns}
+  //   />
+  // );
 };
 
 export default observer(MaterialsTable);

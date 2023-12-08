@@ -21,16 +21,19 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
+import React, { useContext, useState } from "react";
 
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { optionalNumberDisplay, NameFromIdFmt } from "../tables/Formatters";
-import { validateNonNegNumber, validateNumber } from "../tables/Validators";
-import { getFloatOrOld } from "../tables/utils";
+
+import { AgTable } from "../tables/AgTable.jsx";
+import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
+import { getHeader } from "../tables/Helpers.jsx";
+import {
+  validateNonNegNumber,
+  validateNumber,
+} from "../tables/Validators.js";
 
 import { FRAME, GLASS } from "../../stores/types";
 
@@ -40,218 +43,127 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
   const winconsPropsMap = appstate.energy_indicators.props.wincons;
   const glassMap = appstate.getIdNameMap(GLASS);
   const frameMap = appstate.getIdNameMap(FRAME);
-  const glassOpts = appstate.getElementOptions(GLASS);
-  const frameOpts = appstate.getElementOptions(FRAME);
 
-  const columns = [
-    { dataField: "id", isKey: true, hidden: true },
+  const [columnDefs, setColumnDefs] = useState([
+    { field: "id", hide: true },
     {
-      dataField: "name",
-      text: "Nombre",
-      classes: "font-weight-bold",
-      headerStyle: () => ({ width: "20%" }),
-      headerTitle: () => "Nombre que identifica la construcción de hueco",
-      headerClasses: "text-light bg-secondary",
-      title: (_cell, row) => `Construcción de hueco id: ${row.id}`,
+      headerName: "Nombre",
+      field: "name",
+      cellDataType: "text",
+      cellClass: "font-weight-bold",
+      flex: 2,
+      headerClass: "text-light bg-secondary",
+      headerTooltip: "Nombre que identifica la construcción de hueco",
+      tooltipValueGetter: ({ data }) => `Construcción de hueco id: ${data.id}`,
     },
     {
-      dataField: "glass",
-      text: "Vidrio",
-      editor: {
-        type: Type.SELECT,
-        options: glassOpts,
-      },
-      align: "center",
-      headerStyle: () => ({ width: "20%" }),
-      formatter: NameFromIdFmt,
-      formatExtraData: glassMap,
-      headerTitle: () => "Tipo de vidrio del hueco",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
+      headerName: "Vidrio",
+      field: "glass",
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: { values: Object.keys(glassMap) },
+      refData: glassMap,
+      cellClass: "text-center",
+      valueFormatter: ({ value }) => glassMap[value],
+      headerTooltip: "Tipo de vidrio del hueco",
+      headerClass: "text-light bg-secondary text-center",
     },
     {
-      dataField: "frame",
-      text: "Marco",
-      editor: {
-        type: Type.SELECT,
-        options: frameOpts,
-      },
-      align: "center",
-      headerStyle: () => ({ width: "20%" }),
-      formatter: NameFromIdFmt,
-      formatExtraData: frameMap,
-      headerTitle: () => "Tipo de marco del hueco",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
+      headerName: "Marco",
+      field: "frame",
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: { values: Object.keys(frameMap) },
+      refData: frameMap,
+      cellClass: "text-center",
+      valueFormatter: ({ value }) => frameMap[value],
+      headerTooltip: "Tipo de marco del hueco",
+      headerClass: "text-light bg-secondary text-center",
     },
     {
-      dataField: "f_f",
-      text: "F_f",
-      align: "center",
-      formatter: (cell) => optionalNumberDisplay(cell, 2),
-      validator: validateNonNegNumber,
-      headerTitle: () =>
+      headerName: "F_f",
+      field: "f_f",
+      cellDataType: "number",
+      cellClass: "text-center",
+      valueFormatter: optionalNumberDisplay,
+      valueSetter: validateNonNegNumber,
+      headerTooltip:
         "Fracción de marco de la construcción de hueco (-)\n0.0 = sin marco, 1.0 = completamente opaco",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          F<sub>f</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[-]</i>{" "}
-          </span>
-        </>
-      ),
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("F", "f", "-"),
     },
     {
-      dataField: "delta_u",
-      text: "delta_u",
-      align: "center",
-      formatter: (cell) => optionalNumberDisplay(cell, 2),
-      validator: validateNumber,
-      headerTitle: () =>
-        "Procentaje de incremento de trasnmitancia por intercalarios o cajones de persiana (%)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          &Delta;<sub>U</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[%]</i>{" "}
-          </span>
-        </>
-      ),
+      headerName: "delta_u",
+      field: "delta_u",
+      cellDataType: "number",
+      cellClass: "text-center",
+      valueFormatter: optionalNumberDisplay,
+      valueSetter: validateNumber,
+      headerTooltip:
+        "Porcentaje de incremento de transmitancia por intercalarios o cajones de persiana (%)",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("Δ", "U", "%"),
     },
     {
-      dataField: "g_glshwi",
-      text: "g_gl;sh;wi",
-      align: "center",
-      formatter: (cell) => optionalNumberDisplay(cell, 2),
-      validator: validateNonNegNumber,
-      headerTitle: () =>
+      headerName: "g_gl;sh;wi",
+      field: "g_glshwi",
+      cellDataType: "number",
+      cellClass: "text-center",
+      valueFormatter: optionalNumberDisplay,
+      valueSetter: validateNonNegNumber,
+      headerTooltip:
         "Factor solar del hueco con la protección solar móvil activada (-)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          g<sub>gl;sh;wi</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[-]</i>{" "}
-          </span>
-        </>
-      ),
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("g", "gl;sh;wi", "-"),
     },
     {
-      dataField: "c_100",
-      text: "C_100",
-      align: "center",
-      formatter: (cell) => optionalNumberDisplay(cell, 2),
-      validator: validateNonNegNumber,
-      headerTitle: () =>
+      headerName: "C_100",
+      field: "c_100",
+      cellDataType: "number",
+      cellClass: "text-center",
+      valueFormatter: optionalNumberDisplay,
+      valueSetter: validateNonNegNumber,
+      headerTooltip:
         "Coeficiente de permeabilidad al aire del hueco a 100 Pa (m³/hm²).\n" +
         "La clase de permeabilidad al aire de los huecos, " +
         "según la norma UNE EN 12207:2000 es:\n" +
         "Clase 1: Cw;100 ≤ 50m3/hm2,\nClase 2: Cw;100 ≤ 27 m³/hm²,\n" +
         "Clase 3: Cw;100 ≤ 9 m³/hm²,\nClase 4: Cw;100 ≤ 3 m³/hm².",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          C<sub>h;100</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[m³/h·m²]</i>{" "}
-          </span>
-        </>
-      ),
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("C", "h;100", "m³/h·m²"),
     },
     {
-      dataField: "U",
-      text: "U_w",
-      isDummyField: true,
+      headerName: "U_w",
       editable: false,
-      align: "center",
-      classes: "td-column-computed-readonly",
-      formatter: (_cell, row, _rowIndex, extraData) =>
-        optionalNumberDisplay(extraData[row.id].u_value, 2),
-      formatExtraData: winconsPropsMap,
-      headerTitle: () =>
+      cellDataType: "number",
+      cellClass: "td-column-computed-readonly text-center",
+      valueGetter: ({ data }) => winconsPropsMap[data.id].u_value,
+      valueFormatter: optionalNumberDisplay,
+      headerTooltip:
         "Transmitancia térmica del hueco (W/m²K).\nSe especifica en su posición final y teniendo en cuenta las resistencias superficiales correspondientes.",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          U<sub>w</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[W/m²K]</i>{" "}
-          </span>
-        </>
-      ),
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("U", "w", "W/m²K"),
     },
     {
-      dataField: "gglwi",
-      isDummyField: true,
+      headerName: "g_gl;wi",
       editable: false,
-      text: "g_gl;wi",
-      align: "center",
-      classes: "td-column-computed-readonly",
-      formatter: (_cell, row, _rowIndex, extraData) =>
-        optionalNumberDisplay(extraData[row.id].g_glwi, 2),
-      formatExtraData: winconsPropsMap,
-      headerTitle: () =>
+      cellDataType: "number",
+      cellClass: "td-column-computed-readonly text-center",
+      valueGetter: ({ data }) => winconsPropsMap[data.id].g_glwi,
+      valueFormatter: optionalNumberDisplay,
+      headerTooltip:
         "Factor solar del hueco sin la protección solar activada (g_glwi = g_gln * 0.90) (-).\nTiene en cuenta el factor de difusión del vidrio y la transmitancia a incidencia normal.",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          g<sub>gl;wi</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[-]</i>{" "}
-          </span>
-        </>
-      ),
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("g", "gl;wi", "-"),
     },
-  ];
+  ]);
+
+  const rowData = appstate.cons.wincons;
 
   return (
-    <BootstrapTable
-      data={appstate.cons.wincons}
-      keyField="id"
-      striped
-      hover
-      bordered={false}
-      cellEdit={cellEditFactory({
-        mode: "dbclick",
-        blurToSave: true,
-        afterSaveCell: (oldValue, newValue, row, column) => {
-          if (
-            ["f_f", "delta_u", "g_glshwi", "c_100"].includes(column.dataField)
-          ) {
-            row[column.dataField] = getFloatOrOld(newValue, oldValue);
-          }
-        },
-      })}
-      selectRow={{
-        mode: "checkbox",
-        clickToSelect: true,
-        clickToEdit: true,
-        selected: selectedIds,
-        onSelect: (row, isSelected) => {
-          if (isSelected) {
-            setSelectedIds([...selectedIds, row.id]);
-          } else {
-            setSelectedIds(selectedIds.filter((it) => it !== row.id));
-          }
-        },
-        hideSelectColumn: true,
-        bgColor: "lightgray",
-      }}
-      columns={columns}
+    <AgTable
+      rowData={rowData}
+      columnDefs={columnDefs}
+      selectedIds={selectedIds}
+      setSelectedIds={setSelectedIds}
     />
   );
 };

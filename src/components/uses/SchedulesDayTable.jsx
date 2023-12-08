@@ -21,9 +21,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory from "react-bootstrap-table2-editor";
+import React, { useContext, useState } from "react";
+// import BootstrapTable from "react-bootstrap-table-next";
+// import cellEditFactory from "react-bootstrap-table2-editor";
 
 import { observer } from "mobx-react";
 
@@ -53,99 +53,104 @@ const SchedulesDayTable = ({ selectedIds, setSelectedIds }) => {
     .filter((e) => e.level === "DANGER")
     .map((e) => e.id);
 
-  const columns = [
-    { dataField: "id", isKey: true, hidden: true, text: "ID" },
+  const [columnDefs, setColumnDefs] = useState([
+    { field: "id", isKey: true, hidden: true, headerName: "ID" },
     {
-      dataField: "name",
-      text: "Nombre",
-      classes: "font-weight-bold",
-      headerStyle: () => ({ width: "20%" }),
-      headerTitle: () => "Nombre de la definición de horario",
-      headerClasses: "text-light bg-secondary",
-      title: (_cell, row) => {
-        return `Horario id: ${row.id}`;
-      },
+      headerName: "Nombre",
+      field: "name",
+      cellDataType: "text",
+      cellClass: "font-weight-bold",
+      flex: 2,
+      headerTooltip: "Nombre de la definición de horario",
+      headerClass: "text-light bg-secondary",
+      tooltipValueGetter: ({ data }) => `Horario id: ${data.id}`,
     },
     {
-      dataField: "values",
-      text: "Valores horarios diarios",
-      align: "center",
-      editorRenderer: (editorProps, value, row) => (
-        <ScheduleHoursEditor {...editorProps} value={value} name={row.name} />
-      ),
-      formatter: DayScheduleFmt,
-      headerTitle: () => "Lista de valores horarios",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      title: (cell) => `Valores horarios: ${cell}`,
+      headerName: "Valores horarios diarios",
+      field: "values",
+      cellClass: "text-center",
+      // editorRenderer: (editorProps, value, row) => (
+      //   <ScheduleHoursEditor {...editorProps} value={value} name={row.name} />
+      // ),
+      valueFormatter: DayScheduleFmt,
+      headerTooltip: "Lista de valores horarios",
+      headerClass: "text-light bg-secondary text-center",
+      tooltipValueGetter: ({ data }) => `Valores horarios: ${data.values}`,
     },
     {
-      dataField: "n_hours",
-      text: "n",
-      isDummyField: true,
+      headerName: "n",
+      field: "n_hours",
+      cellDataType: "number",
+      // isDummyField: true,
       editable: false,
-      align: "center",
-      classes: "td-column-computed-readonly",
-      formatter: (cell, row) => row.values.length,
-      headerTitle: () => "Horas definidas en el horario diario",
-      headerStyle: () => ({ width: "10%" }),
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
+      cellClass: "td-column-computed-readonly text-center",
+      valueFormatter: ({ data }) => data.values.length,
+      headerTooltip: "Horas definidas en el horario diario",
+      headerClass: "text-light bg-secondary text-center",
     },
-  ];
+  ]);
 
   return (
-    <BootstrapTable
-      data={appstate.schedules.day}
-      keyField="id"
-      striped
-      hover
-      bordered={false}
-      cellEdit={cellEditFactory({
-        mode: "dbclick",
-        blurToSave: true,
-        // Corrige el valor del horario de "" a null
-        afterSaveCell: (oldValue, newValue, row, column) => {
-          switch (column.dataField) {
-            // Campos opcionales textuales
-            case "values":
-              if (newValue == "") {
-                row[column.dataField] = [];
-              }
-              break;
-          }
-        },
-      })}
-      selectRow={{
-        mode: "checkbox",
-        clickToSelect: true,
-        clickToEdit: true,
-        selected: selectedIds,
-        onSelect: (row, isSelected) => {
-          if (isSelected) {
-            setSelectedIds([...selectedIds, row.id]);
-          } else {
-            setSelectedIds(selectedIds.filter((it) => it !== row.id));
-          }
-        },
-        hideSelectColumn: true,
-        bgColor: "lightgray",
-      }}
-      rowClasses={(row, _rowIdx) => {
-        const classes = [];
-        // Errores
-        if (error_ids_danger.includes(row.id)) {
-          classes.push("id_error_danger");
-        }
-        // Avisos
-        if (error_ids_warning.includes(row.id)) {
-          classes.push("id_error_warning");
-        }
-        return classes.join(" ");
-      }}
-      columns={columns}
+    <AgTable
+      rowData={appstate.schedules.day}
+      columnDefs={columnDefs}
+      selectedIds={selectedIds}
+      setSelectedIds={setSelectedIds}
     />
   );
+
+  // return (
+  //   <BootstrapTable
+  //     data={appstate.schedules.day}
+  //     keyField="id"
+  //     striped
+  //     hover
+  //     bordered={false}
+  //     cellEdit={cellEditFactory({
+  //       mode: "dbclick",
+  //       blurToSave: true,
+  //       // Corrige el valor del horario de "" a null
+  //       afterSaveCell: (oldValue, newValue, row, column) => {
+  //         switch (column.field) {
+  //           // Campos opcionales textuales
+  //           case "values":
+  //             if (newValue == "") {
+  //               row[column.field] = [];
+  //             }
+  //             break;
+  //         }
+  //       },
+  //     })}
+  //     selectRow={{
+  //       mode: "checkbox",
+  //       clickToSelect: true,
+  //       clickToEdit: true,
+  //       selected: selectedIds,
+  //       onSelect: (row, isSelected) => {
+  //         if (isSelected) {
+  //           setSelectedIds([...selectedIds, row.id]);
+  //         } else {
+  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
+  //         }
+  //       },
+  //       hideSelectColumn: true,
+  //       bgColor: "lightgray",
+  //     }}
+  //     rowClasses={(row, _rowIdx) => {
+  //       const classes = [];
+  //       // Errores
+  //       if (error_ids_danger.includes(row.id)) {
+  //         classes.push("id_error_danger");
+  //       }
+  //       // Avisos
+  //       if (error_ids_warning.includes(row.id)) {
+  //         classes.push("id_error_warning");
+  //       }
+  //       return classes.join(" ");
+  //     }}
+  //     columns={columns}
+  //   />
+  // );
 };
 
 export default observer(SchedulesDayTable);

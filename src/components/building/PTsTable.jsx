@@ -21,144 +21,119 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
+import React, { useContext, useState } from "react";
+// import BootstrapTable from "react-bootstrap-table-next";
+// import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import {
-  optionalNumberDisplay,
-  ThermalBridgeTypesFmt,
-  ThermalBridgeTypesOpts,
-} from "../tables/Formatters";
-import { validateNonNegNumber, validateNumber } from "../tables/Validators";
-import { getFloatOrOld } from "../tables/utils";
+
+import { AgTable } from "../tables/AgTable.jsx";
+import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
+import { getHeader } from "../tables/Helpers.jsx";
+import { validateNonNegNumber, validateNumber } from "../tables/Validators.js";
+import { THERMAL_BRIDGE_TYPES_MAP } from "../../stores/types.js";
 
 // Tabla de puentes térmicos del edificio
 const PTsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
 
-  const columns = [
-    { dataField: "id", isKey: true, hidden: true },
+  const [columnDefs, setColumnDefs] = useState([
+    { headerName: "ID", field: "id", hide: true },
     {
-      dataField: "name",
-      text: "Nombre",
-      classes: "font-weight-bold",
-      headerStyle: () => ({ width: "30%" }),
-      headerTitle: (_col, _colIndex) =>
-        "Nombre que identifica el puente térmico",
-      headerClasses: "text-light bg-secondary",
-      headerFormatter: () => (
-        <>
-          Nombre
-          <br />{" "}
-        </>
-      ),
-      title: (_cell, row) => `Puente térmico id: ${row.id}`,
+      headerName: "Nombre",
+      field: "name",
+      cellDataType: "text",
+      cellClass: "font-weight-bold",
+      flex: 2,
+      headerTitle: "Nombre que identifica el puente térmico",
+      headerClass: "text-light bg-secondary",
+      headerComponent: (_props) => getHeader("Nombre"),
+      tooltipValueGetter: ({ data }) => `Puente térmico id: ${data.id}`,
     },
     {
-      dataField: "l",
-      text: "Longitud",
-      align: "center",
-      formatter: cell => optionalNumberDisplay(cell, 2),
-      validator: validateNonNegNumber,
-      headerTitle: (_col, _colIndex) => "Longitud del puente térmico (m)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          Longitud
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[m]</i>{" "}
-          </span>
-        </>
-      ),
+      headerName: "Longitud",
+      field: "l",
+      cellDataType: "number",
+      cellClass: "text-center",
+      valueFormatter: optionalNumberDisplay,
+      valueSetter: validateNonNegNumber,
+      headerTooltip: "Longitud del puente térmico (m)",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("Longitud", "", "m"),
     },
     {
-      dataField: "kind",
-      text: "Tipo",
-      align: "center",
-      editor: {
-        type: Type.SELECT,
-        options: ThermalBridgeTypesOpts,
-      },
-      formatter: ThermalBridgeTypesFmt,
-      headerTitle: (_col, _colIndex) =>
+      headerName: "Tipo",
+      field: "kind",
+      cellClass: "text-center",
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: { values: Object.keys(THERMAL_BRIDGE_TYPES_MAP) },
+      refData: THERMAL_BRIDGE_TYPES_MAP,
+      valueFormatter: ({value})=> THERMAL_BRIDGE_TYPES_MAP[value],
+      headerTitle:
         "Tipo del puente térmico: CUBIERTA (encuentro de cubierta o suelo con fachada) | BALCÓN (suelo en vuelo exterior) | ESQUINA (encuentro de cerramientos verticales) | FORJADO (encuentro forjado-fachada) | PARTICIÓN (encuentro de partición interior con fachada, cubierta o suelo) | SOLERA (encuentra de solera o cámara ventilada con fachada) | PILAR (pilar en fachada, cubierta o suelo) | HUECO (contorno de hueco)  | GENÉRICO (puente térmico genérico))",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          Tipo
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>-</i>{" "}
-          </span>
-        </>
-      ),
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("Tipo", "", "-"),
     },
     {
-      dataField: "psi",
-      text: "Transmitancia",
-      align: "center",
-      formatter: cell => optionalNumberDisplay(cell, 2),
-      validator: validateNumber,
-      headerClasses: "text-light bg-secondary",
-      headerAttrs: {
-        title: "Transmitancia térmica lineal del puente térmico (W/mK)",
-        "text-align": "center",
-      },
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          &psi;
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[W/mK]</i>
-          </span>
-        </>
-      ),
+      headerName: "Transmitancia",
+      field: "psi",
+      cellDataType: "number",
+      cellClass: "text-center",
+      valueFormatter: optionalNumberDisplay,
+      ValueSetter: validateNumber,
+      headerClass: "text-light bg-secondary text-center",
+      headerTooltip: "Transmitancia térmica lineal del puente térmico (W/mK)",
+      headerComponent: (_props) => getHeader("ψ", "", "W/mK"),
     },
-  ];
+  ]);
+
+  const rowData = appstate.thermal_bridges;
 
   return (
-    <BootstrapTable
-      data={appstate.thermal_bridges}
-      keyField="id"
-      striped
-      hover
-      bordered={false}
-      cellEdit={cellEditFactory({
-        mode: "dbclick",
-        blurToSave: true,
-        afterSaveCell: (oldValue, newValue, row, column) => {
-          // Convierte a número campos numéricos
-          if (["L", "psi"].includes(column.dataField)) {
-            row[column.dataField] = getFloatOrOld(newValue, oldValue);
-          }
-        },
-      })}
-      selectRow={{
-        mode: "checkbox",
-        clickToSelect: true,
-        clickToEdit: true,
-        selected: selectedIds,
-        onSelect: (row, isSelected) => {
-          if (isSelected) {
-            setSelectedIds([...selectedIds, row.id]);
-          } else {
-            setSelectedIds(selectedIds.filter((it) => it !== row.id));
-          }
-        },
-        hideSelectColumn: true,
-        bgColor: "lightgray",
-      }}
-      columns={columns}
+    <AgTable
+      rowData={rowData}
+      columnDefs={columnDefs}
+      selectedIds={selectedIds}
+      setSelectedIds={setSelectedIds}
     />
   );
+  // return (
+  //   <BootstrapTable
+  //     data={appstate.thermal_bridges}
+  //     keyField="id"
+  //     striped
+  //     hover
+  //     bordered={false}
+  //     cellEdit={cellEditFactory({
+  //       mode: "dbclick",
+  //       blurToSave: true,
+  //       afterSaveCell: (oldValue, newValue, row, column) => {
+  //         // Convierte a número campos numéricos
+  //         if (["L", "psi"].includes(column.field)) {
+  //           row[column.field] = getFloatOrOld(newValue, oldValue);
+  //         }
+  //       },
+  //     })}
+  //     selectRow={{
+  //       mode: "checkbox",
+  //       clickToSelect: true,
+  //       clickToEdit: true,
+  //       selected: selectedIds,
+  //       onSelect: (row, isSelected) => {
+  //         if (isSelected) {
+  //           setSelectedIds([...selectedIds, row.id]);
+  //         } else {
+  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
+  //         }
+  //       },
+  //       hideSelectColumn: true,
+  //       bgColor: "lightgray",
+  //     }}
+  //     columns={columns}
+  //   />
+  // );
 };
 
 export default observer(PTsTable);

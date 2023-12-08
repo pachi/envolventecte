@@ -23,13 +23,13 @@ SOFTWARE.
 
 import React, { useState } from "react";
 import { Modal, Button, Col, Container, Row } from "react-bootstrap";
-import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
+// import BootstrapTable from "react-bootstrap-table-next";
+// import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
 import { uuidv4 } from "../../utils";
 
-import { NameFromIdFmt, optionalNumberDisplay } from "../tables/Formatters";
-import { getFloatOrOld } from "../tables/utils";
+import { AgTable } from "../tables/AgTable.jsx";
+import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
 
 import { ListEditor } from "../ui/ListEditor";
 
@@ -102,34 +102,34 @@ export const ScheduleCountsEditor = React.forwardRef(
 // Tabla con horarios mensuales y repeticiones
 const ScheduleListTable = ({ schedule, setSchedule, idMap, scheduleOpts }) => {
   // Filas seleccionadas
-  const [selected, setSelected] = useState([]);
-  const columns = [
-    { dataField: "id", isKey: true, hidden: true },
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [columnDefs, setColumnDefs] = useState([
+    { headerName: "ID", field: "id", hidden: true },
     {
-      dataField: "schedule_id",
-      text: "Horario semanal",
-      align: "center",
-      headerTitle: (_col, _colIndex) => "Horario semanal",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      formatter: NameFromIdFmt,
-      formatExtraData: idMap,
-      editor: {
-        type: Type.SELECT,
-        options: scheduleOpts,
-      },
+      headerName: "Horario semanal",
+      field: "schedule_id",
+      flex: 2,
+      cellDataType: "text",
+      cellClass: "text-center",
+      headerTooltip: "Horario semanal",
+      headerClass: "text-light bg-secondary text-center",
+      valueFormatter: ({ value }) => idMap[value],
+      // formatExtraData: idMap,
+      // editor: {
+      //   type: Type.SELECT,
+      //   options: scheduleOpts,
+      // },
     },
     {
-      dataField: "count",
-      formatter: (cell) => optionalNumberDisplay(cell, 0),
-      text: "Repeticiones",
-      align: "center",
-      headerTitle: (_col, _colIndex) =>
-        "Número de veces que se repite el horario en la semana",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
+      headerName: "Repeticiones",
+      field: "count",
+      cellDataType: "number",
+      valueFormatter: (cell) => optionalNumberDisplay(cell, 0),
+      cellClass: "text-center",
+      headerTitle: "Número de veces que se repite el horario en la semana",
+      headerClass: "text-light bg-secondary text-center",
     },
-  ];
+  ]);
 
   const newSchedule = () => ({ id: uuidv4(), schedule_id: "", count: 1 });
 
@@ -141,10 +141,16 @@ const ScheduleListTable = ({ schedule, setSchedule, idMap, scheduleOpts }) => {
           list={schedule}
           setList={setSchedule}
           newElement={newSchedule}
-          selectedIds={selected}
-          setSelectedIds={setSelected}
+          selectedIds={selectedIds}
+          setSelectedIds={setSelectedIds}
         />
-        <BootstrapTable
+        <AgTable
+          rowData={schedule}
+          columnDefs={columnDefs}
+          selectedIds={selectedIds}
+          setSelectedIds={setSelectedIds}
+        />
+        {/* <BootstrapTable
           data={schedule}
           keyField="id"
           striped
@@ -155,8 +161,8 @@ const ScheduleListTable = ({ schedule, setSchedule, idMap, scheduleOpts }) => {
             blurToSave: true,
             afterSaveCell: (oldValue, newValue, row, column) => {
               // Convierte a número campos numéricos
-              if (["count"].includes(column.dataField)) {
-                row[column.dataField] = getFloatOrOld(newValue, oldValue);
+              if (["count"].includes(column.field)) {
+                row[column.field] = getFloatOrOld(newValue, oldValue);
               }
             },
           })}
@@ -176,7 +182,7 @@ const ScheduleListTable = ({ schedule, setSchedule, idMap, scheduleOpts }) => {
             bgColor: "lightgray",
           }}
           columns={columns}
-        />
+        /> */}
       </Col>
     </Row>
   );

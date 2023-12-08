@@ -29,7 +29,7 @@ import AppState from "../../stores/AppState";
 import { GLASS } from "../../stores/types";
 
 import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
-import GlassesTable from "./GlassesTableAg";
+import GlassesTable from "./GlassesTable";
 
 // Vista de construcciones de opacos del edificio
 const GlassesView = observer(() => {

@@ -21,16 +21,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory from "react-bootstrap-table2-editor";
+// TODO: editor de capas
+
+import React, { useContext, useState } from "react";
 
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { optionalNumberDisplay, LayersFmt } from "../tables/Formatters";
-import { validateNonNegNumber } from "../tables/Validators";
-import { getFloatOrOld } from "../tables/utils";
+
+import { AgTable } from "../tables/AgTable.jsx";
+import {
+  optionalNumberDisplay,
+  LayersCellRenderer,
+} from "../tables/FormattersAg.jsx";
+import { getHeader } from "../tables/Helpers.jsx";
+import { validateNonNegNumber } from "../tables/Validators.js";
 
 import { LayersEditor } from "./LayersEditors";
 
@@ -41,40 +46,32 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
   const walls_Co100 = appstate.energy_indicators.n50_data.walls_c.toFixed(2);
   const mats = appstate.cons.materials;
 
-  const columns = [
-    { dataField: "id", isKey: true, hidden: true },
+  const [columnDefs, setColumnDefs] = useState([
+    { headerName: "ID", field: "id", hide: true },
     {
-      dataField: "name",
-      text: "Nombre",
-      classes: "font-weight-bold",
-      headerStyle: () => ({ width: "30%" }),
-      headerTitle: () => "Nombre que identifica la construcción de opaco",
-      headerClasses: "text-light bg-secondary",
-      title: (_cell, row) => `Construcción de opaco id: ${row.id}`,
+      headerName: "Nombre",
+      field: "name",
+      cellDataType: "text",
+      cellClass: "font-weight-bold",
+      flex: 2,
+      headerTooltip: "Nombre que identifica la construcción de opaco",
+      headerClass: "text-light bg-secondary",
+      tooltipValueGetter: ({ data }) => `Construcción de opaco id: ${data.id}`,
     },
     {
-      dataField: "layers",
-      text: "Capas",
-      align: "center",
-      formatter: LayersFmt,
-      formatExtraData: mats,
-      headerTitle: () => "Capas de la construcción (nº)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          Capas
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[nº]</i>{" "}
-          </span>
-        </>
-      ),
-      editorRenderer: (editorProps, value, row) => (
-        <LayersEditor {...editorProps} value={value} name={row.name} />
-      ),
-      title: (_cell, row) =>
-        `Construcción de opaco:\n ${row.layers
+      headerName: "Capas",
+      field: "layers",
+      cellClass: "text-center",
+      cellRenderer: LayersCellRenderer,
+      cellRendererParams: { materials: mats },
+      headerTooltip: "Capas de la construcción (nº)",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("Capas", "", "nº"),
+      // editorRenderer: (editorProps, value, row) => (
+      //   <LayersEditor {...editorProps} value={value} name={row.name} />
+      // ),
+      tooltipValueGetter: ({ data }) =>
+        `Construcción de opaco:\n ${data.layers
           .map(
             ({ material, e }) =>
               "- " +
@@ -85,134 +82,99 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
           .join("\n")}`,
     },
     {
-      dataField: "absorptance",
-      text: "Absortividad",
-      align: "center",
-      formatter: (cell) => optionalNumberDisplay(cell, 2),
-      validator: validateNonNegNumber,
-      headerTitle: () => "Absortividad térmica de la solución constructiva (-)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          &alpha;
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[-]</i>{" "}
-          </span>
-        </>
-      ),
+      headerName: "Absortividad",
+      field: "absorptance",
+      cellDataType: "number",
+      cellClass: "text-center",
+      valueFormatter: optionalNumberDisplay,
+      valueSetter: validateNonNegNumber,
+      headerTooltip: "Absortividad térmica de la solución constructiva (-)",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("α", "", "-"),
     },
     {
-      dataField: "thickness",
-      text: "Espesor",
-      isDummyField: true,
+      headerName: "Espesor",
       editable: false,
-      align: "center",
-      classes: "td-column-computed-readonly",
-      formatter: (_cell, row, _rowIndex, extraData) =>
-        optionalNumberDisplay(extraData[row.id].thickness, 3),
-      formatExtraData: wallconsPropsMap,
-      headerTitle: () => "Espesor total de la composición de capas (m)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          e<br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[m]</i>{" "}
-          </span>
-        </>
-      ),
+      cellClass: "td-column-computed-readonly text-center",
+      valueGetter: ({ data }) => wallconsPropsMap[data.id].thickness,
+      valueFormatter: params => optionalNumberDisplay(params, 3),
+      headerTooltip: "Espesor total de la composición de capas (m)",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("e", "", "m"),
     },
     {
-      dataField: "resistance",
-      text: "Resistencia intrínseca",
-      isDummyField: true,
+      headerName: "Resistencia intrínseca",
       editable: false,
-      align: "center",
-      classes: "td-column-computed-readonly",
-      formatter: (_cell, row, _rowIndex, extraData) =>
-        optionalNumberDisplay(extraData[row.id].resistance, 2),
-      formatExtraData: wallconsPropsMap,
-      headerTitle: () =>
+      cellClass: "td-column-computed-readonly text-center",
+      valueGetter: ({data}) => wallconsPropsMap[data.id].resistance,
+      valueFormatter: optionalNumberDisplay,
+      headerTooltip:
         "Resistencia térmica de la solución constructiva (sin resistencias superficiales) (m²·K/W)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          R<sub>c;op</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[m²·K/W]</i>{" "}
-          </span>
-        </>
-      ),
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("R", "c;op", "m²·K/W"),
     },
     {
-      dataField: "C_o",
-      isDummyField: true,
-      text: "C_o",
+      headerName: "C_o",
       editable: false,
-      align: "center",
-      classes: "td-column-readonly",
-      formatter: () => walls_Co100,
-      formatExtraData: walls_Co100,
-      headerTitle: () =>
+      cellClass: "td-column-readonly text-center",
+      valueGetter: (_p) => walls_Co100,
+      valueFormatter: optionalNumberDisplay,
+      headerTooltip:
         "Coeficiente de caudal de aire de la parte opaca de la envolvente térmica (a 100 Pa). Varía según n50 de ensayo o tipo de edificio (nuevo / existente)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          C<sub>o</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            [m<sup>3</sup>/h·m<sup>2</sup>]
-          </span>
-        </>
-      ),
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("C", "o", "m³/h·m²"),
     },
-  ];
+  ]);
+
+  const rowData = appstate.cons.wallcons;
 
   return (
-    <BootstrapTable
-      data={appstate.cons.wallcons}
-      keyField="id"
-      striped
-      hover
-      bordered={false}
-      cellEdit={cellEditFactory({
-        mode: "dbclick",
-        blurToSave: true,
-        afterSaveCell: (oldValue, newValue, row, column) => {
-          // Convierte a número campos numéricos
-          if (
-            ["thickness", "resistance", "absorptance"].includes(
-              column.dataField
-            )
-          ) {
-            row[column.dataField] = getFloatOrOld(newValue, oldValue);
-          }
-        },
-      })}
-      selectRow={{
-        mode: "checkbox",
-        clickToSelect: true,
-        clickToEdit: true,
-        selected: selectedIds,
-        onSelect: (row, isSelected) => {
-          if (isSelected) {
-            setSelectedIds([...selectedIds, row.id]);
-          } else {
-            setSelectedIds(selectedIds.filter((it) => it !== row.id));
-          }
-        },
-        hideSelectColumn: true,
-        bgColor: "lightgray",
-      }}
-      columns={columns}
+    <AgTable
+      rowData={rowData}
+      columnDefs={columnDefs}
+      selectedIds={selectedIds}
+      setSelectedIds={setSelectedIds}
     />
   );
+  // return (
+  //   <BootstrapTable
+  //     data={appstate.cons.wallcons}
+  //     keyField="id"
+  //     striped
+  //     hover
+  //     bordered={false}
+  //     cellEdit={cellEditFactory({
+  //       mode: "dbclick",
+  //       blurToSave: true,
+  //       afterSaveCell: (oldValue, newValue, row, column) => {
+  //         // Convierte a número campos numéricos
+  //         if (
+  //           ["thickness", "resistance", "absorptance"].includes(
+  //             column.field
+  //           )
+  //         ) {
+  //           row[column.field] = getFloatOrOld(newValue, oldValue);
+  //         }
+  //       },
+  //     })}
+  //     selectRow={{
+  //       mode: "checkbox",
+  //       clickToSelect: true,
+  //       clickToEdit: true,
+  //       selected: selectedIds,
+  //       onSelect: (row, isSelected) => {
+  //         if (isSelected) {
+  //           setSelectedIds([...selectedIds, row.id]);
+  //         } else {
+  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
+  //         }
+  //       },
+  //       hideSelectColumn: true,
+  //       bgColor: "lightgray",
+  //     }}
+  //     columns={columns}
+  //   />
+  // );
 };
 
 export default observer(WallConsTable);

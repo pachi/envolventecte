@@ -21,16 +21,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
+import React, { useContext, useState } from "react";
+// import BootstrapTable from "react-bootstrap-table-next";
+// import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
-import { optionalNumberDisplay, NameFromIdFmt } from "../tables/Formatters";
-import { validateNonNegNumber } from "../tables/Validators";
-import { getFloatOrOld } from "../tables/utils";
+
+import { AgTable } from "../tables/AgTable.jsx";
+import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
+import { getHeader } from "../tables/Helpers.jsx";
+import { validateNonNegNumber } from "../tables/Validators.js";
 
 import { SCHEDULE_YEAR } from "../../stores/types";
 
@@ -63,167 +65,122 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
     .filter((e) => e.level === "DANGER")
     .map((e) => e.id);
 
-  const columns = [
-    { dataField: "id", isKey: true, hidden: true, text: "ID" },
+  const [columnDefs, setColumnDefs] = useState([
+    { headerName: "ID", field: "id", hide: true },
     {
-      dataField: "name",
-      text: "Nombre",
-      classes: "font-weight-bold",
-      headerStyle: () => ({ width: "20%" }),
-      headerTitle: () => "Nombre que identifica la definición de carga",
-      headerClasses: "text-light bg-secondary",
-      title: (_cell, row) => {
-        return `Cargas id: ${row.id}`;
-      },
+      headerName: "Nombre",
+      field: "name",
+      cellDataType: "text",
+      cellClass: "font-weight-bold",
+      flex: 2,
+      headerClass: "text-light bg-secondary",
+      headerTooltip: "Nombre que identifica la definición de carga",
+      tooltipValueGetter: ({ data }) => `Cargas id: ${data.id}`,
     },
     {
-      dataField: "area_per_person",
-      text: "Densidad ocupación",
-      align: "center",
-      formatter: cell => optionalNumberDisplay(cell, 2),
-      validator: validateNonNegNumber,
-      headerTitle: () => "Superficie por ocupante (m²/pax)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          A<sub>oc</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[m²/pax]</i>{" "}
-          </span>
-        </>
-      ),
+      headerName: "Densidad ocupación",
+      field: "area_per_person",
+      cellDataType: "number",
+      cellClass: "text-center",
+      valueFormatter: optionalNumberDisplay,
+      valueSetter: validateNonNegNumber,
+      headerTooltip: "Superficie por ocupante (m²/pax)",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("A", "oc", "m²/pax"),
     },
     {
-      dataField: "people_sensible",
-      text: "Ocup. sensible",
-      align: "center",
-      formatter: cell => optionalNumberDisplay(cell, 2),
-      validator: validateNonNegNumber,
-      headerTitle: () => "Carga de ocupación, parte sensible (W/m²)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          C<sub>oc,sen</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[W/m²]</i>{" "}
-          </span>
-        </>
-      ),
+      headerName: "Ocup. sensible",
+      field: "people_sensible",
+      cellDataType: "number",
+      cellClass: "text-center",
+      valueFormatter: optionalNumberDisplay,
+      valueSetter: validateNonNegNumber,
+      headerTooltip: "Carga de ocupación, parte sensible (W/m²)",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("C", "oc,sen", "W/m²"),
     },
     {
-      dataField: "people_latent",
-      text: "Ocup. latente",
-      align: "center",
-      formatter: cell => optionalNumberDisplay(cell, 2),
-      validator: validateNonNegNumber,
-      headerTitle: () => "Carga de ocupación, parte latente (W/m²)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          C<sub>oc,lat</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[W/m²]</i>{" "}
-          </span>
-        </>
-      ),
+      headerName: "Ocup. latente",
+      field: "people_latent",
+      cellClass: "text-center",
+      valueFormatter: optionalNumberDisplay,
+      valueSetter: validateNonNegNumber,
+      headerTooltip: "Carga de ocupación, parte latente (W/m²)",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("C", "oc,lat", "W/m²"),
     },
     {
-      dataField: "people_schedule",
-      text: "Horario ocupación",
-      editor: {
-        type: Type.SELECT,
-        options: schedulesOpts,
-      },
-      align: "center",
-      headerStyle: () => ({ width: "15%" }),
-      formatter: NameFromIdFmt,
-      formatExtraData: schedulesMap,
-      headerTitle: () => "Horario de ocupación",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
+      headerName: "Horario ocupación",
+      field: "people_schedule",
+      cellDataType: "text",
+      // editor: {
+      //   type: Type.SELECT,
+      //   options: schedulesOpts,
+      // },
+      // formatExtraData: schedulesMap,
+      cellClass: "text-center",
+      valueFormatter: ({ value }) => schedulesMap[value],
+      headerTooltip: "Horario de ocupación",
+      headerClass: "text-light bg-secondary text-center",
     },
     {
-      dataField: "lighting",
-      text: "Iluminación",
-      align: "center",
-      formatter: cell => optionalNumberDisplay(cell, 2),
-      validator: validateNonNegNumber,
-      headerTitle: () => "Carga de iluminación (W/m²)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          C<sub>il</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[W/m²]</i>{" "}
-          </span>
-        </>
-      ),
+      headerName: "Iluminación",
+      field: "lighting",
+      cellDataType: "text",
+      cellClass: "text-center",
+      valueFormatter: optionalNumberDisplay,
+      valueSetter: validateNonNegNumber,
+      headerTooltip: "Carga de iluminación (W/m²)",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("C", "il", "W/m²"),
     },
     {
-      dataField: "lighting_schedule",
-      text: "Horario iluminación",
-      editor: {
-        type: Type.SELECT,
-        options: schedulesOpts,
-      },
-      align: "center",
-      headerStyle: () => ({ width: "15%" }),
-      formatter: NameFromIdFmt,
-      formatExtraData: schedulesMap,
-      headerTitle: () => "Horario de iluminación",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
+      headerName: "Horario iluminación",
+      field: "lighting_schedule",
+      // editor: {
+      //   type: Type.SELECT,
+      //   options: schedulesOpts,
+      // },
+      // formatExtraData: schedulesMap,
+      cellDataType: "text",
+      cellClass: "text-center",
+      valueFormatter: ({ value }) => schedulesMap[value],
+      headerTooltip: "Horario de iluminación",
+      headerClass: "text-light bg-secondary text-center",
     },
     {
-      dataField: "equipment",
-      text: "Equipos",
-      align: "center",
-      formatter: cell => optionalNumberDisplay(cell, 2),
-      validator: validateNonNegNumber,
-      headerTitle: () => "Carga de equipos (W/m²)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          C<sub>eq</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[W/m²]</i>{" "}
-          </span>
-        </>
-      ),
+      headerName: "Equipos",
+      field: "equipment",
+      cellDataType: "number",
+      cellClass: "text-center",
+      valueFormatter: optionalNumberDisplay,
+      valueSetter: validateNonNegNumber,
+      headerTooltip: "Carga de equipos (W/m²)",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("C", "eq", "W/m²"),
     },
     {
-      dataField: "equipment_schedule",
-      text: "Horario equipos",
-      editor: {
-        type: Type.SELECT,
-        options: schedulesOpts,
-      },
-      align: "center",
-      headerStyle: () => ({ width: "15%" }),
-      formatter: NameFromIdFmt,
-      formatExtraData: schedulesMap,
-      headerTitle: () => "Horario de equipos",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
+      headerName: "Horario equipos",
+      field: "equipment_schedule",
+      // editor: {
+      //   type: Type.SELECT,
+      //   options: schedulesOpts,
+      // },
+      // formatExtraData: schedulesMap,
+      cellDataType: "text",
+      cellClass: "text-center",
+      valueFormatter: ({ value }) => schedulesMap[value],
+      headerTooltip: "Horario de equipos",
+      headerClass: "text-light bg-secondary text-center",
     },
     {
-      dataField: "loads_avg",
-      text: "C_fi",
-      isDummyField: true,
+      headerName: "C_fi",
+      field: "loads_avg",
+      cellDataType: "number",
+      // isDummyField: true,
       editable: false,
-      align: "center",
-      classes: "td-column-computed-readonly",
-      formatter: (cell, row, _rowIndex, extraData) => {
+      cellClass: "td-column-computed-readonly text-center",
+      valueFormatter: (cell, row, _rowIndex, extraData) => {
         const load = extraData[row.id].loads_avg;
         if (load === null || isNaN(load)) {
           return <span>-</span>;
@@ -231,96 +188,96 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
         return <span>{load.toFixed(2)}</span>;
       },
       formatExtraData: loadsPropsMap,
-      headerTitle: () => "Carga interna media, en W/m²",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          C<sub>FI</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>
-              [W/m<sup>²</sup>]
-            </i>{" "}
-          </span>
-        </>
-      ),
+      headerTooltip: "Carga interna media, en W/m²",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("C", "FI", "W/m²"),
     },
-  ];
+  ]);
+
+  const rowData = appstate.loads;
 
   return (
-    <BootstrapTable
-      data={appstate.loads}
-      keyField="id"
-      striped
-      hover
-      bordered={false}
-      cellEdit={cellEditFactory({
-        mode: "dbclick",
-        blurToSave: true,
-        // Corrige el valor del espacio adyacente de "" a null
-        // y convierte campos numéricos a número
-        afterSaveCell: (oldValue, newValue, row, column) => {
-          switch (column.dataField) {
-            // Campos opcionales numéricos
-            case "illuminance":
-              if (newValue == "") {
-                delete row[column.dataField];
-              } else {
-                row[column.dataField] = getFloatOrOld(newValue, oldValue);
-              }
-              break;
-            // Campos opcionales textuales
-            case "people_schedule":
-            case "lighting_schedule":
-            case "equipment_schedule":
-              if (newValue == "") {
-                row[column.dataField] = null;
-              }
-              break;
-            // Conversiones numéricas
-            case "people_sensible":
-            case "people_latent":
-            case "lighting":
-            case "equipment":
-            case "area_per_person":
-              if (newValue !== "") {
-                row[column.dataField] = getFloatOrOld(newValue, oldValue);
-              }
-              break;
-          }
-        },
-      })}
-      selectRow={{
-        mode: "checkbox",
-        clickToSelect: true,
-        clickToEdit: true,
-        selected: selectedIds,
-        onSelect: (row, isSelected) => {
-          if (isSelected) {
-            setSelectedIds([...selectedIds, row.id]);
-          } else {
-            setSelectedIds(selectedIds.filter((it) => it !== row.id));
-          }
-        },
-        hideSelectColumn: true,
-        bgColor: "lightgray",
-      }}
-      rowClasses={(row, _rowIdx) => {
-        const classes = [];
-        // Errores
-        if (error_ids_danger.includes(row.id)) {
-          classes.push("id_error_danger");
-        }
-        // Avisos
-        if (error_ids_warning.includes(row.id)) {
-          classes.push("id_error_warning");
-        }
-        return classes.join(" ");
-      }}
-      columns={columns}
+    <AgTable
+      rowData={rowData}
+      columnDefs={columnDefs}
+      selectedIds={selectedIds}
+      setSelectedIds={setSelectedIds}
     />
   );
+
+  // return (
+  //   <BootstrapTable
+  //     data={appstate.loads}
+  //     keyField="id"
+  //     striped
+  //     hover
+  //     bordered={false}
+  //     cellEdit={cellEditFactory({
+  //       mode: "dbclick",
+  //       blurToSave: true,
+  //       // Corrige el valor del espacio adyacente de "" a null
+  //       // y convierte campos numéricos a número
+  //       afterSaveCell: (oldValue, newValue, row, column) => {
+  //         switch (column.field) {
+  //           // Campos opcionales numéricos
+  //           case "illuminance":
+  //             if (newValue == "") {
+  //               delete row[column.field];
+  //             } else {
+  //               row[column.field] = getFloatOrOld(newValue, oldValue);
+  //             }
+  //             break;
+  //           // Campos opcionales textuales
+  //           case "people_schedule":
+  //           case "lighting_schedule":
+  //           case "equipment_schedule":
+  //             if (newValue == "") {
+  //               row[column.field] = null;
+  //             }
+  //             break;
+  //           // Conversiones numéricas
+  //           case "people_sensible":
+  //           case "people_latent":
+  //           case "lighting":
+  //           case "equipment":
+  //           case "area_per_person":
+  //             if (newValue !== "") {
+  //               row[column.field] = getFloatOrOld(newValue, oldValue);
+  //             }
+  //             break;
+  //         }
+  //       },
+  //     })}
+  //     selectRow={{
+  //       mode: "checkbox",
+  //       clickToSelect: true,
+  //       clickToEdit: true,
+  //       selected: selectedIds,
+  //       onSelect: (row, isSelected) => {
+  //         if (isSelected) {
+  //           setSelectedIds([...selectedIds, row.id]);
+  //         } else {
+  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
+  //         }
+  //       },
+  //       hideSelectColumn: true,
+  //       bgColor: "lightgray",
+  //     }}
+  //     rowClasses={(row, _rowIdx) => {
+  //       const classes = [];
+  //       // Errores
+  //       if (error_ids_danger.includes(row.id)) {
+  //         classes.push("id_error_danger");
+  //       }
+  //       // Avisos
+  //       if (error_ids_warning.includes(row.id)) {
+  //         classes.push("id_error_warning");
+  //       }
+  //       return classes.join(" ");
+  //     }}
+  //     columns={columns}
+  //   />
+  // );
 };
 
 export default observer(LoadsTable);

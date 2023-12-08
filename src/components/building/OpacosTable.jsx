@@ -21,26 +21,27 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
+import React, { useContext, useState } from "react";
+// import BootstrapTable from "react-bootstrap-table-next";
+// import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
+
+import { AgTable } from "../tables/AgTable.jsx";
+
 import {
-  BoundaryFmt,
-  BoundaryOpts,
-  OpaqueGeomFmt,
-  OpaqueGeomIconFmt,
-  NameFromIdFmt,
-  optionalNumberDisplay,
+  // OpaqueGeomFmt,
+  // OpaqueGeomIconFmt,
 } from "../tables/Formatters";
-import { getFloatOrOld } from "../tables/utils";
+
+import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
+import { getHeader } from "../tables/Helpers.jsx";
 
 import { GeometryOpaquesEditor } from "./GeometryEditors";
 import { OrientacionesSprite } from "../helpers/IconsOrientaciones";
-import { SPACE, WALLCONS } from "../../stores/types";
+import { SPACE, WALLCONS, BOUNDARY_TYPES_MAP } from "../../stores/types";
 
 // Tabla de elementos opacos
 const OpacosTable = ({ selectedIds, setSelectedIds }) => {
@@ -48,9 +49,6 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
   const wallPropsMap = appstate.energy_indicators.props.walls;
   const wallconsMap = appstate.getIdNameMap(WALLCONS);
   const spaceMap = appstate.getIdNameMap(SPACE);
-  const wallconsOpts = appstate.getElementOptions(WALLCONS);
-  const spaceOpts = appstate.getElementOptions(SPACE);
-  const spaceOptsAndNull = appstate.getElementOptions(SPACE, true);
 
   // Lista de IDs con errores
   const errors = appstate.warnings;
@@ -61,232 +59,198 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
     .filter((e) => e.level === "DANGER")
     .map((e) => e.id);
 
-  const columns = [
-    { dataField: "id", isKey: true, hidden: true, text: "ID" },
+  const [columnDefs, setColumnDefs] = useState([
+    { headerName: "ID", field: "id", hide: true },
     {
-      dataField: "name",
-      text: "Nombre",
-      classes: "font-weight-bold",
-      headerStyle: () => ({ width: "20%" }),
-      headerTitle: () => "Nombre que identifica el elemento opaco",
-      headerClasses: "text-light bg-secondary",
-      title: (_cell, row) => {
-        const u_value_wall = wallPropsMap[row.id].u_value;
+      headerName: "Nombre",
+      field: "name",
+      cellDataType: "text",
+      cellClass: "font-weight-bold",
+      flex: 2,
+      headerClass: "text-light bg-secondary",
+      headerTooltip: "Nombre que identifica el elemento opaco",
+      tooltipValueGetter: ({ data }) => {
+        const u_value_wall = wallPropsMap[data.id]?.u_value;
         const u_value = !isNaN(u_value_wall)
           ? Number(u_value_wall).toFixed(2)
           : "-";
-        return `Opaco id: ${row.id}, U: ${u_value} W/m²K`;
+        return `Opaco id: ${data.id}, U: ${u_value} W/m²K`;
       },
     },
     {
-      dataField: "bounds",
-      text: "Tipo",
-      editor: {
-        type: Type.SELECT,
-        options: BoundaryOpts,
-      },
-      align: "center",
-      formatter: BoundaryFmt,
-      headerTitle: () =>
+      headerName: "Tipo",
+      field: "bounds",
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: { values: Object.keys(BOUNDARY_TYPES_MAP) },
+      refData: BOUNDARY_TYPES_MAP,
+      valueFormatter: ({ value }) => BOUNDARY_TYPES_MAP[value],
+      cellClass: "text-center",
+      headerTooltip:
         "Condición de contorno del elemento opaco (INTERIOR | EXTERIOR | TERRENO | ADIABÁTICO)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          Tipo
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[-]</i>{" "}
-          </span>
-        </>
-      ),
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("Tipo", "", "-"),
     },
     {
-      dataField: "cons",
-      text: "Construcción",
-      editor: {
-        type: Type.SELECT,
-        options: wallconsOpts,
-      },
-      align: "center",
-      headerStyle: () => ({ width: "20%" }),
-      formatter: NameFromIdFmt,
-      formatExtraData: wallconsMap,
-      headerTitle: () => "Construcción del opaco",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
+      headerName: "Construcción",
+      field: "cons",
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: { values: Object.keys(wallconsMap) },
+      refData: wallconsMap,
+      valueFormatter: ({ value }) => wallconsMap[value],
+      cellClass: "text-center",
+      headerTooltip: "Construcción del opaco",
+      headerClass: "text-light bg-secondary text-center",
     },
     {
-      dataField: "space",
-      text: "Espacio",
-      editor: {
-        type: Type.SELECT,
-        options: spaceOpts,
-      },
-      align: "center",
-      formatter: NameFromIdFmt,
-      formatExtraData: spaceMap,
-      headerTitle: () => "Espacio al que pertenece el elemento opaco",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
+      headerName: "Espacio",
+      field: "space",
+      cellDataType: "text",
+      cellEditorParams: { values: Object.keys(spaceMap) },
+      refData: spaceMap,
+      valueFormatter: ({ value }) => spaceMap[value],
+      headerTooltip: "Espacio al que pertenece el elemento opaco",
+      headerClass: "text-light bg-secondary text-center",
     },
     {
-      dataField: "next_to",
-      text: "Espacio ady.",
-      editable: (cell, row) => {
-        return row.bounds === "INTERIOR";
+      headerName: "Espacio ady.",
+      field: "next_to",
+      cellClass: "text-center",
+      editable: ({ data }) => data.bounds === "INTERIOR",
+      // Este editor es especial porque debe poder ponerse en nulo
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: {
+        values: [...Object.keys(spaceMap), "<Vacio>"],
       },
-      editor: {
-        type: Type.SELECT,
-        options: spaceOptsAndNull,
-      },
-      align: "center",
-      formatter: NameFromIdFmt,
-      formatExtraData: spaceMap,
-      headerTitle: () =>
+      valueParser: (p) =>
+        spaceMap.entries().find(([key, val]) => val == p.newValue)[0],
+      valueFormatter: ({ value }) => spaceMap[value] ?? "",
+      valueFormatter: ({ value }) => spaceMap[value],
+      headerTooltip:
         "Espacio adyacente con el que comunica el elemento opaco, cuando este es un elemento interior",
-      headerAlign: "center",
-      headerClasses: "text-light bg-secondary",
+      headerClass: "text-light bg-secondary text-center",
     },
     {
-      dataField: "geometry",
-      text: "Geometría",
-      align: "center",
-      formatter: OpaqueGeomIconFmt,
-      title: OpaqueGeomFmt,
-      headerTitle: () =>
+      headerName: "Geometría",
+      field: "geometry",
+      cellDataType: "text",
+      cellClass: "text-center",
+      // valueFormatter: OpaqueGeomIconFmt,
+      // tooltipValueGetter: ({data}) => OpaqueGeomFmt,
+      headerTooltip:
         "Geometría (punto de inserción, polígono, inclinación y orientación).",
       editorRenderer: (editorProps, value, row) => (
         <GeometryOpaquesEditor {...editorProps} value={value} name={row.name} />
       ),
-      headerAlign: "center",
-      headerClasses: "text-light bg-secondary",
-      headerFormatter: () => <>Geometría</>,
+      headerClass: "text-center",
+      headerClass: "text-light bg-secondary",
+      headerComponent: (_props) => getHeader("Geometría"),
     },
     {
-      dataField: "area",
-      text: "A",
-      isDummyField: true,
+      headerName: "A",
       editable: false,
-      align: "center",
-      classes: "td-column-computed-readonly",
-      formatter: (_cell, row, _rowIndex, extraData) =>
-        optionalNumberDisplay(
-          extraData[row.id].area_net * extraData[row.id].multiplier,
-          2
-        ),
-      formatExtraData: wallPropsMap,
-      headerTitle: () =>
-        "Superficie neta (sin huecos) del elemento opaco, en m²",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          A<sub>c</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>
-              [m<sup>2</sup>]
-            </i>{" "}
-          </span>
-        </>
-      ),
+      cellClass: "td-column-computed-readonly text-center",
+      valueGetter: ({ data }) =>
+        wallPropsMap[data.id]?.area_net * wallPropsMap[data.id]?.multiplier,
+      valueFormatter: optionalNumberDisplay,
+      headerTooltip: "Superficie neta (sin huecos) del elemento opaco, en m²",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("A", "c", "m²"),
     },
     {
-      dataField: "wall_u",
-      text: "wall_u",
-      isDummyField: true,
+      headerName: "wall_u",
       editable: false,
-      align: "center",
-      classes: "td-column-computed-readonly",
-      formatter: (_cell, row, _rowIndex, extraData) =>
-        optionalNumberDisplay(extraData[row.id].u_value, 2),
-      formatExtraData: wallPropsMap,
-      headerTitle: () => "Transmitancia térmica del elemento opaco [W/m²K]",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          U<sub>c</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[W/m²K]</i>{" "}
-          </span>
-        </>
-      ),
+      cellClass: "td-column-computed-readonly text-center",
+      valueGetter: ({ data }) => wallPropsMap[data.id]?.u_value,
+      valueFormatter: optionalNumberDisplay,
+      headerTooltip: "Transmitancia térmica del elemento opaco [W/m²K]",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("U", "c", "W/m²K"),
     },
-  ];
+  ]);
+
+  const rowData = appstate.walls;
 
   return (
     <>
       <OrientacionesSprite />
-      <BootstrapTable
-        data={appstate.walls}
-        keyField="id"
-        striped
-        hover
-        bordered={false}
-        cellEdit={cellEditFactory({
-          mode: "dbclick",
-          blurToSave: true,
-          // Corrige el valor del espacio adyacente de "" a null
-          afterSaveCell: (oldValue, newValue, row, column) => {
-            if (
-              (column.dataField === "next_to" && newValue === "") ||
-              (column.dataField === "bounds" && row.bounds !== "INTERIOR")
-            ) {
-              row.next_to = null;
-            } else if (column.dataField === "A") {
-              // Convierte a número campos numéricos
-              row.A = getFloatOrOld(newValue, oldValue);
-            } else if (
-              column.dataField === "geometry.tilt" &&
-              newValue !== ""
-            ) {
-              row.geometry.tilt = getFloatOrOld(newValue, oldValue);
-            } else if (
-              column.dataField === "geometry.azimuth" &&
-              newValue !== ""
-            ) {
-              row.geometry.azimuth = getFloatOrOld(newValue, oldValue);
-            }
-          },
-        })}
-        selectRow={{
-          mode: "checkbox",
-          clickToSelect: true,
-          clickToEdit: true,
-          selected: selectedIds,
-          onSelect: (row, isSelected) => {
-            if (isSelected) {
-              setSelectedIds([...selectedIds, row.id]);
-            } else {
-              setSelectedIds(selectedIds.filter((it) => it !== row.id));
-            }
-          },
-          hideSelectColumn: true,
-          bgColor: "lightgray",
-        }}
-        rowClasses={(row, _rowIdx) => {
-          const classes = [];
-          // Errores
-          if (error_ids_danger.includes(row.id)) {
-            classes.push("id_error_danger");
-          }
-          // Avisos
-          if (error_ids_warning.includes(row.id)) {
-            classes.push("id_error_warning");
-          }
-          // clase para elementos fuera de la ET
-          if (!wallPropsMap[row.id].is_tenv) {
-            classes.push("outsidetenv");
-          }
-          return classes.join(" ");
-        }}
-        columns={columns}
+      <AgTable
+        rowData={rowData}
+        columnDefs={columnDefs}
+        selectedIds={selectedIds}
+        setSelectedIds={setSelectedIds}
       />
     </>
   );
+  // return (
+  //   <>
+  //     <OrientacionesSprite />
+  //     <BootstrapTable
+  //       data={appstate.walls}
+  //       keyField="id"
+  //       striped
+  //       hover
+  //       bordered={false}
+  //       cellEdit={cellEditFactory({
+  //         mode: "dbclick",
+  //         blurToSave: true,
+  //         // Corrige el valor del espacio adyacente de "" a null
+  //         afterSaveCell: (oldValue, newValue, row, column) => {
+  //           if (
+  //             (column.field === "next_to" && newValue === "") ||
+  //             (column.field === "bounds" && row.bounds !== "INTERIOR")
+  //           ) {
+  //             row.next_to = null;
+  //           } else if (column.field === "A") {
+  //             // Convierte a número campos numéricos
+  //             row.A = getFloatOrOld(newValue, oldValue);
+  //           } else if (
+  //             column.field === "geometry.tilt" &&
+  //             newValue !== ""
+  //           ) {
+  //             row.geometry.tilt = getFloatOrOld(newValue, oldValue);
+  //           } else if (
+  //             column.field === "geometry.azimuth" &&
+  //             newValue !== ""
+  //           ) {
+  //             row.geometry.azimuth = getFloatOrOld(newValue, oldValue);
+  //           }
+  //         },
+  //       })}
+  //       selectRow={{
+  //         mode: "checkbox",
+  //         clickToSelect: true,
+  //         clickToEdit: true,
+  //         selected: selectedIds,
+  //         onSelect: (row, isSelected) => {
+  //           if (isSelected) {
+  //             setSelectedIds([...selectedIds, row.id]);
+  //           } else {
+  //             setSelectedIds(selectedIds.filter((it) => it !== row.id));
+  //           }
+  //         },
+  //         hideSelectColumn: true,
+  //         bgColor: "lightgray",
+  //       }}
+  //       rowClasses={(row, _rowIdx) => {
+  //         const classes = [];
+  //         // Errores
+  //         if (error_ids_danger.includes(row.id)) {
+  //           classes.push("id_error_danger");
+  //         }
+  //         // Avisos
+  //         if (error_ids_warning.includes(row.id)) {
+  //           classes.push("id_error_warning");
+  //         }
+  //         // clase para elementos fuera de la ET
+  //         if (!wallPropsMap[row.id].is_tenv) {
+  //           classes.push("outsidetenv");
+  //         }
+  //         return classes.join(" ");
+  //       }}
+  //       columns={columns}
+  //     />
+  //   </>
+  // );
 };
 
 export default observer(OpacosTable);

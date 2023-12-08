@@ -22,30 +22,28 @@ SOFTWARE.
 */
 
 import React, { useState, useContext } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
+// import BootstrapTable from "react-bootstrap-table-next";
+// import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
+
+import { AgTable } from "../tables/AgTable.jsx";
 import {
-  optionalNumberDisplay,
-  InsideTeFmt,
   MultiplierFmt,
-  NameFromIdFmt,
+  optionalNumberDisplay,
   SpaceTypeFmt,
-  spaceTypesOpts,
   ZFmt,
-} from "../tables/Formatters";
+} from "../tables/FormattersAg.jsx";
+import { getHeader } from "../tables/Helpers.jsx";
 import {
+  validateIntegerNumber,
   validateNonNegNumber,
   validateNumber,
-  validateIntegerNumber,
-} from "../tables/Validators";
+} from "../tables/Validators.js";
 
-import { getFloatOrOld } from "../tables/utils";
-
-import { LOAD, THERMOSTAT } from "../../stores/types";
+import { LOAD, THERMOSTAT, SPACE_TYPES_MAP } from "../../stores/types";
 
 // Custom editor para pertenencia a la ET
 //
@@ -118,349 +116,254 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const spacePropsMap = appstate.energy_indicators.props.spaces;
   const loadsMap = appstate.getIdNameMap(LOAD);
-  const loadsOpts = appstate.getElementOptions(LOAD, true);
   const thermostatsMap = appstate.getIdNameMap(THERMOSTAT);
-  const thermostatsOpts = appstate.getElementOptions(THERMOSTAT, true);
 
-  const columns = [
-    { dataField: "id", isKey: true, hidden: true },
+  const [columnDefs, setColumnDefs] = useState([
+    { headerName: "ID", field: "id", hide: true },
     {
-      dataField: "name",
-      text: "Nombre",
-      classes: "font-weight-bold",
-      headerStyle: () => ({ width: "20%" }),
-      headerTitle: () => "Nombre del espacio",
-      headerClasses: "text-light bg-secondary",
-      title: (_cell, row) => `Espacio id: ${row.id}`,
+      headerName: "Nombre",
+      field: "name",
+      cellDataType: "text",
+      cellClass: "font-weight-bold",
+      flex: 2,
+      headerTooltip: "Nombre del espacio",
+      headerClass: "text-light bg-secondary",
+      tooltipValueGetter: ({ data }) => `Espacio id: ${data.id}`,
     },
     {
-      dataField: "multiplier",
-      text: "Multiplicador",
-      align: "center",
-      formatter: MultiplierFmt,
-      validator: validateIntegerNumber,
-      headerTitle: () => "Multiplicador (-). Número de espacios iguales",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          mult.
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[-]</i>{" "}
-          </span>
-        </>
-      ),
+      headerName: "Multiplicador",
+      field: "multiplier",
+      cellClass: "text-center",
+      valueFormatter: MultiplierFmt,
+      valueSetter: validateIntegerNumber,
+      headerTooltip: "Multiplicador (-). Número de espacios iguales",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("mult.", "", "-"),
     },
     {
-      dataField: "kind",
-      text: "Tipo de espacio",
-      align: "center",
-      formatter: SpaceTypeFmt,
-      editor: {
-        type: Type.SELECT,
-        options: spaceTypesOpts,
-      },
-      headerTitle: () =>
+      headerName: "Tipo de espacio",
+      field: "kind",
+      cellDataType: "text",
+      cellClass: "text-center",
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: { values: Object.keys(SPACE_TYPES_MAP) },
+      refData: SPACE_TYPES_MAP,
+      valueFormatter: SpaceTypeFmt,
+      headerTooltip:
         "Tipo de espacio: ACONDICIONADO, NO ACONDICIONADO, NO HABITABLE",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          Tipo
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[-]</i>{" "}
-          </span>
-        </>
-      ),
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("Tipo"),
     },
     {
-      dataField: "inside_tenv",
-      text: "Interior a ET",
-      align: "center",
-      formatter: InsideTeFmt,
-      editorRenderer: (
-        editorProps,
-        value,
-        _row,
-        _column,
-        _rowIndex,
-        _columnIndex
-      ) => <InsideTeEditor value={value} {...editorProps} />,
-      headerTitle: () =>
+      headerName: "Interior a ET",
+      field: "inside_tenv",
+      cellRenderer: "agCheckboxCellRenderer",
+      cellEditor: "agCheckboxCellEditor",
+      cellClass: "text-center",
+      // editorRenderer: (
+      //   editorProps,
+      //   value,
+      //   _row,
+      //   _column,
+      //   _rowIndex,
+      //   _columnIndex
+      // ) => <InsideTeEditor value={value} {...editorProps} />,
+      headerTooltip:
         "¿Pertenece el espacio al interior de la envolvente térmica?",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          ¿Interior <br />a la E.T.?
-        </>
-      ),
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("¿Interior a la E.T.?"),
     },
     {
-      dataField: "height",
-      text: "Altura",
-      align: "center",
-      formatter: (cell) => optionalNumberDisplay(cell, 2),
-      validator: validateNonNegNumber,
-      headerTitle: () =>
-        "Altura total, bruta, o de suelo a suelo, del espacio (m)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          h<sub>s-s</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[m]</i>{" "}
-          </span>
-        </>
-      ),
+      field: "height",
+      headerName: "Altura",
+      cellDataType: "number",
+      cellClass: "text-center",
+      valueFormatter: optionalNumberDisplay,
+      valueSetter: validateNonNegNumber,
+      headerTooltip: "Altura total, bruta, o de suelo a suelo, del espacio (m)",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("h", "s-s", "m"),
     },
 
     {
-      dataField: "z",
-      text: "z",
-      align: "center",
-      formatter: ZFmt,
-      validator: validateNumber,
-      headerTitle: () => "Cota de la planta respecto al terreno, en m",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          z
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[m]</i>{" "}
-          </span>
-        </>
-      ),
+      headerName: "z",
+      field: "z",
+      cellDataType: "number",
+      cellClass: "text-center",
+      valueFormatter: ZFmt,
+      valueSetter: validateNumber,
+      headerTooltip: "Cota de la planta respecto al terreno, en m",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("z", "", "m"),
     },
     {
-      dataField: "loads",
-      text: "Cargas",
-      editor: {
-        type: Type.SELECT,
-        options: loadsOpts,
-      },
-      align: "center",
-      formatter: NameFromIdFmt,
-      formatExtraData: loadsMap,
-      headerTitle: () => "Perfil de cargas del espacio",
-      headerAlign: "center",
-      headerClasses: "text-light bg-secondary",
+      headerName: "Cargas",
+      field: "loads",
+      cellDataType: "text",
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: { values: Object.keys(loadsMap) },
+      refData: loadsMap,
+      cellClass: "text-center",
+      valueFormatter: ({ value }) => loadsMap[value],
+      headerTooltip: "Perfil de cargas del espacio",
+      headerClass: "text-light bg-secondary text-center",
     },
     {
-      dataField: "thermostat",
-      text: "Consignas",
-      editor: {
-        type: Type.SELECT,
-        options: thermostatsOpts,
-      },
-      align: "center",
-      formatter: NameFromIdFmt,
-      formatExtraData: thermostatsMap,
-      headerTitle: () => "Consignas de temperatura en el espacio",
-      headerAlign: "center",
-      headerClasses: "text-light bg-secondary",
+      headerName: "Consignas",
+      field: "thermostat",
+      cellDataType: "text",
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: { values: Object.keys(thermostatsMap) },
+      refData: thermostatsMap,
+      cellClass: "text-center",
+      valueFormatter: ({ value }) => thermostatsMap[value],
+      headerTooltip: "Consignas de temperatura en el espacio",
+      headerClass: "text-light bg-secondary text-center",
     },
     {
-      dataField: "n_v",
-      text: "Infiltraciones ren/h",
-      align: "center",
-      formatter: (cell) => optionalNumberDisplay(cell, 2),
-      editable: (cell, row) => {
-        return row.type === "UNINHABITED";
+      headerName: "Infiltraciones ren/h",
+      field: "n_v",
+      cellDataType: "number",
+      cellClass: "text-center",
+      valueFormatter: optionalNumberDisplay,
+      editable: ({ data }) => {
+        return data.type === "UNINHABITED";
       },
-      customEditor: {
-        getElement: (onUpdate, props) => (
-          <NVEditor onUpdate={onUpdate} defaultValue={null} {...props} />
-        ),
-      },
-      headerTitle: () => "Nivel de infiltraciones del espacio, en ren/h",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          n<sub>v</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[ren/h]</i>{" "}
-          </span>
-        </>
-      ),
+      // customEditor: {
+      //   getElement: (onUpdate, props) => (
+      //     <NVEditor onUpdate={onUpdate} defaultValue={null} {...props} />
+      //   ),
+      // },
+      headerTooltip: "Nivel de infiltraciones del espacio, en ren/h",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("n", "v", "ren/h"),
     },
     {
-      dataField: "illuminance",
-      text: "Iluminancia lux",
-      align: "center",
-      formatter: (cell) => optionalNumberDisplay(cell, 2),
-      customEditor: {
-        getElement: (onUpdate, props) => (
-          <NVEditor onUpdate={onUpdate} defaultValue={null} {...props} />
-        ),
-      },
-      headerTitle: () => "Iluminancia media en el plano de trabajo, en lux",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          E<sub>m</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[lux]</i>{" "}
-          </span>
-        </>
-      ),
+      headerName: "Iluminancia lux",
+      field: "illuminance",
+      cellDataType: "number",
+      cellClass: "text-center",
+      valueFormatter: optionalNumberDisplay,
+      // customEditor: {
+      //   getElement: (onUpdate, props) => (
+      //     <NVEditor onUpdate={onUpdate} defaultValue={null} {...props} />
+      //   ),
+      // },
+      headerTooltip: "Iluminancia media en el plano de trabajo, en lux",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("E", "m", "lux"),
     },
     {
-      dataField: "area",
-      text: "A",
-      isDummyField: true,
+      headerName: "A",
       editable: false,
-      align: "center",
-      classes: "td-column-computed-readonly",
-      formatter: (_cell, row, _rowIndex, extraData) =>
-        optionalNumberDisplay(
-          extraData[row.id].area * extraData[row.id].multiplier,
-          2
-        ),
-      formatExtraData: spacePropsMap,
-      headerTitle: () => "Superficie útil del espacio (m²)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          A<sub>use;zt</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>
-              [m<sup>2</sup>]
-            </i>{" "}
-          </span>
-        </>
-      ),
+      cellDataType: "number",
+      cellClass: "td-column-computed-readonly text-center",
+      valueGetter: ({ data }) =>
+        spacePropsMap[data.id].area * spacePropsMap[data.id].multiplier,
+      valueFormatter: optionalNumberDisplay,
+      headerTooltip: "Superficie útil del espacio (m²)",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("A", "use;zt", "m²"),
     },
     {
-      dataField: "volume_net",
-      text: "Volumen neto",
-      isDummyField: true,
+      headerName: "Volumen neto",
       editable: false,
-      align: "center",
-      classes: "td-column-computed-readonly",
-      formatter: (_cell, row, _rowIndex, extraData) =>
-        optionalNumberDisplay(
-          extraData[row.id].volume_net * extraData[row.id].multiplier,
-          2
-        ),
-      formatExtraData: spacePropsMap,
-      headerTitle: () => "Volumen neto del espacio, en m³",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          V<sub>net</sub>
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>
-              [m<sup>3</sup>]
-            </i>{" "}
-          </span>
-        </>
-      ),
+      cellDataType: "number",
+      cellClass: "td-column-computed-readonly text-center",
+      valueGetter: ({ data }) =>
+        spacePropsMap[data.id].volume_net * spacePropsMap[data.id].multiplier,
+      valueFormatter: optionalNumberDisplay,
+      headerTooltip: "Volumen neto del espacio, en m³",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("V", "net", "m³"),
     },
     {
-      dataField: "veei",
-      text: "VEEI",
-      isDummyField: true,
+      headerName: "VEEI",
       editable: false,
-      align: "center",
-      classes: "td-column-computed-readonly",
-      formatter: (_cell, row, _rowIndex, extraData) =>
-        optionalNumberDisplay(extraData[row.id].veei, 2),
-      formatExtraData: spacePropsMap,
-      headerTitle: () =>
+      cellDataType: "number",
+      cellClass: "td-column-computed-readonly text-center",
+      valueGetter: ({ data }) => spacePropsMap[data.id].veei,
+      valueFormatter: optionalNumberDisplay,
+      headerTooltip:
         "Valor de la eficiencia energética de la iluminación, en W/m²·100lx",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          VEEI
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>
-              [W/m<sup>²</sup>·100lx]
-            </i>{" "}
-          </span>
-        </>
-      ),
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("VEEI", "", "W/m²·100lx"),
     },
-  ];
+  ]);
+
+  const rowData = appstate.spaces;
 
   return (
-    <BootstrapTable
-      data={appstate.spaces}
-      keyField="id"
-      striped
-      hover
-      bordered={false}
-      cellEdit={cellEditFactory({
-        mode: "dbclick",
-        blurToSave: true,
-        afterSaveCell: (oldValue, newValue, row, column) => {
-          if (
-            (column.dataField === "n_v" && newValue === undefined) ||
-            (column.dataField === "kind" && newValue !== "UNINHABITED")
-          ) {
-            // Corrige el valor de n_v de undefined a null
-            // o cambia a null cuando no son espacios no habitables
-            // TODO: esto en terciario no necesariamente es así,
-            // ya que se pueden definir las infiltraciones
-            // cuando no funcionan los equipos
-            row.n_v = null;
-          } else if (
-            column.dataField === "illuminance" &&
-            newValue === undefined
-          ) {
-            // Corrige el valor de illuminance de undefined a null
-            row.illuminance = null;
-          } else if (
-            ["loads", "thermostat"].includes(column.dataField) &&
-            newValue === ""
-          ) {
-            row[column.dataField] = null;
-          } else if (
-            !["name", "inside_tenv", "kind", "loads", "thermostat"].includes(
-              column.dataField
-            )
-          ) {
-            // Convierte a número salvo en el caso del nombre, inside_tenv, kind, loads y thermostat
-            row[column.dataField] = getFloatOrOld(newValue, oldValue);
-          }
-        },
-      })}
-      selectRow={{
-        mode: "checkbox",
-        clickToSelect: true,
-        clickToEdit: true,
-        selected: selectedIds,
-        onSelect: (row, isSelected) => {
-          if (isSelected) {
-            setSelectedIds([...selectedIds, row.id]);
-          } else {
-            setSelectedIds(selectedIds.filter((it) => it !== row.id));
-          }
-        },
-        hideSelectColumn: true,
-        bgColor: "lightgray",
-      }}
-      // clase para elementos fuera de la ET
-      rowClasses={(row, _rowIndex) => (row.inside_tenv ? null : "outsidetenv")}
-      columns={columns}
+    <AgTable
+      rowData={rowData}
+      columnDefs={columnDefs}
+      selectedIds={selectedIds}
+      setSelectedIds={setSelectedIds}
     />
   );
+
+  // return (
+  //   <BootstrapTable
+  //     data={appstate.spaces}
+  //     keyField="id"
+  //     striped
+  //     hover
+  //     bordered={false}
+  //     cellEdit={cellEditFactory({
+  //       mode: "dbclick",
+  //       blurToSave: true,
+  //       afterSaveCell: (oldValue, newValue, row, column) => {
+  //         if (
+  //           (column.field === "n_v" && newValue === undefined) ||
+  //           (column.field === "kind" && newValue !== "UNINHABITED")
+  //         ) {
+  //           // Corrige el valor de n_v de undefined a null
+  //           // o cambia a null cuando no son espacios no habitables
+  //           // TODO: esto en terciario no necesariamente es así,
+  //           // ya que se pueden definir las infiltraciones
+  //           // cuando no funcionan los equipos
+  //           row.n_v = null;
+  //         } else if (
+  //           column.field === "illuminance" &&
+  //           newValue === undefined
+  //         ) {
+  //           // Corrige el valor de illuminance de undefined a null
+  //           row.illuminance = null;
+  //         } else if (
+  //           ["loads", "thermostat"].includes(column.field) &&
+  //           newValue === ""
+  //         ) {
+  //           row[column.field] = null;
+  //         } else if (
+  //           !["name", "inside_tenv", "kind", "loads", "thermostat"].includes(
+  //             column.field
+  //           )
+  //         ) {
+  //           // Convierte a número salvo en el caso del nombre, inside_tenv, kind, loads y thermostat
+  //           row[column.field] = getFloatOrOld(newValue, oldValue);
+  //         }
+  //       },
+  //     })}
+  //     selectRow={{
+  //       mode: "checkbox",
+  //       clickToSelect: true,
+  //       clickToEdit: true,
+  //       selected: selectedIds,
+  //       onSelect: (row, isSelected) => {
+  //         if (isSelected) {
+  //           setSelectedIds([...selectedIds, row.id]);
+  //         } else {
+  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
+  //         }
+  //       },
+  //       hideSelectColumn: true,
+  //       bgColor: "lightgray",
+  //     }}
+  //     // clase para elementos fuera de la ET
+  //     rowClasses={(row, _rowIndex) => (row.inside_tenv ? null : "outsidetenv")}
+  //     columns={columns}
+  //   />
+  // );
 };
 
 export default observer(SpacesTable);

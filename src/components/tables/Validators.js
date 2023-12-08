@@ -22,59 +22,43 @@ SOFTWARE.
 */
 
 // Validadores ---------------------------------------------------------------
+// https://www.ag-grid.com/javascript-data-grid/value-setters/#value-setter
+// Ver validación más compleja en https://blog.ag-grid.com/user-input-validation-with-ag-grid/
 
 // Comprueba que el valor es un número y no es negativo
-export const validateNonNegNumber = (newValue, _row, _column) => {
+export const validateNonNegNumber = ({ newValue, data, colDef }) => {
   if (newValue == null || newValue == "" || isNaN(newValue) || newValue < 0.0) {
-    return {
-      valid: false,
-      message: "Debe introducir un valor numérico mayor o igual que cero",
-    };
+    // Debe introducir un valor numérico mayor o igual que cero
+    return false;
   } else {
-    return true;
-  }
-};
-
-// Comprueba que el valor es un número y no es negativo o es una cadena vacía
-export const validateNonNegNumberOrEmpty = (newValue, _row, _column) => {
-  if (newValue == "") {
-    return true;
-  } else if (newValue == null || isNaN(newValue) || newValue < 0.0) {
-    return {
-      valid: false,
-      message:
-        "Debe introducir un valor numérico mayor o igual que cero o una cadena vacía",
-    };
-  } else {
+    data[colDef.field] = newValue;
     return true;
   }
 };
 
 // Comprueba que el valor es un número
-export const validateNumber = (newValue, _row, _column) => {
+export const validateNumber = ({ newValue, data, colDef }) => {
   if (newValue == null || newValue == "" || isNaN(newValue)) {
-    return {
-      valid: false,
-      message: "Debe introducir un valor numérico",
-    };
+    // Debe introducir un valor numérico
+    return false;
   } else {
+    data[colDef.field] = newValue;
     return true;
   }
 };
 
 // Comprueba que el valor es un número entero
-export const validateIntegerNumber = (newValue, _row, _column) => {
+export const validateIntegerNumber = ({ newValue, data, colDef }) => {
   if (
     newValue == null ||
     newValue == "" ||
     isNaN(newValue) ||
     Number(newValue) % 1 !== 0
   ) {
-    return {
-      valid: false,
-      message: "Debe introducir un número entero",
-    };
+    // Debe introducir un número entero
+    return false;
   } else {
+    data[colDef.field] = newValue;
     return true;
   }
 };

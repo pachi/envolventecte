@@ -22,12 +22,15 @@ SOFTWARE.
 */
 
 import React, { useContext } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory from "react-bootstrap-table2-editor";
+// import BootstrapTable from "react-bootstrap-table-next";
+// import cellEditFactory from "react-bootstrap-table2-editor";
 
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
+
+import { AgTable } from "../tables/AgTable.jsx";
+
 import { SCHEDULE_WEEK } from "../../stores/types";
 import { CountScheduleFmt } from "../tables/Formatters";
 import { ScheduleCountsEditor } from "./ScheduleCountsEditor";
@@ -65,107 +68,118 @@ const SchedulesYearTable = ({ selectedIds, setSelectedIds }) => {
     .filter((e) => e.level === "DANGER")
     .map((e) => e.id);
 
-  const columns = [
-    { dataField: "id", isKey: true, hidden: true, text: "ID" },
+    const [columnDefs, setColumnDefs] = useState([
+    { headerName: "ID", field: "id", hide: true },
     {
-      dataField: "name",
-      text: "Nombre",
-      classes: "font-weight-bold",
-      headerStyle: () => ({ width: "20%" }),
-      headerTitle: () => "Nombre de la definición de horario",
-      headerClasses: "text-light bg-secondary",
-      title: (_cell, row) => {
-        return `Horario id: ${row.id}`;
+      headerName: "Nombre",
+      field: "name",
+      cellDataType: "text",
+      flex:2,
+      cellClass: "font-weight-bold",
+      headerTooltip: "Nombre de la definición de horario",
+      headerClass: "text-light bg-secondary",
+      tooltipValueGetter: ({ data }) => {
+        return `Horario id: ${data.id}`;
       },
     },
     {
-      dataField: "values",
-      text: "Horarios semanales",
-      align: "center",
-      editorRenderer: (editorProps, value, row) => (
-        <ScheduleCountsEditor
-          {...editorProps}
-          value={value}
-          name={row.name}
-          idMap={weekSchedulesMap}
-          scheduleOpts={weekSchedulesOpts}
-        />
-      ),
-      formatter: CountScheduleFmt,
+      headerName: "Horarios semanales",
+      field: "values",
+      // cellDataType: "text",
+      cellClass: "text-center",
+      // editorRenderer: (editorProps, value, row) => (
+      //   <ScheduleCountsEditor
+      //     {...editorProps}
+      //     value={value}
+      //     name={row.name}
+      //     idMap={weekSchedulesMap}
+      //     scheduleOpts={weekSchedulesOpts}
+      //   />
+      // ),
+      valueFormatter: CountScheduleFmt,
       formatExtraData: weekSchedulesMap,
-      headerTitle: () => "Lista de horarios semanales",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
+      headerTooltip: "Lista de horarios semanales",
+      headerClass: "text-light bg-secondary text-center",
     },
     {
-      dataField: "n_weeks",
-      text: "n",
-      isDummyField: true,
+      headerName: "n",
+      field: "n_weeks",
+      cellDataType: "number",
+      // isDummyField: true,
       editable: false,
-      align: "center",
-      classes: "td-column-computed-readonly",
-      formatter: (cell, row) =>
-        row.values.map(([_id, count]) => count).reduce((a, b) => a + b, 0),
-      headerTitle: () => "Semanas definidas en el horario anual",
-      headerStyle: () => ({ width: "10%" }),
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
+      cellClass: "text-center",
+      cellClass: "td-column-computed-readonly",
+      valueFormatter: ({data}) =>
+        data.values.map(([_id, count]) => count).reduce((a, b) => a + b, 0),
+      headerTooltip: "Semanas definidas en el horario anual",
+      headerClass: "text-light bg-secondary text-center",
     },
-  ];
+  ]);
+
+  const rowData = appstate.schedules.year;
 
   return (
-    <BootstrapTable
-      data={appstate.schedules.year}
-      keyField="id"
-      striped
-      hover
-      bordered={false}
-      cellEdit={cellEditFactory({
-        mode: "dbclick",
-        blurToSave: true,
-        // Corrige el valor del horario de "" a null
-        // y convierte campos numéricos a número
-        afterSaveCell: (oldValue, newValue, row, column) => {
-          switch (column.dataField) {
-            // Campos opcionales textuales
-            case "values":
-              if (newValue == "") {
-                row[column.dataField] = [];
-              }
-              break;
-          }
-        },
-      })}
-      selectRow={{
-        mode: "checkbox",
-        clickToSelect: true,
-        clickToEdit: true,
-        selected: selectedIds,
-        onSelect: (row, isSelected) => {
-          if (isSelected) {
-            setSelectedIds([...selectedIds, row.id]);
-          } else {
-            setSelectedIds(selectedIds.filter((it) => it !== row.id));
-          }
-        },
-        hideSelectColumn: true,
-        bgColor: "lightgray",
-      }}
-      rowClasses={(row, _rowIdx) => {
-        const classes = [];
-        // Errores
-        if (error_ids_danger.includes(row.id)) {
-          classes.push("id_error_danger");
-        }
-        // Avisos
-        if (error_ids_warning.includes(row.id)) {
-          classes.push("id_error_warning");
-        }
-        return classes.join(" ");
-      }}
-      columns={columns}
+    <AgTable
+      rowData={rowData}
+      columnDefs={columnDefs}
+      selectedIds={selectedIds}
+      setSelectedIds={setSelectedIds}
     />
   );
+
+  // return (
+  //   <BootstrapTable
+  //     data={appstate.schedules.year}
+  //     keyField="id"
+  //     striped
+  //     hover
+  //     bordered={false}
+  //     cellEdit={cellEditFactory({
+  //       mode: "dbclick",
+  //       blurToSave: true,
+  //       // Corrige el valor del horario de "" a null
+  //       // y convierte campos numéricos a número
+  //       afterSaveCell: (oldValue, newValue, row, column) => {
+  //         switch (column.field) {
+  //           // Campos opcionales textuales
+  //           case "values":
+  //             if (newValue == "") {
+  //               row[column.field] = [];
+  //             }
+  //             break;
+  //         }
+  //       },
+  //     })}
+  //     selectRow={{
+  //       mode: "checkbox",
+  //       clickToSelect: true,
+  //       clickToEdit: true,
+  //       selected: selectedIds,
+  //       onSelect: (row, isSelected) => {
+  //         if (isSelected) {
+  //           setSelectedIds([...selectedIds, row.id]);
+  //         } else {
+  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
+  //         }
+  //       },
+  //       hideSelectColumn: true,
+  //       bgColor: "lightgray",
+  //     }}
+  //     rowClasses={(row, _rowIdx) => {
+  //       const classes = [];
+  //       // Errores
+  //       if (error_ids_danger.includes(row.id)) {
+  //         classes.push("id_error_danger");
+  //       }
+  //       // Avisos
+  //       if (error_ids_warning.includes(row.id)) {
+  //         classes.push("id_error_warning");
+  //       }
+  //       return classes.join(" ");
+  //     }}
+  //     columns={columns}
+  //   />
+  // );
 };
 
 export default observer(SchedulesYearTable);

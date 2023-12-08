@@ -32,13 +32,19 @@ import {
   Row,
   ToggleButton,
 } from "react-bootstrap";
-import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory from "react-bootstrap-table2-editor";
+
+// import BootstrapTable from "react-bootstrap-table-next";
+// import cellEditFactory from "react-bootstrap-table2-editor";
 
 import { uuidv4 } from "../../utils";
 
-import { AzimuthFmt, optionalNumberDisplay, TiltFmt } from "../tables/Formatters";
-import { getFloatOrOld } from "../tables/utils";
+import { AgTable } from "../tables/AgTable.jsx";
+import {
+  optionalNumberDisplay,
+  AzimuthFmt,
+  TiltFmt,
+} from "../tables/FormattersAg.jsx";
+import { getHeader } from "../tables/Helpers.jsx";
 
 import { ListEditor } from "../ui/ListEditor";
 
@@ -308,45 +314,27 @@ const PositionEditor = ({
 const CoordsTable = ({ poly, setPoly }) => {
   // Filas de puntos 2D seleccionados
   const [selected, setSelected] = useState([]);
-  const columns = [
-    { dataField: "id", isKey: true, hidden: true },
+  const [columnDefs, setColumnDefs] = useState([
+    { headerName: "ID", field: "id", hide: true },
     {
-      dataField: "X",
-      formatter: cell => optionalNumberDisplay(cell, 2),
-      text: "Coordenada X (coordenadas locales)",
-      align: "center",
-      headerTitle: (_col, _colIndex) => "Coordenadas locales eje X",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          X
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[m]</i>{" "}
-          </span>
-        </>
-      ),
+      headerName: "Coordenada X (coordenadas locales)",
+      field: "X",
+      valueFormatter: optionalNumberDisplay,
+      cellClass: "text-center",
+      headerTooltip: "Coordenadas locales eje X",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("X", "", "m"),
     },
     {
-      dataField: "Y",
-      formatter: cell => optionalNumberDisplay(cell, 2),
-      text: "Coordenada Y (coordenadas locales)",
-      align: "center",
-      headerTitle: (_col, _colIndex) => "Coordenadas locales eje Y",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          Y
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[m]</i>{" "}
-          </span>
-        </>
-      ),
+      headerName: "Coordenada Y (coordenadas locales)",
+      field: "Y",
+      valueFormatter: optionalNumberDisplay,
+      cellClass: "text-center",
+      headerTooltip: "Coordenadas locales eje Y",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("Y", "", "m"),
     },
-  ];
+  ]);
 
   const newPoint = () => ({ id: uuidv4(), X: 0.0, Y: 0.0 });
 
@@ -361,7 +349,13 @@ const CoordsTable = ({ poly, setPoly }) => {
           selectedIds={selected}
           setSelectedIds={setSelected}
         />
-        <BootstrapTable
+        <AgTable
+          rowData={poly}
+          columnDefs={columnDefs}
+          selectedIds={selectedIds}
+          setSelectedIds={setSelectedIds}
+        />
+        {/* <BootstrapTable
           data={poly}
           keyField="id"
           striped
@@ -372,8 +366,8 @@ const CoordsTable = ({ poly, setPoly }) => {
             blurToSave: true,
             afterSaveCell: (oldValue, newValue, row, column) => {
               // Convierte a número campos numéricos
-              if (["X", "Y"].includes(column.dataField)) {
-                row[column.dataField] = getFloatOrOld(newValue, oldValue);
+              if (["X", "Y"].includes(column.field)) {
+                row[column.field] = getFloatOrOld(newValue, oldValue);
               }
             },
           })}
@@ -393,7 +387,7 @@ const CoordsTable = ({ poly, setPoly }) => {
             bgColor: "lightgray",
           }}
           columns={columns}
-        />
+        /> */}
       </Col>
     </Row>
   );

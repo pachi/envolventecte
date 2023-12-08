@@ -25,12 +25,12 @@ import React, { useContext, useState, useMemo } from "react";
 
 import { observer } from "mobx-react";
 
-import AppState from "../../stores/AppState";
+import AppState from "../../stores/AppState.js";
 
 import { AgTable } from "../tables/AgTable.jsx";
-import { optionalNumberDisplay } from "../tables/FormattersAg";
-import { getHeader } from "../tables/Helpers";
-import { validateNonNegNumber } from "../tables/ValidatorsAg";
+import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
+import { getHeader } from "../tables/Helpers.jsx";
+import { validateNonNegNumber } from "../tables/Validators.js";
 
 // Tabla de materiales para opacos del edificio
 const GlassesTable = ({ selectedIds, setSelectedIds }) => {

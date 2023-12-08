@@ -23,10 +23,14 @@ SOFTWARE.
 
 import React, { useState } from "react";
 import { Modal, Button, Col, Container, Row } from "react-bootstrap";
-import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory from "react-bootstrap-table2-editor";
+// import BootstrapTable from "react-bootstrap-table-next";
+// import cellEditFactory from "react-bootstrap-table2-editor";
 
-import { optionalNumberDisplay } from "../tables/Formatters";
+import { AgTable } from "../tables/AgTable.jsx";
+import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
+import { getHeader } from "../tables/Helpers.jsx";
+import { validateNonNegNumber } from "../tables/Validators.js";
+
 import { getFloatOrOld } from "../tables/utils";
 
 /*
@@ -92,29 +96,26 @@ export const ScheduleHoursEditor = React.forwardRef(
 // Tabla con valores horarios
 const ScheduleHoursTable = ({ hours }) => {
   const columns = [
-    { dataField: "id", isKey: true, hidden: true },
+    { headerName: "ID", field: "id", hide: true },
     {
-      dataField: "hora",
-      text: "Hora",
-      isDummyField: true,
+      headerName: "Hora",
+      field: "hora",
+      cellDataType: "text",
+      // isDummyField: true,
       editable: false,
-      align: "center",
-      classes: "td-column-computed-readonly",
-      formatter: (cell, row) => row.id,
-      headerTitle: () => "Hora para la que se define el valor horario. ",
-      headerStyle: () => ({ width: "10%" }),
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
+      cellClass: "td-column-computed-readonly text-center",
+      valueFormatter: ({ data }) => data.id,
+      headerTooltip: "Hora para la que se define el valor horario.",
+      headerClass: "text-light bg-secondary text-center",
     },
     {
-      dataField: "value",
-      formatter: cell => optionalNumberDisplay(cell, 2),
-      text: "valor",
-      align: "center",
-      headerTitle: (_col, _colIndex) =>
-        "Valor que toma el horario en esta hora",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
+      headerName: "valor",
+      field: "value",
+      cellDataType: "number",
+      valueFormatter: optionalNumberDisplay,
+      cellClass: "text-center",
+      headerTitle: "Valor que toma el horario en esta hora",
+      headerClass: "text-light bg-secondary text-center",
     },
   ];
 
@@ -122,7 +123,13 @@ const ScheduleHoursTable = ({ hours }) => {
     <Row id="schedule_hours_edit_table">
       <Col>
         <label htmlFor="schedule_hours_edit_table">Horario:</label>
-        <BootstrapTable
+        <AgTable
+          rowData={hours}
+          columnDefs={columnDefs}
+          selectedIds={selectedIds}
+          setSelectedIds={setSelectedIds}
+        />
+        {/* <BootstrapTable
           data={hours}
           keyField="id"
           striped
@@ -133,11 +140,11 @@ const ScheduleHoursTable = ({ hours }) => {
             blurToSave: true,
             afterSaveCell: (oldValue, newValue, row, column) => {
               // Convierte a número campos numéricos
-              row[column.dataField] = getFloatOrOld(newValue, oldValue);
+              row[column.field] = getFloatOrOld(newValue, oldValue);
             },
           })}
           columns={columns}
-        />
+        /> */}
       </Col>
     </Row>
   );

@@ -29,7 +29,7 @@ import AppState from "../../stores/AppState";
 import { FRAME } from "../../stores/types";
 
 import AddRemoveButtonGroup from "../ui/AddRemoveButtonGroup";
-import FramesTable from "./FramesTableAg";
+import FramesTable from "./FramesTable";
 
 // Vista de construcciones de opacos del edificio
 const FramesView = observer(() => {

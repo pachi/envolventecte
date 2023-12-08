@@ -21,85 +21,100 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory from "react-bootstrap-table2-editor";
+import React, { useContext, useState } from "react";
 
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
+
+import { AgTable } from "../tables/AgTable.jsx";
+import { getHeader } from "../tables/Helpers.jsx";
+
 import { GeometryOpaquesEditor } from "./GeometryEditors";
-import { OpaqueGeomFmt, OpaqueGeomIconFmt } from "../tables/Formatters";
+// import { OpaqueGeomFmt, OpaqueGeomIconFmt } from "../tables/Formatters";
 
 // Tabla de elementos de sombra del edificio
 const ShadesTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
-  const columns = [
-    { dataField: "id", isKey: true, hidden: true },
+
+  const [columnDefs, setColumnDefs] = useState([
+    { headerName: "ID", field: "id", hide: true },
     {
-      dataField: "name",
-      text: "Nombre",
-      classes: "font-weight-bold",
-      headerStyle: () => ({ width: "30%" }),
-      headerTitle: () => "Nombre que identifica el elemento de sombra",
-      headerClasses: "text-light bg-secondary",
-      title: (_cell, row) => `Elemento de sombra id: ${row.id}`,
+      headerName: "Nombre",
+      field: "name",
+      cellDataType: "text",
+      cellClass: "font-weight-bold",
+      flex: 2,
+      headerTooltip: "Nombre que identifica el elemento de sombra",
+      headerClass: "text-light bg-secondary",
+      tooltipValueGetter: ({ data }) => `Elemento de sombra id: ${data.id}`,
     },
     {
-      dataField: "geometry",
-      text: "Geometría",
-      align: "center",
-      formatter: OpaqueGeomIconFmt,
-      title: OpaqueGeomFmt,
-      headerTitle: () =>
+      headerName: "Geometría",
+      field: "geometry",
+      cellDataType: "object",
+      cellClass: "text-center",
+      // valueFormatter: OpaqueGeomIconFmt,
+      // tooltipValueGetter: OpaqueGeomFmt,
+      headerTooltip:
         "Geometría (punto de inserción, vértices y orientación e inclinación de la superficie.",
       editorRenderer: (editorProps, value, row) => (
         <GeometryOpaquesEditor {...editorProps} value={value} name={row.name} />
       ),
-      headerAlign: "center",
-      headerClasses: "text-light bg-secondary",
-      headerFormatter: () => <>Geometría</>,
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("Geometría"),
     },
-  ];
+  ]);
+
+  const rowData = appstate.shades;
+
   return (
-    <BootstrapTable
-      data={appstate.shades}
-      keyField="id"
-      striped
-      hover
-      bordered={false}
-      tableHeaderClass="text-light bg-secondary"
-      cellEdit={cellEditFactory({
-        mode: "dbclick",
-        blurToSave: true,
-        afterSaveCell: (oldValue, newValue, row, column) => {
-          if (
-            column.dataField === "geometry.position" &&
-            newValue === undefined
-          ) {
-            // Corrige el valor de position de undefined a null
-            row.geometry.position = null;
-          }
-        },
-      })}
-      selectRow={{
-        mode: "checkbox",
-        clickToSelect: true,
-        clickToEdit: true,
-        selected: selectedIds,
-        onSelect: (row, isSelected) => {
-          if (isSelected) {
-            setSelectedIds([...selectedIds, row.id]);
-          } else {
-            setSelectedIds(selectedIds.filter((it) => it !== row.id));
-          }
-        },
-        hideSelectColumn: true,
-        bgColor: "lightgray",
-      }}
-      columns={columns}
+    <AgTable
+      rowData={rowData}
+      columnDefs={columnDefs}
+      selectedIds={selectedIds}
+      setSelectedIds={setSelectedIds}
     />
   );
+  // return (
+  //   <BootstrapTable
+  //     data={appstate.shades}
+  //     keyField="id"
+  //     striped
+  //     hover
+  //     bordered={false}
+  //     tableHeaderClass="text-light bg-secondary"
+  //     cellEdit={cellEditFactory({
+  //       mode: "dbclick",
+  //       blurToSave: true,
+  //       afterSaveCell: (oldValue, newValue, row, column) => {
+  //         if (
+  //           column.field === "geometry.position" &&
+  //           newValue === undefined
+  //         ) {
+  //           // Corrige el valor de position de undefined a null
+  //           row.geometry.position = null;
+  //         }
+  //       },
+  //     })}
+  //     selectRow={{
+  //       mode: "checkbox",
+  //       clickToSelect: true,
+  //       clickToEdit: true,
+  //       selected: selectedIds,
+  //       onSelect: (row, isSelected) => {
+  //         if (isSelected) {
+  //           setSelectedIds([...selectedIds, row.id]);
+  //         } else {
+  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
+  //         }
+  //       },
+  //       hideSelectColumn: true,
+  //       bgColor: "lightgray",
+  //     }}
+  //     columns={columns}
+  //   />
+  // );
 };
 
 export default observer(ShadesTable);

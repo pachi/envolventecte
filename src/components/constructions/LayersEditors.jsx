@@ -31,8 +31,8 @@ import {
   Row,
   ButtonToolbar,
 } from "react-bootstrap";
-import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
+// import BootstrapTable from "react-bootstrap-table-next";
+// import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
 import iconplus from "../img/baseline-add-24px.svg";
 import iconless from "../img/baseline-remove-24px.svg";
@@ -45,8 +45,9 @@ import iconarrowdown from "../img/arrow_down.svg";
 import { uuidv4 } from "../../utils";
 import AppState, { EMPTY_ID } from "../../stores/AppState";
 
-import { optionalNumberDisplay, NameFromIdFmt } from "../tables/Formatters";
-import { getFloatOrOld } from "../tables/utils";
+import { AgTable } from "../tables/AgTable.jsx";
+import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
+import { getHeader } from "../tables/Helpers.jsx";
 
 import { MATERIAL } from "../../stores/types";
 
@@ -118,43 +119,34 @@ const LayersTable = ({ layers, setLayers }) => {
   // Filas de puntos 2D seleccionados
   const [selected, setSelected] = useState([]);
 
-  const columns = [
-    { dataField: "id", isKey: true, hidden: true },
+  const [columnDefs, setColumnDefs] = useState([
+    { headerName: "ID", field: "id", hide: true },
     {
-      dataField: "material",
-      text: "Material de opaco",
-      editor: {
-        type: Type.SELECT,
-        options: materialOpts,
-      },
-      formatter: NameFromIdFmt,
-      formatExtraData: matsMap,
-      align: "left",
-      headerTitle: (_col, _colIndex) => "Material de opaco",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => <>Material</>,
+      headerName: "Material de opaco",
+      field: "material",
+      cellDataType: "text",
+      // editor: {
+      //   type: Type.SELECT,
+      //   options: materialOpts,
+      // },
+      // formatExtraData: matsMap,
+      valueFormatter: ({ value }) => matsMap[value],
+      cellClass: "text-left",
+      headerTooltip: "Material de opaco",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("Material", "", ""),
     },
     {
-      dataField: "e",
-      formatter: cell => optionalNumberDisplay(cell, 3),
-      text: "Espesor",
-      align: "center",
-      headerTitle: (_col, _colIndex) => "Espesor de la capa",
-      headerStyle: () => ({ width: "20%" }),
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
-      headerFormatter: () => (
-        <>
-          Espesor
-          <br />
-          <span style={{ fontWeight: "normal" }}>
-            <i>[m]</i>{" "}
-          </span>
-        </>
-      ),
+      headerName: "Espesor",
+      field: "e",
+      cellDataType: "number",
+      cellClass: "text-center",
+      headerTooltip: "Espesor de la capa",
+      headerClass: "text-light bg-secondary text-center",
+      headerComponent: (_props) => getHeader("Espesor", "", "m"),
+      valueFormatter: (params) => optionalNumberDisplay(params, 3),
     },
-  ];
+  ]);
 
   return (
     <Row id="ctable">
@@ -166,7 +158,13 @@ const LayersTable = ({ layers, setLayers }) => {
           selectedIds={selected}
           setSelectedIds={setSelected}
         />
-        <BootstrapTable
+        <AgTable
+          rowData={layers}
+          columnDefs={columnDefs}
+          selectedIds={selectedIds}
+          setSelectedIds={setSelectedIds}
+        />
+        {/* <BootstrapTable
           data={layers}
           keyField="id"
           striped
@@ -177,8 +175,8 @@ const LayersTable = ({ layers, setLayers }) => {
             blurToSave: true,
             afterSaveCell: (oldValue, newValue, row, column) => {
               // Convierte a número campos numéricos
-              if (["e"].includes(column.dataField)) {
-                row[column.dataField] = getFloatOrOld(newValue, oldValue);
+              if (["e"].includes(column.field)) {
+                row[column.field] = getFloatOrOld(newValue, oldValue);
               }
             },
           })}
@@ -198,7 +196,7 @@ const LayersTable = ({ layers, setLayers }) => {
             bgColor: "lightgray",
           }}
           columns={columns}
-        />
+        /> */}
       </Col>
     </Row>
   );

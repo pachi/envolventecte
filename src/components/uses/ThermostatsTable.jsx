@@ -21,15 +21,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
+import React, { useContext, useState } from "react";
+// import BootstrapTable from "react-bootstrap-table-next";
+// import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
+
+import { AgTable } from "../tables/AgTable.jsx";
+import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
+
 import { SCHEDULE_YEAR } from "../../stores/types";
-import { NameFromIdFmt } from "../tables/Formatters";
 
 // Tabla de consignas de los espacios
 //  {
@@ -52,105 +55,110 @@ const ThermostatsTable = ({ selectedIds, setSelectedIds }) => {
     .filter((e) => e.level === "DANGER")
     .map((e) => e.id);
 
-  const columns = [
-    { dataField: "id", isKey: true, hidden: true, text: "ID" },
+  const [columnDefs, setColumnDefs] = useState([
+    { headerName: "ID", field: "id", hide: true },
     {
-      dataField: "name",
-      text: "Nombre",
-      classes: "font-weight-bold",
-      headerStyle: () => ({ width: "20%" }),
-      headerTitle: () => "Nombre que identifica la definición de consignas",
-      headerClasses: "text-light bg-secondary",
-      title: (_cell, row) => {
-        return `Consignas id: ${row.id}`;
-      },
+      headerName: "Nombre",
+      field: "name",
+      cellDataType: "text",
+      flex: 2,
+      cellClass: "font-weight-bold",
+      headerTooltip: "Nombre que identifica la definición de consignas",
+      headerClass: "text-light bg-secondary",
+      tooltipValueGetter: ({ data }) => `Consignas id: ${data.id}`,
     },
     {
-      dataField: "temp_max",
-      text: "Consigna alta (REF)",
-      editor: {
-        type: Type.SELECT,
-        options: schedulesOpts,
-      },
-      align: "center",
-      headerStyle: () => ({ width: "25%" }),
-      formatter: NameFromIdFmt,
-      formatExtraData: schedulesMap,
-      headerTitle: () => "Consigna alta (REF)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
+      headerName: "Consigna alta (REF)",
+      field: "temp_max",
+      // editor: {
+      //   type: Type.SELECT,
+      //   options: schedulesOpts,
+      // },
+      // formatExtraData: schedulesMap,
+      cellClass: "text-center",
+      valueFormatter: ({ value }) => schedulesMap[value],
+      headerTooltip: "Consigna alta (REF)",
+      headerClass: "text-light bg-secondary text-center",
     },
     {
-      dataField: "temp_min",
-      text: "Consigna baja (CAL)",
-      editor: {
-        type: Type.SELECT,
-        options: schedulesOpts,
-      },
-      align: "center",
-      headerStyle: () => ({ width: "25%" }),
-      formatter: NameFromIdFmt,
-      formatExtraData: schedulesMap,
-      headerTitle: () => "Consigna baja (CAL)",
-      headerClasses: "text-light bg-secondary",
-      headerAlign: "center",
+      headerName: "Consigna baja (CAL)",
+      field: "temp_min",
+      // editor: {
+      //   type: Type.SELECT,
+      //   options: schedulesOpts,
+      // },
+      // formatExtraData: schedulesMap,
+      cellClass: "text-center",
+      valueFormatter: ({ value }) => schedulesMap[value],
+      headerTooltip: "Consigna baja (CAL)",
+      headerClass: "text-light bg-secondary text-center",
     },
-  ];
+  ]);
+
+  const rowData = appstate.thermostats;
 
   return (
-    <BootstrapTable
-      data={appstate.thermostats}
-      keyField="id"
-      striped
-      hover
-      bordered={false}
-      cellEdit={cellEditFactory({
-        mode: "dbclick",
-        blurToSave: true,
-        // Corrige el valor del espacio adyacente de "" a null
-        // y convierte campos numéricos a número
-        afterSaveCell: (oldValue, newValue, row, column) => {
-          switch (column.dataField) {
-            // Campos opcionales textuales
-            case "temp_max":
-            case "temp_min":
-              if (newValue == "") {
-                row[column.dataField] = null;
-              }
-              break;
-          }
-        },
-      })}
-      selectRow={{
-        mode: "checkbox",
-        clickToSelect: true,
-        clickToEdit: true,
-        selected: selectedIds,
-        onSelect: (row, isSelected) => {
-          if (isSelected) {
-            setSelectedIds([...selectedIds, row.id]);
-          } else {
-            setSelectedIds(selectedIds.filter((it) => it !== row.id));
-          }
-        },
-        hideSelectColumn: true,
-        bgColor: "lightgray",
-      }}
-      rowClasses={(row, _rowIdx) => {
-        const classes = [];
-        // Errores
-        if (error_ids_danger.includes(row.id)) {
-          classes.push("id_error_danger");
-        }
-        // Avisos
-        if (error_ids_warning.includes(row.id)) {
-          classes.push("id_error_warning");
-        }
-        return classes.join(" ");
-      }}
-      columns={columns}
+    <AgTable
+      rowData={rowData}
+      columnDefs={columnDefs}
+      selectedIds={selectedIds}
+      setSelectedIds={setSelectedIds}
     />
   );
+  // return (
+  //   <BootstrapTable
+  //     data={appstate.thermostats}
+  //     keyField="id"
+  //     striped
+  //     hover
+  //     bordered={false}
+  //     cellEdit={cellEditFactory({
+  //       mode: "dbclick",
+  //       blurToSave: true,
+  //       // Corrige el valor del espacio adyacente de "" a null
+  //       // y convierte campos numéricos a número
+  //       afterSaveCell: (oldValue, newValue, row, column) => {
+  //         switch (column.field) {
+  //           // Campos opcionales textuales
+  //           case "temp_max":
+  //           case "temp_min":
+  //             if (newValue == "") {
+  //               row[column.field] = null;
+  //             }
+  //             break;
+  //         }
+  //       },
+  //     })}
+  //     selectRow={{
+  //       mode: "checkbox",
+  //       clickToSelect: true,
+  //       clickToEdit: true,
+  //       selected: selectedIds,
+  //       onSelect: (row, isSelected) => {
+  //         if (isSelected) {
+  //           setSelectedIds([...selectedIds, row.id]);
+  //         } else {
+  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
+  //         }
+  //       },
+  //       hideSelectColumn: true,
+  //       bgColor: "lightgray",
+  //     }}
+  //     rowClasses={(row, _rowIdx) => {
+  //       const classes = [];
+  //       // Errores
+  //       if (error_ids_danger.includes(row.id)) {
+  //         classes.push("id_error_danger");
+  //       }
+  //       // Avisos
+  //       if (error_ids_warning.includes(row.id)) {
+  //         classes.push("id_error_warning");
+  //       }
+  //       return classes.join(" ");
+  //     }}
+  //     columns={columns}
+  //   />
+  // );
 };
 
 export default observer(ThermostatsTable);
