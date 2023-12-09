@@ -32,11 +32,10 @@ import AppState from "../../stores/AppState";
 import { AgTable } from "../tables/AgTable.jsx";
 
 import {
-  // OpaqueGeomFmt,
-  // OpaqueGeomIconFmt,
-} from "../tables/Formatters";
-
-import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
+  optionalNumberDisplay,
+  OpaqueGeomIconCellRenderer,
+  OpaqueGeomFmt,
+} from "../tables/FormattersAg.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 
 import { GeometryOpaquesEditor } from "./GeometryEditors";
@@ -123,7 +122,9 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
         values: [...Object.keys(spaceMap), null],
       },
       valueParser: (p) =>
-        [...spaceMap.entries(), ["", null]].find(([key, val]) => val == p.newValue)[0],
+        [...spaceMap.entries(), ["", null]].find(
+          ([key, val]) => val == p.newValue
+        )[0],
       valueFormatter: ({ value }) => spaceMap[value] ?? "",
       headerTooltip:
         "Espacio adyacente con el que comunica el elemento opaco, cuando este es un elemento interior",
@@ -134,8 +135,8 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       field: "geometry",
       cellDataType: "text",
       cellClass: "text-center",
-      // valueFormatter: OpaqueGeomIconFmt,
-      // tooltipValueGetter: ({data}) => OpaqueGeomFmt,
+      cellRenderer: OpaqueGeomIconCellRenderer,
+      tooltipValueGetter: OpaqueGeomFmt,
       headerTooltip:
         "Geometría (punto de inserción, polígono, inclinación y orientación).",
       editorRenderer: (editorProps, value, row) => (

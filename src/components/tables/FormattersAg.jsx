@@ -53,33 +53,33 @@ export const ZFmt = ({ value }) =>
   value === null || value === undefined ? 0.0 : Number(value).toFixed(2);
 
 // Convierte ángulo de azimuth a nombre
-export const AzimuthFmt = ({ value }) =>
+export const AzimuthName = (value) =>
   value === undefined ? "-" : azimuth_name(value);
 
 // Convierte ángulo de inclinación a nombre
-export const TiltFmt = ({ value }) =>
+export const TiltName = (value) =>
   value === undefined ? "-" : tilt_name(value);
 
-// // Convierte punto 3D de posición a cadena de coordenadas
-// export const PosFmt = (pos) => {
-//   if (pos === null) {
-//     return "-";
-//   } else if (pos.length === 3) {
-//     return `[${pos[0].toFixed(2)}, ${pos[1].toFixed(2)}, ${pos[2].toFixed(2)}]`;
-//   }
-//   if (pos.length === 2) {
-//     return `[${pos[0].toFixed(2)}, ${pos[1].toFixed(2)}]`;
-//   }
-//   return "-";
-// };
+// Convierte punto 3D de posición a cadena de coordenadas
+export const PosTxt = (pos) => {
+  if (pos === null) {
+    return "-";
+  } else if (pos.length === 3) {
+    return `[${pos[0].toFixed(2)}, ${pos[1].toFixed(2)}, ${pos[2].toFixed(2)}]`;
+  }
+  if (pos.length === 2) {
+    return `[${pos[0].toFixed(2)}, ${pos[1].toFixed(2)}]`;
+  }
+  return "-";
+};
 
-// // Convierte vector de puntos 2D de polígono a cadena de lista de coordenadas
-// export const PolyFmt = (poly) =>
-//   poly !== null && poly.length !== 0
-//     ? `[${poly
-//         .map((point) => `[${point[0].toFixed(2)}, ${point[1].toFixed(2)}]`)
-//         .join(", ")}]`
-//     : "-";
+// Convierte vector de puntos 2D de polígono a cadena de lista de coordenadas
+export const PolyTxt = (poly) =>
+  poly !== null && poly.length !== 0
+    ? `[${poly
+        .map((point) => `[${point[0].toFixed(2)}, ${point[1].toFixed(2)}]`)
+        .join(", ")}]`
+    : "-";
 
 // // Convierte punto 3D de posición o valor nulo a icono
 // export const PosIconFmt = (pos, _row) =>
@@ -97,64 +97,59 @@ export const TiltFmt = ({ value }) =>
 //     <img src={nullPolyIcon} alt="-" />
 //   );
 
-// // Línea descriptiva de geometría
-// export const OpaqueGeomFmt = (geom, _row) => {
-//   return `azimuth: ${geom.azimuth.toFixed(2)},
-// inclinación: ${geom.tilt.toFixed(2)},
-// posición: ${PosFmt(geom.position)},
-// polígono: ${PolyFmt(geom.polygon)}`;
-// };
+// Línea descriptiva de geometría
+export const OpaqueGeomFmt = ({ value }) => {
+  return `azimuth: ${value.azimuth.toFixed(2)},
+inclinación: ${value.tilt.toFixed(2)},
+posición: ${PosTxt(value.position)},
+polígono: ${PolyTxt(value.polygon)}`;
+};
 
-// // Línea descriptiva de huecos
-// export const WindowGeomFmt = (geom, _row) => {
-//   return `ancho: ${geom.width.toFixed(2)},
-// alto: ${geom.height.toFixed(2)},
-// retranqueo: ${geom.setback.toFixed(2)},
-// posición: ${PosFmt(geom.position)}`;
-// };
+// Línea descriptiva de huecos
+export const WindowGeomFmt = ({value}, _row) => {
+  return `ancho: ${value.width.toFixed(2)},
+alto: ${value.height.toFixed(2)},
+retranqueo: ${value.setback.toFixed(2)},
+posición: ${PosTxt(value.position)}`;
+};
 
-// // Convierte geometría de hueco a icono según tenga o no punto de inserción
-// export const WindowGeomIconFmt = (geometry, row, _rowIndex, wallData) => {
-//   const wall = wallData[row.wall];
-//   const has_wall = wall !== undefined;
-//   const azimuth_dir = has_wall ? AzimuthFmt(wall.azimuth) : "-";
-//   const azimuth = has_wall ? <OrientaIcon dir={azimuth_dir} /> : "-";
-//   const tilt_dir = has_wall ? TiltFmt(wall.tilt) : "-";
-//   const tilt = has_wall ? <TiltIcon dir={tilt_dir} /> : "-";
-//   const position = geometry.position ? (
-//     <img src={fullGeometryIcon} alt="+" />
-//   ) : (
-//     <img src={partialGeometryIcon} alt="-" />
-//   );
-//   return (
-//     <>
-//       {position} | {azimuth} {azimuth_dir} | {tilt} {tilt_dir[0]}
-//     </>
-//   );
-// };
+// Convierte geometría de hueco a icono según tenga o no punto de inserción
+export const WindowGeomIconCellRenderer = ({data, value, wallData}) => {
+  const wall = wallData[data.wall];
+  const has_wall = wall !== undefined;
+  const azimuth_dir = has_wall ? AzimuthName(wall.azimuth) : "-";
+  const azimuth = has_wall ? <OrientaIcon dir={azimuth_dir} /> : "-";
+  const tilt_dir = has_wall ? TiltName(wall.tilt) : "-";
+  const tilt = has_wall ? <TiltIcon dir={tilt_dir} /> : "-";
+  const position = value.position ? (
+    <img src={fullGeometryIcon} alt="+" />
+  ) : (
+    <img src={partialGeometryIcon} alt="-" />
+  );
+  return (
+    <>
+      {position} | {azimuth} {azimuth_dir} | {tilt} {tilt_dir[0]}
+    </>
+  );
+};
 
-// // Convierte geometría de hueco a icono según tenga o no punto de inserción
-// export const OpaqueGeomIconFmt = (
-//   geometry,
-//   _row,
-//   _rowIndex,
-//   _formatExtraData
-// ) => {
-//   const azimuth_dir = AzimuthFmt(geometry.azimuth);
-//   const azimuth = <OrientaIcon dir={azimuth_dir} />;
-//   const tilt_dir = TiltFmt(geometry.tilt);
-//   const tilt = <TiltIcon dir={tilt_dir} />;
-//   const position = geometry.position ? (
-//     <img src={fullGeometryIcon} alt="+" />
-//   ) : (
-//     <img src={partialGeometryIcon} alt="-" />
-//   );
-//   return (
-//     <>
-//       {position} | {azimuth} {azimuth_dir} | {tilt} {tilt_dir[0]}
-//     </>
-//   );
-// };
+// Convierte geometría de hueco a icono según tenga o no punto de inserción
+export const OpaqueGeomIconCellRenderer = ({ data, value }) => {
+  const azimuth_dir = AzimuthName(value.azimuth);
+  const azimuth = <OrientaIcon dir={azimuth_dir} />;
+  const tilt_dir = TiltName(value.tilt);
+  const tilt = <TiltIcon dir={tilt_dir} />;
+  const position = value.position ? (
+    <img src={fullGeometryIcon} alt="+" />
+  ) : (
+    <img src={partialGeometryIcon} alt="-" />
+  );
+  return (
+    <>
+      {position} | {azimuth} {azimuth_dir} | {tilt} {tilt_dir[0]}
+    </>
+  );
+};
 
 // Muestra tipo de espacio
 export const SpaceTypeFmt = ({ value }) =>

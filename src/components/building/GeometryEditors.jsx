@@ -41,8 +41,8 @@ import { uuidv4 } from "../../utils";
 import { AgTable } from "../tables/AgTable.jsx";
 import {
   optionalNumberDisplay,
-  AzimuthFmt,
-  TiltFmt,
+  AzimuthName,
+  TiltName,
 } from "../tables/FormattersAg.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 
@@ -176,7 +176,7 @@ const AzimuthTiltEditor = ({ azimuth, setAzimuth, tilt, setTilt }) => (
             />
           </Col>
           <Col style={{ background: "#EEE", color: "gray" }}>
-            {AzimuthFmt(azimuth)}
+            {AzimuthName(azimuth)}
           </Col>
         </Row>
       </Col>
@@ -201,7 +201,7 @@ const AzimuthTiltEditor = ({ azimuth, setAzimuth, tilt, setTilt }) => (
             />
           </Col>
           <Col style={{ background: "#EEE", color: "gray" }}>
-            {TiltFmt(tilt)}
+            {TiltName(tilt)}
           </Col>
         </Row>
       </Col>

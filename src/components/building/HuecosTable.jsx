@@ -29,11 +29,11 @@ import AppState from "../../stores/AppState";
 
 import { AgTable } from "../tables/AgTable.jsx";
 
-import // WindowGeomFmt,
-// WindowGeomIconFmt,
-"../tables/Formatters";
-
-import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
+import {
+  optionalNumberDisplay,
+  WindowGeomFmt,
+  WindowGeomIconCellRenderer,
+} from "../tables/FormattersAg.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 
 import { GeometryWindowEditor } from "./GeometryEditors";
@@ -105,9 +105,9 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
       headerName: "Geometría",
       field: "geometry",
       cellClass: "text-center",
-      // valueFormatter: WindowGeomIconFmt,
-      // formatExtraData: wallData,
-      // tooltipValueGetter: WindowGeomFmt,
+      cellRenderer: WindowGeomIconCellRenderer,
+      cellRendererParams: { wallData },
+      tooltipValueGetter: WindowGeomFmt,
       headerTooltip:
         "Descripción geométrica del hueco (posición, ancho, alto, retranqueo). Posición en coordenadas de muro [x, y]. Para elementos sin definición geométrica completa la posición es una lista vacía.",
       // editorRenderer: (editorProps, value, row) => (

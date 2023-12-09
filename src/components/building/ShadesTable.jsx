@@ -31,7 +31,7 @@ import { AgTable } from "../tables/AgTable.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 
 import { GeometryOpaquesEditor } from "./GeometryEditors";
-// import { OpaqueGeomFmt, OpaqueGeomIconFmt } from "../tables/Formatters";
+import { OpaqueGeomFmt, OpaqueGeomIconCellRenderer } from "../tables/FormattersAg.jsx";
 
 // Tabla de elementos de sombra del edificio
 const ShadesTable = ({ selectedIds, setSelectedIds }) => {
@@ -54,8 +54,8 @@ const ShadesTable = ({ selectedIds, setSelectedIds }) => {
       field: "geometry",
       cellDataType: "object",
       cellClass: "text-center",
-      // valueFormatter: OpaqueGeomIconFmt,
-      // tooltipValueGetter: OpaqueGeomFmt,
+      cellRenderer: OpaqueGeomIconCellRenderer,
+      tooltipValueGetter: OpaqueGeomFmt,
       headerTooltip:
         "Geometría (punto de inserción, vértices y orientación e inclinación de la superficie.",
       editorRenderer: (editorProps, value, row) => (
