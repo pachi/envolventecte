@@ -31,7 +31,7 @@ import AppState from "../../stores/AppState";
 
 import { AgTable } from "../tables/AgTable.jsx";
 import {
-  optionalNumberDisplay,
+  optionalNumberFmt,
   LayersCellRenderer,
 } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
@@ -86,7 +86,7 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       field: "absorptance",
       cellDataType: "number",
       cellClass: "text-center",
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       valueSetter: validateNonNegNumber,
       headerTooltip: "Absortividad térmica de la solución constructiva (-)",
       headerClass: "text-light bg-secondary text-center",
@@ -97,7 +97,7 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       editable: false,
       cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) => wallconsPropsMap[data.id].thickness,
-      valueFormatter: params => optionalNumberDisplay(params, 3),
+      valueFormatter: params => optionalNumberFmt(params, 3),
       headerTooltip: "Espesor total de la composición de capas (m)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("e", "", "m"),
@@ -107,7 +107,7 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       editable: false,
       cellClass: "column-computed-readonly text-center",
       valueGetter: ({data}) => wallconsPropsMap[data.id].resistance,
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       headerTooltip:
         "Resistencia térmica de la solución constructiva (sin resistencias superficiales) (m²·K/W)",
       headerClass: "text-light bg-secondary text-center",
@@ -118,7 +118,7 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       editable: false,
       cellClass: "column-readonly text-center",
       valueGetter: (_p) => walls_Co100,
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       headerTooltip:
         "Coeficiente de caudal de aire de la parte opaca de la envolvente térmica (a 100 Pa). Varía según n50 de ensayo o tipo de edificio (nuevo / existente)",
       headerClass: "text-light bg-secondary text-center",

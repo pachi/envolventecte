@@ -30,7 +30,7 @@ import { observer } from "mobx-react";
 import AppState from "../../stores/AppState";
 
 import { AgTable } from "../tables/AgTable.jsx";
-import { optionalNumberDisplay } from "../tables/Formatters.jsx";
+import { optionalNumberFmt } from "../tables/Formatters.jsx";
 
 import { SCHEDULE_YEAR } from "../../stores/types";
 

@@ -31,10 +31,10 @@ import AppState from "../../stores/AppState";
 
 import { AgTable } from "../tables/AgTable.jsx";
 import {
-  MultiplierFmt,
-  optionalNumberDisplay,
+  DefaultOneFmt,
+  optionalNumberFmt,
   SpaceTypeFmt,
-  ZFmt,
+  DefaultZeroFmt,
 } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 import {
@@ -134,7 +134,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       headerName: "Multiplicador",
       field: "multiplier",
       cellClass: "text-center",
-      valueFormatter: MultiplierFmt,
+      valueFormatter: DefaultOneFmt,
       valueSetter: validateIntegerNumber,
       headerTooltip: "Multiplicador (-). Número de espacios iguales",
       headerClass: "text-light bg-secondary text-center",
@@ -178,8 +178,8 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       headerName: "Altura",
       cellDataType: "number",
       cellClass: "text-center",
-      valueFormatter: optionalNumberDisplay,
       valueSetter: validateNonNegNumber,
+      valueFormatter: optionalNumberFmt,
       headerTooltip: "Altura total, bruta, o de suelo a suelo, del espacio (m)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("h", "s-s", "m"),
@@ -190,8 +190,8 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       field: "z",
       cellDataType: "number",
       cellClass: "text-center",
-      valueFormatter: ZFmt,
       valueSetter: validateNumber,
+      valueFormatter: DefaultZeroFmt,
       headerTooltip: "Cota de la planta respecto al terreno, en m",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("z", "", "m"),
@@ -204,7 +204,6 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       cellEditorParams: { values: Object.keys(loadsMap) },
       refData: loadsMap,
       cellClass: "text-center",
-      valueFormatter: ({ value }) => loadsMap[value],
       headerTooltip: "Perfil de cargas del espacio",
       headerClass: "text-light bg-secondary text-center",
     },
@@ -216,7 +215,6 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       cellEditorParams: { values: Object.keys(thermostatsMap) },
       refData: thermostatsMap,
       cellClass: "text-center",
-      valueFormatter: ({ value }) => thermostatsMap[value],
       headerTooltip: "Consignas de temperatura en el espacio",
       headerClass: "text-light bg-secondary text-center",
     },
@@ -225,7 +223,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       field: "n_v",
       cellDataType: "number",
       cellClass: "text-center",
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       editable: ({ data }) => {
         return data.type === "UNINHABITED";
       },
@@ -243,7 +241,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       field: "illuminance",
       cellDataType: "number",
       cellClass: "text-center",
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       // customEditor: {
       //   getElement: (onUpdate, props) => (
       //     <NVEditor onUpdate={onUpdate} defaultValue={null} {...props} />
@@ -260,7 +258,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) =>
         spacePropsMap[data.id].area * spacePropsMap[data.id].multiplier,
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       headerTooltip: "Superficie útil del espacio (m²)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("A", "use;zt", "m²"),
@@ -272,7 +270,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) =>
         spacePropsMap[data.id].volume_net * spacePropsMap[data.id].multiplier,
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       headerTooltip: "Volumen neto del espacio, en m³",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("V", "net", "m³"),
@@ -283,7 +281,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       cellDataType: "number",
       cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) => spacePropsMap[data.id].veei,
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       headerTooltip:
         "Valor de la eficiencia energética de la iluminación, en W/m²·100lx",
       headerClass: "text-light bg-secondary text-center",

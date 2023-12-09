@@ -32,7 +32,7 @@ import AppState from "../../stores/AppState";
 import { AgTable } from "../tables/AgTable.jsx";
 
 import {
-  optionalNumberDisplay,
+  optionalNumberFmt,
   OpaqueGeomIconCellRenderer,
   OpaqueGeomFmt,
 } from "../tables/Formatters.jsx";
@@ -152,7 +152,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) =>
         wallPropsMap[data.id]?.area_net * wallPropsMap[data.id]?.multiplier,
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       headerTooltip: "Superficie neta (sin huecos) del elemento opaco, en m²",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("A", "c", "m²"),
@@ -162,7 +162,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       editable: false,
       cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) => wallPropsMap[data.id]?.u_value,
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       headerTooltip: "Transmitancia térmica del elemento opaco [W/m²K]",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("U", "c", "W/m²K"),

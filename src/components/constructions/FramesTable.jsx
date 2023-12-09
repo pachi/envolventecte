@@ -28,7 +28,7 @@ import { observer } from "mobx-react";
 import AppState from "../../stores/AppState.js";
 
 import { AgTable } from "../tables/AgTable.jsx";
-import { optionalNumberDisplay } from "../tables/Formatters.jsx";
+import { optionalNumberFmt } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 import { validateNonNegNumber } from "../tables/Validators.js";
 
@@ -57,7 +57,7 @@ const FamesTable = ({ selectedIds, setSelectedIds }) => {
       headerTooltip: "Transmitancia térmica del marco (W/m²K)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("U", "", "W/m²K"),
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       valueSetter: validateNonNegNumber,
     },
     {
@@ -68,7 +68,7 @@ const FamesTable = ({ selectedIds, setSelectedIds }) => {
       headerTooltip: "Absortividad del marco (-)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("α", "", "-"),
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       valueSetter: validateNonNegNumber,
     },
   ]);

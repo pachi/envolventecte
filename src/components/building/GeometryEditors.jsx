@@ -40,7 +40,7 @@ import { uuidv4 } from "../../utils";
 
 import { AgTable } from "../tables/AgTable.jsx";
 import {
-  optionalNumberDisplay,
+  optionalNumberFmt,
   AzimuthName,
   TiltName,
 } from "../tables/Formatters.jsx";
@@ -319,7 +319,7 @@ const CoordsTable = ({ poly, setPoly }) => {
     {
       headerName: "Coordenada X (coordenadas locales)",
       field: "X",
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       cellClass: "text-center",
       headerTooltip: "Coordenadas locales eje X",
       headerClass: "text-light bg-secondary text-center",
@@ -328,7 +328,7 @@ const CoordsTable = ({ poly, setPoly }) => {
     {
       headerName: "Coordenada Y (coordenadas locales)",
       field: "Y",
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       cellClass: "text-center",
       headerTooltip: "Coordenadas locales eje Y",
       headerClass: "text-light bg-secondary text-center",

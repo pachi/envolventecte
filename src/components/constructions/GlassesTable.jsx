@@ -28,7 +28,7 @@ import { observer } from "mobx-react";
 import AppState from "../../stores/AppState.js";
 
 import { AgTable } from "../tables/AgTable.jsx";
-import { optionalNumberDisplay } from "../tables/Formatters.jsx";
+import { optionalNumberFmt } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 import { validateNonNegNumber } from "../tables/Validators.js";
 
@@ -59,7 +59,7 @@ const GlassesTable = ({ selectedIds, setSelectedIds }) => {
       headerTooltip: "Transmitancia térmica del vidrio (W/m²K)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("U", "", "W/m²K"),
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       valueSetter: validateNonNegNumber,
     },
     {
@@ -70,7 +70,7 @@ const GlassesTable = ({ selectedIds, setSelectedIds }) => {
       headerTooltip: "Factor solar del vidrio a incidencia normal (-)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("g", "gl;n", "W/m²K"),
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       valueSetter: validateNonNegNumber,
     },
   ]);

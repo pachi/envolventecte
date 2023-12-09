@@ -30,7 +30,7 @@ import AppState from "../../stores/AppState";
 import { AgTable } from "../tables/AgTable.jsx";
 
 import {
-  optionalNumberDisplay,
+  optionalNumberFmt,
   WindowGeomFmt,
   WindowGeomIconCellRenderer,
 } from "../tables/Formatters.jsx";
@@ -121,7 +121,7 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
       cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) =>
         winPropsMap[data.id].area * winPropsMap[data.id].multiplier,
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       headerTooltip: "Superficie proyectada del hueco (m²)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("A", "w,p", "m²"),
@@ -132,7 +132,7 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
       cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) =>
         winPropsMap[data.id].f_shobst_override || winPropsMap[data.id].f_shobst,
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       headerTooltip:
         "Factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción). Este valor puede asimilarse al factor de sombra del hueco (FS). El Documento de Apoyo DA DB-HE/1 recoge valores del factor de sombra FS para considerar el efecto de voladizos, retranqueos, aletas laterales o lamas exteriores.",
       headerClass: "text-light bg-secondary text-center",
@@ -143,7 +143,7 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
       editable: false,
       cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) => winPropsMap[data.id].u_value,
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       headerTooltip: "Transmitancia térmica del hueco [W/m²K]",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("U", "w", "W/m²K"),

@@ -30,7 +30,7 @@ import { observer } from "mobx-react";
 import AppState from "../../stores/AppState";
 
 import { AgTable } from "../tables/AgTable.jsx";
-import { optionalNumberDisplay } from "../tables/Formatters.jsx";
+import { optionalNumberFmt } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 import { validateNonNegNumber, validateNumber } from "../tables/Validators.js";
 import { THERMAL_BRIDGE_TYPES_MAP } from "../../stores/types.js";
@@ -57,7 +57,7 @@ const PTsTable = ({ selectedIds, setSelectedIds }) => {
       field: "l",
       cellDataType: "number",
       cellClass: "text-center",
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       valueSetter: validateNonNegNumber,
       headerTooltip: "Longitud del puente térmico (m)",
       headerClass: "text-light bg-secondary text-center",
@@ -81,7 +81,7 @@ const PTsTable = ({ selectedIds, setSelectedIds }) => {
       field: "psi",
       cellDataType: "number",
       cellClass: "text-center",
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       valueSetter: validateNumber,
       headerClass: "text-light bg-secondary text-center",
       headerTooltip: "Transmitancia térmica lineal del puente térmico (W/mK)",

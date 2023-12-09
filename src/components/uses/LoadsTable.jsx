@@ -30,7 +30,7 @@ import { observer } from "mobx-react";
 import AppState from "../../stores/AppState";
 
 import { AgTable } from "../tables/AgTable.jsx";
-import { optionalNumberDisplay } from "../tables/Formatters.jsx";
+import { optionalNumberFmt } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 import { validateNonNegNumber } from "../tables/Validators.js";
 
@@ -81,7 +81,7 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       field: "area_per_person",
       cellDataType: "number",
       cellClass: "text-center",
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       valueSetter: validateNonNegNumber,
       headerTooltip: "Superficie por ocupante (m²/pax)",
       headerClass: "text-light bg-secondary text-center",
@@ -92,7 +92,7 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       field: "people_sensible",
       cellDataType: "number",
       cellClass: "text-center",
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       valueSetter: validateNonNegNumber,
       headerTooltip: "Carga de ocupación, parte sensible (W/m²)",
       headerClass: "text-light bg-secondary text-center",
@@ -102,7 +102,7 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       headerName: "Ocup. latente",
       field: "people_latent",
       cellClass: "text-center",
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       valueSetter: validateNonNegNumber,
       headerTooltip: "Carga de ocupación, parte latente (W/m²)",
       headerClass: "text-light bg-secondary text-center",
@@ -125,7 +125,7 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       field: "lighting",
       cellDataType: "text",
       cellClass: "text-center",
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       valueSetter: validateNonNegNumber,
       headerTooltip: "Carga de iluminación (W/m²)",
       headerClass: "text-light bg-secondary text-center",
@@ -149,7 +149,7 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       cellDataType: "number",
       cellClass: "text-center",
       valueSetter: validateNonNegNumber,
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       headerTooltip: "Carga de equipos (W/m²)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("C", "eq", "W/m²"),
@@ -172,7 +172,7 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       editable: false,
       cellClass: "column-computed-readonly text-center",
       valueGetter: ({data}) => loadsPropsMap[data.id].loads_avg,
-      valueFormatter: optionalNumberDisplay,
+      valueFormatter: optionalNumberFmt,
       headerTooltip: "Carga interna media, en W/m²",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("C", "FI", "W/m²"),

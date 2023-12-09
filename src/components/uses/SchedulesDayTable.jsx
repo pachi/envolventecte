@@ -32,7 +32,7 @@ import AppState from "../../stores/AppState";
 import { AgTable } from "../tables/AgTable.jsx";
 
 import { ScheduleHoursEditor } from "./ScheduleHoursEditor";
-import { DayScheduleFmt } from "../tables/Formatters.jsx";
+import { DayScheduleCellRenderer } from "../tables/Formatters.jsx";
 
 // Tabla de horarios diarios
 //  {
@@ -75,7 +75,7 @@ const SchedulesDayTable = ({ selectedIds, setSelectedIds }) => {
       // editorRenderer: (editorProps, value, row) => (
       //   <ScheduleHoursEditor {...editorProps} value={value} name={row.name} />
       // ),
-      cellRenderer: DayScheduleFmt,
+      cellRenderer: DayScheduleCellRenderer,
       headerTooltip: "Lista de valores horarios",
       headerClass: "text-light bg-secondary text-center",
       tooltipValueGetter: ({ data }) => `Valores horarios: ${data.values}`,

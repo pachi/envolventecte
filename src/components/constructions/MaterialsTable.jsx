@@ -28,7 +28,7 @@ import { observer } from "mobx-react";
 import AppState from "../../stores/AppState.js";
 
 import { AgTable } from "../tables/AgTable.jsx";
-import { optionalNumberDisplay } from "../tables/Formatters.jsx";
+import { optionalNumberFmt } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 import { validateNonNegNumber } from "../tables/Validators.js";
 
@@ -58,7 +58,7 @@ const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
       headerTooltip: "Resistencia térmica (m²K/W)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("R", "", "m²K/W"),
-      valueFormatter: (params) => optionalNumberDisplay(params, 3),
+      valueFormatter: (params) => optionalNumberFmt(params, 3),
       valueSetter: validateNonNegNumber,
     },
     {
@@ -69,7 +69,7 @@ const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
       headerTooltip: "Conductividad térmica (W/mK)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("λ", "", "W/mK"),
-      valueFormatter: (params) => optionalNumberDisplay(params, 3),
+      valueFormatter: (params) => optionalNumberFmt(params, 3),
       valueSetter: validateNonNegNumber,
     },
     {
@@ -85,7 +85,7 @@ const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
           : true,
       headerComponent: (_props) => getHeader("ρ", "", "kg/m³"),
       valueSetter: validateNonNegNumber,
-      valueFormatter: (cell) => optionalNumberDisplay(cell, 1),
+      valueFormatter: (cell) => optionalNumberFmt(cell, 1),
     },
     {
       headerName: "Calor específico",
@@ -100,7 +100,7 @@ const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
           : true,
       headerComponent: (_props) => getHeader("C", "p", "J/kg K"),
       valueSetter: validateNonNegNumber,
-      valueFormatter: (params) => optionalNumberDisplay(params, 1),
+      valueFormatter: (params) => optionalNumberFmt(params, 1),
     },
     {
       headerName: "Factor de difusividad al vapor de agua",
@@ -111,7 +111,7 @@ const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
         "Factor de difusividad al vapor de agua del material (J/kg·K)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("μ", "", "-"),
-      valueFormatter: (params) => optionalNumberDisplay(params, 1),
+      valueFormatter: (params) => optionalNumberFmt(params, 1),
       valueSetter: validateNonNegNumber,
     },
   ]);

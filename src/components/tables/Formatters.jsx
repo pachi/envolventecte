@@ -41,15 +41,15 @@ import {
 
 // Formateadores ---------------------------------------------------------------
 // https://www.ag-grid.com/javascript-data-grid/value-formatters/
-export const optionalNumberDisplay = ({ value }, digits = 2) =>
+export const optionalNumberFmt = ({ value }, digits = 2) =>
   value === null || isNaN(value) ? "-" : Number(value).toFixed(digits);
 
 // Multiplier (por defecto es 1.0)
-export const MultiplierFmt = ({ value }) =>
+export const DefaultOneFmt = ({ value }) =>
   value === null || value === undefined ? 1 : Number(value).toFixed(0);
 
 // Cota (por defecto es 0.00)
-export const ZFmt = ({ value }) =>
+export const DefaultZeroFmt = ({ value }) =>
   value === null || value === undefined ? 0.0 : Number(value).toFixed(2);
 
 // Convierte ángulo de azimuth a nombre
@@ -81,22 +81,6 @@ export const PolyTxt = (poly) =>
         .join(", ")}]`
     : "-";
 
-// // Convierte punto 3D de posición o valor nulo a icono
-// export const PosIconFmt = (pos, _row) =>
-//   pos !== null ? (
-//     <img src={validPosIcon} alt="+" />
-//   ) : (
-//     <img src={nullPosIcon} alt="-" />
-//   );
-
-// // Convierte vector de puntos 3D a icono según tenga o no puntos
-// export const PolyIconFmt = (poly, _row) =>
-//   poly !== null && poly.length !== 0 ? (
-//     <img src={validPolyIcon} alt="+" />
-//   ) : (
-//     <img src={nullPolyIcon} alt="-" />
-//   );
-
 // Línea descriptiva de geometría
 export const OpaqueGeomFmt = ({ value }) => {
   return `azimuth: ${value.azimuth.toFixed(2)},
@@ -112,6 +96,20 @@ alto: ${value.height.toFixed(2)},
 retranqueo: ${value.setback.toFixed(2)},
 posición: ${PosTxt(value.position)}`;
 };
+
+// Muestra tipo de espacio
+export const SpaceTypeFmt = ({ value }) =>
+  value === null || value === undefined
+    ? "ACONDICIONADO"
+    : SPACE_TYPES_MAP[value];
+
+// Valor en Y del valor value para una altura total disponible height
+// y con valores máximos y mínimo max y min, y un desplazamiento diff
+function getY(max, min, height, diff, value) {
+  return parseFloat(
+    (height - ((value - min) * height) / (max - min) + diff).toFixed(2)
+  );
+}
 
 // Convierte geometría de hueco a icono según tenga o no punto de inserción
 export const WindowGeomIconCellRenderer = ({ data, value, wallData }) => {
@@ -151,12 +149,6 @@ export const OpaqueGeomIconCellRenderer = ({ data, value }) => {
   );
 };
 
-// Muestra tipo de espacio
-export const SpaceTypeFmt = ({ value }) =>
-  value === null || value === undefined
-    ? "ACONDICIONADO"
-    : SPACE_TYPES_MAP[value];
-
 // CellRenderer de Capas
 // https://www.youtube.com/watch?v=9IbhW4z--mg
 export const LayersCellRenderer = ({ data, value, materials }) => {
@@ -188,16 +180,8 @@ export const LayersCellRenderer = ({ data, value, materials }) => {
   );
 };
 
-// Valor en Y del valor value para una altura total disponible height
-// y con valores máximos y mínimo max y min, y un desplazamiento diff
-function getY(max, min, height, diff, value) {
-  return parseFloat(
-    (height - ((value - min) * height) / (max - min) + diff).toFixed(2)
-  );
-}
-
 // Formato de horario diario como sparkline
-export const DayScheduleFmt = ({value}) => {
+export const DayScheduleCellRenderer = ({ value }) => {
   // cell == [f32, ...]
   const svgWidth = 200;
   const svgHeight = 4;

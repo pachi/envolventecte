@@ -46,7 +46,7 @@ import { uuidv4 } from "../../utils";
 import AppState, { EMPTY_ID } from "../../stores/AppState";
 
 import { AgTable } from "../tables/AgTable.jsx";
-import { optionalNumberDisplay } from "../tables/Formatters.jsx";
+import { optionalNumberFmt } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 
 import { MATERIAL } from "../../stores/types";
@@ -144,7 +144,7 @@ const LayersTable = ({ layers, setLayers }) => {
       headerTooltip: "Espesor de la capa",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("Espesor", "", "m"),
-      valueFormatter: (params) => optionalNumberDisplay(params, 3),
+      valueFormatter: (params) => optionalNumberFmt(params, 3),
     },
   ]);
 
