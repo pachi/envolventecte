@@ -27,7 +27,7 @@ import { Modal, Button, Col, Container, Row } from "react-bootstrap";
 // import cellEditFactory from "react-bootstrap-table2-editor";
 
 import { AgTable } from "../tables/AgTable.jsx";
-import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
+import { optionalNumberDisplay } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 import { validateNonNegNumber } from "../tables/Validators.js";
 
@@ -114,7 +114,7 @@ const ScheduleHoursTable = ({ hours }) => {
       cellDataType: "number",
       valueFormatter: optionalNumberDisplay,
       cellClass: "text-center",
-      headerTitle: "Valor que toma el horario en esta hora",
+      headerTooltip: "Valor que toma el horario en esta hora",
       headerClass: "text-light bg-secondary text-center",
     },
   ];

@@ -35,7 +35,7 @@ import {
   optionalNumberDisplay,
   OpaqueGeomIconCellRenderer,
   OpaqueGeomFmt,
-} from "../tables/FormattersAg.jsx";
+} from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 
 import { GeometryOpaquesEditor } from "./GeometryEditors";
@@ -139,9 +139,9 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       tooltipValueGetter: OpaqueGeomFmt,
       headerTooltip:
         "Geometría (punto de inserción, polígono, inclinación y orientación).",
-      editorRenderer: (editorProps, value, row) => (
-        <GeometryOpaquesEditor {...editorProps} value={value} name={row.name} />
-      ),
+      // editorRenderer: (editorProps, value, row) => (
+      //   <GeometryOpaquesEditor {...editorProps} value={value} name={row.name} />
+      // ),
       headerClass: "text-center",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("Geometría"),

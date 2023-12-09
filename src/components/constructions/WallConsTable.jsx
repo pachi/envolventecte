@@ -33,7 +33,7 @@ import { AgTable } from "../tables/AgTable.jsx";
 import {
   optionalNumberDisplay,
   LayersCellRenderer,
-} from "../tables/FormattersAg.jsx";
+} from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 import { validateNonNegNumber } from "../tables/Validators.js";
 

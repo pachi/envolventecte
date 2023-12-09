@@ -29,7 +29,7 @@ import { Modal, Button, Col, Container, Row } from "react-bootstrap";
 import { uuidv4 } from "../../utils";
 
 import { AgTable } from "../tables/AgTable.jsx";
-import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
+import { optionalNumberDisplay } from "../tables/Formatters.jsx";
 
 import { ListEditor } from "../ui/ListEditor";
 
@@ -124,9 +124,9 @@ const ScheduleListTable = ({ schedule, setSchedule, idMap, scheduleOpts }) => {
       headerName: "Repeticiones",
       field: "count",
       cellDataType: "number",
-      valueFormatter: (cell) => optionalNumberDisplay(cell, 0),
+      valueFormatter: ({value}) => optionalNumberDisplay(value, 0),
       cellClass: "text-center",
-      headerTitle: "Número de veces que se repite el horario en la semana",
+      headerTooltip: "Número de veces que se repite el horario en la semana",
       headerClass: "text-light bg-secondary text-center",
     },
   ]);

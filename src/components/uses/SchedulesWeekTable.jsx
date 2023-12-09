@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 // import BootstrapTable from "react-bootstrap-table-next";
 // import cellEditFactory from "react-bootstrap-table2-editor";
 
@@ -32,7 +32,7 @@ import AppState from "../../stores/AppState";
 import { AgTable } from "../tables/AgTable.jsx";
 
 import { SCHEDULE_DAY } from "../../stores/types";
-import { CountScheduleFmt } from "../tables/Formatters";
+import { CountScheduleCellRenderer } from "../tables/Formatters.jsx";
 import { ScheduleCountsEditor } from "./ScheduleCountsEditor";
 
 // Tabla de horarios semanales
@@ -93,15 +93,13 @@ const SchedulesWeekTable = ({ selectedIds, setSelectedIds }) => {
       //     scheduleOpts={daySchedulesOpts}
       //   />
       // ),
-      valueFormatter: CountScheduleFmt,
-      formatExtraData: daySchedulesMap,
+      cellRenderer: CountScheduleCellRenderer,
+      cellRendererParams: { idMapper: daySchedulesMap },
       headerTooltip: "Lista de horarios diarios",
       headerClass: "text-light bg-secondary text-center",
     },
     {
       headerName: "n",
-      field: "n_days",
-      // isDummyField: true,
       editable: false,
       cellDataType: "number",
       cellClass: "column-computed-readonly text-center",

@@ -35,7 +35,7 @@ import {
   optionalNumberDisplay,
   SpaceTypeFmt,
   ZFmt,
-} from "../tables/FormattersAg.jsx";
+} from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 import {
   validateIntegerNumber,

@@ -32,7 +32,7 @@ import partialGeometryIcon from "../img/partial_geom_icon.svg";
 
 import { OrientaIcon, TiltIcon } from "../helpers/IconsOrientaciones";
 
-import palette, { azimuth_name, tilt_name } from "./utils";
+import palette, { azimuth_name, tilt_name, getMatColor } from "./utils";
 import {
   BOUNDARY_TYPES_MAP,
   SPACE_TYPES_MAP,
@@ -40,14 +40,153 @@ import {
 } from "../../stores/types";
 
 // Formateadores ---------------------------------------------------------------
+// https://www.ag-grid.com/javascript-data-grid/value-formatters/
+export const optionalNumberDisplay = ({ value }, digits = 2) =>
+  value === null || isNaN(value) ? "-" : Number(value).toFixed(digits);
 
-// Formato de horarios como listas de [id, repeticiones]
-// con id a nombre usando mapper
-export const ScheduleFmt = (cell, _row, _rowIndex, idMapper) => (
-  <span>
-    [{cell.map(([id, count]) => `(${idMapper[id]}, ${count})`).join(", ")}]
-  </span>
-);
+// Multiplier (por defecto es 1.0)
+export const MultiplierFmt = ({ value }) =>
+  value === null || value === undefined ? 1 : Number(value).toFixed(0);
+
+// Cota (por defecto es 0.00)
+export const ZFmt = ({ value }) =>
+  value === null || value === undefined ? 0.0 : Number(value).toFixed(2);
+
+// Convierte ángulo de azimuth a nombre
+export const AzimuthName = (value) =>
+  value === undefined ? "-" : azimuth_name(value);
+
+// Convierte ángulo de inclinación a nombre
+export const TiltName = (value) =>
+  value === undefined ? "-" : tilt_name(value);
+
+// Convierte punto 3D de posición a cadena de coordenadas
+export const PosTxt = (pos) => {
+  if (pos === null) {
+    return "-";
+  } else if (pos.length === 3) {
+    return `[${pos[0].toFixed(2)}, ${pos[1].toFixed(2)}, ${pos[2].toFixed(2)}]`;
+  }
+  if (pos.length === 2) {
+    return `[${pos[0].toFixed(2)}, ${pos[1].toFixed(2)}]`;
+  }
+  return "-";
+};
+
+// Convierte vector de puntos 2D de polígono a cadena de lista de coordenadas
+export const PolyTxt = (poly) =>
+  poly !== null && poly.length !== 0
+    ? `[${poly
+        .map((point) => `[${point[0].toFixed(2)}, ${point[1].toFixed(2)}]`)
+        .join(", ")}]`
+    : "-";
+
+// // Convierte punto 3D de posición o valor nulo a icono
+// export const PosIconFmt = (pos, _row) =>
+//   pos !== null ? (
+//     <img src={validPosIcon} alt="+" />
+//   ) : (
+//     <img src={nullPosIcon} alt="-" />
+//   );
+
+// // Convierte vector de puntos 3D a icono según tenga o no puntos
+// export const PolyIconFmt = (poly, _row) =>
+//   poly !== null && poly.length !== 0 ? (
+//     <img src={validPolyIcon} alt="+" />
+//   ) : (
+//     <img src={nullPolyIcon} alt="-" />
+//   );
+
+// Línea descriptiva de geometría
+export const OpaqueGeomFmt = ({ value }) => {
+  return `azimuth: ${value.azimuth.toFixed(2)},
+inclinación: ${value.tilt.toFixed(2)},
+posición: ${PosTxt(value.position)},
+polígono: ${PolyTxt(value.polygon)}`;
+};
+
+// Línea descriptiva de huecos
+export const WindowGeomFmt = ({ value }, _row) => {
+  return `ancho: ${value.width.toFixed(2)},
+alto: ${value.height.toFixed(2)},
+retranqueo: ${value.setback.toFixed(2)},
+posición: ${PosTxt(value.position)}`;
+};
+
+// Convierte geometría de hueco a icono según tenga o no punto de inserción
+export const WindowGeomIconCellRenderer = ({ data, value, wallData }) => {
+  const wall = wallData[data.wall];
+  const has_wall = wall !== undefined;
+  const azimuth_dir = has_wall ? AzimuthName(wall.azimuth) : "-";
+  const azimuth = has_wall ? <OrientaIcon dir={azimuth_dir} /> : "-";
+  const tilt_dir = has_wall ? TiltName(wall.tilt) : "-";
+  const tilt = has_wall ? <TiltIcon dir={tilt_dir} /> : "-";
+  const position = value.position ? (
+    <img src={fullGeometryIcon} alt="+" />
+  ) : (
+    <img src={partialGeometryIcon} alt="-" />
+  );
+  return (
+    <>
+      {position} | {azimuth} {azimuth_dir} | {tilt} {tilt_dir[0]}
+    </>
+  );
+};
+
+// Convierte geometría de hueco a icono según tenga o no punto de inserción
+export const OpaqueGeomIconCellRenderer = ({ data, value }) => {
+  const azimuth_dir = AzimuthName(value.azimuth);
+  const azimuth = <OrientaIcon dir={azimuth_dir} />;
+  const tilt_dir = TiltName(value.tilt);
+  const tilt = <TiltIcon dir={tilt_dir} />;
+  const position = value.position ? (
+    <img src={fullGeometryIcon} alt="+" />
+  ) : (
+    <img src={partialGeometryIcon} alt="-" />
+  );
+  return (
+    <>
+      {position} | {azimuth} {azimuth_dir} | {tilt} {tilt_dir[0]}
+    </>
+  );
+};
+
+// Muestra tipo de espacio
+export const SpaceTypeFmt = ({ value }) =>
+  value === null || value === undefined
+    ? "ACONDICIONADO"
+    : SPACE_TYPES_MAP[value];
+
+// CellRenderer de Capas
+// https://www.youtube.com/watch?v=9IbhW4z--mg
+export const LayersCellRenderer = ({ data, value, materials }) => {
+  const num_layers = value.length;
+  if (num_layers === 0) {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10">
+        <rect x="0" y="0" width="100" height="10" fill="white" />
+      </svg>
+    );
+  }
+
+  let xPos = 0;
+  const layers = [];
+  for (const [idx, { material, e }] of value.entries()) {
+    const mat = materials.find((m) => m.id === material);
+    const color = getMatColor(mat, e);
+    const width = Math.round(e * 100);
+    layers.push(
+      <rect key={idx} x={xPos} y="0" width={width} height="10" fill={color} />
+    );
+    xPos += Math.round(e * 100);
+  }
+
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10">
+      {layers}
+    </svg>
+  );
+};
 
 // Valor en Y del valor value para una altura total disponible height
 // y con valores máximos y mínimo max y min, y un desplazamiento diff
@@ -58,12 +197,12 @@ function getY(max, min, height, diff, value) {
 }
 
 // Formato de horario diario como sparkline
-export const DayScheduleFmt = (cell, _row, _rowIndex) => {
+export const DayScheduleFmt = ({value}) => {
   // cell == [f32, ...]
   const svgWidth = 200;
   const svgHeight = 4;
 
-  if (cell.length === 0) {
+  if (value.length === 0) {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -77,13 +216,13 @@ export const DayScheduleFmt = (cell, _row, _rowIndex) => {
   const strokeWidth = 0.5;
   const height = svgHeight - 2 * strokeWidth;
   const stepX = svgWidth / (24.0 - 1.0);
-  const max = Math.max(...cell, 1);
-  const min = Math.min(...cell, 0);
+  const max = Math.max(...value, 1);
+  const min = Math.min(...value, 0);
 
-  const pathY = getY(max, min, height, strokeWidth, cell[0]);
+  const pathY = getY(max, min, height, strokeWidth, value[0]);
   let pathCoords = `M0 ${pathY}`;
   let tickCoords = "";
-  cell.forEach((value, idx) => {
+  value.forEach((value, idx) => {
     const x = (idx * stepX).toFixed(2);
     const y = getY(max, min, height, strokeWidth, value);
     pathCoords += `L ${x} ${y}`;
@@ -121,12 +260,12 @@ export const DayScheduleFmt = (cell, _row, _rowIndex) => {
 
 // Formato de horario mensual o anual como sparkline
 // Colorea cada elemento de repetición según su id
-export const CountScheduleFmt = (cell, _row, _rowIndex, idMapper) => {
+export const CountScheduleCellRenderer = ({ value, idMapper }) => {
   // cell == [(string, u32), ...]
   const svgWidth = 200;
   const svgHeight = 4;
 
-  if (cell.length === 0) {
+  if (value.length === 0) {
     return (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -137,7 +276,7 @@ export const CountScheduleFmt = (cell, _row, _rowIndex, idMapper) => {
     );
   }
 
-  const totalCount = cell.map((v) => v[1]).reduce((a, b) => a + b, 0);
+  const totalCount = value.map((v) => v[1]).reduce((a, b) => a + b, 0);
   let keys = Object.keys(idMapper);
   const colors = palette(keys.length, 100, 40);
   const colorMap = new Map(keys.map((k, i) => [k, colors[i]]));
@@ -147,7 +286,7 @@ export const CountScheduleFmt = (cell, _row, _rowIndex, idMapper) => {
   let xPos = 0;
   const layers = [];
   let tickCoords = "";
-  for (const [idx, [key, count]] of cell.entries()) {
+  for (const [idx, [key, count]] of value.entries()) {
     const color = colorMap.get(key);
     for (let i = 0; i < count; i++) {
       layers.push(

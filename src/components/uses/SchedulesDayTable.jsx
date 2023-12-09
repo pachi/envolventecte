@@ -28,8 +28,11 @@ import React, { useContext, useState } from "react";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
+
+import { AgTable } from "../tables/AgTable.jsx";
+
 import { ScheduleHoursEditor } from "./ScheduleHoursEditor";
-import { DayScheduleFmt } from "../tables/Formatters";
+import { DayScheduleFmt } from "../tables/Formatters.jsx";
 
 // Tabla de horarios diarios
 //  {
@@ -54,7 +57,7 @@ const SchedulesDayTable = ({ selectedIds, setSelectedIds }) => {
     .map((e) => e.id);
 
   const [columnDefs, setColumnDefs] = useState([
-    { field: "id", isKey: true, hidden: true, headerName: "ID" },
+    { headerName: "ID", field: "id", hide: true },
     {
       headerName: "Nombre",
       field: "name",
@@ -72,16 +75,14 @@ const SchedulesDayTable = ({ selectedIds, setSelectedIds }) => {
       // editorRenderer: (editorProps, value, row) => (
       //   <ScheduleHoursEditor {...editorProps} value={value} name={row.name} />
       // ),
-      valueFormatter: DayScheduleFmt,
+      cellRenderer: DayScheduleFmt,
       headerTooltip: "Lista de valores horarios",
       headerClass: "text-light bg-secondary text-center",
       tooltipValueGetter: ({ data }) => `Valores horarios: ${data.values}`,
     },
     {
       headerName: "n",
-      field: "n_hours",
       cellDataType: "number",
-      // isDummyField: true,
       editable: false,
       cellClass: "column-computed-readonly text-center",
       valueFormatter: ({ data }) => data.values.length,

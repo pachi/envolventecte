@@ -33,7 +33,7 @@ import {
   optionalNumberDisplay,
   WindowGeomFmt,
   WindowGeomIconCellRenderer,
-} from "../tables/FormattersAg.jsx";
+} from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 
 import { GeometryWindowEditor } from "./GeometryEditors";

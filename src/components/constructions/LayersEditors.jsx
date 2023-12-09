@@ -46,7 +46,7 @@ import { uuidv4 } from "../../utils";
 import AppState, { EMPTY_ID } from "../../stores/AppState";
 
 import { AgTable } from "../tables/AgTable.jsx";
-import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
+import { optionalNumberDisplay } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 
 import { MATERIAL } from "../../stores/types";

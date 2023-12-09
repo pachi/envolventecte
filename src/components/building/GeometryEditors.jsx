@@ -43,7 +43,7 @@ import {
   optionalNumberDisplay,
   AzimuthName,
   TiltName,
-} from "../tables/FormattersAg.jsx";
+} from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 
 import { ListEditor } from "../ui/ListEditor";

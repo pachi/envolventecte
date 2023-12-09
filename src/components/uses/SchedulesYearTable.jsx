@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 // import BootstrapTable from "react-bootstrap-table-next";
 // import cellEditFactory from "react-bootstrap-table2-editor";
 
@@ -32,7 +32,7 @@ import AppState from "../../stores/AppState";
 import { AgTable } from "../tables/AgTable.jsx";
 
 import { SCHEDULE_WEEK } from "../../stores/types";
-import { CountScheduleFmt } from "../tables/Formatters";
+import { CountScheduleCellRenderer } from "../tables/Formatters.jsx";
 import { ScheduleCountsEditor } from "./ScheduleCountsEditor";
 
 // Tabla de horarios anuales
@@ -68,13 +68,13 @@ const SchedulesYearTable = ({ selectedIds, setSelectedIds }) => {
     .filter((e) => e.level === "DANGER")
     .map((e) => e.id);
 
-    const [columnDefs, setColumnDefs] = useState([
+  const [columnDefs, setColumnDefs] = useState([
     { headerName: "ID", field: "id", hide: true },
     {
       headerName: "Nombre",
       field: "name",
       cellDataType: "text",
-      flex:2,
+      flex: 2,
       cellClass: "font-weight-bold",
       headerTooltip: "Nombre de la definición de horario",
       headerClass: "text-light bg-secondary",
@@ -85,7 +85,6 @@ const SchedulesYearTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Horarios semanales",
       field: "values",
-      // cellDataType: "text",
       cellClass: "text-center",
       // editorRenderer: (editorProps, value, row) => (
       //   <ScheduleCountsEditor
@@ -96,20 +95,17 @@ const SchedulesYearTable = ({ selectedIds, setSelectedIds }) => {
       //     scheduleOpts={weekSchedulesOpts}
       //   />
       // ),
-      valueFormatter: CountScheduleFmt,
-      formatExtraData: weekSchedulesMap,
+      cellRenderer: CountScheduleCellRenderer,
+      cellRendererParams: { idMapper: weekSchedulesMap },
       headerTooltip: "Lista de horarios semanales",
       headerClass: "text-light bg-secondary text-center",
     },
     {
       headerName: "n",
-      field: "n_weeks",
       cellDataType: "number",
-      // isDummyField: true,
       editable: false,
-      cellClass: "text-center",
-      cellClass: "column-computed-readonly",
-      valueFormatter: ({data}) =>
+      cellClass: "column-computed-readonly text-center",
+      valueFormatter: ({ data }) =>
         data.values.map(([_id, count]) => count).reduce((a, b) => a + b, 0),
       headerTooltip: "Semanas definidas en el horario anual",
       headerClass: "text-light bg-secondary text-center",

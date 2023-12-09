@@ -30,7 +30,7 @@ import { observer } from "mobx-react";
 import AppState from "../../stores/AppState";
 
 import { AgTable } from "../tables/AgTable.jsx";
-import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
+import { optionalNumberDisplay } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 import { validateNonNegNumber } from "../tables/Validators.js";
 
@@ -53,7 +53,6 @@ import { SCHEDULE_YEAR } from "../../stores/types";
 const LoadsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const schedulesMap = appstate.getIdNameMap(SCHEDULE_YEAR);
-  const schedulesOpts = appstate.getElementOptions(SCHEDULE_YEAR, true);
   const loadsPropsMap = appstate.energy_indicators.props.loads;
 
   // Lista de IDs con errores
@@ -113,11 +112,9 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       headerName: "Horario ocupación",
       field: "people_schedule",
       cellDataType: "text",
-      // editor: {
-      //   type: Type.SELECT,
-      //   options: schedulesOpts,
-      // },
-      // formatExtraData: schedulesMap,
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: { values: Object.keys(schedulesMap) },
+      refData: schedulesMap,
       cellClass: "text-center",
       valueFormatter: ({ value }) => schedulesMap[value],
       headerTooltip: "Horario de ocupación",
@@ -137,11 +134,9 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Horario iluminación",
       field: "lighting_schedule",
-      // editor: {
-      //   type: Type.SELECT,
-      //   options: schedulesOpts,
-      // },
-      // formatExtraData: schedulesMap,
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: { values: Object.keys(schedulesMap) },
+      refData: schedulesMap,
       cellDataType: "text",
       cellClass: "text-center",
       valueFormatter: ({ value }) => schedulesMap[value],
@@ -153,8 +148,8 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       field: "equipment",
       cellDataType: "number",
       cellClass: "text-center",
-      valueFormatter: optionalNumberDisplay,
       valueSetter: validateNonNegNumber,
+      valueFormatter: optionalNumberDisplay,
       headerTooltip: "Carga de equipos (W/m²)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("C", "eq", "W/m²"),
@@ -162,11 +157,9 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Horario equipos",
       field: "equipment_schedule",
-      // editor: {
-      //   type: Type.SELECT,
-      //   options: schedulesOpts,
-      // },
-      // formatExtraData: schedulesMap,
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: { values: Object.keys(schedulesMap) },
+      refData: schedulesMap,
       cellDataType: "text",
       cellClass: "text-center",
       valueFormatter: ({ value }) => schedulesMap[value],
@@ -175,19 +168,11 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
     },
     {
       headerName: "C_fi",
-      field: "loads_avg",
       cellDataType: "number",
-      // isDummyField: true,
       editable: false,
       cellClass: "column-computed-readonly text-center",
-      valueFormatter: (cell, row, _rowIndex, extraData) => {
-        const load = extraData[row.id].loads_avg;
-        if (load === null || isNaN(load)) {
-          return <span>-</span>;
-        }
-        return <span>{load.toFixed(2)}</span>;
-      },
-      formatExtraData: loadsPropsMap,
+      valueGetter: ({data}) => loadsPropsMap[data.id].loads_avg,
+      valueFormatter: optionalNumberDisplay,
       headerTooltip: "Carga interna media, en W/m²",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("C", "FI", "W/m²"),

@@ -28,7 +28,7 @@ import { observer } from "mobx-react";
 import AppState from "../../stores/AppState.js";
 
 import { AgTable } from "../tables/AgTable.jsx";
-import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
+import { optionalNumberDisplay } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 import { validateNonNegNumber } from "../tables/Validators.js";
 

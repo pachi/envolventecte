@@ -30,7 +30,7 @@ import { observer } from "mobx-react";
 import AppState from "../../stores/AppState";
 
 import { AgTable } from "../tables/AgTable.jsx";
-import { optionalNumberDisplay } from "../tables/FormattersAg.jsx";
+import { optionalNumberDisplay } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 import { validateNonNegNumber, validateNumber } from "../tables/Validators.js";
 import { THERMAL_BRIDGE_TYPES_MAP } from "../../stores/types.js";
@@ -47,7 +47,7 @@ const PTsTable = ({ selectedIds, setSelectedIds }) => {
       cellDataType: "text",
       cellClass: "font-weight-bold",
       flex: 2,
-      headerTitle: "Nombre que identifica el puente térmico",
+      headerTooltip: "Nombre que identifica el puente térmico",
       headerClass: "text-light bg-secondary",
       headerComponent: (_props) => getHeader("Nombre"),
       tooltipValueGetter: ({ data }) => `Puente térmico id: ${data.id}`,
@@ -71,7 +71,7 @@ const PTsTable = ({ selectedIds, setSelectedIds }) => {
       cellEditorParams: { values: Object.keys(THERMAL_BRIDGE_TYPES_MAP) },
       refData: THERMAL_BRIDGE_TYPES_MAP,
       valueFormatter: ({value})=> THERMAL_BRIDGE_TYPES_MAP[value],
-      headerTitle:
+      headerTooltip:
         "Tipo del puente térmico: CUBIERTA (encuentro de cubierta o suelo con fachada) | BALCÓN (suelo en vuelo exterior) | ESQUINA (encuentro de cerramientos verticales) | FORJADO (encuentro forjado-fachada) | PARTICIÓN (encuentro de partición interior con fachada, cubierta o suelo) | SOLERA (encuentra de solera o cámara ventilada con fachada) | PILAR (pilar en fachada, cubierta o suelo) | HUECO (contorno de hueco)  | GENÉRICO (puente térmico genérico))",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("Tipo", "", "-"),
@@ -82,7 +82,7 @@ const PTsTable = ({ selectedIds, setSelectedIds }) => {
       cellDataType: "number",
       cellClass: "text-center",
       valueFormatter: optionalNumberDisplay,
-      ValueSetter: validateNumber,
+      valueSetter: validateNumber,
       headerClass: "text-light bg-secondary text-center",
       headerTooltip: "Transmitancia térmica lineal del puente térmico (W/mK)",
       headerComponent: (_props) => getHeader("ψ", "", "W/mK"),
