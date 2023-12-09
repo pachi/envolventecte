@@ -27,7 +27,9 @@ import { observer } from "mobx-react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 // import "bootstrap/dist/css/bootstrap-theme.css";
-import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-alpine.css";
+import "../index.css";
 
 import GuiState from "../stores/GuiState";
 
