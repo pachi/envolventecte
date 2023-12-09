@@ -40,7 +40,7 @@ export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds}) => {
   }));
 
   return (
-    <div className="ag-theme-alpine" style={{ height: 400, width: "100%" }}>
+    <div className="ag-theme-alpine" style={{ height: "calc(100dvh - 21rem)", width: "100%" }}>
       <AgGridReact
         rowData={rowData}
         columnDefs={columnDefs}
