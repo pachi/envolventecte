@@ -134,7 +134,7 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       headerName: "U_w",
       editable: false,
       cellDataType: "number",
-      cellClass: "td-column-computed-readonly text-center",
+      cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) => winconsPropsMap[data.id].u_value,
       valueFormatter: optionalNumberDisplay,
       headerTooltip:
@@ -146,7 +146,7 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       headerName: "g_gl;wi",
       editable: false,
       cellDataType: "number",
-      cellClass: "td-column-computed-readonly text-center",
+      cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) => winconsPropsMap[data.id].g_glwi,
       valueFormatter: optionalNumberDisplay,
       headerTooltip:

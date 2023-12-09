@@ -103,7 +103,7 @@ const ScheduleHoursTable = ({ hours }) => {
       cellDataType: "text",
       // isDummyField: true,
       editable: false,
-      cellClass: "td-column-computed-readonly text-center",
+      cellClass: "column-computed-readonly text-center",
       valueFormatter: ({ data }) => data.id,
       headerTooltip: "Hora para la que se define el valor horario.",
       headerClass: "text-light bg-secondary text-center",

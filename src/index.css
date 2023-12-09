@@ -23,24 +23,24 @@
     background: rgb(199, 215, 236);
   }
 
-  tr.outsidetenv td {
+  .outsidetenv * {
     opacity: 0.5;
   }
 
-  tr.id_error_warning td {
+  .id_error_warning * {
     color: rgb(180, 80, 0);
   }
 
-  tr.id_error_danger {
+  .id_error_danger {
     color: rgb(180, 0, 0);
   }
 
-  td.td-column-readonly {
+  .column-readonly {
     opacity: 0.6;
     background-color: rgb(220, 220, 220);
   }
 
-  td.td-column-computed-readonly {
+  .column-computed-readonly {
     opacity: 0.8;
     background-color: rgb(220, 220, 220);
     color: navy;

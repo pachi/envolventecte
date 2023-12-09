@@ -104,7 +104,7 @@ const SchedulesWeekTable = ({ selectedIds, setSelectedIds }) => {
       // isDummyField: true,
       editable: false,
       cellDataType: "number",
-      cellClass: "td-column-computed-readonly text-center",
+      cellClass: "column-computed-readonly text-center",
       valueFormatter: ({ data }) =>
         data.values.map(([_id, count]) => count).reduce((a, b) => a + b, 0),
       headerTooltip: "Días definidos en el horario semanal",

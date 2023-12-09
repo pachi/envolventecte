@@ -148,7 +148,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "A",
       editable: false,
-      cellClass: "td-column-computed-readonly text-center",
+      cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) =>
         wallPropsMap[data.id]?.area_net * wallPropsMap[data.id]?.multiplier,
       valueFormatter: optionalNumberDisplay,
@@ -159,7 +159,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "wall_u",
       editable: false,
-      cellClass: "td-column-computed-readonly text-center",
+      cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) => wallPropsMap[data.id]?.u_value,
       valueFormatter: optionalNumberDisplay,
       headerTooltip: "Transmitancia térmica del elemento opaco [W/m²K]",

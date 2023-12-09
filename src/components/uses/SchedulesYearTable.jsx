@@ -108,7 +108,7 @@ const SchedulesYearTable = ({ selectedIds, setSelectedIds }) => {
       // isDummyField: true,
       editable: false,
       cellClass: "text-center",
-      cellClass: "td-column-computed-readonly",
+      cellClass: "column-computed-readonly",
       valueFormatter: ({data}) =>
         data.values.map(([_id, count]) => count).reduce((a, b) => a + b, 0),
       headerTooltip: "Semanas definidas en el horario anual",

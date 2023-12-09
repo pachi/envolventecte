@@ -83,7 +83,7 @@ const SchedulesDayTable = ({ selectedIds, setSelectedIds }) => {
       cellDataType: "number",
       // isDummyField: true,
       editable: false,
-      cellClass: "td-column-computed-readonly text-center",
+      cellClass: "column-computed-readonly text-center",
       valueFormatter: ({ data }) => data.values.length,
       headerTooltip: "Horas definidas en el horario diario",
       headerClass: "text-light bg-secondary text-center",

@@ -179,7 +179,7 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       cellDataType: "number",
       // isDummyField: true,
       editable: false,
-      cellClass: "td-column-computed-readonly text-center",
+      cellClass: "column-computed-readonly text-center",
       valueFormatter: (cell, row, _rowIndex, extraData) => {
         const load = extraData[row.id].loads_avg;
         if (load === null || isNaN(load)) {

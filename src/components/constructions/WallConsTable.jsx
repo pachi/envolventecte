@@ -95,7 +95,7 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Espesor",
       editable: false,
-      cellClass: "td-column-computed-readonly text-center",
+      cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) => wallconsPropsMap[data.id].thickness,
       valueFormatter: params => optionalNumberDisplay(params, 3),
       headerTooltip: "Espesor total de la composición de capas (m)",
@@ -105,7 +105,7 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Resistencia intrínseca",
       editable: false,
-      cellClass: "td-column-computed-readonly text-center",
+      cellClass: "column-computed-readonly text-center",
       valueGetter: ({data}) => wallconsPropsMap[data.id].resistance,
       valueFormatter: optionalNumberDisplay,
       headerTooltip:
@@ -116,7 +116,7 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "C_o",
       editable: false,
-      cellClass: "td-column-readonly text-center",
+      cellClass: "column-readonly text-center",
       valueGetter: (_p) => walls_Co100,
       valueFormatter: optionalNumberDisplay,
       headerTooltip:

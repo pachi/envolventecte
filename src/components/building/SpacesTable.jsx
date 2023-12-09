@@ -257,7 +257,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       headerName: "A",
       editable: false,
       cellDataType: "number",
-      cellClass: "td-column-computed-readonly text-center",
+      cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) =>
         spacePropsMap[data.id].area * spacePropsMap[data.id].multiplier,
       valueFormatter: optionalNumberDisplay,
@@ -269,7 +269,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       headerName: "Volumen neto",
       editable: false,
       cellDataType: "number",
-      cellClass: "td-column-computed-readonly text-center",
+      cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) =>
         spacePropsMap[data.id].volume_net * spacePropsMap[data.id].multiplier,
       valueFormatter: optionalNumberDisplay,
@@ -281,7 +281,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       headerName: "VEEI",
       editable: false,
       cellDataType: "number",
-      cellClass: "td-column-computed-readonly text-center",
+      cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) => spacePropsMap[data.id].veei,
       valueFormatter: optionalNumberDisplay,
       headerTooltip:

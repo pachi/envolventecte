@@ -118,7 +118,7 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "A",
       editable: false,
-      cellClass: "td-column-computed-readonly text-center",
+      cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) =>
         winPropsMap[data.id].area * winPropsMap[data.id].multiplier,
       valueFormatter: optionalNumberDisplay,
@@ -129,7 +129,7 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "fshobst",
       editable: false,
-      cellClass: "td-column-computed-readonly text-center",
+      cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) =>
         winPropsMap[data.id].f_shobst_override || winPropsMap[data.id].f_shobst,
       valueFormatter: optionalNumberDisplay,
@@ -141,7 +141,7 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "window U",
       editable: false,
-      cellClass: "td-column-computed-readonly text-center",
+      cellClass: "column-computed-readonly text-center",
       valueGetter: ({ data }) => winPropsMap[data.id].u_value,
       valueFormatter: optionalNumberDisplay,
       headerTooltip: "Transmitancia térmica del hueco [W/m²K]",
