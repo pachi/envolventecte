@@ -80,11 +80,11 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Tipo",
       field: "bounds",
+      cellClass: "text-center",
       cellEditor: "agSelectCellEditor",
       cellEditorParams: { values: Object.keys(BOUNDARY_TYPES_MAP) },
       refData: BOUNDARY_TYPES_MAP,
       valueFormatter: ({ value }) => BOUNDARY_TYPES_MAP[value],
-      cellClass: "text-center",
       headerTooltip:
         "Condición de contorno del elemento opaco (INTERIOR | EXTERIOR | TERRENO | ADIABÁTICO)",
       headerClass: "text-light bg-secondary text-center",
@@ -93,18 +93,19 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Construcción",
       field: "cons",
+      cellClass: "text-center",
       cellEditor: "agSelectCellEditor",
       cellEditorParams: { values: Object.keys(wallconsMap) },
       refData: wallconsMap,
       valueFormatter: ({ value }) => wallconsMap[value],
-      cellClass: "text-center",
       headerTooltip: "Construcción del opaco",
       headerClass: "text-light bg-secondary text-center",
     },
     {
       headerName: "Espacio",
       field: "space",
-      cellDataType: "text",
+      cellClass: "text-center",
+      cellEditor: "agSelectCellEditor",
       cellEditorParams: { values: Object.keys(spaceMap) },
       refData: spaceMap,
       valueFormatter: ({ value }) => spaceMap[value],
@@ -119,12 +120,11 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       // Este editor es especial porque debe poder ponerse en nulo
       cellEditor: "agSelectCellEditor",
       cellEditorParams: {
-        values: [...Object.keys(spaceMap), "<Vacio>"],
+        values: [...Object.keys(spaceMap), null],
       },
       valueParser: (p) =>
-        spaceMap.entries().find(([key, val]) => val == p.newValue)[0],
+        [...spaceMap.entries(), ["", null]].find(([key, val]) => val == p.newValue)[0],
       valueFormatter: ({ value }) => spaceMap[value] ?? "",
-      valueFormatter: ({ value }) => spaceMap[value],
       headerTooltip:
         "Espacio adyacente con el que comunica el elemento opaco, cuando este es un elemento interior",
       headerClass: "text-light bg-secondary text-center",
@@ -142,7 +142,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
         <GeometryOpaquesEditor {...editorProps} value={value} name={row.name} />
       ),
       headerClass: "text-center",
-      headerClass: "text-light bg-secondary",
+      headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("Geometría"),
     },
     {

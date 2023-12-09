@@ -11,6 +11,18 @@
     --ag-font-size: 1rem;
   }
 
+  /* .ag-right-header .ag-header-cell-label {
+    flex-direction: row-reverse;
+  } */
+
+  .text-center .ag-header-cell-label {
+    justify-content: center;
+  }
+
+  /* .ag-left-header .ag-header-cell-label {
+    flex-direction: row;
+  } */
+
   #shadingfactorstable th,
   #radiationtable th,
   #julyradiationtable th {
