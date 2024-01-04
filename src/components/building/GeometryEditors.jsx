@@ -21,7 +21,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useState, useRef } from "react";
+import React, {
+  forwardRef,
+  memo,
+  useState,
+  useRef,
+  useEffect,
+  useImperativeHandle,
+} from "react";
 import {
   Modal,
   Button,
@@ -48,16 +55,31 @@ import { getHeader } from "../tables/Helpers.jsx";
 
 import { ListEditor } from "../ui/ListEditor";
 
-/*
-  The getElement function from customEditor takes two arguments,
-  1. onUpdate: if you want to apply the modified data, call this function
-  2. props: contains alls customEditorParameters, "row" with whole row data, "defaultValue" with the received object, and attrs
-*/
 // Editor de datos geométricos de opacos
 // Recibe la geometría de un opaco {tilt: f32, azimuth: f32, position: null | [f32, f32, f32], polygon: [[f32, f32], ...]}
 // No se comprueba la coherencia de la definición geométrica con la superficie
-export const GeometryOpaquesEditor = React.forwardRef(
-  ({ onUpdate, value, name }, _ref) => {
+export const GeometryOpaquesEditor = memo(
+  forwardRef((props, ref) => {
+    const [value, setValue] = useState(props.value);
+
+    // Editing state
+    const [skipChanges, setSkipChanges] = useState(true);
+    const [done, setDone] = useState(false);
+    useEffect(() => {
+      if (done) props.stopEditing();
+    }, [done]);
+    // Component Editor Lifecycle methods
+    useImperativeHandle(ref, () => ({
+      getValue: () => value,
+      isCancelAfterEnd: () => {
+        return skipChanges ? true : false;
+      },
+    }));
+
+    // Component details
+    const [tilt, setTilt] = useState(value.tilt);
+    const [azimuth, setAzimuth] = useState(value.azimuth);
+
     const hasDefinedPos = !(
       value.position === null || value.position.length === 0
     );
@@ -70,53 +92,45 @@ export const GeometryOpaquesEditor = React.forwardRef(
       z = value.position[2];
     }
     const [hasPos, setHasPos] = useState(hasDefinedPos);
-    const [show, setShow] = useState(true);
     // Posición
     const [xPos, setXPos] = useState(x);
     const [yPos, setYPos] = useState(y);
     const [zPos, setZPos] = useState(z);
+
     // Lista de puntos 2D del polígono como objetos
     const [poly, setPoly] = useState(
       (value.polygon || []).map((p) => ({ id: uuidv4(), X: p[0], Y: p[1] }))
     );
 
-    const [azimuth, setAzimuth] = useState(value.azimuth);
-    const [tilt, setTilt] = useState(value.tilt);
-
-    const updateData = () => {
-      const position = hasPos
-        ? [parseFloat(xPos), parseFloat(yPos), parseFloat(zPos)]
-        : null;
-      const polygon = poly.map((p) => [p.X, p.Y]);
-      return onUpdate({
+    const handleClose = () => {
+      setValue({
         azimuth: parseFloat(azimuth),
         tilt: parseFloat(tilt),
-        position,
-        polygon,
+        position: hasPos
+          ? [parseFloat(xPos), parseFloat(yPos), parseFloat(zPos)]
+          : null,
+        polygon: poly.map((p) => [p.X, p.Y]),
       });
-    };
-
-    const handleClose = () => {
-      setShow(false);
-      updateData();
+      setSkipChanges(false);
+      setDone(true);
     };
 
     const handleCancel = () => {
-      setShow(false);
-      return onUpdate(value);
+      setSkipChanges(true);
+      setDone(true);
     };
 
     return (
       <Modal
         role="dialog"
-        show={show}
+        show={!done}
         centered
         size="lg"
         onHide={() => handleCancel()}
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            Definición geométrica de opaco o sombra ({name})
+            Definición geométrica de opaco o sombra ({props.data.name})
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -150,7 +164,7 @@ export const GeometryOpaquesEditor = React.forwardRef(
         </Modal.Footer>
       </Modal>
     );
-  }
+  })
 );
 
 // Editor de Azimuth y Tilt

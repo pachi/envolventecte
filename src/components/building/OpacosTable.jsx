@@ -133,15 +133,15 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Geometría",
       field: "geometry",
-      cellDataType: "text",
+      cellDataType: "object",
       cellClass: "text-center",
       cellRenderer: OpaqueGeomIconCellRenderer,
       tooltipValueGetter: OpaqueGeomFmt,
       headerTooltip:
         "Geometría (punto de inserción, polígono, inclinación y orientación).",
-      // editorRenderer: (editorProps, value, row) => (
-      //   <GeometryOpaquesEditor {...editorProps} value={value} name={row.name} />
-      // ),
+      cellEditor: GeometryOpaquesEditor,
+      cellEditorPopup: true,
+      cellEditorPopupPosition: 'under',
       headerClass: "text-center",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("Geometría"),

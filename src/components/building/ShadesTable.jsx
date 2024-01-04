@@ -58,9 +58,9 @@ const ShadesTable = ({ selectedIds, setSelectedIds }) => {
       tooltipValueGetter: OpaqueGeomFmt,
       headerTooltip:
         "Geometría (punto de inserción, vértices y orientación e inclinación de la superficie.",
-      // editorRenderer: (editorProps, value, row) => (
-      //   <GeometryOpaquesEditor {...editorProps} value={value} name={row.name} />
-      // ),
+      cellEditor: GeometryOpaquesEditor,
+      cellEditorPopup: true,
+      cellEditorPopupPosition: 'under',
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("Geometría"),
     },
