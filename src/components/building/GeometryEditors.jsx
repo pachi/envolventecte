@@ -352,8 +352,8 @@ const CoordsTable = ({ poly, setPoly }) => {
         <AgTable
           rowData={poly}
           columnDefs={columnDefs}
-          selectedIds={selectedIds}
-          setSelectedIds={setSelectedIds}
+          selectedIds={selected}
+          setSelectedIds={setSelected}
         />
         {/* <BootstrapTable
           data={poly}
