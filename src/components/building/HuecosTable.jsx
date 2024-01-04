@@ -104,6 +104,7 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Geometría",
       field: "geometry",
+      cellDataType: "object",
       cellClass: "text-center",
       cellRenderer: WindowGeomIconCellRenderer,
       cellRendererParams: { wallData },
