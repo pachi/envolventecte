@@ -111,9 +111,9 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
       tooltipValueGetter: WindowGeomFmt,
       headerTooltip:
         "Descripción geométrica del hueco (posición, ancho, alto, retranqueo). Posición en coordenadas de muro [x, y]. Para elementos sin definición geométrica completa la posición es una lista vacía.",
-      // editorRenderer: (editorProps, value, row) => (
-      //   <GeometryWindowEditor {...editorProps} value={value} name={row.name} />
-      // ),
+      cellEditor: GeometryWindowEditor,
+      cellEditorPopup: true,
+      cellEditorPopupPosition: 'under',
       headerClass: "text-center text-light bg-secondary",
     },
     {

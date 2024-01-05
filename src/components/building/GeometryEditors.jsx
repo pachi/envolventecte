@@ -397,68 +397,60 @@ const CoordsTable = ({ poly, setPoly }) => {
   );
 };
 
-/*
-  The getElement function from customEditor takes two arguments,
-  1. onUpdate: if you want to apply the modified data, call this function
-  2. props: contains alls customEditorParameters, "row" with whole row data, "defaultValue" with the received object, and attrs
-*/
 // Editor de datos geométricos de huecos
 // Recibe la geometría de un hueco {position: [f32, f32], height: f32, width: f32, setback: f32}
 // No se comprueba la coherencia de la definición geométrica con la superficie
-export const GeometryWindowEditor = React.forwardRef(
-  ({ onUpdate, value, name, ..._rest }, _ref) => {
-    const hasDefinedPos = !(
-      value.position === null || value.position.length === 0
-    );
-    let x = 0.0,
-      y = 0.0;
-    if (hasDefinedPos) {
-      x = value.position[0];
-      y = value.position[1];
-    }
-    const [hasPos, setHasPos] = useState(hasDefinedPos);
-    const [show, setShow] = useState(true);
-    // Posición
-    const [xPos, setXPos] = useState(x);
-    const [yPos, setYPos] = useState(y);
+export const GeometryWindowEditor = memo(
+  forwardRef((props, ref) => {
+    const [value, setValue] = useState(props.value);
+
+    // Editing state
+    const [skipChanges, setSkipChanges] = useState(true);
+    const [done, setDone] = useState(false);
+    useEffect(() => {
+      if (done) props.stopEditing();
+    }, [done]);
+    // Component Editor Lifecycle methods
+    useImperativeHandle(ref, () => ({
+      getValue: () => value,
+      isCancelAfterEnd: () => {
+        return skipChanges ? true : false;
+      },
+    }));
 
     // Propiedades del hueco
     const [width, setWidth] = useState(value.width);
     const [height, setHeight] = useState(value.height);
     const [setback, setSetback] = useState(value.setback);
 
-    const updateData = () => {
-      if (!hasPos) {
-        return onUpdate({
-          width: parseFloat(width),
-          height: parseFloat(height),
-          setback: parseFloat(setback),
-          position: null,
-        });
-      }
+    // Posición
+    const [hasPos, setHasPos] = useState(!!value?.position?.length);
+    const [x = 0.0, y = 0.0] = value.position || [];
+    const [xPos, setXPos] = useState(x);
+    const [yPos, setYPos] = useState(y);
 
-      return onUpdate({
+    const handleClose = () => {
+      setValue({
         width: parseFloat(width),
         height: parseFloat(height),
         setback: parseFloat(setback),
-        position: [parseFloat(xPos), parseFloat(yPos)],
+        position: hasPos
+          ? [parseFloat(xPos), parseFloat(yPos)]
+          : null
       });
-    };
-
-    const handleClose = () => {
-      setShow(false);
-      updateData();
+      setSkipChanges(false);
+      setDone(true);
     };
 
     const handleCancel = () => {
-      setShow(false);
-      return onUpdate(value);
+      setSkipChanges(true);
+      setDone(true);
     };
 
     return (
       <Modal
         role="dialog"
-        show={show}
+        show={!done}
         centered
         size="lg"
         onHide={() => handleCancel()} // Evitar enviar acciones a la tabla posterior
@@ -494,7 +486,7 @@ export const GeometryWindowEditor = React.forwardRef(
         </Modal.Footer>
       </Modal>
     );
-  }
+  })
 );
 
 const WidthHeightSetbackEditor = ({
