@@ -161,8 +161,8 @@ const LayersTable = ({ layers, setLayers }) => {
         <AgTable
           rowData={layers}
           columnDefs={columnDefs}
-          selectedIds={selectedIds}
-          setSelectedIds={setSelectedIds}
+          selectedIds={selected}
+          setSelectedIds={setSelected}
         />
         {/* <BootstrapTable
           data={layers}
