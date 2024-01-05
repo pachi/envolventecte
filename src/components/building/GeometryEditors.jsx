@@ -76,23 +76,13 @@ export const GeometryOpaquesEditor = memo(
       },
     }));
 
-    // Component details
+    // Inclinación y orientación
     const [tilt, setTilt] = useState(value.tilt);
     const [azimuth, setAzimuth] = useState(value.azimuth);
 
-    const hasDefinedPos = !(
-      value.position === null || value.position.length === 0
-    );
-    let x = 0.0,
-      y = 0.0,
-      z = 0.0;
-    if (hasDefinedPos) {
-      x = value.position[0];
-      y = value.position[1];
-      z = value.position[2];
-    }
-    const [hasPos, setHasPos] = useState(hasDefinedPos);
     // Posición
+    const [hasPos, setHasPos] = useState(!!value?.position?.length);
+    const [x = 0.0, y = 0.0, z = 0.0] = value.position || [];
     const [xPos, setXPos] = useState(x);
     const [yPos, setYPos] = useState(y);
     const [zPos, setZPos] = useState(z);
