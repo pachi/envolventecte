@@ -67,9 +67,9 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       headerTooltip: "Capas de la construcción (nº)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("Capas", "", "nº"),
-      // editorRenderer: (editorProps, value, row) => (
-      //   <LayersEditor {...editorProps} value={value} name={row.name} />
-      // ),
+      cellEditor: LayersEditor,
+      cellEditorPopup: true,
+      cellEditorPopupPosition: 'under',
       tooltipValueGetter: ({ data }) =>
         `Construcción de opaco:\n ${data.layers
           .map(
