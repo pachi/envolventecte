@@ -86,15 +86,13 @@ const SchedulesYearTable = ({ selectedIds, setSelectedIds }) => {
       headerName: "Horarios semanales",
       field: "values",
       cellClass: "text-center",
-      // editorRenderer: (editorProps, value, row) => (
-      //   <ScheduleCountsEditor
-      //     {...editorProps}
-      //     value={value}
-      //     name={row.name}
-      //     idMap={weekSchedulesMap}
-      //     scheduleOpts={weekSchedulesOpts}
-      //   />
-      // ),
+      cellEditor: ScheduleCountsEditor,
+      cellEditorPopup: true,
+      cellEditorPopupPosition: "under",
+      cellEditorParams: {
+        idMap: weekSchedulesMap,
+        scheduleOpts: weekSchedulesOpts,
+      },
       cellRenderer: CountScheduleCellRenderer,
       cellRendererParams: { idMapper: weekSchedulesMap },
       headerTooltip: "Lista de horarios semanales",

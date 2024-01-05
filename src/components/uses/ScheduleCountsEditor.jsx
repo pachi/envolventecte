@@ -21,10 +21,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useState } from "react";
+import React, {
+  forwardRef,
+  memo,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import { Modal, Button, Col, Container, Row } from "react-bootstrap";
-// import BootstrapTable from "react-bootstrap-table-next";
-// import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
 import { uuidv4 } from "../../utils";
 
@@ -33,16 +37,28 @@ import { optionalNumberFmt } from "../tables/Formatters.jsx";
 
 import { ListEditor } from "../ui/ListEditor";
 
-/*
-  The getElement function from customEditor takes two arguments,
-  1. onUpdate: if you want to apply the modified data, call this function
-  2. props: contains alls customEditorParameters, "row" with whole row data, "defaultValue" with the received object, and attrs
-*/
 // Editor de horarios anuales
 // Recibe la lista de tuplas de horario mensual y repeticiones [[uuid, f32], ...]
-export const ScheduleCountsEditor = React.forwardRef(
-  ({ onUpdate, value, name, idMap, scheduleOpts }, _ref) => {
-    const [show, setShow] = useState(true);
+export const ScheduleCountsEditor = memo(
+  forwardRef((props, ref) => {
+    const [value, setValue] = useState(props.value);
+
+    const { idMap, scheduleOpts } = props;
+
+    // Editing state
+    const [skipChanges, setSkipChanges] = useState(true);
+    const [done, setDone] = useState(false);
+    useEffect(() => {
+      if (done) props.stopEditing();
+    }, [done]);
+    // Component Editor Lifecycle methods
+    useImperativeHandle(ref, () => ({
+      getValue: () => value,
+      isCancelAfterEnd: () => {
+        return skipChanges ? true : false;
+      },
+    }));
+
     // Lista de tuplas de [id_horario, repeticiones]
     const [yearSchedules, setYearSchedules] = useState(
       (value || []).map((p) => ({
@@ -52,29 +68,27 @@ export const ScheduleCountsEditor = React.forwardRef(
       }))
     );
 
-    const updateData = () =>
-      onUpdate(yearSchedules.map((p) => [p.schedule_id, p.count]));
-
     const handleClose = () => {
-      setShow(false);
-      updateData();
+      setValue(yearSchedules.map((p) => [p.schedule_id, p.count]));
+      setSkipChanges(false);
+      setDone(true);
     };
 
     const handleCancel = () => {
-      setShow(false);
-      return onUpdate(value);
+      setSkipChanges(true);
+      setDone(true);
     };
 
     return (
       <Modal
         role="dialog"
-        show={show}
+        show={!done}
         centered
         size="lg"
         onHide={() => handleCancel()}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Definición de horario ({name})</Modal.Title>
+          <Modal.Title>Definición de horario ({value.name})</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
@@ -96,9 +110,10 @@ export const ScheduleCountsEditor = React.forwardRef(
         </Modal.Footer>
       </Modal>
     );
-  }
+  })
 );
 
+// TODO: convertir a AG-Grid
 // Tabla con horarios mensuales y repeticiones
 const ScheduleListTable = ({ schedule, setSchedule, idMap, scheduleOpts }) => {
   // Filas seleccionadas
@@ -124,7 +139,7 @@ const ScheduleListTable = ({ schedule, setSchedule, idMap, scheduleOpts }) => {
       headerName: "Repeticiones",
       field: "count",
       cellDataType: "number",
-      valueFormatter: ({value}) => optionalNumberFmt(value, 0),
+      valueFormatter: ({ value }) => optionalNumberFmt(value, 0),
       cellClass: "text-center",
       headerTooltip: "Número de veces que se repite el horario en la semana",
       headerClass: "text-light bg-secondary text-center",
