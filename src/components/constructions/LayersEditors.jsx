@@ -21,7 +21,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useState, useContext } from "react";
+import React, {
+  memo,
+  forwardRef,
+  useState,
+  useContext,
+  useEffect,
+  useImperativeHandle,
+} from "react";
 import {
   Modal,
   Button,
@@ -51,46 +58,54 @@ import { getHeader } from "../tables/Helpers.jsx";
 
 import { MATERIAL } from "../../stores/types";
 
-/*
-  The getElement function from customEditor takes two arguments,
-  1. onUpdate: if you want to apply the modified data, call this function
-  2. props: contains alls customEditorParameters, "row" with whole row data, "defaultValue" with the received object, and attrs
-*/
 // Editor de capas de construcciones de opacos (id = UUID de material, e= espesor)
 // Recibe las capas de una construcción [{id, e}, ...]
-export const LayersEditor = React.forwardRef(
-  ({ onUpdate, value, name }, _ref) => {
-    const [show, setShow] = useState(true);
+export const LayersEditor = memo(
+  forwardRef((props, ref) => {
+    const [value, setValue] = useState(props.value);
+
+    // Editing state
+    const [skipChanges, setSkipChanges] = useState(true);
+    const [done, setDone] = useState(false);
+    useEffect(() => {
+      if (done) props.stopEditing();
+    }, [done]);
+    // Component Editor Lifecycle methods
+    useImperativeHandle(ref, () => ({
+      getValue: () => value,
+      isCancelAfterEnd: () => {
+        return skipChanges ? true : false;
+      },
+    }));
+
     // Lista de puntos 2D del polígono como objetos
     const [layers, setLayers] = useState(
       (value || []).map((layer) => ({ id: uuidv4(), ...layer }))
     );
 
-    const updateData = () => {
-      const polygon = layers.map((p) => ({ material: p.material, e: p.e }));
-      return onUpdate(polygon);
-    };
-
     const handleClose = () => {
-      setShow(false);
-      updateData();
+      setValue(
+        layers.map((p) => ({ material: p.material, e: p.e }))
+      );
+      setSkipChanges(false);
+      setDone(true);
     };
 
     const handleCancel = () => {
-      setShow(false);
-      return onUpdate(value);
+      setSkipChanges(true);
+      setDone(true);
     };
 
     return (
       <Modal
         role="dialog"
-        show={show}
+        show={!done}
         centered
         size="lg"
         onHide={() => handleCancel()}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Construcción de elementos opacos ({name})</Modal.Title>
+          <Modal.Title>Construcción de elementos opacos ({props.data.name})</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
@@ -107,7 +122,7 @@ export const LayersEditor = React.forwardRef(
         </Modal.Footer>
       </Modal>
     );
-  }
+  })
 );
 
 // Tabla de puentes térmicos del edificio
