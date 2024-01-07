@@ -57,7 +57,6 @@ import { ScheduleCountsEditor } from "./ScheduleCountsEditor";
 const SchedulesYearTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const weekSchedulesMap = appstate.getIdNameMap(SCHEDULE_WEEK);
-  const weekSchedulesOpts = appstate.getElementOptions(SCHEDULE_WEEK);
 
   // Lista de IDs con errores
   const errors = appstate.warnings;
@@ -78,9 +77,7 @@ const SchedulesYearTable = ({ selectedIds, setSelectedIds }) => {
       cellClass: "font-weight-bold",
       headerTooltip: "Nombre de la definición de horario",
       headerClass: "text-light bg-secondary",
-      tooltipValueGetter: ({ data }) => {
-        return `Horario id: ${data.id}`;
-      },
+      tooltipValueGetter: ({ data }) => `Horario id: ${data.id}`,
     },
     {
       headerName: "Horarios semanales",
@@ -90,10 +87,7 @@ const SchedulesYearTable = ({ selectedIds, setSelectedIds }) => {
       cellEditor: ScheduleCountsEditor,
       cellEditorPopup: true,
       cellEditorPopupPosition: "under",
-      cellEditorParams: {
-        idMap: weekSchedulesMap,
-        scheduleOpts: weekSchedulesOpts,
-      },
+      cellEditorParams: { idMap: weekSchedulesMap },
       cellRenderer: CountScheduleCellRenderer,
       cellRendererParams: { idMapper: weekSchedulesMap },
       headerTooltip: "Lista de horarios semanales",

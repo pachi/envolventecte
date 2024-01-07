@@ -71,10 +71,11 @@ const SchedulesDayTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Valores horarios diarios",
       field: "values",
+      flex: 8,
       cellClass: "text-center",
-      // editorRenderer: (editorProps, value, row) => (
-      //   <ScheduleHoursEditor {...editorProps} value={value} name={row.name} />
-      // ),
+      cellEditor: ScheduleHoursEditor,
+      cellEditorPopup: true,
+      cellEditorPopupPosition: "under",
       cellRenderer: DayScheduleCellRenderer,
       headerTooltip: "Lista de valores horarios",
       headerClass: "text-light bg-secondary text-center",
@@ -82,6 +83,7 @@ const SchedulesDayTable = ({ selectedIds, setSelectedIds }) => {
     },
     {
       headerName: "n",
+      flex: 1,
       cellDataType: "number",
       editable: false,
       cellClass: "column-computed-readonly text-center",

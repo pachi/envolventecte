@@ -21,59 +21,67 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useState } from "react";
+import React, {
+  forwardRef,
+  memo,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import { Modal, Button, Col, Container, Row } from "react-bootstrap";
-// import BootstrapTable from "react-bootstrap-table-next";
-// import cellEditFactory from "react-bootstrap-table2-editor";
 
 import { AgTable } from "../tables/AgTable.jsx";
 import { optionalNumberFmt } from "../tables/Formatters.jsx";
-import { getHeader } from "../tables/Helpers.jsx";
-import { validateNonNegNumber } from "../tables/Validators.js";
 
-import { getFloatOrOld } from "../tables/utils";
-
-/*
-  The getElement function from customEditor takes two arguments,
-  1. onUpdate: if you want to apply the modified data, call this function
-  2. props: contains alls customEditorParameters, "row" with whole row data, "defaultValue" with the received object, and attrs
-*/
 // Editor de horario diario (valores horarios)
 // Recibe la lista de valores horarios [f32, ...]
-export const ScheduleHoursEditor = React.forwardRef(
-  ({ onUpdate, value, name }, _ref) => {
-    const [show, setShow] = useState(true);
+export const ScheduleHoursEditor = memo(
+  forwardRef((props, ref) => {
+    const [value, setValue] = useState(props.value);
+
+    // Editing state
+    const [skipChanges, setSkipChanges] = useState(true);
+    const [done, setDone] = useState(false);
+    useEffect(() => {
+      if (done) props.stopEditing();
+    }, [done]);
+    // Component Editor Lifecycle methods
+    useImperativeHandle(ref, () => ({
+      getValue: () => value,
+      isCancelAfterEnd: () => {
+        return skipChanges ? true : false;
+      },
+    }));
+
     // Lista de valores horarios
     const hourValues = (value || []).map((p, idx) => ({
       id: idx + 1,
       value: p,
     }));
 
-    const updateData = () => {
-      const newHourValues = hourValues.map((p) => p.value);
-      onUpdate(newHourValues);
-    };
-
     const handleClose = () => {
-      setShow(false);
-      updateData();
+      setValue(hourValues.map((p) => p.value));
+      setSkipChanges(false);
+      setDone(true);
     };
 
     const handleCancel = () => {
-      setShow(false);
-      return onUpdate(value);
+      setSkipChanges(true);
+      setDone(true);
     };
 
     return (
       <Modal
         role="dialog"
-        show={show}
+        show={!done}
         centered
         size="lg"
         onHide={() => handleCancel()}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Definición de valores horarios ({name})</Modal.Title>
+          <Modal.Title>
+            Definición de valores horarios ({props.value.name})
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>
@@ -90,12 +98,12 @@ export const ScheduleHoursEditor = React.forwardRef(
         </Modal.Footer>
       </Modal>
     );
-  }
+  })
 );
 
 // Tabla con valores horarios
 const ScheduleHoursTable = ({ hours }) => {
-  const columns = [
+  const columnDefs = [
     { headerName: "ID", field: "id", hide: true },
     {
       headerName: "Hora",
@@ -126,25 +134,9 @@ const ScheduleHoursTable = ({ hours }) => {
         <AgTable
           rowData={hours}
           columnDefs={columnDefs}
-          selectedIds={selectedIds}
-          setSelectedIds={setSelectedIds}
+          // selectedIds={selectedIds}
+          // setSelectedIds={setSelectedIds}
         />
-        {/* <BootstrapTable
-          data={hours}
-          keyField="id"
-          striped
-          hover
-          bordered={false}
-          cellEdit={cellEditFactory({
-            mode: "dbclick",
-            blurToSave: true,
-            afterSaveCell: (oldValue, newValue, row, column) => {
-              // Convierte a número campos numéricos
-              row[column.field] = getFloatOrOld(newValue, oldValue);
-            },
-          })}
-          columns={columns}
-        /> */}
       </Col>
     </Row>
   );

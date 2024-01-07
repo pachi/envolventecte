@@ -57,7 +57,6 @@ import { ScheduleCountsEditor } from "./ScheduleCountsEditor";
 const SchedulesWeekTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const daySchedulesMap = appstate.getIdNameMap(SCHEDULE_DAY);
-  const daySchedulesOpts = appstate.getElementOptions(SCHEDULE_DAY);
 
   // Lista de IDs con errores
   const errors = appstate.warnings;
@@ -83,16 +82,12 @@ const SchedulesWeekTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Horarios diarios",
       field: "values",
+      flex: 8,
       cellClass: "text-center",
-      // editorRenderer: (editorProps, value, row) => (
-      //   <ScheduleCountsEditor
-      //     {...editorProps}
-      //     value={value}
-      //     name={row.name}
-      //     idMap={daySchedulesMap}
-      //     scheduleOpts={daySchedulesOpts}
-      //   />
-      // ),
+      cellEditor: ScheduleCountsEditor,
+      cellEditorPopup: true,
+      cellEditorPopupPosition: "under",
+      cellEditorParams: { idMap: daySchedulesMap },
       cellRenderer: CountScheduleCellRenderer,
       cellRendererParams: { idMapper: daySchedulesMap },
       headerTooltip: "Lista de horarios diarios",
@@ -100,8 +95,9 @@ const SchedulesWeekTable = ({ selectedIds, setSelectedIds }) => {
     },
     {
       headerName: "n",
-      editable: false,
+      flex: 1,
       cellDataType: "number",
+      editable: false,
       cellClass: "column-computed-readonly text-center",
       valueFormatter: ({ data }) =>
         data.values.map(([_id, count]) => count).reduce((a, b) => a + b, 0),

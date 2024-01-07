@@ -42,8 +42,7 @@ import { ListEditor } from "../ui/ListEditor";
 export const ScheduleCountsEditor = memo(
   forwardRef((props, ref) => {
     const [value, setValue] = useState(props.value);
-
-    const { idMap, scheduleOpts } = props;
+    const { idMap } = props;
 
     // Editing state
     const [skipChanges, setSkipChanges] = useState(true);
@@ -96,7 +95,6 @@ export const ScheduleCountsEditor = memo(
               schedule={yearSchedules}
               setSchedule={setYearSchedules}
               idMap={idMap}
-              scheduleOpts={scheduleOpts}
             />
           </Container>
         </Modal.Body>
@@ -114,7 +112,7 @@ export const ScheduleCountsEditor = memo(
 );
 
 // Tabla con horarios mensuales y repeticiones
-const ScheduleListTable = ({ schedule, setSchedule, idMap, scheduleOpts }) => {
+const ScheduleListTable = ({ schedule, setSchedule, idMap }) => {
   // Filas seleccionadas
   const [selectedIds, setSelectedIds] = useState([]);
   const [columnDefs, setColumnDefs] = useState([
