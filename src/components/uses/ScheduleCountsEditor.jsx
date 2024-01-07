@@ -113,13 +113,12 @@ export const ScheduleCountsEditor = memo(
   })
 );
 
-// TODO: convertir a AG-Grid
 // Tabla con horarios mensuales y repeticiones
 const ScheduleListTable = ({ schedule, setSchedule, idMap, scheduleOpts }) => {
   // Filas seleccionadas
   const [selectedIds, setSelectedIds] = useState([]);
   const [columnDefs, setColumnDefs] = useState([
-    { headerName: "ID", field: "id", hidden: true },
+    { headerName: "ID", field: "id", hide: true },
     {
       headerName: "Horario semanal",
       field: "schedule_id",
@@ -129,17 +128,15 @@ const ScheduleListTable = ({ schedule, setSchedule, idMap, scheduleOpts }) => {
       headerTooltip: "Horario semanal",
       headerClass: "text-light bg-secondary text-center",
       valueFormatter: ({ value }) => idMap[value],
-      // formatExtraData: idMap,
-      // editor: {
-      //   type: Type.SELECT,
-      //   options: scheduleOpts,
-      // },
+      cellEditor: "agSelectCellEditor",
+      cellEditorParams: { values: Object.keys(idMap) },
+      refData: idMap,
     },
     {
       headerName: "Repeticiones",
       field: "count",
       cellDataType: "number",
-      valueFormatter: ({ value }) => optionalNumberFmt(value, 0),
+      valueFormatter: (value) => optionalNumberFmt(value, 0),
       cellClass: "text-center",
       headerTooltip: "Número de veces que se repite el horario en la semana",
       headerClass: "text-light bg-secondary text-center",
