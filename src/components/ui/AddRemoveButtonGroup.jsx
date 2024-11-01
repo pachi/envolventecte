@@ -84,30 +84,6 @@ const AddRemoveButtonGroup = observer(
             <img src={iconless} alt="Eliminar fila" />
           </Button>
         </ButtonGroup>
-        <ButtonGroup aria-label="Barra de selección y deselección de filas">
-          <Button
-            variant="primary"
-            size="sm"
-            title="Seleccionar todas las filas de la tabla"
-            onClick={() => {
-              setSelectedIds(
-                appstate.getElements(elementType).map((e) => e.id)
-              );
-            }}
-          >
-            <img src={iconselectall} alt="Seleccionar todo" />
-          </Button>
-          <Button
-            variant="primary"
-            size="sm"
-            title="Deseleccionar todas las filas de la tabla"
-            onClick={() => {
-              setSelectedIds([]);
-            }}
-          >
-            <img src={iconselectnone} alt="Deseleccionar todo" />
-          </Button>
-        </ButtonGroup>
         <ButtonGroup aria-label="Barra de subir o bajar filas">
           <Button
             variant="primary"
