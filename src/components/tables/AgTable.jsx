@@ -60,15 +60,9 @@ export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds}) => {
         getRowId={getRowId}
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
+        tooltipShowDelay={500}
         animateRows={true}
         rowSelection={rowSelection}
-        tooltipShowDelay={500}
-        // onRowSelected={(e) => console.log(
-        //     "row " +
-        //       e.node.data +
-        //       " selected = " +
-        //       e.node.isSelected(),
-        // )}
         onSelectionChanged={(params) => {
           setSelectedIds(
             params.api.getSelectedNodes().map((node) => node.data.id)
