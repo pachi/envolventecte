@@ -363,4 +363,3 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
 };
 
 export default observer(SpacesTable);
-// export default observer(()=> <p>Prueba</p>)
