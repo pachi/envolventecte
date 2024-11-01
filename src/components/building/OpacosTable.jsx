@@ -142,7 +142,6 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       cellEditor: GeometryOpaquesEditor,
       cellEditorPopup: true,
       cellEditorPopupPosition: 'under',
-      headerClass: "text-center",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("Geometría"),
     },
