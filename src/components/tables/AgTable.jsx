@@ -29,7 +29,6 @@ export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds}) => {
   // DefaultColDef sets props common to all Columns
   const defaultColDef = useMemo(() => ({
     editable: true,
-    singleClickEdit: true,
     sortable: true,
     resizable: false,
     filter: true,
@@ -39,6 +38,16 @@ export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds}) => {
     autoHeaderHeight: true,
   }));
 
+  const rowSelection = useMemo(() => { 
+    return {
+          mode: 'multiRow',
+          enableClickSelection: true,
+          enableSelectionWithoutKeys: true,
+          checkboxes: true,
+          headerCheckbox: true,
+      };
+  }, []);
+
   return (
     <div className="ag-theme-alpine" style={{ height: "calc(100dvh - 21rem)", width: "100%" }}>
       <AgGridReact
@@ -46,16 +55,19 @@ export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds}) => {
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
         animateRows={true}
-        rowSelection="multiple"
+        rowSelection={rowSelection}
         tooltipShowDelay={500}
-        rowMultiSelectWithClick
-        suppressRowClickSelection
+        // onRowSelected={(e) => console.log(
+        //     "row " +
+        //       e.node.data +
+        //       " selected = " +
+        //       e.node.isSelected(),
+        // )}
         onSelectionChanged={(params) => {
           setSelectedIds(
             params.api.getSelectedNodes().map((node) => node.data.id)
           );
         }}
-        rowDeselection
       />
     </div>
   );
