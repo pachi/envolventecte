@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useMemo } from "react";
+import React, { useMemo, useCallback } from "react";
 import { AgGridReact } from "ag-grid-react";
 
 export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds}) => {
@@ -48,10 +48,16 @@ export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds}) => {
       };
   }, []);
 
+  const getRowId = useCallback(
+    (params) => String(params.data.id),
+    [],
+  );
+
   return (
     <div className="ag-theme-alpine" style={{ height: "calc(100dvh - 21rem)", width: "100%" }}>
       <AgGridReact
         rowData={rowData}
+        getRowId={getRowId}
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
         animateRows={true}
