@@ -82,5 +82,6 @@
 - Revisar por qué al cambiar ancho de ventana no cambia el A_wp de la tabla 
 - Revisar componente de edición de líneas (añadir, clonar, quitar, sel, desel, subir o bajar)
     - La selección no está bien configurada en el AgGridReact
+    - Ver https://www.ag-grid.com/react-data-grid/row-selection/
     - Reimplementar selección de elementos en las tablas
     - Ver si quitando el singleclickedit en agtable se puede usar
