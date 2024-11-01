@@ -53,6 +53,8 @@ export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds}) => {
     [],
   );
 
+  rowData = rowData.map(r => ({...r, selected: r.id in selectedIds}));
+
   return (
     <div className="ag-theme-alpine" style={{ height: "calc(100dvh - 21rem)", width: "100%" }}>
       <AgGridReact
