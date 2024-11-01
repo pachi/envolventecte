@@ -53,12 +53,13 @@ export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds}) => {
     [],
   );
 
-  rowData = rowData.map(r => ({...r, selected: r.id in selectedIds}));
+  // Datos con casilla de selección
+  const selRowData = rowData.map(r => ({...r, selected: r.id in selectedIds}));
 
   return (
     <div className="ag-theme-alpine" style={{ height: "calc(100dvh - 21rem)", width: "100%" }}>
       <AgGridReact
-        rowData={rowData}
+        rowData={selRowData}
         getRowId={getRowId}
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
@@ -66,9 +67,14 @@ export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds}) => {
         animateRows={true}
         rowSelection={rowSelection}
         onSelectionChanged={(params) => {
+          console.log(params.api.getSelectedNodes().map(n => n.data.id));
           setSelectedIds(
             params.api.getSelectedNodes().map((node) => node.data.id)
           );
+        }}
+        onCellValueChanged={(event) => {
+          // Al cambiar una celda tenemos que enviar el cambio al appstate
+          rowData[event.rowIndex][event.column.colId] = event.newValue;
         }}
       />
     </div>
