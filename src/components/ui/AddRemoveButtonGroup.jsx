@@ -29,8 +29,6 @@ import AppState from "../../stores/AppState";
 
 import iconplus from "../img/baseline-add-24px.svg";
 import iconless from "../img/baseline-remove-24px.svg";
-import iconselectall from "../img/select-rows.svg";
-import iconselectnone from "../img/unselect-rows.svg";
 import iconduplicate from "../img/outline-file_copy-24px.svg";
 import iconarrowup from "../img/arrow_up.svg";
 import iconarrowdown from "../img/arrow_down.svg";
