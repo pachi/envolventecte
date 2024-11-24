@@ -26,8 +26,6 @@ import { Button, ButtonGroup, ButtonToolbar } from "react-bootstrap";
 
 import iconPlus from "../img/baseline-add-24px.svg";
 import iconLess from "../img/baseline-remove-24px.svg";
-import iconSelectAll from "../img/select-rows.svg";
-import iconSelectNone from "../img/unselect-rows.svg";
 import iconDuplicate from "../img/outline-file_copy-24px.svg";
 import { uuidv4 } from "../../utils";
 
