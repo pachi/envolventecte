@@ -79,7 +79,7 @@
 ## Ag-Grid
 - Los popup de geometría ahora están con modal que gestionan su propia posición
   Igual podemos ignorar el popup under, etc en la definición de columnas.
-- Revisar por qué al cambiar ancho de ventana no cambia el A_wp de la tabla 
+- Revisar por qué al cambiar ancho de ventana no cambia el A_wp de la tabla, también pasa al cambiar el tipo de hueco, que no cambia la U. Es como si no se actualizasen los datos al editar la tabla.
 - Revisar componente de edición de líneas (añadir, clonar, quitar, sel, desel, subir o bajar)
     - Ver https://www.ag-grid.com/react-data-grid/row-selection/
     - Revisar errores al borrar todos los elementos
