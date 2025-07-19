@@ -65,9 +65,11 @@ export const GeometryOpaquesEditor = memo(
     // Editing state
     const [skipChanges, setSkipChanges] = useState(true);
     const [done, setDone] = useState(false);
+
     useEffect(() => {
       if (done) props.stopEditing();
     }, [done]);
+  
     // Component Editor Lifecycle methods
     useImperativeHandle(ref, () => ({
       getValue: () => value,
@@ -116,7 +118,7 @@ export const GeometryOpaquesEditor = memo(
         show={!done}
         centered
         size="lg"
-        onHide={() => handleCancel()}
+        onHide={handleCancel}
       >
         <Modal.Header closeButton>
           <Modal.Title>
