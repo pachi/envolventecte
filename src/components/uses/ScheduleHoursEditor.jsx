@@ -129,8 +129,6 @@ const ScheduleHoursTable = ({ hours }) => {
         <AgTable
           rowData={hours}
           columnDefs={columnDefs}
-          // selectedIds={selectedIds}
-          // setSelectedIds={setSelectedIds}
         />
       </Col>
     </Row>

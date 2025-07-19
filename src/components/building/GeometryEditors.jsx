@@ -40,9 +40,6 @@ import {
   ToggleButton,
 } from "react-bootstrap";
 
-// import BootstrapTable from "react-bootstrap-table-next";
-// import cellEditFactory from "react-bootstrap-table2-editor";
-
 import { uuidv4 } from "../../utils";
 
 import { AgTable } from "../tables/AgTable.jsx";
@@ -358,39 +355,6 @@ const CoordsTable = ({ poly, setPoly }) => {
           selectedIds={selected}
           setSelectedIds={setSelected}
         />
-        {/* <BootstrapTable
-          data={poly}
-          keyField="id"
-          striped
-          hover
-          bordered={false}
-          cellEdit={cellEditFactory({
-            mode: "dbclick",
-            blurToSave: true,
-            afterSaveCell: (oldValue, newValue, row, column) => {
-              // Convierte a número campos numéricos
-              if (["X", "Y"].includes(column.field)) {
-                row[column.field] = getFloatOrOld(newValue, oldValue);
-              }
-            },
-          })}
-          selectRow={{
-            mode: "checkbox",
-            clickToSelect: true,
-            clickToEdit: true,
-            selected: selected,
-            onSelect: (row, isSelected, _rowIndex, _e) => {
-              if (isSelected) {
-                setSelected([...selected, row.id]);
-              } else {
-                setSelected(selected.filter((it) => it !== row.id));
-              }
-            },
-            hideSelectColumn: true,
-            bgColor: "lightgray",
-          }}
-          columns={columns}
-        /> */}
       </Col>
     </Row>
   );

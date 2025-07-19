@@ -38,8 +38,6 @@ import {
   Row,
   ButtonToolbar,
 } from "react-bootstrap";
-// import BootstrapTable from "react-bootstrap-table-next";
-// import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
 import iconplus from "../img/baseline-add-24px.svg";
 import iconless from "../img/baseline-remove-24px.svg";
@@ -174,39 +172,6 @@ const LayersTable = ({ layers, setLayers }) => {
           selectedIds={selected}
           setSelectedIds={setSelected}
         />
-        {/* <BootstrapTable
-          data={layers}
-          keyField="id"
-          striped
-          hover
-          bordered={false}
-          cellEdit={cellEditFactory({
-            mode: "dbclick",
-            blurToSave: true,
-            afterSaveCell: (oldValue, newValue, row, column) => {
-              // Convierte a número campos numéricos
-              if (["e"].includes(column.field)) {
-                row[column.field] = getFloatOrOld(newValue, oldValue);
-              }
-            },
-          })}
-          selectRow={{
-            mode: "checkbox",
-            clickToSelect: true,
-            clickToEdit: true,
-            selected: selected,
-            onSelect: (row, isSelected, _rowIndex, _e) => {
-              if (isSelected) {
-                setSelected([...selected, row.id]);
-              } else {
-                setSelected(selected.filter((it) => it !== row.id));
-              }
-            },
-            hideSelectColumn: true,
-            bgColor: "lightgray",
-          }}
-          columns={columns}
-        /> */}
       </Col>
     </Row>
   );

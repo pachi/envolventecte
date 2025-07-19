@@ -154,39 +154,6 @@ const ScheduleListTable = ({ schedule, setSchedule, idMap }) => {
           selectedIds={selectedIds}
           setSelectedIds={setSelectedIds}
         />
-        {/* <BootstrapTable
-          data={schedule}
-          keyField="id"
-          striped
-          hover
-          bordered={false}
-          cellEdit={cellEditFactory({
-            mode: "dbclick",
-            blurToSave: true,
-            afterSaveCell: (oldValue, newValue, row, column) => {
-              // Convierte a número campos numéricos
-              if (["count"].includes(column.field)) {
-                row[column.field] = getFloatOrOld(newValue, oldValue);
-              }
-            },
-          })}
-          selectRow={{
-            mode: "checkbox",
-            clickToSelect: true,
-            clickToEdit: true,
-            selected: selected,
-            onSelect: (row, isSelected, _rowIndex, _e) => {
-              if (isSelected) {
-                setSelected([...selected, row.id]);
-              } else {
-                setSelected(selected.filter((it) => it !== row.id));
-              }
-            },
-            hideSelectColumn: true,
-            bgColor: "lightgray",
-          }}
-          columns={columns}
-        /> */}
       </Col>
     </Row>
   );
