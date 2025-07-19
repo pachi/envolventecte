@@ -24,7 +24,8 @@ SOFTWARE.
 import React, { useMemo, useCallback } from "react";
 import { AgGridReact } from "ag-grid-react";
 
-export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds}) => {
+// TODO: tal vez sería mejor definir la altura en el elemento que envuelva a AgTable
+export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds, sizeReduce=21}) => {
 
   // DefaultColDef sets props common to all Columns
   const defaultColDef = useMemo(() => ({
@@ -57,7 +58,7 @@ export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds}) => {
   const selRowData = rowData.map(r => ({...r, selected: selectedIds ? (r.id in selectedIds) : false}));
 
   return (
-    <div className="ag-theme-alpine" style={{ height: "calc(100dvh - 21rem)", width: "100%" }}>
+    <div className="ag-theme-alpine" style={{ height: `calc(100dvh - ${sizeReduce}rem)`, width: "100%" }}>
       <AgGridReact
         rowData={selRowData}
         getRowId={getRowId}

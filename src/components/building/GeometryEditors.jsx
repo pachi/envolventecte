@@ -354,6 +354,7 @@ const CoordsTable = ({ poly, setPoly }) => {
           columnDefs={columnDefs}
           selectedIds={selected}
           setSelectedIds={setSelected}
+          sizeReduce={35}
         />
       </Col>
     </Row>
