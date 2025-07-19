@@ -79,8 +79,5 @@
 ## Ag-Grid
 - No se actualizan las columnas calculadas al usar editores (ni celdas)
     - Al cambiar la altura de un espacio no se actualiza el valor del Volumen
-- Los popup de geometría ahora están con modal que gestionan su propia posición
-  Igual podemos ignorar el popup under, etc en la definición de columnas.
-- Revisar componente de edición de líneas (añadir, clonar, quitar, sel, desel, subir o bajar)
-    - Revisar errores al borrar todos los elementos
-        - Borrar todos los espacios y todos los opacos, crear opaco: no se puede seleccionar el espacio y construcción del elemento
+- Revisar errores al borrar todos los elementos
+    - Borrar todos los espacios y todos los opacos, crear opaco: no se puede seleccionar el espacio y construcción del elemento
