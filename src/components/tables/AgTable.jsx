@@ -67,7 +67,7 @@ export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds}) => {
         animateRows={true}
         rowSelection={rowSelection}
         onSelectionChanged={(params) => {
-          console.log(params.api.getSelectedNodes().map(n => n.data.id));
+          // console.log(params.api.getSelectedNodes().map(n => n.data.id));
           setSelectedIds(
             params.api.getSelectedNodes().map((node) => node.data.id)
           );
