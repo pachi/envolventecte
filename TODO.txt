@@ -81,3 +81,5 @@
     - Al cambiar la altura de un espacio no se actualiza el valor del Volumen
 - Revisar errores al borrar todos los elementos
     - Borrar todos los espacios y todos los opacos, crear opaco: no se puede seleccionar el espacio y construcción del elemento
+- Revisar filas seleccionadas con ag-grid row selection en vez de selectedIds y setSelectedIds
+    - Ver https://www.ag-grid.com/react-data-grid/row-selection/
