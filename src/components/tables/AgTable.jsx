@@ -54,7 +54,7 @@ export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds}) => {
   );
 
   // Datos con casilla de selección
-  const selRowData = rowData.map(r => ({...r, selected: r.id in selectedIds}));
+  const selRowData = rowData.map(r => ({...r, selected: selectedIds ? (r.id in selectedIds) : false}));
 
   return (
     <div className="ag-theme-alpine" style={{ height: "calc(100dvh - 21rem)", width: "100%" }}>
@@ -67,10 +67,11 @@ export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds}) => {
         animateRows={true}
         rowSelection={rowSelection}
         onSelectionChanged={(params) => {
-          // console.log(params.api.getSelectedNodes().map(n => n.data.id));
-          setSelectedIds(
-            params.api.getSelectedNodes().map((node) => node.data.id)
-          );
+          if (setSelectedIds) {
+            setSelectedIds(
+              params.api.getSelectedNodes().map((node) => node.data.id)
+            )
+          };
         }}
         onCellValueChanged={(event) => {
           // Al cambiar una celda tenemos que enviar el cambio al appstate
