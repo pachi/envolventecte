@@ -36,21 +36,16 @@ import { optionalNumberFmt } from "../tables/Formatters.jsx";
 // Editor de horario diario (valores horarios)
 // Recibe la lista de valores horarios [f32, ...]
 export const ScheduleHoursEditor = memo(
-  forwardRef((props, ref) => {
-    const [value, setValue] = useState(props.value);
-
-    // Editing state
-    const [skipChanges, setSkipChanges] = useState(true);
+  forwardRef(({value, stopEditing, onValueChange}, ref) => {
     const [done, setDone] = useState(false);
     useEffect(() => {
-      if (done) props.stopEditing();
+      if (done) stopEditing();
     }, [done]);
+
     // Component Editor Lifecycle methods
+    const [skipChanges, setSkipChanges] = useState(true);
     useImperativeHandle(ref, () => ({
-      getValue: () => value,
-      isCancelAfterEnd: () => {
-        return skipChanges ? true : false;
-      },
+      isCancelAfterEnd: () => skipChanges
     }));
 
     // Lista de valores horarios
@@ -60,7 +55,7 @@ export const ScheduleHoursEditor = memo(
     }));
 
     const handleClose = () => {
-      setValue(hourValues.map((p) => p.value));
+      onValueChange(hourValues.map((p) => p.value));
       setSkipChanges(false);
       setDone(true);
     };
@@ -76,11 +71,11 @@ export const ScheduleHoursEditor = memo(
         show={!done}
         centered
         size="lg"
-        onHide={() => handleCancel()}
+        onHide={handleCancel}
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            Definición de valores horarios ({props.value.name})
+            Definición de valores horarios ({value.name})
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

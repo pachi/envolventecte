@@ -40,22 +40,16 @@ import { ListEditor } from "../ui/ListEditor";
 // Editor de horarios anuales
 // Recibe la lista de tuplas de horario mensual y repeticiones [[uuid, f32], ...]
 export const ScheduleCountsEditor = memo(
-  forwardRef((props, ref) => {
-    const [value, setValue] = useState(props.value);
-    const { idMap } = props;
-
-    // Editing state
-    const [skipChanges, setSkipChanges] = useState(true);
+  forwardRef(({value, stopEditing, onValueChange, idMap}, ref) => {
     const [done, setDone] = useState(false);
     useEffect(() => {
-      if (done) props.stopEditing();
+      if (done) stopEditing();
     }, [done]);
+    
     // Component Editor Lifecycle methods
+    const [skipChanges, setSkipChanges] = useState(true);
     useImperativeHandle(ref, () => ({
-      getValue: () => value,
-      isCancelAfterEnd: () => {
-        return skipChanges ? true : false;
-      },
+      isCancelAfterEnd: () => skipChanges
     }));
 
     // Lista de tuplas de [id_horario, repeticiones]
@@ -68,7 +62,7 @@ export const ScheduleCountsEditor = memo(
     );
 
     const handleClose = () => {
-      setValue(yearSchedules.map((p) => [p.schedule_id, p.count]));
+      onValueChange(yearSchedules.map((p) => [p.schedule_id, p.count]));
       setSkipChanges(false);
       setDone(true);
     };
@@ -84,7 +78,7 @@ export const ScheduleCountsEditor = memo(
         show={!done}
         centered
         size="lg"
-        onHide={() => handleCancel()}
+        onHide={handleCancel}
       >
         <Modal.Header closeButton>
           <Modal.Title>Definición de horario ({value.name})</Modal.Title>

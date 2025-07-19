@@ -61,18 +61,15 @@ import { MATERIAL } from "../../stores/types";
 // Editor de capas de construcciones de opacos (id = UUID de material, e= espesor)
 // Recibe las capas de una construcción [{id, e}, ...]
 export const LayersEditor = memo(
-  forwardRef((props, ref) => {
-    const [value, setValue] = useState(props.value);
-
-    // Editing state
-    const [skipChanges, setSkipChanges] = useState(true);
+  forwardRef(({value, data, stopEditing, onValueChange}, ref) => {
     const [done, setDone] = useState(false);
     useEffect(() => {
-      if (done) props.stopEditing();
+      if (done) stopEditing();
     }, [done]);
+    
     // Component Editor Lifecycle methods
+    const [skipChanges, setSkipChanges] = useState(true);
     useImperativeHandle(ref, () => ({
-      getValue: () => value,
       isCancelAfterEnd: () => {
         return skipChanges ? true : false;
       },
@@ -84,7 +81,7 @@ export const LayersEditor = memo(
     );
 
     const handleClose = () => {
-      setValue(
+      onValueChange(
         layers.map((p) => ({ material: p.material, e: p.e }))
       );
       setSkipChanges(false);
@@ -105,7 +102,7 @@ export const LayersEditor = memo(
         onHide={() => handleCancel()}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Construcción de elementos opacos ({props.data.name})</Modal.Title>
+          <Modal.Title>Construcción de elementos opacos ({data.name})</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Container>

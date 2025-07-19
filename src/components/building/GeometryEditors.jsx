@@ -59,23 +59,18 @@ import { ListEditor } from "../ui/ListEditor";
 // Recibe la geometría de un opaco {tilt: f32, azimuth: f32, position: null | [f32, f32, f32], polygon: [[f32, f32], ...]}
 // No se comprueba la coherencia de la definición geométrica con la superficie
 export const GeometryOpaquesEditor = memo(
-  forwardRef((props, ref) => {
-    const [value, setValue] = useState(props.value);
-
+  forwardRef(({value, data, stopEditing, onValueChange}, ref) => {
     // Editing state
     const [skipChanges, setSkipChanges] = useState(true);
     const [done, setDone] = useState(false);
 
     useEffect(() => {
-      if (done) props.stopEditing();
+      if (done) stopEditing();
     }, [done]);
   
     // Component Editor Lifecycle methods
     useImperativeHandle(ref, () => ({
-      getValue: () => value,
-      isCancelAfterEnd: () => {
-        return skipChanges ? true : false;
-      },
+      isCancelAfterEnd: () => skipChanges,
     }));
 
     // Inclinación y orientación
@@ -95,7 +90,7 @@ export const GeometryOpaquesEditor = memo(
     );
 
     const handleClose = () => {
-      setValue({
+      onValueChange({
         azimuth: parseFloat(azimuth),
         tilt: parseFloat(tilt),
         position: hasPos
@@ -122,7 +117,7 @@ export const GeometryOpaquesEditor = memo(
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            Definición geométrica de opaco o sombra ({props.data.name})
+            Definición geométrica de opaco o sombra ({data.name})
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -405,21 +400,16 @@ const CoordsTable = ({ poly, setPoly }) => {
 // Recibe la geometría de un hueco {position: [f32, f32], height: f32, width: f32, setback: f32}
 // No se comprueba la coherencia de la definición geométrica con la superficie
 export const GeometryWindowEditor = memo(
-  forwardRef((props, ref) => {
-    const [value, setValue] = useState(props.value);
-
-    // Editing state
-    const [skipChanges, setSkipChanges] = useState(true);
+  forwardRef(({value, stopEditing, onValueChange}, ref) => {
     const [done, setDone] = useState(false);
     useEffect(() => {
-      if (done) props.stopEditing();
+      if (done) stopEditing();
     }, [done]);
+    
     // Component Editor Lifecycle methods
+    const [skipChanges, setSkipChanges] = useState(true);
     useImperativeHandle(ref, () => ({
-      getValue: () => value,
-      isCancelAfterEnd: () => {
-        return skipChanges ? true : false;
-      },
+      isCancelAfterEnd: () => skipChanges,
     }));
 
     // Propiedades del hueco
@@ -434,7 +424,7 @@ export const GeometryWindowEditor = memo(
     const [yPos, setYPos] = useState(y);
 
     const handleClose = () => {
-      setValue({
+      onValueChange({
         width: parseFloat(width),
         height: parseFloat(height),
         setback: parseFloat(setback),
