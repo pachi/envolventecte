@@ -24,6 +24,8 @@ SOFTWARE.
 import React from "react";
 import { Button, ButtonGroup, ButtonToolbar } from "react-bootstrap";
 
+import iconSelectAll from "../img/select-all.svg";
+import iconSelectNone from "../img/select-none.svg";
 import iconPlus from "../img/baseline-add-24px.svg";
 import iconLess from "../img/baseline-remove-24px.svg";
 import iconDuplicate from "../img/outline-file_copy-24px.svg";
