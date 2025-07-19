@@ -82,7 +82,5 @@
 - Los popup de geometría ahora están con modal que gestionan su propia posición
   Igual podemos ignorar el popup under, etc en la definición de columnas.
 - Revisar componente de edición de líneas (añadir, clonar, quitar, sel, desel, subir o bajar)
-    - Seleccionar todos y deseleccionar todos no funcionan
-    - Ver https://www.ag-grid.com/react-data-grid/row-selection/
     - Revisar errores al borrar todos los elementos
         - Borrar todos los espacios y todos los opacos, crear opaco: no se puede seleccionar el espacio y construcción del elemento
