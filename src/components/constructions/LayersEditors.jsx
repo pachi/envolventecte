@@ -46,6 +46,8 @@ import iconless from "../img/baseline-remove-24px.svg";
 import iconduplicate from "../img/outline-file_copy-24px.svg";
 import iconarrowup from "../img/arrow_up.svg";
 import iconarrowdown from "../img/arrow_down.svg";
+import iconselectall from "../img/select-all.svg";
+import iconselectnone from "../img/select-none.svg";
 
 import { uuidv4 } from "../../utils";
 import AppState, { EMPTY_ID } from "../../stores/AppState";
