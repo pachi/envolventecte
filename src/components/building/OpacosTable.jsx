@@ -144,8 +144,6 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       headerTooltip:
         "Geometría (punto de inserción, polígono, inclinación y orientación).",
       cellEditor: GeometryOpaquesEditor,
-      cellEditorPopup: true,
-      cellEditorPopupPosition: 'under',
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("Geometría"),
     },

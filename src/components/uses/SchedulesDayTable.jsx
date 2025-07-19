@@ -75,8 +75,6 @@ const SchedulesDayTable = ({ selectedIds, setSelectedIds }) => {
       flex: 8,
       cellClass: "text-center",
       cellEditor: ScheduleHoursEditor,
-      cellEditorPopup: true,
-      cellEditorPopupPosition: "under",
       cellRenderer: DayScheduleCellRenderer,
       headerTooltip: "Lista de valores horarios",
       headerClass: "text-light bg-secondary text-center",

@@ -59,8 +59,6 @@ const ShadesTable = ({ selectedIds, setSelectedIds }) => {
       headerTooltip:
         "Geometría (punto de inserción, vértices y orientación e inclinación de la superficie.",
       cellEditor: GeometryOpaquesEditor,
-      cellEditorPopup: true,
-      cellEditorPopupPosition: 'under',
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("Geometría"),
     },
