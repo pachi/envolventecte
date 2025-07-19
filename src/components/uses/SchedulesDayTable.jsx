@@ -71,6 +71,7 @@ const SchedulesDayTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Valores horarios diarios",
       field: "values",
+      cellDataType: false,
       flex: 8,
       cellClass: "text-center",
       cellEditor: ScheduleHoursEditor,

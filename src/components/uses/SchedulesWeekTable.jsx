@@ -82,6 +82,7 @@ const SchedulesWeekTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Horarios diarios",
       field: "values",
+      cellDataType: false,
       flex: 8,
       cellClass: "text-center",
       cellEditor: ScheduleCountsEditor,

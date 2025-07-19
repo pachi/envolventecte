@@ -101,6 +101,7 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Ocup. latente",
       field: "people_latent",
+      cellDataType: "number",
       cellClass: "text-center",
       valueFormatter: optionalNumberFmt,
       valueSetter: validateNonNegNumber,
@@ -134,10 +135,10 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Horario iluminación",
       field: "lighting_schedule",
+      cellDataType: "text",
       cellEditor: "agSelectCellEditor",
       cellEditorParams: { values: Object.keys(schedulesMap) },
       refData: schedulesMap,
-      cellDataType: "text",
       cellClass: "text-center",
       valueFormatter: ({ value }) => schedulesMap[value],
       headerTooltip: "Horario de iluminación",
@@ -157,10 +158,10 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Horario equipos",
       field: "equipment_schedule",
+      cellDataType: "text",
       cellEditor: "agSelectCellEditor",
       cellEditorParams: { values: Object.keys(schedulesMap) },
       refData: schedulesMap,
-      cellDataType: "text",
       cellClass: "text-center",
       valueFormatter: ({ value }) => schedulesMap[value],
       headerTooltip: "Horario de equipos",

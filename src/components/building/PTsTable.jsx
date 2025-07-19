@@ -66,6 +66,7 @@ const PTsTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Tipo",
       field: "kind",
+      cellDataType: "text",
       cellClass: "text-center",
       cellEditor: "agSelectCellEditor",
       cellEditorParams: { values: Object.keys(THERMAL_BRIDGE_TYPES_MAP) },

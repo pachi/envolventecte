@@ -133,6 +133,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Multiplicador",
       field: "multiplier",
+      cellDataType: "number",
       cellClass: "text-center",
       valueFormatter: DefaultOneFmt,
       valueSetter: validateIntegerNumber,
@@ -157,6 +158,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Interior a ET",
       field: "inside_tenv",
+      cellDataType: "boolean",
       cellRenderer: "agCheckboxCellRenderer",
       cellEditor: "agCheckboxCellEditor",
       cellClass: "text-center",

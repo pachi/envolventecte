@@ -70,6 +70,7 @@ const ThermostatsTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Consigna alta (REF)",
       field: "temp_max",
+      cellDataType: "number",
       // editor: {
       //   type: Type.SELECT,
       //   options: schedulesOpts,
@@ -83,6 +84,7 @@ const ThermostatsTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Consigna baja (CAL)",
       field: "temp_min",
+      cellDataType: "number",
       // editor: {
       //   type: Type.SELECT,
       //   options: schedulesOpts,

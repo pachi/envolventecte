@@ -52,7 +52,7 @@ const ShadesTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Geometría",
       field: "geometry",
-      cellDataType: "object",
+      cellDataType: false,
       cellClass: "text-center",
       cellRenderer: OpaqueGeomIconCellRenderer,
       tooltipValueGetter: OpaqueGeomFmt,

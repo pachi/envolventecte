@@ -79,6 +79,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Tipo",
       field: "bounds",
+      cellDataType: "text",
       cellClass: "text-center",
       cellEditor: "agSelectCellEditor",
       cellEditorParams: { values: Object.keys(BOUNDARY_TYPES_MAP) },
@@ -92,6 +93,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Construcción",
       field: "cons",
+      cellDataType: "text",
       cellClass: "text-center",
       cellEditor: "agSelectCellEditor",
       cellEditorParams: { values: Object.keys(wallconsMap) },
@@ -103,6 +105,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Espacio",
       field: "space",
+      cellDataType: "text",
       cellClass: "text-center",
       cellEditor: "agSelectCellEditor",
       cellEditorParams: { values: Object.keys(spaceMap) },
@@ -114,6 +117,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Espacio ady.",
       field: "next_to",
+      cellDataType: "text",
       cellClass: "text-center",
       editable: ({ data }) => data.bounds === "INTERIOR",
       // Este editor es especial porque debe poder ponerse en nulo
@@ -133,7 +137,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Geometría",
       field: "geometry",
-      cellDataType: "object",
+      cellDataType: false,
       cellClass: "text-center",
       cellRenderer: OpaqueGeomIconCellRenderer,
       tooltipValueGetter: OpaqueGeomFmt,

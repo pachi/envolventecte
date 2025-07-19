@@ -325,6 +325,7 @@ const CoordsTable = ({ poly, setPoly }) => {
     {
       headerName: "Coordenada X (coordenadas locales)",
       field: "X",
+      cellDataType: "number",
       valueFormatter: optionalNumberFmt,
       cellClass: "text-center",
       headerTooltip: "Coordenadas locales eje X",
@@ -334,6 +335,7 @@ const CoordsTable = ({ poly, setPoly }) => {
     {
       headerName: "Coordenada Y (coordenadas locales)",
       field: "Y",
+      cellDataType: "number",
       valueFormatter: optionalNumberFmt,
       cellClass: "text-center",
       headerTooltip: "Coordenadas locales eje Y",

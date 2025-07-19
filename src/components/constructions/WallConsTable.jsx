@@ -61,6 +61,7 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Capas",
       field: "layers",
+      cellDataType: false,
       cellClass: "text-center",
       cellRenderer: LayersCellRenderer,
       cellRendererParams: { materials: mats },

@@ -67,6 +67,7 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Nombre",
       field: "name",
+      cellDataType: "text",
       cellClass: "font-weight-bold",
       flex: 2,
       headerTooltip: "Nombre que identifica el hueco",
@@ -81,6 +82,7 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
     },
     {
       field: "cons",
+      cellDataType: "text",
       headerName: "Construcción",
       cellClass: "text-center",
       cellEditor: "agSelectCellEditor",
@@ -93,6 +95,7 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Opaco",
       field: "wall",
+      cellDataType: "text",
       cellClass: "text-center",
       cellEditor: "agSelectCellEditor",
       cellEditorParams: { values: Object.keys(wallsMap) },
@@ -104,7 +107,7 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Geometría",
       field: "geometry",
-      cellDataType: "object",
+      cellDataType: false,
       cellClass: "text-center",
       cellRenderer: WindowGeomIconCellRenderer,
       cellRendererParams: { wallData },

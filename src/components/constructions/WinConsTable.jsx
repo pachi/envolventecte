@@ -59,6 +59,7 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Vidrio",
       field: "glass",
+      cellDataType: "text",
       cellEditor: "agSelectCellEditor",
       cellEditorParams: { values: Object.keys(glassMap) },
       refData: glassMap,
@@ -70,6 +71,7 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Marco",
       field: "frame",
+      cellDataType: "text",
       cellEditor: "agSelectCellEditor",
       cellEditorParams: { values: Object.keys(frameMap) },
       refData: frameMap,

@@ -82,6 +82,7 @@ const SchedulesYearTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Horarios semanales",
       field: "values",
+      cellDataType: false,
       flex: 8,
       cellClass: "text-center",
       cellEditor: ScheduleCountsEditor,
