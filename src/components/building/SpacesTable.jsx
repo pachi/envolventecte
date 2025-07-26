@@ -45,32 +45,6 @@ import {
 
 import { LOAD, THERMOSTAT, SPACE_TYPES_MAP } from "../../stores/types";
 
-// Custom editor para pertenencia a la ET
-//
-// The getElement function returns a JSX value and takes two arguments:
-//  - onUpdate: if you want to apply the modified data, call this function
-//  - props: contain customEditorParameters, whole row data, defaultValue and attrs
-// Usamos forwardRef para poder tener referencias en componentes funcionales
-// ver: https://github.com/reactjs/reactjs.org/issues/2120
-const InsideTeEditor = React.forwardRef((props, _ref) => {
-  const { value: cellValue, onUpdate } = props;
-  const [value, setValue] = useState(cellValue);
-
-  return (
-    <input
-      type="checkbox"
-      checked={value}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") {
-          onUpdate(value);
-        }
-      }}
-      onChange={(_e) => setValue(!value)}
-      onBlur={(_e) => onUpdate(value)}
-    />
-  );
-});
-
 // Custom editor para nivel de ventilación de los espacios n_v
 const NVEditor = React.forwardRef((props, _ref) => {
   const { defaultValue, onUpdate } = props;
@@ -162,14 +136,6 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       cellRenderer: "agCheckboxCellRenderer",
       cellEditor: "agCheckboxCellEditor",
       cellClass: "text-center",
-      // editorRenderer: (
-      //   editorProps,
-      //   value,
-      //   _row,
-      //   _column,
-      //   _rowIndex,
-      //   _columnIndex
-      // ) => <InsideTeEditor value={value} {...editorProps} />,
       headerTooltip:
         "¿Pertenece el espacio al interior de la envolvente térmica?",
       headerClass: "text-light bg-secondary text-center",
