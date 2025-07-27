@@ -92,6 +92,9 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
   const loadsMap = appstate.getIdNameMap(LOAD);
   const thermostatsMap = appstate.getIdNameMap(THERMOSTAT);
 
+  // const elem = spacePropsMap["54d88882-0399-4e3e-3a0b-a83baead38e1"]
+  // console.log("cambiando valores", elem.height, elem.volume_net);
+
   const [columnDefs, setColumnDefs] = useState([
     { headerName: "ID", field: "id", hide: true },
     {
