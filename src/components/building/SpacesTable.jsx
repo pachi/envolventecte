@@ -227,7 +227,8 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       editable: false,
       cellDataType: "number",
       cellClass: "column-computed-readonly text-center",
-      valueGetter: ({ data }) => spacePropsMap[data.id]?.area * spacePropsMap[data.id]?.multiplier,
+      valueGetter: ({ data }) =>
+        spacePropsMap[data.id]?.area * spacePropsMap[data.id]?.multiplier,
       valueFormatter: optionalNumberFmt,
       headerTooltip: "Superficie útil del espacio (m²)",
       headerClass: "text-light bg-secondary text-center",
@@ -238,7 +239,8 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       editable: false,
       cellDataType: "number",
       cellClass: "column-computed-readonly text-center",
-      valueGetter: ({ data }) => spacePropsMap[data.id]?.volume_net * spacePropsMap[data.id]?.multiplier,
+      valueGetter: ({ data }) =>
+        spacePropsMap[data.id]?.volume_net * spacePropsMap[data.id]?.multiplier,
       valueFormatter: optionalNumberFmt,
       headerTooltip: "Volumen neto del espacio, en m³",
       headerClass: "text-light bg-secondary text-center",

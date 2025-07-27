@@ -23,13 +23,18 @@ SOFTWARE.
 
 import React, { useMemo, useCallback } from "react";
 import { AgGridReact } from "ag-grid-react";
-import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
-    
-ModuleRegistry.registerModules([ AllCommunityModule ]);
+import { ModuleRegistry, AllCommunityModule } from "ag-grid-community";
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 // TODO: tal vez sería mejor definir la altura en el elemento que envuelva a AgTable
-export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds, sizeReduce=21}) => {
-
+export const AgTable = ({
+  rowData,
+  columnDefs,
+  selectedIds,
+  setSelectedIds,
+  sizeReduce = 21,
+}) => {
   // DefaultColDef sets props common to all Columns
   const defaultColDef = useMemo(() => ({
     editable: true,
@@ -42,26 +47,29 @@ export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds, sizeR
     autoHeaderHeight: true,
   }));
 
-  const rowSelection = useMemo(() => { 
+  const rowSelection = useMemo(() => {
     return {
-          mode: 'multiRow',
-          enableClickSelection: true,
-          enableSelectionWithoutKeys: true,
-          checkboxes: true,
-          headerCheckbox: true,
-      };
+      mode: "multiRow",
+      enableClickSelection: true,
+      enableSelectionWithoutKeys: true,
+      checkboxes: true,
+      headerCheckbox: true,
+    };
   }, []);
 
-  const getRowId = useCallback(
-    (params) => String(params.data.id),
-    [],
-  );
+  const getRowId = useCallback((params) => String(params.data.id), []);
 
   // Datos con casilla de selección
-  const selRowData = rowData.map(r => ({...r, selected: selectedIds ? (r.id in selectedIds) : false}));
+  const selRowData = rowData.map((r) => ({
+    ...r,
+    selected: selectedIds ? r.id in selectedIds : false,
+  }));
 
   return (
-    <div className="ag-theme-alpine" style={{ height: `calc(100dvh - ${sizeReduce}rem)`, width: "100%" }}>
+    <div
+      className="ag-theme-alpine"
+      style={{ height: `calc(100dvh - ${sizeReduce}rem)`, width: "100%" }}
+    >
       <AgGridReact
         rowData={selRowData}
         getRowId={getRowId}
@@ -74,8 +82,8 @@ export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds, sizeR
           if (setSelectedIds) {
             setSelectedIds(
               params.api.getSelectedNodes().map((node) => node.data.id)
-            )
-          };
+            );
+          }
         }}
         onCellValueChanged={(event) => {
           // Al cambiar una celda tenemos que enviar el cambio al appstate
@@ -85,4 +93,4 @@ export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds, sizeR
       />
     </div>
   );
-}
+};
