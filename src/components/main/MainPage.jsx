@@ -24,7 +24,7 @@ SOFTWARE.
 import { APP_VERSION } from "../../version.js";
 import React from "react";
 import { Alert, Col, Image, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { Page } from "../ui/Page.jsx";
 import imglogo from "../img/logo.svg";

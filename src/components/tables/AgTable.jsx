@@ -23,6 +23,9 @@ SOFTWARE.
 
 import React, { useMemo, useCallback } from "react";
 import { AgGridReact } from "ag-grid-react";
+import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+    
+ModuleRegistry.registerModules([ AllCommunityModule ]);
 
 // TODO: tal vez sería mejor definir la altura en el elemento que envuelva a AgTable
 export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds, sizeReduce=21}) => {
@@ -78,6 +81,7 @@ export const AgTable = ({rowData, columnDefs, selectedIds, setSelectedIds, sizeR
           // Al cambiar una celda tenemos que enviar el cambio al appstate
           rowData[event.rowIndex][event.column.colId] = event.newValue;
         }}
+        theme="legacy"
       />
     </div>
   );

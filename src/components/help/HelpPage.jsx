@@ -23,7 +23,7 @@ SOFTWARE.
 
 import React from "react";
 import { Button, Col, Row, Image, Tabs, Tab } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { Page } from "../ui/Page";
 

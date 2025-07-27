@@ -54,12 +54,12 @@ export default class GUIView {
     // Apartado de inspección
     const folder = this.pane.addFolder({ title: "Inspección de elementos" });
     // TODO: modo de renderizado (transmitancia, condiciones de contorno)
-    // folder.addInput(this, 'renderSelected', { label: 'render', options: this.renderOptions }).on('change', this.onRenderChange.bind(this));
-    folder.addInput(this.params, "inspectMode", {
+    // folder.addBinding(this, 'renderSelected', { label: 'render', options: this.renderOptions }).on('change', this.onRenderChange.bind(this));
+    folder.addBinding(this.params, "inspectMode", {
       label: "Modo de inspección",
     });
     folder
-      .addInput(this.params, "selectedElementName", {
+      .addBinding(this.params, "selectedElementName", {
         label: "Resalta elemento",
       })
       .on("change", this.onselectedElementChange.bind(this));
@@ -70,7 +70,7 @@ export default class GUIView {
     });
 
     folder2
-      .addInput(this.params, "opacity", {
+      .addBinding(this.params, "opacity", {
         label: "Opacidad",
         min: 0.0,
         max: 1.0,
@@ -79,49 +79,49 @@ export default class GUIView {
       .on("change", this.onOpacityChange.bind(this));
 
     folder2
-      .addInput(this.params, "showExteriorRoofs", {
+      .addBinding(this.params, "showExteriorRoofs", {
         label: "Cubiertas exteriores",
       })
       .on("change", this.onVisibilityChange.bind(this));
 
     folder2
-      .addInput(this.params, "showExteriorWalls", {
+      .addBinding(this.params, "showExteriorWalls", {
         label: "Muros exteriores",
       })
       .on("change", this.onVisibilityChange.bind(this));
 
     folder2
-      .addInput(this.params, "showExteriorFloors", {
+      .addBinding(this.params, "showExteriorFloors", {
         label: "Suelos exteriores",
       })
       .on("change", this.onVisibilityChange.bind(this));
 
     folder2
-      .addInput(this.params, "showExteriorWindows", {
+      .addBinding(this.params, "showExteriorWindows", {
         label: "Huecos exteriores",
       })
       .on("change", this.onVisibilityChange.bind(this));
 
     folder2
-      .addInput(this.params, "showInteriorWalls", {
+      .addBinding(this.params, "showInteriorWalls", {
         label: "Elementos interiores",
       })
       .on("change", this.onVisibilityChange.bind(this));
 
     folder2
-      .addInput(this.params, "showGroundWalls", {
+      .addBinding(this.params, "showGroundWalls", {
         label: "Elementos terreno",
       })
       .on("change", this.onVisibilityChange.bind(this));
 
     folder2
-      .addInput(this.params, "showAdiabaticWalls", {
+      .addBinding(this.params, "showAdiabaticWalls", {
         label: "Elementos Adiabáticos",
       })
       .on("change", this.onVisibilityChange.bind(this));
 
     folder2
-      .addInput(this.params, "showShades", {
+      .addBinding(this.params, "showShades", {
         label: "Sombras",
       })
       .on("change", this.onVisibilityChange.bind(this));
@@ -131,7 +131,7 @@ export default class GUIView {
       title: "Sección por plano Z",
     });
     folder3
-      .addInput(this.params, "zClipping", {
+      .addBinding(this.params, "zClipping", {
         label: "Cortar por plano Z",
       })
       .on("change", () => {
@@ -149,7 +149,7 @@ export default class GUIView {
 
           // Genera slider para seleccionar altura de corte
           this.clippingValueController = folder3
-            .addInput(this.params, "zClippingValue", {
+            .addBinding(this.params, "zClippingValue", {
               label: "Cota (Z) de corte",
               min: Math.round(bbox.min.y) - 1,
               max: Math.round(bbox.max.y) + 1,
@@ -201,7 +201,7 @@ export default class GUIView {
 
   onVisibilityChange(event) {
     // "showExteriorFloors","showExteriorWindows","showInteriorWalls","showGroundWalls","showAdiabaticWalls","showShades",
-    const key = event.presetKey;
+    const key = event.target.key;
     let selector;
     if (key === "showExteriorRoofs") {
       selector = (bounds, type, subtype) =>

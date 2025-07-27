@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { LinkContainer } from "react-router-bootstrap";
 import { Form, Nav, Navbar, Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react";

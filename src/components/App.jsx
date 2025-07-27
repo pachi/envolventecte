@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes } from "react-router";
 import { observer } from "mobx-react";
 
 import "bootstrap/dist/css/bootstrap.min.css";
