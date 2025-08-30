@@ -34,6 +34,10 @@ export const AgTable = ({
   selectedIds,
   setSelectedIds,
   sizeReduce = 21,
+  onCellValueChanged = (e) => {
+    // Manejador por defecto de cambios en celdas
+    rowData[e.node.rowIndex][e.column.colId] = e.newValue;
+  },
 }) => {
   // DefaultColDef sets props common to all Columns
   const defaultColDef = useMemo(() => ({
@@ -85,10 +89,7 @@ export const AgTable = ({
             );
           }
         }}
-        onCellValueChanged={(event) => {
-          // Al cambiar una celda tenemos que enviar el cambio al appstate
-          rowData[event.rowIndex][event.column.colId] = event.newValue;
-        }}
+        onCellValueChanged={onCellValueChanged}
         theme="legacy"
       />
     </div>
