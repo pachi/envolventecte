@@ -132,12 +132,13 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("C", "h;100", "m³/h·m²"),
     },
+    // Columnas calculadas
     {
       headerName: "U_w",
+      field: "u_value",
       editable: false,
       cellDataType: "number",
       cellClass: "column-computed-readonly text-center",
-      valueGetter: ({ data }) => winconsPropsMap[data.id].u_value,
       valueFormatter: optionalNumberFmt,
       headerTooltip:
         "Transmitancia térmica del hueco (W/m²K).\nSe especifica en su posición final y teniendo en cuenta las resistencias superficiales correspondientes.",
@@ -146,10 +147,10 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
     },
     {
       headerName: "g_gl;wi",
+      field: "g_glwi",
       editable: false,
       cellDataType: "number",
       cellClass: "column-computed-readonly text-center",
-      valueGetter: ({ data }) => winconsPropsMap[data.id].g_glwi,
       valueFormatter: optionalNumberFmt,
       headerTooltip:
         "Factor solar del hueco sin la protección solar activada (g_glwi = g_gln * 0.90) (-).\nTiene en cuenta el factor de difusión del vidrio y la transmitancia a incidencia normal.",
@@ -158,7 +159,15 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
     },
   ]);
 
-  const rowData = appstate.cons.wincons;
+  const rowData = appstate.cons.wincons.map((e) => {
+    const d = winconsPropsMap[e.id];
+    return {
+      ...e,
+      // Columnas calculadas
+      u_value: d?.u_value,
+      g_glwi: d?.g_glwi,
+    };
+  });
 
   return (
     <AgTable
@@ -166,6 +175,9 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       columnDefs={columnDefs}
       selectedIds={selectedIds}
       setSelectedIds={setSelectedIds}
+      onCellValueChanged={({ node, colDef, newValue }) => {
+        appstate.cons.wincons[node.rowIndex][colDef.field] = newValue;
+      }}
     />
   );
 };
