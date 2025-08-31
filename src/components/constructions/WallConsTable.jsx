@@ -40,6 +40,7 @@ import { validateNonNegNumber } from "../tables/Validators.js";
 import { LayersEditor } from "./LayersEditors";
 
 // Tabla de opacos del edificio
+// TODO: mostrar ejemplo de objetos
 const WallConsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const wallconsPropsMap = appstate.energy_indicators.props.wallcons;
@@ -150,45 +151,6 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       }}
     />
   );
-  // return (
-  //   <BootstrapTable
-  //     data={appstate.cons.wallcons}
-  //     keyField="id"
-  //     striped
-  //     hover
-  //     bordered={false}
-  //     cellEdit={cellEditFactory({
-  //       mode: "dbclick",
-  //       blurToSave: true,
-  //       afterSaveCell: (oldValue, newValue, row, column) => {
-  //         // Convierte a número campos numéricos
-  //         if (
-  //           ["thickness", "resistance", "absorptance"].includes(
-  //             column.field
-  //           )
-  //         ) {
-  //           row[column.field] = getFloatOrOld(newValue, oldValue);
-  //         }
-  //       },
-  //     })}
-  //     selectRow={{
-  //       mode: "checkbox",
-  //       clickToSelect: true,
-  //       clickToEdit: true,
-  //       selected: selectedIds,
-  //       onSelect: (row, isSelected) => {
-  //         if (isSelected) {
-  //           setSelectedIds([...selectedIds, row.id]);
-  //         } else {
-  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
-  //         }
-  //       },
-  //       hideSelectColumn: true,
-  //       bgColor: "lightgray",
-  //     }}
-  //     columns={columns}
-  //   />
-  // );
 };
 
 export default observer(WallConsTable);

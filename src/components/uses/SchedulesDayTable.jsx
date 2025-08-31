@@ -22,8 +22,6 @@ SOFTWARE.
 */
 
 import React, { useContext, useState } from "react";
-// import BootstrapTable from "react-bootstrap-table-next";
-// import cellEditFactory from "react-bootstrap-table2-editor";
 
 import { observer } from "mobx-react";
 
@@ -71,6 +69,7 @@ const SchedulesDayTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Valores horarios diarios",
       field: "values",
+      // TODO: en editor esto podría estar vacío []
       cellDataType: false,
       flex: 8,
       cellClass: "text-center",
@@ -100,59 +99,6 @@ const SchedulesDayTable = ({ selectedIds, setSelectedIds }) => {
       setSelectedIds={setSelectedIds}
     />
   );
-
-  // return (
-  //   <BootstrapTable
-  //     data={appstate.schedules.day}
-  //     keyField="id"
-  //     striped
-  //     hover
-  //     bordered={false}
-  //     cellEdit={cellEditFactory({
-  //       mode: "dbclick",
-  //       blurToSave: true,
-  //       // Corrige el valor del horario de "" a null
-  //       afterSaveCell: (oldValue, newValue, row, column) => {
-  //         switch (column.field) {
-  //           // Campos opcionales textuales
-  //           case "values":
-  //             if (newValue == "") {
-  //               row[column.field] = [];
-  //             }
-  //             break;
-  //         }
-  //       },
-  //     })}
-  //     selectRow={{
-  //       mode: "checkbox",
-  //       clickToSelect: true,
-  //       clickToEdit: true,
-  //       selected: selectedIds,
-  //       onSelect: (row, isSelected) => {
-  //         if (isSelected) {
-  //           setSelectedIds([...selectedIds, row.id]);
-  //         } else {
-  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
-  //         }
-  //       },
-  //       hideSelectColumn: true,
-  //       bgColor: "lightgray",
-  //     }}
-  //     rowClasses={(row, _rowIdx) => {
-  //       const classes = [];
-  //       // Errores
-  //       if (error_ids_danger.includes(row.id)) {
-  //         classes.push("id_error_danger");
-  //       }
-  //       // Avisos
-  //       if (error_ids_warning.includes(row.id)) {
-  //         classes.push("id_error_warning");
-  //       }
-  //       return classes.join(" ");
-  //     }}
-  //     columns={columns}
-  //   />
-  // );
 };
 
 export default observer(SchedulesDayTable);

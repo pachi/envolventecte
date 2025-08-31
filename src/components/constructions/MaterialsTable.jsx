@@ -32,8 +32,40 @@ import { optionalNumberFmt } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 import { validateNonNegNumber } from "../tables/Validators.js";
 
-// Tabla de materiales para opacos del edificio
 // TODO: reimplementar lógica para usar conductividad o resistencia
+//         // Si se define  el material por resistencia dejar en null campos por propiedades
+//         if (column.field === "resistance") {
+//           row["resistance"] = getFloatOrOld(newValue, oldValue);
+//           row?.conductivity ? delete row["conductivity"] : null;
+//           row?.density ? delete row["density"] : null;
+//           row?.specific_heat ? delete row["specific_heat"] : null;
+//         }
+//         // Si se define  el material por propiedades dejar resistencia a null y completar resto a valor por defecto
+//         if (column.field === "conductivity") {
+//           row["conductivity"] = getFloatOrOld(newValue, oldValue);
+//           row?.resistance ? delete row["resistance"] : null;
+//           row?.density ? null : (row["density"] = 1000.0);
+//           row?.specific_heat ? null : (row["specific_heat"] = 1000.0);
+//         }
+//         if (column.field === "density") {
+//           row["density"] = getFloatOrOld(newValue, oldValue);
+//           row?.resistance ? delete row["resistance"] : null;
+//           row?.conductivity ? null : (row["conductivity"] = 1.0);
+//           row?.specific_heat ? null : (row["specific_heat"] = 1000.0);
+//         }
+//         if (column.field === "specific_heat") {
+//           row["specific_heat"] = getFloatOrOld(newValue, oldValue);
+//           row?.resistance ? delete row["resistance"] : null;
+//           row?.conductivity ? null : (row["conductivity"] = 1.0);
+//           row?.density ? null : (row["density"] = 1000.0);
+//         }
+//         row["vapour_diff"] === null ? delete row["vapour_diff"] : null;
+//       },
+//     })}
+
+
+// Tabla de materiales para opacos del edificio
+// TODO: mostrar ejemplo de objetos
 const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
 
@@ -126,77 +158,6 @@ const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
       setSelectedIds={setSelectedIds}
     />
   );
-  // return (
-  //   <BootstrapTable
-  //     data={appstate.cons.materials}
-  //     keyField="id"
-  //     striped
-  //     hover
-  //     bordered={false}
-  //     cellEdit={cellEditFactory({
-  //       mode: "dbclick",
-  //       blurToSave: true,
-  //       beforeSaveCell: (oldValue, newValue, row, column) => {
-  //         // Aseguramos que la columna esté definida antes de intentar modificarla
-  //         row[column.field] = null;
-  //       },
-
-  //       afterSaveCell: (oldValue, newValue, row, column) => {
-  //         // Convierte a número campos numéricos
-  //         if (
-  //           ["density", "specific_heat", "vapour_diff"].includes(
-  //             column.field
-  //           )
-  //         ) {
-  //           row[column.field] = getFloatOrOld(newValue, oldValue);
-  //         }
-  //         // Si se define  el material por resistencia dejar en null campos por propiedades
-  //         if (column.field === "resistance") {
-  //           row["resistance"] = getFloatOrOld(newValue, oldValue);
-  //           row?.conductivity ? delete row["conductivity"] : null;
-  //           row?.density ? delete row["density"] : null;
-  //           row?.specific_heat ? delete row["specific_heat"] : null;
-  //         }
-  //         // Si se define  el material por propiedades dejar resistencia a null y completar resto a valor por defecto
-  //         if (column.field === "conductivity") {
-  //           row["conductivity"] = getFloatOrOld(newValue, oldValue);
-  //           row?.resistance ? delete row["resistance"] : null;
-  //           row?.density ? null : (row["density"] = 1000.0);
-  //           row?.specific_heat ? null : (row["specific_heat"] = 1000.0);
-  //         }
-  //         if (column.field === "density") {
-  //           row["density"] = getFloatOrOld(newValue, oldValue);
-  //           row?.resistance ? delete row["resistance"] : null;
-  //           row?.conductivity ? null : (row["conductivity"] = 1.0);
-  //           row?.specific_heat ? null : (row["specific_heat"] = 1000.0);
-  //         }
-  //         if (column.field === "specific_heat") {
-  //           row["specific_heat"] = getFloatOrOld(newValue, oldValue);
-  //           row?.resistance ? delete row["resistance"] : null;
-  //           row?.conductivity ? null : (row["conductivity"] = 1.0);
-  //           row?.density ? null : (row["density"] = 1000.0);
-  //         }
-  //         row["vapour_diff"] === null ? delete row["vapour_diff"] : null;
-  //       },
-  //     })}
-  //     selectRow={{
-  //       mode: "checkbox",
-  //       clickToSelect: true,
-  //       clickToEdit: true,
-  //       selected: selectedIds,
-  //       onSelect: (row, isSelected) => {
-  //         if (isSelected) {
-  //           setSelectedIds([...selectedIds, row.id]);
-  //         } else {
-  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
-  //         }
-  //       },
-  //       hideSelectColumn: true,
-  //       bgColor: "lightgray",
-  //     }}
-  //     columns={columns}
-  //   />
-  // );
 };
 
 export default observer(MaterialsTable);

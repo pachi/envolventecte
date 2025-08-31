@@ -22,8 +22,6 @@ SOFTWARE.
 */
 
 import React, { useContext, useState } from "react";
-// import BootstrapTable from "react-bootstrap-table-next";
-// import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
 import { observer } from "mobx-react";
 

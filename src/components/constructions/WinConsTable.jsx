@@ -38,6 +38,7 @@ import {
 import { FRAME, GLASS } from "../../stores/types";
 
 // Tabla de construcciones de huecos del edificio
+// TODO: mostrar ejemplo de objetos
 const WinConsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const winconsPropsMap = appstate.energy_indicators.props.wincons;

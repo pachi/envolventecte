@@ -22,8 +22,6 @@ SOFTWARE.
 */
 
 import React, { useContext, useState } from "react";
-// import BootstrapTable from "react-bootstrap-table-next";
-// import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
 import { observer } from "mobx-react";
 
@@ -70,6 +68,7 @@ const ThermostatsTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Consigna alta (REF)",
       field: "temp_max",
+      // TODO: esto puede ser opcional?
       cellDataType: "number",
       // editor: {
       //   type: Type.SELECT,
@@ -84,6 +83,7 @@ const ThermostatsTable = ({ selectedIds, setSelectedIds }) => {
     {
       headerName: "Consigna baja (CAL)",
       field: "temp_min",
+      // TODO: esto puede ser opcional?
       cellDataType: "number",
       // editor: {
       //   type: Type.SELECT,
@@ -107,60 +107,6 @@ const ThermostatsTable = ({ selectedIds, setSelectedIds }) => {
       setSelectedIds={setSelectedIds}
     />
   );
-  // return (
-  //   <BootstrapTable
-  //     data={appstate.thermostats}
-  //     keyField="id"
-  //     striped
-  //     hover
-  //     bordered={false}
-  //     cellEdit={cellEditFactory({
-  //       mode: "dbclick",
-  //       blurToSave: true,
-  //       // Corrige el valor del espacio adyacente de "" a null
-  //       // y convierte campos numéricos a número
-  //       afterSaveCell: (oldValue, newValue, row, column) => {
-  //         switch (column.field) {
-  //           // Campos opcionales textuales
-  //           case "temp_max":
-  //           case "temp_min":
-  //             if (newValue == "") {
-  //               row[column.field] = null;
-  //             }
-  //             break;
-  //         }
-  //       },
-  //     })}
-  //     selectRow={{
-  //       mode: "checkbox",
-  //       clickToSelect: true,
-  //       clickToEdit: true,
-  //       selected: selectedIds,
-  //       onSelect: (row, isSelected) => {
-  //         if (isSelected) {
-  //           setSelectedIds([...selectedIds, row.id]);
-  //         } else {
-  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
-  //         }
-  //       },
-  //       hideSelectColumn: true,
-  //       bgColor: "lightgray",
-  //     }}
-  //     rowClasses={(row, _rowIdx) => {
-  //       const classes = [];
-  //       // Errores
-  //       if (error_ids_danger.includes(row.id)) {
-  //         classes.push("id_error_danger");
-  //       }
-  //       // Avisos
-  //       if (error_ids_warning.includes(row.id)) {
-  //         classes.push("id_error_warning");
-  //       }
-  //       return classes.join(" ");
-  //     }}
-  //     columns={columns}
-  //   />
-  // );
 };
 
 export default observer(ThermostatsTable);

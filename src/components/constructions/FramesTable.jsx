@@ -32,7 +32,8 @@ import { optionalNumberFmt } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 import { validateNonNegNumber } from "../tables/Validators.js";
 
-// Tabla de materiales para opacos del edificio
+// Tabla de materiales para marcos de huecos del edificio
+// TODO: mostrar ejemplo de objetos
 const FamesTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
 
