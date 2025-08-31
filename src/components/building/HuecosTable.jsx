@@ -40,6 +40,18 @@ import { GeometryWindowEditor } from "./GeometryEditors";
 import { WINCONS, WALL } from "../../stores/types";
 
 // Tabla de huecos del edificio
+// {
+//    "id": "8e6f3f0e-1d5e-4c7a-8f3c-3b2f4e5e6f7a",
+//    "name": "Hueco",
+//    "cons": "a1b2c3d4-e5f6-7a8b-9c0d-e1f2a3b4c5d6",
+//    "wall": "1a2b3c4d-5e6f-7a8b-9c0d-e1f2a3b4c5d6",
+//    "geometry": {
+//      "position": [1.0, 2.0], // opcional
+//      "height": 1.2,
+//      "width": 1.5,
+//      "setback": 0.0
+//    }
+// }
 const HuecosTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const winPropsMap = appstate.energy_indicators.props.windows;
@@ -173,57 +185,6 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
       }}
     />
   );
-  // return (
-  //   <BootstrapTable
-  //     data={appstate.windows}
-  //     keyField="id"
-  //     striped
-  //     hover
-  //     bordered={false}
-  //     cellEdit={cellEditFactory({
-  //       mode: "dbclick",
-  //       blurToSave: true,
-  //       afterSaveCell: (oldValue, newValue, row, column) => {
-  //         // Convierte a número campos numéricos
-  //         if (["A", "fshobst"].includes(column.field)) {
-  //           row[column.field] = getFloatOrOld(newValue, oldValue);
-  //         }
-  //       },
-  //     })}
-  //     selectRow={{
-  //       mode: "checkbox",
-  //       clickToSelect: true,
-  //       clickToEdit: true,
-  //       selected: selectedIds,
-  //       onSelect: (row, isSelected) => {
-  //         if (isSelected) {
-  //           setSelectedIds([...selectedIds, row.id]);
-  //         } else {
-  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
-  //         }
-  //       },
-  //       hideSelectColumn: true,
-  //       bgColor: "lightgray",
-  //     }}
-  //     rowClasses={(row, _rowIdx) => {
-  //       const cellClass = [];
-  //       // Errores
-  //       if (error_ids_danger.includes(row.id)) {
-  //         cellClass.push("id_error_danger");
-  //       }
-  //       // Avisos
-  //       if (error_ids_warning.includes(row.id)) {
-  //         cellClass.push("id_error_warning");
-  //       }
-  //       // clase para elementos fuera de la ET
-  //       if (!winPropsMap[row.id].is_tenv) {
-  //         cellClass.push("outsidetenv");
-  //       }
-  //       return cellClass.join(" ");
-  //     }}
-  //     columns={columns}
-  //   />
-  // );
 };
 
 export default observer(HuecosTable);
