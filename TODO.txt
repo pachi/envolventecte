@@ -77,10 +77,7 @@
     - Mejor, usar RTK Query?
 
 ## Ag-Grid
-- No se actualizan las columnas calculadas al usar editores (ni celdas)
-    - Se actualiza el appstate pero no se renderizan otra vez los valores de las columnas.
-    - Al cambiar la altura de un espacio no se actualiza el valor del Volumen
-    - Al cambiar de habitable a no habitable no se permite la edición de renovaciones hora
+- Espacios: Al cambiar de habitable a no habitable no se permite la edición de renovaciones hora
 - Revisar errores al borrar todos los elementos
     - Borrar todos los espacios y todos los opacos, crear opaco: no se puede seleccionar el espacio y construcción del elemento
 - Revisar filas seleccionadas con ag-grid row selection en vez de selectedIds y setSelectedIds
