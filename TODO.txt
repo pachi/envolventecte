@@ -77,6 +77,8 @@
     - Mejor, usar RTK Query?
 
 ## Ag-Grid
+
+- Los elementos que se pueden dejar a null igual podríamos tener un editor al lado (una cruz) que permita anularlos fácilmente en lugar de en el custom editor.
 - Espacios: Al cambiar de habitable a no habitable no se permite la edición de renovaciones hora
 - Revisar errores al borrar todos los elementos
     - Borrar todos los espacios y todos los opacos, crear opaco: no se puede seleccionar el espacio y construcción del elemento
