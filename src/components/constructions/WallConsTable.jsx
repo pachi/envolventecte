@@ -70,7 +70,7 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       headerComponent: (_props) => getHeader("Capas", "", "nº"),
       cellEditor: LayersEditor,
       cellEditorPopup: true,
-      cellEditorPopupPosition: 'under',
+      cellEditorPopupPosition: "under",
       tooltipValueGetter: ({ data }) =>
         `Construcción de opaco:\n ${data.layers
           .map(
@@ -93,21 +93,22 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("α", "", "-"),
     },
+    // Columnas calculadas
     {
       headerName: "Espesor",
+      field: "thickness",
       editable: false,
       cellClass: "column-computed-readonly text-center",
-      valueGetter: ({ data }) => wallconsPropsMap[data.id].thickness,
-      valueFormatter: params => optionalNumberFmt(params, 3),
+      valueFormatter: (params) => optionalNumberFmt(params, 3),
       headerTooltip: "Espesor total de la composición de capas (m)",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("e", "", "m"),
     },
     {
       headerName: "Resistencia intrínseca",
+      field: "resistance",
       editable: false,
       cellClass: "column-computed-readonly text-center",
-      valueGetter: ({data}) => wallconsPropsMap[data.id].resistance,
       valueFormatter: optionalNumberFmt,
       headerTooltip:
         "Resistencia térmica de la solución constructiva (sin resistencias superficiales) (m²·K/W)",
@@ -116,9 +117,9 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
     },
     {
       headerName: "C_o",
+      field: "walls_Co100",
       editable: false,
       cellClass: "column-readonly text-center",
-      valueGetter: (_p) => walls_Co100,
       valueFormatter: optionalNumberFmt,
       headerTooltip:
         "Coeficiente de caudal de aire de la parte opaca de la envolvente térmica (a 100 Pa). Varía según n50 de ensayo o tipo de edificio (nuevo / existente)",
@@ -127,7 +128,16 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
     },
   ]);
 
-  const rowData = appstate.cons.wallcons;
+  const rowData = appstate.cons.wallcons.map((e) => {
+    const d = wallconsPropsMap[e.id];
+    return {
+      ...e,
+      // Columnas calculadas
+      thickness: d?.thickness,
+      resistance: d?.resistance,
+      walls_Co100,
+    };
+  });
 
   return (
     <AgTable
@@ -135,6 +145,9 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
       columnDefs={columnDefs}
       selectedIds={selectedIds}
       setSelectedIds={setSelectedIds}
+      onCellValueChanged={({ node, colDef, newValue }) => {
+        appstate.cons.wallcons[node.rowIndex][colDef.field] = newValue;
+      }}
     />
   );
   // return (
