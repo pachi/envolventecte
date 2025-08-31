@@ -36,6 +36,22 @@ import { validateNonNegNumber } from "../tables/Validators.js";
 
 import { SCHEDULE_YEAR } from "../../stores/types";
 
+// TODO: comprobar si la iluminancia va a aquí (faltaría la columna, opcional y numérica ¿y se podría calcular VEEI?) o a las propiedades del espacio
+// TODO: comprobar si los schedules (people_schedule, lighting_schedule, equipment_schedule) pueden cambiarse a null en el editor
+// TODO: ver qué hacemos con los errores y avisos
+//     rowClasses={(row, _rowIdx) => {
+//       const classes = [];
+//       // Errores
+//       if (error_ids_danger.includes(row.id)) {
+//         classes.push("id_error_danger");
+//       }
+//       // Avisos
+//       if (error_ids_warning.includes(row.id)) {
+//         classes.push("id_error_warning");
+//       }
+//       return classes.join(" ");
+//     }}
+
 // Tabla de cargas de los espacios
 //  {
 //    "id": "6b351706-c5d1-19d2-3ef5-866eb367f90a",
@@ -201,80 +217,6 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       }}
     />
   );
-
-  // return (
-  //   <BootstrapTable
-  //     data={appstate.loads}
-  //     keyField="id"
-  //     striped
-  //     hover
-  //     bordered={false}
-  //     cellEdit={cellEditFactory({
-  //       mode: "dbclick",
-  //       blurToSave: true,
-  //       // Corrige el valor del espacio adyacente de "" a null
-  //       // y convierte campos numéricos a número
-  //       afterSaveCell: (oldValue, newValue, row, column) => {
-  //         switch (column.field) {
-  //           // Campos opcionales numéricos
-  //           case "illuminance":
-  //             if (newValue == "") {
-  //               delete row[column.field];
-  //             } else {
-  //               row[column.field] = getFloatOrOld(newValue, oldValue);
-  //             }
-  //             break;
-  //           // Campos opcionales textuales
-  //           case "people_schedule":
-  //           case "lighting_schedule":
-  //           case "equipment_schedule":
-  //             if (newValue == "") {
-  //               row[column.field] = null;
-  //             }
-  //             break;
-  //           // Conversiones numéricas
-  //           case "people_sensible":
-  //           case "people_latent":
-  //           case "lighting":
-  //           case "equipment":
-  //           case "area_per_person":
-  //             if (newValue !== "") {
-  //               row[column.field] = getFloatOrOld(newValue, oldValue);
-  //             }
-  //             break;
-  //         }
-  //       },
-  //     })}
-  //     selectRow={{
-  //       mode: "checkbox",
-  //       clickToSelect: true,
-  //       clickToEdit: true,
-  //       selected: selectedIds,
-  //       onSelect: (row, isSelected) => {
-  //         if (isSelected) {
-  //           setSelectedIds([...selectedIds, row.id]);
-  //         } else {
-  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
-  //         }
-  //       },
-  //       hideSelectColumn: true,
-  //       bgColor: "lightgray",
-  //     }}
-  //     rowClasses={(row, _rowIdx) => {
-  //       const classes = [];
-  //       // Errores
-  //       if (error_ids_danger.includes(row.id)) {
-  //         classes.push("id_error_danger");
-  //       }
-  //       // Avisos
-  //       if (error_ids_warning.includes(row.id)) {
-  //         classes.push("id_error_warning");
-  //       }
-  //       return classes.join(" ");
-  //     }}
-  //     columns={columns}
-  //   />
-  // );
 };
 
 export default observer(LoadsTable);
