@@ -42,7 +42,22 @@ import { GeometryOpaquesEditor } from "./GeometryEditors";
 import { OrientacionesSprite } from "../helpers/IconsOrientaciones";
 import { SPACE, WALLCONS, BOUNDARY_TYPES_MAP } from "../../stores/types";
 
-// Tabla de elementos opacos
+// TODO: solo next_to en INTERIOR
+
+// Tabla de elementos opacos del edificio
+// {
+//    id: "8e6f3f0e-1d5e-4c7a-8f3c-3b2f4e5e6f7a",
+//    name: "Muro",
+//    bounds: "EXTERIOR" // "GROUND" | "INTERIOR" | "ADIABATIC"
+//    cons: "a1b2c3d4-e5f6-7a8b-9c0d-e1f2a3b4c5d6",
+//    space: "1a2b3c4d-5e6f-7a8b-9c0d-e1f2a3b4c5d6",
+//    next_to: null, // o UUID
+//    geometry: {
+//      position: null,
+//      polygon: [],
+//    }
+//
+// }
 const OpacosTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const wallPropsMap = appstate.energy_indicators.props.walls;
@@ -94,6 +109,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       headerName: "Construcción",
       field: "cons",
       cellDataType: "text",
+      // TODO: puede ser null
       cellClass: "text-center",
       cellEditor: "agSelectCellEditor",
       cellEditorParams: { values: Object.keys(wallconsMap) },
@@ -118,6 +134,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       headerName: "Espacio ady.",
       field: "next_to",
       cellDataType: "text",
+      // TODO: puede ser null y solo puede tener un UUID si el bounds es INTERIOR
       cellClass: "text-center",
       editable: ({ data }) => data.bounds === "INTERIOR",
       // Este editor es especial porque debe poder ponerse en nulo
@@ -194,76 +211,6 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       />
     </>
   );
-  // return (
-  //   <>
-  //     <OrientacionesSprite />
-  //     <BootstrapTable
-  //       data={appstate.walls}
-  //       keyField="id"
-  //       striped
-  //       hover
-  //       bordered={false}
-  //       cellEdit={cellEditFactory({
-  //         mode: "dbclick",
-  //         blurToSave: true,
-  //         // Corrige el valor del espacio adyacente de "" a null
-  //         afterSaveCell: (oldValue, newValue, row, column) => {
-  //           if (
-  //             (column.field === "next_to" && newValue === "") ||
-  //             (column.field === "bounds" && row.bounds !== "INTERIOR")
-  //           ) {
-  //             row.next_to = null;
-  //           } else if (column.field === "A") {
-  //             // Convierte a número campos numéricos
-  //             row.A = getFloatOrOld(newValue, oldValue);
-  //           } else if (
-  //             column.field === "geometry.tilt" &&
-  //             newValue !== ""
-  //           ) {
-  //             row.geometry.tilt = getFloatOrOld(newValue, oldValue);
-  //           } else if (
-  //             column.field === "geometry.azimuth" &&
-  //             newValue !== ""
-  //           ) {
-  //             row.geometry.azimuth = getFloatOrOld(newValue, oldValue);
-  //           }
-  //         },
-  //       })}
-  //       selectRow={{
-  //         mode: "checkbox",
-  //         clickToSelect: true,
-  //         clickToEdit: true,
-  //         selected: selectedIds,
-  //         onSelect: (row, isSelected) => {
-  //           if (isSelected) {
-  //             setSelectedIds([...selectedIds, row.id]);
-  //           } else {
-  //             setSelectedIds(selectedIds.filter((it) => it !== row.id));
-  //           }
-  //         },
-  //         hideSelectColumn: true,
-  //         bgColor: "lightgray",
-  //       }}
-  //       rowClasses={(row, _rowIdx) => {
-  //         const classes = [];
-  //         // Errores
-  //         if (error_ids_danger.includes(row.id)) {
-  //           classes.push("id_error_danger");
-  //         }
-  //         // Avisos
-  //         if (error_ids_warning.includes(row.id)) {
-  //           classes.push("id_error_warning");
-  //         }
-  //         // clase para elementos fuera de la ET
-  //         if (!wallPropsMap[row.id].is_tenv) {
-  //           classes.push("outsidetenv");
-  //         }
-  //         return classes.join(" ");
-  //       }}
-  //       columns={columns}
-  //     />
-  //   </>
-  // );
 };
 
 export default observer(OpacosTable);
