@@ -33,7 +33,17 @@ import { getHeader } from "../tables/Helpers.jsx";
 import { GeometryOpaquesEditor } from "./GeometryEditors";
 import { OpaqueGeomFmt, OpaqueGeomIconCellRenderer } from "../tables/Formatters.jsx";
 
+// TODO: ver si funciona la actualización de geometría con el onCellValueUpdate por defecto
+
 // Tabla de elementos de sombra del edificio
+// {
+//    id: "8e6f3f0e-1d5e-4c7a-8f3c-3b2f4e5e6f7a",
+//    name: "Sombra",
+//    geometry: {
+//      position: null,
+//      polygon: [],
+//    }
+// }
 const ShadesTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
 
@@ -74,45 +84,6 @@ const ShadesTable = ({ selectedIds, setSelectedIds }) => {
       setSelectedIds={setSelectedIds}
     />
   );
-  // return (
-  //   <BootstrapTable
-  //     data={appstate.shades}
-  //     keyField="id"
-  //     striped
-  //     hover
-  //     bordered={false}
-  //     tableHeaderClass="text-light bg-secondary"
-  //     cellEdit={cellEditFactory({
-  //       mode: "dbclick",
-  //       blurToSave: true,
-  //       afterSaveCell: (oldValue, newValue, row, column) => {
-  //         if (
-  //           column.field === "geometry.position" &&
-  //           newValue === undefined
-  //         ) {
-  //           // Corrige el valor de position de undefined a null
-  //           row.geometry.position = null;
-  //         }
-  //       },
-  //     })}
-  //     selectRow={{
-  //       mode: "checkbox",
-  //       clickToSelect: true,
-  //       clickToEdit: true,
-  //       selected: selectedIds,
-  //       onSelect: (row, isSelected) => {
-  //         if (isSelected) {
-  //           setSelectedIds([...selectedIds, row.id]);
-  //         } else {
-  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
-  //         }
-  //       },
-  //       hideSelectColumn: true,
-  //       bgColor: "lightgray",
-  //     }}
-  //     columns={columns}
-  //   />
-  // );
 };
 
 export default observer(ShadesTable);
