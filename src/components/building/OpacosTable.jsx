@@ -147,12 +147,12 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("Geometría"),
     },
+    // Columnas calculadas
     {
       headerName: "A",
+      field: "area",
       editable: false,
       cellClass: "column-computed-readonly text-center",
-      valueGetter: ({ data }) =>
-        wallPropsMap[data.id]?.area_net * wallPropsMap[data.id]?.multiplier,
       valueFormatter: optionalNumberFmt,
       headerTooltip: "Superficie neta (sin huecos) del elemento opaco, en m²",
       headerClass: "text-light bg-secondary text-center",
@@ -160,9 +160,9 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
     },
     {
       headerName: "wall_u",
+      field: "u_value",
       editable: false,
       cellClass: "column-computed-readonly text-center",
-      valueGetter: ({ data }) => wallPropsMap[data.id]?.u_value,
       valueFormatter: optionalNumberFmt,
       headerTooltip: "Transmitancia térmica del elemento opaco [W/m²K]",
       headerClass: "text-light bg-secondary text-center",
@@ -170,7 +170,15 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
     },
   ]);
 
-  const rowData = appstate.walls;
+  const rowData = appstate.walls.map((e) => {
+    const d = wallPropsMap[e.id];
+    return {
+      ...e,
+      // Columnas calculadas
+      area: d?.area_net * d?.multiplier,
+      u_value: d?.u_value,
+    };
+  });
 
   return (
     <>
@@ -180,6 +188,9 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
         columnDefs={columnDefs}
         selectedIds={selectedIds}
         setSelectedIds={setSelectedIds}
+        onCellValueChanged={({ node, colDef, newValue }) => {
+          appstate.walls[node.rowIndex][colDef.field] = newValue;
+        }}
       />
     </>
   );
