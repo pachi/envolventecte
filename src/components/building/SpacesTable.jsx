@@ -22,8 +22,6 @@ SOFTWARE.
 */
 
 import React, { useState, useContext } from "react";
-// import BootstrapTable from "react-bootstrap-table-next";
-// import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
 import { observer } from "mobx-react";
 
@@ -45,55 +43,27 @@ import {
 
 import { LOAD, THERMOSTAT, SPACE_TYPES_MAP } from "../../stores/types";
 
-// Custom editor para nivel de ventilación de los espacios n_v
-const NVEditor = React.forwardRef((props, _ref) => {
-  const { defaultValue, onUpdate } = props;
-  const [value, setValue] = useState(defaultValue);
-  const updateData = () => {
-    // onUpdate cancela la edición si se pasa null así que usamos undefined en ese caso
-    // en BootstrapTable usamos cellEdit.afterSaveCell para cambiar undefined por null
-    const res =
-      value === null || value === ""
-        ? undefined
-        : Number(value.replace(",", "."));
-    onUpdate(res);
-  };
-
-  return (
-    <span>
-      <input
-        type="text"
-        value={value === null || undefined ? "" : value}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            updateData();
-          }
-        }}
-        onChange={(e) => {
-          let val = e.currentTarget.value;
-          val =
-            val === "" ||
-            val === null ||
-            Number.isNaN(Number(val.replace(",", ".")))
-              ? ""
-              : val;
-          setValue(val);
-        }}
-        onBlur={(_e) => updateData()}
-      />
-    </span>
-  );
-});
+// TODO: completa validaciones y valores que pueden ser null
 
 // Tabla de espacios del edificio
+// {
+//    id: "6b351706-c5d1-19d2-3ef5-866eb367f90a",
+//    name: "Espacio",
+//    multiplier: 1.0,
+//    kind: "CONDITIONED", // UNCONDITIONED, UNINHABITED
+//    inside_tenv: true,
+//    height: 3.0,
+//    z: 0.0,
+//    loads: null, // o UUID
+//    thermostats: null, // o UUID
+//    n_v: null, // o número
+//    illuminance: null, // o número
+// }
 const SpacesTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const spacePropsMap = appstate.energy_indicators.props.spaces;
   const loadsMap = appstate.getIdNameMap(LOAD);
   const thermostatsMap = appstate.getIdNameMap(THERMOSTAT);
-
-  // const elem = spacePropsMap["54d88882-0399-4e3e-3a0b-a83baead38e1"]
-  // console.log("cambiando valores", elem.height, elem.volume_net);
 
   const [columnDefs, setColumnDefs] = useState([
     { headerName: "ID", field: "id", hide: true },
@@ -171,6 +141,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       headerName: "Cargas",
       field: "loads",
       cellDataType: "text",
+      // TODO: este campo se debería poder dejar a null
       cellEditor: "agSelectCellEditor",
       cellEditorParams: { values: Object.keys(loadsMap) },
       refData: loadsMap,
@@ -182,6 +153,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       headerName: "Consignas",
       field: "thermostat",
       cellDataType: "text",
+      // TODO: este campo se debería poder dejar a null
       cellEditor: "agSelectCellEditor",
       cellEditorParams: { values: Object.keys(thermostatsMap) },
       refData: thermostatsMap,
@@ -198,11 +170,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       editable: ({ data }) => {
         return data.type === "UNINHABITED";
       },
-      // customEditor: {
-      //   getElement: (onUpdate, props) => (
-      //     <NVEditor onUpdate={onUpdate} defaultValue={null} {...props} />
-      //   ),
-      // },
+      // TODO: este campo tiene que ponerse a null cuando no es no habitable
       headerTooltip: "Nivel de infiltraciones del espacio, en ren/h",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("n", "v", "ren/h"),
@@ -213,11 +181,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       cellDataType: "number",
       cellClass: "text-center",
       valueFormatter: optionalNumberFmt,
-      // customEditor: {
-      //   getElement: (onUpdate, props) => (
-      //     <NVEditor onUpdate={onUpdate} defaultValue={null} {...props} />
-      //   ),
-      // },
+      // TODO: ver que este campo se pueda dejar a null o a un número
       headerTooltip: "Iluminancia media en el plano de trabajo, en lux",
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("E", "m", "lux"),
@@ -278,73 +242,14 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       selectedIds={selectedIds}
       setSelectedIds={setSelectedIds}
       onCellValueChanged={({ node, colDef, newValue }) => {
+        // TODO: mirar si es kind !== UNINHABITED para cambiar n_v a null o a un valor por defecto si es UNINHABITED (e.g. 1.0)
+        // esto en terciario no necesariamente es así,
+        // ya que se pueden definir las infiltraciones
+        // cuando no funcionan los equipos
         appstate.spaces[node.rowIndex][colDef.field] = newValue;
       }}
     />
   );
-
-  // return (
-  //   <BootstrapTable
-  //     data={appstate.spaces}
-  //     keyField="id"
-  //     striped
-  //     hover
-  //     bordered={false}
-  //     cellEdit={cellEditFactory({
-  //       mode: "dbclick",
-  //       blurToSave: true,
-  //       afterSaveCell: (oldValue, newValue, row, column) => {
-  //         if (
-  //           (column.field === "n_v" && newValue === undefined) ||
-  //           (column.field === "kind" && newValue !== "UNINHABITED")
-  //         ) {
-  //           // Corrige el valor de n_v de undefined a null
-  //           // o cambia a null cuando no son espacios no habitables
-  //           // TODO: esto en terciario no necesariamente es así,
-  //           // ya que se pueden definir las infiltraciones
-  //           // cuando no funcionan los equipos
-  //           row.n_v = null;
-  //         } else if (
-  //           column.field === "illuminance" &&
-  //           newValue === undefined
-  //         ) {
-  //           // Corrige el valor de illuminance de undefined a null
-  //           row.illuminance = null;
-  //         } else if (
-  //           ["loads", "thermostat"].includes(column.field) &&
-  //           newValue === ""
-  //         ) {
-  //           row[column.field] = null;
-  //         } else if (
-  //           !["name", "inside_tenv", "kind", "loads", "thermostat"].includes(
-  //             column.field
-  //           )
-  //         ) {
-  //           // Convierte a número salvo en el caso del nombre, inside_tenv, kind, loads y thermostat
-  //           row[column.field] = getFloatOrOld(newValue, oldValue);
-  //         }
-  //       },
-  //     })}
-  //     selectRow={{
-  //       mode: "checkbox",
-  //       clickToSelect: true,
-  //       clickToEdit: true,
-  //       selected: selectedIds,
-  //       onSelect: (row, isSelected) => {
-  //         if (isSelected) {
-  //           setSelectedIds([...selectedIds, row.id]);
-  //         } else {
-  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
-  //         }
-  //       },
-  //       hideSelectColumn: true,
-  //       bgColor: "lightgray",
-  //     }}
-  //     // clase para elementos fuera de la ET
-  //     rowClasses={(row, _rowIndex) => (row.inside_tenv ? null : "outsidetenv")}
-  //     columns={columns}
-  //   />
-  // );
 };
 
 export default observer(SpacesTable);
