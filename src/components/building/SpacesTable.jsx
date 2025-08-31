@@ -222,13 +222,13 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       headerClass: "text-light bg-secondary text-center",
       headerComponent: (_props) => getHeader("E", "m", "lux"),
     },
+    // Columnas calculadas ----
     {
       headerName: "A",
+      field: "area",
       editable: false,
       cellDataType: "number",
       cellClass: "column-computed-readonly text-center",
-      valueGetter: ({ data }) =>
-        spacePropsMap[data.id]?.area * spacePropsMap[data.id]?.multiplier,
       valueFormatter: optionalNumberFmt,
       headerTooltip: "Superficie útil del espacio (m²)",
       headerClass: "text-light bg-secondary text-center",
@@ -236,12 +236,10 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
     },
     {
       headerName: "Volumen neto",
-      colId: "volume_net", // colId para usar en refreshCells
+      field: "volume_net",
       editable: false,
       cellDataType: "number",
       cellClass: "column-computed-readonly text-center",
-      valueGetter: ({ data }) =>
-        spacePropsMap[data.id]?.volume_net * spacePropsMap[data.id]?.multiplier,
       valueFormatter: optionalNumberFmt,
       headerTooltip: "Volumen neto del espacio, en m³",
       headerClass: "text-light bg-secondary text-center",
@@ -249,10 +247,10 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
     },
     {
       headerName: "VEEI",
+      field: "veei",
       editable: false,
       cellDataType: "number",
       cellClass: "column-computed-readonly text-center",
-      valueGetter: ({ data }) => spacePropsMap[data.id]?.veei,
       valueFormatter: optionalNumberFmt,
       headerTooltip:
         "Valor de la eficiencia energética de la iluminación, en W/m²·100lx",
@@ -261,7 +259,17 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
     },
   ]);
 
-  const rowData = appstate.spaces;
+  // Genera filas con columnas adicionales calculadas
+  const rowData = appstate.spaces.map((e) => {
+    const d = spacePropsMap[e.id];
+    return {
+      ...e,
+      // Columnas calculadas
+      area: d?.area * d?.multiplier,
+      volume_net: d?.volume_net * d?.multiplier,
+      veei: d?.veei,
+    };
+  });
 
   return (
     <AgTable
@@ -269,26 +277,8 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       columnDefs={columnDefs}
       selectedIds={selectedIds}
       setSelectedIds={setSelectedIds}
-      onCellValueChanged={(event) => {
-          // https://www.ag-grid.com/javascript-data-grid/column-properties/#reference-events-onCellValueChanged
-          const {data, node, column, colDef, newValue, api} = event;
-          console.log("columna: ", column, "rowIndex:", node.rowIndex, "otroRowIndex:", event.rowIndex);
-          // Enviar el cambio al appstate
-          rowData[node.rowIndex][column.colId] = newValue;
-
-          //TODO: Refrescar columnas afectadas para el nodo usado
-          // Justo aquí todavía no se ha actualizado el valor en appstate y se muestra el antiguo... ¿qué hacemos?
-          console.log("volume_net", spacePropsMap[data.id]?.volume_net * spacePropsMap[data.id]?.multiplier);
-
-          api.refreshCells({ rowNodes: [node], columns: ["volume_net"], force: true });
-          // event.api.redrawRows();
-
-          // // Aquí no recalculas volume_net, solo refrescas la celda que lo usa
-          // api.refreshCells({
-          //   rowNodes: [node],
-          //   columns: ["volume_net"],
-          //   force: true,
-          // });
+      onCellValueChanged={({ node, colDef, newValue }) => {
+        appstate.spaces[node.rowIndex][colDef.field] = newValue;
       }}
     />
   );
