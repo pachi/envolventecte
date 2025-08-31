@@ -117,12 +117,12 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
       cellEditor: GeometryWindowEditor,
       headerClass: "text-center text-light bg-secondary",
     },
+    // Columnas calculadas
     {
       headerName: "A",
+      field: "area",
       editable: false,
       cellClass: "column-computed-readonly text-center",
-      valueGetter: ({ data }) =>
-        winPropsMap[data.id].area * winPropsMap[data.id].multiplier,
       valueFormatter: optionalNumberFmt,
       headerTooltip: "Superficie proyectada del hueco (m²)",
       headerClass: "text-light bg-secondary text-center",
@@ -130,10 +130,9 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
     },
     {
       headerName: "fshobst",
+      field: "f_shobst",
       editable: false,
       cellClass: "column-computed-readonly text-center",
-      valueGetter: ({ data }) =>
-        winPropsMap[data.id].f_shobst_override || winPropsMap[data.id].f_shobst,
       valueFormatter: optionalNumberFmt,
       headerTooltip:
         "Factor reductor por sombreamiento por obstáculos externos (comprende todos los elementos exteriores al hueco como voladizos, aletas laterales, retranqueos, obstáculos remotos, etc.), para el mes de julio (fracción). Este valor puede asimilarse al factor de sombra del hueco (FS). El Documento de Apoyo DA DB-HE/1 recoge valores del factor de sombra FS para considerar el efecto de voladizos, retranqueos, aletas laterales o lamas exteriores.",
@@ -142,9 +141,9 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
     },
     {
       headerName: "window U",
+      field: "u_value",
       editable: false,
       cellClass: "column-computed-readonly text-center",
-      valueGetter: ({ data }) => winPropsMap[data.id].u_value,
       valueFormatter: optionalNumberFmt,
       headerTooltip: "Transmitancia térmica del hueco [W/m²K]",
       headerClass: "text-light bg-secondary text-center",
@@ -152,7 +151,16 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
     },
   ]);
 
-  const rowData = appstate.windows;
+  const rowData = appstate.windows.map((e) => {
+    const d = winPropsMap[e.id];
+    return {
+      ...e,
+      // Columnas calculadas
+      area: d?.area * d?.multiplier,
+      f_shobst: d?.f_shobst_override || d?.f_shobst,
+      u_value: d?.u_value,
+    };
+  });
 
   return (
     <AgTable
@@ -160,6 +168,9 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
       columnDefs={columnDefs}
       selectedIds={selectedIds}
       setSelectedIds={setSelectedIds}
+      onCellValueChanged={({ node, colDef, newValue }) => {
+        appstate.windows[node.rowIndex][colDef.field] = newValue;
+      }}
     />
   );
   // return (
