@@ -89,6 +89,7 @@ export const AgTable = ({
             );
           }
         }}
+        // https://www.ag-grid.com/javascript-data-grid/column-properties/#reference-events-onCellValueChanged
         onCellValueChanged={onCellValueChanged}
         theme="legacy"
       />
