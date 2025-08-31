@@ -167,12 +167,13 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       headerTooltip: "Horario de equipos",
       headerClass: "text-light bg-secondary text-center",
     },
+    // Columnas calculadas
     {
       headerName: "C_fi",
+      field: "loads_avg",
       cellDataType: "number",
       editable: false,
       cellClass: "column-computed-readonly text-center",
-      valueGetter: ({data}) => loadsPropsMap[data.id].loads_avg,
       valueFormatter: optionalNumberFmt,
       headerTooltip: "Carga interna media, en W/m²",
       headerClass: "text-light bg-secondary text-center",
@@ -180,7 +181,14 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
     },
   ]);
 
-  const rowData = appstate.loads;
+  const rowData = appstate.loads.map((e) => {
+    const d = loadsPropsMap[e.id];
+    return {
+      ...e,
+      // Columnas calculadas
+      loads_avg: d?.loads_avg,
+    };
+  });
 
   return (
     <AgTable
@@ -188,6 +196,9 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       columnDefs={columnDefs}
       selectedIds={selectedIds}
       setSelectedIds={setSelectedIds}
+      onCellValueChanged={({ node, colDef, newValue }) => {
+        appstate.loads[node.rowIndex][colDef.field] = newValue;
+      }}
     />
   );
 
