@@ -36,6 +36,13 @@ import { validateNonNegNumber, validateNumber } from "../tables/Validators.js";
 import { THERMAL_BRIDGE_TYPES_MAP } from "../../stores/types.js";
 
 // Tabla de puentes térmicos del edificio
+// {
+//    id: "8e6f3f0e-1d5e-4c7a-8f3c-3b2f4e5e6f7a",
+//    name: "Puente térmico",
+//    kind: "GENERIC", // Roof|Balcony|Corner|IntermediateFloor|InternalWall|GroundFloor|Pillar|Window|Generic
+//    l: 1.0,
+//    psi: 0.0,
+// }
 const PTsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
 
@@ -100,41 +107,6 @@ const PTsTable = ({ selectedIds, setSelectedIds }) => {
       setSelectedIds={setSelectedIds}
     />
   );
-  // return (
-  //   <BootstrapTable
-  //     data={appstate.thermal_bridges}
-  //     keyField="id"
-  //     striped
-  //     hover
-  //     bordered={false}
-  //     cellEdit={cellEditFactory({
-  //       mode: "dbclick",
-  //       blurToSave: true,
-  //       afterSaveCell: (oldValue, newValue, row, column) => {
-  //         // Convierte a número campos numéricos
-  //         if (["L", "psi"].includes(column.field)) {
-  //           row[column.field] = getFloatOrOld(newValue, oldValue);
-  //         }
-  //       },
-  //     })}
-  //     selectRow={{
-  //       mode: "checkbox",
-  //       clickToSelect: true,
-  //       clickToEdit: true,
-  //       selected: selectedIds,
-  //       onSelect: (row, isSelected) => {
-  //         if (isSelected) {
-  //           setSelectedIds([...selectedIds, row.id]);
-  //         } else {
-  //           setSelectedIds(selectedIds.filter((it) => it !== row.id));
-  //         }
-  //       },
-  //       hideSelectColumn: true,
-  //       bgColor: "lightgray",
-  //     }}
-  //     columns={columns}
-  //   />
-  // );
 };
 
 export default observer(PTsTable);
