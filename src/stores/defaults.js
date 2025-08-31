@@ -46,10 +46,11 @@ export const newSpace = () => ({
 });
 
 export const defaultsSpace = {
-  kind: "CONDITIONED",
   name: "Espacio",
   multiplier: 1.0,
+  kind: "CONDITIONED",
   inside_tenv: true,
+  height: 3.0,
   z: 0.0,
   loads: null,
   thermostats: null,
