@@ -1,6 +1,6 @@
 /* -*- coding: utf-8 -*-
 
-Copyright (c) 2016-2022 Rafael Villar Burke <pachi@rvburke.com>
+Copyright (c) 2016-2025 Rafael Villar Burke <pachi@rvburke.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,7 @@ const Footer = () => (
         style={{ backgroundColor: "rgba(255, 255, 255, 0.7)" }}
       >
         <p className="mx-auto small text-muted">
-          2018-2022 - Rafael Villar Burke, Daniel Jiménez González, Marta
+          2018-2025 - Rafael Villar Burke, Daniel Jiménez González, Marta
           Sorribes Gil.
         </p>
       </footer>
