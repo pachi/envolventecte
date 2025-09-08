@@ -62,8 +62,9 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const wallPropsMap = appstate.energy_indicators.props.walls;
   const wallconsMap = useCallback(() => appstate.getIdNameMap(WALLCONS));
+  const wallconsMapKeys = useCallback(() => Object.keys(wallconsMap()));
 
-  const spaceMap = useCallback(() => appstate.getIdNameMap(SPACE))
+  const spaceMap = useCallback(() => appstate.getIdNameMap(SPACE));
   const spaceMapKeys = useCallback(() => Object.keys(spaceMap()));
 
   // Lista de IDs con errores
@@ -114,7 +115,9 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       // TODO: puede ser null
       cellClass: "text-center",
       cellEditor: "agSelectCellEditor",
-      cellEditorParams: { values: Object.keys(wallconsMap()) },
+      cellEditorParams: (params) => {
+        return { values: wallconsMapKeys() };
+      },
       refData: wallconsMap,
       valueFormatter: ({ value }) => wallconsMap()[value] || "-",
       headerTooltip: "Construcción del opaco",
@@ -148,15 +151,11 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
           values: [...spaceMapKeys(), null],
         };
       },
-      valueParser: (p) => {
-        const map = spaceMap();
-        return [...map().entries(), ["", null]].find(
+      valueParser: (p) =>
+        [...spaceMap().entries(), ["", null]].find(
           ([key, val]) => val == p.newValue
-        )[0]},
-      valueFormatter: ({ value }) => {
-        const map = spaceMap();
-        return map[value] ?? ""
-      },
+        )[0],
+      valueFormatter: ({ value }) => spaceMap()[value] ?? "",
       headerTooltip:
         "Espacio adyacente con el que comunica el elemento opaco, cuando este es un elemento interior",
       headerClass: "text-light bg-secondary text-center",
@@ -216,7 +215,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
         selectedIds={selectedIds}
         setSelectedIds={setSelectedIds}
         onCellValueChanged={({ node, colDef, newValue }) => {
-          if (colDef.field == 'bounds' && newValue != 'INTERIOR') {
+          if (colDef.field == "bounds" && newValue != "INTERIOR") {
             appstate.walls[node.rowIndex]["next_to"] = null;
           }
           appstate.walls[node.rowIndex][colDef.field] = newValue;
