@@ -168,7 +168,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       cellClass: "text-center",
       valueFormatter: optionalNumberFmt,
       editable: ({ data }) => {
-        return data.type === "UNINHABITED";
+        return data.kind === "UNINHABITED";
       },
       // TODO: este campo tiene que ponerse a null cuando no es no habitable
       headerTooltip: "Nivel de infiltraciones del espacio, en ren/h",
@@ -242,10 +242,14 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       selectedIds={selectedIds}
       setSelectedIds={setSelectedIds}
       onCellValueChanged={({ node, colDef, newValue }) => {
-        // TODO: mirar si es kind !== UNINHABITED para cambiar n_v a null o a un valor por defecto si es UNINHABITED (e.g. 1.0)
-        // esto en terciario no necesariamente es así,
+        // XXX: esto en terciario no necesariamente es así,
         // ya que se pueden definir las infiltraciones
         // cuando no funcionan los equipos
+        if (colDef.field == "kind" && newValue != "UNINHABITED") {
+          appstate.spaces[node.rowIndex]["n_v"] = null;
+        } else {
+          appstate.spaces[node.rowIndex]["n_v"] = 1.0;
+        }
         appstate.spaces[node.rowIndex][colDef.field] = newValue;
       }}
     />
