@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 // import BootstrapTable from "react-bootstrap-table-next";
 // import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
@@ -61,8 +61,10 @@ import { SPACE, WALLCONS, BOUNDARY_TYPES_MAP } from "../../stores/types";
 const OpacosTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const wallPropsMap = appstate.energy_indicators.props.walls;
-  const wallconsMap = appstate.getIdNameMap(WALLCONS);
-  const spaceMap = appstate.getIdNameMap(SPACE);
+  const wallconsMap = useCallback(() => appstate.getIdNameMap(WALLCONS));
+
+  const spaceMap = useCallback(() => appstate.getIdNameMap(SPACE))
+  const spaceMapKeys = useCallback(() => Object.keys(spaceMap()));
 
   // Lista de IDs con errores
   const errors = appstate.warnings;
@@ -112,9 +114,9 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       // TODO: puede ser null
       cellClass: "text-center",
       cellEditor: "agSelectCellEditor",
-      cellEditorParams: { values: Object.keys(wallconsMap) },
+      cellEditorParams: { values: Object.keys(wallconsMap()) },
       refData: wallconsMap,
-      valueFormatter: ({ value }) => wallconsMap[value] || "-",
+      valueFormatter: ({ value }) => wallconsMap()[value] || "-",
       headerTooltip: "Construcción del opaco",
       headerClass: "text-light bg-secondary text-center",
     },
@@ -124,9 +126,11 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       cellDataType: "text",
       cellClass: "text-center",
       cellEditor: "agSelectCellEditor",
-      cellEditorParams: { values: Object.keys(spaceMap) },
+      cellEditorParams: (params) => {
+        return { values: spaceMapKeys() };
+      },
       refData: spaceMap,
-      valueFormatter: ({ value }) => spaceMap[value] || "-",
+      valueFormatter: ({ value }) => spaceMap()[value] || "-",
       headerTooltip: "Espacio al que pertenece el elemento opaco",
       headerClass: "text-light bg-secondary text-center",
     },
@@ -139,14 +143,20 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       editable: ({ data }) => data.bounds === "INTERIOR",
       // Este editor es especial porque debe poder ponerse en nulo
       cellEditor: "agSelectCellEditor",
-      cellEditorParams: {
-        values: [...Object.keys(spaceMap), null],
+      cellEditorParams: (params) => {
+        return {
+          values: [...spaceMapKeys(), null],
+        };
       },
-      valueParser: (p) =>
-        [...spaceMap.entries(), ["", null]].find(
+      valueParser: (p) => {
+        const map = spaceMap();
+        return [...map().entries(), ["", null]].find(
           ([key, val]) => val == p.newValue
-        )[0],
-      valueFormatter: ({ value }) => spaceMap[value] ?? "",
+        )[0]},
+      valueFormatter: ({ value }) => {
+        const map = spaceMap();
+        return map[value] ?? ""
+      },
       headerTooltip:
         "Espacio adyacente con el que comunica el elemento opaco, cuando este es un elemento interior",
       headerClass: "text-light bg-secondary text-center",
