@@ -42,7 +42,7 @@ import { GeometryOpaquesEditor } from "./GeometryEditors";
 import { OrientacionesSprite } from "../helpers/IconsOrientaciones";
 import { SPACE, WALLCONS, BOUNDARY_TYPES_MAP } from "../../stores/types";
 
-// TODO: solo next_to en INTERIOR
+// TODO: comprobar si los wallPropsMap se actualizan bien.
 
 // Tabla de elementos opacos del edificio
 // {
@@ -216,6 +216,9 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
         selectedIds={selectedIds}
         setSelectedIds={setSelectedIds}
         onCellValueChanged={({ node, colDef, newValue }) => {
+          if (colDef.field == 'bounds' && newValue != 'INTERIOR') {
+            appstate.walls[node.rowIndex]["next_to"] = null;
+          }
           appstate.walls[node.rowIndex][colDef.field] = newValue;
         }}
       />
