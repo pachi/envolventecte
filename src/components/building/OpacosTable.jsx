@@ -42,8 +42,6 @@ import { GeometryOpaquesEditor } from "./GeometryEditors";
 import { OrientacionesSprite } from "../helpers/IconsOrientaciones";
 import { SPACE, WALLCONS, BOUNDARY_TYPES_MAP } from "../../stores/types";
 
-// TODO: comprobar si los wallPropsMap se actualizan bien.
-
 // Tabla de elementos opacos del edificio
 // {
 //    id: "8e6f3f0e-1d5e-4c7a-8f3c-3b2f4e5e6f7a",
