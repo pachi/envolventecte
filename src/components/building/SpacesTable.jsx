@@ -62,8 +62,8 @@ import { LOAD, THERMOSTAT, SPACE_TYPES_MAP } from "../../stores/types";
 const SpacesTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const spacePropsMap = appstate.energy_indicators.props.spaces;
-  const loadsMap = useCallback(appstate.getIdNameMap(LOAD));
-  const thermostatsMap = useCallback(appstate.getIdNameMap(THERMOSTAT));
+  const loadsMap = useCallback(() => appstate.getIdNameMap(LOAD));
+  const thermostatsMap = useCallback(() => appstate.getIdNameMap(THERMOSTAT));
 
   const [columnDefs, setColumnDefs] = useState([
     { headerName: "ID", field: "id", hide: true },

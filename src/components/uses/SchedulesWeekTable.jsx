@@ -54,7 +54,7 @@ import { ScheduleCountsEditor } from "./ScheduleCountsEditor";
 //  }
 const SchedulesWeekTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
-  const daySchedulesMap = useCallback(appstate.getIdNameMap(SCHEDULE_DAY));
+  const daySchedulesMap = useCallback(() => appstate.getIdNameMap(SCHEDULE_DAY));
 
   // Lista de IDs con errores
   const errors = appstate.warnings;

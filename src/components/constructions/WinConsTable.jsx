@@ -39,8 +39,8 @@ import { FRAME, GLASS } from "../../stores/types";
 const WinConsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const winconsPropsMap = appstate.energy_indicators.props.wincons;
-  const glassMap = useCallback(appstate.getIdNameMap(GLASS));
-  const frameMap = useCallback(appstate.getIdNameMap(FRAME));
+  const glassMap = useCallback(() => appstate.getIdNameMap(GLASS));
+  const frameMap = useCallback(() => appstate.getIdNameMap(FRAME));
 
   const [columnDefs, setColumnDefs] = useState([
     { field: "id", hide: true },

@@ -54,7 +54,7 @@ const QuantitiesReport = () => {
     appstate.energy_indicators;
 
   let spacesData = computeSpacesRows(props.spaces);
-  let loadsIdMap = useCallback(appstate.getIdNameMap(LOAD));
+  let loadsIdMap = useCallback(() => appstate.getIdNameMap(LOAD));
 
   let wallData = computeRows(
     appstate.cons.wallcons,

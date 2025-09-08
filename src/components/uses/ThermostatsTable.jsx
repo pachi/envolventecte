@@ -41,8 +41,8 @@ import { SCHEDULE_YEAR } from "../../stores/types";
 //  }
 const ThermostatsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
-  const schedulesMap = useCallback(appstate.getIdNameMap(SCHEDULE_YEAR));
-  const schedulesOpts = useCallback(appstate.getElementOptions(SCHEDULE_YEAR, true));
+  const schedulesMap = useCallback(() => appstate.getIdNameMap(SCHEDULE_YEAR));
+  const schedulesOpts = useCallback(() => appstate.getElementOptions(SCHEDULE_YEAR, true));
 
   // Lista de IDs con errores
   const errors = appstate.warnings;

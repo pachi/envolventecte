@@ -122,8 +122,8 @@ export const LayersEditor = memo(
 // Tabla de puentes térmicos del edificio
 const LayersTable = ({ layers, setLayers }) => {
   const appstate = useContext(AppState);
-  const matsMap = useCallback(appstate.getIdNameMap(MATERIAL));
-  // const materialOpts = useCallback(appstate.getElementOptions(MATERIAL));
+  const matsMap = useCallback(() => appstate.getIdNameMap(MATERIAL));
+  // const materialOpts = useCallback(() => appstate.getElementOptions(MATERIAL));
 
   // Filas de puntos 2D seleccionados
   const [selected, setSelected] = useState([]);

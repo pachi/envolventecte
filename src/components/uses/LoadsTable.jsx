@@ -66,7 +66,7 @@ import { SCHEDULE_YEAR } from "../../stores/types";
 //  },
 const LoadsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
-  const schedulesMap = useCallback(appstate.getIdNameMap(SCHEDULE_YEAR));
+  const schedulesMap = useCallback(() => appstate.getIdNameMap(SCHEDULE_YEAR));
   const loadsPropsMap = appstate.energy_indicators.props.loads;
 
   // Lista de IDs con errores
