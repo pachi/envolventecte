@@ -225,13 +225,12 @@ class AppState {
   }
 
   getIdNameMap(elementType) {
-    const idNameMap = {};
-    this.getElements(elementType).map((s) =>
-      s.id != EMPTY_ID
-        ? (idNameMap[s.id] = s.name)
-        : (idNameMap[EMPTY_ID] = "-")
+    const elements = this.getElements(elementType);
+    return Object.fromEntries(
+      elements.map(s =>
+        s.id !== EMPTY_ID ? [s.id, s.name] : [EMPTY_ID, "-"]
+      )
     );
-    return idNameMap;
   }
 
   getElementOptions(elementType, addEmpty = false) {
@@ -395,7 +394,7 @@ class AppState {
     if (idx > container.length - 2 || idx < 0) return;
     const elem = container[idx];
     const next = container[idx + 1];
-    
+
     container.replace([
       ...container.slice(0, idx),
       next,
