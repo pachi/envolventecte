@@ -78,6 +78,7 @@
 
 ## Ag-Grid
 
+- al borrar espacios u opacos luego quedan los uuid de otras tablas que los referencian en lugar de los nombres al no localizarlos (ya no existen esos elementos con esos UUID) en otras tablas. En esos casos, pensar qué hacer, ¿dejarlos a null?
 - Los elementos que se pueden dejar a null igual podríamos tener un editor al lado (una cruz) que permita anularlos fácilmente en lugar de en el custom editor.
 - Espacios: Al cambiar de habitable a no habitable no se permite la edición de renovaciones hora
 - Revisar errores al borrar todos los elementos
