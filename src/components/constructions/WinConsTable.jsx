@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 
 import { observer } from "mobx-react";
 
@@ -30,10 +30,7 @@ import AppState from "../../stores/AppState";
 import { AgTable } from "../tables/AgTable.jsx";
 import { optionalNumberFmt } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
-import {
-  validateNonNegNumber,
-  validateNumber,
-} from "../tables/Validators.js";
+import { validateNonNegNumber, validateNumber } from "../tables/Validators.js";
 
 import { FRAME, GLASS } from "../../stores/types";
 
@@ -42,8 +39,8 @@ import { FRAME, GLASS } from "../../stores/types";
 const WinConsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const winconsPropsMap = appstate.energy_indicators.props.wincons;
-  const glassMap = appstate.getIdNameMap(GLASS);
-  const frameMap = appstate.getIdNameMap(FRAME);
+  const glassMap = useCallback(appstate.getIdNameMap(GLASS));
+  const frameMap = useCallback(appstate.getIdNameMap(FRAME));
 
   const [columnDefs, setColumnDefs] = useState([
     { field: "id", hide: true },
@@ -62,10 +59,10 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       field: "glass",
       cellDataType: "text",
       cellEditor: "agSelectCellEditor",
-      cellEditorParams: { values: Object.keys(glassMap) },
+      cellEditorParams: (params) => ({ values: Object.keys(glassMap()) }),
       refData: glassMap,
       cellClass: "text-center",
-      valueFormatter: ({ value }) => glassMap[value],
+      valueFormatter: ({ value }) => glassMap()[value],
       headerTooltip: "Tipo de vidrio del hueco",
       headerClass: "text-light bg-secondary text-center",
     },
@@ -74,10 +71,10 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
       field: "frame",
       cellDataType: "text",
       cellEditor: "agSelectCellEditor",
-      cellEditorParams: { values: Object.keys(frameMap) },
+      cellEditorParams: (params) => ({ values: Object.keys(frameMap()) }),
       refData: frameMap,
       cellClass: "text-center",
-      valueFormatter: ({ value }) => frameMap[value],
+      valueFormatter: ({ value }) => frameMap()[value],
       headerTooltip: "Tipo de marco del hueco",
       headerClass: "text-light bg-secondary text-center",
     },

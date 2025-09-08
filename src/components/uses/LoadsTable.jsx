@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 
 import { observer } from "mobx-react";
 
@@ -66,7 +66,7 @@ import { SCHEDULE_YEAR } from "../../stores/types";
 //  },
 const LoadsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
-  const schedulesMap = appstate.getIdNameMap(SCHEDULE_YEAR);
+  const schedulesMap = useCallback(appstate.getIdNameMap(SCHEDULE_YEAR));
   const loadsPropsMap = appstate.energy_indicators.props.loads;
 
   // Lista de IDs con errores
@@ -128,10 +128,10 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       field: "people_schedule",
       cellDataType: "text",
       cellEditor: "agSelectCellEditor",
-      cellEditorParams: { values: Object.keys(schedulesMap) },
+      cellEditorParams: (params) => ({ values: Object.keys(schedulesMap()) }),
       refData: schedulesMap,
       cellClass: "text-center",
-      valueFormatter: ({ value }) => schedulesMap[value],
+      valueFormatter: ({ value }) => schedulesMap()[value],
       headerTooltip: "Horario de ocupación",
       headerClass: "text-light bg-secondary text-center",
     },
@@ -151,10 +151,10 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       field: "lighting_schedule",
       cellDataType: "text",
       cellEditor: "agSelectCellEditor",
-      cellEditorParams: { values: Object.keys(schedulesMap) },
+      cellEditorParams: (params) => ({ values: Object.keys(schedulesMap()) }),
       refData: schedulesMap,
       cellClass: "text-center",
-      valueFormatter: ({ value }) => schedulesMap[value],
+      valueFormatter: ({ value }) => schedulesMap()[value],
       headerTooltip: "Horario de iluminación",
       headerClass: "text-light bg-secondary text-center",
     },
@@ -174,10 +174,10 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
       field: "equipment_schedule",
       cellDataType: "text",
       cellEditor: "agSelectCellEditor",
-      cellEditorParams: { values: Object.keys(schedulesMap) },
+      cellEditorParams: (params) => ({ values: Object.keys(schedulesMap()) }),
       refData: schedulesMap,
       cellClass: "text-center",
-      valueFormatter: ({ value }) => schedulesMap[value],
+      valueFormatter: ({ value }) => schedulesMap()[value],
       headerTooltip: "Horario de equipos",
       headerClass: "text-light bg-secondary text-center",
     },

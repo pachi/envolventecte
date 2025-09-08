@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 
 import { observer } from "mobx-react";
 
@@ -62,8 +62,8 @@ import { LOAD, THERMOSTAT, SPACE_TYPES_MAP } from "../../stores/types";
 const SpacesTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
   const spacePropsMap = appstate.energy_indicators.props.spaces;
-  const loadsMap = appstate.getIdNameMap(LOAD);
-  const thermostatsMap = appstate.getIdNameMap(THERMOSTAT);
+  const loadsMap = useCallback(appstate.getIdNameMap(LOAD));
+  const thermostatsMap = useCallback(appstate.getIdNameMap(THERMOSTAT));
 
   const [columnDefs, setColumnDefs] = useState([
     { headerName: "ID", field: "id", hide: true },
@@ -143,7 +143,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       cellDataType: "text",
       // TODO: este campo se debería poder dejar a null
       cellEditor: "agSelectCellEditor",
-      cellEditorParams: { values: Object.keys(loadsMap) },
+      cellEditorParams: (params) => ({ values: Object.keys(loadsMap()) }),
       refData: loadsMap,
       cellClass: "text-center",
       headerTooltip: "Perfil de cargas del espacio",
@@ -155,7 +155,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
       cellDataType: "text",
       // TODO: este campo se debería poder dejar a null
       cellEditor: "agSelectCellEditor",
-      cellEditorParams: { values: Object.keys(thermostatsMap) },
+      cellEditorParams: (params) => ({ values: Object.keys(thermostatsMap()) }),
       refData: thermostatsMap,
       cellClass: "text-center",
       headerTooltip: "Consignas de temperatura en el espacio",

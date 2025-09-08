@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 
 import { observer } from "mobx-react";
 
@@ -41,8 +41,8 @@ import { SCHEDULE_YEAR } from "../../stores/types";
 //  }
 const ThermostatsTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
-  const schedulesMap = appstate.getIdNameMap(SCHEDULE_YEAR);
-  const schedulesOpts = appstate.getElementOptions(SCHEDULE_YEAR, true);
+  const schedulesMap = useCallback(appstate.getIdNameMap(SCHEDULE_YEAR));
+  const schedulesOpts = useCallback(appstate.getElementOptions(SCHEDULE_YEAR, true));
 
   // Lista de IDs con errores
   const errors = appstate.warnings;
@@ -76,7 +76,7 @@ const ThermostatsTable = ({ selectedIds, setSelectedIds }) => {
       // },
       // formatExtraData: schedulesMap,
       cellClass: "text-center",
-      valueFormatter: ({ value }) => schedulesMap[value],
+      valueFormatter: ({ value }) => schedulesMap()[value],
       headerTooltip: "Consigna alta (REF)",
       headerClass: "text-light bg-secondary text-center",
     },
@@ -91,7 +91,7 @@ const ThermostatsTable = ({ selectedIds, setSelectedIds }) => {
       // },
       // formatExtraData: schedulesMap,
       cellClass: "text-center",
-      valueFormatter: ({ value }) => schedulesMap[value],
+      valueFormatter: ({ value }) => schedulesMap()[value],
       headerTooltip: "Consigna baja (CAL)",
       headerClass: "text-light bg-secondary text-center",
     },

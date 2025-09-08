@@ -28,6 +28,7 @@ import React, {
   useContext,
   useEffect,
   useImperativeHandle,
+  useCallback,
 } from "react";
 import {
   Modal,
@@ -121,8 +122,8 @@ export const LayersEditor = memo(
 // Tabla de puentes térmicos del edificio
 const LayersTable = ({ layers, setLayers }) => {
   const appstate = useContext(AppState);
-  const matsMap = appstate.getIdNameMap(MATERIAL);
-  const materialOpts = appstate.getElementOptions(MATERIAL);
+  const matsMap = useCallback(appstate.getIdNameMap(MATERIAL));
+  // const materialOpts = useCallback(appstate.getElementOptions(MATERIAL));
 
   // Filas de puntos 2D seleccionados
   const [selected, setSelected] = useState([]);
@@ -134,9 +135,9 @@ const LayersTable = ({ layers, setLayers }) => {
       field: "material",
       cellDataType: "text",
       cellEditor: "agSelectCellEditor",
-      cellEditorParams: { values: Object.keys(matsMap) },
+      cellEditorParams: (params) => ({ values: Object.keys(matsMap()) }),
       refData: matsMap,
-      valueFormatter: ({ value }) => matsMap[value],
+      valueFormatter: ({ value }) => matsMap()[value],
       cellClass: "text-left",
       headerTooltip: "Material de opaco",
       headerClass: "text-light bg-secondary text-center",

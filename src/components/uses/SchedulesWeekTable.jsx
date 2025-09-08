@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 
 import { observer } from "mobx-react";
 
@@ -54,7 +54,7 @@ import { ScheduleCountsEditor } from "./ScheduleCountsEditor";
 //  }
 const SchedulesWeekTable = ({ selectedIds, setSelectedIds }) => {
   const appstate = useContext(AppState);
-  const daySchedulesMap = appstate.getIdNameMap(SCHEDULE_DAY);
+  const daySchedulesMap = useCallback(appstate.getIdNameMap(SCHEDULE_DAY));
 
   // Lista de IDs con errores
   const errors = appstate.warnings;
@@ -87,9 +87,9 @@ const SchedulesWeekTable = ({ selectedIds, setSelectedIds }) => {
       cellEditor: ScheduleCountsEditor,
       cellEditorPopup: true,
       cellEditorPopupPosition: "under",
-      cellEditorParams: { idMap: daySchedulesMap },
+      cellEditorParams: (params) => ({ idMap: daySchedulesMap() }),
       cellRenderer: CountScheduleCellRenderer,
-      cellRendererParams: { idMapper: daySchedulesMap },
+      cellRendererParams: (params) => ({ idMapper: daySchedulesMap() }),
       headerTooltip: "Lista de horarios diarios",
       headerClass: "text-light bg-secondary text-center",
     },

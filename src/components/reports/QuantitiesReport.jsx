@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext, useRef } from "react";
+import React, { useCallback, useContext, useRef } from "react";
 import { Table, Col, Row, Button } from "react-bootstrap";
 import { observer } from "mobx-react";
 
@@ -54,7 +54,7 @@ const QuantitiesReport = () => {
     appstate.energy_indicators;
 
   let spacesData = computeSpacesRows(props.spaces);
-  let loadsIdMap = appstate.getIdNameMap(LOAD);
+  let loadsIdMap = useCallback(appstate.getIdNameMap(LOAD));
 
   let wallData = computeRows(
     appstate.cons.wallcons,
@@ -158,7 +158,7 @@ const QuantitiesReport = () => {
             Espacios pertenecientes o no a la envolvente térmica (superficies
             interiores).
           </p>
-          <SpacesByConceptTable data={spacesData} loadsIdMap={loadsIdMap} />
+          <SpacesByConceptTable data={spacesData} loadsIdMap={loadsIdMap()} />
         </Col>
       </Row>
 
