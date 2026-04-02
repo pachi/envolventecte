@@ -1,5 +1,7 @@
 # Bugs
 
+- Aparece marcado ensayo de puerta soplante sin estar definido en el caso por defecto. Ver qué sucede
+- Actualizar dependencias
 - Al poner un nombre de elemento en la selección no se selecciona (¿siempre?).
 - Arreglar eliminación de horarios hijos en horarios padres:
     - Si se elimina un horario diario el horario mensual que lo use se queda en situación inconsistente
@@ -8,7 +10,8 @@
 # Mejoras
 
 - Añadir en editor de geometría una imagen del polígono (hacer versión en SVG).
-- Mostrar tooltip en los elementos con avisos
+- Marcar en filas con fondo distinto los elementos con sus ids en avisos
+    - Mostrar tooltip en los elementos con avisos con el error indicado
 - Señalar con un icono materiales, vidrios, marcos y construcciones de opacos y huecos no usadas
 - Introducir overrides de huecos y muros...
 - Informe HE1:
@@ -75,10 +78,6 @@
 ## ES
 - Trasladar datos a public/data? (usando luego fetch o direcciones como <a href={process.env.PUBLIC_URL + "/data/zcraddata.json"}>Enlace</a>)
     - Mejor, usar RTK Query?
-
-## Ag-Grid
-
-- Los elementos que se pueden dejar a null igual podríamos tener un editor al lado (una cruz) que permita anularlos fácilmente en lugar de en el custom editor.
 
 ## otros
 
