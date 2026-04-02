@@ -34,7 +34,7 @@ import { validateNonNegNumber } from "../tables/Validators.js";
 
 // Tabla de materiales para marcos de huecos del edificio
 // TODO: mostrar ejemplo de objetos
-const FamesTable = ({ selectedIds, setSelectedIds }) => {
+const FamesTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
 
   const [columnDefs, setColumnDefs] = useState([
@@ -74,14 +74,14 @@ const FamesTable = ({ selectedIds, setSelectedIds }) => {
     },
   ]);
 
-  const rowData = appstate.cons.frames;
+  // Copia para forzar sincronización
+  const rowData = [...appstate.cons.frames];
 
   return (
     <AgTable
       rowData={rowData}
       columnDefs={columnDefs}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
+      gridRef={gridRef}
     />
   );
 };

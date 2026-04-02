@@ -34,8 +34,25 @@ import iconarrowup from "../img/arrow_up.svg";
 import iconarrowdown from "../img/arrow_down.svg";
 
 const AddRemoveButtonGroup = observer(
-  ({ elementType, selectedIds, setSelectedIds }) => {
+  ({ elementType, gridRef }) => {
     const appstate = useContext(AppState);
+
+    const getSelectedIds = () => {
+      if (!gridRef?.current?.api) return [];
+      return gridRef.current.api.getSelectedNodes().map(node => node.data.id);
+    };
+
+    const setSelectedIds = (ids) => {
+      if (!gridRef?.current?.api) return;
+      gridRef.current.api.deselectAll();
+      if (ids.length > 0) {
+        gridRef.current.api.forEachNode(node => {
+          if (ids.includes(node.data.id)) {
+            node.setSelected(true);
+          }
+        });
+      }
+    };
 
     return (
       <ButtonToolbar>
@@ -59,6 +76,7 @@ const AddRemoveButtonGroup = observer(
             size="sm"
             title="Duplicar filas seleccionadas de la tabla"
             onClick={() => {
+              const selectedIds = getSelectedIds();
               const newids = appstate.duplicateElements(
                 elementType,
                 selectedIds
@@ -73,9 +91,10 @@ const AddRemoveButtonGroup = observer(
             size="sm"
             title="Eliminar filas seleccionadas de la tabla"
             onClick={() => {
+              const selectedIds = getSelectedIds();
               if (selectedIds.length > 0) {
                 let newid = appstate.deleteElements(elementType, selectedIds);
-                newid !== null ? setSelectedIds([newid]) : setSelectedIds([]);
+                setSelectedIds(newid !== null ? [newid] : []);
               }
             }}
           >
@@ -88,6 +107,7 @@ const AddRemoveButtonGroup = observer(
             size="sm"
             title="Subir primer elemento seleccionado en la tabla"
             onClick={() => {
+              const selectedIds = getSelectedIds();
               appstate.moveUpFirstSelectedElement(elementType, selectedIds);
             }}
           >
@@ -98,6 +118,7 @@ const AddRemoveButtonGroup = observer(
             size="sm"
             title="Bajar primer elemento seleccionado en la tabla"
             onClick={() => {
+              const selectedIds = getSelectedIds();
               appstate.moveDownFirstSelectedElement(elementType, selectedIds);
             }}
           >

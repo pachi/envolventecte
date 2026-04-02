@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
@@ -34,7 +34,7 @@ import LoadsTable from "./LoadsTable";
 // Vista de cargas de los espacios
 const LoadsView = observer(() => {
   const appstate = useContext(AppState);
-  const [selected, setSelected] = useState([]);
+  const gridRef = useRef(null);
 
   return (
     <>
@@ -48,14 +48,13 @@ const LoadsView = observer(() => {
         <Col md="auto">
           <AddRemoveButtonGroup
             elementType={LOAD}
-            selectedIds={selected}
-            setSelectedIds={setSelected}
+            gridRef={gridRef}
           />
         </Col>
       </Row>
       <Row>
         <Col>
-          <LoadsTable selectedIds={selected} setSelectedIds={setSelected} />
+          <LoadsTable gridRef={gridRef} />
         </Col>
       </Row>
     </>

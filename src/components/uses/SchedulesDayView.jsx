@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { Col, Row } from "react-bootstrap";
 import { observer } from "mobx-react";
 
@@ -34,7 +34,7 @@ import SchedulesDayTable from "./SchedulesDayTable";
 // Vista de horarios diarios
 const SchedulesDayView = observer(() => {
   const appstate = useContext(AppState);
-  const [selected, setSelected] = useState([]);
+  const gridRef = useRef(null);
 
   return (
     <>
@@ -48,14 +48,13 @@ const SchedulesDayView = observer(() => {
         <Col md="auto">
           <AddRemoveButtonGroup
             elementType={SCHEDULE_DAY}
-            selectedIds={selected}
-            setSelectedIds={setSelected}
+            gridRef={gridRef}
           />
         </Col>
       </Row>
       <Row>
         <Col>
-          <SchedulesDayTable selectedIds={selected} setSelectedIds={setSelected} />
+          <SchedulesDayTable gridRef={gridRef} />
         </Col>
       </Row>
     </>

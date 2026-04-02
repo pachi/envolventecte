@@ -39,7 +39,7 @@ import { SCHEDULE_YEAR } from "../../stores/types";
 //    "temp_max": "d02b9100-8895-0f1a-4f70-0bb216479f55",
 //    "temp_min": "026bc569-dc14-ade8-f130-e5da31fc74b8"
 //  }
-const ThermostatsTable = ({ selectedIds, setSelectedIds }) => {
+const ThermostatsTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
   const schedulesMap = useCallback(() => appstate.getIdNameMap(SCHEDULE_YEAR));
   const schedulesOpts = useCallback(() => appstate.getElementOptions(SCHEDULE_YEAR, true));
@@ -97,14 +97,13 @@ const ThermostatsTable = ({ selectedIds, setSelectedIds }) => {
     },
   ]);
 
-  const rowData = appstate.thermostats;
+  const rowData = [...appstate.thermostats];
 
   return (
     <AgTable
       rowData={rowData}
       columnDefs={columnDefs}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
+      gridRef={gridRef}
     />
   );
 };

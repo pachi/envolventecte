@@ -64,7 +64,7 @@ import { SCHEDULE_YEAR } from "../../stores/types";
 //    "illuminance": null,
 //    "area_per_person": 0.0
 //  },
-const LoadsTable = ({ selectedIds, setSelectedIds }) => {
+const LoadsTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
   const schedulesMap = useCallback(() => appstate.getIdNameMap(SCHEDULE_YEAR));
   const loadsPropsMap = appstate.energy_indicators.props.loads;
@@ -208,8 +208,7 @@ const LoadsTable = ({ selectedIds, setSelectedIds }) => {
     <AgTable
       rowData={rowData}
       columnDefs={columnDefs}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
+      gridRef={gridRef}
       onCellValueChanged={({ node, colDef, newValue }) => {
         appstate.loads[node.rowIndex][colDef.field] = newValue;
       }}

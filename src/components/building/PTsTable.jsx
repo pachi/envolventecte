@@ -43,7 +43,7 @@ import { THERMAL_BRIDGE_TYPES_MAP } from "../../stores/types.js";
 //    l: 1.0,
 //    psi: 0.0,
 // }
-const PTsTable = ({ selectedIds, setSelectedIds }) => {
+const PTsTable = ({gridRef }) => {
   const appstate = useContext(AppState);
 
   const [columnDefs, setColumnDefs] = useState([
@@ -97,14 +97,12 @@ const PTsTable = ({ selectedIds, setSelectedIds }) => {
     },
   ]);
 
-  const rowData = appstate.thermal_bridges;
-
+  const rowData = [...appstate.thermal_bridges];
   return (
     <AgTable
       rowData={rowData}
       columnDefs={columnDefs}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
+      gridRef={gridRef}
     />
   );
 };

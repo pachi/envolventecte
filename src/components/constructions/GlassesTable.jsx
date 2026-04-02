@@ -34,7 +34,7 @@ import { validateNonNegNumber } from "../tables/Validators.js";
 
 // Tabla de materiales para vidrios del edificio
 // TODO: mostrar ejemplo de objetos
-const GlassesTable = ({ selectedIds, setSelectedIds }) => {
+const GlassesTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
 
   const [columnDefs, setColumnDefs] = useState([
@@ -76,14 +76,13 @@ const GlassesTable = ({ selectedIds, setSelectedIds }) => {
     },
   ]);
 
-  const rowData = appstate.cons.glasses;
+  const rowData = [...appstate.cons.glasses];
 
   return (
     <AgTable
       rowData={rowData}
       columnDefs={columnDefs}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
+      gridRef={gridRef}
     />
   );
 };

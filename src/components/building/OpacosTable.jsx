@@ -56,7 +56,7 @@ import { SPACE, WALLCONS, BOUNDARY_TYPES_MAP } from "../../stores/types";
 //    }
 //
 // }
-const OpacosTable = ({ selectedIds, setSelectedIds }) => {
+const OpacosTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
   const wallPropsMap = appstate.energy_indicators.props.walls;
   const wallconsMap = useCallback(() => appstate.getIdNameMap(WALLCONS));
@@ -210,8 +210,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
       <AgTable
         rowData={rowData}
         columnDefs={columnDefs}
-        selectedIds={selectedIds}
-        setSelectedIds={setSelectedIds}
+        gridRef={gridRef}
         onCellValueChanged={({ node, colDef, newValue }) => {
           if (colDef.field == "bounds" && newValue != "INTERIOR") {
             appstate.walls[node.rowIndex]["next_to"] = null;

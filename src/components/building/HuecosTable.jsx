@@ -52,7 +52,7 @@ import { WINCONS, WALL } from "../../stores/types";
 //      "setback": 0.0
 //    }
 // }
-const HuecosTable = ({ selectedIds, setSelectedIds }) => {
+const HuecosTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
   const winPropsMap = appstate.energy_indicators.props.windows;
   const winconsMap = useCallback(() => appstate.getIdNameMap(WINCONS));
@@ -178,8 +178,7 @@ const HuecosTable = ({ selectedIds, setSelectedIds }) => {
     <AgTable
       rowData={rowData}
       columnDefs={columnDefs}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
+      gridRef={gridRef}
       onCellValueChanged={({ node, colDef, newValue }) => {
         appstate.windows[node.rowIndex][colDef.field] = newValue;
       }}

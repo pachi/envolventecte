@@ -36,7 +36,7 @@ import { FRAME, GLASS } from "../../stores/types";
 
 // Tabla de construcciones de huecos del edificio
 // TODO: mostrar ejemplo de objetos
-const WinConsTable = ({ selectedIds, setSelectedIds }) => {
+const WinConsTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
   const winconsPropsMap = appstate.energy_indicators.props.wincons;
   const glassMap = useCallback(() => appstate.getIdNameMap(GLASS));
@@ -171,8 +171,7 @@ const WinConsTable = ({ selectedIds, setSelectedIds }) => {
     <AgTable
       rowData={rowData}
       columnDefs={columnDefs}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
+      gridRef={gridRef}
       onCellValueChanged={({ node, colDef, newValue }) => {
         appstate.cons.wincons[node.rowIndex][colDef.field] = newValue;
       }}

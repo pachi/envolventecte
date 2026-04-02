@@ -52,7 +52,7 @@ import { ScheduleCountsEditor } from "./ScheduleCountsEditor";
 //      ]
 //    ]
 //  }
-const SchedulesWeekTable = ({ selectedIds, setSelectedIds }) => {
+const SchedulesWeekTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
   const daySchedulesMap = useCallback(() => appstate.getIdNameMap(SCHEDULE_DAY));
 
@@ -106,14 +106,13 @@ const SchedulesWeekTable = ({ selectedIds, setSelectedIds }) => {
     },
   ]);
 
-  const rowData = appstate.schedules.week;
+  const rowData = [...appstate.schedules.week];
 
   return (
     <AgTable
       rowData={rowData}
       columnDefs={columnDefs}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
+      gridRef={gridRef}
     />
   );
 };

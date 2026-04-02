@@ -41,7 +41,7 @@ import { LayersEditor } from "./LayersEditors";
 
 // Tabla de opacos del edificio
 // TODO: mostrar ejemplo de objetos
-const WallConsTable = ({ selectedIds, setSelectedIds }) => {
+const WallConsTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
   const wallconsPropsMap = appstate.energy_indicators.props.wallcons;
   const walls_Co100 = appstate.energy_indicators.n50_data.walls_c.toFixed(2);
@@ -144,8 +144,7 @@ const WallConsTable = ({ selectedIds, setSelectedIds }) => {
     <AgTable
       rowData={rowData}
       columnDefs={columnDefs}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
+      gridRef={gridRef}
       onCellValueChanged={({ node, colDef, newValue }) => {
         appstate.cons.wallcons[node.rowIndex][colDef.field] = newValue;
       }}

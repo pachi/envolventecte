@@ -31,8 +31,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 export const AgTable = ({
   rowData,
   columnDefs,
-  selectedIds,
-  setSelectedIds,
+  gridRef,
   sizeReduce = 21,
   onCellValueChanged = (e) => {
     // Manejador por defecto de cambios en celdas
@@ -63,32 +62,20 @@ export const AgTable = ({
 
   const getRowId = useCallback((params) => String(params.data.id), []);
 
-  // Datos con casilla de selección
-  const selRowData = rowData.map((r) => ({
-    ...r,
-    selected: selectedIds ? r.id in selectedIds : false,
-  }));
-
   return (
     <div
       className="ag-theme-alpine"
       style={{ height: `calc(100dvh - ${sizeReduce}rem)`, width: "100%" }}
     >
       <AgGridReact
-        rowData={selRowData}
+        ref={gridRef}
+        rowData={rowData}
         getRowId={getRowId}
         columnDefs={columnDefs}
         defaultColDef={defaultColDef}
         tooltipShowDelay={500}
         animateRows={true}
         rowSelection={rowSelection}
-        onSelectionChanged={(params) => {
-          if (setSelectedIds) {
-            setSelectedIds(
-              params.api.getSelectedNodes().map((node) => node.data.id)
-            );
-          }
-        }}
         // https://www.ag-grid.com/javascript-data-grid/column-properties/#reference-events-onCellValueChanged
         onCellValueChanged={onCellValueChanged}
         theme="legacy"

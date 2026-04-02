@@ -311,7 +311,25 @@ const PositionEditor = ({
 // Tabla de coordenadas X, Y de polígonos
 const CoordsTable = ({ poly, setPoly }) => {
   // Filas de puntos 2D seleccionados
-  const [selected, setSelected] = useState([]);
+  const gridRef = useRef(null);
+
+  const getSelectedIds = () => {
+    if (!gridRef?.current?.api) return [];
+    return gridRef.current.api.getSelectedNodes().map(node => node.data.id);
+  };
+  
+  const setSelectedIds = (ids) => {
+    if (!gridRef?.current?.api) return;
+    gridRef.current.api.deselectAll();
+    if (ids.length > 0) {
+      gridRef.current.api.forEachNode(node => {
+        if (ids.includes(node.data.id)) {
+          node.setSelected(true);
+        }
+      });
+    }
+  };
+
   const [columnDefs, setColumnDefs] = useState([
     { headerName: "ID", field: "id", hide: true },
     {
@@ -346,14 +364,13 @@ const CoordsTable = ({ poly, setPoly }) => {
           list={poly}
           setList={setPoly}
           newElement={newPoint}
-          selectedIds={selected}
-          setSelectedIds={setSelected}
+          selectedIds={getSelectedIds()}
+          setSelectedIds={setSelectedIds}
         />
         <AgTable
           rowData={poly}
           columnDefs={columnDefs}
-          selectedIds={selected}
-          setSelectedIds={setSelected}
+          gridRef={gridRef}
           sizeReduce={35}
         />
       </Col>

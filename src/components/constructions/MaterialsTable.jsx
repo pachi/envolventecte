@@ -66,7 +66,7 @@ import { validateNonNegNumber } from "../tables/Validators.js";
 
 // Tabla de materiales para opacos del edificio
 // TODO: mostrar ejemplo de objetos
-const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
+const MaterialsTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
 
   const [columnDefs, setColumnDefs] = useState([
@@ -148,14 +148,13 @@ const MaterialsTable = ({ selectedIds, setSelectedIds }) => {
     },
   ]);
 
-  const rowData = appstate.cons.materials;
+  const rowData = [...appstate.cons.materials];
 
   return (
     <AgTable
       rowData={rowData}
       columnDefs={columnDefs}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
+      gridRef={gridRef}
     />
   );
 };

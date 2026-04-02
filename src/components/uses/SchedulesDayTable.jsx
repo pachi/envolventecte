@@ -42,7 +42,7 @@ import { DayScheduleCellRenderer } from "../tables/Formatters.jsx";
 //      0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
 //    ]
 //  }
-const SchedulesDayTable = ({ selectedIds, setSelectedIds }) => {
+const SchedulesDayTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
 
   // Lista de IDs con errores
@@ -95,8 +95,7 @@ const SchedulesDayTable = ({ selectedIds, setSelectedIds }) => {
     <AgTable
       rowData={appstate.schedules.day}
       columnDefs={columnDefs}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
+      gridRef={gridRef}
     />
   );
 };

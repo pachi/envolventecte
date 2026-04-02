@@ -59,8 +59,9 @@ import { LOAD, THERMOSTAT, SPACE_TYPES_MAP } from "../../stores/types";
 //    n_v: null, // o número
 //    illuminance: null, // o número
 // }
-const SpacesTable = ({ selectedIds, setSelectedIds }) => {
+const SpacesTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
+
   const spacePropsMap = appstate.energy_indicators.props.spaces;
   const loadsMap = useCallback(() => appstate.getIdNameMap(LOAD));
   const thermostatsMap = useCallback(() => appstate.getIdNameMap(THERMOSTAT));
@@ -239,8 +240,7 @@ const SpacesTable = ({ selectedIds, setSelectedIds }) => {
     <AgTable
       rowData={rowData}
       columnDefs={columnDefs}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
+      gridRef={gridRef}
       onCellValueChanged={({ node, colDef, newValue }) => {
         // XXX: esto en terciario no necesariamente es así,
         // ya que se pueden definir las infiltraciones

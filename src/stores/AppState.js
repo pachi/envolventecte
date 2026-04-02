@@ -220,6 +220,7 @@ class AppState {
       case types.THERMOSTAT:
         return this.thermostats;
       default:
+        console.log(`getElements de tipo desconocido: ${elementType}`);
         return [];
     }
   }

@@ -44,7 +44,7 @@ import { OpaqueGeomFmt, OpaqueGeomIconCellRenderer } from "../tables/Formatters.
 //      polygon: [],
 //    }
 // }
-const ShadesTable = ({ selectedIds, setSelectedIds }) => {
+const ShadesTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
 
   const [columnDefs, setColumnDefs] = useState([
@@ -74,14 +74,12 @@ const ShadesTable = ({ selectedIds, setSelectedIds }) => {
     },
   ]);
 
-  const rowData = appstate.shades;
-
+  const rowData = [...appstate.shades];
   return (
     <AgTable
       rowData={rowData}
       columnDefs={columnDefs}
-      selectedIds={selectedIds}
-      setSelectedIds={setSelectedIds}
+      gridRef={gridRef}
     />
   );
 };
