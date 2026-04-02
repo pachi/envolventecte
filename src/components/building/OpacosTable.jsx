@@ -117,7 +117,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
         return { values: wallconsMapKeys() };
       },
       refData: wallconsMap,
-      valueFormatter: ({ value }) => wallconsMap()[value] || "-",
+      valueFormatter: ({ value }) => wallconsMap()[value] ?? "-",
       headerTooltip: "Construcción del opaco",
       headerClass: "text-light bg-secondary text-center",
     },
@@ -131,7 +131,7 @@ const OpacosTable = ({ selectedIds, setSelectedIds }) => {
         return { values: spaceMapKeys() };
       },
       refData: spaceMap,
-      valueFormatter: ({ value }) => spaceMap()[value] || "-",
+      valueFormatter: ({ value }) => spaceMap()[value] ?? "-",
       headerTooltip: "Espacio al que pertenece el elemento opaco",
       headerClass: "text-light bg-secondary text-center",
     },
