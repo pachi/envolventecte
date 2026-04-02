@@ -29,6 +29,7 @@ import React, {
   useEffect,
   useImperativeHandle,
   useCallback,
+  useRef,
 } from "react";
 import {
   Modal,
@@ -125,8 +126,7 @@ const LayersTable = ({ layers, setLayers }) => {
   const matsMap = useCallback(() => appstate.getIdNameMap(MATERIAL));
   // const materialOpts = useCallback(() => appstate.getElementOptions(MATERIAL));
 
-  // Filas de puntos 2D seleccionados
-  const [selected, setSelected] = useState([]);
+  const gridRef = useRef(null);
 
   const [columnDefs, setColumnDefs] = useState([
     { headerName: "ID", field: "id", hide: true },
@@ -162,14 +162,12 @@ const LayersTable = ({ layers, setLayers }) => {
         <AddRemovePolyButtonGroup
           layers={layers}
           setLayers={setLayers}
-          selectedIds={selected}
-          setSelectedIds={setSelected}
+          gridRef={gridRef}
         />
         <AgTable
           rowData={layers}
           columnDefs={columnDefs}
-          selectedIds={selected}
-          setSelectedIds={setSelected}
+          gridRef={gridRef}
         />
       </Col>
     </Row>
@@ -179,9 +177,24 @@ const LayersTable = ({ layers, setLayers }) => {
 const AddRemovePolyButtonGroup = ({
   layers,
   setLayers,
-  selectedIds,
-  setSelectedIds,
+  gridRef,
 }) => {
+  // Obtener selección actual cuando se necesita (no en render)
+  const getSelectedIds = () => {
+    if (!gridRef?.current?.api) return [];
+    return gridRef.current.api.getSelectedNodes().map((node) => node.data.id);
+  };
+
+  const setSelectedIds = (ids) => {
+    if (!gridRef?.current?.api) return;
+    gridRef.current.api.deselectAll();
+    if (ids.length > 0) {
+      gridRef.current.api.forEachNode((node) => {
+        if (ids.includes(node.data.id)) node.setSelected(true);
+      });
+    }
+  };
+
   return (
     <ButtonToolbar>
       <ButtonGroup
@@ -206,21 +219,27 @@ const AddRemovePolyButtonGroup = ({
           size="sm"
           title="Duplicar capas seleccionadas de la tabla"
           onClick={() => {
+            const selectedIds = getSelectedIds();
             const newids = [];
+            let updatedLayers = [...layers];
             selectedIds.forEach((id) => {
-              const selectedIndex = layers.findIndex((h) => h.id === id);
+              const selectedIndex = updatedLayers.findIndex((h) => h.id === id);
               if (selectedIndex !== -1) {
                 const idx = selectedIndex >= 0 ? selectedIndex : 0;
-                const selectedObj = layers[idx];
+                const selectedObj = updatedLayers[idx];
                 const dupObj = {
                   ...selectedObj,
                   id: uuidv4(),
                 };
                 newids.push(dupObj.id);
-                layers.splice(idx + 1, 0, dupObj);
-                setLayers(layers);
+                updatedLayers = [
+                  ...updatedLayers.slice(0, idx + 1),
+                  dupObj,
+                  ...updatedLayers.slice(idx + 1),
+                ];
               }
             });
+            setLayers(updatedLayers);
             // Reseleccionamos lo nuevo
             setSelectedIds(newids);
           }}
@@ -232,6 +251,7 @@ const AddRemovePolyButtonGroup = ({
           size="sm"
           title="Eliminar capas seleccionadas de la tabla"
           onClick={() => {
+            const selectedIds = getSelectedIds();
             if (selectedIds.length > 0) {
               const indices = layers.reduce((acc, cur, idx) => {
                 if (selectedIds.includes(cur.id)) {
@@ -261,6 +281,7 @@ const AddRemovePolyButtonGroup = ({
           title="Subir primer elemento seleccionado en la tabla"
           onClick={() => {
             if (layers.length < 2) return;
+            const selectedIds = getSelectedIds();
             const selection = selectedIds[0];
 
             const idx = layers.findIndex((h) => selection === h.id);
@@ -284,6 +305,7 @@ const AddRemovePolyButtonGroup = ({
           title="Bajar primer elemento seleccionado en la tabla"
           onClick={() => {
             if (layers.length < 2) return;
+            const selectedIds = getSelectedIds();
             const selection = selectedIds[0];
 
             const idx = layers.findIndex((h) => selection === h.id);
