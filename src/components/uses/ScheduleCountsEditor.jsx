@@ -110,23 +110,6 @@ export const ScheduleCountsEditor = memo(
 const ScheduleListTable = ({ schedule, setSchedule, idMap }) => {
   const gridRef = useRef(null);
 
-  // Funciones helper para obtener/establecer IDs seleccionados desde ag-grid
-  const getSelectedIds = () => {
-    if (!gridRef?.current?.api) return [];
-    return gridRef.current.api.getSelectedNodes().map(node => node.data.id);
-  };
-
-  const setSelectedIds = (ids) => {
-    if (!gridRef?.current?.api) return;
-    gridRef.current.api.deselectAll();
-    if (ids.length > 0) {
-      gridRef.current.api.forEachNode(node => {
-        if (ids.includes(node.data.id)) {
-          node.setSelected(true);
-        }
-      });
-    }
-  };
   const [columnDefs, setColumnDefs] = useState([
     { headerName: "ID", field: "id", hide: true },
     {
@@ -163,8 +146,7 @@ const ScheduleListTable = ({ schedule, setSchedule, idMap }) => {
           list={schedule}
           setList={setSchedule}
           newElement={newSchedule}
-          selectedIds={getSelectedIds()}
-          setSelectedIds={setSelectedIds}
+          gridRef={gridRef}
         />
         <AgTable
           rowData={schedule}

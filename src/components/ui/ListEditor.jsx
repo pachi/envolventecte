@@ -35,9 +35,30 @@ export const ListEditor = ({
   list,
   setList,
   newElement,
-  selectedIds,
-  setSelectedIds,
+  gridRef,
+  selectedIds: propsSelectedIds,
+  setSelectedIds: propsSetSelectedIds,
 }) => {
+  // Funciones helper para obtener/setear selección desde gridRef o props
+  const getSelectedIds = () => {
+    if (gridRef?.current?.api) {
+      return gridRef.current.api.getSelectedNodes().map((node) => node.data.id);
+    }
+    return propsSelectedIds || [];
+  };
+
+  const setSelectedIds = (ids) => {
+    if (gridRef?.current?.api) {
+      gridRef.current.api.deselectAll();
+      if (ids.length > 0) {
+        gridRef.current.api.forEachNode((node) => {
+          if (ids.includes(node.data.id)) node.setSelected(true);
+        });
+      }
+    } else if (propsSetSelectedIds) {
+      propsSetSelectedIds(ids);
+    }
+  };
   return (
     <ButtonToolbar>
       <ButtonGroup
@@ -62,21 +83,28 @@ export const ListEditor = ({
           size="sm"
           title="Duplicar filas seleccionadas de la tabla"
           onClick={() => {
+            const selectedIds = getSelectedIds();
+            if (selectedIds.length === 0) return;
+            let newList = [...list];
             const newids = [];
             selectedIds.forEach((id) => {
-              const selectedIndex = list.findIndex((h) => h.id === id);
+              const selectedIndex = newList.findIndex((h) => h.id === id);
               if (selectedIndex !== -1) {
                 const idx = selectedIndex >= 0 ? selectedIndex : 0;
-                const selectedObj = list[idx];
+                const selectedObj = newList[idx];
                 const dupObj = {
                   ...selectedObj,
                   id: uuidv4(),
                 };
                 newids.push(dupObj.id);
-                list.splice(idx + 1, 0, dupObj);
-                setList(list);
+                newList = [
+                  ...newList.slice(0, idx + 1),
+                  dupObj,
+                  ...newList.slice(idx + 1),
+                ];
               }
             });
+            setList(newList);
             // Reseleccionamos lo nuevo
             setSelectedIds(newids);
           }}
@@ -88,6 +116,7 @@ export const ListEditor = ({
           size="sm"
           title="Eliminar filas seleccionadas de la tabla"
           onClick={() => {
+            const selectedIds = getSelectedIds();
             if (selectedIds.length > 0) {
               const indices = list.reduce((acc, cur, idx) => {
                 if (selectedIds.includes(cur.id)) {
