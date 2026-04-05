@@ -8,6 +8,12 @@
 - Arreglar eliminación de horarios hijos en horarios padres:
     - Si se elimina un horario diario el horario mensual que lo use se queda en situación inconsistente
     - Indicar error
+- Caso de elementos que se quieren dejar en blanco
+    Falta añadir al mapa (eg. thermostatsMap) un elemento adicional "VACIAR" con valor null
+    ```javascript
+      cellEditorParams: (params) => ({ values: Object.keys(thermostatsMap()) }),
+      refData: thermostatsMap,
+    ```
 
 # Mejoras
 
