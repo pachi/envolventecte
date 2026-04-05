@@ -82,7 +82,7 @@ export const ProjectData = observer(() => {
                   value={meta.num_dwellings}
                   onChange={(e) =>
                     (meta.num_dwellings = Number(
-                      e.target.value.replace(",", ".")
+                      e.target.value.replace(",", "."),
                     ))
                   }
                   placeholder="1"
@@ -95,7 +95,7 @@ export const ProjectData = observer(() => {
         <h5>Ventilación e infiltraciones</h5>
         <Form>
           <Form.Check
-            checked={meta.n50_test_ach !== null}
+            checked={meta?.n50_test_ach !== undefined && meta?.n50_test_ach !== null}
             onChange={(e) => {
               if (e.target.checked === false) {
                 meta.n50_test_ach = null;
@@ -106,7 +106,7 @@ export const ProjectData = observer(() => {
             type="checkbox"
             label="Ensayo de puerta soplante disponible"
           />
-          {meta.n50_test_ach !== null ? (
+          {meta?.n50_test_ach !== undefined && meta?.n50_test_ach !== null ? (
             <Form.Group as={Row} controlId="formControlsn50">
               <Form.Label column md={4}>
                 Tasa de intercambio de aire a 50 Pa (n<sub>50</sub>) obtenida de
@@ -118,7 +118,7 @@ export const ProjectData = observer(() => {
                   defaultValue={meta.n50_test_ach}
                   onChange={(e) => {
                     meta.n50_test_ach = Number(
-                      e.target.value.replace(",", ".")
+                      e.target.value.replace(",", "."),
                     );
                   }}
                   placeholder="0.0"
@@ -138,7 +138,7 @@ export const ProjectData = observer(() => {
                   value={meta.global_ventilation_l_s || 0}
                   onChange={(e) =>
                     (meta.global_ventilation_l_s = Number(
-                      e.target.value.replace(",", ".")
+                      e.target.value.replace(",", "."),
                     ))
                   }
                   placeholder="0.0"
@@ -161,7 +161,7 @@ export const ProjectData = observer(() => {
                 value={meta.d_perim_insulation || 0.0}
                 onChange={(e) => {
                   meta.d_perim_insulation = Number(
-                    e.target.value.replace(",", ".")
+                    e.target.value.replace(",", "."),
                   );
                 }}
                 placeholder="0.0"
@@ -179,7 +179,7 @@ export const ProjectData = observer(() => {
                 value={meta.rn_perim_insulation || 0.0}
                 onChange={(e) => {
                   meta.rn_perim_insulation = Number(
-                    e.target.value.replace(",", ".")
+                    e.target.value.replace(",", "."),
                   );
                 }}
                 placeholder="0.0"

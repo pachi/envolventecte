@@ -1,6 +1,5 @@
 # Bugs
 
-- Aparece marcado ensayo de puerta soplante sin estar definido en el caso por defecto. Ver qué sucede
 - Actualizar dependencias
 - Al poner un nombre de elemento en la selección no se selecciona (¿siempre?).
 - Arreglar eliminación de horarios hijos en horarios padres:
