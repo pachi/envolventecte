@@ -37,6 +37,7 @@ export const AgTable = ({
     // Manejador por defecto de cambios en celdas
     rowData[e.node.rowIndex][e.column.colId] = e.newValue;
   },
+  getRowStyle,
 }) => {
   // DefaultColDef sets props common to all Columns
   const defaultColDef = useMemo(() => ({
@@ -79,6 +80,7 @@ export const AgTable = ({
         // https://www.ag-grid.com/javascript-data-grid/column-properties/#reference-events-onCellValueChanged
         onCellValueChanged={onCellValueChanged}
         theme="legacy"
+        {...(getRowStyle && { getRowStyle })}
       />
     </div>
   );

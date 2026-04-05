@@ -71,7 +71,7 @@ const HuecosTable = ({ gridRef }) => {
     appstate.walls.map((w) => [
       w.id,
       { azimuth: w.geometry.azimuth, tilt: w.geometry.tilt, name: w.name },
-    ])
+    ]),
   );
 
   const [columnDefs, setColumnDefs] = useState([
@@ -178,6 +178,9 @@ const HuecosTable = ({ gridRef }) => {
     <AgTable
       rowData={rowData}
       columnDefs={columnDefs}
+      getRowStyle={(params) =>
+        winPropsMap[params.data.id]?.is_tenv ? null : { opacity: 0.5 }
+      }
       gridRef={gridRef}
       onCellValueChanged={({ node, colDef, newValue }) => {
         appstate.windows[node.rowIndex][colDef.field] = newValue;

@@ -151,7 +151,7 @@ const OpacosTable = ({ gridRef }) => {
       },
       valueParser: (p) =>
         [...spaceMap().entries(), ["", null]].find(
-          ([key, val]) => val == p.newValue
+          ([key, val]) => val == p.newValue,
         )[0],
       valueFormatter: ({ value }) => spaceMap()[value] ?? "",
       headerTooltip:
@@ -210,6 +210,9 @@ const OpacosTable = ({ gridRef }) => {
       <AgTable
         rowData={rowData}
         columnDefs={columnDefs}
+        getRowStyle={(params) =>
+          wallPropsMap[params.data.id]?.is_tenv ? null : { opacity: 0.5 }
+        }
         gridRef={gridRef}
         onCellValueChanged={({ node, colDef, newValue }) => {
           if (colDef.field == "bounds" && newValue != "INTERIOR") {

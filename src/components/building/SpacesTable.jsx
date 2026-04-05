@@ -243,6 +243,9 @@ const SpacesTable = ({ gridRef }) => {
       rowData={rowData}
       columnDefs={columnDefs}
       gridRef={gridRef}
+      getRowStyle={(params) =>
+        params.data.inside_tenv ? null : { opacity: 0.5 }
+      }
       onCellValueChanged={({ node, colDef, newValue }) => {
         // XXX: esto en terciario no necesariamente es así,
         // ya que se pueden definir las infiltraciones
