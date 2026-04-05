@@ -1,6 +1,10 @@
 # Bugs
 
-- Actualizar dependencias
+- Fallos vistos de la migración:
+    - En espacios no se rellena nombre de perfil de cargas y de consignas
+    - No se marcan en gris los elementos que no pertenecen a la ET (ver opacos)
+    - En tablas, en general, hacer un poco más altas las tablas (en versión actual se queda justo debajo del pie de página semitransparente)
+    - En informe de mediciones y en tablas de ayudas, poner encabezados y pies de totales en gris más oscuro
 - Al poner un nombre de elemento en la selección no se selecciona (¿siempre?).
 - Arreglar eliminación de horarios hijos en horarios padres:
     - Si se elimina un horario diario el horario mensual que lo use se queda en situación inconsistente
@@ -39,6 +43,7 @@
 - Informe HE1
     - Gráfica de radiación y fshwi por orientaciones en clima
 - ThreeView
+    - Clipping plane: https://github.com/agviegas/IFC.js/commit/9be223de323e6acd936d9493eda5753a4ffe8183
     - Tomar ideas de visualización de visorgbxml:
         - https://github.com/ladybug-tools/ladybug-web/
         - https://www.ladybug.tools/spider-gbxml-tools/spider-gbxml-viewer/v-0-17-08/app-viewer/spider-gbxml-viewer.html
