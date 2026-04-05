@@ -120,7 +120,7 @@ const ScheduleListTable = ({ schedule, setSchedule, idMap }) => {
       cellClass: "text-center",
       headerTooltip: "Horario semanal",
       headerClass: "text-light bg-secondary text-center",
-      valueFormatter: ({ value }) => idMap[value],
+      valueFormatter: ({ value }) => idMap[value] ?? "-",
       cellEditor: "agSelectCellEditor",
       cellEditorParams: { values: Object.keys(idMap) },
       refData: idMap,

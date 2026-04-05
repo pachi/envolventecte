@@ -137,7 +137,7 @@ const LayersTable = ({ layers, setLayers }) => {
       cellEditor: "agSelectCellEditor",
       cellEditorParams: (params) => ({ values: Object.keys(matsMap()) }),
       refData: matsMap,
-      valueFormatter: ({ value }) => matsMap()[value],
+      valueFormatter: ({ value }) => matsMap()[value] ?? "-",
       cellClass: "text-left",
       headerTooltip: "Material de opaco",
       headerClass: "text-light bg-secondary text-center",
