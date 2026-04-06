@@ -13,6 +13,7 @@
       cellEditorParams: (params) => ({ values: Object.keys(thermostatsMap()) }),
       refData: thermostatsMap,
     ```
+- Al sacar espacio (acondicionado) de la envolvente se añade n_v (nivel de ventilación) y volver a añadirlo se mantiene este n_v, que debería desaparecer.
 
 # Mejoras
 
