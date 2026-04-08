@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useCallback, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { observer } from "mobx-react";
 
@@ -54,7 +54,7 @@ import { ScheduleCountsEditor } from "./ScheduleCountsEditor";
 //  }
 const SchedulesWeekTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
-  const daySchedulesMap = useCallback(() => appstate.getIdNameMap(SCHEDULE_DAY));
+  const daySchedulesMap = () => appstate.getIdNameMap(SCHEDULE_DAY);
 
   // Lista de IDs con errores
   const errors = appstate.warnings;

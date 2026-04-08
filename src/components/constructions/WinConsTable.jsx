@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useCallback, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { observer } from "mobx-react";
 
@@ -39,8 +39,8 @@ import { FRAME, GLASS } from "../../stores/types";
 const WinConsTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
   const winconsPropsMap = appstate.energy_indicators.props.wincons;
-  const glassMap = useCallback(() => appstate.getIdNameMap(GLASS));
-  const frameMap = useCallback(() => appstate.getIdNameMap(FRAME));
+  const glassMap = () => appstate.getIdNameMap(GLASS);
+  const frameMap = () => appstate.getIdNameMap(FRAME);
 
   const [columnDefs, setColumnDefs] = useState([
     { field: "id", hide: true },

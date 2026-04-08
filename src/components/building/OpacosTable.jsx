@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useCallback, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 // import BootstrapTable from "react-bootstrap-table-next";
 // import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 
@@ -59,11 +59,11 @@ import { SPACE, WALLCONS, BOUNDARY_TYPES_MAP } from "../../stores/types";
 const OpacosTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
   const wallPropsMap = appstate.energy_indicators.props.walls;
-  const wallconsMap = useCallback(() => appstate.getIdNameMap(WALLCONS));
-  const wallconsMapKeys = useCallback(() => Object.keys(wallconsMap()));
+  const wallconsMap = () => appstate.getIdNameMap(WALLCONS);
+  const wallconsMapKeys = () => Object.keys(wallconsMap());
 
-  const spaceMap = useCallback(() => appstate.getIdNameMap(SPACE));
-  const spaceMapKeys = useCallback(() => Object.keys(spaceMap()));
+  const spaceMap = () => appstate.getIdNameMap(SPACE);
+  const spaceMapKeys = () => Object.keys(spaceMap());
 
   // Lista de IDs con errores
   const errors = appstate.warnings;

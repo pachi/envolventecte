@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useState, useContext, useCallback } from "react";
+import React, { useState, useContext } from "react";
 
 import { observer } from "mobx-react";
 
@@ -63,8 +63,8 @@ const SpacesTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
 
   const spacePropsMap = appstate.energy_indicators.props.spaces;
-  const loadsMap = useCallback(() => appstate.getIdNameMap(LOAD));
-  const thermostatsMap = useCallback(() => appstate.getIdNameMap(THERMOSTAT));
+  const loadsMap = () => appstate.getIdNameMap(LOAD);
+  const thermostatsMap = () => appstate.getIdNameMap(THERMOSTAT);
 
   const [columnDefs, setColumnDefs] = useState([
     { headerName: "ID", field: "id", hide: true },

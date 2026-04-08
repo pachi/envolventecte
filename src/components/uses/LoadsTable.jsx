@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useCallback, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { observer } from "mobx-react";
 
@@ -66,7 +66,7 @@ import { SCHEDULE_YEAR } from "../../stores/types";
 //  },
 const LoadsTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
-  const schedulesMap = useCallback(() => appstate.getIdNameMap(SCHEDULE_YEAR));
+  const schedulesMap = () => appstate.getIdNameMap(SCHEDULE_YEAR);
   const loadsPropsMap = appstate.energy_indicators.props.loads;
 
   // Lista de IDs con errores

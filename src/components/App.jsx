@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { HashRouter, Navigate, Route, Routes } from "react-router";
 import { observer } from "mobx-react";
 
@@ -57,11 +57,11 @@ const App = () => {
 
   // Manejador de teclado para mostrar pestañas con JSON
   // https://stackoverflow.com/questions/55565444/how-to-register-event-with-useeffect-hooks
-  const handleUserKeyPress = useCallback((e) => {
+  const handleUserKeyPress = (e) => {
     if (e.ctrlKey && e.altKey && e.key === "h") {
       guiState.toggleShowJsonTab();
     }
-  }, []);
+  };
   useEffect(() => {
     window.addEventListener("keydown", handleUserKeyPress);
     return () => {

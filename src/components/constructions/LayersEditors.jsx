@@ -28,7 +28,6 @@ import React, {
   useContext,
   useEffect,
   useImperativeHandle,
-  useCallback,
   useRef,
 } from "react";
 import {
@@ -123,8 +122,8 @@ export const LayersEditor = memo(
 // Tabla de puentes térmicos del edificio
 const LayersTable = ({ layers, setLayers }) => {
   const appstate = useContext(AppState);
-  const matsMap = useCallback(() => appstate.getIdNameMap(MATERIAL));
-  // const materialOpts = useCallback(() => appstate.getElementOptions(MATERIAL));
+  const matsMap = () => appstate.getIdNameMap(MATERIAL);
+  // const materialOpts = () => appstate.getElementOptions(MATERIAL);
 
   const gridRef = useRef(null);
 

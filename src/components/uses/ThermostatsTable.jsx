@@ -21,14 +21,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useCallback, useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 
 import { AgTable } from "../tables/AgTable.jsx";
-import { optionalNumberFmt } from "../tables/Formatters.jsx";
 
 import { SCHEDULE_YEAR } from "../../stores/types";
 
@@ -41,8 +40,8 @@ import { SCHEDULE_YEAR } from "../../stores/types";
 //  }
 const ThermostatsTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
-  const schedulesMap = useCallback(() => appstate.getIdNameMap(SCHEDULE_YEAR));
-  const schedulesOpts = useCallback(() => appstate.getElementOptions(SCHEDULE_YEAR, true));
+  const schedulesMap = () => appstate.getIdNameMap(SCHEDULE_YEAR);
+  const schedulesOpts = () => appstate.getElementOptions(SCHEDULE_YEAR, true);
 
   // Lista de IDs con errores
   const errors = appstate.warnings;

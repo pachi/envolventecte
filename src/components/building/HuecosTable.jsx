@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useContext, useCallback, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { observer } from "mobx-react";
 
@@ -55,8 +55,8 @@ import { WINCONS, WALL } from "../../stores/types";
 const HuecosTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
   const winPropsMap = appstate.energy_indicators.props.windows;
-  const winconsMap = useCallback(() => appstate.getIdNameMap(WINCONS));
-  const wallsMap = useCallback(() => appstate.getIdNameMap(WALL));
+  const winconsMap = () => appstate.getIdNameMap(WINCONS);
+  const wallsMap = () => appstate.getIdNameMap(WALL);
 
   // Lista de IDs con errores
   const errors = appstate.warnings;
@@ -85,7 +85,7 @@ const HuecosTable = ({ gridRef }) => {
       headerTooltip: "Nombre que identifica el hueco",
       headerClass: "text-light bg-secondary",
       tooltipValueGetter: ({ data }) => {
-        const u_value_window = winPropsMap[data.id].u_value;
+        const u_value_window = winPropsMap[data.id]?.u_value;
         const u_value = !isNaN(u_value_window)
           ? Number(u_value_window).toFixed(2)
           : "-";

@@ -21,7 +21,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { ModuleRegistry, AllCommunityModule } from "ag-grid-community";
 
@@ -61,7 +61,7 @@ export const AgTable = ({
     };
   }, []);
 
-  const getRowId = useCallback((params) => String(params.data.id), []);
+  const getRowId = (params) => String(params.data.id);
 
   return (
     <div
