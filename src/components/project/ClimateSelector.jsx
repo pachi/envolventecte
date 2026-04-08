@@ -39,7 +39,7 @@ const ClimateSelector = observer(({ ...props }) => {
           id="climateselector"
           value={appstate?.meta?.climate || ""}
           onChange={(e) => {
-            appstate.meta.climate = e.target.value;
+            appstate.updateMeta('climate', e.target.value);
           }}
           placeholder="Zona climática"
         >

@@ -138,7 +138,7 @@ const NavBar = observer(({ projectName = "Envolvente CTE" }) => {
                     size="sm"
                     value={appstate?.meta?.climate || ""}
                     onChange={(e) => {
-                      appstate.meta.climate = e.target.value;
+                      appstate.updateMeta('climate', e.target.value);
                     }}
                     placeholder="Zona climática"
                   >

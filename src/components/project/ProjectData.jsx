@@ -45,7 +45,7 @@ export const ProjectData = observer(() => {
             <Col md={8}>
               <Form.Control
                 value={meta.name || "Edificio"}
-                onChange={(e) => (meta.name = e.target.value)}
+                onChange={(e) => appstate.updateMeta('name', e.target.value)}
                 placeholder="Nombre del proyecto"
               />
             </Col>
@@ -61,13 +61,13 @@ export const ProjectData = observer(() => {
         <Form>
           <Form.Check
             checked={meta.is_new_building}
-            onChange={() => (meta.is_new_building = !meta.is_new_building)}
+            onChange={(e) => appstate.updateMeta('is_new_building', e.target.checked)}
             type="checkbox"
             label="Nueva construcción"
           />
           <Form.Check
             checked={meta.is_dwelling}
-            onChange={() => (meta.is_dwelling = !meta.is_dwelling)}
+            onChange={(e) => appstate.updateMeta('is_dwelling', e.target.checked)}
             type="checkbox"
             label="Uso residencial privado (vivienda)"
           />
@@ -81,7 +81,7 @@ export const ProjectData = observer(() => {
                   type="number"
                   value={meta.num_dwellings}
                   onChange={(e) =>
-                    (meta.num_dwellings = Number(
+                    appstate.updateMeta('num_dwellings', Number(
                       e.target.value.replace(",", "."),
                     ))
                   }
@@ -98,9 +98,9 @@ export const ProjectData = observer(() => {
             checked={meta?.n50_test_ach !== undefined && meta?.n50_test_ach !== null}
             onChange={(e) => {
               if (e.target.checked === false) {
-                meta.n50_test_ach = null;
+                appstate.updateMeta('n50_test_ach', null);
               } else {
-                meta.n50_test_ach = 0.0;
+                appstate.updateMeta('n50_test_ach', 0.0);
               }
             }}
             type="checkbox"
@@ -117,9 +117,9 @@ export const ProjectData = observer(() => {
                   type="number"
                   defaultValue={meta.n50_test_ach}
                   onChange={(e) => {
-                    meta.n50_test_ach = Number(
+                    appstate.updateMeta('n50_test_ach', Number(
                       e.target.value.replace(",", "."),
-                    );
+                    ));
                   }}
                   placeholder="0.0"
                   step="0.01"
@@ -137,7 +137,7 @@ export const ProjectData = observer(() => {
                   type="number"
                   value={meta.global_ventilation_l_s || 0}
                   onChange={(e) =>
-                    (meta.global_ventilation_l_s = Number(
+                    appstate.updateMeta('global_ventilation_l_s', Number(
                       e.target.value.replace(",", "."),
                     ))
                   }
@@ -160,9 +160,9 @@ export const ProjectData = observer(() => {
                 type="number"
                 value={meta.d_perim_insulation || 0.0}
                 onChange={(e) => {
-                  meta.d_perim_insulation = Number(
+                  appstate.updateMeta('d_perim_insulation', Number(
                     e.target.value.replace(",", "."),
-                  );
+                  ));
                 }}
                 placeholder="0.0"
                 step="0.01"
@@ -178,9 +178,9 @@ export const ProjectData = observer(() => {
                 type="number"
                 value={meta.rn_perim_insulation || 0.0}
                 onChange={(e) => {
-                  meta.rn_perim_insulation = Number(
+                  appstate.updateMeta('rn_perim_insulation', Number(
                     e.target.value.replace(",", "."),
-                  );
+                  ));
                 }}
                 placeholder="0.0"
                 step="0.01"

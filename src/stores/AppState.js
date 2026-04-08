@@ -149,6 +149,7 @@ class AppState {
       addElement: action,
       duplicateElements: action,
       deleteElements: action,
+      updateMeta: action,
       handleUpload: action,
       loadModel: action,
       clearModel: action,
@@ -291,6 +292,11 @@ class AppState {
         return null;
       }
     }
+  }
+
+  // Actualiza campo de metadatos con el valor dado
+  updateMeta(field, value) {
+    this.meta[field] = value;
   }
 
   // Mueve una posición hacia arriba el primer elemento seleccionado
