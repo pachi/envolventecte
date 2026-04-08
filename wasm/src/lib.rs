@@ -1,10 +1,10 @@
 use std::{collections::BTreeMap, convert::TryFrom};
 
 use serde::Serialize;
-use serde_wasm_bindgen::{to_value, from_value};
+use serde_wasm_bindgen::{from_value};
 use wasm_bindgen::prelude::*;
 
-use bemodel::{self, climatedata, Model, Warning, VERSION};
+use bemodel::{self, Model, VERSION, Warning, climatedata};
 use hulc::{ctehexml, kyg};
 
 #[wasm_bindgen]
@@ -59,13 +59,23 @@ struct ModelWithWarnings {
     pub warnings: Vec<Warning>,
 }
 
+fn to_value<T>(value: &T) -> Result<JsValue, JsValue>
+where
+    T: Serialize,
+{
+    let ser = serde_wasm_bindgen::Serializer::json_compatible();
+    let res = value.serialize(&ser).map_err(|e| e.to_string())?;
+    Ok(res)
+}
+
 // Funciones exportadas
 
 /// Carga datos de radiación acumulada mensual
 #[wasm_bindgen]
 pub fn get_monthly_radiation_data() -> Result<JsValue, JsValue> {
     let data = climatedata::MONTHLYRADDATA.lock().unwrap().clone();
-    let res = to_value(&data).map_err(|e| e.to_string())?;
+    let ser = serde_wasm_bindgen::Serializer::json_compatible();
+    let res = data.serialize(&ser).map_err(|e| e.to_string())?;
     Ok(res)
 }
 
@@ -73,9 +83,7 @@ pub fn get_monthly_radiation_data() -> Result<JsValue, JsValue> {
 #[wasm_bindgen]
 pub fn energy_indicators(model_js: JsValue) -> Result<JsValue, JsValue> {
     let model: Model = from_value(model_js).map_err(|e| e.to_string())?;
-    let indicators = model.energy_indicators();
-    let js_indicators = to_value(&indicators).map_err(|e| e.to_string())?;
-    Ok(js_indicators)
+    to_value(&model.energy_indicators())
 }
 
 // /// Actualiza factor de reducción por obstáculos remotos
@@ -83,8 +91,7 @@ pub fn energy_indicators(model_js: JsValue) -> Result<JsValue, JsValue> {
 // pub fn update_fshobst(model_js: &JsValue) -> Result<JsValue, JsValue> {
 //     let mut model: Model = model_js.into_serde().map_err(|e| e.to_string())?;
 //     model.update_fshobst();
-//     let res = to_value(&model).map_err(|e| e.to_string())?;
-//     Ok(res)
+//     to_value(&model)
 // }
 
 /// Carga datos desde cadena de texto JSON
@@ -96,9 +103,7 @@ pub fn load_data_from_json(data: &str, purge_unused: bool) -> Result<JsValue, Js
     } else {
         vec![]
     };
-    let res =
-        to_value(&ModelWithWarnings { model, warnings }).map_err(|e| e.to_string())?;
-    Ok(res)
+    to_value(&ModelWithWarnings { model, warnings })
 }
 
 /// Carga datos desde cadena de texto .ctehexml
@@ -111,9 +116,7 @@ pub fn load_data_from_ctehexml(data: &str, purge_unused: bool) -> Result<JsValue
     } else {
         vec![]
     };
-    let res =
-        to_value(&ModelWithWarnings { model, warnings }).map_err(|e| e.to_string())?;
-    Ok(res)
+    to_value(&ModelWithWarnings { model, warnings })
 }
 
 /// Carga datos desde cadena de texto KyGananciasSolares.txt
@@ -125,8 +128,7 @@ pub fn load_fshobst_data_from_kyg(data: &str) -> Result<JsValue, JsValue> {
         .iter()
         .map(|(name, win)| (name.clone(), win.fshobst))
         .collect();
-    let res = to_value(&fshobst).map_err(|e| e.to_string())?;
-    Ok(res)
+    to_value(&fshobst)
 }
 
 /// Limpia modelo de elementos no usados
@@ -134,9 +136,7 @@ pub fn load_fshobst_data_from_kyg(data: &str) -> Result<JsValue, JsValue> {
 pub fn purge_unused(model_js: JsValue) -> Result<JsValue, JsValue> {
     let mut model: Model = from_value(model_js).map_err(|e| e.to_string())?;
     let warnings = bemodel::purge_unused(&mut model);
-    let res =
-        to_value(&ModelWithWarnings { model, warnings }).map_err(|e| e.to_string())?;
-    Ok(res)
+    to_value(&ModelWithWarnings { model, warnings })
 }
 
 /// Espacio por defecto
