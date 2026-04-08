@@ -1,6 +1,6 @@
 # Bugs
 
-- Ver si el global_ventilation_l_s y global_ventilation_rate de indicadores están relacionados y si es así, por qué este es null
+- global_ventilation_rate (global_ventilation_l_s/vol_env_inh_net) está mal en cteenergymodel, y por eso es nulo (vol_env_inh_net es cero siempre)
 - Fallos vistos de la migración:
     - En tablas, en general, hacer un poco más altas las tablas (en versión actual se queda justo debajo del pie de página semitransparente)
     - En informe de mediciones y en tablas de ayudas, poner encabezados y pies de totales en gris más oscuro
