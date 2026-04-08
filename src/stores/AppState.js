@@ -156,6 +156,25 @@ class AppState {
       asJSON: computed,
       loadData: action,
     });
+
+    // Registro de tipos de elementos
+    this.REGISTRY = {
+      [types.SPACE]: { getContainer: () => this.spaces, factory: newSpace },
+      [types.WALL]: { getContainer: () => this.walls, factory: newWall },
+      [types.WINDOW]: { getContainer: () => this.windows, factory: newWindow },
+      [types.THERMAL_BRIDGE]: { getContainer: () => this.thermal_bridges, factory: newTb },
+      [types.SHADE]: { getContainer: () => this.shades, factory: newShade },
+      [types.WALLCONS]: { getContainer: () => this.cons.wallcons, factory: newWallcons },
+      [types.WINCONS]: { getContainer: () => this.cons.wincons, factory: newWincons },
+      [types.MATERIAL]: { getContainer: () => this.cons.materials, factory: newMaterial },
+      [types.GLASS]: { getContainer: () => this.cons.glasses, factory: newGlass },
+      [types.FRAME]: { getContainer: () => this.cons.frames, factory: newFrame },
+      [types.SCHEDULE_YEAR]: { getContainer: () => this.schedules.year, factory: newScheduleYear },
+      [types.SCHEDULE_WEEK]: { getContainer: () => this.schedules.week, factory: newScheduleWeek },
+      [types.SCHEDULE_DAY]: { getContainer: () => this.schedules.day, factory: newScheduleDay },
+      [types.LOAD]: { getContainer: () => this.loads, factory: newLoad },
+      [types.THERMOSTAT]: { getContainer: () => this.thermostats, factory: newThermostat },
+    };
   }
 
   // Propiedades de datos climáticos ----------------
@@ -187,42 +206,10 @@ class AppState {
     return this.errors.concat(this.energy_indicators.warnings);
   }
 
+  // Lista de datos del tipo indicado (o lista vacía si no se localiza el tipo)
   getElements(elementType) {
-    switch (elementType) {
-      case types.SPACE:
-        return this.spaces;
-      case types.WALL:
-        return this.walls;
-      case types.WINDOW:
-        return this.windows;
-      case types.THERMAL_BRIDGE:
-        return this.thermal_bridges;
-      case types.SHADE:
-        return this.shades;
-      case types.WALLCONS:
-        return this.cons.wallcons;
-      case types.WINCONS:
-        return this.cons.wincons;
-      case types.MATERIAL:
-        return this.cons.materials;
-      case types.GLASS:
-        return this.cons.glasses;
-      case types.FRAME:
-        return this.cons.frames;
-      case types.SCHEDULE_YEAR:
-        return this.schedules.year;
-      case types.SCHEDULE_WEEK:
-        return this.schedules.week;
-      case types.SCHEDULE_DAY:
-        return this.schedules.day;
-      case types.LOAD:
-        return this.loads;
-      case types.THERMOSTAT:
-        return this.thermostats;
-      default:
-        console.log(`getElements de tipo desconocido: ${elementType}`);
-        return [];
-    }
+    const reg = this.REGISTRY[elementType];
+    return reg ? reg.getContainer() : [];
   }
 
   getIdNameMap(elementType) {
@@ -249,72 +236,14 @@ class AppState {
 
   // Añade un nuevo elemento del tipo indicado y devuelve su UUID
   addElement(elementType) {
-    let el;
-    switch (elementType) {
-      case types.SPACE:
-        el = newSpace();
-        this.spaces.push(el);
-        break;
-      case types.WALL:
-        el = newWall();
-        this.walls.push(el);
-        break;
-      case types.WINDOW:
-        el = newWindow();
-        this.windows.push(el);
-        break;
-      case types.THERMAL_BRIDGE:
-        el = newTb();
-        this.thermal_bridges.push(el);
-        break;
-      case types.SHADE:
-        el = newShade();
-        this.shades.push(el);
-        break;
-      case types.WALLCONS:
-        el = newWallcons();
-        this.cons.wallcons.push(el);
-        break;
-      case types.WINCONS:
-        el = newWincons();
-        this.cons.wincons.push(el);
-        break;
-      case types.MATERIAL:
-        el = newMaterial();
-        this.cons.materials.push(el);
-        break;
-      case types.GLASS:
-        el = newGlass();
-        this.cons.glasses.push(el);
-        break;
-      case types.FRAME:
-        el = newFrame();
-        this.cons.frames.push(el);
-        break;
-      case types.LOAD:
-        el = newLoad();
-        this.loads.push(el);
-        break;
-      case types.THERMOSTAT:
-        el = newThermostat();
-        this.thermostats.push(el);
-        break;
-      case types.SCHEDULE_DAY:
-        el = newScheduleDay();
-        this.schedules.day.push(el);
-        break;
-      case types.SCHEDULE_WEEK:
-        el = newScheduleWeek();
-        this.schedules.week.push(el);
-        break;
-      case types.SCHEDULE_YEAR:
-        el = newScheduleYear();
-        this.schedules.year.push(el);
-        break;
-      default:
-        break;
-    }
-    return el.id || EMPTY_ID;
+    const reg = this.REGISTRY[elementType];
+    if (!reg) {
+      return EMPTY_ID
+    } else {
+      const el = reg.factory();
+      reg.getContainer().push(el);
+      return el.id
+    };
   }
 
   // Duplica elementos seleccionados y devuelve UUIDs de los elementos generados
@@ -384,7 +313,7 @@ class AppState {
     ]);
   }
 
-  // Mueve una posición hacia arriba el primer elemento seleccionado
+  // Mueve una posición hacia abajo el primer elemento seleccionado
   moveDownFirstSelectedElement(elementType, selection) {
     const container = this.getElements(elementType);
 
