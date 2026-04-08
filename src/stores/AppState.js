@@ -80,7 +80,8 @@ import * as types from "./types";
 // no obligamos a usar acciones para cambiar el estado. El default es "always".
 // Ver https://mobx.js.org/configuration.html#enforceactions
 configure({
-  enforceActions: "never",
+  // enforceActions: "never",
+  enforceActions: "observed",
 });
 
 // Valores de radiación
@@ -147,6 +148,7 @@ class AppState {
 
       // Acciones (modifican el estado)
       addElement: action,
+      updateElement: action,
       duplicateElements: action,
       deleteElements: action,
       updateMeta: action,
@@ -241,10 +243,17 @@ class AppState {
     if (!reg) {
       return EMPTY_ID
     } else {
-      const el = reg.factory();
+      const el = observable(reg.factory());
       reg.getContainer().push(el);
       return el.id
     };
+  }
+
+  // Actualiza campo del elemento con tipo e id dados con el valor indicado
+  updateElement(elementType, id, field, value) {
+    const container = this.getElements(elementType);
+    const element = container.find(e => e.id === id);
+    if (element) element[field] = value;
   }
 
   // Duplica elementos seleccionados y devuelve UUIDs de los elementos generados
@@ -258,11 +267,11 @@ class AppState {
         const idx = selectedIndex >= 0 ? selectedIndex : 0;
         const selectedObj = container[idx];
         const newId = uuidv4();
-        const dupObj = {
+        const dupObj = observable({
           ...selectedObj,
           name: selectedObj.name + " (dup.)",
           id: newId,
-        };
+        });
         newIds.push(newId);
         container.splice(idx + 1, 0, dupObj);
       }
@@ -474,6 +483,23 @@ class AppState {
       ...defaultsSysSetting,
       ...e,
     }));
+
+    // Hacer observables los objetos para que las mutaciones notifiquen (¿es necesario?)
+    this.thermal_bridges = this.thermal_bridges.map(tb => observable(tb));
+    this.walls = this.walls.map(w => observable(w));
+    this.windows = this.windows.map(w => observable(w));
+    this.spaces = this.spaces.map(s => observable(s));
+    this.shades = this.shades.map(w => observable(w));
+    this.cons.wallcons = this.cons.wallcons.map(w => observable(w));
+    this.cons.wincons = this.cons.wincons.map(w => observable(w));
+    this.cons.materials = this.cons.materials.map(w => observable(w));
+    this.cons.glasses = this.cons.glasses.map(w => observable(w));
+    this.cons.frames = this.cons.frames.map(w => observable(w));
+    this.loads = this.loads.map(e => observable(e));
+    this.thermostats = this.thermostats.map(e => observable(e));
+    this.schedules.year = this.schedules.year.map(s => observable(s));
+    this.schedules.week = this.schedules.week.map(s => observable(s));
+    this.schedules.day = this.schedules.day.map(s => observable(s));
   }
 
   // Importación y exportación de datos -------------

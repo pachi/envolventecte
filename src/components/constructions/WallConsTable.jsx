@@ -38,12 +38,12 @@ import { getHeader } from "../tables/Helpers.jsx";
 import { validateNonNegNumber } from "../tables/Validators.js";
 
 import { LayersEditor } from "./LayersEditors";
+import { WALLCONS } from "../../stores/types";
 
 // Tabla de opacos del edificio
 // TODO: mostrar ejemplo de objetos
 const WallConsTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
-  const wallconsPropsMap = appstate.energy_indicators.props.wallcons;
   const walls_Co100 = appstate.energy_indicators.n50_data.walls_c.toFixed(2);
   const mats = appstate.cons.materials;
 
@@ -130,7 +130,7 @@ const WallConsTable = ({ gridRef }) => {
   ]);
 
   const rowData = appstate.cons.wallcons.map((e) => {
-    const d = wallconsPropsMap[e.id];
+    const d = appstate.energy_indicators.props.wallcons[e.id];
     return {
       ...e,
       // Columnas calculadas
@@ -146,7 +146,8 @@ const WallConsTable = ({ gridRef }) => {
       columnDefs={columnDefs}
       gridRef={gridRef}
       onCellValueChanged={({ node, colDef, newValue }) => {
-        appstate.cons.wallcons[node.rowIndex][colDef.field] = newValue;
+        const id = node.data.id;
+        appstate.updateElement(WALLCONS, id, colDef.field, newValue);
       }}
     />
   );

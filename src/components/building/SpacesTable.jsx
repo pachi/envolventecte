@@ -41,7 +41,7 @@ import {
   validateNumber,
 } from "../tables/Validators.js";
 
-import { LOAD, THERMOSTAT, SPACE_TYPES_MAP } from "../../stores/types";
+import { LOAD, THERMOSTAT, SPACE_TYPES_MAP, SPACE } from "../../stores/types";
 
 // TODO: completa validaciones y valores que pueden ser null
 
@@ -62,7 +62,6 @@ import { LOAD, THERMOSTAT, SPACE_TYPES_MAP } from "../../stores/types";
 const SpacesTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
 
-  const spacePropsMap = appstate.energy_indicators.props.spaces;
   const loadsMap = () => appstate.getIdNameMap(LOAD);
   const thermostatsMap = () => appstate.getIdNameMap(THERMOSTAT);
 
@@ -228,7 +227,7 @@ const SpacesTable = ({ gridRef }) => {
 
   // Genera filas con columnas adicionales calculadas
   const rowData = appstate.spaces.map((e) => {
-    const d = spacePropsMap[e.id];
+    const d = appstate.energy_indicators.props.spaces[e.id];
     return {
       ...e,
       // Columnas calculadas
@@ -247,15 +246,16 @@ const SpacesTable = ({ gridRef }) => {
         params.data.inside_tenv ? null : { opacity: 0.5 }
       }
       onCellValueChanged={({ node, colDef, newValue }) => {
+        const id = node.data.id;
         // XXX: esto en terciario no necesariamente es así,
         // ya que se pueden definir las infiltraciones
         // cuando no funcionan los equipos
         if (colDef.field == "kind" && newValue != "UNINHABITED") {
-          appstate.spaces[node.rowIndex]["n_v"] = null;
+          appstate.updateElement(SPACE, id, "n_v", null);
         } else {
-          appstate.spaces[node.rowIndex]["n_v"] = 1.0;
+          appstate.updateElement(SPACE, id, "n_v", 1.0);
         }
-        appstate.spaces[node.rowIndex][colDef.field] = newValue;
+        appstate.updateElement(SPACE, id, colDef.field, newValue);
       }}
     />
   );

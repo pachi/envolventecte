@@ -37,7 +37,7 @@ import {
 import { getHeader } from "../tables/Helpers.jsx";
 
 import { GeometryWindowEditor } from "./GeometryEditors";
-import { WINCONS, WALL } from "../../stores/types";
+import { WINCONS, WALL, WINDOW } from "../../stores/types";
 
 // Tabla de huecos del edificio
 // {
@@ -54,7 +54,6 @@ import { WINCONS, WALL } from "../../stores/types";
 // }
 const HuecosTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
-  const winPropsMap = appstate.energy_indicators.props.windows;
   const winconsMap = () => appstate.getIdNameMap(WINCONS);
   const wallsMap = () => appstate.getIdNameMap(WALL);
 
@@ -85,7 +84,7 @@ const HuecosTable = ({ gridRef }) => {
       headerTooltip: "Nombre que identifica el hueco",
       headerClass: "text-light bg-secondary",
       tooltipValueGetter: ({ data }) => {
-        const u_value_window = winPropsMap[data.id]?.u_value;
+        const u_value_window = data?.u_value;
         const u_value = !isNaN(u_value_window)
           ? Number(u_value_window).toFixed(2)
           : "-";
@@ -164,10 +163,11 @@ const HuecosTable = ({ gridRef }) => {
   ]);
 
   const rowData = appstate.windows.map((e) => {
-    const d = winPropsMap[e.id];
+    const d = appstate.energy_indicators.props.windows[e.id];
     return {
       ...e,
       // Columnas calculadas
+      is_tenv: d?.is_tenv,
       area: d?.area * d?.multiplier,
       f_shobst: d?.f_shobst_override || d?.f_shobst,
       u_value: d?.u_value,
@@ -179,11 +179,12 @@ const HuecosTable = ({ gridRef }) => {
       rowData={rowData}
       columnDefs={columnDefs}
       getRowStyle={(params) =>
-        winPropsMap[params.data.id]?.is_tenv ? null : { opacity: 0.5 }
+        params.data?.is_tenv ? null : { opacity: 0.5 }
       }
       gridRef={gridRef}
       onCellValueChanged={({ node, colDef, newValue }) => {
-        appstate.windows[node.rowIndex][colDef.field] = newValue;
+        const id = node.data.id;
+        appstate.updateElement(WINDOW, id, colDef.field, newValue);
       }}
     />
   );

@@ -32,7 +32,7 @@ import { optionalNumberFmt } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 import { validateNonNegNumber } from "../tables/Validators.js";
 
-import { SCHEDULE_YEAR } from "../../stores/types";
+import { SCHEDULE_YEAR, LOAD } from "../../stores/types";
 
 // TODO: comprobar si la iluminancia va a aquí (faltaría la columna, opcional y numérica ¿y se podría calcular VEEI?) o a las propiedades del espacio
 // TODO: comprobar si los schedules (people_schedule, lighting_schedule, equipment_schedule) pueden cambiarse a null en el editor
@@ -66,8 +66,7 @@ import { SCHEDULE_YEAR } from "../../stores/types";
 //  },
 const LoadsTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
-  const schedulesMap = () => appstate.getIdNameMap(SCHEDULE_YEAR);
-  const loadsPropsMap = appstate.energy_indicators.props.loads;
+  const schedulesMap = () => appstate.getIdNameMap(SCHEDULE_YEAR);;
 
   // Lista de IDs con errores
   const errors = appstate.warnings;
@@ -196,7 +195,7 @@ const LoadsTable = ({ gridRef }) => {
   ]);
 
   const rowData = appstate.loads.map((e) => {
-    const d = loadsPropsMap[e.id];
+    const d = appstate.energy_indicators.props.loads[e.id];
     return {
       ...e,
       // Columnas calculadas
@@ -210,7 +209,8 @@ const LoadsTable = ({ gridRef }) => {
       columnDefs={columnDefs}
       gridRef={gridRef}
       onCellValueChanged={({ node, colDef, newValue }) => {
-        appstate.loads[node.rowIndex][colDef.field] = newValue;
+        const id = node.data.id;
+        appstate.updateElement(LOAD, id, colDef.field, newValue);
       }}
     />
   );

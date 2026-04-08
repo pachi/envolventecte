@@ -32,6 +32,7 @@ import { getHeader } from "../tables/Helpers.jsx";
 
 import { GeometryOpaquesEditor } from "./GeometryEditors";
 import { OpaqueGeomFmt, OpaqueGeomIconCellRenderer } from "../tables/Formatters.jsx";
+import { SHADE } from "../../stores/types";
 
 // TODO: ver si funciona la actualización de geometría con el onCellValueUpdate por defecto
 
@@ -74,12 +75,16 @@ const ShadesTable = ({ gridRef }) => {
     },
   ]);
 
-  const rowData = [...appstate.shades];
+  const rowData = appstate.shades;
   return (
     <AgTable
       rowData={rowData}
       columnDefs={columnDefs}
       gridRef={gridRef}
+      onCellValueChanged={({ node, colDef, newValue }) => {
+        const id = node.data.id;
+        appstate.updateElement(SHADE, id, colDef.field, newValue);
+      }}
     />
   );
 };

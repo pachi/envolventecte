@@ -40,7 +40,7 @@ import { getHeader } from "../tables/Helpers.jsx";
 
 import { GeometryOpaquesEditor } from "./GeometryEditors";
 import { OrientacionesSprite } from "../helpers/IconsOrientaciones";
-import { SPACE, WALLCONS, BOUNDARY_TYPES_MAP } from "../../stores/types";
+import { SPACE, WALLCONS, BOUNDARY_TYPES_MAP, WALL } from "../../stores/types";
 
 // Tabla de elementos opacos del edificio
 // {
@@ -58,7 +58,6 @@ import { SPACE, WALLCONS, BOUNDARY_TYPES_MAP } from "../../stores/types";
 // }
 const OpacosTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
-  const wallPropsMap = appstate.energy_indicators.props.walls;
   const wallconsMap = () => appstate.getIdNameMap(WALLCONS);
   const wallconsMapKeys = () => Object.keys(wallconsMap());
 
@@ -85,7 +84,7 @@ const OpacosTable = ({ gridRef }) => {
       headerClass: "text-light bg-secondary",
       headerTooltip: "Nombre que identifica el elemento opaco",
       tooltipValueGetter: ({ data }) => {
-        const u_value_wall = wallPropsMap[data.id]?.u_value;
+        const u_value_wall = data?.u_value;
         const u_value = !isNaN(u_value_wall)
           ? Number(u_value_wall).toFixed(2)
           : "-";
@@ -195,10 +194,11 @@ const OpacosTable = ({ gridRef }) => {
   ]);
 
   const rowData = appstate.walls.map((e) => {
-    const d = wallPropsMap[e.id];
+    const d = appstate.energy_indicators.props.walls[e.id];
     return {
       ...e,
       // Columnas calculadas
+      is_tenv: d?.is_tenv,
       area: d?.area_net * d?.multiplier,
       u_value: d?.u_value,
     };
@@ -211,14 +211,15 @@ const OpacosTable = ({ gridRef }) => {
         rowData={rowData}
         columnDefs={columnDefs}
         getRowStyle={(params) =>
-          wallPropsMap[params.data.id]?.is_tenv ? null : { opacity: 0.5 }
+          params.data?.is_tenv ? null : { opacity: 0.5 }
         }
         gridRef={gridRef}
         onCellValueChanged={({ node, colDef, newValue }) => {
+          const id = node.data.id;
           if (colDef.field == "bounds" && newValue != "INTERIOR") {
-            appstate.walls[node.rowIndex]["next_to"] = null;
+            appstate.updateElement(WALL, id, "next_to", null);
           }
-          appstate.walls[node.rowIndex][colDef.field] = newValue;
+          appstate.updateElement(WALL, id, colDef.field, newValue);
         }}
       />
     </>

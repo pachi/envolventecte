@@ -32,13 +32,12 @@ import { optionalNumberFmt } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 import { validateNonNegNumber, validateNumber } from "../tables/Validators.js";
 
-import { FRAME, GLASS } from "../../stores/types";
+import { FRAME, GLASS, WINCONS } from "../../stores/types";
 
 // Tabla de construcciones de huecos del edificio
 // TODO: mostrar ejemplo de objetos
 const WinConsTable = ({ gridRef }) => {
   const appstate = useContext(AppState);
-  const winconsPropsMap = appstate.energy_indicators.props.wincons;
   const glassMap = () => appstate.getIdNameMap(GLASS);
   const frameMap = () => appstate.getIdNameMap(FRAME);
 
@@ -158,7 +157,7 @@ const WinConsTable = ({ gridRef }) => {
   ]);
 
   const rowData = appstate.cons.wincons.map((e) => {
-    const d = winconsPropsMap[e.id];
+    const d = appstate.energy_indicators.props.wincons[e.id];
     return {
       ...e,
       // Columnas calculadas
@@ -173,7 +172,8 @@ const WinConsTable = ({ gridRef }) => {
       columnDefs={columnDefs}
       gridRef={gridRef}
       onCellValueChanged={({ node, colDef, newValue }) => {
-        appstate.cons.wincons[node.rowIndex][colDef.field] = newValue;
+        const id = node.data.id;
+        appstate.updateElement(WINCONS, id, colDef.field, newValue);
       }}
     />
   );

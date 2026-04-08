@@ -33,7 +33,7 @@ import { AgTable } from "../tables/AgTable.jsx";
 import { optionalNumberFmt } from "../tables/Formatters.jsx";
 import { getHeader } from "../tables/Helpers.jsx";
 import { validateNonNegNumber, validateNumber } from "../tables/Validators.js";
-import { THERMAL_BRIDGE_TYPES_MAP } from "../../stores/types.js";
+import { THERMAL_BRIDGE_TYPES_MAP, THERMAL_BRIDGE } from "../../stores/types.js";
 
 // Tabla de puentes térmicos del edificio
 // {
@@ -97,12 +97,16 @@ const PTsTable = ({gridRef }) => {
     },
   ]);
 
-  const rowData = [...appstate.thermal_bridges];
+  const rowData = appstate.thermal_bridges;
   return (
     <AgTable
       rowData={rowData}
       columnDefs={columnDefs}
       gridRef={gridRef}
+      onCellValueChanged={({ node, colDef, newValue }) => {
+        const id = node.data.id;
+        appstate.updateElement(THERMAL_BRIDGE, id, colDef.field, newValue);
+      }}
     />
   );
 };
