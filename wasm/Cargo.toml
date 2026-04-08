@@ -3,7 +3,7 @@ name = "wasm-envolventecte"
 description = "Wasm bindings for envolventecte"
 version = "22.10.0"
 authors = ["Rafael Villar Burke <pachi@ietcc.csic.es>"]
-edition = "2018"
+edition = "2024"
 repository = "https://github.com/pachi/hulc2envolventecte"
 license = "Apache-2.0 OR MIT"
 readme = "README.md"
@@ -15,9 +15,10 @@ crate-type = ["cdylib", "rlib"]
 default = ["console_error_panic_hook"]
 
 [dependencies]
-anyhow = "1"
-wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
-serde = { version = "1.0", features=["derive"] }
+anyhow = "1.0.102"
+wasm-bindgen = { version = "0.2.117", features = ["serde-serialize"] }
+serde = { version = "1.0.228", features=["derive"] }
+serde-wasm-bindgen = "0.6.5"
 bemodel = { version="22.10.0", path = "../../cteenergymodel/bemodel" }
 hulc = { version="22.10.0", path = "../../cteenergymodel/hulc" }
 
@@ -25,14 +26,14 @@ hulc = { version="22.10.0", path = "../../cteenergymodel/hulc" }
 # logging them with `console.error`. This is great for development, but requires
 # all the `std::fmt` and `std::panicking` infrastructure, so isn't great for
 # code size when deploying.
-console_error_panic_hook = { version = "0.1.6", optional = true }
+console_error_panic_hook = { version = "0.1.7", optional = true }
 
 # Log to console from rust. Use (activate) feature with wasm-pack build -- --features console_log
-log = "0.4"
-console_log = { version = "0.2", optional = true }
+log = "0.4.29"
+console_log = { version = "1.0.0", optional = true }
 
 [dev-dependencies]
-wasm-bindgen-test = "0.3"
+wasm-bindgen-test = "0.3.67"
 
 [profile.release]
 # Tell `rustc` to optimize for small code size.
