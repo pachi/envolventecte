@@ -4,7 +4,7 @@
     margin: 0;
     padding: 0;
     padding-bottom: 50px; /* Separa body de navbar fixedbottom*/
-    font-family: sans-serif;
+    font-family: Arial, sans-serif;
   }
   
   .ag-theme-alpine, .ag-theme-alpine-dark {
@@ -75,6 +75,11 @@
   ul.indice li:hover,
   ol.indice li:hover {
     text-decoration: underline;
+  }
+
+  /* Encabezados de tablas (de informes) */
+  table.table thead * {
+    background-color: lightgray;
   }
 
   /* Encabezado y pie de página para imprimir */
