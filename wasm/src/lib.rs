@@ -83,7 +83,9 @@ pub fn get_monthly_radiation_data() -> Result<JsValue, JsValue> {
 #[wasm_bindgen]
 pub fn energy_indicators(model_js: JsValue) -> Result<JsValue, JsValue> {
     let model: Model = from_value(model_js).map_err(|e| e.to_string())?;
-    to_value(&model.energy_indicators())
+    let indicators = model.energy_indicators();
+    // log(&format!("vol_env_inh_net: {:.3}", indicators.props.global.vol_env_inh_net));
+    to_value(&indicators)
 }
 
 // /// Actualiza factor de reducción por obstáculos remotos
