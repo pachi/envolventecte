@@ -431,9 +431,9 @@ class AppState {
     // Carga datos en el store
     // Asignamos valores por defecto de las propiedades que pueden ser omitidas
     this.meta = meta;
-    this.thermal_bridges = thermal_bridges.map((tb) => ({
-      ...defaultsTb,
-      ...tb,
+    this.spaces = spaces.map((s) => ({
+      ...defaultsSpace,
+      ...s,
     }));
     this.walls = walls.map((w) => ({
       ...defaultsWall,
@@ -443,13 +443,13 @@ class AppState {
       ...defaultsWindow,
       ...w,
     }));
-    this.spaces = spaces.map((s) => ({
-      ...defaultsSpace,
-      ...s,
-    }));
     this.shades = shades.map((w) => ({
       ...defaultsShade,
       ...w,
+    }));
+    this.thermal_bridges = thermal_bridges.map((tb) => ({
+      ...defaultsTb,
+      ...tb,
     }));
     this.cons = {
       wallcons: cons.wallcons.map((w) => ({
@@ -485,11 +485,11 @@ class AppState {
     }));
 
     // Hacer observables los objetos para que las mutaciones notifiquen (¿es necesario?)
-    this.thermal_bridges = this.thermal_bridges.map(tb => observable(tb));
+    this.spaces = this.spaces.map(s => observable(s));
     this.walls = this.walls.map(w => observable(w));
     this.windows = this.windows.map(w => observable(w));
-    this.spaces = this.spaces.map(s => observable(s));
     this.shades = this.shades.map(w => observable(w));
+    this.thermal_bridges = this.thermal_bridges.map(tb => observable(tb));
     this.cons.wallcons = this.cons.wallcons.map(w => observable(w));
     this.cons.wincons = this.cons.wincons.map(w => observable(w));
     this.cons.materials = this.cons.materials.map(w => observable(w));
