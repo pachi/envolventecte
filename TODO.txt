@@ -1,9 +1,5 @@
 # Bugs
 
-- global_ventilation_rate (global_ventilation_l_s/vol_env_inh_net) está mal en cteenergymodel, y por eso es nulo (vol_env_inh_net es cero siempre)
-- Fallos vistos de la migración:
-    - En tablas, en general, hacer un poco más altas las tablas (en versión actual se queda justo debajo del pie de página semitransparente)
-    - En informe de mediciones y en tablas de ayudas, poner encabezados y pies de totales en gris más oscuro
 - Al poner un nombre de elemento en la selección no se selecciona (¿siempre?).
 - Arreglar eliminación de horarios hijos en horarios padres:
     - Si se elimina un horario diario el horario mensual que lo use se queda en situación inconsistente
@@ -71,7 +67,6 @@
 ## Mejoras
 
 - Barrel files (index.js) para consolidar imports
-- Instalar con npm install --legacy-peer-deps (para evitar problemas con tablas y otros paquetes obsoletos)
 - Convertir en subrutas las pestañas de las distintas páginas (https://reactrouter.com/en/main/start/tutorial)
 - Usar referencias en react para mantener estado al cambiar pestañas a 3D
 
