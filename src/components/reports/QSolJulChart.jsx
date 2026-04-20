@@ -125,7 +125,7 @@ export const QSolJulChartBar = ({
     },
     // Array de dependencias.
     // El bloque se ejecuta cuando cambia cualquiera de estas variables
-    [data, height, width, bar_value_padding, format]
+    [data, height, width, bar_value_padding, format],
   );
 
   return (
@@ -178,16 +178,6 @@ export const QSolJulChartWindRose = ({
           .style("font-size", "12px")
           .attr("transform", `translate(${margin.left}, ${margin.top / 2})`);
 
-        // Título
-        svg
-          .append("text")
-          .attr("x", cx)
-          .attr("y", 0)
-          .attr("text-anchor", "middle")
-          .style("font-size", "16px")
-          .style("text-decoration", "underline")
-          .text("Descomposición de q_sol;jul por orientaciones [%]");
-
         const chart = svg.append("g");
         chart.attr("transform", `translate(${cx}, ${cy})`);
 
@@ -232,7 +222,7 @@ export const QSolJulChartWindRose = ({
               .style("fill", (d) => d.data.color)
               .style("stroke", "white")
               .style("stroke-width", "2px")
-              .style("opacity", 0.7)
+              .style("opacity", 0.7),
           )
           .call((g) =>
             g
@@ -242,7 +232,7 @@ export const QSolJulChartWindRose = ({
               .attr("font-weight", "bold")
               .attr("x", (d) => arc.centroid(d)[0])
               .attr("y", (d) => arc.centroid(d)[1])
-              .attr("dy", "6px")
+              .attr("dy", "6px"),
           );
 
         // Etiqueta central
@@ -276,14 +266,14 @@ export const QSolJulChartWindRose = ({
               `rotate(${
                 (x(d.data.orient) - x.bandwidth()) * (180 / Math.PI) -
                 (90 - angleOffset)
-              }) translate(${outerRadius + 10},0)`
+              }) translate(${outerRadius + 10},0)`,
           );
         label
           .append("text")
           .attr("transform", (d) =>
             inLowerHalf(d)
               ? "rotate(90)translate(0,6)"
-              : "rotate(-90)translate(0,6)"
+              : "rotate(-90)translate(0,6)",
           ) // flip bottom labels
           .text((d) => d.data.orient)
           .attr("font-weight", 500)
@@ -303,7 +293,7 @@ export const QSolJulChartWindRose = ({
                 .attr("fill", "none")
                 .attr("stroke", "gray")
                 .attr("stroke-dasharray", "1,3")
-                .attr("r", y)
+                .attr("r", y),
             )
             .call((g) =>
               g
@@ -312,14 +302,14 @@ export const QSolJulChartWindRose = ({
                 .style("color", "gray")
                 .attr("font-size", 10)
                 .attr("x", (d) => y(d + 2))
-                .attr("transform", (d) => `rotate(${-50 + d})`)
+                .attr("transform", (d) => `rotate(${-50 + d})`),
             );
         g.call(yAxis);
       }
     },
     // Array de dependencias.
     // El bloque se ejecuta cuando cambia cualquiera de estas variables
-    [data, height, width, bar_value_padding, format]
+    [data, height, width, bar_value_padding, format],
   );
 
   return (

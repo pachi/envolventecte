@@ -125,7 +125,7 @@ export const N50ChartBar = ({
     },
     // Array de dependencias.
     // El bloque se ejecuta cuando cambia cualquiera de estas variables
-    [data, height, width, bar_value_padding, format]
+    [data, height, width, bar_value_padding, format],
   );
 
   return (
@@ -173,16 +173,6 @@ export const N50ChartPie = ({
           .append("g")
           .style("font-size", "12px")
           .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-        // Título
-        svg
-          .append("text")
-          .attr("x", chart_width / 2)
-          .attr("y", 0)
-          .attr("text-anchor", "middle")
-          .style("font-size", "16px")
-          .style("text-decoration", "underline")
-          .text("Descomposición de n50 por elementos [%]");
 
         const chart = svg.append("g");
         chart.attr("transform", `translate(${cx}, ${cy})`);
@@ -247,7 +237,7 @@ export const N50ChartPie = ({
           })
           .attr("dy", ".35em")
           .style("text-anchor", (d) =>
-            midAngle(d) < Math.PI ? "start" : "end"
+            midAngle(d) < Math.PI ? "start" : "end",
           );
 
         // Primera línea de texto - elemento
@@ -290,7 +280,7 @@ export const N50ChartPie = ({
     },
     // Array de dependencias.
     // El bloque se ejecuta cuando cambia cualquiera de estas variables
-    [data, height, width, bar_value_padding, format]
+    [data, height, width, bar_value_padding, format],
   );
 
   return (

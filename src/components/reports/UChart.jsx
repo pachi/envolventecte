@@ -49,7 +49,7 @@ const UElementsChart = ({
 
       if (data && container) {
         const max = Math.round(d3.max(data, (d) => d.u_max) + 0.5);
-        const filtered_data = data.filter(d => d.a > 0);
+        const filtered_data = data.filter((d) => d.a > 0);
 
         // Limpia imagen preexistente
         d3.select(container).selectChildren().remove();
@@ -73,16 +73,6 @@ const UElementsChart = ({
           .append("g")
           .style("font-size", "12px")
           .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-        // Título
-        svg
-          .append("text")
-          .attr("x", chart_width / 2)
-          .attr("y", 0 - margin.top / 2)
-          .attr("text-anchor", "middle")
-          .style("font-size", "16px")
-          .style("text-decoration", "underline")
-          .text("U media y rango de valores por tipo de elemento [W/m²K]");
 
         // Axis
         svg
@@ -176,13 +166,13 @@ const UElementsChart = ({
           .attr("text-anchor", "middle")
           .attr("x", x(K))
           .attr("y", 10)
-          .attr('transform', `translate(${x(K) + 20}, ${0}) rotate(90)`)
+          .attr("transform", `translate(${x(K) + 20}, ${0}) rotate(90)`)
           .text(`K: ${format(K)} [W/m²K]`);
       }
     },
     // Array de dependencias.
     // El bloque se ejecuta cuando cambia cualquiera de estas variables
-    [data, K, height, width, bar_value_padding]
+    [data, K, height, width, bar_value_padding],
   );
 
   return (

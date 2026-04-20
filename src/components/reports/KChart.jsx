@@ -60,16 +60,6 @@ const KChart = ({
           .style("font-size", "12px")
           .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-        // Título
-        svg
-          .append("text")
-          .attr("x", chart_width / 2)
-          .attr("y", 0 - margin.top / 2)
-          .attr("text-anchor", "middle")
-          .style("font-size", "16px")
-          .style("text-decoration", "underline")
-          .text("Descomposición de K por elementos y tipos [%]");
-
         // X axis
         const x = d3
           .scaleBand()
@@ -130,13 +120,13 @@ const KChart = ({
             "x",
             (d) =>
               x(d.short_title) +
-              x.bandwidth() * (d.type === "Tipo" ? 0.0 : 0.25)
+              x.bandwidth() * (d.type === "Tipo" ? 0.0 : 0.25),
           )
           .attr("y", (d) => y(Math.max(0, d.k_pct)))
           .attr("width", (d) => x.bandwidth() * (d.type === "Tipo" ? 1.0 : 0.5))
           .attr("height", (d) => Math.abs(y(d.k_pct) - y(0)))
           .attr("mask", (d) =>
-            d.type === "Tipo" ? null : "url(#mask-diagonal)"
+            d.type === "Tipo" ? null : "url(#mask-diagonal)",
           )
           .attr("fill", (d) => d.color);
 
@@ -151,7 +141,7 @@ const KChart = ({
     },
     // Array de dependencias.
     // El bloque se ejecuta cuando cambia cualquiera de estas variables
-    [data, height, width, bar_value_padding, format]
+    [data, height, width, bar_value_padding, format],
   );
 
   return (
