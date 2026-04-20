@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { useContext } from "react";
-import { Col, Row, Table } from "react-bootstrap";
+import { Col, Row, Table, Figure } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import { N50ChartPie as N50Chart } from "./N50Chart";
@@ -202,78 +202,91 @@ const IndicatorsN50Detail = () => {
       <Row className="print-section">
         <Col>
           {n50 > 0 ? (
-            <Table striped bordered hover size="sm" className="small">
-              <thead style={{ background: "lightGray" }}>
-                <tr>
-                  <th colSpan="2">Elemento</th>
-                  <th className="text-center" title="C_i">
-                    C<sub>i</sub>
-                    <br />
-                    [m³/h·m²]
-                  </th>
-                  <th className="text-center" title="A_i">
-                    A<sub>i</sub>
-                    <br />
-                    [m²]
-                  </th>
-                  <th className="text-center" title="C_i·A_i">
-                    C<sub>i</sub>·A<sub>i</sub>
-                    <br />
-                    [m³/h]
-                  </th>
-                  <th className="text-center" title="n50 imputable al elemento">
-                    &Delta;n<sub>50</sub>
-                    <br />
-                    [%]
-                  </th>
-                  <th
-                    className="text-center"
-                    title="Porcentaje de n50 imputable al elemento"
-                  >
-                    n<sub>50</sub>
-                    <br />
-                    [%]
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {n50_info.map((e, idx) => elem_tr(e, idx))}
-                <tr>
-                  <td colSpan="4">
-                    <b>TOTAL / Promedio</b>
-                  </td>
-                  <td
-                    className="text-center"
-                    title="Volumen horario de intercambio de aire a 100 Pa (C_i · A_i)"
-                  >
-                    <b>{round_or_dash(windows_c_a + walls_c_a)}</b>
-                  </td>
-                  <td
-                    className="text-center"
-                    title="Tasa de renovación de aire a 50 Pa"
-                  >
-                    <b>{round_or_dash(n50)}</b>
-                  </td>
-                  <td className="text-center">
-                    <b>100.0</b>
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
+            <Figure>
+              <Figure.Caption className="text-center">
+                Tabla: Descomposición de n<sub>50</sub> por elementos
+              </Figure.Caption>
+              <Table striped bordered hover size="sm" className="small">
+                <thead style={{ background: "lightGray" }}>
+                  <tr>
+                    <th colSpan="2">Elemento</th>
+                    <th className="text-center" title="C_i">
+                      C<sub>i</sub>
+                      <br />
+                      [m³/h·m²]
+                    </th>
+                    <th className="text-center" title="A_i">
+                      A<sub>i</sub>
+                      <br />
+                      [m²]
+                    </th>
+                    <th className="text-center" title="C_i·A_i">
+                      C<sub>i</sub>·A<sub>i</sub>
+                      <br />
+                      [m³/h]
+                    </th>
+                    <th
+                      className="text-center"
+                      title="n50 imputable al elemento"
+                    >
+                      &Delta;n<sub>50</sub>
+                      <br />
+                      [%]
+                    </th>
+                    <th
+                      className="text-center"
+                      title="Porcentaje de n50 imputable al elemento"
+                    >
+                      n<sub>50</sub>
+                      <br />
+                      [%]
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {n50_info.map((e, idx) => elem_tr(e, idx))}
+                  <tr>
+                    <td colSpan="4">
+                      <b>TOTAL / Promedio</b>
+                    </td>
+                    <td
+                      className="text-center"
+                      title="Volumen horario de intercambio de aire a 100 Pa (C_i · A_i)"
+                    >
+                      <b>{round_or_dash(windows_c_a + walls_c_a)}</b>
+                    </td>
+                    <td
+                      className="text-center"
+                      title="Tasa de renovación de aire a 50 Pa"
+                    >
+                      <b>{round_or_dash(n50)}</b>
+                    </td>
+                    <td className="text-center">
+                      <b>100.0</b>
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Figure>
           ) : null}
         </Col>
       </Row>
       <Row className="print-section">
         <Col className="text-center">
           {n50 > 0 ? (
-            <N50Chart
-              data={n50_info.map(([name, color, _ca, _c, _a, pct]) => ({
-                name,
-                color,
-                pct,
-              }))}
-              width={550}
-            />
+            <Figure>
+              <Figure.Caption className="text-center">
+                Figura: Descomposición de n<sub>50</sub> por elementos
+              </Figure.Caption>
+              <N50Chart
+                data={n50_info.map(([name, color, _ca, _c, _a, pct]) => ({
+                  name,
+                  color,
+                  pct,
+                }))}
+                width={550}
+              />
+            </Figure>
           ) : null}
         </Col>
       </Row>

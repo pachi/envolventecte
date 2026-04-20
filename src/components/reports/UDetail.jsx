@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { useContext } from "react";
-import { Col, Row, Table } from "react-bootstrap";
+import { Col, Row, Table, Figure } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
@@ -54,7 +54,7 @@ const IndicatorsUDetail = () => {
       u_mean,
       u_min,
       u_max,
-    })
+    }),
   );
 
   return (
@@ -101,12 +101,26 @@ const IndicatorsUDetail = () => {
         </defs>
       </svg>
       <Row className="print-section">
-        <Col>{k_data.length > 0 ? <UElementsTable data={k_data} /> : null}</Col>
+        <Col>
+          {k_data.length > 0 ? (
+            <Figure>
+              <Figure.Caption className="text-center">
+                Tabla: U media y rangos de valores por tipo de elemento
+              </Figure.Caption>
+              <UElementsTable data={k_data} />
+            </Figure>
+          ) : null}
+        </Col>
       </Row>
       <Row className="print-section">
         <Col className="text-center">
           {k_data.length > 0 ? (
-            <UElementsChart data={k_data} K={K} width={1200} />
+            <Figure>
+              <Figure.Caption className="text-center">
+                Figura: U media y rangos de valores por tipo de elemento
+              </Figure.Caption>
+              <UElementsChart data={k_data} K={K} width={1200} />
+            </Figure>
           ) : null}
         </Col>
       </Row>
@@ -150,7 +164,7 @@ const UElementsTable = ({ data }) => (
       {data.map(
         (
           { element, a, au, u_mean, u_min, u_max, color, format = false },
-          key
+          key,
         ) => (
           <tr key={key}>
             <td style={{ width: "2em", background: `${color}` }} />
@@ -171,7 +185,7 @@ const UElementsTable = ({ data }) => (
               {formatted(round_or_dash(u_max), format)}
             </td>
           </tr>
-        )
+        ),
       )}
     </tbody>
   </Table>

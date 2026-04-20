@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { useContext, useRef } from "react";
-import { Table, Col, Row, Button } from "react-bootstrap";
+import { Table, Col, Row, Button, Figure } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import { APP_VERSION } from "../../version.js";
@@ -59,12 +59,12 @@ const QuantitiesReport = () => {
   let wallData = computeRows(
     appstate.cons.wallcons,
     props.walls,
-    (e) => e.area_net * e.multiplier
+    (e) => e.area_net * e.multiplier,
   );
   let windowData = computeRows(
     appstate.cons.wincons,
     props.windows,
-    (e) => e.area * e.multiplier
+    (e) => e.area * e.multiplier,
   );
   let shadesData = computeShadesRows(props.shades);
 
@@ -90,7 +90,7 @@ const QuantitiesReport = () => {
           </Button>
         </Col>
       </Row>
-      <Row style={{ background: "whitesmoke" }} className="py-4 my-3">
+      <Row className="py-4 my-3">
         <Col>
           <Row>
             <Col>
@@ -158,7 +158,12 @@ const QuantitiesReport = () => {
             Espacios pertenecientes o no a la envolvente térmica (superficies
             interiores).
           </p>
-          <SpacesByConceptTable data={spacesData} loadsIdMap={loadsIdMap()} />
+          <Figure>
+            <Figure.Caption className="text-center">
+              Tabla: Espacios del edificio.
+            </Figure.Caption>
+            <SpacesByConceptTable data={spacesData} loadsIdMap={loadsIdMap()} />
+          </Figure>
         </Col>
       </Row>
 
@@ -175,13 +180,24 @@ const QuantitiesReport = () => {
       <Row className="print-section">
         <Col>
           <h4>Muros, cubiertas, suelos y particiones interiores</h4>
-          <ByConceptTable data={wallData} />
+          <Figure>
+            <Figure.Caption className="text-center">
+              Tabla: Muros, cubiertas, suelos y particiones interiores del
+              edificio.
+            </Figure.Caption>
+            <ByConceptTable data={wallData} />
+          </Figure>
         </Col>
       </Row>
       <Row className="print-section">
         <Col>
           <h4>Elementos de sombra</h4>
-          <ShadesByConceptTable data={shadesData} />
+          <Figure>
+            <Figure.Caption className="text-center">
+              Tabla: Elementos de sombra.
+            </Figure.Caption>
+            <ShadesByConceptTable data={shadesData} />
+          </Figure>
         </Col>
       </Row>
 
@@ -194,7 +210,12 @@ const QuantitiesReport = () => {
       </Row>
       <Row className="print-section">
         <Col>
-          <ByConceptTable data={windowData} />
+          <Figure>
+            <Figure.Caption className="text-center">
+              Tabla: Huecos del edificio.
+            </Figure.Caption>
+            <ByConceptTable data={windowData} />
+          </Figure>
         </Col>
       </Row>
       <div id="print-head">
@@ -472,7 +493,7 @@ function computeSpacesRows(props) {
           (w) =>
             w.kind === kind &&
             w.inside_tenv === inside_tenv &&
-            w.loads === loads
+            w.loads === loads,
         );
         for (const elem of selected) {
           const area = elem.area * elem.multiplier;
@@ -513,7 +534,7 @@ function computeRows(cons, props, adder = () => 1) {
           (w) =>
             w.orientation === orientation &&
             w.bounds === bounds &&
-            w.cons === id
+            w.cons === id,
         );
         for (const elem of selected) {
           const area = adder(elem);
@@ -541,7 +562,7 @@ function computeShadesRows(props) {
   for (const orientation of ORIENTATION_TYPES) {
     const orientTotal = { orientation, area: 0 };
     const selected = Object.values(props).filter(
-      (w) => w.orientation === orientation
+      (w) => w.orientation === orientation,
     );
     for (const elem of selected) {
       const area = elem.area;

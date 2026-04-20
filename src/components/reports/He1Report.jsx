@@ -80,7 +80,7 @@ const He1Report = () => {
           </Button>
         </Col>
       </Row>
-      <Row style={{ background: "whitesmoke" }} className="py-4 my-3">
+      <Row className="py-4 my-3">
         <Col>
           <Row>
             <Col>
@@ -128,7 +128,7 @@ const He1Report = () => {
             </Col>
           </Row>
           <Row>
-            <Col  sm={3}/>
+            <Col sm={3} />
             <Col sm={3} title="Tiempo de ocupación [h]">
               <b>
                 <i>
@@ -198,13 +198,21 @@ const He1Report = () => {
       </Row>
 
       <hr ref={kdetail} />
-      <KDetail />
+      <Row>
+        <KDetail />
+      </Row>
       <hr ref={udetail} />
-      <UDetail />
+      <Row>
+        <UDetail />
+      </Row>
       <hr ref={qsoljuldetail} />
-      <QSolJulDetail />
+      <Row>
+        <QSolJulDetail />
+      </Row>
       <hr ref={n50detail} />
-      <N50Detail />
+      <Row>
+        <N50Detail />
+      </Row>
       <div id="print-head">
         <h5>
           EnvolventeCTE ({APP_VERSION}) - {date.toLocaleString("es-ES")}

@@ -22,12 +22,11 @@ SOFTWARE.
 */
 
 import React, { useContext } from "react";
-import { Col, Row, Table } from "react-bootstrap";
+import { Col, Row, Table, Figure } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
 import { QSolJulChartWindRose as QSolJulChart } from "./QSolJulChart";
-// import { QSolJulChartBar as QSolJulChart } from "./IndicatorsQSolJulChart";
 import { round_or_dash } from "../../utils";
 
 const QSolJulDetail = () => {
@@ -59,7 +58,7 @@ const QSolJulDetail = () => {
           q_contrib: gains / area_ref,
           q_pct: (100 * gains) / area_ref / q_soljul,
         };
-      }
+      },
     );
 
   return (
@@ -138,22 +137,32 @@ const QSolJulDetail = () => {
       <Row className="mt-4 print-section">
         <Col>
           {q_soljul_detail.length > 0 ? (
-            <QSolJulTable
-              area_ref={area_ref}
-              data={q_soljul_data}
-              detail_data={q_soljul_detail}
-            />
+            <Figure>
+              <Figure.Caption className="text-center">
+                Tabla: Descomposición de q<sub>sol;jul</sub> por orientaciones
+              </Figure.Caption>
+              <QSolJulTable
+                area_ref={area_ref}
+                data={q_soljul_data}
+                detail_data={q_soljul_detail}
+              />
+            </Figure>
           ) : null}
         </Col>
       </Row>
       <Row className="print-section">
         <Col className="text-center">
           {q_soljul_detail.length > 0 ? (
-            <QSolJulChart
-              area_ref={area_ref}
-              data={q_soljul_detail}
-              width={Math.max(550, 100 * q_soljul_detail.length)}
-            />
+            <Figure>
+              <Figure.Caption className="text-center">
+                Figura: Descomposición de q<sub>sol;jul</sub> por orientaciones
+              </Figure.Caption>
+              <QSolJulChart
+                area_ref={area_ref}
+                data={q_soljul_detail}
+                width={Math.max(550, 100 * q_soljul_detail.length)}
+              />
+            </Figure>
           ) : null}
         </Col>
       </Row>
@@ -198,7 +207,7 @@ const QSolJulTable = (props) => {
       irradiance,
       gains,
     },
-    key = null
+    key = null,
   ) => (
     <tr key={key}>
       <td style={{ width: "2em", background: `${color}` }} />

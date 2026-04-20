@@ -82,6 +82,22 @@
     background-color: lightgray;
   }
 
+  #building_element_tabs-tabpane-he1, #building_element_tabs-tabpane-quantities  {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 2em;
+    padding-right: 2em;
+    background: white;
+    max-width: 1500px;
+  }
+
+  #building_element_tabs-tabpane-he1 figure, #building_element_tabs-tabpane-quantities figure  {
+    width: 100%;
+  }
+  /* #building_element_tabs-tabpane-he1 figcaption, #building_element_tabs-tabpane-quantities figcaption  {
+    align: center;
+  } */
+
   /* Encabezado y pie de página para imprimir */
   #print-head,
   #print-foot {

@@ -22,7 +22,7 @@ SOFTWARE.
 */
 
 import React, { useContext } from "react";
-import { Col, Row, Table } from "react-bootstrap";
+import { Col, Row, Table, Figure } from "react-bootstrap";
 import { observer } from "mobx-react";
 
 import AppState from "../../stores/AppState";
@@ -204,7 +204,8 @@ const KDetail = () => {
             <sub>i</sub> A<sub>x,i</sub> · U<sub>x,i</sub> (huecos + opacos) +
             &sum;<sub>k</sub> l<sub>x,k</sub> · ψ<sub>x,k</sub> (PTs)] ={" "}
             {windows_au.toFixed(2)} W/K (huecos) + {opaques_au.toFixed(2)} W/K
-            (opacos) + {tbs_psil.toFixed(2)} W/K (PTs) = {au.toFixed(2)} W/K{" "}
+            (opacos) + {tbs_psil.toFixed(2)} W/K (PTs) = {au.toFixed(2)}{" "}
+            W/K{" "}
           </p>
           <p className="small">
             * <i>UNE EN ISO 13790:2008</i>, 8.3.1, ec. (17) e{" "}
@@ -261,12 +262,28 @@ const KDetail = () => {
       </svg>
       <Row className="print-section">
         <Col>
-          {k_data.length > 0 ? <KElementsTable K={K} data={k_data} /> : null}
+          {k_data.length > 0 ? (
+            <Figure>
+              <Figure.Caption className="text-center">
+                Tabla: Desglose de la transmitancia térmica global (K) por
+                componentes, elementos y tipos de la envolvente térmica.
+              </Figure.Caption>
+              <KElementsTable K={K} data={k_data} />
+            </Figure>
+          ) : null}
         </Col>
       </Row>
       <Row className="print-section">
         <Col className="text-center">
-          {k_data.length > 0 ? <KChart data={k_data} width={1200} /> : null}
+          {k_data.length > 0 ? (
+            <Figure>
+              <Figure.Caption className="text-center">
+                Figura: Desglose de la transmitancia térmica global (K) por
+                componentes, elementos y tipos de la envolvente térmica.
+              </Figure.Caption>
+              <KChart data={k_data} width={1200} />
+            </Figure>
+          ) : null}
         </Col>
       </Row>
     </>
@@ -277,7 +294,7 @@ const KDetail = () => {
 const KElementsTable = ({ K, data }) => {
   const elem_tr = (
     { title, a, au, u_mean, k_contrib, k_pct, color, format = false },
-    key = null
+    key = null,
   ) => (
     <tr key={key}>
       <td style={{ width: "2em", background: `${color}` }} />
