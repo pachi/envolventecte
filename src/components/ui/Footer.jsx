@@ -32,7 +32,7 @@ const Footer = () => (
         style={{ backgroundColor: "rgba(255, 255, 255, 0.7)" }}
       >
         <p className="mx-auto small text-muted">
-          2018-2025 - Rafael Villar Burke, Daniel Jiménez González, Marta
+          2018-2026 - Rafael Villar Burke, Daniel Jiménez González, Marta
           Sorribes Gil.
         </p>
       </footer>

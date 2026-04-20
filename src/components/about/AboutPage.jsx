@@ -111,7 +111,7 @@ const AboutPage = () => (
         <Alert variant="secondary">
           <p className="lead">The MIT License (MIT)</p>
           <p>
-            Copyright (c) 2018-2021 Rafael Villar Burke
+            Copyright (c) 2018-2026 Rafael Villar Burke
             &lt;pachi&#64;ietcc.csic.es&gt;, Daniel Jiménez González
             &lt;danielj&#64;ietcc.csic.es&gt;, Marta Sorribes Gil
             &lt;msorribes&#64;ietcc.csic.es&gt;
