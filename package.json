@@ -64,7 +64,7 @@
     "start": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "predeploy": "vite build",
+    "predeploy": "VITE_BASE=/envolventecte/ vite build",
     "deploy": "npx gh-pages -d build",
     "buildwasm": "cd wasm && wasm-pack build",
     "buildwasmdebug": "cd wasm && wasm-pack build -- --features console_log",
